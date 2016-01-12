@@ -104,16 +104,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\ArmUriTemplate.cs" />
+    <Compile Include="Code\ArmUriTemplates.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Controllers\AzureFunctionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ArmModels\ArmArrayWrapper.cs" />
+    <Compile Include="Models\ArmModels\ArmResourceGroup.cs" />
+    <Compile Include="Models\ArmModels\ArmSubscription.cs" />
+    <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />
+    <Compile Include="Models\ArmModels\ArmWebsite.cs" />
+    <Compile Include="Models\ArmModels\ArmWrapper.cs" />
+    <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Modules\AADOAuth2AccessToken.cs" />
     <Compile Include="Modules\ARMOAuthModule.cs" />
     <Compile Include="Modules\Extensions.cs" />
     <Compile Include="Modules\OpenIdConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
