@@ -1,0 +1,10 @@
+<div class="sidebar">
+    <ul class="functions-list">
+        <li class="host-config">Settings</li>
+        <li class="add-function">New Function</li>
+        <li *ngFor="#functionInfo of functionsInfo"
+            [class.selected]="functionInfo === selectedFunction"
+            (click)="onSelect(functionInfo)"
+            class="function-item">{{functionInfo.name}}</li>
+    </ul>
+</div>

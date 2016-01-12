@@ -1,41 +1,35 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+
+  <head>
     <title>Azure Functions</title>
-    <link rel="stylesheet" href="styles/main.css">
-</head>
-<body>
-    <div class="container">
-        <div class="top-bar">
-            <div class="dropdown-menu left">
-                <div class="vertical-align-center logo" >Azure Functions</div>
-            </div>
-            <div class="top-bar-tools right vertical-align-center">
-                <ul class="user-tools-list">
-                    <li class="top-bar-tool left">feedback</li>
-                    <li class="top-bar-tool left">not</li>
-                    <li class="top-bar-tool left">?</li>
-                    <li class="top-bar-tool left no-right-border">User</li>
-                </ul>
-            </div>
-        </div>
-        <div class="content">
-            <div class="sidebar">
-                <ul class="functions-list">
-                    <li class="host-config selected">Settings</li>
-                    <ul class="function-actions-list">
-                        <li>Edit</li>
-                        <li>JSON</li>
-                    </ul>
-                    <li class="add-function">New Function</li>
-                    <li class="function-item">QueueTrigger</li>
-                </ul>
-            </div>
-            <div class="work-space">
-                <div></div>
-            </div>
-        </div>
-    </div>
-</body>
+
+    <!-- 1. Load libraries -->
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="node_modules/es6-shim/es6-shim.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        packages: {        
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('app/boot')
+            .then(null, console.error.bind(console));
+    </script>
+
+  </head>
+
+  <!-- 3. Display the application -->
+  <body>
+    <azure-functions-app>Loading...</azure-functions-app>
+  </body>
+
 </html>
