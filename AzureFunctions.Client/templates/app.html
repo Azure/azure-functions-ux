@@ -1,9 +1,11 @@
 <div class="container">
     <top-bar></top-bar>
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo"></sidebar>
+        <sidebar [functionsInfo]="functionsInfo" (selectedFunction)="onFunctionSelect($event)" (selectedFile)="onFileSelect($event)"></sidebar>
         <div class="work-space">
-            <router-outlet></router-outlet>
+            <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
+            <h3 *ngIf="selectedFile">{{selectedFile.name}}</h3>
+            <div class="ace_editor" aceEditor id="editor" *ngIf="selectedFile" [fileObject]="selectedFile" [content]="content"></div>
         </div>
     </div>
 </div>

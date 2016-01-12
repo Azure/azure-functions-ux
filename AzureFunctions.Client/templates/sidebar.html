@@ -1,7 +1,18 @@
 <div class="sidebar">
     <ul class="functions-list">
         <li *ngFor="#functionInfo of functionsInfo"
-            (click)="onSelect(functionInfo)"
-            class="function-item"><a class="function-item" [class.selected]="functionInfo === selectedFunction" href="#">{{functionInfo.name}}</a></li>
+            (click)="clickStream.next(functionInfo)"
+            class="function-item">
+            <a class="function-item" [class.selected]="functionInfo === selectedFunction" href="#">{{functionInfo.name}}</a>
+            <ul class="file-list" *ngIf="functionInfo === selectedFunction">
+                <li *ngFor="#file of functionFiles">
+                    <a class="function-file" href="#"
+                       (click)="onFileSelect(file)"
+                       [class.selected]="file === selectedFile">
+                       <i class="fa fa-file-code-o"></i> {{file.name}}
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>
