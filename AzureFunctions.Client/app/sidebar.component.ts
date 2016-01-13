@@ -19,11 +19,13 @@ export class SideBarComponent {
     private functionSelected: EventEmitter<FunctionInfo>;
     private fileSelected: EventEmitter<VfsObject>;
     private clickStream: Subject<FunctionInfo>;
+    private fileClickStream: Subject<VfsObject>;
 
     constructor(private _functionsService: FunctionsService) {
         this.functionSelected = new EventEmitter<FunctionInfo>();
         this.fileSelected = new EventEmitter<VfsObject>();
         this.clickStream = new Subject();
+        this.fileClickStream = new Subject();
 
         this.clickStream
             .distinctUntilChanged()
@@ -38,10 +40,16 @@ export class SideBarComponent {
                 }
             })
             .subscribe(res => this.functionFiles = res);
-    }
 
-    onFileSelect(file: VfsObject) {
-        this.selectedFile = file;
-        this.fileSelected.next(file);
+        this.fileClickStream
+            .distinctUntilChanged()
+            .switchMap<string>(file =>  {
+                this.selectedFile = file;
+                return this._functionsService.getFileContent(file)
+            })
+            .subscribe(content => {
+                this.selectedFile.content = content;
+                this.fileSelected.next(this.selectedFile)
+            });
     }
 }

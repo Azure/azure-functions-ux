@@ -7,7 +7,7 @@
             <ul class="file-list" *ngIf="functionInfo === selectedFunction">
                 <li *ngFor="#file of functionFiles">
                     <a class="function-file" href="#"
-                       (click)="onFileSelect(file)"
+                       (click)="fileClickStream.next(file)"
                        [class.selected]="file === selectedFile">
                        <i class="fa fa-file-code-o"></i> {{file.name}}
                     </a>

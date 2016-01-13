@@ -5,16 +5,16 @@
         "mtime": "2015-09-09T23:28:27.9819371+00:00",
         "crtime": "2015-09-09T23:28:25.3130373+00:00",
         "mime": "application/octet-stream",
-        "href": "https://ahmelsayed.scm.azurewebsites.net/api/vfs/site/function.json",
+        "href": "mocks/WebHook/function.json",
         "path": "D:\\home\\site\\function.json"
     },
     {
-        "name": "python.py",
+        "name": "index.js",
         "size": 18441488,
         "mtime": "2015-09-09T23:28:27.9819371+00:00",
         "crtime": "2015-09-09T23:28:25.3130373+00:00",
         "mime": "application/octet-stream",
-        "href": "https://ahmelsayed.scm.azurewebsites.net/api/vfs/site/index.js",
+        "href": "mocks/WebHook/index.js",
         "path": "D:\\home\\site\\index.js"
     }
 ]

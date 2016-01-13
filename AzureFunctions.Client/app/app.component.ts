@@ -33,6 +33,6 @@ export class AppComponent implements OnInit{
 
     onFileSelect(file: VfsObject) {
         this.selectedFile = file;
-        this.content += this.selectedFile.name;
+        this.content = file.content;
     }
 }

@@ -1,10 +1,9 @@
-* {
-    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
-}
+
 
 body {
     margin: 0;
     height: 100%;
+    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -212,8 +211,9 @@ a {
 .ace_editor {
     border: 1px solid #bcbcbc;
     border-radius: 4px 4px 0px;
+    font: monospace !important;
 }
 
 .ace_editor div {
-    font: inherit!important;
+    font: monospace !important;
 }

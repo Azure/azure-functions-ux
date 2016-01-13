@@ -49,7 +49,7 @@ export class AceEditorDirective {
         this.editor.session.setMode(this.getMode(file.name));
     }
 
-    getMode(filename: string) {
+    getMode(filename: string): string {
         var _config = (/^(web|app).config$/i);
         var _csproj = (/.(cs|vb)proj$/i);
         var _xdt = (/.xdt$/i);
@@ -68,8 +68,8 @@ export class AceEditorDirective {
             if (filename.match(_aspnet)) {
                 syntax_mode = 'ace/mode/csharp';
             }
-            return syntax_mode;
         }
+        return syntax_mode;
     }
 
     resizeAce() {

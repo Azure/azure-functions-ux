@@ -6,4 +6,5 @@ export interface VfsObject {
     mime: string;
     href: string;
     path: string;
+    content: string;
 }

@@ -5,16 +5,25 @@
         "mtime": "2015-09-09T23:28:27.9819371+00:00",
         "crtime": "2015-09-09T23:28:25.3130373+00:00",
         "mime": "application/octet-stream",
-        "href": "https://ahmelsayed.scm.azurewebsites.net/api/vfs/site/function.json",
+        "href": "mocks/TimerTrigger/function.json",
         "path": "D:\\home\\site\\function.json"
     },
     {
-        "name": "ps.ps1",
+        "name": "index.js",
         "size": 18441488,
         "mtime": "2015-09-09T23:28:27.9819371+00:00",
         "crtime": "2015-09-09T23:28:25.3130373+00:00",
         "mime": "application/octet-stream",
-        "href": "https://ahmelsayed.scm.azurewebsites.net/api/vfs/site/index.js",
+        "href": "mocks/TimerTrigger/index.json",
         "path": "D:\\home\\site\\index.js"
+    },
+    {
+        "name": "logger.js",
+        "size": 100,
+        "mtime": "2015-09-09T23:28:27.9819371+00:00",
+        "crtime": "2015-09-09T23:28:25.3130373+00:00",
+        "mime": "application/octet-stream",
+        "href": "mocks/TimerTrigger/logger.json",
+        "path": "D:\\home\\site\\logger.js"
     }
 ]
