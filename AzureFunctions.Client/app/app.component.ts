@@ -21,7 +21,34 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         this._functionsService.initializeUser()
-            .subscribe(r => this._functionsService.getFunctions().subscribe(res => this.functionsInfo = res));
+            .subscribe(r => this._functionsService.getFunctions()
+              .subscribe(res => {
+                /*res.unshift({
+                  name: "Settings",
+                  href: 'https://' + r.scm_url + '/api/site/wwwroot/app_data/jobs/functions',
+                  config: null,
+                  config_href: null,
+                  expanded: false,
+                  files: null,
+                  script_href: null,
+                  script_root_path: null,
+                  template_id: null,
+                  test_data_href: null
+                });
+                res.unshift({
+                  name: 'New Function',
+                  href: null,
+                  config: null,
+                  config_href: null,
+                  expanded: false,
+                  files: null,
+                  script_href: null,
+                  script_root_path: null,
+                  template_id: null,
+                  test_data_href: null
+                });*/
+                this.functionsInfo = res
+              }));
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){

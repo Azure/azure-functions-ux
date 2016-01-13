@@ -32,7 +32,7 @@ export class SideBarComponent {
                 this.selectedFunction = fi;
                 this.functionSelected.next(fi);
                 this.fileSelected.next(null);
-                if (fi.name === 'New Function' || fi.name === 'Settings') {
+                if (fi.name === 'New Function') {
                     return Observable.empty<any>();
                 } else if (fi.name === 'Settings') {
                     return Observable.of({

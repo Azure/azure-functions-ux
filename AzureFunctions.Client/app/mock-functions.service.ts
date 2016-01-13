@@ -12,7 +12,7 @@ export class MockFunctionsService implements IFunctionsService {
     constructor(private _http: Http) { }
 
     initializeUser() {
-        return this._http.get('mock/scmInfo.json')
+        return this._http.get('mocks/scmInfo.json')
             .map<ScmInfo>(r => {
                 this.scmInfo = r.json();
                 return this.scmInfo;
@@ -20,12 +20,12 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getFunctions() {
-        return this._http.get('/mocks/functions.json')
+        return this._http.get('mocks/functions.json')
             .map<FunctionInfo[]>(r => r.json());
     }
 
     getFunctionContent(functionInfo: FunctionInfo) {
-        return this._http.get('/mocks/' + functionInfo.name + '.vfs.json')
+        return this._http.get('mocks/' + functionInfo.name + '.vfs.json')
             .map<any>(r => {
                 return {
                     files: r.json(),

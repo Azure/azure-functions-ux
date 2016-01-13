@@ -31,7 +31,7 @@ export class FunctionsService implements IFunctionsService {
     getFunctionContent(functionInfo: FunctionInfo) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: functionInfo.href
+            url: functionInfo.script_root_path
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<any>(r => {
