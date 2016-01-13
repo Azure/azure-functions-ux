@@ -180,7 +180,7 @@ a {
 
 .content .work-space {
     position: relative;
-    padding: 20px;
+    padding: 0 20px 0 20px;
 }
 
 .file-list {

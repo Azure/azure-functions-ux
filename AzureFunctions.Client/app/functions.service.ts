@@ -14,7 +14,12 @@ export class FunctionsService {
 
     getFunctionContent(functionInfo: FunctionInfo) {
         return this._http.get('/mocks/' + functionInfo.name + '.vfs.json')
-            .map<VfsObject[]>(r => r.json());
+            .map<any>(r => {
+                return {
+                    files: r.json(),
+                    functionInfo: functionInfo
+                };
+            });
     }
 
     getFileContent(file: VfsObject) {

@@ -15,7 +15,6 @@ export class SideBarComponent {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public selectedFile: VfsObject;
-    public functionFiles: VfsObject[];
     private functionSelected: EventEmitter<FunctionInfo>;
     private fileSelected: EventEmitter<VfsObject>;
     private clickStream: Subject<FunctionInfo>;
@@ -29,19 +28,24 @@ export class SideBarComponent {
 
         this.clickStream
             .distinctUntilChanged()
-            .switchMap<VfsObject[]>(fi => {
+            .switchMap(fi => {
                 this.selectedFunction = fi;
                 this.functionSelected.next(fi);
                 this.fileSelected.next(null);
                 if (fi.name === 'New Function') {
-                    return Observable.of([]);
+                    return Observable.empty<any>();
                 } else if (fi.name === 'Settings') {
-                    return Observable.of([{name: "host.json", href: "mocks/host.json"}]);
+                    return Observable.of({
+                        files: [{ name: "host.json", href: "mocks/host.json" }],
+                        functionInfo: fi
+                    });
                 } else {
                     return this._functionsService.getFunctionContent(fi)
                 }
             })
-            .subscribe(res => this.functionFiles = res);
+            .subscribe((res: any) => {
+                res.functionInfo.files = res.files;
+            });
 
         this.fileClickStream
             .distinctUntilChanged()
@@ -53,5 +57,17 @@ export class SideBarComponent {
                 this.selectedFile.content = content;
                 this.fileSelected.next(this.selectedFile)
             });
+    }
+
+    toggle(fi: FunctionInfo) {
+        fi.expanded = !fi.expanded;
+    }
+
+    onFileClick(file: VfsObject, functionInfo: FunctionInfo, event: Event) {
+        this.fileClickStream.next(file);
+        this.selectedFunction = functionInfo;
+        this.functionSelected.next(functionInfo);
+        event.stopPropagation();
+        event.preventDefault();
     }
 }

@@ -2,6 +2,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromArray';
+import 'rxjs/add/observable/empty';
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './app.component';

@@ -1,3 +1,5 @@
+import {VfsObject} from './vfs-object';
+
 export interface FunctionInfo {
     name: string;
     script_root_path: string;
@@ -7,4 +9,6 @@ export interface FunctionInfo {
     href: string;
     template_id: string;
     config: any;
+    expanded: boolean;
+    files: VfsObject[];
 }
