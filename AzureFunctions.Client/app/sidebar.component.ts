@@ -27,7 +27,7 @@ export class SideBarComponent {
         this.fileClickStream = new Subject();
 
         this.clickStream
-            .distinctUntilChanged()
+            //.distinctUntilChanged() doesn't work because fileClickStream can change the selected Function
             .switchMap(fi => {
                 this.selectedFunction = fi;
                 this.functionSelected.next(fi);

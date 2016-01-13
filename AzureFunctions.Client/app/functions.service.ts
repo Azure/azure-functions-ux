@@ -51,9 +51,22 @@ export class FunctionsService implements IFunctionsService {
             .map<string>(r => r.text());
     }
 
-    private getHeaders(): Headers {
+    saveFile(file: VfsObject, updatedContent: string) {
+        var body: PassthroughInfo = {
+            httpMethod: "PUT",
+            url: file.href,
+            requestBody: updatedContent
+        };
+        var headers = this.getHeaders('text/plain');
+        headers.append('If-Match', '*');
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: headers })
+            .map<string>(r => r.statusText);
+    }
+
+    private getHeaders(contentType?: string): Headers {
+        contentType = contentType || 'application/json';
         var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', contentType);
         return headers;
     }
 }

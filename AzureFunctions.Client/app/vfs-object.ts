@@ -7,4 +7,5 @@ export interface VfsObject {
     href: string;
     path: string;
     content: string;
+    dirty: boolean;
 }

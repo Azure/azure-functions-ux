@@ -16,6 +16,7 @@ export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public selectedFile: VfsObject;
+    private updatedContent: string;
 
     constructor(private _functionsService: FunctionsService) { }
 
@@ -60,5 +61,14 @@ export class AppComponent implements OnInit{
 
     onFileSelect(file: VfsObject) {
         this.selectedFile = file;
+    }
+
+    saveFile(file: VfsObject) {
+        this._functionsService.saveFile(file, this.updatedContent);
+    }
+
+    contentChanged(content: string) {
+        this.selectedFile.dirty = true;
+        this.updatedContent = content;
     }
 }

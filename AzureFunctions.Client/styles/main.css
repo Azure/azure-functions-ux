@@ -217,3 +217,33 @@ a {
 .ace_editor div {
     font: monospace !important;
 }
+
+.file-name {
+    display: inline;
+}
+
+.file-tools {
+    display: inline;
+}
+
+.save-button {
+    margin-left: 15px;
+    display: inline;
+    padding: 6px 25px 6px 25px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.dirty {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.gutter-container {
+    padding-bottom: 20px;
+}

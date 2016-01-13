@@ -4,10 +4,10 @@
             (click)="clickStream.next(functionInfo)"
             (click)="toggle(functionInfo)"
             class="function-item">
-            <a class="function-item" [class.selected]="functionInfo === selectedFunction" href="/Functions/#">{{functionInfo.name}}</a>
+            <a class="function-item" [class.selected]="functionInfo === selectedFunction" href="/#">{{functionInfo.name}}</a>
             <ul class="file-list" *ngIf="functionInfo.expanded">
                 <li *ngFor="#file of functionInfo.files">
-                    <a class="function-file" href="/Functions/#"
+                    <a class="function-file" href="/#"
                        (click)="onFileClick(file, functionInfo, $event)"
                        [class.selected]="file === selectedFile">
                        <i class="fa fa-file-code-o"></i> {{file.name}}

@@ -4,6 +4,7 @@ import {FunctionInfo} from './function-info';
 import {VfsObject} from './vfs-object';
 import {ScmInfo} from './scm-info';
 import {IFunctionsService} from './ifunctions.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -37,5 +38,12 @@ export class MockFunctionsService implements IFunctionsService {
     getFileContent(file: VfsObject) {
         return this._http.get(file.href)
             .map<string>(r => r.text());
+    }
+
+    saveFile(file: VfsObject, updatedContent: string) {
+        console.log(file);
+        console.log(updatedContent);
+        file.dirty = false;
+        return Observable.of("Ok");
     }
 }

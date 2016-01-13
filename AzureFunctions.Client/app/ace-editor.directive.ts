@@ -1,6 +1,7 @@
 import {Directive, EventEmitter, ElementRef} from 'angular2/core';
 import {AceEditor} from './ace-editor';
 import {VfsObject} from './vfs-object';
+import {FunctionsService} from './functions.service';
 
 declare var ace: any;
 
@@ -11,9 +12,10 @@ declare var ace: any;
 })
 export class AceEditorDirective {
     private editor: AceEditor;
+    private currentFileObject: VfsObject;
     public contentChanged: EventEmitter<string>;
 
-    constructor(private elementRef: ElementRef) {
+    constructor(private elementRef: ElementRef, private functionsService: FunctionsService) {
         this.contentChanged = new EventEmitter<string>();
 
         let el = elementRef.nativeElement;
@@ -30,8 +32,23 @@ export class AceEditorDirective {
         });
 
         this.editor.on("change", (e) => {
-            this.contentChanged.next(this.editor.getValue());
+            // (Attempt to) separate user change from programatical
+            // https://github.com/ajaxorg/ace/issues/503
+            if (this.editor.curOp && this.editor.curOp.command.name) {
+                this.contentChanged.next(this.editor.getValue());
+            }
         });
+
+        this.editor.commands.addCommand({
+            name: 'saveItem',
+            bindKey: {
+                win: 'Ctrl-S',
+                mac: 'Command-S',
+                sender: 'editor|cli'
+            },
+            exec: () => this.functionsService.saveFile(this.currentFileObject, this.editor.getValue())
+        });
+
         this.resizeAce();
         this.editor.focus();
         // Attach event handler to set new Ace height on browser resize
@@ -46,6 +63,7 @@ export class AceEditorDirective {
     }
 
     set fileObject(file: VfsObject) {
+        this.currentFileObject = file;
         this.editor.session.setMode(this.getMode(file.name));
     }
 

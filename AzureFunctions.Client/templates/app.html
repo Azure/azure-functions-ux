@@ -3,9 +3,16 @@
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (selectedFunction)="onFunctionSelect($event)" (selectedFile)="onFileSelect($event)"></sidebar>
         <div class="work-space">
-            <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
-            <h3 *ngIf="selectedFile">{{selectedFile.name}}</h3>
-            <div class="ace_editor" aceEditor id="editor" *ngIf="selectedFile" [fileObject]="selectedFile" [content]="selectedFile.content"></div>
+            <div class="gutter-container">
+                <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
+                <h3 class="file-name" *ngIf="selectedFile">{{selectedFile.name}}</h3>
+                <div class="file-tools"><button class="save-button" *ngIf="selectedFile" [class.dirty]="selectedFile.dirty" (click)="saveFile(selectedFile)">Save</button></div>
+            </div>
+            <div class="ace_editor" aceEditor id="editor"
+                *ngIf="selectedFile"
+                [fileObject]="selectedFile"
+                (contentChanged)="contentChanged($event)"
+                [content]="selectedFile.content"></div>
         </div>
     </div>
 </div>

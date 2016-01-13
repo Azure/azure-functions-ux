@@ -11,6 +11,8 @@ export interface AceEditor {
     setTheme(theme: string);
     setOptions(options: any);
     $blockScrolling: number;
+    commands: any;
+    curOp: any;
 }
 
 interface AceEditorSession {
