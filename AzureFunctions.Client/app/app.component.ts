@@ -11,20 +11,17 @@ import {VfsObject} from './vfs-object';
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.html',
     directives: [SideBarComponent, TopBarComponent, AceEditorDirective],
-    providers: [FunctionsService]
 })
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public selectedFile: VfsObject;
-    public content: string;
 
-    constructor(private _functionsService: FunctionsService) {
-        this.content = "hello";
-    }
+    constructor(private _functionsService: FunctionsService) { }
 
     ngOnInit() {
-        this._functionsService.getFunctions().subscribe(res => this.functionsInfo = res);
+        this._functionsService.initializeUser()
+            .subscribe(r => this._functionsService.getFunctions().subscribe(res => this.functionsInfo = res));
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){
