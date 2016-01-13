@@ -29,10 +29,12 @@ export class AppComponent implements OnInit{
 
     onFunctionSelect(functionInfo: FunctionInfo){
         this.selectedFunction = functionInfo;
+        if (functionInfo.name === 'New Function') {
+            delete this.selectedFile;
+        }
     }
 
     onFileSelect(file: VfsObject) {
         this.selectedFile = file;
-        this.content = file.content;
     }
 }

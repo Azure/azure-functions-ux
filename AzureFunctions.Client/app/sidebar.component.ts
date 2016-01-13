@@ -32,9 +32,11 @@ export class SideBarComponent {
             .switchMap<VfsObject[]>(fi => {
                 this.selectedFunction = fi;
                 this.functionSelected.next(fi);
-                this.functionFiles = [];
-                if (fi.name === 'New Function' || fi.name === 'Settings') {
-                    return Observable.empty<VfsObject[]>();
+                this.fileSelected.next(null);
+                if (fi.name === 'New Function') {
+                    return Observable.of([]);
+                } else if (fi.name === 'Settings') {
+                    return Observable.of([{name: "host.json", href: "mocks/host.json"}]);
                 } else {
                     return this._functionsService.getFunctionContent(fi)
                 }

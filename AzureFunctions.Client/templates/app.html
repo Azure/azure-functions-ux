@@ -5,7 +5,7 @@
         <div class="work-space">
             <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
             <h3 *ngIf="selectedFile">{{selectedFile.name}}</h3>
-            <div class="ace_editor" aceEditor id="editor" *ngIf="selectedFile" [fileObject]="selectedFile" [content]="content"></div>
+            <div class="ace_editor" aceEditor id="editor" *ngIf="selectedFile" [fileObject]="selectedFile" [content]="selectedFile.content"></div>
         </div>
     </div>
 </div>
