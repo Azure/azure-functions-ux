@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="Models\ArmModels\ArmArrayWrapper.cs" />
     <Compile Include="Models\ArmModels\ArmResourceGroup.cs" />
+    <Compile Include="Models\ArmModels\ArmStorage.cs" />
     <Compile Include="Models\ArmModels\ArmSubscription.cs" />
     <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />
     <Compile Include="Models\ArmModels\ArmWebsite.cs" />
