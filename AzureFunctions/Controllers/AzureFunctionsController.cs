@@ -110,6 +110,7 @@ namespace AzureFunctions.Controllers
                     await storageResponse.EnsureSuccessStatusCodeWithFullError();
                     var key = (await storageResponse.Content.ReadAsAsync<Dictionary<string, string>>())["key1"];
                     appSettings.properties[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
+                    appSettings.properties[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
 
                     //save it
                     sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
@@ -128,30 +129,27 @@ namespace AzureFunctions.Controllers
             using (var client = GetClient())
             {
                 var request = new HttpRequestMessage(
-                    new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url.TrimEnd('/') + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
+                    new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
+
                 if (passthroughInfo.RequestBody != null)
                 {
-                    request.Content = new StringContent(passthroughInfo.RequestBody.ToString(), Encoding.UTF8, Constants.ApplicationJson);
-                }
-                var response = await client.SendAsync(request);
-                HttpContent content = null;
-                HttpStatusCode status;
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    status = HttpStatusCode.InternalServerError;
-                    content = new StringContent(JsonConvert.SerializeObject(request));
-                }
-                else
-                {
-                    status = response.StatusCode;
-                    content = response.Content;
+                    request.Content = new StringContent(passthroughInfo.RequestBody.ToString(), Encoding.UTF8, passthroughInfo.MediaType ?? Constants.ApplicationJson);
                 }
 
-                var responseMessage = new HttpResponseMessage(status)
+                if (passthroughInfo.Headers != null)
                 {
-                    Content = content
+                    foreach (var pair in passthroughInfo.Headers)
+                    {
+                        request.Headers.Add(pair.Key, pair.Value);
+                    }
+                }
+
+                var response = await client.SendAsync(request);
+
+                return new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = response.Content
                 };
-                return responseMessage;
             }
         }
 

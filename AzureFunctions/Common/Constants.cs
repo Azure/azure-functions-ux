@@ -13,6 +13,7 @@ namespace AzureFunctions.Common
         public const string X_MS_OAUTH_TOKEN = "X-MS-OAUTH-TOKEN";
         public const string ApplicationJson = "application/json";
         public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
+        public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";
         public const string StorageConnectionStringTemplate = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
     }
 }

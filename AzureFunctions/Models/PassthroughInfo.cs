@@ -13,12 +13,18 @@ namespace AzureFunctions.Models
         public string HttpMethod { get; set; }
 
         [JsonProperty(PropertyName = "requestBody")]
-        public JObject RequestBody { get; set; }
+        public JToken RequestBody { get; set; }
 
         [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
 
         [JsonProperty(PropertyName = "queryString")]
         public string QueryString { get; set; }
+
+        [JsonProperty(PropertyName = "headers")]
+        public Dictionary<string, string> Headers { get; set; }
+
+        [JsonProperty(PropertyName = "mediaType")]
+        public string MediaType { get; set; }
     }
 }
