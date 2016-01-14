@@ -101,9 +101,16 @@ namespace AzureFunctions.Controllers
                             new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }),
                             new { location = "West US", properties = new { accountType = "Standard_GRS" } });
                         await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                        storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccount.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }));
-                        await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                        storageAccount = await storageResponse.Content.ReadAsAsync<ArmWrapper<ArmStorage>>();
+                        var isSucceeded = false;
+                        var tries = 10;
+                        do {
+                            storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccount.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }));
+                            await storageResponse.EnsureSuccessStatusCodeWithFullError();
+                            storageAccount = await storageResponse.Content.ReadAsAsync<ArmWrapper<ArmStorage>>();
+                            isSucceeded = storageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);
+                            tries--;
+                            if (!isSucceeded) await Task.Delay(500);
+                        } while (!isSucceeded && tries > 0);
                     }
 
                     storageResponse = await client.PostAsync(ArmUriTemplates.StorageListKeys.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccount.name }), new StringContent(string.Empty));
