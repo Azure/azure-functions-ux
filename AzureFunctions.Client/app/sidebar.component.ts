@@ -34,12 +34,12 @@ export class SideBarComponent {
                 this.fileSelected.next(null);
                 if (fi.name === 'New Function') {
                     return Observable.empty<any>();
-                } else if (fi.name === 'Settings') {
+                } /*else if (fi.name === 'Settings') {
                     return Observable.of({
                         files: [{ name: "host.json", href: "mocks/host.json" }],
                         functionInfo: fi
                     });
-                } else {
+                }*/ else {
                     return this._functionsService.getFunctionContent(fi)
                 }
             })

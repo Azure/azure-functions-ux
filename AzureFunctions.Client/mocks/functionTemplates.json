@@ -1,0 +1,14 @@
+[
+    {"name":"BlobTrigger"},
+    {"name":"QueueTrigger-Bash"},
+    {"name":"QueueTrigger-Batch"},
+    {"name":"QueueTrigger-FSharp"},
+    {"name":"QueueTrigger-Php"},
+    {"name":"QueueTrigger-Powershell"},
+    {"name":"QueueTrigger-Python"},
+    {"name":"QueueTrigger"},
+    {"name":"ResizeImage"},
+    {"name":"ServiceBusQueueTrigger"},
+    {"name":"TimerTrigger"},
+    {"name":"WebHookTrigger"}
+]

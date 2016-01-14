@@ -2,7 +2,7 @@ import {VfsObject} from './vfs-object';
 
 export interface FunctionInfo {
     name: string;
-    script_root_path: string;
+    script_root_path_href: string;
     script_href: string;
     config_href: string;
     test_data_href: string;

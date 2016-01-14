@@ -3,16 +3,22 @@
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (selectedFunction)="onFunctionSelect($event)" (selectedFile)="onFileSelect($event)"></sidebar>
         <div class="work-space">
-            <div class="gutter-container">
-                <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
-                <h3 class="file-name" *ngIf="selectedFile">{{selectedFile.name}}</h3>
-                <div class="file-tools"><button class="save-button" *ngIf="selectedFile" [class.dirty]="selectedFile.dirty" (click)="saveFile(selectedFile)">Save</button></div>
+            <div class="loader" *ngIf="initializing"></div>
+            <div *ngIf="selectedFunction && selectedFunction.name !== 'New Function'">
+                <div class="gutter-container">
+                    <h2 *ngIf="selectedFunction">{{selectedFunction.name}}</h2>
+                    <h3 class="file-name" *ngIf="selectedFile">{{selectedFile.name}}</h3>
+                    <div class="file-tools"><button class="custom-button" *ngIf="selectedFile" [class.dirty]="selectedFile.dirty" (click)="saveFile(selectedFile)">Save</button></div>
+                </div>
+                <div class="ace_editor" aceEditor id="editor"
+                    *ngIf="selectedFile"
+                    [fileObject]="selectedFile"
+                    (contentChanged)="contentChanged($event)"
+                    [content]="selectedFile.content"></div>
             </div>
-            <div class="ace_editor" aceEditor id="editor"
-                *ngIf="selectedFile"
-                [fileObject]="selectedFile"
-                (contentChanged)="contentChanged($event)"
-                [content]="selectedFile.content"></div>
+            <div *ngIf="selectedFunction && selectedFunction.name === 'New Function'">
+                <new-function (functionAdded)="initFunctions()"></new-function>
+            </div>
         </div>
     </div>
 </div>

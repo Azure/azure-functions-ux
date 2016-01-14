@@ -5,6 +5,7 @@ import {VfsObject} from './vfs-object';
 import {ScmInfo} from './scm-info';
 import {PassthroughInfo} from './passthrough-info';
 import {IFunctionsService} from './ifunctions.service';
+import {FunctionTemplate} from './function-template';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -22,7 +23,7 @@ export class FunctionsService implements IFunctionsService {
     getFunctions() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: 'https://' + this.scmInfo.scm_url + '/api/functions'
+            url: this.scmInfo.scm_url + '/api/functions'
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionInfo[]>(r => r.json());
@@ -31,12 +32,12 @@ export class FunctionsService implements IFunctionsService {
     getFunctionContent(functionInfo: FunctionInfo) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: functionInfo.script_root_path
+            url: functionInfo.script_root_path_href
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<any>(r => {
                 return {
-                    files: r.json(),
+                    files: r.json().filter(e => e.mime !== 'inode/directory'),
                     functionInfo: functionInfo
                 };
             });
@@ -59,8 +60,32 @@ export class FunctionsService implements IFunctionsService {
         };
         var headers = this.getHeaders('text/plain');
         headers.append('If-Match', '*');
+        file.dirty = false;
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: headers })
             .map<string>(r => r.statusText);
+    }
+
+    getTemplates() {
+        var body: PassthroughInfo = {
+            httpMethod: "GET",
+            url: this.scmInfo.scm_url + '/api/functions/templates'
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<FunctionTemplate[]>(r => r.json());
+    }
+
+    createFunction(functionName: string, templateId: string) {
+        var body: PassthroughInfo = {
+            httpMethod: 'PUT',
+            url: this.scmInfo.scm_url + '/api/functions/' + functionName,
+            requestBody: (templateId && templateId !== 'Empty' ? { templateId: templateId } : null)
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<string>(r => r.statusText);
+    }
+
+    getScmInfo(): ScmInfo {
+        return this.scmInfo;
     }
 
     private getHeaders(contentType?: string): Headers {

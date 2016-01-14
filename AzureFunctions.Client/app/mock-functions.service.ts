@@ -5,6 +5,7 @@ import {VfsObject} from './vfs-object';
 import {ScmInfo} from './scm-info';
 import {IFunctionsService} from './ifunctions.service';
 import {Observable} from 'rxjs/Observable';
+import {FunctionTemplate} from './function-template';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -45,5 +46,20 @@ export class MockFunctionsService implements IFunctionsService {
         console.log(updatedContent);
         file.dirty = false;
         return Observable.of("Ok");
+    }
+
+    createFunction(functionName: string, templateId: string) {
+        console.log(functionName);
+        console.log(templateId);
+        return Observable.of("Ok");
+    }
+
+    getTemplates() {
+        return this._http.get('mocks/functionTemplates.json')
+            .map<FunctionTemplate[]>(r => r.json());
+    }
+
+    getScmInfo() {
+        return null;
     }
 }

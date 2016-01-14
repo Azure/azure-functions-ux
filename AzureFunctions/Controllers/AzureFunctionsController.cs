@@ -2,6 +2,8 @@
 using AzureFunctions.Common;
 using AzureFunctions.Models;
 using AzureFunctions.Models.ArmModels;
+using AzureFunctions.Modules;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,26 +29,26 @@ namespace AzureFunctions.Controllers
             {
                 // Get first sub
                 var subscriptionsResponse = await client.GetAsync(ArmUriTemplates.Subscriptions.Bind(string.Empty));
-                subscriptionsResponse.EnsureSuccessStatusCode();
+                await subscriptionsResponse.EnsureSuccessStatusCodeWithFullError();
                 var subscriptions = await subscriptionsResponse.Content.ReadAsAsync<ArmSubscriptionsArray>();
                 var subscription = subscriptions.value.FirstOrDefault(s => s.displayName.IndexOf("msdn") != -1) ?? subscriptions.value.FirstOrDefault();
 
                 // look for a rg that starts with AzureFunctionsResourceGroup
                 var resourceGroupsResponse = await client.GetAsync(ArmUriTemplates.ResourceGroups.Bind(new { subscriptionId = subscription.subscriptionId }));
-                resourceGroupsResponse.EnsureSuccessStatusCode();
+                await resourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
                 var resourceGroups = await resourceGroupsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmResourceGroup>>();
                 var resourceGroup = resourceGroups.value.FirstOrDefault(rg => rg.name.Equals("AzureFunctionsResourceGroup", StringComparison.OrdinalIgnoreCase));
                 if (resourceGroup == null)
                 {
                     //create it
                     var createRGResponse = await client.PutAsJsonAsync(ArmUriTemplates.ResourceGroup.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = "AzureFunctionsResourceGroup" }), new { properties = new { }, location = "West US" });
-                    createRGResponse.EnsureSuccessStatusCode();
+                    await createRGResponse.EnsureSuccessStatusCodeWithFullError();
                     resourceGroup = await createRGResponse.Content.ReadAsAsync<ArmWrapper<ArmResourceGroup>>();
                 }
 
                 // look for a site that starts with AzureFunctionsContainer{random}
                 var sitesResponse = await client.GetAsync(ArmUriTemplates.Sites.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }));
-                sitesResponse.EnsureSuccessStatusCode();
+                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
                 var sites = await sitesResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmWebsite>>();
                 var site = sites.value.FirstOrDefault(s => s.name.StartsWith("AzureFunctionsContainer", StringComparison.OrdinalIgnoreCase));
                 string scmUrl = null;
@@ -58,17 +60,19 @@ namespace AzureFunctions.Controllers
                     //create website
                     var siteName = $"AzureFunctionsContainer{Guid.NewGuid().ToString().Replace("-", "")}";
                     var createSiteResponse = await client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = siteName }), new { properties = new { }, location = resourceGroup.location });
-                    createSiteResponse.EnsureSuccessStatusCode();
+                    await createSiteResponse.EnsureSuccessStatusCodeWithFullError();
                     site = await createSiteResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsite>>();
                     scmUrl = $"https://{site.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1) }";
 
                     // publish private kudu
                     using (var stream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
                     {
-                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(stream));
-                        pKuduResponse.EnsureSuccessStatusCode();
+                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/App_Data/jobs/functions/host.json", new StringContent("{}"));
+                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
+                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(stream));
+                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
                         pKuduResponse = await client.DeleteAsync($"{scmUrl}/api/processes/0");
-                        pKuduResponse.EnsureSuccessStatusCode();
+                        //pKuduResponse.EnsureSuccessStatusCode();
                     }
                 }
                 else
@@ -78,13 +82,13 @@ namespace AzureFunctions.Controllers
 
 
                 sitesResponse = await client.PostAsync(ArmUriTemplates.ListSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new StringContent(string.Empty));
-                sitesResponse.EnsureSuccessStatusCode();
+                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
                 var appSettings = await sitesResponse.Content.ReadAsAsync<ArmWrapper<Dictionary<string, string>>>();
                 if (!appSettings.properties.ContainsKey(Constants.AzureStorageAppSettingsName))
                 {
                     // create storage account
                     var storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccounts.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }));
-                    storageResponse.EnsureSuccessStatusCode();
+                    await storageResponse.EnsureSuccessStatusCodeWithFullError();
                     var storageAccounts = await storageResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmStorage>>();
                     var storageAccount = storageAccounts.value.FirstOrDefault(s =>
                         s.name.StartsWith("AzureFunctions", StringComparison.OrdinalIgnoreCase) &&
@@ -96,18 +100,20 @@ namespace AzureFunctions.Controllers
                         storageResponse = await client.PutAsJsonAsync(ArmUriTemplates.StorageAccount.Bind(
                             new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }),
                             new { location = "West US", properties = new { accountType = "Standard_GRS" } });
-                        storageResponse.EnsureSuccessStatusCode();
+                        await storageResponse.EnsureSuccessStatusCodeWithFullError();
+                        storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccount.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }));
+                        await storageResponse.EnsureSuccessStatusCodeWithFullError();
                         storageAccount = await storageResponse.Content.ReadAsAsync<ArmWrapper<ArmStorage>>();
                     }
 
                     storageResponse = await client.PostAsync(ArmUriTemplates.StorageListKeys.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccount.name }), new StringContent(string.Empty));
-                    storageResponse.EnsureSuccessStatusCode();
-                    var key = (await storageResponse.Content.ReadAsAsync<dynamic>()).key1;
+                    await storageResponse.EnsureSuccessStatusCodeWithFullError();
+                    var key = (await storageResponse.Content.ReadAsAsync<Dictionary<string, string>>())["key1"];
                     appSettings.properties[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
 
                     //save it
-                    sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccount.name }), new { properties = appSettings.properties });
-                    sitesResponse.EnsureSuccessStatusCode();
+                    sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
+                    await sitesResponse.EnsureSuccessStatusCodeWithFullError();
                 }
 
                 // return it's scm name
@@ -122,12 +128,30 @@ namespace AzureFunctions.Controllers
             using (var client = GetClient())
             {
                 var request = new HttpRequestMessage(
-                    new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
+                    new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url.TrimEnd('/') + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
                 if (passthroughInfo.RequestBody != null)
                 {
                     request.Content = new StringContent(passthroughInfo.RequestBody.ToString(), Encoding.UTF8, Constants.ApplicationJson);
                 }
-                return await client.SendAsync(request);
+                var response = await client.SendAsync(request);
+                HttpContent content = null;
+                HttpStatusCode status;
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    status = HttpStatusCode.InternalServerError;
+                    content = new StringContent(JsonConvert.SerializeObject(request));
+                }
+                else
+                {
+                    status = response.StatusCode;
+                    content = response.Content;
+                }
+
+                var responseMessage = new HttpResponseMessage(status)
+                {
+                    Content = content
+                };
+                return responseMessage;
             }
         }
 

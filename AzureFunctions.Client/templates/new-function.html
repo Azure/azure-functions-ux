@@ -1,0 +1,17 @@
+<div class="new-function-container">
+    <label>Function Name: </label>
+    <input class="new-function-name" [(ngModel)]="newFunctionName" placeholder="Function Name" />
+    <br />
+    <br />
+    <label>Function Templates:</label>
+    <div class="functions-templates-select-container">
+        <select [(ngModel)]="selectedTemplateName" class="function-templates-select">
+            <option *ngFor="#template of functionTemplates | async" [value]="template.name">{{template.name}}</option>
+        </select>
+        <span *ngIf="!selectedTemplateName" class="function-templates-selected-value">Select Template</span>
+        <span *ngIf="selectedTemplateName" class="function-templates-selected-value">{{selectedTemplateName}}</span>
+        <span class="function-templates-selected-arrow"></span>
+    </div>
+    <button class="custom-button" (click)="createFunction()">Create</button>
+    <div class="loader" *ngIf="creating"></div>
+</div>

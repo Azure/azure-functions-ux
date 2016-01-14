@@ -107,6 +107,7 @@
     <Compile Include="Code\ArmUriTemplate.cs" />
     <Compile Include="Code\ArmUriTemplates.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\FailedRequestException.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
