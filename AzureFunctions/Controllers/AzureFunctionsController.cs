@@ -41,7 +41,7 @@ namespace AzureFunctions.Controllers
                 if (resourceGroup == null)
                 {
                     //create it
-                    var createRGResponse = await client.PutAsJsonAsync(ArmUriTemplates.ResourceGroup.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = "AzureFunctionsResourceGroup" }), new { properties = new { }, location = "West US" });
+                    var createRGResponse = await client.PutAsJsonAsync(ArmUriTemplates.ResourceGroup.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = "AzureFunctions" }), new { properties = new { }, location = "West US" });
                     await createRGResponse.EnsureSuccessStatusCodeWithFullError();
                     resourceGroup = await createRGResponse.Content.ReadAsAsync<ArmWrapper<ArmResourceGroup>>();
                 }
