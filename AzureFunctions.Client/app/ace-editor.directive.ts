@@ -47,6 +47,7 @@ export class AceEditorDirective {
                 sender: 'editor|cli'
             },
             exec: () => this.functionsService.saveFile(this.currentFileObject, this.editor.getValue())
+                            .subscribe(r => this.currentFileObject.dirty = false)
         });
 
         this.resizeAce();
