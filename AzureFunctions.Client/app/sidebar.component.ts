@@ -40,7 +40,7 @@ export class SideBarComponent {
                         functionInfo: fi
                     });
                 }*/ else {
-                    return this._functionsService.getFunctionContent(fi)
+                    return this._functionsService.getFunctionContent(fi);
                 }
             })
             .subscribe((res: any) => {
@@ -48,14 +48,14 @@ export class SideBarComponent {
             });
 
         this.fileClickStream
-            .distinctUntilChanged()
+            //.distinctUntilChanged() doesn't work because you may click again on the same file without clicking on any other files.
             .switchMap<string>(file =>  {
                 this.selectedFile = file;
-                return this._functionsService.getFileContent(file)
+                return this._functionsService.getFileContent(file);
             })
             .subscribe(content => {
                 this.selectedFile.content = content;
-                this.fileSelected.next(this.selectedFile)
+                this.fileSelected.next(this.selectedFile);
             });
     }
 
