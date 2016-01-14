@@ -37,7 +37,7 @@ namespace AzureFunctions.Controllers
                 var resourceGroupsResponse = await client.GetAsync(ArmUriTemplates.ResourceGroups.Bind(new { subscriptionId = subscription.subscriptionId }));
                 await resourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
                 var resourceGroups = await resourceGroupsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmResourceGroup>>();
-                var resourceGroup = resourceGroups.value.FirstOrDefault(rg => rg.name.Equals("AzureFunctionsResourceGroup", StringComparison.OrdinalIgnoreCase));
+                var resourceGroup = resourceGroups.value.FirstOrDefault(rg => rg.name.Equals("AzureFunctions", StringComparison.OrdinalIgnoreCase));
                 if (resourceGroup == null)
                 {
                     //create it
