@@ -3,4 +3,6 @@ export interface PassthroughInfo {
     requestBody?: any;
     url: string;
     queryString?: string;
+    headers?: any;
+    mediaType?: string;
 }

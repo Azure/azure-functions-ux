@@ -56,12 +56,13 @@ export class FunctionsService implements IFunctionsService {
         var body: PassthroughInfo = {
             httpMethod: "PUT",
             url: file.href,
-            requestBody: updatedContent
+            requestBody: updatedContent,
+            headers: {
+                'If-Match': '*'
+            },
+            mediaType: 'plain/text'
         };
-        var headers = this.getHeaders('text/plain');
-        headers.append('If-Match', '*');
-        file.dirty = false;
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: headers })
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<string>(r => r.statusText);
     }
 
@@ -78,7 +79,7 @@ export class FunctionsService implements IFunctionsService {
         var body: PassthroughInfo = {
             httpMethod: 'PUT',
             url: this.scmInfo.scm_url + '/api/functions/' + functionName,
-            requestBody: (templateId && templateId !== 'Empty' ? { templateId: templateId } : null)
+            requestBody: (templateId && templateId !== 'Empty' ? { template_id: templateId } : null)
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<string>(r => r.statusText);

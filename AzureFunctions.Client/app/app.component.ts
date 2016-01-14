@@ -58,7 +58,7 @@ export class AppComponent implements OnInit{
                           expanded: false,
                           files: null,
                           script_href: null,
-                          script_root_path_href: this._functionsService.getScmInfo().scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions',
+                          script_root_path_href: this._functionsService.getScmInfo().scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
                           template_id: null,
                           test_data_href: null
                         });
@@ -79,7 +79,8 @@ export class AppComponent implements OnInit{
     }
 
     saveFile(file: VfsObject) {
-        this._functionsService.saveFile(file, this.updatedContent);
+        this._functionsService.saveFile(file, this.updatedContent)
+            .subscribe(r => file.dirty = false);
     }
 
     contentChanged(content: string) {
