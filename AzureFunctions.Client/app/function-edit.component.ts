@@ -25,8 +25,10 @@ export class FunctionEditComponent {
         this._functionsService.saveFile(file, this.updatedContent)
             .subscribe(r => {
                 file.isDirty = false;
-                file.isNew = false;
-                this.selectedFunction.files.push(file);
+                if (file.isNew) {
+                    file.isNew = false;
+                    this.selectedFunction.files.push(file);
+                }
             });
     }
 
