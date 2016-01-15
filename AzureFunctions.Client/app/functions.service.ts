@@ -85,8 +85,34 @@ export class FunctionsService implements IFunctionsService {
             .map<string>(r => r.statusText);
     }
 
-    getScmInfo(): ScmInfo {
-        return this.scmInfo;
+    getNewFunctionNode(): FunctionInfo {
+        return {
+            name: 'New Function',
+            href: null,
+            config: null,
+            config_href: null,
+            expanded: false,
+            files: null,
+            script_href: null,
+            script_root_path_href: null,
+            template_id: null,
+            test_data_href: null
+        };
+    }
+
+    getSettingsNode(): FunctionInfo {
+        return {
+            name: "Settings",
+            href: null,
+            config: null,
+            config_href: null,
+            expanded: false,
+            files: null,
+            script_href: null,
+            script_root_path_href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
+            template_id: null,
+            test_data_href: null
+        };
     }
 
     private getHeaders(contentType?: string): Headers {

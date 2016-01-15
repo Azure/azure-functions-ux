@@ -38,30 +38,8 @@ export class AppComponent implements OnInit{
     initFunctions() {
                 this._functionsService.getFunctions()
                     .subscribe(res => {
-                        res.unshift({
-                            name: 'New Function',
-                            href: null,
-                            config: null,
-                            config_href: null,
-                            expanded: false,
-                            files: null,
-                            script_href: null,
-                            script_root_path_href: null,
-                            template_id: null,
-                            test_data_href: null
-                        });
-                        res.unshift({
-                          name: "Settings",
-                          href: null,
-                          config: null,
-                          config_href: null,
-                          expanded: false,
-                          files: null,
-                          script_href: null,
-                          script_root_path_href: this._functionsService.getScmInfo().scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
-                          template_id: null,
-                          test_data_href: null
-                        });
+                        res.unshift(this._functionsService.getNewFunctionNode());
+                        res.unshift(this._functionsService.getSettingsNode());
                         this.functionsInfo = res;
                         this.initializing = false;
                     });

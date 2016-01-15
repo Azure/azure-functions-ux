@@ -12,5 +12,6 @@ export interface IFunctionsService {
     saveFile(file: VfsObject, updatedContent: string): Observable<string>;
     getTemplates(): Observable<FunctionTemplate[]>;
     createFunction(functionName: string, templateId: string): Observable<string>;
-    getScmInfo(): ScmInfo;
+    getNewFunctionNode(): FunctionInfo;
+    getSettingsNode(): FunctionInfo;
 }

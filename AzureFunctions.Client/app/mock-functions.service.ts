@@ -59,7 +59,33 @@ export class MockFunctionsService implements IFunctionsService {
             .map<FunctionTemplate[]>(r => r.json());
     }
 
-    getScmInfo() {
-        return this.scmInfo;
+    getNewFunctionNode(): FunctionInfo {
+        return {
+            name: 'New Function',
+            href: null,
+            config: null,
+            config_href: null,
+            expanded: false,
+            files: null,
+            script_href: null,
+            script_root_path_href: null,
+            template_id: null,
+            test_data_href: null
+        };
+    }
+
+    getSettingsNode(): FunctionInfo {
+        return {
+            name: "Settings",
+            href: null,
+            config: null,
+            config_href: null,
+            expanded: false,
+            files: null,
+            script_href: null,
+            script_root_path_href: 'mocks/host.vfs.json',
+            template_id: null,
+            test_data_href: null
+        };
     }
 }
