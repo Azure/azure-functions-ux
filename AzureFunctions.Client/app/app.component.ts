@@ -1,9 +1,9 @@
 import {Component, OnInit} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
-import {AceEditorDirective} from './ace-editor.directive';
 import {FunctionDetailsComponent} from './function-details.component';
 import {NewFunctionComponent} from './new-function.component';
+import {FunctionEditComponent} from './function-edit.component';
 import {FunctionsService} from './functions.service';
 import {FunctionInfo} from './function-info';
 import {VfsObject} from './vfs-object';
@@ -13,14 +13,13 @@ import {ScmInfo} from './scm-info';
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.html',
-    directives: [SideBarComponent, TopBarComponent, AceEditorDirective, NewFunctionComponent],
+    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent],
 })
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public selectedFile: VfsObject;
-    private updatedContent: string;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) { }
@@ -56,21 +55,4 @@ export class AppComponent implements OnInit{
         this.selectedFile = file;
     }
 
-    saveFile(file: VfsObject) {
-        if (file.isNew) {
-            file.href = file.href + file.name;
-        }
-
-        this._functionsService.saveFile(file, this.updatedContent)
-            .subscribe(r => {
-                file.isDirty = false;
-                file.isNew = false;
-                this.selectedFunction.files.push(file);
-            });
-    }
-
-    contentChanged(content: string) {
-        this.selectedFile.isDirty = true;
-        this.updatedContent = content;
-    }
 }
