@@ -44,7 +44,7 @@ export class MockFunctionsService implements IFunctionsService {
     saveFile(file: VfsObject, updatedContent: string) {
         console.log(file);
         console.log(updatedContent);
-        file.dirty = false;
+        file.isDirty = false;
         return Observable.of("Ok");
     }
 
@@ -70,7 +70,8 @@ export class MockFunctionsService implements IFunctionsService {
             script_href: null,
             script_root_path_href: null,
             template_id: null,
-            test_data_href: null
+            test_data_href: null,
+            clientOnly: true
         };
     }
 
@@ -85,7 +86,18 @@ export class MockFunctionsService implements IFunctionsService {
             script_href: null,
             script_root_path_href: 'mocks/host.vfs.json',
             template_id: null,
-            test_data_href: null
+            test_data_href: null,
+            clientOnly: true
+        };
+    }
+
+    getNewFileObject(): VfsObject {
+        return {
+            name: '',
+            href: 'mocks/',
+            isNew: true,
+            isDirty: true,
+            content: ''
         };
     }
 }

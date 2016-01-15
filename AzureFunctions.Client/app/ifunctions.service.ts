@@ -14,4 +14,5 @@ export interface IFunctionsService {
     createFunction(functionName: string, templateId: string): Observable<string>;
     getNewFunctionNode(): FunctionInfo;
     getSettingsNode(): FunctionInfo;
+    getNewFileObject(functionInfo: FunctionInfo): VfsObject;
 }

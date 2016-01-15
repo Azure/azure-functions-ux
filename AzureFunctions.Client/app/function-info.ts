@@ -11,4 +11,5 @@ export interface FunctionInfo {
     config: any;
     expanded: boolean;
     files: VfsObject[];
+    clientOnly: boolean;
 }

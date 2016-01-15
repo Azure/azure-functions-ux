@@ -57,12 +57,20 @@ export class AppComponent implements OnInit{
     }
 
     saveFile(file: VfsObject) {
+        if (file.isNew) {
+            file.href = file.href + file.name;
+        }
+
         this._functionsService.saveFile(file, this.updatedContent)
-            .subscribe(r => file.dirty = false);
+            .subscribe(r => {
+                file.isDirty = false;
+                file.isNew = false;
+                this.selectedFunction.files.push(file);
+            });
     }
 
     contentChanged(content: string) {
-        this.selectedFile.dirty = true;
+        this.selectedFile.isDirty = true;
         this.updatedContent = content;
     }
 }

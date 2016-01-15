@@ -96,7 +96,8 @@ export class FunctionsService implements IFunctionsService {
             script_href: null,
             script_root_path_href: null,
             template_id: null,
-            test_data_href: null
+            test_data_href: null,
+            clientOnly: true
         };
     }
 
@@ -111,7 +112,18 @@ export class FunctionsService implements IFunctionsService {
             script_href: null,
             script_root_path_href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
             template_id: null,
-            test_data_href: null
+            test_data_href: null,
+            clientOnly: true
+        };
+    }
+
+    getNewFileObject(functionInfo: FunctionInfo): VfsObject {
+        return {
+            name: '',
+            href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/functions/' + functionInfo.name + '/',
+            isNew: true,
+            isDirty: true,
+            content: ''
         };
     }
 

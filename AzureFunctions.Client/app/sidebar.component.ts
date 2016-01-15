@@ -34,12 +34,7 @@ export class SideBarComponent {
                 this.fileSelected.next(null);
                 if (fi.name === 'New Function') {
                     return Observable.empty<any>();
-                } /*else if (fi.name === 'Settings') {
-                    return Observable.of({
-                        files: [{ name: "host.json", href: "mocks/host.json" }],
-                        functionInfo: fi
-                    });
-                }*/ else {
+                } else {
                     return this._functionsService.getFunctionContent(fi);
                 }
             })
@@ -63,8 +58,18 @@ export class SideBarComponent {
         fi.expanded = !fi.expanded;
     }
 
+    // TODO: merge these 2 functions
     onFileClick(file: VfsObject, functionInfo: FunctionInfo, event: Event) {
         this.fileClickStream.next(file);
+        this.selectedFunction = functionInfo;
+        this.functionSelected.next(functionInfo);
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    onNewFileClick(functionInfo: FunctionInfo, event: Event) {
+        this.selectedFile = this._functionsService.getNewFileObject(functionInfo);
+        this.fileSelected.next(this.selectedFile);
         this.selectedFunction = functionInfo;
         this.functionSelected.next(functionInfo);
         event.stopPropagation();
