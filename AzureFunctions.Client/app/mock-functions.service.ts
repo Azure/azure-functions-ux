@@ -60,6 +60,6 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getScmInfo() {
-        return null;
+        return this.scmInfo;
     }
 }
