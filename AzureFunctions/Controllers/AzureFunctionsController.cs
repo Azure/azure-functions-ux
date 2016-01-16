@@ -67,7 +67,7 @@ namespace AzureFunctions.Controllers
                     // publish private kudu
                     using (var stream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
                     {
-                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/App_Data/jobs/functions/host.json", new StringContent("{}"));
+                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/App_Data/jobs/functions/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
                         await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
                         pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(stream));
                         await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
