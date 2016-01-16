@@ -6,6 +6,7 @@ import {ScmInfo} from './scm-info';
 import {PassthroughInfo} from './passthrough-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from './function-template';
+import {RunResponse} from './run-response';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -125,6 +126,43 @@ export class FunctionsService implements IFunctionsService {
             isDirty: true,
             content: ''
         };
+    }
+
+    getTestData(functionInfo: FunctionInfo) {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: functionInfo.test_data_href,
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<VfsObject>(r => { 
+                return {
+                    name: 'sample.dat',
+                    content: r.text(),
+                    href: functionInfo.test_data_href,
+                    isNew: false,
+                    isDirty: false
+                };
+            });
+    }
+
+    runFunction(functionInfo: FunctionInfo, content: string) {
+        var body: PassthroughInfo = {
+            httpMethod: 'POST',
+            url: this.scmInfo.scm_url + '/api/functions/' + functionInfo.name + '/run',
+            requestBody: content,
+            mediaType: 'plain/text'
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<RunResponse>(r => r.json());
+    }
+
+    getRunStatus(functionInfo: FunctionInfo, runId: string) {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: this.scmInfo.scm_url + 'api/functions/' + functionInfo.name + '/status/' + runId
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<string>(r => r.text());
     }
 
     private getHeaders(contentType?: string): Headers {

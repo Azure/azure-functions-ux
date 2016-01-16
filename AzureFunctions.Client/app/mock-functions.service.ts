@@ -99,4 +99,26 @@ export class MockFunctionsService implements IFunctionsService {
             content: ''
         };
     }
+
+    getTestData(functionInfo: FunctionInfo) {
+        return Observable.of({
+            name: 'sample.dat',
+            content: 'this is static test data',
+            href: functionInfo.test_data_href,
+            isNew: false,
+            isDirty: false
+        });
+    }
+
+    getRunStatus(functionInfo: FunctionInfo, runId: string) {
+        return Observable.of('status returned for ' + functionInfo.name + ' run: ' + runId);
+    }
+
+    runFunction(functionInfo: FunctionInfo, content: string) {
+        console.log(functionInfo);
+        console.log(content);
+        return Observable.of({
+            id: "done"
+        });
+    }
 }

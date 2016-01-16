@@ -1,0 +1,35 @@
+<div class="function-run-container">
+    <div class="pure-container"  data-effect="pure-effect-slide">
+        <input type="checkbox" [(ngModel)]="showRun" id="pure-toggle-right" class="pure-toggle" data-toggle="right"/>
+        <button class="custom-button run-button" (click)="toggleShowRun()"><i class="fa fa-angle-double-left"></i> Run</button>
+
+        <nav class="pure-drawer" data-position="right">
+            <div *ngIf="showRun">
+                <div class="sm-padding">
+                    <button *ngIf="testDataFile"
+                            class="custom-button"
+                            [class.dirty]="testDataFile.isDirty"
+                            (click)="runFunction()">
+
+                            Run
+                    </button>
+                </div>
+                <div class="ace_editor" aceEditor
+                    *ngIf="testDataFile"
+                    [fileObject]="testDataFile"
+                    [content]="testDataFile.content"
+                    (contentChanged)="contentChanged($event)"
+                    [height]="600">
+                </div>
+            </div>
+            <div class="sm-padding">
+                <button class="custom-button"
+                        (click)="getStatus()">Get Status</button>
+                <input type="text" class="full-width" [(ngModel)]="runId" />
+            </div>
+            <pre>{{runResult}}</pre>
+        </nav>
+
+        <label class="pure-overlay" for="pure-toggle-right" data-overlay="right"></label> 
+    </div>
+</div>

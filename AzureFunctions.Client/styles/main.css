@@ -10,6 +10,20 @@ a {
     text-decoration: none;
 }
 
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .logo {
     color: #2E80AB;
     font-size: larger;
@@ -85,7 +99,7 @@ a {
     background-color: #ECEFF1;
     bottom: 0;
     /*overflow: auto;*/
-    z-index: 4;
+    z-index: 1;
     padding-top: 50px;
 }
 
@@ -180,7 +194,7 @@ a {
 
 .content .work-space {
     position: relative;
-    padding: 0 20px 0 20px;
+    padding: 0 0 0 20px;
 }
 
 .file-list {
@@ -237,6 +251,7 @@ a {
     color: #fff;
     background-color: #5cb85c;
     border-color: #4cae4c;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
 }
 
 .dirty {
@@ -373,3 +388,25 @@ a {
   }
 }
 /* end loader */
+
+.run-button {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    float: right;
+    right: 0;
+}
+
+.sm-padding {
+    padding: 10px 0 10px 0;
+}
+
+.full-width {
+    width: 680px;
+    height: 31px;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.result {
+
+}

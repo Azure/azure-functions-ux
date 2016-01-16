@@ -4,11 +4,13 @@
         <sidebar [functionsInfo]="functionsInfo" (selectedFunction)="onFunctionSelect($event)" (selectedFile)="onFileSelect($event)"></sidebar>
         <div class="work-space">
             <div class="loader" *ngIf="initializing"></div>
-            <div *ngIf="selectedFunction && selectedFunction.name !== 'New Function'">
-                <function-edit [selectedFunction]="selectedFunction" [selectedFile]="selectedFile"></function-edit>
-            </div>
-            <div *ngIf="selectedFunction && selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                <new-function (functionAdded)="initFunctions()"></new-function>
+            <div *ngIf="selectedFunction">
+                <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
+                    <function-edit [selectedFunction]="selectedFunction" [selectedFile]="selectedFile"></function-edit>
+                </div>
+                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
+                    <new-function (functionAdded)="initFunctions()"></new-function>
+                </div>
             </div>
         </div>
     </div>

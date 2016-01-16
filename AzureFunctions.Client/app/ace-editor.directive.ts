@@ -7,16 +7,18 @@ declare var ace: any;
 
 @Directive({
     selector: '[aceEditor]',
-    inputs: ['fileObject', 'content'],
+    inputs: ['fileObject', 'content', 'height'],
     outputs: ['contentChanged']
 })
 export class AceEditorDirective {
     private editor: AceEditor;
     private currentFileObject: VfsObject;
     public contentChanged: EventEmitter<string>;
+    private initialHeight: number;
 
     constructor(private elementRef: ElementRef, private functionsService: FunctionsService) {
         this.contentChanged = new EventEmitter<string>();
+        this.initialHeight = window.innerHeight;
 
         let el = elementRef.nativeElement;
         el.classList.add("editor");
@@ -56,6 +58,11 @@ export class AceEditorDirective {
         window.onresize = () => this.resizeAce();
     }
 
+    set height(h: number) {
+        this.initialHeight = h;
+        this.resizeAce();
+    }
+
     set content(str: string) {
         this.editor.setValue(str);
         this.editor.clearSelection();
@@ -93,7 +100,7 @@ export class AceEditorDirective {
 
     resizeAce() {
         // http://stackoverflow.com/questions/11584061/
-        var new_height = (window.innerHeight - 200) + 'px';
+        var new_height = (this.initialHeight - 200) + 'px';
         this.elementRef.nativeElement.style.height = new_height;
         this.editor.resize();
     }

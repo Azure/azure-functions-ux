@@ -3,12 +3,13 @@ import {FunctionsService} from './functions.service';
 import {FunctionInfo} from './function-info';
 import {VfsObject} from './vfs-object';
 import {AceEditorDirective} from './ace-editor.directive';
+import {FunctionRunComponent} from './function-run.component';
 
 @Component({
     selector: 'function-edit',
     templateUrl: 'templates/function-edit.html',
     inputs: ['selectedFunction', 'selectedFile'],
-    directives: [AceEditorDirective]
+    directives: [AceEditorDirective, FunctionRunComponent]
 })
 export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
