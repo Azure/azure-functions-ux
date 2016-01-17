@@ -408,5 +408,6 @@ pre {
 }
 
 .result {
-
+    height: 350px;
+    overflow-y: scroll;
 }

@@ -7,6 +7,7 @@ import {PassthroughInfo} from './passthrough-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from './function-template';
 import {RunResponse} from './run-response';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -134,7 +135,10 @@ export class FunctionsService implements IFunctionsService {
             url: functionInfo.test_data_href,
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<VfsObject>(r => { 
+            .catch(e => Observable.of({
+                text: () => ''
+            }))
+            .map<VfsObject>(r => {
                 return {
                     name: 'sample.dat',
                     content: r.text(),
@@ -159,9 +163,12 @@ export class FunctionsService implements IFunctionsService {
     getRunStatus(functionInfo: FunctionInfo, runId: string) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: this.scmInfo.scm_url + 'api/functions/' + functionInfo.name + '/status/' + runId
+            url: this.scmInfo.scm_url + '/api/functions/' + functionInfo.name + '/status/' + runId
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(e => Observable.of({
+                text: () => e.text()
+            }))
             .map<string>(r => r.text());
     }
 

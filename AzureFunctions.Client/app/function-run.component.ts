@@ -31,6 +31,8 @@ export class FunctionRunComponent {
     }
 
     runFunction() {
+        this._functionsService.saveFile(this.testDataFile, this.updatedContent || this.testDataFile.content)
+            .subscribe(r => console.log(r));
         this._functionsService.runFunction(this.functionInfo, this.updatedContent || this.testDataFile.content)
             .subscribe(r => this.runId = r.id);
     }
