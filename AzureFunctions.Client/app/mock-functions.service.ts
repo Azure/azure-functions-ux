@@ -44,7 +44,7 @@ export class MockFunctionsService implements IFunctionsService {
     saveFile(file: VfsObject, updatedContent: string) {
         console.log(file);
         console.log(updatedContent);
-        return Observable.of("Ok");
+        return Observable.of(file);
     }
 
     createFunction(functionName: string, templateId: string) {

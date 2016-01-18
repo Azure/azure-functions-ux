@@ -10,7 +10,7 @@ export interface IFunctionsService {
     getFunctions(): Observable<FunctionInfo[]>;
     getFunctionContent(functionInfo: FunctionInfo): Observable<VfsObject[]>;
     getFileContent(file: VfsObject): Observable<string>;
-    saveFile(file: VfsObject, updatedContent: string): Observable<string>;
+    saveFile(file: VfsObject, updatedContent: string): Observable<VfsObject>;
     getTemplates(): Observable<FunctionTemplate[]>;
     createFunction(functionName: string, templateId: string): Observable<string>;
     getNewFunctionNode(): FunctionInfo;

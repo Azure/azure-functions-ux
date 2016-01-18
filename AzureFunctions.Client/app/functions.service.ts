@@ -55,6 +55,9 @@ export class FunctionsService implements IFunctionsService {
     }
 
     saveFile(file: VfsObject, updatedContent: string) {
+        if (file.isNew) {
+            file.href = file.href + file.name;
+        }
         var body: PassthroughInfo = {
             httpMethod: "PUT",
             url: file.href,
@@ -65,7 +68,7 @@ export class FunctionsService implements IFunctionsService {
             mediaType: 'plain/text'
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<string>(r => r.statusText);
+            .map<VfsObject>(r => file);
     }
 
     getTemplates() {

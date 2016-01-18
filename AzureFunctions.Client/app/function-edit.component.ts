@@ -23,16 +23,12 @@ export class FunctionEditComponent {
     }
 
     saveFile(file: VfsObject) {
-        if (file.isNew) {
-            file.href = file.href + file.name;
-        }
-
         this._functionsService.saveFile(file, this.updatedContent)
             .subscribe(r => {
-                file.isDirty = false;
-                if (file.isNew) {
-                    file.isNew = false;
-                    this.selectedFunction.files.push(file);
+                r.isDirty = false;
+                if (r.isNew) {
+                    r.isNew = false;
+                    this.selectedFunction.files.push(r);
                 }
             });
     }
