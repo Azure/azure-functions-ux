@@ -43,10 +43,12 @@ export class FunctionEditComponent {
     }
 
     deleteFunction(functionInfo: FunctionInfo) {
-        this._functionsService.deleteFunction(functionInfo)
-            .subscribe(r => {
-                this.deleteSelectedFunction.next(false);
-                this.deleteSelectedFunction.next(true);
-            });
+        var result = confirm(`Are you sure you want to delete Function: ${functionInfo.name}?`);
+        if (result)
+            this._functionsService.deleteFunction(functionInfo)
+                .subscribe(r => {
+                    this.deleteSelectedFunction.next(false);
+                    this.deleteSelectedFunction.next(true);
+                });
     }
 }

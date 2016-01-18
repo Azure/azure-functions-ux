@@ -11,4 +11,4 @@ import {provide} from 'angular2/core';
 import {FunctionsService} from './functions.service';
 import {MockFunctionsService} from './mock-functions.service';
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, provide(FunctionsService, {useClass: MockFunctionsService})]);
+bootstrap(AppComponent, [HTTP_PROVIDERS, provide(FunctionsService, {useClass: FunctionsService})]);
