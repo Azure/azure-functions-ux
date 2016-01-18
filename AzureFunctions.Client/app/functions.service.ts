@@ -25,7 +25,7 @@ export class FunctionsService implements IFunctionsService {
     getFunctions() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: this.scmInfo.scm_url + '/api/functions'
+            url: `${this.scmInfo.scm_url}/api/functions`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionInfo[]>(r => r.json());
@@ -56,7 +56,7 @@ export class FunctionsService implements IFunctionsService {
 
     saveFile(file: VfsObject, updatedContent: string) {
         if (file.isNew) {
-            file.href = file.href + file.name;
+            file.href = `${file.href}${file.name}`;
         }
         var body: PassthroughInfo = {
             httpMethod: "PUT",
@@ -74,7 +74,7 @@ export class FunctionsService implements IFunctionsService {
     getTemplates() {
         var body: PassthroughInfo = {
             httpMethod: "GET",
-            url: this.scmInfo.scm_url + '/api/functions/templates'
+            url: `${this.scmInfo.scm_url}/api/functions/templates`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionTemplate[]>(r => r.json());
@@ -83,7 +83,7 @@ export class FunctionsService implements IFunctionsService {
     createFunction(functionName: string, templateId: string) {
         var body: PassthroughInfo = {
             httpMethod: 'PUT',
-            url: this.scmInfo.scm_url + '/api/functions/' + functionName,
+            url: `${this.scmInfo.scm_url}/api/functions/${functionName}`,
             requestBody: (templateId && templateId !== 'Empty' ? { template_id: templateId } : null)
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
@@ -116,7 +116,7 @@ export class FunctionsService implements IFunctionsService {
             expanded: false,
             files: null,
             script_href: null,
-            script_root_path_href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
+            script_root_path_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/app_data/jobs/functions/`,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -168,7 +168,7 @@ export class FunctionsService implements IFunctionsService {
     getRunStatus(functionInfo: FunctionInfo, runId: string) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: functionInfo.href + '/status/' + runId
+            url: `${functionInfo.href}/status/${runId}`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .catch(e => Observable.of({

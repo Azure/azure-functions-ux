@@ -27,7 +27,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getFunctionContent(functionInfo: FunctionInfo) {
-        return this._http.get('mocks/' + functionInfo.name + '.vfs.json')
+        return this._http.get(`mocks/${functionInfo.name}.vfs.json`)
             .map<any>(r => {
                 return {
                     files: r.json(),
@@ -113,7 +113,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getRunStatus(functionInfo: FunctionInfo, runId: string) {
-        return Observable.of('status returned for ' + functionInfo.name + ' run: ' + runId);
+        return Observable.of(`status returned for ${functionInfo.name} run: ${runId}`);
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
