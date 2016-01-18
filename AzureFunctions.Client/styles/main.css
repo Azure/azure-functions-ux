@@ -249,9 +249,7 @@ pre {
     background-image: none;
     border: 1px solid transparent;
     color: #fff;
-    background-color: #5cb85c;
-    border-color: #4cae4c;
-    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
+    background-color: #00bcf2;
 }
 
 .dirty {
@@ -410,4 +408,8 @@ pre {
 .result {
     height: 350px;
     overflow-y: scroll;
+}
+
+.clickable {
+    cursor: pointer;
 }
