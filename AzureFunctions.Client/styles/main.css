@@ -208,9 +208,10 @@ pre {
     border: 0;
 }
 
-.file-list li a {
+.file-list li span {
     padding: 5px;
     font-family: monospace;
+    display: block;
 }
 
 .file-list .selected {
@@ -249,7 +250,7 @@ pre {
     background-image: none;
     border: 1px solid transparent;
     color: #fff;
-    background-color: #00bcf2;
+    background-color: #89c402;
 }
 
 .dirty {

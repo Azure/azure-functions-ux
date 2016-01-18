@@ -99,7 +99,8 @@ export class FunctionsService implements IFunctionsService {
             script_root_path_href: null,
             template_id: null,
             test_data_href: null,
-            clientOnly: true
+            clientOnly: true,
+            isDeleted: false
         };
     }
 
@@ -115,14 +116,15 @@ export class FunctionsService implements IFunctionsService {
             script_root_path_href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/jobs/functions/',
             template_id: null,
             test_data_href: null,
-            clientOnly: true
+            clientOnly: true,
+            isDeleted: false
         };
     }
 
     getNewFileObject(functionInfo: FunctionInfo): VfsObject {
         return {
             name: '',
-            href: this.scmInfo.scm_url + '/api/vfs/site/wwwroot/app_data/functions/' + functionInfo.name + '/',
+            href: functionInfo.script_root_path_href,
             isNew: true,
             isDirty: true,
             content: ''
@@ -152,7 +154,7 @@ export class FunctionsService implements IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string) {
         var body: PassthroughInfo = {
             httpMethod: 'POST',
-            url: this.scmInfo.scm_url + '/api/functions/' + functionInfo.name + '/run',
+            url: functionInfo.href + '/run',
             requestBody: content,
             mediaType: 'plain/text'
         };
@@ -163,13 +165,22 @@ export class FunctionsService implements IFunctionsService {
     getRunStatus(functionInfo: FunctionInfo, runId: string) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: this.scmInfo.scm_url + '/api/functions/' + functionInfo.name + '/status/' + runId
+            url: functionInfo.href + '/status/' + runId
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .catch(e => Observable.of({
                 text: () => e.text()
             }))
             .map<string>(r => r.text());
+    }
+
+    deleteFunction(functionInfo: FunctionInfo) {
+        var body: PassthroughInfo = {
+            httpMethod: 'DELETE',
+            url: functionInfo.href
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<string>(r => r.statusText);
     }
 
     private getHeaders(contentType?: string): Headers {

@@ -20,6 +20,7 @@ export class AppComponent implements OnInit{
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public selectedFile: VfsObject;
+    public deleteSelectedFunction: boolean;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) { }
@@ -53,6 +54,14 @@ export class AppComponent implements OnInit{
 
     onFileSelect(file: VfsObject) {
         this.selectedFile = file;
+    }
+
+    onDeleteSelectedFunction(deleteSelectedFunction: boolean) {
+        this.deleteSelectedFunction = deleteSelectedFunction;
+        if (deleteSelectedFunction) {
+            this.selectedFile = null;
+            this.selectedFunction = null;
+        }
     }
 
 }

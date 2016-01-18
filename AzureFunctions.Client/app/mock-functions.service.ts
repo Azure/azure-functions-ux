@@ -70,7 +70,8 @@ export class MockFunctionsService implements IFunctionsService {
             script_root_path_href: null,
             template_id: null,
             test_data_href: null,
-            clientOnly: true
+            clientOnly: true,
+            isDeleted: false
         };
     }
 
@@ -86,7 +87,8 @@ export class MockFunctionsService implements IFunctionsService {
             script_root_path_href: 'mocks/host.vfs.json',
             template_id: null,
             test_data_href: null,
-            clientOnly: true
+            clientOnly: true,
+            isDeleted: false
         };
     }
 
@@ -120,5 +122,9 @@ export class MockFunctionsService implements IFunctionsService {
         return Observable.of({
             id: "done"
         });
+    }
+
+    deleteFunction(functionInfo: FunctionInfo) {
+        return Observable.of('Ok');
     }
 }

@@ -8,7 +8,7 @@ import {Subject} from 'rxjs/Subject';
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.html',
-    inputs: ['functionsInfo'],
+    inputs: ['functionsInfo', 'deleteSelectedFunction'],
     outputs: ['functionSelected: selectedFunction', 'fileSelected: selectedFile']
 })
 export class SideBarComponent {
@@ -74,5 +74,17 @@ export class SideBarComponent {
         this.functionSelected.next(functionInfo);
         event.stopPropagation();
         event.preventDefault();
+    }
+
+    set deleteSelectedFunction(f: boolean) {
+        if (f)
+        for (var i = 0; this.functionsInfo.length; i++) {
+            if (this.functionsInfo[i] === this.selectedFunction) {
+                this.functionsInfo.splice(i, 1);
+                delete this.selectedFunction;
+                delete this.selectedFile;
+                break;
+            }
+        }
     }
 }

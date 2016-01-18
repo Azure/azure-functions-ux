@@ -1,12 +1,16 @@
 <div class="container">
     <top-bar></top-bar>
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (selectedFunction)="onFunctionSelect($event)" (selectedFile)="onFileSelect($event)"></sidebar>
+        <sidebar
+            [functionsInfo]="functionsInfo"
+            [deleteSelectedFunction]="deleteSelectedFunction"
+            (selectedFunction)="onFunctionSelect($event)"
+            (selectedFile)="onFileSelect($event)"></sidebar>
         <div class="work-space">
             <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">
                 <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
-                    <function-edit [selectedFunction]="selectedFunction" [selectedFile]="selectedFile"></function-edit>
+                    <function-edit [selectedFunction]="selectedFunction" [selectedFile]="selectedFile" (deleteSelectedFunction)="onDeleteSelectedFunction($event)"></function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
                     <new-function (functionAdded)="initFunctions()"></new-function>

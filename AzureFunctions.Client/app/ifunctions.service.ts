@@ -19,4 +19,5 @@ export interface IFunctionsService {
     getTestData(functionInfo: FunctionInfo): Observable<VfsObject>;
     runFunction(functionInfo: FunctionInfo, content: string): Observable<RunResponse>;
     getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
+    deleteFunction(functionInfo: FunctionInfo): Observable<string>;
 }

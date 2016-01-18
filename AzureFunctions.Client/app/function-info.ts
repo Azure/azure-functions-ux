@@ -12,4 +12,5 @@ export interface FunctionInfo {
     expanded: boolean;
     files: VfsObject[];
     clientOnly: boolean;
+    isDeleted: boolean;
 }
