@@ -1,11 +1,8 @@
+import {TemplateInput} from './template-input';
+
 export interface FunctionTemplate {
-    name: string;
-    path: string;
-    sha: string;
-    size: number;
-    url: string;
-    html_url: string;
-    git_url: string;
-    download_url: string;
-    type: string;
+    id: string;
+    trigger: string;
+    inputs: TemplateInput[];
+    language: string;
 }

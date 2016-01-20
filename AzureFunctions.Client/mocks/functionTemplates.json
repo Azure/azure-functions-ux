@@ -1,14 +1,14 @@
 [
-    {"name":"BlobTrigger"},
-    {"name":"QueueTrigger-Bash"},
-    {"name":"QueueTrigger-Batch"},
-    {"name":"QueueTrigger-FSharp"},
-    {"name":"QueueTrigger-Php"},
-    {"name":"QueueTrigger-Powershell"},
-    {"name":"QueueTrigger-Python"},
-    {"name":"QueueTrigger"},
-    {"name":"ResizeImage"},
-    {"name":"ServiceBusQueueTrigger"},
-    {"name":"TimerTrigger"},
-    {"name":"WebHookTrigger"}
+    {"id":"BlobTrigger", "trigger": "Blob", "language": "JavaScript"},
+    {"id":"QueueTrigger-Bash", "trigger": "Queue", "language": "Bash"},
+    {"id":"QueueTrigger-Batch", "trigger": "Queue", "language": "Batch"},
+    {"id":"QueueTrigger-FSharp", "trigger": "Queue", "language": "F#"},
+    {"id":"QueueTrigger-Php", "trigger": "Queue", "language": "PHP"},
+    {"id":"QueueTrigger-Powershell", "trigger": "Queue", "language": "PowerShell"},
+    {"id":"QueueTrigger-Python", "trigger": "Queue", "language": "Python"},
+    {"id":"QueueTrigger", "trigger": "Queue", "language": "JavaScript"},
+    {"id":"ResizeImage", "trigger": "Queue", "language": "JavaScript"},
+    {"id":"ServiceBusQueueTrigger", "trigger": "ServiceBusQueue", "language": "JavaScript"},
+    {"id":"TimerTrigger", "trigger": "Timer", "language": "JavaScript"},
+    {"id":"WebHookTrigger", "trigger": "WebHook", "language": "JavaScript"}
 ]

@@ -1,17 +1,57 @@
 <div class="new-function-container">
-    <label>Function Name: </label>
-    <input class="new-function-name" [(ngModel)]="newFunctionName" placeholder="Function Name" />
-    <br />
-    <br />
-    <label>Function Templates:</label>
-    <div class="functions-templates-select-container">
-        <select [(ngModel)]="selectedTemplateName" class="function-templates-select">
-            <option *ngFor="#template of functionTemplates | async" [value]="template.name">{{template.name}}</option>
-        </select>
-        <span *ngIf="!selectedTemplateName" class="function-templates-selected-value">Select Template</span>
-        <span *ngIf="selectedTemplateName" class="function-templates-selected-value">{{selectedTemplateName}}</span>
-        <span class="function-templates-selected-arrow"></span>
+    <div class="row">
+        <div class="left"><label>Function Name: </label></div>
+        <div class="right">
+            <input class="new-function-name" [(ngModel)]="model.functionName" placeholder="Function Name" />
+        </div>
     </div>
-    <button class="custom-button" (click)="createFunction()">Create</button>
+    <div class="row">
+        <div class="left"><label>Function Content:</label></div>
+        <div class="functions-templates-select-container right">
+            <select [(ngModel)]="model.selectedContentSource" class="function-templates-select">
+                <option *ngFor="#contentSource of contentSources" [value]="contentSource">{{contentSource}}</option>
+            </select>
+            <span *ngIf="!model.selectedContentSource" class="function-templates-selected-value">Select Content Source</span>
+            <span *ngIf="model.selectedContentSource" class="function-templates-selected-value">{{model.selectedContentSource}}</span>
+            <span class="function-templates-selected-arrow"></span>
+        </div>
+    </div>
+    <div class="row-group" *ngIf="model.selectedContentSource === 'From Template'">
+        <div class="row">
+            <div class="left"><label>Language:</label></div>
+            <div class="functions-templates-select-container right">
+                <select [(ngModel)]="model.selectedLanguage" class="function-templates-select">
+                    <option *ngFor="#language of languages" [value]="language">{{language}}</option>
+                </select>
+                <span *ngIf="!model.selectedLanguage" class="function-templates-selected-value">Select Language</span>
+                <span *ngIf="model.selectedLanguage" class="function-templates-selected-value">{{model.selectedLanguage}}</span>
+                <span class="function-templates-selected-arrow"></span>
+            </div>
+        </div>
+        <div class="row" *ngIf="model.selectedLanguage">
+            <div class="left"><label>Trigger:</label></div>
+            <div class="functions-templates-select-container right">
+                <select [(ngModel)]="model.selectedTrigger" class="function-templates-select">
+                    <option *ngFor="#trigger of triggers[model.selectedLanguage]" [value]="trigger">{{trigger}}</option>
+                </select>
+                <span *ngIf="!model.selectedTrigger" class="function-templates-selected-value">Select Trigger</span>
+                <span *ngIf="model.selectedTrigger" class="function-templates-selected-value">{{model.selectedTrigger}}</span>
+                <span class="function-templates-selected-arrow"></span>
+            </div>
+        </div>
+        <div class="row-group" *ngIf="model.selectedLanguage && model.selectedTrigger && getSelectedTamplate().inputs">
+            <div class="row" *ngFor="#input of getSelectedTamplate().inputs">
+                <div class="left"><label>{{input.name}}:</label></div>
+                <div class="functions-templates-select-container right">
+                    <input class="new-function-name" type="text" [(ngModel)]="input.value" [placeholder]="input.name" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="left">
+            <button [disabled]="!model.functionName" class="custom-button clear-both" (click)="createFunction()">Create</button>
+        </div>
+    </div>
     <div class="loader" *ngIf="creating"></div>
 </div>

@@ -253,6 +253,11 @@ pre {
     background-color: #89c402;
 }
 
+.custom-button:disabled {
+    cursor: not-allowed;
+    background-color: #ECEFF1;
+}
+
 .dirty {
     background-color: #d9534f;
     border-color: #d43f3a;
@@ -262,9 +267,7 @@ pre {
     padding-bottom: 20px;
 }
 
-.new-function-container {
-    padding: 30px;
-}
+
 
 .new-function-name {
     height: 34px;
@@ -290,7 +293,8 @@ pre {
     opacity: 0;
     padding: 0;
     position: absolute;
-    z-index: 10; 
+    z-index: 10;
+    width: 100%;
 }
 
 .function-templates-selected-value {
@@ -414,3 +418,104 @@ pre {
 .clickable {
     cursor: pointer;
 }
+
+
+
+/* radio buttons */
+
+.function-content {
+    clear: both;
+}
+
+
+/* hide input */
+.function-content > input.radio:empty {
+    margin-left: -999px;
+}
+
+/* style label */
+.function-content > label {
+    width: 200px;
+    position: relative;
+    float: left;
+    line-height: 2.5em;
+    text-indent: 3.25em;
+    margin-top: 2em;
+    cursor: pointer;
+}
+
+.function-content > label:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    width: 2.5em;
+    background: white;
+    border-radius: 3px 0 0 3px;
+    border: solid 1px black;
+}
+
+/* toggle hover */
+.function-content > input.radio:hover:not(:checked) ~ label:before {
+    content:'\2714';
+    text-indent: .9em;
+    color: #C2C2C2;
+}
+
+.function-content > input.radio:hover:not(:checked) ~ label {
+    color: #888;
+}
+
+/* toggle on */
+.function-content > input.radio:checked ~ label:before {
+    content:'\2714';
+    text-indent: .9em;
+    color: #9CE2AE;
+    background-color: #4DCB6D;
+    font-size: 20px;
+    padding: 0;
+}
+
+.function-content > input.radio:checked ~ label {
+    color: #777;
+}
+
+/* radio focus */
+input.radio:focus ~ label:before {
+    box-shadow: 0 0 0 3px #999;
+}
+
+/* radio buttons */
+
+
+/*table*/
+
+.new-function-container {
+    display: table;
+    padding: 30px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.row {
+    display: table-row;
+}
+
+.row > .left {
+    width: 150px;
+    padding: 0;
+    display: table-cell;
+}
+
+.row > .right {
+    width: 250px;
+    
+    display: table-cell;
+}
+
+.row-group {
+    display: table-row-group;
+}
+/*table*/

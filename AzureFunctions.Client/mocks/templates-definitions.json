@@ -1,0 +1,24 @@
+[
+    {
+        "id": "QueueTrigger-JS",
+        "trigger": "Queue",
+        "inputs": [
+            {
+                "name": "Queue Name",
+                "input_type": "text_with_dropdown"
+            }
+        ],
+        "language": "JavaScript/NodeJs"
+    }, {
+        "id": "WebHook-GitHub-C#",
+        "trigger": "WebHook",
+        "trigger_source": "GitHub",
+        "inputs": [
+            {
+                "name": "Secret",
+                "input_type": "text"
+            }
+        ],
+        "language": "C#"
+    }
+]
