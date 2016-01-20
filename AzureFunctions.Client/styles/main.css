@@ -519,3 +519,62 @@ input.radio:focus ~ label:before {
     display: table-row-group;
 }
 /*table*/
+
+
+/*Panel*/
+
+.designer-container {
+    padding-top: 10px;
+}
+
+.designer-panel {
+    background-color: #fff;
+    border-color: #ddd;
+    border-width: 1px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    position: relative;
+    padding: 45px 15px 15px;
+    margin: 20px;
+    border-style: solid;
+}
+
+.trigger > .designer-panel:after {
+    position: absolute;
+    top: -21px;
+    background-color: white;
+    padding: 5px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #868686;
+    content: "Trigger";
+}
+
+
+.inputs > .designer-panel:after {
+    position: absolute;
+    top: -21px;
+    background-color: white;
+    padding: 5px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #868686;
+    content: "Inputs";
+}
+
+
+.outputs > .designer-panel:after {
+    position: absolute;
+    top: -21px;
+    background-color: white;
+    padding: 5px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #868686;
+    content: "Outputs";
+}
+
+/*Panel*/

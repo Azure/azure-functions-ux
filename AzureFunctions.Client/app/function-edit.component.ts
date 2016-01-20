@@ -4,13 +4,14 @@ import {FunctionInfo} from './function-info';
 import {VfsObject} from './vfs-object';
 import {AceEditorDirective} from './ace-editor.directive';
 import {FunctionRunComponent} from './function-run.component';
+import {FunctionDesignerComponent} from './function-designer.component';
 
 @Component({
     selector: 'function-edit',
     templateUrl: 'templates/function-edit.html',
     inputs: ['selectedFunction', 'selectedFile'],
     outputs: ['deleteSelectedFunction'],
-    directives: [AceEditorDirective, FunctionRunComponent]
+    directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent]
 })
 export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;

@@ -39,14 +39,6 @@
                 <span class="function-templates-selected-arrow"></span>
             </div>
         </div>
-        <div class="row-group" *ngIf="model.selectedLanguage && model.selectedTrigger && getSelectedTamplate().inputs">
-            <div class="row" *ngFor="#input of getSelectedTamplate().inputs">
-                <div class="left"><label>{{input.name}}:</label></div>
-                <div class="functions-templates-select-container right">
-                    <input class="new-function-name" type="text" [(ngModel)]="input.value" [placeholder]="input.name" />
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row">
         <div class="left">
