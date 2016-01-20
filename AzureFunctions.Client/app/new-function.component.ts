@@ -23,7 +23,7 @@ export class NewFunctionComponent implements OnInit {
         this.functionAdded = new EventEmitter<boolean>();
         this.model = {};
         this.triggers = {};
-        this.contentSources = ["Empty", "From Template", "From Zip"];
+        this.contentSources = ['Empty', 'From Template', 'From Zip'];
     }
 
     getSelectedTamplate(): FunctionTemplate {
