@@ -22,6 +22,7 @@ namespace AzureFunctions.Code
 
         public static readonly ArmUriTemplate Sites = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/providers/Microsoft.Web/sites", websitesApiVersion);
         public static readonly ArmUriTemplate Site = new ArmUriTemplate($"{Sites.TemplateUrl}/{{siteName}}", websitesApiVersion);
+        public static readonly ArmUriTemplate SiteRestart = new ArmUriTemplate($"{Sites.TemplateUrl}/{{siteName}}/restart", websitesApiVersion);
         public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate($"{Site.TemplateUrl}/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly ArmUriTemplate ListSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings", websitesApiVersion);

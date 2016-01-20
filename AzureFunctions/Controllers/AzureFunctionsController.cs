@@ -65,11 +65,18 @@ namespace AzureFunctions.Controllers
                     scmUrl = $"https://{site.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1) }";
 
                     // publish private kudu
-                    using (var stream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
+                    using (var kuduStream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
+                    using (var sdkStream = File.OpenRead(@"D:\home\site\Functions\App_Data\AzureFunctions.zip"))
                     {
-                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/App_Data/jobs/functions/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
+                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
                         await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(stream));
+                        var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{scmUrl}/api/vfs/site/wwwroot/hostingstart.html");
+                        deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
+                        pKuduResponse = await client.SendAsync(deleteReq);
+                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
+                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
+                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
+                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
                         await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
                         pKuduResponse = await client.DeleteAsync($"{scmUrl}/api/processes/0");
                         //pKuduResponse.EnsureSuccessStatusCode();
