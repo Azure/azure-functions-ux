@@ -17,7 +17,7 @@ export interface IFunctionsService {
     getSettingsNode(): FunctionInfo;
     getNewFileObject(functionInfo: FunctionInfo): VfsObject;
     getTestData(functionInfo: FunctionInfo): Observable<VfsObject>;
-    runFunction(functionInfo: FunctionInfo, content: string): Observable<RunResponse>;
+    runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
     getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
 }

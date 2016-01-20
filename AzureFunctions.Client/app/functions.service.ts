@@ -116,7 +116,7 @@ export class FunctionsService implements IFunctionsService {
             expanded: false,
             files: null,
             script_href: null,
-            script_root_path_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/app_data/jobs/functions/`,
+            script_root_path_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/`,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -157,12 +157,15 @@ export class FunctionsService implements IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string) {
         var body: PassthroughInfo = {
             httpMethod: 'POST',
-            url: functionInfo.href + '/run',
+            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/functions/${functionInfo.name.toLocaleLowerCase()}`,
             requestBody: content,
             mediaType: 'plain/text'
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<RunResponse>(r => r.json());
+            .catch(e => Observable.of({
+                text: () => JSON.stringify(e)
+            }))
+            .map<string>(r => r.text());
     }
 
     getRunStatus(functionInfo: FunctionInfo, runId: string) {

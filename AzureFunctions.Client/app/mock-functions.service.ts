@@ -119,9 +119,7 @@ export class MockFunctionsService implements IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string) {
         console.log(functionInfo);
         console.log(content);
-        return Observable.of({
-            id: "done"
-        });
+        return Observable.of("ran");
     }
 
     deleteFunction(functionInfo: FunctionInfo) {
