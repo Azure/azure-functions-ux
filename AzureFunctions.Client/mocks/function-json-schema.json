@@ -33,7 +33,7 @@
                 {
                     "name": "webHook",
                     "type": "object",
-                    "optins": [
+                    "options": [
                         {
                             "name": "receiver",
                             "type": "string"
