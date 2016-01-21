@@ -56,4 +56,13 @@ export class NewFunctionComponent implements OnInit {
                 this.creating = false;
             });
     }
+
+    selectedContentSourceChanged() {
+        delete this.model.selectedLanguage;
+        delete this.model.selectedTrigger;
+    }
+
+    selectedLanguageChanged() {
+        delete this.model.selectedTrigger;
+    }
 }
