@@ -6,6 +6,7 @@ import {ScmInfo} from './scm-info';
 import {IFunctionsService} from './ifunctions.service';
 import {Observable} from 'rxjs/Observable';
 import {FunctionTemplate} from './function-template';
+import {DesignerSchema} from './designer-schema';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -124,5 +125,10 @@ export class MockFunctionsService implements IFunctionsService {
 
     deleteFunction(functionInfo: FunctionInfo) {
         return Observable.of('Ok');
+    }
+
+    getDesignerSchema() {
+        return this._http.get('mocks/function-json-schema.json')
+            .map<DesignerSchema>(r => r.json());
     }
 }

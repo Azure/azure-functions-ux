@@ -8,6 +8,7 @@ import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from './function-template';
 import {RunResponse} from './run-response';
 import {Observable} from 'rxjs/Observable';
+import {DesignerSchema} from './designer-schema';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -187,6 +188,11 @@ export class FunctionsService implements IFunctionsService {
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<string>(r => r.statusText);
+    }
+
+    getDesignerSchema() {
+        return this._http.get('mocks/function-json-schema.json')
+            .map<DesignerSchema>(r => r.json());
     }
 
     private getHeaders(contentType?: string): Headers {

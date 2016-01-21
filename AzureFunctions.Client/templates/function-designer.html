@@ -1,17 +1,19 @@
 <div class="designer-container">
     <div class="trigger">
         <div class="designer-panel">
-            
+            <binding-designer
+                [currentBinding]="currentTriggerBinding"
+                [bindings]="triggerBindings"
+                (changedBinding)="onTriggerChange($event)">
+            </binding-designer>
         </div>
     </div>
     <div class="inputs">
         <div class="designer-panel">
-            
         </div>
     </div>
     <div class="outputs">
         <div class="designer-panel">
-            
         </div>
     </div>
 </div>

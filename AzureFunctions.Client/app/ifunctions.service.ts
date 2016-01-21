@@ -4,6 +4,7 @@ import {ScmInfo} from './scm-info';
 import {FunctionTemplate} from './function-template';
 import {RunResponse} from './run-response';
 import {Observable} from 'rxjs/Observable';
+import {DesignerSchema} from './designer-schema';
 
 export interface IFunctionsService {
     initializeUser(): Observable<ScmInfo>;
@@ -20,4 +21,5 @@ export interface IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
     getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
+    getDesignerSchema(): Observable<DesignerSchema>;
 }

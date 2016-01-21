@@ -3,7 +3,7 @@
     <h2 *ngIf="selectedFunction">{{selectedFunction.name}} 
         <i *ngIf="!selectedFunction.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(selectedFunction)"></i>
     </h2>
-    <function-designer *ngIf="!selectedFile || selectedFile.name === 'function.json'"></function-designer>
+    <function-designer *ngIf="!selectedFile || selectedFile.name === 'function.json'" [functionConfig]=""></function-designer>
     <div *ngIf="!(!selectedFile || selectedFile.name === 'function.json')">
         <h3 class="file-name" *ngIf="selectedFile && !selectedFile.isNew">{{selectedFile.name}}</h3>
         <input type="text" *ngIf="selectedFile && selectedFile.isNew" [(ngModel)]="selectedFile.name" class="new-function-name" placeholder="File Name"/>
