@@ -58,7 +58,7 @@ namespace AzureFunctions.Controllers
                     await client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }), new StringContent(string.Empty));
 
                     //create website
-                    var siteName = $"AzureFunctionsContainer{Guid.NewGuid().ToString().Replace("-", "")}";
+                    var siteName = $"Functions{Guid.NewGuid().ToString().Split('-').First()}";
                     var createSiteResponse = await client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = siteName }), new { properties = new { }, location = resourceGroup.location });
                     await createSiteResponse.EnsureSuccessStatusCodeWithFullError();
                     site = await createSiteResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsite>>();
