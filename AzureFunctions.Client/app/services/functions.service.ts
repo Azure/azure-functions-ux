@@ -1,14 +1,14 @@
 import {Http, Headers} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo} from './function-info';
-import {VfsObject} from './vfs-object';
-import {ScmInfo} from './scm-info';
-import {PassthroughInfo} from './passthrough-info';
+import {FunctionInfo} from '../models/function-info';
+import {VfsObject} from '../models/vfs-object';
+import {ScmInfo} from '../models/scm-info';
+import {PassthroughInfo} from '../models/passthrough-info';
 import {IFunctionsService} from './ifunctions.service';
-import {FunctionTemplate} from './function-template';
-import {RunResponse} from './run-response';
+import {FunctionTemplate} from '../models/function-template';
+import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Observable';
-import {DesignerSchema} from './designer-schema';
+import {DesignerSchema} from '../models/designer-schema';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {

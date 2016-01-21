@@ -1,8 +1,8 @@
 import {Component, OnInit} from 'angular2/core';
-import {VfsObject} from './vfs-object';
-import {FunctionInfo} from './function-info';
-import {FunctionsService} from './functions.service';
-import {AceEditorDirective} from './ace-editor.directive';
+import {VfsObject} from '../models/vfs-object';
+import {FunctionInfo} from '../models/function-info';
+import {FunctionsService} from '../services/functions.service';
+import {AceEditorDirective} from '../directives/ace-editor.directive';
 
 @Component({
     selector: 'function-run',

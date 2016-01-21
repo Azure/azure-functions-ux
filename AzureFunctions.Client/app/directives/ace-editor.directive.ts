@@ -1,7 +1,7 @@
 import {Directive, EventEmitter, ElementRef} from 'angular2/core';
-import {AceEditor} from './ace-editor';
-import {VfsObject} from './vfs-object';
-import {FunctionsService} from './functions.service';
+import {AceEditor} from '../models/ace-editor';
+import {VfsObject} from '../models/vfs-object';
+import {FunctionsService} from '../services/functions.service';
 
 declare var ace: any;
 

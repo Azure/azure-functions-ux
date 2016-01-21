@@ -1,7 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
-import {FunctionConfig} from './function-config';
-import {FunctionsService} from './functions.service';
-import {DesignerSchema, Binding, BindingOption} from './designer-schema';
+import {FunctionConfig} from '../models/function-config';
+import {FunctionsService} from '../services/functions.service';
+import {DesignerSchema, Binding, BindingOption} from '../models/designer-schema';
 
 @Component({
     selector: 'function-designer',

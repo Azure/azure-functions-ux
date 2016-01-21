@@ -1,10 +1,10 @@
-import {VfsObject} from './vfs-object';
-import {FunctionInfo} from './function-info';
-import {ScmInfo} from './scm-info';
-import {FunctionTemplate} from './function-template';
-import {RunResponse} from './run-response';
+import {VfsObject} from '../models/vfs-object';
+import {FunctionInfo} from '../models/function-info';
+import {ScmInfo} from '../models/scm-info';
+import {FunctionTemplate} from '../models/function-template';
+import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Observable';
-import {DesignerSchema} from './designer-schema';
+import {DesignerSchema} from '../models/designer-schema';
 
 export interface IFunctionsService {
     initializeUser(): Observable<ScmInfo>;

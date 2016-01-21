@@ -4,11 +4,11 @@ import {TopBarComponent} from './top-bar.component';
 import {FunctionDetailsComponent} from './function-details.component';
 import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
-import {FunctionsService} from './functions.service';
-import {FunctionInfo} from './function-info';
-import {VfsObject} from './vfs-object';
-import {FunctionTemplate} from './function-template';
-import {ScmInfo} from './scm-info';
+import {FunctionsService} from '../services/functions.service';
+import {FunctionInfo} from '../models/function-info';
+import {VfsObject} from '../models/vfs-object';
+import {FunctionTemplate} from '../models/function-template';
+import {ScmInfo} from '../models/scm-info';
 
 @Component({
     selector: 'azure-functions-app',

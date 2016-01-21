@@ -1,12 +1,12 @@
 import {Http} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo} from './function-info';
-import {VfsObject} from './vfs-object';
-import {ScmInfo} from './scm-info';
+import {FunctionInfo} from '../models/function-info';
+import {VfsObject} from '../models/vfs-object';
+import {ScmInfo} from '../models/scm-info';
 import {IFunctionsService} from './ifunctions.service';
 import {Observable} from 'rxjs/Observable';
-import {FunctionTemplate} from './function-template';
-import {DesignerSchema} from './designer-schema';
+import {FunctionTemplate} from '../models/function-template';
+import {DesignerSchema} from '../models/designer-schema';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {

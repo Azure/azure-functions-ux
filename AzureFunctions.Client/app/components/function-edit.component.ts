@@ -1,8 +1,8 @@
 import {Component, OnInit, EventEmitter} from 'angular2/core';
-import {FunctionsService} from './functions.service';
-import {FunctionInfo} from './function-info';
-import {VfsObject} from './vfs-object';
-import {AceEditorDirective} from './ace-editor.directive';
+import {FunctionsService} from '../services/functions.service';
+import {FunctionInfo} from '../models/function-info';
+import {VfsObject} from '../models/vfs-object';
+import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 
