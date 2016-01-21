@@ -1,0 +1,154 @@
+{
+    "triggers": {
+        "type": [
+            {
+                "name": "queueTrigger",
+                "options": [
+                    {
+                        "name": "queueName",
+                        "type": "string"
+                    }, {
+                        "name": "name",
+                        "type": "string",
+                    }
+                ]
+            }, {
+                "name": "blobTrigger",
+                "options": [
+                    {
+                        "name": "path",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "timerTrigger",
+                "options": [
+                    {
+                        "name": "schedule",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "httpTrigger",
+                "options": [
+                    {
+                        "name": "webHook",
+                        "type": "object",
+                        "optins": [
+                            {
+                                "name": "receiver",
+                                "type": "string"
+                            }, {
+                                "name": "receiverId",
+                                "type": "string"
+                            }
+                        ]
+                    }
+                ]
+            }, {
+                "name": "serviceBusTrigger",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "queueName",
+                        "type": "string"
+                    }
+                ]
+            }
+        ],
+    },
+    "inputs": {
+        "type": [
+            {
+                "name": "table",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "tableName",
+                        "type": "string"
+                    }, {
+                        "name": "partitionKey",
+                        "type": "string"
+                    }, {
+                        "name": "take",
+                        "type": "number"
+                    }, {
+                        "name": "filter",
+                        "type": "string"
+                    }, {
+                        "name": "rowKey",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "blob",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "path",
+                        "type": "string"
+                    }
+                ]
+            }
+        ]
+    },
+    "outputs": {
+        "type": [
+            {
+                "name": "table",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "tableName",
+                        "type": "string"
+                    }, {
+                        "name": "partitionKey",
+                        "type": "string"
+                    }, {
+                        "name": "take",
+                        "type": "number"
+                    }, {
+                        "name": "filter",
+                        "type": "string"
+                    }, {
+                        "name": "rowKey",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "blob",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "path",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "serviceBus",
+                "options": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    }, {
+                        "name": "queueName",
+                        "type": "string"
+                    }
+                ]
+            }, {
+                "name": "http",
+                "options": []
+            }
+        ]
+    }
+}
