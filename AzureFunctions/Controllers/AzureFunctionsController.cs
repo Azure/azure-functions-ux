@@ -50,7 +50,7 @@ namespace AzureFunctions.Controllers
                 var sitesResponse = await client.GetAsync(ArmUriTemplates.Sites.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }));
                 await sitesResponse.EnsureSuccessStatusCodeWithFullError();
                 var sites = await sitesResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmWebsite>>();
-                var site = sites.value.FirstOrDefault(s => s.name.StartsWith("AzureFunctionsContainer", StringComparison.OrdinalIgnoreCase));
+                var site = sites.value.FirstOrDefault(s => s.name.StartsWith("Functions", StringComparison.OrdinalIgnoreCase));
                 string scmUrl = null;
                 if (site == null)
                 {
