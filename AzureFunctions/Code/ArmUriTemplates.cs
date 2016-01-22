@@ -27,7 +27,7 @@ namespace AzureFunctions.Code
         public static readonly ArmUriTemplate ListSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings", websitesApiVersion);
 
-        public static readonly ArmUriTemplate StorageRegister = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/providers/Microsoft.Storage/register", storageApiVersion);
+        public static readonly ArmUriTemplate StorageRegister = new ArmUriTemplate($"{Subscription.TemplateUrl}/providers/Microsoft.Storage/register", storageApiVersion);
         public static readonly ArmUriTemplate StorageAccounts = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/providers/Microsoft.Storage/storageAccounts", storageApiVersion);
         public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate($"{StorageAccounts.TemplateUrl}/{{storageAccountName}}", storageApiVersion);
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate($"{StorageAccount.TemplateUrl}/listKeys", storageApiVersion);

@@ -55,7 +55,7 @@ namespace AzureFunctions.Controllers
                 if (site == null)
                 {
                     //register the provider just in case
-                    await client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }), new StringContent(string.Empty));
+                    await client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(new { subscriptionId = subscription.subscriptionId }), new StringContent(string.Empty));
 
                     //create website
                     var siteName = $"Functions{Guid.NewGuid().ToString().Split('-').First()}";
@@ -104,6 +104,7 @@ namespace AzureFunctions.Controllers
                     if (storageAccount == null)
                     {
                         var storageAccountName = $"AzureFunctions{Guid.NewGuid().ToString().Split('-').First()}".ToLowerInvariant();
+                        await client.PostAsJsonAsync(ArmUriTemplates.StorageRegister.Bind(new { subscriptionId = subscription.subscriptionId }), new { });
                         storageResponse = await client.PutAsJsonAsync(ArmUriTemplates.StorageAccount.Bind(
                             new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }),
                             new { location = "West US", properties = new { accountType = "Standard_GRS" } });
