@@ -133,15 +133,7 @@ namespace AzureFunctions.Controllers
                 {
                     sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
                     await sitesResponse.EnsureSuccessStatusCodeWithFullError();
-                    
                 }
-
-                //warm up the main site
-                HostingEnvironment.QueueBackgroundWorkItem(async _ => {
-                    await Task.Delay(500);
-                    await client.GetAsync(scmUrl.Replace(".scm.", "."));
-                    await client.GetAsync($"{scmUrl.Replace(".scm.", ".")}/api/");
-                });
 
                 // return it's scm name
                 return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl });
