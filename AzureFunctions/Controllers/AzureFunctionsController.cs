@@ -27,6 +27,7 @@ namespace AzureFunctions.Controllers
         {
             using (var client = GetClient())
             {
+                var updateAppSettings = false;
                 // Get first sub
                 var subscriptionsResponse = await client.GetAsync(ArmUriTemplates.Subscriptions.Bind(string.Empty));
                 await subscriptionsResponse.EnsureSuccessStatusCodeWithFullError();
@@ -65,22 +66,7 @@ namespace AzureFunctions.Controllers
                     scmUrl = $"https://{site.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1) }";
 
                     // publish private kudu
-                    using (var kuduStream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
-                    using (var sdkStream = File.OpenRead(@"D:\home\site\Functions\App_Data\AzureFunctions.zip"))
-                    {
-                        var pKuduResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
-                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                        var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{scmUrl}/api/vfs/site/wwwroot/hostingstart.html");
-                        deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
-                        pKuduResponse = await client.SendAsync(deleteReq);
-                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
-                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                        pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
-                        await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                        pKuduResponse = await client.DeleteAsync($"{scmUrl}/api/processes/0");
-                        //pKuduResponse.EnsureSuccessStatusCode();
-                    }
+                    await PublishSiteExtensions(client, scmUrl, firstTime: true);
                 }
                 else
                 {
@@ -128,12 +114,60 @@ namespace AzureFunctions.Controllers
                     appSettings.properties[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
 
                     //save it
+                    updateAppSettings = true;
+                }
+
+                using (var rstream = new StreamReader(@"D:\home\site\Functions\App_Data\version.txt"))
+                {
+                    var currentSiteExtensionsVersion = await rstream.ReadToEndAsync();
+                    if (!appSettings.properties.ContainsKey(Constants.SiteExtensionsVersion) ||
+                        !appSettings.properties[Constants.SiteExtensionsVersion].Equals(currentSiteExtensionsVersion, StringComparison.OrdinalIgnoreCase))
+                    {
+                        await PublishSiteExtensions(client, scmUrl, firstTime: false);
+                        appSettings.properties[Constants.SiteExtensionsVersion] = currentSiteExtensionsVersion;
+                        updateAppSettings = true;
+                    }
+                }
+
+                if (updateAppSettings)
+                {
                     sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
                     await sitesResponse.EnsureSuccessStatusCodeWithFullError();
+                    
                 }
+
+                //warm up the main site
+                HostingEnvironment.QueueBackgroundWorkItem(async _ => {
+                    await Task.Delay(500);
+                    await client.GetAsync(scmUrl.Replace(".scm.", "."));
+                    await client.GetAsync($"{scmUrl.Replace(".scm.", ".")}/api/");
+                });
 
                 // return it's scm name
                 return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl });
+            }
+        }
+
+        private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
+        {
+            using (var kuduStream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
+            using (var sdkStream = File.OpenRead(@"D:\home\site\Functions\App_Data\AzureFunctions.zip"))
+            {
+                if (firstTime)
+                {
+                    var vfsResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
+                    await vfsResponse.EnsureSuccessStatusCodeWithFullError();
+                    var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{scmUrl}/api/vfs/site/wwwroot/hostingstart.html");
+                    deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
+                    vfsResponse = await client.SendAsync(deleteReq);
+                    await vfsResponse.EnsureSuccessStatusCodeWithFullError();
+                }
+                var pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
+                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
+                pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
+                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
+                pKuduResponse = await client.DeleteAsync($"{scmUrl}/api/processes/0");
+                //pKuduResponse.EnsureSuccessStatusCode();
             }
         }
 
