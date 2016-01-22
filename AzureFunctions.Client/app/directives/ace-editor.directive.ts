@@ -64,7 +64,7 @@ export class AceEditorDirective {
     }
 
     set content(str: string) {
-        this.editor.setValue(str);
+        this.editor.session.setValue(str);
         this.editor.clearSelection();
         this.editor.moveCursorTo(0, 0);
         this.editor.focus();
@@ -72,7 +72,7 @@ export class AceEditorDirective {
 
     set fileObject(file: VfsObject) {
         if (file.isNew) {
-            this.editor.setValue('');
+            this.editor.session.setValue('');
         }
         this.currentFileObject = file;
         this.editor.session.setMode(this.getMode(file.name));

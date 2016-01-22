@@ -19,4 +19,5 @@ interface AceEditorSession {
     setMode(mode: string);
     setTabSize(size: number);
     setUseSoftTabs(flag: boolean);
+    setValue(str: string);
 }
