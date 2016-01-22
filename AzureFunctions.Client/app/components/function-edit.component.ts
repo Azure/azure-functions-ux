@@ -54,4 +54,14 @@ export class FunctionEditComponent {
                     this.deleteSelectedFunction.next(true);
                 });
     }
+
+    //http://stackoverflow.com/q/8019534/3234163
+    highlightText(event: Event) {
+        var el: any = event.target;
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
 }

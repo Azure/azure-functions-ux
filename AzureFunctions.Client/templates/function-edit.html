@@ -6,11 +6,11 @@
     <div>
         <div class="row">
             <div class="left"><label>Function Url:</label></div>
-            <div class="right"><pre>{{functionInvokeUrl}}</pre></div>
+            <div class="right"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
         </div>
         <div class="row" *ngIf="selectedFunction.secrets && selectedFunction.secrets.webHookReceiverKey">
-            <div class="left"><label>Function Secret:</label></div>
-            <div class="right"><pre>{{selectedFunction.secrets.webHookReceiverKey}}</pre></div>
+            <div class="left"><label>WebHook Secret:</label></div>
+            <div class="right"><pre (click)="highlightText($event)">{{selectedFunction.secrets.webHookReceiverKey}}</pre></div>
         </div>
     </div>
     <!--<function-designer *ngIf="selectedFile && selectedFile.name === 'function.json'" [functionConfigString]="selectedFile.content"></function-designer>-->
