@@ -390,6 +390,11 @@ pre {
     transform: rotate(360deg);
   }
 }
+
+.run-loader {
+    top: 430px;
+    left: 100px;
+}
 /* end loader */
 
 .run-button {

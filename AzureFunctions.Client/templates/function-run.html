@@ -13,7 +13,6 @@
 
                             Run
                     </button>
-                </div>
                 <div class="ace_editor" aceEditor
                     *ngIf="testDataFile"
                     [fileObject]="testDataFile"
@@ -23,7 +22,9 @@
                 </div>
             </div>
             <div class="sm-padding">
-            <h3>Result:</h3>
+                <h3>Result:</h3>
+                <div class="loader run-loader" *ngIf="running"></div>
+            </div>
             </div>
             <pre class="result">{{runResult}}</pre>
         </nav>
