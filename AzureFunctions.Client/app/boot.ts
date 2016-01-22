@@ -11,4 +11,8 @@ import {provide} from 'angular2/core';
 import {FunctionsService} from './services/functions.service';
 import {MockFunctionsService} from './services/mock-functions.service';
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, provide(FunctionsService, {useClass: MockFunctionsService})]);
+if (window.location.href.indexOf('localhost') !== -1) {
+    bootstrap(AppComponent, [HTTP_PROVIDERS, provide(FunctionsService, { useClass: MockFunctionsService })]);
+} else {
+    bootstrap(AppComponent, [HTTP_PROVIDERS, provide(FunctionsService, { useClass: FunctionsService })]);
+}
