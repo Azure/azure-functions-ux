@@ -6,7 +6,7 @@ import {Binding, BindingOption} from '../models/designer-schema';
 @Component({
     selector: 'binding-designer',
     templateUrl: 'templates/binding-designer.html',
-    inputs: ['currentBinding', 'bindings', ],
+    inputs: ['currentBinding', 'bindings'],
     outputs: ['changedBinding']
 })
 export class BindingDesignerComponent implements OnInit {
