@@ -1,8 +1,8 @@
 <div class="sidebar">
     <ul class="functions-list">
         <li *ngFor="#functionInfo of functionsInfo"
-            (click)="clickStream.next(functionInfo)"
             (click)="toggle(functionInfo)"
+            (click)="clickStream.next(functionInfo)"
             class="function-item">
             <span style="display: block; padding: 10px" class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">{{functionInfo.name}}</span>
             <ul class="file-list" *ngIf="functionInfo.expanded">

@@ -59,7 +59,11 @@ export class SideBarComponent {
     }
 
     toggle(fi: FunctionInfo) {
-        fi.expanded = !fi.expanded;
+        if (!this.selectedFunction ||
+            (fi !== this.selectedFunction && !fi.expanded) ||
+            (fi === this.selectedFunction)) {
+            fi.expanded = !fi.expanded;
+        }
     }
 
     // TODO: merge these 2 functions
