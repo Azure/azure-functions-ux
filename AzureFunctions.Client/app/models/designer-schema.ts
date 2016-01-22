@@ -12,5 +12,6 @@ export interface Binding {
 export interface BindingOption {
     name: string;
     type: string;
+    value: string;
     options?: BindingOption[];
 }

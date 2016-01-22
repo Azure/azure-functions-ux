@@ -511,12 +511,19 @@ input.radio:focus ~ label:before {
 
 .row > .right {
     width: 250px;
-    
     display: table-cell;
 }
 
 .row-group {
     display: table-row-group;
+}
+
+.row-group > .row > .right {
+    padding-top: 8px;
+}
+
+.row-group > .row > .right > input {
+    font-family: monospace;
 }
 /*table*/
 

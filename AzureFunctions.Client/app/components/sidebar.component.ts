@@ -40,6 +40,10 @@ export class SideBarComponent {
             })
             .subscribe((res: any) => {
                 res.functionInfo.files = res.files;
+                var functionJson: VfsObject = res.files.find(e => e.name === 'function.json')
+                if (functionJson) {
+                    this.fileClickStream.next(functionJson);
+                }
             });
 
         this.fileClickStream

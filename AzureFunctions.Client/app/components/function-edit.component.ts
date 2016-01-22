@@ -5,6 +5,7 @@ import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
+import {FunctionConfig} from '../models/function-config';
 
 @Component({
     selector: 'function-edit',
@@ -18,6 +19,7 @@ export class FunctionEditComponent {
     public selectedFile: VfsObject;
     public deleteSelectedFunction: EventEmitter<boolean>;
     private updatedContent: string;
+
 
     constructor(private _functionsService: FunctionsService) {
         this.deleteSelectedFunction = new EventEmitter<boolean>();

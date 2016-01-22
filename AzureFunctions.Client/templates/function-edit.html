@@ -3,11 +3,13 @@
     <h2 *ngIf="selectedFunction">{{selectedFunction.name}} 
         <i *ngIf="!selectedFunction.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(selectedFunction)"></i>
     </h2>
-    <function-designer *ngIf="!selectedFile || selectedFile.name === 'function.json'" [functionConfig]=""></function-designer>
-    <div *ngIf="!(!selectedFile || selectedFile.name === 'function.json')">
-        <h3 class="file-name" *ngIf="selectedFile && !selectedFile.isNew">{{selectedFile.name}}</h3>
-        <input type="text" *ngIf="selectedFile && selectedFile.isNew" [(ngModel)]="selectedFile.name" class="new-function-name" placeholder="File Name"/>
-        <div class="file-tools"><button class="custom-button" *ngIf="selectedFile" [class.dirty]="selectedFile.isDirty" (click)="saveFile(selectedFile)">Save</button></div>
+    <function-designer *ngIf="selectedFile && selectedFile.name === 'function.json'" [functionConfigString]="selectedFile.content"></function-designer>
+    <div *ngIf="selectedFile && selectedFile.name !== 'function.json'">
+        <h3 class="file-name" *ngIf="!selectedFile.isNew">{{selectedFile.name}}</h3>
+        <input type="text" *ngIf="selectedFile.isNew" [(ngModel)]="selectedFile.name" class="new-function-name" placeholder="File Name"/>
+        <div class="file-tools">
+            <button class="custom-button" [class.dirty]="selectedFile.isDirty" (click)="saveFile(selectedFile)">Save</button>
+        </div>
     </div>
 </div>
 <div style="padding-right: 20px">

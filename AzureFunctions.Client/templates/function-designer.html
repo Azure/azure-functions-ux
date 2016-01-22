@@ -2,6 +2,7 @@
     <div class="trigger">
         <div class="designer-panel">
             <binding-designer
+                *ngIf="triggerBindings && currentTriggerBinding"
                 [currentBinding]="currentTriggerBinding"
                 [bindings]="triggerBindings"
                 (changedBinding)="onTriggerChange($event)">
