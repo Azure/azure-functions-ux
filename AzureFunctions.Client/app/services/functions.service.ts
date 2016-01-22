@@ -158,7 +158,7 @@ export class FunctionsService implements IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string) {
         var body: PassthroughInfo = {
             httpMethod: 'POST',
-            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/functions/${functionInfo.name.toLocaleLowerCase()}`,
+            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${functionInfo.name.toLocaleLowerCase()}`,
             requestBody: content,
             mediaType: 'plain/text'
         };
@@ -194,6 +194,25 @@ export class FunctionsService implements IFunctionsService {
         return this._http.get('mocks/function-json-schema.json')
             .map<DesignerSchema>(r => r.json());
     }
+
+    warmupMainSite() {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: this.scmInfo.scm_url.replace('.scm.', '.')
+        };
+        this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
+    }
+
+    warmupMainSiteApi() {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/`
+        };
+        this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSiteApi(); } });
+    }
+
 
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

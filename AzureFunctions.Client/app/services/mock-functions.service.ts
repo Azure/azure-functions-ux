@@ -131,4 +131,8 @@ export class MockFunctionsService implements IFunctionsService {
         return this._http.get('mocks/function-json-schema.json')
             .map<DesignerSchema>(r => r.json());
     }
+
+    warmupMainSite() {
+        console.log('warming up site');
+    }
 }

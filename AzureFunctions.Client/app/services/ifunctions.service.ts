@@ -22,4 +22,5 @@ export interface IFunctionsService {
     getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
     getDesignerSchema(): Observable<DesignerSchema>;
+    warmupMainSite();
 }

@@ -32,6 +32,7 @@ export class AppComponent implements OnInit{
                 this.initFunctions();
                 this._functionsService.getTemplates()
                     .subscribe(res => this.functionTemplates = res);
+                this._functionsService.warmupMainSite();
             });
     }
 
