@@ -1,6 +1,6 @@
 import {Http} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionSecrets} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {IFunctionsService} from './ifunctions.service';
@@ -72,7 +72,9 @@ export class MockFunctionsService implements IFunctionsService {
             template_id: null,
             test_data_href: null,
             clientOnly: true,
-            isDeleted: false
+            isDeleted: false,
+            secrets_file_href: null,
+            secrets: null
         };
     }
 
@@ -89,7 +91,9 @@ export class MockFunctionsService implements IFunctionsService {
             template_id: null,
             test_data_href: null,
             clientOnly: true,
-            isDeleted: false
+            isDeleted: false,
+            secrets_file_href: null,
+            secrets: null
         };
     }
 
@@ -134,5 +138,17 @@ export class MockFunctionsService implements IFunctionsService {
 
     warmupMainSite() {
         console.log('warming up site');
+    }
+
+    getSecrets(fi: FunctionInfo) {
+        return Observable.of({ webHookReceiverKey: 'random'});
+    }
+
+    setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
+        return Observable.of(secrets);
+    }
+
+    getFunctionInvokeUrl(fi: FunctionInfo) {
+        return `scm/${fi.name}`;
     }
 }

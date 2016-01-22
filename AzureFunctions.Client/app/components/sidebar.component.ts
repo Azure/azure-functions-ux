@@ -1,6 +1,7 @@
 import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '.././services/functions.service';
 import {FunctionInfo} from '../models/function-info';
+import {FunctionConfig} from '../models/function-config';
 import {VfsObject} from '../models/vfs-object';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
@@ -42,6 +43,7 @@ export class SideBarComponent {
                 res.functionInfo.files = res.files;
                 var functionJson: VfsObject = res.files.find(e => e.name === 'function.json')
                 if (functionJson) {
+                    this.createSecretIfNeeded(res.functionInfo, functionJson);
                     this.fileClickStream.next(functionJson);
                 }
             });
@@ -56,6 +58,27 @@ export class SideBarComponent {
                 this.selectedFile.content = content;
                 this.fileSelected.next(this.selectedFile);
             });
+    }
+
+    createSecretIfNeeded(fi: FunctionInfo, functionJson: VfsObject) {
+        if (!fi.secrets || !fi.secrets.webHookReceiverKey) {
+            this._functionsService.getFileContent(functionJson)
+                .subscribe(c => {
+                    var config: FunctionConfig = JSON.parse(c);
+                    if (config.bindings.input.some(e => !!e.webHookReceiver)) {
+                        this._functionsService.getSecrets(fi)
+                        .subscribe(r => {
+                            fi.secrets = r;
+                            if (!fi.secrets.webHookReceiverKey) {
+                                //http://stackoverflow.com/a/8084248/3234163
+                                var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                                this._functionsService.setSecrets(fi, { webHookReceiverKey: secret })
+                                .subscribe(r => fi.secrets = r);
+                            }
+                        });
+                    }
+                });
+        }
     }
 
     toggle(fi: FunctionInfo) {

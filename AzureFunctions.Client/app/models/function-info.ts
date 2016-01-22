@@ -6,6 +6,7 @@ export interface FunctionInfo {
     script_href: string;
     config_href: string;
     test_data_href: string;
+    secrets_file_href: string;
     href: string;
     template_id: string;
     config: any;
@@ -13,4 +14,10 @@ export interface FunctionInfo {
     files: VfsObject[];
     clientOnly: boolean;
     isDeleted: boolean;
+    secrets: FunctionSecrets;
+}
+
+
+export interface FunctionSecrets {
+    webHookReceiverKey: string;
 }

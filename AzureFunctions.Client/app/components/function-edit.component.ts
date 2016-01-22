@@ -25,6 +25,10 @@ export class FunctionEditComponent {
         this.deleteSelectedFunction = new EventEmitter<boolean>();
     }
 
+    get functionInvokeUrl(): string {
+        return this._functionsService.getFunctionInvokeUrl(this.selectedFunction);
+    }
+
     saveFile(file: VfsObject) {
         this._functionsService.saveFile(file, this.updatedContent)
             .subscribe(r => {

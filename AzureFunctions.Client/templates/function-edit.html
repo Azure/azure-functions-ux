@@ -3,6 +3,16 @@
     <h2 *ngIf="selectedFunction">{{selectedFunction.name}} 
         <i *ngIf="!selectedFunction.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(selectedFunction)"></i>
     </h2>
+    <div>
+        <div class="row">
+            <div class="left"><label>Function Url:</label></div>
+            <div class="right"><pre>{{functionInvokeUrl}}</pre></div>
+        </div>
+        <div class="row" *ngIf="selectedFunction.secrets && selectedFunction.secrets.webHookReceiverKey">
+            <div class="left"><label>Function Secret:</label></div>
+            <div class="right"><pre>{{selectedFunction.secrets.webHookReceiverKey}}</pre></div>
+        </div>
+    </div>
     <!--<function-designer *ngIf="selectedFile && selectedFile.name === 'function.json'" [functionConfigString]="selectedFile.content"></function-designer>-->
     <!--<div *ngIf="selectedFile && selectedFile.name !== 'function.json'">-->
     <div *ngIf="selectedFile">

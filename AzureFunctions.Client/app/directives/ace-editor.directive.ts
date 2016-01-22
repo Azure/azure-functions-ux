@@ -103,7 +103,7 @@ export class AceEditorDirective {
 
     resizeAce() {
         // http://stackoverflow.com/questions/11584061/
-        var new_height = (this.initialHeight - 200) + 'px';
+        var new_height = (this.initialHeight - 270) + 'px';
         this.elementRef.nativeElement.style.height = new_height;
         this.editor.resize();
     }

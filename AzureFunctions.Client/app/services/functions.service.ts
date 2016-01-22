@@ -1,6 +1,6 @@
 import {Http, Headers} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionSecrets} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
@@ -104,7 +104,9 @@ export class FunctionsService implements IFunctionsService {
             template_id: null,
             test_data_href: null,
             clientOnly: true,
-            isDeleted: false
+            isDeleted: false,
+            secrets_file_href: null,
+            secrets: null
         };
     }
 
@@ -121,7 +123,9 @@ export class FunctionsService implements IFunctionsService {
             template_id: null,
             test_data_href: null,
             clientOnly: true,
-            isDeleted: false
+            isDeleted: false,
+            secrets_file_href: null,
+            secrets: null
         };
     }
 
@@ -213,6 +217,32 @@ export class FunctionsService implements IFunctionsService {
             .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSiteApi(); } });
     }
 
+    getSecrets(fi: FunctionInfo) {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: fi.secrets_file_href
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<FunctionSecrets>(r => r.json());
+    }
+
+    setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
+        var file: VfsObject = {
+            href: fi.secrets_file_href,
+            content: '',
+            isDirty: false,
+            isNew: false,
+            name: ''
+        };
+        return this.saveFile(file, JSON.stringify(secrets)).map<FunctionSecrets>(e => secrets);
+    }
+
+    getFunctionInvokeUrl(fi: FunctionInfo) {
+        return `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${fi.name}`;
+    }
 
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

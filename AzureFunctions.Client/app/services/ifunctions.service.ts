@@ -1,5 +1,5 @@
 import {VfsObject} from '../models/vfs-object';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionSecrets} from '../models/function-info';
 import {ScmInfo} from '../models/scm-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
@@ -23,4 +23,7 @@ export interface IFunctionsService {
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
     getDesignerSchema(): Observable<DesignerSchema>;
     warmupMainSite();
+    getSecrets(fi: FunctionInfo): Observable<FunctionSecrets>;
+    setSecrets(fi: FunctionInfo, secrets: FunctionSecrets): Observable<FunctionSecrets>;
+    getFunctionInvokeUrl(fi: FunctionInfo): string;
 }
