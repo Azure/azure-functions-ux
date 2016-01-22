@@ -517,7 +517,7 @@ input.radio:focus ~ label:before {
 .row-group {
     display: table-row-group;
 }
-
+/*
 .row-group > .row > .right {
     padding-top: 8px;
 }
@@ -525,6 +525,7 @@ input.radio:focus ~ label:before {
 .row-group > .row > .right > input {
     font-family: monospace;
 }
+*/
 /*table*/
 
 
