@@ -57,6 +57,8 @@ export class FunctionEditComponent {
                 var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                 this._functionsService.setSecrets(fi, { webHookReceiverKey: secret })
                 .subscribe(r => this.secrets = r);
+            } else {
+                this.secrets = secrets;
             }
         } else {
             this.secrets = secrets;
