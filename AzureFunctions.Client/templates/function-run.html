@@ -16,9 +16,10 @@
                     </button>
                 <div class="ace_editor" aceEditor
                     *ngIf="testDataFile"
-                    [fileObject]="testDataFile"
                     [content]="content"
-                    (contentChanged)="contentChanged($event)"
+                    [fileName]="testDataFile.name"
+                    (onSave)="saveTestData()"
+                    (onContentChanged)="contentChanged($event)"
                     [height]="600">
                 </div>
             </div>

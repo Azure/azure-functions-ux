@@ -37,12 +37,17 @@ export class FunctionRunComponent {
 
     contentChanged(content: string) {
         this.updatedContent = content;
+        this.testDataFile.isDirty = true;
+    }
+
+    saveTestData() {
+        this._functionsService.saveFile(this.testDataFile, this.updatedContent)
+            .subscribe(r => this.testDataFile.isDirty = false);
     }
 
     runFunction() {
         this.running = true;
-        this._functionsService.saveFile(this.testDataFile, this.updatedContent)
-            .subscribe(r => console.log(r));
+        this.saveTestData();
         this._functionsService.runFunction(this.functionInfo, this.updatedContent)
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,

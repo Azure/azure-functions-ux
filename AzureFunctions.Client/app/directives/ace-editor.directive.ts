@@ -1,23 +1,22 @@
 import {Directive, EventEmitter, ElementRef} from 'angular2/core';
 import {AceEditor} from '../models/ace-editor';
-import {VfsObject} from '../models/vfs-object';
-import {FunctionsService} from '../services/functions.service';
 
 declare var ace: any;
 
 @Directive({
     selector: '[aceEditor]',
-    inputs: ['fileObject', 'content', 'height'],
-    outputs: ['contentChanged']
+    inputs: ['content', 'fileName', 'height'],
+    outputs: ['onContentChanged', 'onSave']
 })
 export class AceEditorDirective {
     private editor: AceEditor;
-    private currentFileObject: VfsObject;
-    public contentChanged: EventEmitter<string>;
+    public onContentChanged: EventEmitter<string>;
+    public onSave: EventEmitter<string>;
     private initialHeight: number;
 
-    constructor(private elementRef: ElementRef, private functionsService: FunctionsService) {
-        this.contentChanged = new EventEmitter<string>();
+    constructor(private elementRef: ElementRef) {
+        this.onContentChanged = new EventEmitter<string>();
+        this.onSave = new EventEmitter<string>();
         this.initialHeight = window.innerHeight;
 
         let el = elementRef.nativeElement;
@@ -37,7 +36,7 @@ export class AceEditorDirective {
             // (Attempt to) separate user change from programatical
             // https://github.com/ajaxorg/ace/issues/503
             if (this.editor.curOp && this.editor.curOp.command.name) {
-                this.contentChanged.next(this.editor.getValue());
+                this.onContentChanged.next(this.editor.getValue());
             }
         });
 
@@ -48,8 +47,7 @@ export class AceEditorDirective {
                 mac: 'Command-S',
                 sender: 'editor|cli'
             },
-            exec: () => this.functionsService.saveFile(this.currentFileObject, this.editor.getValue())
-                            .subscribe(r => this.currentFileObject.isDirty = false)
+            exec: () => this.onSave.next(this.editor.getValue())
         });
 
         this.resizeAce();
@@ -70,9 +68,8 @@ export class AceEditorDirective {
         this.editor.focus();
     }
 
-    set fileObject(file: VfsObject) {
-        this.currentFileObject = file;
-        this.editor.session.setMode(this.getMode(file.name));
+    set fileName(fileName: string) {
+        this.editor.session.setMode(this.getMode(fileName));
     }
 
     getMode(filename: string): string {

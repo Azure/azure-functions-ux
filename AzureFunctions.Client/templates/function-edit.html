@@ -22,8 +22,9 @@
 <div style="padding-right: 20px">
     <div class="ace_editor" aceEditor id="editor"
         *ngIf="scriptFile"
-        [fileObject]="scriptFile"
-        (contentChanged)="contentChanged($event)"
-        [content]="content">
+        (onSave)="saveScript()"
+        (onContentChanged)="contentChanged($event)"
+        [content]="content"
+        [fileName]="scriptFile.name">
     </div>
 </div>

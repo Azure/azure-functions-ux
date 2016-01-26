@@ -23,6 +23,7 @@ export class FunctionEditComponent {
     public scriptFile: VfsObject;
     public content: string;
     public secrets: FunctionSecrets;
+    public saveCallback: () => void;
     private updatedContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
@@ -46,6 +47,7 @@ export class FunctionEditComponent {
                 this.content = res.content;
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
             });
+        this.saveCallback = this.saveScript;
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
