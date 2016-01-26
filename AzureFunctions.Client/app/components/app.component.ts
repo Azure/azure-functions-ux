@@ -1,7 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
-import {FunctionDetailsComponent} from './function-details.component';
 import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {FunctionsService} from '../services/functions.service';
@@ -19,7 +18,6 @@ export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
-    public selectedFile: VfsObject;
     public deleteSelectedFunction: boolean;
     private initializing: boolean;
 
@@ -37,30 +35,22 @@ export class AppComponent implements OnInit{
     }
 
     initFunctions() {
-                this._functionsService.getFunctions()
-                    .subscribe(res => {
-                        res.unshift(this._functionsService.getNewFunctionNode());
-                        res.unshift(this._functionsService.getSettingsNode());
-                        this.functionsInfo = res;
-                        this.initializing = false;
-                    });
+        this._functionsService.getFunctions()
+            .subscribe(res => {
+                res.unshift(this._functionsService.getNewFunctionNode());
+                res.unshift(this._functionsService.getSettingsNode());
+                this.functionsInfo = res;
+                this.initializing = false;
+            });
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){
         this.selectedFunction = functionInfo;
-        if (functionInfo.name === 'New Function') {
-            delete this.selectedFile;
-        }
-    }
-
-    onFileSelect(file: VfsObject) {
-        this.selectedFile = file;
     }
 
     onDeleteSelectedFunction(deleteSelectedFunction: boolean) {
         this.deleteSelectedFunction = deleteSelectedFunction;
         if (deleteSelectedFunction) {
-            this.selectedFile = null;
             this.selectedFunction = null;
         }
     }

@@ -1,14 +1,15 @@
 import {Http, Headers} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo, FunctionSecrets} from '../models/function-info';
+import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
+import {FunctionSecrets} from '../models/function-secrets';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -32,36 +33,22 @@ export class FunctionsService implements IFunctionsService {
             .map<FunctionInfo[]>(r => r.json());
     }
 
-    getFunctionContent(functionInfo: FunctionInfo) {
+    getFileContent(file: VfsObject | string) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: functionInfo.script_root_path_href
+            url: typeof file === 'string' ? file : file.href
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<any>(r => {
-                return {
-                    files: r.json().filter(e => e.mime !== 'inode/directory'),
-                    functionInfo: functionInfo
-                };
-            });
-    }
-
-    getFileContent(file: VfsObject) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: file.href
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(e => Observable.of({
+                text: () => ''
+            }))
             .map<string>(r => r.text());
     }
 
-    saveFile(file: VfsObject, updatedContent: string) {
-        if (file.isNew) {
-            file.href = `${file.href}${file.name}`;
-        }
+    saveFile(file: VfsObject | string, updatedContent: string) {
         var body: PassthroughInfo = {
             httpMethod: "PUT",
-            url: file.href,
+            url: typeof file === 'string' ? file : file.href,
             requestBody: updatedContent,
             headers: {
                 'If-Match': '*'
@@ -69,7 +56,7 @@ export class FunctionsService implements IFunctionsService {
             mediaType: 'plain/text'
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<VfsObject>(r => file);
+            .map<VfsObject|string>(r => file);
     }
 
     getTemplates() {
@@ -96,17 +83,12 @@ export class FunctionsService implements IFunctionsService {
             name: 'New Function',
             href: null,
             config: null,
-            config_href: null,
-            expanded: false,
-            files: null,
             script_href: null,
-            script_root_path_href: null,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null,
-            secrets: null
+            secrets_file_href: null
         };
     }
 
@@ -115,27 +97,12 @@ export class FunctionsService implements IFunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            config_href: null,
-            expanded: false,
-            files: null,
             script_href: null,
-            script_root_path_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/`,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null,
-            secrets: null
-        };
-    }
-
-    getNewFileObject(functionInfo: FunctionInfo): VfsObject {
-        return {
-            name: '',
-            href: functionInfo.script_root_path_href,
-            isNew: true,
-            isDirty: true,
-            content: ''
+            secrets_file_href: null
         };
     }
 
@@ -230,14 +197,8 @@ export class FunctionsService implements IFunctionsService {
     }
 
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
-        var file: VfsObject = {
-            href: fi.secrets_file_href,
-            content: '',
-            isDirty: false,
-            isNew: false,
-            name: ''
-        };
-        return this.saveFile(file, JSON.stringify(secrets)).map<FunctionSecrets>(e => secrets);
+        return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
+            .map<FunctionSecrets>(e => secrets);
     }
 
     getFunctionInvokeUrl(fi: FunctionInfo) {

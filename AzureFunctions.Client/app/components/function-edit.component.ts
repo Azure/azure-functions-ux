@@ -6,42 +6,81 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {FunctionConfig} from '../models/function-config';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Rx';
+import {FunctionSecrets} from '../models/function-secrets';
 
 @Component({
     selector: 'function-edit',
     templateUrl: 'templates/function-edit.html',
-    inputs: ['selectedFunction', 'selectedFile'],
+    inputs: ['selectedFunction'],
     outputs: ['deleteSelectedFunction'],
     directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent]
 })
 export class FunctionEditComponent {
-    public selectedFunction: FunctionInfo;
-    public selectedFile: VfsObject;
+    public functionInfo: FunctionInfo;
     public deleteSelectedFunction: EventEmitter<boolean>;
+    public scriptFile: VfsObject;
+    public content: string;
+    public secrets: FunctionSecrets;
     private updatedContent: string;
+    private functionSelectStream: Subject<FunctionInfo>;
 
 
     constructor(private _functionsService: FunctionsService) {
         this.deleteSelectedFunction = new EventEmitter<boolean>();
+        this.functionSelectStream = new Subject<FunctionInfo>();
+        this.functionSelectStream
+            .distinctUntilChanged()
+            .switchMap(fi =>
+                Observable.zip(
+                    this._functionsService.getFileContent(fi.script_href),
+                    this._functionsService.getSecrets(fi),
+                    (c, s) => ({ content: c, secrets: s, functionInfo: fi })
+                )
+            )
+            .subscribe((res: any) => {
+                this.functionInfo = res.functionInfo;
+                var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
+                this.scriptFile = { href: this.functionInfo.script_href, name: fileName };
+                this.content = res.content;
+                this.createSecretIfNeeded(res.functionInfo, res.secrets);
+            });
+    }
+
+    private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
+        if (!secrets.webHookReceiverKey) {
+            if (fi.config.bindings.input.some(e => !!e.webHookReceiver)) {
+                //http://stackoverflow.com/a/8084248/3234163
+                var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                this._functionsService.setSecrets(fi, { webHookReceiverKey: secret })
+                .subscribe(r => this.secrets = r);
+            }
+        } else {
+            this.secrets = secrets;
+        }
+    }
+
+    set selectedFunction(value: FunctionInfo) {
+        this.functionSelectStream
+            .next(value);
     }
 
     get functionInvokeUrl(): string {
-        return this._functionsService.getFunctionInvokeUrl(this.selectedFunction);
+        return this._functionsService.getFunctionInvokeUrl(this.functionInfo);
     }
 
-    saveFile(file: VfsObject) {
-        this._functionsService.saveFile(file, this.updatedContent)
+    saveScript() {
+        this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
-                r.isDirty = false;
-                if (r.isNew) {
-                    r.isNew = false;
-                    this.selectedFunction.files.push(r);
+                if (typeof r !== 'string') {
+                    r.isDirty = false;
                 }
             });
     }
 
     contentChanged(content: string) {
-        this.selectedFile.isDirty = true;
+        this.scriptFile.isDirty = true;
         this.updatedContent = content;
     }
 

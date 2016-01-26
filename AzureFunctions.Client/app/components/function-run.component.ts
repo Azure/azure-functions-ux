@@ -33,9 +33,9 @@ export class FunctionRunComponent {
 
     runFunction() {
         this.running = true;
-        this._functionsService.saveFile(this.testDataFile, this.updatedContent || this.testDataFile.content)
+        this._functionsService.saveFile(this.testDataFile, this.updatedContent)
             .subscribe(r => console.log(r));
-        this._functionsService.runFunction(this.functionInfo, this.updatedContent || this.testDataFile.content)
+        this._functionsService.runFunction(this.functionInfo, this.updatedContent)
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,
                        () => this.running = false);

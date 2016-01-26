@@ -1,23 +1,14 @@
-import {VfsObject} from './vfs-object';
+import {FunctionConfig} from '../models/function-config';
+import {VfsObject} from '../models/vfs-object';
 
 export interface FunctionInfo {
     name: string;
-    script_root_path_href: string;
     script_href: string;
-    config_href: string;
     test_data_href: string;
     secrets_file_href: string;
     href: string;
     template_id: string;
-    config: any;
-    expanded: boolean;
-    files: VfsObject[];
+    config: FunctionConfig;
     clientOnly: boolean;
     isDeleted: boolean;
-    secrets: FunctionSecrets;
-}
-
-
-export interface FunctionSecrets {
-    webHookReceiverKey: string;
 }

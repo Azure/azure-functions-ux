@@ -2,7 +2,7 @@ import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {NewFunctionModel} from '../models/new-function-model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'new-function',

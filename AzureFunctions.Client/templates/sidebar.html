@@ -1,22 +1,12 @@
 <div class="sidebar">
     <ul class="functions-list">
         <li *ngFor="#functionInfo of functionsInfo"
-            (click)="toggle(functionInfo)"
-            (click)="clickStream.next(functionInfo)"
+           (click)="functionSelected.next(functionInfo)"
+           (click)="selectedFunction = functionInfo"
             class="function-item">
-            <span style="display: block; padding: 10px" class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">{{functionInfo.name}}</span>
-            <ul class="file-list" *ngIf="functionInfo.expanded">
-                <li *ngIf="!functionInfo.clientOnly">
-                    <span class="clickable" (click)="onNewFileClick(functionInfo, $event)"><i class="fa fa-plus"></i> New File</span>
-                </li>
-                <li *ngFor="#file of functionInfo.files">
-                    <span class="function-file clickable"
-                       (click)="onFileClick(file, functionInfo, $event)"
-                       [class.selected]="file === selectedFile">
-                       <i class="fa fa-file-code-o"></i> {{file.name}}
-                    </span>
-                </li>
-            </ul>
+            <span style="display: block; padding: 10px" class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
+                {{functionInfo.name}}
+            </span>
         </li>
     </ul>
 </div>

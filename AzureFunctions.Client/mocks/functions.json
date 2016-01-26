@@ -1,6 +1,6 @@
 [
-    { "name": "QueueTrigger", "script_root_path": "", "script_href": "", "config_href": "", "test_data_href": "", "href": "", "template_id": "", "config": {} },
-    { "name": "BlobTrigger", "script_root_path": "", "script_href": "", "config_href": "", "test_data_href": "", "href": "", "template_id": "", "config": {} },
-    { "name": "TimerTrigger", "script_root_path": "", "script_href": "", "config_href": "", "test_data_href": "", "href": "", "template_id": "", "config": {} },
-    { "name": "WebHook", "script_root_path": "", "script_href": "", "config_href": "", "test_data_href": "", "href": "", "template_id": "", "config": {} }
+    { "name": "QueueTrigger", "script_href": "mocks/QueueTrigger/index.js", "test_data_href": "", "href": "", "template_id": "", "config": {} },
+    { "name": "BlobTrigger", "script_href": "mocks/BlobTrigger/index.js", "test_data_href": "", "href": "", "template_id": "", "config": {} },
+    { "name": "TimerTrigger", "script_href": "mocks/TimerTrigger/index.js", "test_data_href": "", "href": "", "template_id": "", "config": {} },
+    { "name": "WebHook", "script_href": "mocks/WebHook/index.js", "test_data_href": "", "href": "", "template_id": "", "config": {} }
 ]

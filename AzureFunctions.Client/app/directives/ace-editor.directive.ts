@@ -71,9 +71,6 @@ export class AceEditorDirective {
     }
 
     set fileObject(file: VfsObject) {
-        if (file.isNew) {
-            this.editor.session.setValue('');
-        }
         this.currentFileObject = file;
         this.editor.session.setMode(this.getMode(file.name));
     }

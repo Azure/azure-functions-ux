@@ -1,12 +1,13 @@
 import {Http} from 'angular2/http';
 import {Injectable} from 'angular2/core';
-import {FunctionInfo, FunctionSecrets} from '../models/function-info';
+import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {IFunctionsService} from './ifunctions.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import {FunctionTemplate} from '../models/function-template';
 import {DesignerSchema} from '../models/designer-schema';
+import {FunctionSecrets} from '../models/function-secrets';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -37,8 +38,8 @@ export class MockFunctionsService implements IFunctionsService {
             });
     }
 
-    getFileContent(file: VfsObject) {
-        return this._http.get(file.href)
+    getFileContent(file: VfsObject | string) {
+        return this._http.get(typeof file === 'string' ? file : file.href)
             .map<string>(r => r.text());
     }
 
@@ -64,17 +65,12 @@ export class MockFunctionsService implements IFunctionsService {
             name: 'New Function',
             href: null,
             config: null,
-            config_href: null,
-            expanded: false,
-            files: null,
             script_href: null,
-            script_root_path_href: null,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null,
-            secrets: null
+            secrets_file_href: null
         };
     }
 
@@ -83,36 +79,19 @@ export class MockFunctionsService implements IFunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            config_href: null,
-            expanded: false,
-            files: null,
             script_href: null,
-            script_root_path_href: 'mocks/host.vfs.json',
             template_id: null,
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null,
-            secrets: null
-        };
-    }
-
-    getNewFileObject(): VfsObject {
-        return {
-            name: '',
-            href: 'mocks/',
-            isNew: true,
-            isDirty: true,
-            content: ''
+            secrets_file_href: null
         };
     }
 
     getTestData(functionInfo: FunctionInfo) {
         return Observable.of({
             name: 'sample.dat',
-            content: 'this is static test data',
             href: functionInfo.test_data_href,
-            isNew: false,
             isDirty: false
         });
     }
