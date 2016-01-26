@@ -97,7 +97,7 @@ export class FunctionsService implements IFunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            script_href: null,
+            script_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/host.json`,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -195,6 +195,25 @@ export class FunctionsService implements IFunctionsService {
 
     getFunctionInvokeUrl(fi: FunctionInfo) {
         return `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${fi.name}`;
+    }
+
+    saveFunction(fi: FunctionInfo, config: any) {
+        var body: PassthroughInfo = {
+            httpMethod: 'PUT',
+            url: fi.href,
+            requestBody: { config: config }
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<FunctionInfo>(r => r.json());
+    }
+
+    getFunction(fi: FunctionInfo) {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: fi.href
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<FunctionInfo>(r => r.json());
     }
 
     private getHeaders(contentType?: string): Headers {

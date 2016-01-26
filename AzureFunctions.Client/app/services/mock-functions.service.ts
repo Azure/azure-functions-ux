@@ -79,7 +79,7 @@ export class MockFunctionsService implements IFunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            script_href: null,
+            script_href: 'mocks/host/host.json',
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -125,5 +125,23 @@ export class MockFunctionsService implements IFunctionsService {
 
     getFunctionInvokeUrl(fi: FunctionInfo) {
         return `scm/${fi.name}`;
+    }
+
+    saveFunction(fi: FunctionInfo, config: any) {
+        return Observable.of({
+            config: config,
+            name: fi.name,
+            script_href: fi.script_href,
+            test_data_href: fi.test_data_href,
+            secrets_file_href: fi.secrets_file_href,
+            href: fi.href,
+            template_id: fi.template_id,
+            clientOnly: fi.clientOnly,
+            isDeleted: fi.isDeleted
+        });
+    }
+
+    getFunction(fi: FunctionInfo) {
+        return Observable.of(fi);
     }
 }
