@@ -52,7 +52,7 @@ export class MockFunctionsService implements IFunctionsService {
     createFunction(functionName: string, templateId: string) {
         console.log(functionName);
         console.log(templateId);
-        return Observable.of("Ok");
+        return Observable.of({name: functionName});
     }
 
     getTemplates() {

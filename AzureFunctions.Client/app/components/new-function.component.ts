@@ -2,6 +2,7 @@ import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {NewFunctionModel} from '../models/new-function-model';
+import {FunctionInfo} from '../models/function-info';
 import {Observable} from 'rxjs/Rx';
 
 @Component({
@@ -16,11 +17,11 @@ export class NewFunctionComponent implements OnInit {
     public triggers: { [id: string]: string[] };
     public model: NewFunctionModel;
     public creating: boolean;
-    private functionAdded: EventEmitter<boolean>;
+    private functionAdded: EventEmitter<FunctionInfo>;
 
 
     constructor(private _functionsService: FunctionsService) {
-        this.functionAdded = new EventEmitter<boolean>();
+        this.functionAdded = new EventEmitter<FunctionInfo>();
         this.model = {};
         this.triggers = {};
         this.contentSources = ['Empty', 'From Template', 'From Zip'];
@@ -52,7 +53,7 @@ export class NewFunctionComponent implements OnInit {
         this.creating = true;
         this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
             .subscribe(res => {
-                this.functionAdded.next(true);
+                this.functionAdded.next(res);
                 this.creating = false;
             });
     }

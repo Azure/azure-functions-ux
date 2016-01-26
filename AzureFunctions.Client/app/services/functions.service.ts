@@ -75,7 +75,7 @@ export class FunctionsService implements IFunctionsService {
             requestBody: (templateId && templateId !== 'Empty' ? { template_id: templateId } : null)
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<string>(r => r.statusText);
+            .map<FunctionInfo>(r => r.json());
     }
 
     getNewFunctionNode(): FunctionInfo {

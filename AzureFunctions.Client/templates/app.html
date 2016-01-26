@@ -4,6 +4,7 @@
         <sidebar
             [functionsInfo]="functionsInfo"
             [deleteSelectedFunction]="deleteSelectedFunction"
+            [addedFunction]="addedFunction"
             (selectedFunction)="onFunctionSelect($event)">
         </sidebar>
         <div class="work-space">
@@ -14,7 +15,7 @@
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <new-function (functionAdded)="initFunctions()"></new-function>
+                    <new-function (functionAdded)="initFunctions($event)"></new-function>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ import {Subject} from 'rxjs/Subject';
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.html',
-    inputs: ['functionsInfo', 'deleteSelectedFunction'],
+    inputs: ['functionsInfo', 'deleteSelectedFunction', 'addedFunction'],
     outputs: ['functionSelected: selectedFunction']
 })
 export class SideBarComponent {
@@ -19,6 +19,14 @@ export class SideBarComponent {
 
     constructor(private _functionsService: FunctionsService) {
         this.functionSelected = new EventEmitter<FunctionInfo>();
+    }
+
+    set addedFunction(value: FunctionInfo) {
+        if (value) {
+            this.functionsInfo.push(value);
+            this.selectedFunction = value;
+            this.functionSelected.next(value);
+        }
     }
 
     set deleteSelectedFunction(f: boolean) {

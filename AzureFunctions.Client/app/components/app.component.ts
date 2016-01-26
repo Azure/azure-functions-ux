@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public deleteSelectedFunction: boolean;
+    public addedFunction: FunctionInfo;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) { }
@@ -27,21 +28,21 @@ export class AppComponent implements OnInit{
         this.initializing = true;
         this._functionsService.initializeUser()
             .subscribe(r => {
-                this.initFunctions();
+                this._functionsService.getFunctions()
+                .subscribe(res => {
+                    res.unshift(this._functionsService.getNewFunctionNode());
+                    res.unshift(this._functionsService.getSettingsNode());
+                    this.functionsInfo = res;
+                    this.initializing = false;
+                });
                 this._functionsService.getTemplates()
                     .subscribe(res => this.functionTemplates = res);
                 this._functionsService.warmupMainSite();
             });
     }
 
-    initFunctions() {
-        this._functionsService.getFunctions()
-            .subscribe(res => {
-                res.unshift(this._functionsService.getNewFunctionNode());
-                res.unshift(this._functionsService.getSettingsNode());
-                this.functionsInfo = res;
-                this.initializing = false;
-            });
+    initFunctions(fi: FunctionInfo) {
+        this.addedFunction = fi;
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){
