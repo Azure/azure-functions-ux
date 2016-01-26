@@ -16,7 +16,7 @@ export interface IFunctionsService {
     createFunction(functionName: string, templateId: string): Observable<string>;
     getNewFunctionNode(): FunctionInfo;
     getSettingsNode(): FunctionInfo;
-    getTestData(functionInfo: FunctionInfo): Observable<VfsObject>;
+    getTestData(functionInfo: FunctionInfo): Observable<string>;
     runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
     getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;

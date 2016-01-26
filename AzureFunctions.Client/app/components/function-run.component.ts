@@ -7,7 +7,7 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
 @Component({
     selector: 'function-run',
     templateUrl: 'templates/function-run.html',
-    inputs: ['testDataFile', 'functionInfo'],
+    inputs: ['functionInfo'],
     directives: [AceEditorDirective]
 })
 export class FunctionRunComponent {
@@ -17,6 +17,7 @@ export class FunctionRunComponent {
     public runId: string;
     public runResult: string;
     public running: boolean;
+    public content: string;
     private updatedContent: string;
 
     constructor(private _functionsService: FunctionsService) { }
@@ -24,7 +25,14 @@ export class FunctionRunComponent {
     toggleShowRun() {
         this.showRun = !this.showRun;
         this._functionsService.getTestData(this.functionInfo)
-            .subscribe(r => this.testDataFile = r);
+            .subscribe(r => {
+                this.content = r;
+                this.testDataFile = {
+                    href: this.functionInfo.test_data_href,
+                    isDirty: false,
+                    name: 'sample.dat'
+                };
+            });
     }
 
     contentChanged(content: string) {

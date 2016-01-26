@@ -17,7 +17,7 @@
                 <div class="ace_editor" aceEditor
                     *ngIf="testDataFile"
                     [fileObject]="testDataFile"
-                    [content]="testDataFile.content"
+                    [content]="content"
                     (contentChanged)="contentChanged($event)"
                     [height]="600">
                 </div>

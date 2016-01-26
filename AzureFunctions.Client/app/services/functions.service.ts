@@ -115,15 +115,7 @@ export class FunctionsService implements IFunctionsService {
             .catch(e => Observable.of({
                 text: () => ''
             }))
-            .map<VfsObject>(r => {
-                return {
-                    name: 'sample.dat',
-                    content: r.text(),
-                    href: functionInfo.test_data_href,
-                    isNew: false,
-                    isDirty: false
-                };
-            });
+            .map<string>(r => r.text());
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
