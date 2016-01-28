@@ -127,6 +127,7 @@ namespace AzureFunctions.Controllers
                     if (!appSettings.properties.ContainsKey(Constants.SiteExtensionsVersion) ||
                         !appSettings.properties[Constants.SiteExtensionsVersion].Equals(currentSiteExtensionsVersion, StringComparison.OrdinalIgnoreCase))
                     {
+                        await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
                         await PublishSiteExtensions(client, scmUrl, firstTime: false);
                         appSettings.properties[Constants.SiteExtensionsVersion] = currentSiteExtensionsVersion;
                         updateAppSettings = true;
@@ -158,11 +159,16 @@ namespace AzureFunctions.Controllers
                     vfsResponse = await client.SendAsync(deleteReq);
                     await vfsResponse.EnsureSuccessStatusCodeWithFullError();
                 }
+                else
+                {
+                    await client.DeleteAsync($"{scmUrl}/api/processes/-1");
+                }
                 var pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
                 await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
                 pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
                 await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                pKuduResponse = await client.DeleteAsync($"{scmUrl}/api/processes/0");
+                await client.DeleteAsync($"{scmUrl}/api/processes/0");
+                await client.DeleteAsync($"{scmUrl}/api/processes/-1");
                 //pKuduResponse.EnsureSuccessStatusCode();
             }
         }
