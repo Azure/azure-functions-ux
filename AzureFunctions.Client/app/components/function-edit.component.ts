@@ -24,6 +24,7 @@ export class FunctionEditComponent {
     public content: string;
     public scriptContent: string;
     public configContent: string;
+    public webHookType: string;
     public secrets: FunctionSecrets;
     public isCode: boolean;
     public fileName: string;
@@ -40,8 +41,8 @@ export class FunctionEditComponent {
             .switchMap(fi =>
                 Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
-                    this._functionsService.getSecrets(fi),
-                    this._functionsService.getFunction(fi),
+                    fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
+                    fi.clientOnly ? Observable.of(fi) : this._functionsService.getFunction(fi),
                     (c, s, f) => ({ content: c, secrets: s, functionInfo: f })
                 )
             )
@@ -51,9 +52,19 @@ export class FunctionEditComponent {
                 this.fileName = fileName;
                 this.scriptFile = { href: this.functionInfo.script_href, name: fileName };
                 this.scriptContent = res.content;
-                this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
-                this.content = this.isCode ? this.scriptContent : this.configContent;
-                this.createSecretIfNeeded(res.functionInfo, res.secrets);
+                if (!this.functionInfo.clientOnly) {
+                    this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
+                    this.content = this.isCode ? this.scriptContent : this.configContent;
+                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
+                    var inputBinding = this.functionInfo.config.bindings.input.find(e => !!e.webHookReceiver);
+                    if (inputBinding) {
+                        this.webHookType = inputBinding.webHookReceiver;
+                    } else {
+                        delete this.webHookType;
+                    }
+                } else {
+                    this.content = this.scriptContent;
+                }
             });
     }
 
@@ -63,7 +74,7 @@ export class FunctionEditComponent {
                 //http://stackoverflow.com/a/8084248/3234163
                 var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                 this._functionsService.setSecrets(fi, { webHookReceiverKey: secret })
-                .subscribe(r => this.secrets = r);
+                    .subscribe(r => this.secrets = r);
             } else {
                 this.secrets = secrets;
             }
@@ -78,7 +89,18 @@ export class FunctionEditComponent {
     }
 
     get functionInvokeUrl(): string {
-        return this._functionsService.getFunctionInvokeUrl(this.functionInfo);
+        return this._functionsService.getFunctionInvokeUrl(this.functionInfo) +
+            ((this.webHookType === 'genericJson' && this.secrets && this.secrets.webHookReceiverKey) ? ('?code=' + this.secrets.webHookReceiverKey) : '');
+    }
+
+    get functionsCloneUrl(): string {
+        var url = this._functionsService.getScmUrl();
+        var siteName = url.substring(8, url.indexOf('.'));
+        return `${url}/${siteName}.git`;
+    }
+
+    get logStreamingUrl(): string {
+        return `${this._functionsService.getScmUrl()}/api/logstream/application`;
     }
 
     saveScript() {

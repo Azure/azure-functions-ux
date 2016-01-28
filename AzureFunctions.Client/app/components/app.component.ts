@@ -3,16 +3,18 @@ import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
+import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 
+
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.html',
-    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent],
+    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent, LogStreamingComponent]
 })
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit{
             .subscribe(r => {
                 this._functionsService.getFunctions()
                 .subscribe(res => {
+                    res.unshift(this._functionsService.getLogStreamingNode());
                     res.unshift(this._functionsService.getNewFunctionNode());
                     res.unshift(this._functionsService.getSettingsNode());
                     this.functionsInfo = res;

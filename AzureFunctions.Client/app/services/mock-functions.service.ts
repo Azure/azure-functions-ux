@@ -88,6 +88,20 @@ export class MockFunctionsService implements IFunctionsService {
         };
     }
 
+    getLogStreamingNode() {
+        return {
+            name: 'Log Streaming',
+            href: null,
+            config: null,
+            script_href: null,
+            template_id: null,
+            test_data_href: null,
+            clientOnly: true,
+            isDeleted: false,
+            secrets_file_href: null
+        };
+    }
+
     getTestData(functionInfo: FunctionInfo) {
         return Observable.of('sample test data');
     }
@@ -143,5 +157,17 @@ export class MockFunctionsService implements IFunctionsService {
 
     getFunction(fi: FunctionInfo) {
         return Observable.of(fi);
+    }
+
+    getScmUrl() {
+        return this.scmInfo.scm_url;
+    }
+
+    getBearerHeader() {
+        return 'Bearer token';
+    }
+
+    getBasicHeader() {
+        return 'Basic Token';
     }
 }

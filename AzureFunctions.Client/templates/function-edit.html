@@ -8,9 +8,19 @@
             <div class="left"><label>Function Url:</label></div>
             <div class="right"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
         </div>
-        <div class="row" *ngIf="secrets && secrets.webHookReceiverKey">
+        <div class="row" *ngIf="secrets && secrets.webHookReceiverKey && webHookType !== 'genericJson'">
             <div class="left"><label>WebHook Secret:</label></div>
             <div class="right"><pre (click)="highlightText($event)">{{secrets.webHookReceiverKey}}</pre></div>
+        </div>
+    </div>
+    <div *ngIf="functionInfo.clientOnly">
+        <div class="row">
+            <div class="left"><label>Clone Url:</label></div>
+            <div class="right"><pre (click)="highlightText($event)">{{functionsCloneUrl}}</pre></div>
+        </div>
+        <div class="row">
+            <div class="left"><label>Log Streaming Url:</label></div>
+            <div class="right"><pre (click)="highlightText($event)">{{logStreamingUrl}}</pre></div>
         </div>
     </div>
     <div *ngIf="scriptFile">

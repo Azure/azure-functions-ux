@@ -117,6 +117,10 @@ namespace AzureFunctions.Controllers
                     updateAppSettings = true;
                 }
 
+                sitesResponse = await client.PostAsync(ArmUriTemplates.SitePublishingCredentials.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new StringContent(string.Empty));
+                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
+                var publishingCredentials = await sitesResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsitePublishingCredentials>>();
+
                 using (var rstream = new StreamReader(@"D:\home\site\Functions\App_Data\version.txt"))
                 {
                     var currentSiteExtensionsVersion = await rstream.ReadToEndAsync();
@@ -136,7 +140,7 @@ namespace AzureFunctions.Controllers
                 }
 
                 // return it's scm name
-                return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl });
+                return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl, bearer = GetToken(), basic = $"{publishingCredentials.properties.publishingUserName}:{publishingCredentials.properties.publishingPassword}".ToBase64() });
             }
         }
 
@@ -194,6 +198,11 @@ namespace AzureFunctions.Controllers
             }
         }
 
+        private string GetToken()
+        {
+            return Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
+        }
+
         private HttpClient GetClient(string baseUri = null)
         {
             var client = new HttpClient();
@@ -201,8 +210,7 @@ namespace AzureFunctions.Controllers
             {
                 client.BaseAddress = new Uri(baseUri);
             }
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault());
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken());
             client.DefaultRequestHeaders.Add("User-Agent", Request.RequestUri.Host);
             client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
             return client;

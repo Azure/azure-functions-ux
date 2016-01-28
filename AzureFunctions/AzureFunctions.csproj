@@ -106,6 +106,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\ArmUriTemplate.cs" />
     <Compile Include="Code\ArmUriTemplates.cs" />
+    <Compile Include="Code\StringExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Models\ArmModels\ArmSubscription.cs" />
     <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />
     <Compile Include="Models\ArmModels\ArmWebsite.cs" />
+    <Compile Include="Models\ArmModels\ArmWebsitePublishingCredentials.cs" />
     <Compile Include="Models\ArmModels\ArmWrapper.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Modules\AADOAuth2AccessToken.cs" />

@@ -106,6 +106,20 @@ export class FunctionsService implements IFunctionsService {
         };
     }
 
+    getLogStreamingNode() {
+        return {
+            name: 'Log Streaming',
+            href: null,
+            config: null,
+            script_href: null,
+            template_id: null,
+            test_data_href: null,
+            clientOnly: true,
+            isDeleted: false,
+            secrets_file_href: null
+        };
+    }
+
     getTestData(functionInfo: FunctionInfo) {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
@@ -214,6 +228,18 @@ export class FunctionsService implements IFunctionsService {
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
+    }
+
+    getScmUrl() {
+        return this.scmInfo.scm_url;
+    }
+
+    getBearerHeader() {
+        return `Bearer ${this.scmInfo.bearer}`;
+    }
+
+    getBasicHeader() {
+        return `Basic ${this.scmInfo.basic}`;
     }
 
     private getHeaders(contentType?: string): Headers {
