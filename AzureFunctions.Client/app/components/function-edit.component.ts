@@ -5,6 +5,7 @@ import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
+import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Rx';
@@ -15,7 +16,7 @@ import {FunctionSecrets} from '../models/function-secrets';
     templateUrl: 'templates/function-edit.html',
     inputs: ['selectedFunction'],
     outputs: ['deleteSelectedFunction'],
-    directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent]
+    directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent, LogStreamingComponent]
 })
 export class FunctionEditComponent {
     public functionInfo: FunctionInfo;

@@ -10,15 +10,12 @@
         <div class="work-space">
             <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">
-                <div *ngIf="(selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly) && selectedFunction.name !== 'Log Streaming'">
+                <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
                     <function-edit [selectedFunction]="selectedFunction"  (deleteSelectedFunction)="onDeleteSelectedFunction($event)">
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
                     <new-function (functionAdded)="initFunctions($event)"></new-function>
-                </div>
-                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'Log Streaming'">
-                    <log-streaming [functionInfo]="selectedFunction"></log-streaming>
                 </div>
             </div>
         </div>

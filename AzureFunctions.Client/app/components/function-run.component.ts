@@ -24,6 +24,7 @@ export class FunctionRunComponent {
 
     toggleShowRun() {
         this.showRun = !this.showRun;
+        this.updatedContent = null;
         this._functionsService.getTestData(this.functionInfo)
             .subscribe(r => {
                 this.content = r;
@@ -48,7 +49,7 @@ export class FunctionRunComponent {
     runFunction() {
         this.running = true;
         this.saveTestData();
-        this._functionsService.runFunction(this.functionInfo, this.updatedContent)
+        this._functionsService.runFunction(this.functionInfo, this.updatedContent || this.content)
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,
                        () => this.running = false);

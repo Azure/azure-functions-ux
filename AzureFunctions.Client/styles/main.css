@@ -635,3 +635,8 @@ input.radio:focus ~ label:before {
 }
 
 /**/
+
+.log-stream {
+    height: 400;
+    overflow-y: scroll;
+}

@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from 'angular2/core';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 
@@ -7,35 +7,35 @@ import {FunctionsService} from '../services/functions.service';
     templateUrl: 'templates/log-streaming.html',
     inputs: ['functionInfo']
 })
-export class LogStreamingComponent implements OnInit {
-    public functionInfo: FunctionInfo;
+export class LogStreamingComponent {
     public log: string;
+    private xhReq: XMLHttpRequest;
     private basic: string;
     private scmUrl: string;
-    private nextReadPos: number;
+    private timerId: number;
 
     constructor(private _functionsService: FunctionsService) {
-        this.nextReadPos = 0;
         this.basic = _functionsService.getBasicHeader();
         this.scmUrl = _functionsService.getScmUrl();
     }
 
-    ngOnInit() {
-        var xhReq = new XMLHttpRequest();
-        xhReq.open('GET', `${this.scmUrl}/api/logstream/application`, true);
-        xhReq.setRequestHeader('Authorization', this.basic);
-        //xhReq.setRequestHeader('Accept', '*/*');
-        xhReq.setRequestHeader('Accept-Encoding', 'deflate');
-
-        xhReq.send(null);
-        var nextReadPos = 0;
-        var pollTimer = setInterval(() => {
-            this.log = xhReq.responseText;
-            //var unprocessed = allMessages.substring(nextReadPos);
-            //if (unprocessed.length > 0) {
-            //    this.renderMessage(unprocessed);
-            //    nextReadPos += unprocessed.length;
-            //}
+    set functionInfo(value: FunctionInfo) {
+        if (this.xhReq) {
+            window.clearInterval(this.timerId);
+            this.log = '';
+            this.xhReq.abort();
+        }
+        this.xhReq = new XMLHttpRequest();
+        this.xhReq.open('GET', `${this.scmUrl}/api/logstream/application/functions/function/${value.name}`, true);
+        this.xhReq.setRequestHeader('Authorization', this.basic);
+        this.xhReq.setRequestHeader('FunctionsPortal', '1');
+        this.xhReq.send(null);
+        this.timerId = window.setInterval(() => {
+            this.log = this.xhReq.responseText;
+            window.setTimeout(() => {
+                var el = document.getElementById('log-stream');
+                el.scrollTop = el.scrollHeight;
+            });
         }, 1000);
     }
 }

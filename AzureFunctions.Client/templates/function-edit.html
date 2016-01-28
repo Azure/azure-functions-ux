@@ -47,6 +47,11 @@
         (onSave)="saveScript()"
         (onContentChanged)="contentChanged($event)"
         [content]="content"
-        [fileName]="fileName">
+        [fileName]="fileName"
+        [height]="500">
     </div>
+</div>
+<div *ngIf="functionInfo" class="gutter-container">
+    <h2>Log Streaming:</h2>
+    <log-streaming [functionInfo]="functionInfo"></log-streaming>
 </div>

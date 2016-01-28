@@ -30,6 +30,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url}/api/functions`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(e => (e.status === 503 ? this.getFunctions().map(r => ({json: () => r})) : e))
             .map<FunctionInfo[]>(r => r.json());
     }
 
@@ -65,6 +66,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url}/api/functions/templates`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(e => (e.status === 503 ? this.getTemplates().map(r => ({json: () => r})) : e))
             .map<FunctionTemplate[]>(r => r.json());
     }
 
