@@ -53,8 +53,10 @@ export class NewFunctionComponent implements OnInit {
         this.creating = true;
         this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
             .subscribe(res => {
-                this.functionAdded.next(res);
-                this.creating = false;
+                window.setTimeout(() => {
+                    this.functionAdded.next(res);
+                    this.creating = false;
+                }, 1500);
             });
     }
 
