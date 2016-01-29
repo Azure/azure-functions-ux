@@ -7,7 +7,7 @@ import {FunctionsService} from '../services/functions.service';
     templateUrl: 'templates/log-streaming.html',
     inputs: ['functionInfo']
 })
-export class LogStreamingComponent {
+export class LogStreamingComponent implements OnDestroy {
     public log: string;
     private xhReq: XMLHttpRequest;
     private basic: string;
@@ -34,8 +34,17 @@ export class LogStreamingComponent {
             this.log = this.xhReq.responseText;
             window.setTimeout(() => {
                 var el = document.getElementById('log-stream');
-                el.scrollTop = el.scrollHeight;
+                if (el) {
+                    el.scrollTop = el.scrollHeight;
+                }
             });
         }, 1000);
+    }
+
+    ngOnDestroy() {
+        if (this.xhReq){
+            window.clearInterval(this.timerId);
+            this.xhReq.abort();
+        }
     }
 }
