@@ -26,6 +26,49 @@ namespace AzureFunctions.Modules
         public const string OAuthTokenCookie = "OAuthToken";
         public const string DeleteCookieFormat = "{0}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         public const int CookieChunkSize = 2000;
+        private static ReaderWriterLockSlim _rwlock;
+        private static string[] _allowesUsers;
+        private static FileSystemWatcher _watcher;
+
+        static ARMOAuthModule()
+        {
+            var path = @"D:\home\site\wwwroot\users.txt";
+            _rwlock = new ReaderWriterLockSlim();
+            _watcher = new FileSystemWatcher();
+            _watcher.Path = @"D:\home\site\wwwroot";
+            _watcher.Filter = "users.txt";
+            _watcher.NotifyFilter = NotifyFilters.LastWrite;
+            _watcher.Changed += new FileSystemEventHandler((s, e) =>
+            {
+                _rwlock.EnterWriteLock();
+                try
+                {
+                    _allowesUsers = File.ReadAllLines(path);
+                }
+                catch
+                {
+                    _allowesUsers = new string[0];
+                }
+                finally
+                {
+                    _rwlock.ExitWriteLock();
+                }
+            });
+            _watcher.EnableRaisingEvents = true;
+            _rwlock.EnterWriteLock();
+            try
+            {
+                _allowesUsers = File.ReadAllLines(path);
+            }
+            catch
+            {
+                _allowesUsers = new string[0];
+            }
+            finally
+            {
+                _rwlock.ExitWriteLock();
+            }
+        }
 
         public static readonly CookieTransform[] DefaultCookieTransforms = new CookieTransform[]
         {
@@ -168,18 +211,23 @@ namespace AzureFunctions.Modules
                 }
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
-                if (!string.IsNullOrEmpty(principalName) &&
-                    (principalName.EndsWith("@microsoft.com", StringComparison.OrdinalIgnoreCase) ||
-                    (File.Exists(@"D:\home\site\wwwroot\users.txt") &&
-                    File.ReadAllLines(@"D:\home\site\wwwroot\users.txt").Any(st => st.Trim().Equals(principalName, StringComparison.OrdinalIgnoreCase)))))
+                _rwlock.EnterReadLock();
+                try
                 {
-                    return;
+                    if (!string.IsNullOrEmpty(principalName) &&
+                        _allowesUsers.Any(st => st.Equals(principalName, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        return;
+                    }
                 }
-                else
+                finally
                 {
-                    HttpContext.Current.Response.StatusCode = 403;
-                    HttpContext.Current.Response.End();
+                    _rwlock.ExitReadLock();
                 }
+
+                // Not allowed
+                HttpContext.Current.Response.StatusCode = 403;
+                HttpContext.Current.Response.End();
             }
 
             response.Headers["Strict-Transport-Security"] = "max-age=0";
