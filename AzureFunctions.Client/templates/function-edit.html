@@ -33,7 +33,7 @@
             <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="functionInfo && !functionInfo.clientOnly">
         <div>
             <label class="editor-button" [class.checked]="isCode" (click)="changeEditor('code')">
                 <input type="radio" name="code-switch" value="code" /> Code

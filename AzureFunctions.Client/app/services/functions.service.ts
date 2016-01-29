@@ -18,6 +18,13 @@ export class FunctionsService implements IFunctionsService {
 
     initializeUser() {
         return this._http.post('api/init', '', { headers: this.getHeaders() })
+            .catch(e => {
+                if (e.status === 500) {
+                    return this.initializeUser().map(r => ({ json: () => r }));
+                } else {
+                    return Observable.of(e);
+                }
+            })
             .map<ScmInfo>(r => {
                 this.scmInfo = r.json();
                 return this.scmInfo;
