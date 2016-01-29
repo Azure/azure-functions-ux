@@ -391,8 +391,8 @@ pre {
 }
 
 .run-loader {
-    top: 430px;
-    left: 100px;
+    top: 69px;
+    left: 955px;
 }
 /* end loader */
 
@@ -639,4 +639,22 @@ input.radio:focus ~ label:before {
 .log-stream {
     height: 400;
     overflow-y: scroll;
+}
+
+.client-only {
+    font-weight: 700;
+    color: white;
+    background-color: #8FA4AE;
+    border-bottom: 1px solid #b0bdc5 !important;
+}
+
+.row > .half-width {
+    width: 49%;
+    float: left;
+}
+
+.view-table {
+    display: table;
+    border-collapse: separate;
+    width: 99%;
 }

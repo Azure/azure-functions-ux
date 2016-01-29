@@ -11,25 +11,24 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
     directives: [AceEditorDirective]
 })
 export class FunctionRunComponent {
-    public showRun: boolean;
     public testDataFile: VfsObject;
-    public functionInfo: FunctionInfo;
     public runId: string;
     public runResult: string;
     public running: boolean;
     public content: string;
     private updatedContent: string;
+    private _functionInfo: FunctionInfo;
 
     constructor(private _functionsService: FunctionsService) { }
 
-    toggleShowRun() {
-        this.showRun = !this.showRun;
+    set functionInfo(fi: FunctionInfo) {
+        this._functionInfo = fi;
         this.updatedContent = null;
-        this._functionsService.getTestData(this.functionInfo)
+        this._functionsService.getTestData(fi)
             .subscribe(r => {
                 this.content = r;
                 this.testDataFile = {
-                    href: this.functionInfo.test_data_href,
+                    href: fi.test_data_href,
                     isDirty: false,
                     name: 'sample.dat'
                 };
@@ -49,14 +48,14 @@ export class FunctionRunComponent {
     runFunction() {
         this.running = true;
         this.saveTestData();
-        this._functionsService.runFunction(this.functionInfo, this.updatedContent || this.content)
+        this._functionsService.runFunction(this._functionInfo, this.updatedContent || this.content)
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,
                        () => this.running = false);
     }
 
     getStatus() {
-        this._functionsService.getRunStatus(this.functionInfo, this.runId)
+        this._functionsService.getRunStatus(this._functionInfo, this.runId)
             .subscribe(r => this.runResult = r);
     }
 }

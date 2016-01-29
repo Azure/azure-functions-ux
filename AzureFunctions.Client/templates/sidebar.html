@@ -3,8 +3,9 @@
         <li *ngFor="#functionInfo of functionsInfo"
            (click)="functionSelected.next(functionInfo)"
            (click)="selectedFunction = functionInfo"
-            class="function-item">
-            <span style="display: block; padding: 10px" class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
+            class="function-item"
+            [class.client-only]="functionInfo.clientOnly">
+            <span style="display: block; padding: 10px" class="function-item clickable" [class.client-only]="functionInfo.clientOnly" [class.selected]="functionInfo === selectedFunction" href="#">
                 {{functionInfo.name}}
             </span>
         </li>

@@ -7,6 +7,7 @@ using System.IdentityModel;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Services;
 using System.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -167,7 +168,18 @@ namespace AzureFunctions.Modules
                 }
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
-                return;
+                if (!string.IsNullOrEmpty(principalName) &&
+                    (principalName.EndsWith("@microsoft.com", StringComparison.OrdinalIgnoreCase) ||
+                    (File.Exists(@"D:\home\site\wwwroot\users.txt") &&
+                    File.ReadAllLines(@"D:\home\site\wwwroot\users.txt").Any(st => st.Trim().Equals(principalName, StringComparison.OrdinalIgnoreCase)))))
+                {
+                    return;
+                }
+                else
+                {
+                    HttpContext.Current.Response.StatusCode = 403;
+                    HttpContext.Current.Response.End();
+                }
             }
 
             response.Headers["Strict-Transport-Security"] = "max-age=0";

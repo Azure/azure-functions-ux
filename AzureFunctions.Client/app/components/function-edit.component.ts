@@ -57,7 +57,9 @@ export class FunctionEditComponent {
                     this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
                     this.content = this.isCode ? this.scriptContent : this.configContent;
                     this.createSecretIfNeeded(res.functionInfo, res.secrets);
-                    var inputBinding = this.functionInfo.config.bindings.input.find(e => !!e.webHookReceiver);
+                    var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
+                        ? this.functionInfo.config.bindings.input.find(e => !!e.webHookReceiver)
+                        : null);
                     if (inputBinding) {
                         this.webHookType = inputBinding.webHookReceiver;
                     } else {

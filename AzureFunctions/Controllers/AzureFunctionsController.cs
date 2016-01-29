@@ -121,7 +121,7 @@ namespace AzureFunctions.Controllers
                 await sitesResponse.EnsureSuccessStatusCodeWithFullError();
                 var publishingCredentials = await sitesResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsitePublishingCredentials>>();
 
-                using (var rstream = new StreamReader(@"D:\home\site\Functions\App_Data\version.txt"))
+                using (var rstream = new StreamReader(@"D:\home\site\wwwroot\App_Data\version.txt"))
                 {
                     var currentSiteExtensionsVersion = await rstream.ReadToEndAsync();
                     if (!appSettings.properties.ContainsKey(Constants.SiteExtensionsVersion) ||
@@ -147,8 +147,8 @@ namespace AzureFunctions.Controllers
 
         private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
         {
-            using (var kuduStream = File.OpenRead(@"D:\home\site\Functions\App_Data\Kudu.zip"))
-            using (var sdkStream = File.OpenRead(@"D:\home\site\Functions\App_Data\AzureFunctions.zip"))
+            using (var kuduStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\Kudu.zip"))
+            using (var sdkStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\AzureFunctions.zip"))
             {
                 if (firstTime)
                 {

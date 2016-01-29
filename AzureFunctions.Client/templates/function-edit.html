@@ -1,4 +1,3 @@
-<function-run [functionInfo]="functionInfo"></function-run>
 <div *ngIf="functionInfo" class="gutter-container">
     <h2>{{functionInfo.name}} 
         <i *ngIf="!functionInfo.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(functionInfo)"></i>
@@ -23,14 +22,18 @@
             <div class="right"><pre (click)="highlightText($event)">{{logStreamingUrl}}</pre></div>
         </div>
     </div>
-    <div *ngIf="scriptFile">
+
+</div>
+
+<div class="view-table" *ngIf="scriptFile">
+<div class="row">
+    <div class="left half-width" style="padding-right: 20px">
+    <div *ngIf="scriptFile" style="padding-bottom: 5px">
         <div class="file-tools">
             <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
         </div>
     </div>
-</div>
-<div class="row" style="margin-bottom: 10px" *ngIf="scriptFile && !functionInfo.clientOnly">
-    <div class="">
+    <div class="row">
         <div>
             <label class="editor-button" [class.checked]="isCode" (click)="changeEditor('code')">
                 <input type="radio" name="code-switch" value="code" /> Code
@@ -40,18 +43,23 @@
             </label> 
         </div>
     </div>
-</div>
-<div style="padding-right: 20px; padding-top: 5px">
-    <div class="ace_editor" aceEditor id="editor"
-        *ngIf="scriptFile"
-        (onSave)="saveScript()"
-        (onContentChanged)="contentChanged($event)"
-        [content]="content"
-        [fileName]="fileName"
-        [height]="500">
+        <div style="padding-top: 5px">
+                <div class="ace_editor" aceEditor id="editor"
+                
+                (onSave)="saveScript()"
+                (onContentChanged)="contentChanged($event)"
+                [content]="content"
+                [fileName]="fileName"
+                [height]="500">
+            </div>
+        </div>
+        <div *ngIf="functionInfo && !functionInfo.clientOnly" class="gutter-container">
+            <h2>Logs:</h2>
+            <log-streaming [functionInfo]="functionInfo"></log-streaming>
+        </div>
+    </div>
+    <div class="right half-width">
+        <function-run *ngIf="functionInfo && !functionInfo.clientOnly" [functionInfo]="functionInfo"></function-run>
     </div>
 </div>
-<div *ngIf="functionInfo" class="gutter-container">
-    <h2>Log Streaming:</h2>
-    <log-streaming [functionInfo]="functionInfo"></log-streaming>
 </div>

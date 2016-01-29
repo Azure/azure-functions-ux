@@ -1,36 +1,22 @@
 <div class="function-run-container">
-    <div class="pure-container"  data-effect="pure-effect-slide">
-        <input type="checkbox" [(ngModel)]="showRun" id="pure-toggle-right" class="pure-toggle" data-toggle="right"/>
-        <button class="custom-button run-button" (click)="toggleShowRun()"><i class="fa fa-angle-double-left"></i> Run</button>
+    <div *ngIf="testDataFile">
+                <button 
+                class="custom-button"
+                style="margin-bottom: 44px"
+                [class.dirty]="testDataFile.isDirty"
+                (click)="runFunction()">
 
-        <nav class="pure-drawer" data-position="right">
-            <div *ngIf="showRun">
-                <div class="sm-padding">
-                    <button *ngIf="testDataFile"
-                            class="custom-button"
-                            style="margin-bottom: 10px"
-                            [class.dirty]="testDataFile.isDirty"
-                            (click)="runFunction()">
-
-                            Run
-                    </button>
-                <div class="ace_editor" aceEditor
-                    *ngIf="testDataFile"
-                    [content]="content"
-                    [fileName]="testDataFile.name"
-                    (onSave)="saveTestData()"
-                    (onContentChanged)="contentChanged($event)"
-                    [height]="600">
-                </div>
+                Run
+            </button>
+            <div class="ace_editor" aceEditor
+            [content]="content"
+            [fileName]="testDataFile.name"
+            (onSave)="saveTestData()"
+            (onContentChanged)="contentChanged($event)"
+            [height]="500">
             </div>
-            <div class="sm-padding">
-                <h3>Result:</h3>
-                <div class="loader run-loader" *ngIf="running"></div>
-            </div>
-            </div>
-            <pre class="result">{{runResult}}</pre>
-        </nav>
-
-        <label class="pure-overlay" for="pure-toggle-right" data-overlay="right"></label> 
+        <h2>Result:</h2>
+        <div class="loader run-loader" *ngIf="running"></div>
+        <pre class="log-stream">{{runResult}}</pre>
     </div>
 </div>
