@@ -24,6 +24,7 @@ export class FunctionRunComponent {
     set functionInfo(fi: FunctionInfo) {
         this._functionInfo = fi;
         this.updatedContent = null;
+        delete this.runResult;
         this._functionsService.getTestData(fi)
             .subscribe(r => {
                 this.content = r;
