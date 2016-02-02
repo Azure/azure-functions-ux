@@ -1,0 +1,72 @@
+{
+  "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion":"1.0.0.0",
+  "parameters":{
+    "storageAccountName": {
+      "type": "string"
+    },
+    "appName":{
+      "type":"string"
+    },
+    "appLocation":{
+      "type":"string"
+    },
+    "appServicePlanId":{
+      "type":"string"
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "slotName": "Staging",
+    "storageAccountName": "[parameters('storageAccountName')]",
+    "storageAccountType": "Standard_LRS",
+    "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+  },
+  "resources":[
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[variables('location')]",
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    {
+      "apiVersion":"2015-08-01",
+      "name":"[parameters('appName')]",
+      "type":"Microsoft.Web/sites",
+      "location":"[parameters('appLocation')]",
+      "properties":{
+        "serverFarmId":"[parameters('appServicePlanId')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "[variables('slotName')]",
+          "type": "slots",
+          "location": "[parameters('appLocation')]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('appName'))]"
+          ],
+          "properties": {
+          },
+          "resources": [
+            {
+              "apiVersion":"2015-08-01",
+              "name":"web",
+              "type":"sourcecontrols",
+              "dependsOn":[
+                "[resourceId('Microsoft.Web/Sites/slots', parameters('appName'), variables('slotName'))]"
+              ],
+              "properties":{
+                "RepoUrl":"https://github.com/projectkudu/AzureFunctions",
+                "branch":"master"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
