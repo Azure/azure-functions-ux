@@ -153,6 +153,16 @@ namespace AzureFunctions.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> InitUser()
+        {
+            var functionContainer = await this._armManager.GetFunctionContainer();
+            return functionContainer == null
+                ? Request.CreateResponse(HttpStatusCode.NotFound)
+                : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+        }
+
         private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
         {
             using (var kuduStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\Kudu.zip"))

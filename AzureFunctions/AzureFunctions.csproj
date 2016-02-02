@@ -132,6 +132,7 @@
     <Compile Include="Models\ArmModels\ArmWebsite.cs" />
     <Compile Include="Models\ArmModels\ArmWebsitePublishingCredentials.cs" />
     <Compile Include="Models\ArmModels\ArmWrapper.cs" />
+    <Compile Include="Models\FunctionContainer.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Modules\AADOAuth2AccessToken.cs" />
     <Compile Include="Modules\ARMOAuthModule.cs" />
