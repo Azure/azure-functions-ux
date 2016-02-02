@@ -106,6 +106,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   call :ExecuteCmd npm install --production
   IF !ERRORLEVEL! NEQ 0 goto error
   call :ExecuteCmd npm run tsc
+  IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
 
