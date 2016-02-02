@@ -153,12 +153,6 @@ namespace AzureFunctions.Controllers
             }
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetValues()
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, new { hello = "hi" });
-        }
-
         private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
         {
             using (var kuduStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\Kudu.zip"))

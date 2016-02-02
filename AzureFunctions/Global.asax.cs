@@ -50,7 +50,6 @@ namespace AzureFunctions
         {
             config.Routes.MapHttpRoute("initialize-user", "api/init", new { controller = "AzureFunctions", action = "InitializeUser" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
-            config.Routes.MapHttpRoute("test-get", "api/values", new { controller = "AzureFunctions", action = "GetValues" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
         }
     }
 }
