@@ -18,5 +18,8 @@ namespace AzureFunctions.Common
         public const string SiteExtensionsVersion = "SiteExtensionsVersion";
         public const string PublishingUserName = "publishingUserName";
         public const string PublishingPassword = "publishingPassword";
+        public const string FunctionsResourceGroupName = "AzureFunctions";
+        public const string FunctionsSitePrefix = "Functions";
+
     }
 }

@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Web.Hosting;
 
 namespace AzureFunctions.Modules
 {
@@ -32,10 +33,10 @@ namespace AzureFunctions.Modules
 
         static ARMOAuthModule()
         {
-            var path = @"D:\home\site\wwwroot\users.txt";
+            var path = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "users.txt");
             _rwlock = new ReaderWriterLockSlim();
             _watcher = new FileSystemWatcher();
-            _watcher.Path = @"D:\home\site\wwwroot";
+            _watcher.Path = Environment.ExpandEnvironmentVariables(HostingEnvironment.ApplicationPhysicalPath);
             _watcher.Filter = "users.txt";
             _watcher.NotifyFilter = NotifyFilters.LastWrite;
             _watcher.Changed += new FileSystemEventHandler((s, e) =>
@@ -211,6 +212,7 @@ namespace AzureFunctions.Modules
                 }
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
+
                 _rwlock.EnterReadLock();
                 try
                 {

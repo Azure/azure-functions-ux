@@ -1,5 +1,6 @@
 ﻿using AzureFunctions.Code;
 using AzureFunctions.Common;
+using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Models.ArmModels;
 using AzureFunctions.Modules;
@@ -21,6 +22,13 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
+        private IArmManager _armManager;
+
+        public AzureFunctionsController(IArmManager armManager)
+        {
+            this._armManager = armManager;
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<HttpResponseMessage> InitializeUser()
@@ -143,6 +151,12 @@ namespace AzureFunctions.Controllers
                 // return it's scm name
                 return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl, bearer = GetToken(), basic = $"{publishingCredentials.properties.publishingUserName}:{publishingCredentials.properties.publishingPassword}".ToBase64() });
             }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetValues()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, new { hello = "hi" });
         }
 
         private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
