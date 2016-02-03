@@ -10,6 +10,7 @@ import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -29,6 +30,14 @@ export class FunctionsService implements IFunctionsService {
                 this.scmInfo = r.json();
                 return this.scmInfo;
             });
+    }
+
+    createFunctionsContainer(subscriptionId: string) {
+        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US`, '', { headers : this.getHeaders() })
+            .map<ScmInfo>(r => {
+                this.scmInfo = r.json();
+                return this.scmInfo;
+            })
     }
 
     getFunctions() {
@@ -249,6 +258,11 @@ export class FunctionsService implements IFunctionsService {
 
     getBasicHeader() {
         return `Basic ${this.scmInfo.basic}`;
+    }
+
+    getSubscriptions() {
+        return this._http.get('api/listsubs')
+            .map<Subscription[]>(r => r.json());
     }
 
     private getHeaders(contentType?: string): Headers {

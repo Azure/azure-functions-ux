@@ -6,6 +6,7 @@ import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
 
 export interface IFunctionsService {
     initializeUser(): Observable<ScmInfo>;
@@ -26,4 +27,6 @@ export interface IFunctionsService {
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets): Observable<FunctionSecrets>;
     getFunctionInvokeUrl(fi: FunctionInfo): string;
     getScmUrl();
+    getSubscriptions(): Observable<Subscription[]>;
+    createFunctionsContainer(subscriptionId: string): Observable<ScmInfo>;
 }

@@ -8,6 +8,7 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
+import {Subscription} from '../models/subscription';
 
 
 @Component({
@@ -17,32 +18,51 @@ import {ScmInfo} from '../models/scm-info';
 })
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
+    public subscriptions: Subscription[];
+    public selectedSubscription: string;
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public deleteSelectedFunction: boolean;
     public addedFunction: FunctionInfo;
+    public noContainerFound: boolean;
     private initializing: boolean;
 
-    constructor(private _functionsService: FunctionsService) { }
+    constructor(private _functionsService: FunctionsService) {
+        this.noContainerFound = false;
+    }
 
     ngOnInit() {
         this.initializing = true;
         this._functionsService.initializeUser()
             .subscribe(r => {
-                this._functionsService.getFunctions()
-                .subscribe(res => {
-                    res.unshift(this._functionsService.getNewFunctionNode());
-                    res.unshift(this._functionsService.getSettingsNode());
-                    this.functionsInfo = res;
+                if (!r) {
+                    // No Container. Ask the user to pick.
+                    //get a list of subs and ask the user to chose.
                     this.initializing = false;
-                });
-                this._functionsService.getTemplates()
-                    .subscribe(res => this.functionTemplates = res);
-                this._functionsService.warmupMainSite();
+                    this.noContainerFound = true;
+                    this._functionsService.getSubscriptions()
+                        .subscribe(res => this.subscriptions = res);
+                } else {
+                    this.initFunctions();
+                }
             });
     }
 
-    initFunctions(fi: FunctionInfo) {
+    initFunctions() {
+        this.noContainerFound = false;
+        this._functionsService.getFunctions()
+            .subscribe(res => {
+                res.unshift(this._functionsService.getNewFunctionNode());
+                res.unshift(this._functionsService.getSettingsNode());
+                this.functionsInfo = res;
+                this.initializing = false;
+            });
+        this._functionsService.getTemplates()
+            .subscribe(res => this.functionTemplates = res);
+        this._functionsService.warmupMainSite();
+    }
+
+    onFunctionAdded(fi: FunctionInfo) {
         this.addedFunction = fi;
     }
 
@@ -55,6 +75,12 @@ export class AppComponent implements OnInit{
         if (deleteSelectedFunction) {
             this.selectedFunction = null;
         }
+    }
+
+    createFunctionContainer() {
+        this.initializing = true;
+        this._functionsService.createFunctionsContainer(this.selectedSubscription)
+            .subscribe(r => this.initFunctions());
     }
 
 }

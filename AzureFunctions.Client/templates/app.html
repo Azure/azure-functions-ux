@@ -15,7 +15,19 @@
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <new-function (functionAdded)="initFunctions($event)"></new-function>
+                    <new-function (functionAdded)="onFunctionAdded($event)"></new-function>
+                </div>
+            </div>
+            <div *ngIf="noContainerFound">It looks like you don't have a functions container</div>
+            <div class="row" *ngIf="noContainerFound && subscriptions">
+                <div class="left"><label>Subscription:</label></div>
+                <div class="functions-templates-select-container right">
+                    <select [(ngModel)]="selectedSubscription" class="function-templates-select">
+                        <option *ngFor="#subscription of subscriptions" [value]="subscription.subscriptionId">{{subscription.displayName}}({{subscription.subscriptionId}})</option>
+                    </select>
+                    <span *ngIf="!selectedSubscription" class="function-templates-selected-value">Select Subscription</span>
+                    <span *ngIf="selectedSubscription" class="function-templates-selected-value">{{selectedSubscription}}</span>
+                    <span class="function-templates-selected-arrow"></span>
                 </div>
             </div>
         </div>
