@@ -235,3 +235,4 @@ _Pvt_Extensions
 
 *.js.map
 *.js
+.idea/
