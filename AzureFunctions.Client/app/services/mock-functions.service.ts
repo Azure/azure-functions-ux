@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Rx';
 import {FunctionTemplate} from '../models/function-template';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -21,6 +22,10 @@ export class MockFunctionsService implements IFunctionsService {
                 this.scmInfo = r.json();
                 return this.scmInfo;
             });
+    }
+
+    createFunctionsContainer(subscriptionId: string) {
+        return this.initializeUser();
     }
 
     getFunctions() {
@@ -169,5 +174,10 @@ export class MockFunctionsService implements IFunctionsService {
 
     getBasicHeader() {
         return 'Basic Token';
+    }
+
+    getSubscriptions() {
+        return this._http.get('mocks/subscriptions.json')
+            .map<Subscription[]>(r => r.json());
     }
 }
