@@ -43,7 +43,7 @@ namespace AzureFunctions.Controllers
             }
             catch (Exception e)
             {
-                return Request.CreateResponse(HttpStatusCode.Conflict, e);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 
@@ -51,7 +51,14 @@ namespace AzureFunctions.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location)
         {
-            return Request.CreateResponse(HttpStatusCode.Created, await _armManager.CreateFunctionContainer(subscriptionId, location));
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.Created, await _armManager.CreateFunctionContainer(subscriptionId, location));
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+            }
         }
 
         [Authorize]

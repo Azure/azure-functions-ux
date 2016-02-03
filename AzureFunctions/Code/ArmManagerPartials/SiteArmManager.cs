@@ -105,7 +105,7 @@ namespace AzureFunctions.Code
 
         public async Task<Site> UpdateSiteAppSettings(Site site)
         {
-            var armResponse = await _client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings.Select(s => new { name = s.Key, value = s.Value }) });
+            var armResponse = await _client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings });
             await armResponse.EnsureSuccessStatusCodeWithFullError();
             return site;
         }
