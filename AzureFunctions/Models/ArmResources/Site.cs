@@ -24,7 +24,7 @@ namespace AzureFunctions.Models.ArmResources
 
         public string HostName { get; set; }
 
-        public string ScmHostName { get; set; }
+        public string ScmHostName { get { return $"https://{SiteName}.scm.azurewebsites.net"; } }
 
         public string BasicAuth { get; set; }
 

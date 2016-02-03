@@ -18,7 +18,7 @@ namespace AzureFunctions.Code
         private HttpClient _client;
         private IUserSettings _userSettings;
         private ISettings _settings;
-        private static HttpContent NullContent = new StringContent(string.Empty);
+        private HttpContent NullContent { get { return new StringContent(string.Empty); } }
 
         public ArmManager(IUserSettings userSettings, ISettings settings)
         {
@@ -67,7 +67,7 @@ namespace AzureFunctions.Code
             }
 
             if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                resourceGroup.FunctionsSite.AppSettings[Constants.SiteExtensionsVersion].Equals(_settings.CurrentSiteExtensionVersion))
+                !resourceGroup.FunctionsSite.AppSettings[Constants.SiteExtensionsVersion].Equals(_settings.CurrentSiteExtensionVersion, StringComparison.OrdinalIgnoreCase))
             {
                 await PublishCustomSiteExtensions(resourceGroup.FunctionsSite);
             }

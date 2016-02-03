@@ -67,7 +67,6 @@ namespace AzureFunctions.Code
             var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
             //await Load(site); not really needed but visit again maybe
-            site.ScmHostName = $"https://{site.SiteName}.scm.azurewebsites.net"; // work-around
             await CreateHostJson(site);
             await PublishCustomSiteExtensions(site);
             resourceGroup.FunctionsSite = site;
@@ -76,9 +75,10 @@ namespace AzureFunctions.Code
 
         public async Task<Site> CreateHostJson(Site site)
         {
-            var vfsResponse = await _client.PutAsync($"{site.ScmHostName}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
+            var scmUrl = $"https://{site.SiteName}.scm.azurewebsites.net"; // work-aroun
+            var vfsResponse = await _client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
             await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-            var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{site.ScmHostName}/api/vfs/site/wwwroot/hostingstart.html");
+            var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{scmUrl}/api/vfs/site/wwwroot/hostingstart.html");
             deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
             vfsResponse = await _client.SendAsync(deleteReq);
             await vfsResponse.EnsureSuccessStatusCodeWithFullError();
@@ -87,17 +87,18 @@ namespace AzureFunctions.Code
 
         public async Task<Site> PublishCustomSiteExtensions(Site site)
         {
+            var scmUrl = $"https://{site.SiteName}.scm.azurewebsites.net"; // work-aroun
             using (var kuduStream = File.OpenRead(Path.Combine(_settings.AppDataPath, "Kudu.zip")))
             using (var sdkStream = File.OpenRead(Path.Combine(_settings.AppDataPath, "AzureFunctions.zip")))
             {
-                await _client.DeleteAsync($"{site.ScmHostName}/api/processes/-1");
+                await _client.DeleteAsync($"{scmUrl}/api/processes/-1");
 
-                var pKuduResponse = await _client.PutAsync($"{site.ScmHostName}/api/zip", new StreamContent(kuduStream));
+                var pKuduResponse = await _client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
                 await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                pKuduResponse = await _client.PutAsync($"{site.ScmHostName}/api/zip", new StreamContent(sdkStream));
+                pKuduResponse = await _client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
                 await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                await _client.DeleteAsync($"{site.ScmHostName}/api/processes/0");
-                await _client.DeleteAsync($"{site.ScmHostName}/api/processes/-1");
+                await _client.DeleteAsync($"{scmUrl}/api/processes/0");
+                await _client.DeleteAsync($"{scmUrl}/api/processes/-1");
                 return site;
             }
         }

@@ -34,10 +34,17 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetFunctionContainer()
         {
-            var functionContainer = await this._armManager.GetFunctionContainer();
-            return functionContainer == null
-                ? Request.CreateResponse(HttpStatusCode.NotFound)
-                : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+            try
+            {
+                var functionContainer = await this._armManager.GetFunctionContainer();
+                return functionContainer == null
+                    ? Request.CreateResponse(HttpStatusCode.NotFound)
+                    : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.Conflict, e);
+            }
         }
 
         [Authorize]
