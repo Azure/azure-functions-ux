@@ -133,8 +133,8 @@ export class FunctionEditComponent {
         if (result)
             this._functionsService.deleteFunction(functionInfo)
                 .subscribe(r => {
-                    this.deleteSelectedFunction.next(false);
-                    this.deleteSelectedFunction.next(true);
+                    this.deleteSelectedFunction.emit(false);
+                    this.deleteSelectedFunction.emit(true);
                 });
     }
 

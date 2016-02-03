@@ -36,7 +36,7 @@ export class AceEditorDirective {
             // (Attempt to) separate user change from programatical
             // https://github.com/ajaxorg/ace/issues/503
             if (this.editor.curOp && this.editor.curOp.command.name) {
-                this.onContentChanged.next(this.editor.getValue());
+                this.onContentChanged.emit(this.editor.getValue());
             }
         });
 
@@ -47,7 +47,7 @@ export class AceEditorDirective {
                 mac: 'Command-S',
                 sender: 'editor|cli'
             },
-            exec: () => this.onSave.next(this.editor.getValue())
+            exec: () => this.onSave.emit(this.editor.getValue())
         });
 
         this.resizeAce();

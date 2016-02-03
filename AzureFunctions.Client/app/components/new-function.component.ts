@@ -54,7 +54,7 @@ export class NewFunctionComponent implements OnInit {
         this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
             .subscribe(res => {
                 window.setTimeout(() => {
-                    this.functionAdded.next(res);
+                    this.functionAdded.emit(res);
                     this.creating = false;
                 }, 1500);
             });

@@ -25,7 +25,7 @@ export class SideBarComponent {
         if (value) {
             this.functionsInfo.push(value);
             this.selectedFunction = value;
-            this.functionSelected.next(value);
+            this.functionSelected.emit(value);
         }
     }
 
