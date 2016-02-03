@@ -32,7 +32,7 @@ namespace AzureFunctions.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<HttpResponseMessage> InitUser()
+        public async Task<HttpResponseMessage> GetFunctionContainer()
         {
             var functionContainer = await this._armManager.GetFunctionContainer();
             return functionContainer == null

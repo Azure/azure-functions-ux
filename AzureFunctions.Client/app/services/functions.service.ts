@@ -18,10 +18,12 @@ export class FunctionsService implements IFunctionsService {
     constructor(private _http: Http) { }
 
     initializeUser() {
-        return this._http.post('api/init', '', { headers: this.getHeaders() })
+        return this._http.get('api/get', { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
                     return this.initializeUser().map(r => ({ json: () => r }));
+                } else if (e.status === 404) {
+                    return Observable.of({ json: () => undefined });
                 } else {
                     return Observable.of(e);
                 }

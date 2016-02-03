@@ -52,7 +52,7 @@ namespace AzureFunctions
 
         private void RegisterRoutes(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("initialize-user", "api/init", new { controller = "AzureFunctions", action = "InitUser" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
+            config.Routes.MapHttpRoute("get-functions-container", "api/get", new { controller = "AzureFunctions", action = "GetFunctionContainer" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("create-function-container", "api/create", new { controller = "AzureFunctions", action = "CreateFunctionsContainer" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
             config.Routes.MapHttpRoute("list-subscriptions", "api/listsubs", new { controller = "AzureFunctions", action = "ListSubscriptions" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
