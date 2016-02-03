@@ -41,7 +41,10 @@ export class AppComponent implements OnInit{
                     this.initializing = false;
                     this.noContainerFound = true;
                     this._functionsService.getSubscriptions()
-                        .subscribe(res => this.subscriptions = res);
+                        .subscribe(res => {
+                            res.sort((a, b) => a.displayName.localeCompare(b.displayName));
+                            this.subscriptions = res
+                        });
                 } else {
                     this.initFunctions();
                 }
