@@ -30,6 +30,11 @@
                     <span class="function-templates-selected-arrow"></span>
                 </div>
             </div>
+            <div class="row" *ngIf="noContainerFound && subscriptions">
+                <div class="left">
+                    <button [disabled]="!selectedSubscription" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

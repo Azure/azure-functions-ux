@@ -77,7 +77,7 @@ export class AppComponent implements OnInit{
         }
     }
 
-    createFunctionContainer() {
+    createFunctionsContainer() {
         this.initializing = true;
         this._functionsService.createFunctionsContainer(this.selectedSubscription)
             .subscribe(r => this.initFunctions());
