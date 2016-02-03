@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{39CE9AAA-900F-44EE-B78B-175CC36BA0A4}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\boot.ts" />
+    <TypeScriptCompile Include="app\components\app.component.ts" />
+    <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
+    <TypeScriptCompile Include="app\components\drop-down.component.ts" />
+    <TypeScriptCompile Include="app\components\function-designer.component.ts" />
+    <TypeScriptCompile Include="app\components\function-edit.component.ts" />
+    <TypeScriptCompile Include="app\components\function-run.component.ts" />
+    <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
+    <TypeScriptCompile Include="app\components\new-function.component.ts" />
+    <TypeScriptCompile Include="app\components\sidebar.component.ts" />
+    <TypeScriptCompile Include="app\components\top-bar.component.ts" />
+    <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
+    <TypeScriptCompile Include="app\models\ace-editor.ts" />
+    <TypeScriptCompile Include="app\models\designer-schema.ts" />
+    <TypeScriptCompile Include="app\models\drop-down-element.ts" />
+    <TypeScriptCompile Include="app\models\function-config.ts" />
+    <TypeScriptCompile Include="app\models\function-info.ts" />
+    <TypeScriptCompile Include="app\models\function-secrets.ts" />
+    <TypeScriptCompile Include="app\models\function-template.ts" />
+    <TypeScriptCompile Include="app\models\new-function-model.ts" />
+    <TypeScriptCompile Include="app\models\passthrough-info.ts" />
+    <TypeScriptCompile Include="app\models\run-response.ts" />
+    <TypeScriptCompile Include="app\models\scm-info.ts" />
+    <TypeScriptCompile Include="app\models\subscription.ts" />
+    <TypeScriptCompile Include="app\models\template-input.ts" />
+    <TypeScriptCompile Include="app\models\user.ts" />
+    <TypeScriptCompile Include="app\models\vfs-object.ts" />
+    <TypeScriptCompile Include="app\services\functions.service.ts" />
+    <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
+    <TypeScriptCompile Include="app\services\mock-functions.service.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="index.html" />
+    <Content Include="mocks\BlobTrigger.vfs.json" />
+    <Content Include="mocks\BlobTrigger\function.json" />
+    <Content Include="mocks\function-json-schema.json" />
+    <Content Include="mocks\functions.json" />
+    <Content Include="mocks\functionTemplates.json" />
+    <Content Include="mocks\host\host.json" />
+    <Content Include="mocks\QueueTrigger.vfs.json" />
+    <Content Include="mocks\QueueTrigger\function.json" />
+    <Content Include="mocks\scmInfo.json" />
+    <Content Include="mocks\Settings.vfs.json" />
+    <Content Include="mocks\templates-definitions.json" />
+    <Content Include="mocks\TimerTrigger.vfs.json" />
+    <Content Include="mocks\TimerTrigger\function.json" />
+    <Content Include="mocks\WebHook.vfs.json" />
+    <Content Include="mocks\WebHook\function.json" />
+    <Content Include="styles\main.css" />
+    <Content Include="styles\pure-drawer.css" />
+    <Content Include="templates\app.html" />
+    <Content Include="templates\binding-designer.html" />
+    <Content Include="templates\function-designer.html" />
+    <Content Include="templates\function-edit.html" />
+    <Content Include="templates\function-run.html" />
+    <Content Include="templates\log-streaming.html" />
+    <Content Include="templates\new-function.html" />
+    <Content Include="templates\sidebar.html" />
+    <Content Include="templates\top-bar.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="mocks\BlobTrigger\index.js" />
+    <Content Include="mocks\QueueTrigger\index.js" />
+    <Content Include="mocks\TimerTrigger\index.js" />
+    <Content Include="mocks\TimerTrigger\logger.js" />
+    <Content Include="mocks\WebHook\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>AzureFunctions.Client</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1464</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1464/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>System</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
+    <TypeScriptModuleResolution>NodeJs</TypeScriptModuleResolution>
+    <TypeScriptEmitDecoratorMetadata>true</TypeScriptEmitDecoratorMetadata>
+  </PropertyGroup>
+  <Target Name="FixTsBuildConfiguration" BeforeTargets="CompileTypeScript">
+    <PropertyGroup>
+      <TypeScriptBuildConfigurations>$(TypeScriptBuildConfigurations.Replace("--moduleResolution NodeJs", "--moduleResolution node"))</TypeScriptBuildConfigurations>
+    </PropertyGroup>
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
