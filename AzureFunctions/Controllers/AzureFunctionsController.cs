@@ -30,6 +30,15 @@ namespace AzureFunctions.Controllers
         {
             this._armManager = armManager;
         }
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> InitUser()
+        {
+            var functionContainer = await this._armManager.GetFunctionContainer();
+            return functionContainer == null
+                ? Request.CreateResponse(HttpStatusCode.NotFound)
+                : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+        }
 
         [Authorize]
         [HttpPost]
@@ -40,12 +49,9 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<HttpResponseMessage> InitUser()
+        public async Task<HttpResponseMessage> ListSubscriptions()
         {
-            var functionContainer = await this._armManager.GetFunctionContainer();
-            return functionContainer == null
-                ? Request.CreateResponse(HttpStatusCode.NotFound)
-                : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+            return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetSubscriptions());
         }
 
         [Authorize]
