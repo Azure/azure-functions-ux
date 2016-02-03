@@ -1,4 +1,5 @@
-﻿using AzureFunctions.Contracts;
+﻿using AzureFunctions.Common;
+using AzureFunctions.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,14 @@ namespace AzureFunctions.Code
         public UserSettings(HttpRequestBase currentRequest)
         {
             this._currentRequest = currentRequest;
+        }
+
+        public string BearerToken
+        {
+            get
+            {
+                return this._currentRequest.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
+            }
         }
     }
 }

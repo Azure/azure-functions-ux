@@ -111,14 +111,24 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\ArmManagerPartials\ResourceGroupArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\SiteArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\StorageAccountArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\SubscriptionArmManager.cs" />
     <Compile Include="Code\ArmManager.cs" />
     <Compile Include="Code\ArmUriTemplate.cs" />
     <Compile Include="Code\ArmUriTemplates.cs" />
+    <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
+    <Compile Include="Code\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Code\Extensions\TaskExtensions.cs" />
+    <Compile Include="Code\Settings.cs" />
     <Compile Include="Code\UserSettings.cs" />
+    <Compile Include="Code\Utils.cs" />
     <Compile Include="Contracts\IArmManager.cs" />
-    <Compile Include="Code\StringExtensions.cs" />
+    <Compile Include="Code\Extensions\StringExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
+    <Compile Include="Contracts\ISettings.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -132,8 +142,14 @@
     <Compile Include="Models\ArmModels\ArmWebsite.cs" />
     <Compile Include="Models\ArmModels\ArmWebsitePublishingCredentials.cs" />
     <Compile Include="Models\ArmModels\ArmWrapper.cs" />
+    <Compile Include="Models\ArmResources\BaseResource.cs" />
+    <Compile Include="Models\ArmResources\ServerFarm.cs" />
+    <Compile Include="Models\ArmResources\StorageAccount.cs" />
     <Compile Include="Models\FunctionContainer.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
+    <Compile Include="Models\ArmResources\ResourceGroup.cs" />
+    <Compile Include="Models\ArmResources\Site.cs" />
+    <Compile Include="Models\ArmResources\Subscription.cs" />
     <Compile Include="Modules\AADOAuth2AccessToken.cs" />
     <Compile Include="Modules\ARMOAuthModule.cs" />
     <Compile Include="Modules\Extensions.cs" />

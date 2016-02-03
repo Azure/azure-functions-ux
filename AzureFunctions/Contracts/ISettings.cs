@@ -5,8 +5,9 @@ using System.Web;
 
 namespace AzureFunctions.Contracts
 {
-    public interface IUserSettings
+    public interface ISettings
     {
-        string BearerToken { get; }
+        string CurrentSiteExtensionVersion { get; }
+        string AppDataPath { get; }
     }
 }

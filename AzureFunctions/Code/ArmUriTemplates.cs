@@ -14,9 +14,11 @@ namespace AzureFunctions.Code
 
         public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate($"{Constants.CSMUrl}/subscriptions", armApiVersion);
         public static readonly ArmUriTemplate Subscription = new ArmUriTemplate($"{Subscriptions.TemplateUrl}/{{subscriptionId}}", armApiVersion);
+        public static readonly ArmUriTemplate SubscriptionResources = new ArmUriTemplate(Subscription.TemplateUrl + "/resources", armApiVersion);
 
         public static readonly ArmUriTemplate ResourceGroups = new ArmUriTemplate($"{Subscription.TemplateUrl}/resourceGroups", armApiVersion);
         public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate($"{ResourceGroups.TemplateUrl}/{{resourceGroupName}}", armApiVersion);
+        public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/resources", armApiVersion);
 
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate($"{Subscription.TemplateUrl}/providers/Microsoft.Web/register", websitesApiVersion);
 

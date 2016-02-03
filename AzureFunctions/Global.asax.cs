@@ -41,6 +41,10 @@ namespace AzureFunctions
                 .As<IUserSettings>()
                 .InstancePerRequest();
 
+            builder.RegisterType<Settings>()
+                .As<ISettings>()
+                .SingleInstance();
+
             builder.RegisterType<ArmManager>()
                 .As<IArmManager>()
                 .InstancePerRequest();

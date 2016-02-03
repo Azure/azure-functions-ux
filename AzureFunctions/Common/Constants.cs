@@ -20,6 +20,10 @@ namespace AzureFunctions.Common
         public const string PublishingPassword = "publishingPassword";
         public const string FunctionsResourceGroupName = "AzureFunctions";
         public const string FunctionsSitePrefix = "Functions";
-
+        public const string FunctionsStorageAccountNamePrefix = "AzureFunctions";
+        public const string UserAgent = "AzureFunctions/1.0";
+        public const string GeoRegion = "GeoRegion";
+        public const string WebAppArmType = "Microsoft.Web/sites";
+        public const string StorageAccountArmType = "Microsoft.Storage/storageAccounts";
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace AzureFunctions.Code
+namespace AzureFunctions.Code.Extensions
 {
     public static class StringExtensions
     {
