@@ -18,7 +18,7 @@
                     <new-function (functionAdded)="onFunctionAdded($event)"></new-function>
                 </div>
             </div>
-            <div *ngIf="noContainerFound">It looks like you don't have a functions container</div>
+            <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
             <div class="row" *ngIf="noContainerFound && subscriptions">
                 <div class="left"><label>Subscription:</label></div>
                 <div class="functions-templates-select-container right">
