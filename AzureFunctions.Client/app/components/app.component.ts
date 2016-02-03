@@ -3,23 +3,25 @@ import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
+import {DropDownComponent} from './drop-down.component';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
+import {DropDownElement} from '../models/drop-down-element';
 
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.html',
-    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent]
+    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent, DropDownComponent]
 })
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
-    public subscriptions: Subscription[];
-    public selectedSubscription: string;
+    public subscriptions: DropDownElement<Subscription>[];
+    public selectedSubscription: Subscription;
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public deleteSelectedFunction: boolean;
@@ -42,8 +44,9 @@ export class AppComponent implements OnInit{
                     this.noContainerFound = true;
                     this._functionsService.getSubscriptions()
                         .subscribe(res => {
-                            res.sort((a, b) => a.displayName.localeCompare(b.displayName));
                             this.subscriptions = res
+                                .map(e => ({ displayLabel: e.displayName, value: e }))
+                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                         });
                 } else {
                     this.initFunctions();
@@ -82,7 +85,7 @@ export class AppComponent implements OnInit{
 
     createFunctionsContainer() {
         this.initializing = true;
-        this._functionsService.createFunctionsContainer(this.selectedSubscription)
+        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId)
             .subscribe(r => this.initFunctions());
     }
 

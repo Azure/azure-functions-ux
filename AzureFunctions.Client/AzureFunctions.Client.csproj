@@ -74,6 +74,7 @@
     <Content Include="styles\pure-drawer.css" />
     <Content Include="templates\app.html" />
     <Content Include="templates\binding-designer.html" />
+    <Content Include="templates\drop-down.html" />
     <Content Include="templates\function-designer.html" />
     <Content Include="templates\function-edit.html" />
     <Content Include="templates\function-run.html" />

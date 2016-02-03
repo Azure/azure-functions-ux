@@ -274,7 +274,7 @@ pre {
     padding: 10px;
 }
 
-.functions-templates-select-container {
+.functions-templates-select-container, .drop-down-container {
     background: #fff;
     border: 2px solid #dedede;
     display: inline-block;
@@ -283,7 +283,7 @@ pre {
     vertical-align: middle;
 }
 
-.function-templates-select {
+.function-templates-select, .drop-down-select {
     background: transparent;
     border: none;
     font-size: 14px;
@@ -296,7 +296,7 @@ pre {
     width: 100%;
 }
 
-.function-templates-selected-value {
+.function-templates-selected-value, .drop-down-selected-value {
     display: inline-block;
     line-height: 25px;
     overflow: hidden;
@@ -306,7 +306,7 @@ pre {
     white-space: nowrap;
 }
 
-.function-templates-selected-arrow {
+.function-templates-selected-arrow, .drop-down-selected-arrow {
     display: block;
     font-size: 0;
     height: 25px;
@@ -320,7 +320,7 @@ pre {
     zoom: 1;
 }
 
-.function-templates-selected-arrow:before {
+.function-templates-selected-arrow:before, .drop-down-selected-arrow:before {
     border-color: #dedede;
     border-style: solid;
     border-width: 0 2px 2px 0;

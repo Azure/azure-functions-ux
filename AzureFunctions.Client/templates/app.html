@@ -21,14 +21,7 @@
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
             <div class="row" *ngIf="noContainerFound && subscriptions">
                 <div class="left"><label>Subscription:</label></div>
-                <div class="functions-templates-select-container right">
-                    <select [(ngModel)]="selectedSubscription" class="function-templates-select">
-                        <option *ngFor="#subscription of subscriptions" [value]="subscription.subscriptionId">{{subscription.displayName}}({{subscription.subscriptionId}})</option>
-                    </select>
-                    <span *ngIf="!selectedSubscription" class="function-templates-selected-value">Select Subscription</span>
-                    <span *ngIf="selectedSubscription" class="function-templates-selected-value">{{selectedSubscription}}</span>
-                    <span class="function-templates-selected-arrow"></span>
-                </div>
+                <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="selectedSubscription = $event"></drop-down>
             </div>
             <div class="row" *ngIf="noContainerFound && subscriptions">
                 <div class="left">

@@ -1,0 +1,8 @@
+﻿<div class="drop-down-container" *ngIf="options">
+    <select [(ngModel)]="selectedValue" class="drop-down-select">
+        <option *ngFor="#option of options" (click)="onSelect(option)">{{option.displayLabel}}</option>
+    </select>
+    <span *ngIf="!selectedValue" class="drop-down-selected-value">{{placeholder}}</span>
+    <span *ngIf="selectedValue" class="drop-down-selected-value">{{selectedValue.displayLabel}}</span>
+    <span class="drop-down-selected-arrow"></span>
+</div>
