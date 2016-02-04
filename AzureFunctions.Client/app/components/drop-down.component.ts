@@ -3,7 +3,7 @@ import {DropDownElement} from '../models/drop-down-element';
 
 @Component({
     selector: 'drop-down',
-    inputs: ['options', 'placeholder'],
+    inputs: ['options', 'placeholder', 'resetOnChange'],
     outputs: ['value'],
     templateUrl: 'templates/drop-down.html'
 })
@@ -27,6 +27,10 @@ export class DropDownComponent<T> {
                 value: value[i].value
             });
         }
+    }
+
+    set resetOnChange(vale) {
+        delete this.selectedValue;
     }
 
     onSelect(id: string) {
