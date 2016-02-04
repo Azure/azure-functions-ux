@@ -98,6 +98,7 @@ namespace AzureFunctions.Code
 
         public async Task<Site> PublishCustomSiteExtensions(Site site)
         {
+            await CreateHostSecretsIfNeeded(site);
             await _client.DeleteAsync($"{site.ScmHostName}/api/processes/-1");
 
             var pKuduResponse = await Utils
@@ -116,6 +117,29 @@ namespace AzureFunctions.Code
 
             site.AppSettings[Constants.SiteExtensionsVersion] = await _settings.GetCurrentSiteExtensionVersion();
             await UpdateSiteAppSettings(site);
+            return site;
+        }
+
+        public async Task<Site> CreateHostSecretsIfNeeded(Site site)
+        {
+            var kuduResponse = await Utils
+                .Retry(() => _client.GetAsync($"{site.ScmHostName}/api/vfs/data/functions/secrets/host.json"),
+                        r => { if (r.StatusCode != HttpStatusCode.OK && r.StatusCode != HttpStatusCode.NotFound) r.EnsureSuccessStatusCode(); },
+                        r => r != null && (r.StatusCode == HttpStatusCode.ServiceUnavailable || r.StatusCode == HttpStatusCode.BadGateway),
+                        5);
+            if (kuduResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                var secrets = new {
+                    masterKey = Utils.GetRandomHexNumber(40),
+                    functionKey = Utils.GetRandomHexNumber(40)
+                };
+                var vfsResponse = await Utils
+                .Retry(() => _client.PutAsJsonAsync($"{site.ScmHostName}/api/vfs/data/functions/secrets/host.json", secrets),
+                       r => r.EnsureSuccessStatusCode(),
+                       r => r != null && (r.StatusCode == HttpStatusCode.ServiceUnavailable || r.StatusCode == HttpStatusCode.BadGateway),
+                       5);
+                await vfsResponse.EnsureSuccessStatusCodeWithFullError();
+            }
             return site;
         }
 

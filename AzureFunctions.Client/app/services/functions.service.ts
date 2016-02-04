@@ -12,10 +12,12 @@ import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {ServerFarm} from '../models/server-farm';
+import {HostSecrets} from '../models/host-secrets';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
+    private hostSecrets: HostSecrets;
     constructor(private _http: Http) { }
 
     initializeUser() {
@@ -162,11 +164,21 @@ export class FunctionsService implements IFunctionsService {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
+        var mainSiteUrl = this.scmInfo.scm_url.replace('.scm.', '.');
+        var inputBinding = (functionInfo.config && functionInfo.config.bindings && functionInfo.config.bindings.input
+            ? functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
+            : null);
+        var url = inputBinding
+            ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
+            : `${mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
         var body: PassthroughInfo = {
             httpMethod: 'POST',
-            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${functionInfo.name.toLocaleLowerCase()}`,
+            url: url,
             requestBody: content,
-            mediaType: 'plain/text'
+            mediaType: 'plain/text',
+            headers: {
+                'x-functions-key': this.hostSecrets.masterKey
+            }
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .catch(e => Observable.of({
@@ -279,6 +291,21 @@ export class FunctionsService implements IFunctionsService {
     getServerFarms() {
         return this._http.get('api/serverfarms')
             .map<ServerFarm[]>(r => r.json());
+    }
+
+    getHostSecrets() {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: `${this.scmInfo.scm_url}/api/vfs/data/functions/secrets/host.json`
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<HostSecrets>(r => r.json())
+            .subscribe(h => this.hostSecrets = h,
+                        e => console.log(e));
+    }
+
+    get HostSecrets() {
+        return this.hostSecrets;
     }
 
     private getHeaders(contentType?: string): Headers {

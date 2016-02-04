@@ -41,6 +41,7 @@
     <TypeScriptCompile Include="app\models\function-info.ts" />
     <TypeScriptCompile Include="app\models\function-secrets.ts" />
     <TypeScriptCompile Include="app\models\function-template.ts" />
+    <TypeScriptCompile Include="app\models\host-secrets.ts" />
     <TypeScriptCompile Include="app\models\new-function-model.ts" />
     <TypeScriptCompile Include="app\models\passthrough-info.ts" />
     <TypeScriptCompile Include="app\models\run-response.ts" />

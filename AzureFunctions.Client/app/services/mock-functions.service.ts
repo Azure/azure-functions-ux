@@ -135,7 +135,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getSecrets(fi: FunctionInfo) {
-        return Observable.of({ webHookReceiverKey: 'random'});
+        return Observable.of({ key: 'random'});
     }
 
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {

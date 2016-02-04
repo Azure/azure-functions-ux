@@ -18,5 +18,5 @@ export interface FunctionBinding {
     filter: string;
     tableName: string;
     rowKey: string;
-    webHookReceiver: string;
+    webHookType: string;
 }

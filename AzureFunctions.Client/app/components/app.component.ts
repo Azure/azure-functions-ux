@@ -104,6 +104,7 @@ export class AppComponent implements OnInit{
         this._functionsService.getTemplates()
             .subscribe(res => this.functionTemplates = res);
         this._functionsService.warmupMainSite();
+        this._functionsService.getHostSecrets();
     }
 
     onFunctionAdded(fi: FunctionInfo) {

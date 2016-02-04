@@ -29,6 +29,7 @@ export class FunctionEditComponent {
     public secrets: FunctionSecrets;
     public isCode: boolean;
     public fileName: string;
+    public isHttpFunction: boolean;
     private updatedContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
@@ -58,12 +59,20 @@ export class FunctionEditComponent {
                     this.content = this.isCode ? this.scriptContent : this.configContent;
                     this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
-                        ? this.functionInfo.config.bindings.input.find(e => !!e.webHookReceiver)
+                        ? this.functionInfo.config.bindings.input.find(e => !!e.webHookType)
                         : null);
                     if (inputBinding) {
-                        this.webHookType = inputBinding.webHookReceiver;
+                        this.webHookType = inputBinding.webHookType;
                     } else {
                         delete this.webHookType;
+                    }
+                    inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
+                        ? this.functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
+                        : null);
+                    if (inputBinding) {
+                        this.isHttpFunction = true;
+                    } else {
+                        this.isHttpFunction = false;
                     }
                 } else {
                     this.content = this.scriptContent;
@@ -72,11 +81,11 @@ export class FunctionEditComponent {
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
-        if (!secrets.webHookReceiverKey) {
-            if (fi.config.bindings.input.some(e => !!e.webHookReceiver)) {
+        if (!secrets.key) {
+            if (fi.config.bindings.input.some(e => !!e.webHookType)) {
                 //http://stackoverflow.com/a/8084248/3234163
                 var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                this._functionsService.setSecrets(fi, { webHookReceiverKey: secret })
+                this._functionsService.setSecrets(fi, { key: secret })
                     .subscribe(r => this.secrets = r);
             } else {
                 this.secrets = secrets;
@@ -91,9 +100,15 @@ export class FunctionEditComponent {
             .next(value);
     }
 
+    //TODO: change to field;
     get functionInvokeUrl(): string {
-        return this._functionsService.getFunctionInvokeUrl(this.functionInfo) +
-            ((this.webHookType === 'genericJson' && this.secrets && this.secrets.webHookReceiverKey) ? ('?code=' + this.secrets.webHookReceiverKey) : '');
+        var code = '';
+        if ((this.webHookType === 'genericJson' || this.isHttpFunction) && this.secrets && this.secrets.key) {
+            code = `?key=${this.secrets.key}`;
+        } else if (this.isHttpFunction && this._functionsService.HostSecrets.functionKey) {
+            code = `?key=${this._functionsService.HostSecrets.functionKey}`
+        }
+        return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
     }
 
     get functionsCloneUrl(): string {
