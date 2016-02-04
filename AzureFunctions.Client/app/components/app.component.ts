@@ -61,7 +61,7 @@ export class AppComponent implements OnInit{
             'West India',
             'South India']
         .map(e => ({displayLabel: e, value: e}))
-        .sort();
+        .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 
     ngOnInit() {
