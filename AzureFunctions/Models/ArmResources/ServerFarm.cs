@@ -14,6 +14,9 @@ namespace AzureFunctions.Models.ArmResources
         [JsonProperty(PropertyName = "serverFarmName")]
         public string ServerFarmName { get; private set; }
 
+        [JsonProperty(PropertyName = "geoRegion")]
+        public string GeoRegion { get; set; }
+
         [JsonProperty(PropertyName = "armId")]
         public override string ArmId
         {

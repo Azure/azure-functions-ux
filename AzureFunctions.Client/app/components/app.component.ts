@@ -33,12 +33,14 @@ export class AppComponent implements OnInit{
     public noContainerFound: boolean;
     public subscriptionPickerPlaceholder: string;
     public serverFarmPickerPlaceholder: string;
+    public region: string;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) {
         this.noContainerFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
         this.serverFarmPickerPlaceholder = 'Select Server Farm (optional)';
+        this.region = 'West US';
     }
 
     ngOnInit() {
@@ -52,9 +54,9 @@ export class AppComponent implements OnInit{
                     this.noContainerFound = true;
                     this._functionsService.getSubscriptions()
                         .subscribe(res => {
-                            this.subscriptions = res
+                            this.subscriptions = [res
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel))[0]];
                         });
                     this._functionsService.getServerFarms()
                         .subscribe(res => {
@@ -100,14 +102,19 @@ export class AppComponent implements OnInit{
     createFunctionsContainer() {
         this.initializing = true;
         var serverFarmId = this.selectedServerFarm ? this.selectedServerFarm.armId : null;
-        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId, serverFarmId)
+        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId, this.region, serverFarmId)
             .subscribe(r => this.initFunctions());
     }
 
     onSubscriptionSelect(value: Subscription) {
         this.selectedSubscription = value;
-        this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === value.subscriptionId);
         delete this.selectedServerFarm;
+        this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === value.subscriptionId && e.value.geoRegion.toLocaleLowerCase() === this.region.toLocaleLowerCase());
+    }
+
+    onGeoRegionChange() {
+        delete this.selectedServerFarm;
+        this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === this.selectedSubscription.subscriptionId && e.value.geoRegion.toLocaleLowerCase() === this.region.toLocaleLowerCase());
     }
 
 }

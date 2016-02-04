@@ -23,6 +23,10 @@
                 <div class="left"><label>Subscription:</label></div>
                 <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="onSubscriptionSelect($event)"></drop-down>
             </div>
+            <div class="row" *ngIf="noContainerFound && subscriptions">
+                <div class="left"><label>Region:</label></div>
+                <input type="text" [(ngModel)]="region" (change)="onGeoRegionChange()"/>
+            </div>
             <div class="row" *ngIf="noContainerFound && _serverFarms">
                 <div class="left"><label>Server Farm (optional):</label></div>
                 <drop-down [options]="_serverFarms" [placeholder]="serverFarmPickerPlaceholder" (value)="selectedServerFarm = $event"></drop-down>

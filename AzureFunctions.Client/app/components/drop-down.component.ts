@@ -9,6 +9,7 @@ import {DropDownElement} from '../models/drop-down-element';
 })
 export class DropDownComponent<T> {
     public placeholder: string;
+    public empty: any;
     public value: EventEmitter<T>;
     private _options: DropDownElement<T>[];
     public selectedValue: DropDownElement<T>;

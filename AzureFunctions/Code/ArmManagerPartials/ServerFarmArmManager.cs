@@ -29,7 +29,7 @@ namespace AzureFunctions.Code
             await serverFarmsResponse.EnsureSuccessStatusCodeWithFullError();
             var serverFarms = await serverFarmsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmServerFarm>>();
             return serverFarms.value
-                .Select(sf => new ServerFarm(subscription.SubscriptionId, sf.properties.resourceGroup, sf.name));
+                .Select(sf => new ServerFarm(subscription.SubscriptionId, sf.properties.resourceGroup, sf.name) { GeoRegion =  sf.properties.geoRegion });
         }
     }
 }

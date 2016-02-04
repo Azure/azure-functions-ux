@@ -3,4 +3,5 @@
     armId: string;
     subscriptionId: string;
     resoruceGroupName: string;
+    geoRegion: string;
 }

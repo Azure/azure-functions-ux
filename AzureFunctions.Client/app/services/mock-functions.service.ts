@@ -24,7 +24,7 @@ export class MockFunctionsService implements IFunctionsService {
             });
     }
 
-    createFunctionsContainer(subscriptionId: string) {
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {
         return this.initializeUser();
     }
 

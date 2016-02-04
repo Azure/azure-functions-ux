@@ -35,12 +35,12 @@ export class FunctionsService implements IFunctionsService {
             });
     }
 
-    createFunctionsContainer(subscriptionId: string, serverFarmId?: string) {
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {
         var serverFarmQuery = serverFarmId ? `&serverFarmId=${serverFarmId}` : '';
-        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US${serverFarmQuery}`, '', { headers: this.getHeaders() })
+        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=${region}${serverFarmQuery}`, '', { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
-                    return this.createFunctionsContainer(subscriptionId).map(r => ({ json: () => r }));
+                    return this.createFunctionsContainer(subscriptionId, region, serverFarmId).map(r => ({ json: () => r }));
                 } else {
                     return Observable.of(e);
                 }
@@ -207,7 +207,7 @@ export class FunctionsService implements IFunctionsService {
             url: this.scmInfo.scm_url.replace('.scm.', '.')
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
+            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
     }
 
     warmupMainSiteApi() {
@@ -216,7 +216,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/`
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSiteApi(); } });
+            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSiteApi(); } });
     }
 
     getSecrets(fi: FunctionInfo) {

@@ -28,5 +28,5 @@ export interface IFunctionsService {
     getFunctionInvokeUrl(fi: FunctionInfo): string;
     getScmUrl();
     getSubscriptions(): Observable<Subscription[]>;
-    createFunctionsContainer(subscriptionId: string): Observable<ScmInfo>;
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
 }
