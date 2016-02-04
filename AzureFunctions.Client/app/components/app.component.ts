@@ -35,6 +35,7 @@ export class AppComponent implements OnInit{
     public serverFarmPickerPlaceholder: string;
     public geoRegions: DropDownElement<string>[];
     public selectedGeoRegion: string;
+    public resetServerFarm: boolean;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) {
@@ -130,6 +131,7 @@ export class AppComponent implements OnInit{
     onSubscriptionSelect(value: Subscription) {
         this.selectedSubscription = value;
         delete this.selectedServerFarm;
+        this.resetServerFarm = !this.resetServerFarm;
         this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === value.subscriptionId &&
                                                          this.selectedGeoRegion &&
                                                          e.value.geoRegion.toLocaleLowerCase() === this.selectedGeoRegion.toLocaleLowerCase());
@@ -138,6 +140,7 @@ export class AppComponent implements OnInit{
     onGeoRegionChange(value: string) {
         this.selectedGeoRegion = value;
         delete this.selectedServerFarm;
+        this.resetServerFarm = !this.resetServerFarm;
         this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === this.selectedSubscription.subscriptionId &&
                                                          e.value.geoRegion.toLocaleLowerCase() === value.toLocaleLowerCase());
     }
