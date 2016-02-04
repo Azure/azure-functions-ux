@@ -94,8 +94,6 @@ namespace AzureFunctions.Code
             };
         }
 
-
-
         public async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)
         {
             // Assumes site and storage are loaded
@@ -103,8 +101,6 @@ namespace AzureFunctions.Code
             site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
             await UpdateSiteAppSettings(site);
         }
-
-
 
         public void Dispose()
         {

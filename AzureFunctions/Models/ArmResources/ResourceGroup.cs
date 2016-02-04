@@ -12,7 +12,7 @@ namespace AzureFunctions.Models.ArmResources
     {
         private const string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}";
 
-        public override string CsmId
+        public override string ArmId
         {
             get
             {

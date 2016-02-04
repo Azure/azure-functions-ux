@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,9 +10,12 @@ namespace AzureFunctions.Models.ArmResources
     public class ServerFarm : BaseResource
     {
         private string _csmIdTemplate = "/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/serverFarms/{2}";
+
+        [JsonProperty(PropertyName = "serverFarmName")]
         public string ServerFarmName { get; private set; }
 
-        public override string CsmId
+        [JsonProperty(PropertyName = "armId")]
+        public override string ArmId
         {
             get
             {

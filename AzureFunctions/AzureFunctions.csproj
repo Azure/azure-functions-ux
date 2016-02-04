@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\ArmManagerPartials\ResourceGroupArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\ServerFarmArmManager.cs" />
     <Compile Include="Code\ArmManagerPartials\SiteArmManager.cs" />
     <Compile Include="Code\ArmManagerPartials\StorageAccountArmManager.cs" />
     <Compile Include="Code\ArmManagerPartials\SubscriptionArmManager.cs" />
@@ -136,6 +137,7 @@
     </Compile>
     <Compile Include="Models\ArmModels\ArmArrayWrapper.cs" />
     <Compile Include="Models\ArmModels\ArmResourceGroup.cs" />
+    <Compile Include="Models\ArmModels\ArmServerFarm.cs" />
     <Compile Include="Models\ArmModels\ArmStorage.cs" />
     <Compile Include="Models\ArmModels\ArmSubscription.cs" />
     <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />

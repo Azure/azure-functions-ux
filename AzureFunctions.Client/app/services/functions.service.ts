@@ -11,6 +11,7 @@ import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
+import {ServerFarm} from '../models/server-farm';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
@@ -270,8 +271,13 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getSubscriptions() {
-        return this._http.get('api/listsubs')
+        return this._http.get('api/subscriptions')
             .map<Subscription[]>(r => r.json());
+    }
+
+    getServerFarms() {
+        return this._http.get('api/serverfarms')
+            .map<ServerFarm[]>(r => r.json());
     }
 
     private getHeaders(contentType?: string): Headers {

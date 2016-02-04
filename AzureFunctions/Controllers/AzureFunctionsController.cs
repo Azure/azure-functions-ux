@@ -69,6 +69,13 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> ListServerFarms()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetServerFarms());
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<HttpResponseMessage> Passthrough(PassthroughInfo passthroughInfo)
         {

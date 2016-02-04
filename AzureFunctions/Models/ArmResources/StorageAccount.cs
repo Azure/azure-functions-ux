@@ -12,7 +12,7 @@ namespace AzureFunctions.Models.ArmResources
 
         public string StorageAccountName { get; private set; }
 
-        public override string CsmId
+        public override string ArmId
         {
             get
             {

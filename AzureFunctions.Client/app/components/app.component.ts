@@ -50,6 +50,8 @@ export class AppComponent implements OnInit{
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
                                 .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                         });
+                    this._functionsService.getServerFarms()
+                        
                 } else {
                     this.initFunctions();
                 }

@@ -11,5 +11,6 @@ namespace AzureFunctions.Contracts
         Task<FunctionContainer> CreateFunctionContainer(ResourceGroup resourceGroup);
         Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location);
         Task<IEnumerable<Subscription>> GetSubscriptions();
+        Task<IEnumerable<ServerFarm>> GetServerFarms();
     }
 }
