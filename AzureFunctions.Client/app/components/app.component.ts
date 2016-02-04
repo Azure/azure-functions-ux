@@ -54,9 +54,9 @@ export class AppComponent implements OnInit{
                     this.noContainerFound = true;
                     this._functionsService.getSubscriptions()
                         .subscribe(res => {
-                            this.subscriptions = [res
+                            this.subscriptions = res
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel))[0]];
+                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                         });
                     this._functionsService.getServerFarms()
                         .subscribe(res => {
