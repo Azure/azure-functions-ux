@@ -35,7 +35,14 @@ export class FunctionsService implements IFunctionsService {
     }
 
     createFunctionsContainer(subscriptionId: string) {
-        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US`, '', { headers : this.getHeaders() })
+        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US`, '', { headers: this.getHeaders() })
+            .catch(e => {
+                if (e.status === 500) {
+                    return this.createFunctionsContainer(subscriptionId).map(r => ({ json: () => r }));
+                } else {
+                    return Observable.of(e);
+                }
+            })
             .map<ScmInfo>(r => {
                 this.scmInfo = r.json();
                 return this.scmInfo;
@@ -48,7 +55,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url}/api/functions`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 ? this.getFunctions().map(r => ({json: () => r})) : e))
+            .catch(e => (e.status === 503 || e.status === 404 ? this.getFunctions().map(r => ({json: () => r})) : e))
             .map<FunctionInfo[]>(r => r.json());
     }
 
@@ -84,7 +91,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url}/api/functions/templates`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 ? this.getTemplates().map(r => ({json: () => r})) : e))
+            .catch(e => (e.status === 503 || e.status === 404 ? this.getTemplates().map(r => ({json: () => r})) : e))
             .map<FunctionTemplate[]>(r => r.json());
     }
 

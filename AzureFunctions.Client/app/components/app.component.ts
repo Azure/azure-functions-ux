@@ -27,10 +27,12 @@ export class AppComponent implements OnInit{
     public deleteSelectedFunction: boolean;
     public addedFunction: FunctionInfo;
     public noContainerFound: boolean;
+    public subscriptionPickerPlaceholder: string;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) {
         this.noContainerFound = false;
+        this.subscriptionPickerPlaceholder = 'Select Subscription';
     }
 
     ngOnInit() {
