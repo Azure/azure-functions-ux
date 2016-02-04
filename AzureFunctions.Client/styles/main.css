@@ -496,7 +496,7 @@ input.radio:focus ~ label:before {
 
 /*table*/
 
-.new-function-container {
+.new-function-container, .table-layout {
     display: table;
     padding: 30px;
     border-collapse: separate;

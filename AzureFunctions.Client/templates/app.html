@@ -19,21 +19,23 @@
                 </div>
             </div>
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
-            <div class="row" *ngIf="noContainerFound && subscriptions">
-                <div class="left"><label>Subscription:</label></div>
-                <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="onSubscriptionSelect($event)"></drop-down>
-            </div>
-            <div class="row" *ngIf="noContainerFound && subscriptions">
-                <div class="left"><label>Region:</label></div>
-                <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
-            </div>
-            <div class="row" *ngIf="noContainerFound && _serverFarms">
-                <div class="left"><label>Server Farm (optional):</label></div>
-                <drop-down [options]="_serverFarms" [placeholder]="serverFarmPickerPlaceholder" [resetOnChange]="selectedGeoRegion" [resetOnChange]="selectedSubscription" (value)="selectedServerFarm = $event"></drop-down>
-            </div>
-            <div class="row" *ngIf="noContainerFound && subscriptions">
-                <div class="left">
-                    <button [disabled]="!selectedSubscription" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+            <div class="table-layout">
+                <div class="row" *ngIf="noContainerFound && subscriptions">
+                    <div class="left"><label>Subscription:</label></div>
+                    <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="onSubscriptionSelect($event)"></drop-down>
+                </div>
+                <div class="row" *ngIf="noContainerFound && subscriptions">
+                    <div class="left"><label>Region:</label></div>
+                    <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
+                </div>
+                <div class="row" *ngIf="noContainerFound && _serverFarms">
+                    <div class="left"><label>Server Farm (optional):</label></div>
+                    <drop-down [options]="_serverFarms" [placeholder]="serverFarmPickerPlaceholder" [resetOnChange]="selectedGeoRegion" [resetOnChange]="selectedSubscription" (value)="selectedServerFarm = $event"></drop-down>
+                </div>
+                <div class="row" *ngIf="noContainerFound && subscriptions">
+                    <div class="left">
+                        <button [disabled]="!selectedSubscription" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+                    </div>
                 </div>
             </div>
         </div>
