@@ -25,7 +25,7 @@
             </div>
             <div class="row" *ngIf="noContainerFound && subscriptions">
                 <div class="left"><label>Region:</label></div>
-                <input type="text" [(ngModel)]="region" (change)="onGeoRegionChange()"/>
+                <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
             </div>
             <div class="row" *ngIf="noContainerFound && _serverFarms">
                 <div class="left"><label>Server Farm (optional):</label></div>
