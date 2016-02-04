@@ -30,15 +30,11 @@ namespace AzureFunctions.Code
             _client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
         }
 
-
         public async Task<FunctionContainer> GetFunctionContainer()
         {
-            var subscriptions = await GetSubscriptions();
-            subscriptions = await subscriptions.Select(Load).IgnoreAndFilterFailures();
-            var rightSubscription = subscriptions.FirstOrDefault(s => s.FunctionsResourceGroup != null);
-            if (rightSubscription != null)
+            var resourceGroup = await GetFunctionsResourceGroup();
+            if (resourceGroup != null)
             {
-                var resourceGroup = await Load(rightSubscription.FunctionsResourceGroup);
                 return await CreateFunctionContainer(resourceGroup);
             }
             else
@@ -47,9 +43,27 @@ namespace AzureFunctions.Code
             }
         }
 
+        public async Task<ResourceGroup> GetFunctionsResourceGroup(string subscriptionId = null)
+        {
+            var subscriptions = await GetSubscriptions();
+            if (!string.IsNullOrEmpty(subscriptionId))
+            {
+                subscriptions = subscriptions.Where(s => s.SubscriptionId.Equals(subscriptionId, StringComparison.OrdinalIgnoreCase));
+            }
+
+            subscriptions = await subscriptions.Select(Load).IgnoreAndFilterFailures();
+            var resourceGroup = subscriptions
+                .Where(s => s.FunctionsResourceGroup != null)
+                .Select(s => s.FunctionsResourceGroup)
+                .FirstOrDefault();
+            return resourceGroup == null
+                ? null
+                : await Load(resourceGroup);
+        }
+
         public async Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location)
         {
-            var resourceGroup = await CreateResourceGroup(subscriptionId, location);
+            var resourceGroup = await GetFunctionsResourceGroup(subscriptionId) ?? await CreateResourceGroup(subscriptionId, location);
             return await CreateFunctionContainer(resourceGroup);
         }
 
@@ -67,7 +81,7 @@ namespace AzureFunctions.Code
             }
 
             if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                !resourceGroup.FunctionsSite.AppSettings[Constants.SiteExtensionsVersion].Equals(_settings.CurrentSiteExtensionVersion, StringComparison.OrdinalIgnoreCase))
+                !resourceGroup.FunctionsSite.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
             {
                 await PublishCustomSiteExtensions(resourceGroup.FunctionsSite);
             }

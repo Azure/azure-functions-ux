@@ -31,5 +31,59 @@ namespace AzureFunctions.Code
                 return default(T);
             }
         }
+
+        public static async Task Retry(Func<Task> func, int retryCount)
+        {
+            while (true)
+            {
+                try
+                {
+                    await func();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= 0) throw e;
+                    retryCount--;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        public static async Task<T> Retry<T>(Func<Task<T>> func, int retryCount)
+        {
+            while (true)
+            {
+                try
+                {
+                    return await func();
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= 0) throw e;
+                    retryCount--;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        public static async Task<T> Retry<T>(Func<Task<T>> func, Action<T> validate, Func<T, bool> retry, int maxRetryCount = -1)
+        {
+            T result = default(T);
+            while (true)
+            {
+                try
+                {
+                    result = await func();
+                    validate(result);
+                    return result;
+                }
+                catch
+                {
+                    if (!retry(result) || (maxRetryCount != -1 && --maxRetryCount == 0)) throw;
+                }
+                await Task.Delay(1000);
+            }
+        }
     }
 }
