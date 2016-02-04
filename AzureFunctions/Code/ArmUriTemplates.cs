@@ -9,7 +9,7 @@ namespace AzureFunctions.Code
     public class ArmUriTemplates
     {
         private const string armApiVersion = "2014-04-01";
-        private const string websitesApiVersion = "2015-02-01";
+        private const string websitesApiVersion = "2015-08-01";
         private const string storageApiVersion = "2015-05-01-preview";
 
         public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate($"{Constants.CSMUrl}/subscriptions", armApiVersion);

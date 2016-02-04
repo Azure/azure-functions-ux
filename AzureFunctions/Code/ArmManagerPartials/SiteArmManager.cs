@@ -59,13 +59,13 @@ namespace AzureFunctions.Code
             return site;
         }
 
-        public async Task<Site> CreateFunctionsSite(ResourceGroup resourceGroup)
+        public async Task<Site> CreateFunctionsSite(ResourceGroup resourceGroup, string serverFarmId)
         {
             await _client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(resourceGroup), NullContent);
 
             var siteName = $"Functions{Guid.NewGuid().ToString().Split('-').First()}";
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, siteName);
-            var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { }, location = resourceGroup.Location });
+            var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location });
             var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
             await Load(site);

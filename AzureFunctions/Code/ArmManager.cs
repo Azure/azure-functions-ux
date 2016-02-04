@@ -61,16 +61,16 @@ namespace AzureFunctions.Code
                 : await Load(resourceGroup);
         }
 
-        public async Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location)
+        public async Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId = null)
         {
             var resourceGroup = await GetFunctionsResourceGroup(subscriptionId) ?? await CreateResourceGroup(subscriptionId, location);
-            return await CreateFunctionContainer(resourceGroup);
+            return await CreateFunctionContainer(resourceGroup, serverFarmId);
         }
 
-        public async Task<FunctionContainer> CreateFunctionContainer(ResourceGroup resourceGroup)
+        public async Task<FunctionContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId = null)
         {
             var tasks = new List<Task>();
-            if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup));
+            if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup, serverFarmId));
             if (resourceGroup.FunctionsStorageAccount == null) tasks.Add(CreateFunctionsStorageAccount(resourceGroup));
             await tasks.WhenAll();
 

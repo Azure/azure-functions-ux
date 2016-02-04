@@ -11,6 +11,7 @@ import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
+import {ServerFarm} from '../models/server-farm';
 
 
 @Component({
@@ -21,18 +22,23 @@ import {DropDownElement} from '../models/drop-down-element';
 export class AppComponent implements OnInit{
     public functionsInfo: FunctionInfo[];
     public subscriptions: DropDownElement<Subscription>[];
+    public serverFarms: DropDownElement<ServerFarm>[];
+    public _serverFarms: DropDownElement<ServerFarm>[];
     public selectedSubscription: Subscription;
+    public selectedServerFarm: ServerFarm;
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public deleteSelectedFunction: boolean;
     public addedFunction: FunctionInfo;
     public noContainerFound: boolean;
     public subscriptionPickerPlaceholder: string;
+    public serverFarmPickerPlaceholder: string;
     private initializing: boolean;
 
     constructor(private _functionsService: FunctionsService) {
         this.noContainerFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
+        this.serverFarmPickerPlaceholder = 'Select Server Farm (optional)';
     }
 
     ngOnInit() {
@@ -48,6 +54,12 @@ export class AppComponent implements OnInit{
                         .subscribe(res => {
                             this.subscriptions = res
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
+                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                        });
+                    this._functionsService.getServerFarms()
+                        .subscribe(res => {
+                            this.serverFarms = res
+                                .map(e => ({ displayLabel: e.serverFarmName, value: e }))
                                 .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                         });
                 } else {
@@ -87,8 +99,15 @@ export class AppComponent implements OnInit{
 
     createFunctionsContainer() {
         this.initializing = true;
-        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId)
+        var serverFarmId = this.selectedServerFarm ? this.selectedServerFarm.armId : null;
+        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId, serverFarmId)
             .subscribe(r => this.initFunctions());
+    }
+
+    onSubscriptionSelect(value: Subscription) {
+        this.selectedSubscription = value;
+        this._serverFarms = this.serverFarms.filter(e => e.value.subscriptionId.toLocaleLowerCase() === value.subscriptionId);
+        delete this.selectedServerFarm;
     }
 
 }

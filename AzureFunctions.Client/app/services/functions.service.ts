@@ -35,8 +35,9 @@ export class FunctionsService implements IFunctionsService {
             });
     }
 
-    createFunctionsContainer(subscriptionId: string) {
-        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US`, '', { headers: this.getHeaders() })
+    createFunctionsContainer(subscriptionId: string, serverFarmId?: string) {
+        var serverFarmQuery = serverFarmId ? `&serverFarmId=${serverFarmId}` : '';
+        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=West US${serverFarmQuery}`, '', { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
                     return this.createFunctionsContainer(subscriptionId).map(r => ({ json: () => r }));

@@ -49,11 +49,11 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location)
+        public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location, string serverFarmId)
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.Created, await _armManager.CreateFunctionContainer(subscriptionId, location));
+                return Request.CreateResponse(HttpStatusCode.Created, await _armManager.CreateFunctionContainer(subscriptionId, location, serverFarmId));
             }
             catch (Exception e)
             {
