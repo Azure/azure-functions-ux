@@ -7,7 +7,7 @@
             <div class="left"><label>Function Url:</label></div>
             <div class="right"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
         </div>
-        <div class="row" *ngIf="secrets && secrets.key && webHookType !== 'genericJson'">
+        <div class="row" *ngIf="webHookType && webHookType !== 'genericJson'">
             <div class="left"><label>WebHook Secret:</label></div>
             <div class="right"><pre (click)="highlightText($event)">{{secrets.key}}</pre></div>
         </div>

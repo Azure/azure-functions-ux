@@ -171,11 +171,17 @@ export class FunctionsService implements IFunctionsService {
         var url = inputBinding
             ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
             : `${mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        var _content: any = inputBinding
+            ? content
+            : { input: content };
+        var mediaType = inputBinding
+            ? 'plain/text'
+            : 'application/json';
         var body: PassthroughInfo = {
             httpMethod: 'POST',
             url: url,
-            requestBody: content,
-            mediaType: 'plain/text',
+            requestBody: _content,
+            mediaType: mediaType,
             headers: {
                 'x-functions-key': this.hostSecrets.masterKey
             }

@@ -57,7 +57,6 @@ export class FunctionEditComponent {
                 if (!this.functionInfo.clientOnly) {
                     this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
                     this.content = this.isCode ? this.scriptContent : this.configContent;
-                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
                         ? this.functionInfo.config.bindings.input.find(e => !!e.webHookType)
                         : null);
@@ -69,6 +68,7 @@ export class FunctionEditComponent {
                     inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
                         ? this.functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
                         : null);
+                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     if (inputBinding) {
                         this.isHttpFunction = true;
                     } else {
@@ -82,7 +82,7 @@ export class FunctionEditComponent {
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
         if (!secrets.key) {
-            if (fi.config.bindings.input.some(e => !!e.webHookType)) {
+            if (this.isHttpFunction) {
                 //http://stackoverflow.com/a/8084248/3234163
                 var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                 this._functionsService.setSecrets(fi, { key: secret })
@@ -103,10 +103,12 @@ export class FunctionEditComponent {
     //TODO: change to field;
     get functionInvokeUrl(): string {
         var code = '';
-        if ((this.webHookType === 'genericJson' || this.isHttpFunction) && this.secrets && this.secrets.key) {
+        if (this.webHookType === 'genericJson' && this.secrets && this.secrets.key) {
+            code = `?code=${this.secrets.key}`;
+        } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
             code = `?key=${this.secrets.key}`;
         } else if (this.isHttpFunction && this._functionsService.HostSecrets.functionKey) {
-            code = `?key=${this._functionsService.HostSecrets.functionKey}`
+            code = `?key=${this._functionsService.HostSecrets.functionKey}`;
         }
         return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
     }
