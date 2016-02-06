@@ -71,6 +71,7 @@ namespace AzureFunctions.Code
             await Load(site);
             await CreateHostJson(site);
             await PublishCustomSiteExtensions(site);
+            await UpdateConfig(site, new { properties = new { scmType = "LocalGit" } });
             resourceGroup.FunctionsSite = site;
             return site;
         }
@@ -147,6 +148,14 @@ namespace AzureFunctions.Code
         {
             var armResponse = await _client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(site), new { properties = site.AppSettings });
             await armResponse.EnsureSuccessStatusCodeWithFullError();
+            return site;
+        }
+
+        public async Task<Site> UpdateConfig(this Site site, object config)
+        {
+            var response = await _client.PutAsJsonAsync(ArmUriTemplates.SiteConfig.Bind(site), config);
+            await response.EnsureSuccessStatusCodeWithFullError();
+
             return site;
         }
     }
