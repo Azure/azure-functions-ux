@@ -8,7 +8,14 @@
             <div class="top-bar-tool left">notifications</div>
             <div class="top-bar-tool left">?</div>-->
             <div class="top-bar-tool left no-right-border" [class.top-bar-tool-selected]="showUserMenu" (click)="showUserMenu = !showUserMenu">
-                <div *ngIf="user" class="clickable">{{user.given_name}} {{user.family_name}}</div>
+                <div *ngIf="user && currentTenant" class="clickable">
+                    <div class="use-name">
+                        {{user.given_name}} {{user.family_name}}
+                    </div>
+                    <div class="tenant-name">
+                        {{currentTenant.DisplayName}}
+                    </div>
+                </div>
                 <div>
                     <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
                         <ul *ngIf="tenants" class="tenants-list">

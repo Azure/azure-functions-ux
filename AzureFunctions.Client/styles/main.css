@@ -85,8 +85,8 @@ pre {
 .top-bar-tool-selected, .top-bar-tool:hover {
     background-color: white;
     color: black;
-    padding-bottom: 12px !important;
-    padding-top: 12px !important;
+    padding-bottom: 8px !important;
+    padding-top: 8px !important;
 }
 
 .no-right-border {
@@ -107,7 +107,15 @@ pre {
     box-shadow: 0 10px 20px -5px rgba(58,58,58,.25)
 }
 
+.top-bar-tool > div.clickable > div.use-name {
+    font-size: 14px;
+    text-align: center;
+}
 
+.top-bar-tool > div.clickable > div.tenant-name {
+    font-size: 10px;
+    text-align: center;
+}
 
 .left-most {
     right: 4px;

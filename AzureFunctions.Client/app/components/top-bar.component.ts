@@ -10,6 +10,7 @@ import {TenantInfo} from '../models/tenant-info';
 export class TopBarComponent implements OnInit {
     public user: User;
     public tenants: TenantInfo[];
+    public currentTenant: TenantInfo;
 
     constructor(private _userService: UserService) { }
 
@@ -18,7 +19,10 @@ export class TopBarComponent implements OnInit {
             .subscribe(u => this.user = u);
 
         this._userService.getTenants()
-            .subscribe(t => this.tenants = t);
+            .subscribe(t => {
+                this.tenants = t;
+                this.currentTenant = this.tenants.find(e => e.Current);
+            });
     }
 
     selectTenant(tenant: TenantInfo) {
