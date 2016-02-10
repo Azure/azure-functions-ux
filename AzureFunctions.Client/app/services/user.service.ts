@@ -3,8 +3,10 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
+import {IUserService} from './iuser.service';
 
-export class UserService {
+@Injectable()
+export class UserService implements IUserService {
     constructor(private _http: Http) { }
 
     getTenants() {
