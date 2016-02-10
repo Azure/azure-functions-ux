@@ -62,6 +62,10 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage>
+
+        [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> ListSubscriptions()
         {

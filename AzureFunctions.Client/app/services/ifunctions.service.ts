@@ -3,10 +3,11 @@ import {FunctionInfo} from '../models/function-info';
 import {ScmInfo} from '../models/scm-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
+import {HostSecrets} from '../models/host-secrets';
 
 export interface IFunctionsService {
     initializeUser(): Observable<ScmInfo>;
@@ -29,4 +30,5 @@ export interface IFunctionsService {
     getScmUrl();
     getSubscriptions(): Observable<Subscription[]>;
     createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
+    getHostSecrets(): RxSubscription<HostSecrets>;
 }

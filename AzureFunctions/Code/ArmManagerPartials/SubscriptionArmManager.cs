@@ -34,7 +34,8 @@ namespace AzureFunctions.Code
             var armResourceGroups = await armResourceGroupsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmResourceGroup>>();
 
             subscription.FunctionsResourceGroup = armResourceGroups.value
-                .Where(rg => rg.name.Equals(Constants.FunctionsResourceGroupName, StringComparison.OrdinalIgnoreCase))
+                .Where(rg => rg.name.Equals(Constants.FunctionsResourceGroupName, StringComparison.OrdinalIgnoreCase) ||
+                             rg.name.StartsWith(Constants.TryAppServiceResourceGroupPrefix, StringComparison.OrdinalIgnoreCase))
                 .Select(rg => new ResourceGroup(subscription.SubscriptionId, rg.name, rg.location) { Tags = rg.tags })
                 .FirstOrDefault();
 

@@ -1,0 +1,27 @@
+﻿{
+  "aud": "https://management.core.windows.net/",
+  "iss": "https://sts.windows.net/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/",
+  "iat": 1000000,
+  "nbf": 1000000,
+  "exp": 1000000,
+  "acr": "1",
+  "altsecid": "1:live.com:0000000000000000",
+  "amr": [
+    "pwd"
+  ],
+  "appid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "appidacr": "1",
+  "email": "user@outlook.com",
+  "family_name": "Smith",
+  "given_name": "John",
+  "idp": "live.com",
+  "ipaddr": "000.00.000.00",
+  "name": "user@outlook.com",
+  "oid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "puid": "0000000000000000",
+  "scp": "user_impersonation",
+  "sub": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+  "tid": "11111111-2222-3333-4444-555555555555",
+  "unique_name": "live.com#user@outlook.com",
+  "ver": "1.0"
+}

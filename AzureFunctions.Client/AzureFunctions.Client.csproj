@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="mocks\user.json" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
@@ -49,11 +50,16 @@
     <TypeScriptCompile Include="app\models\server-farm.ts" />
     <TypeScriptCompile Include="app\models\subscription.ts" />
     <TypeScriptCompile Include="app\models\template-input.ts" />
+    <TypeScriptCompile Include="app\models\tenant-info.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
+    <TypeScriptCompile Include="app\services\iuser.service.ts" />
     <TypeScriptCompile Include="app\services\mock-functions.service.ts" />
+    <TypeScriptCompile Include="app\services\mock-user.service.ts" />
+    <TypeScriptCompile Include="app\services\user.service.ts" />
+    <None Include="mocks\tenants.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />

@@ -9,10 +9,12 @@ import {FunctionTemplate} from '../models/function-template';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
+import {HostSecrets} from '../models/host-secrets';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
+    private hostSecrets: HostSecrets;
 
     constructor(private _http: Http) { }
 
@@ -179,5 +181,12 @@ export class MockFunctionsService implements IFunctionsService {
     getSubscriptions() {
         return this._http.get('mocks/subscriptions.json')
             .map<Subscription[]>(r => r.json());
+    }
+
+    getHostSecrets() {
+        return this._http.get('mocks/host-secrets.json')
+            .map<HostSecrets>(r => r.json())
+            .subscribe(h => this.hostSecrets = h,
+                       e => console.log(e));
     }
 }

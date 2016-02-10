@@ -3,11 +3,23 @@
         <div class="vertical-align-center logo" >Azure Functions</div>
     </div>
     <div class="top-bar-tools right vertical-align-center">
-        <ul class="user-tools-list">
-            <li class="top-bar-tool left"><i class="fa fa-heart"></i> feedback</li>
-            <li class="top-bar-tool left">notifications</li>
-            <li class="top-bar-tool left">?</li>
-            <li class="top-bar-tool left no-right-border">User</li>
-        </ul>
+        <div class="user-tools-list">
+            <!--<div class="top-bar-tool left"><i class="fa fa-heart"></i> feedback</div>
+            <div class="top-bar-tool left">notifications</div>
+            <div class="top-bar-tool left">?</div>-->
+            <div class="top-bar-tool left no-right-border" [class.top-bar-tool-selected]="showUserMenu" (click)="showUserMenu = !showUserMenu">
+                <div *ngIf="user" class="clickable">{{user.given_name}} {{user.family_name}}</div>
+                <div>
+                    <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
+                        <ul *ngIf="tenants" class="tenants-list">
+                            <li *ngFor="#tenant of tenants" (click)="selectTenant(tenant)">
+                                <div>{{tenant.DisplayName}}</div>
+                                <div>{{tenant.DomainName}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

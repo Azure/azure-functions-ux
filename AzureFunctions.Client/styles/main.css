@@ -4,6 +4,7 @@ body {
     margin: 0;
     height: 100%;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    background-color: #F1F1F8;
 }
 
 a {
@@ -72,6 +73,22 @@ pre {
     border-left: 1px solid rgba(128,128,128,.4);
 }
 
+/* http://stackoverflow.com/a/6900392/3234163 */
+.top-bar-tool {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.top-bar-tool-selected, .top-bar-tool:hover {
+    background-color: white;
+    color: black;
+    padding-bottom: 12px !important;
+    padding-top: 12px !important;
+}
+
 .no-right-border {
     border-right: none !important;
 }
@@ -82,6 +99,50 @@ pre {
     padding: 0;
 }
 
+.top-bar-drop-down {
+    width: 220px;
+    background-color: #FFFFFF;
+    color: black;
+    border-color: #b3b3b3;
+    box-shadow: 0 10px 20px -5px rgba(58,58,58,.25)
+}
+
+
+
+.left-most {
+    right: 4px;
+    top: 42px;
+    position: absolute;
+}
+
+.top-bar-drop-down-scrollviewer {
+    max-height: 505px;
+    overflow: auto;
+}
+
+.tenants-list {
+    list-style: none outside none;
+    padding: 0;
+    margin: 0;
+}
+
+.tenants-list > li {
+    padding: 12px 12px 12px 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.tenants-list > li:hover {
+    background-color: #CCCCCC;
+}
+
+.tenants-list > li > div {
+    font-size: 12px;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /* side-bar style */
 .content {
     padding-left: 250px;

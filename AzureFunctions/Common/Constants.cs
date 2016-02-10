@@ -25,5 +25,7 @@ namespace AzureFunctions.Common
         public const string GeoRegion = "GeoRegion";
         public const string WebAppArmType = "Microsoft.Web/sites";
         public const string StorageAccountArmType = "Microsoft.Storage/storageAccounts";
+        public const string TryAppServiceResourceGroupPrefix = "TRY_RG_";
+        public const string TryAppServiceTenantId = "6224bcc1-1690-4d04-b905-92265f948dad";
     }
 }
