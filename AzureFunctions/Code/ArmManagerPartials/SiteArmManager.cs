@@ -63,7 +63,7 @@ namespace AzureFunctions.Code
         {
             await _client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(resourceGroup), NullContent);
 
-            var siteName = $"Functions{Guid.NewGuid().ToString().Split('-').First()}";
+            var siteName = $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}";
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, siteName);
             var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location });
             var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
@@ -151,11 +151,10 @@ namespace AzureFunctions.Code
             return site;
         }
 
-        public async Task<Site> UpdateConfig(this Site site, object config)
+        public async Task<Site> UpdateConfig(Site site, object config)
         {
             var response = await _client.PutAsJsonAsync(ArmUriTemplates.SiteConfig.Bind(site), config);
             await response.EnsureSuccessStatusCodeWithFullError();
-
             return site;
         }
     }
