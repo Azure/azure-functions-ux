@@ -102,6 +102,13 @@ namespace AzureFunctions.Code
             await UpdateSiteAppSettings(site);
         }
 
+        public async Task CreateTrialFunctionContainer()
+        {
+            var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
+            await response.EnsureSuccessStatusCodeWithFullError();
+        }
+
+
         public void Dispose()
         {
             _client.Dispose();

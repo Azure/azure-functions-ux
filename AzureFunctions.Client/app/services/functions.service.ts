@@ -314,6 +314,11 @@ export class FunctionsService implements IFunctionsService {
         return this.hostSecrets;
     }
 
+    createTrialFunctionsContainer() {
+        return this._http.post('api/createtrial', '', { headers: this.getHeaders() })
+            .map<string>(r => r.statusText);
+    }
+
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();

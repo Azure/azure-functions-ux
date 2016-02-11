@@ -189,4 +189,8 @@ export class MockFunctionsService implements IFunctionsService {
             .subscribe(h => this.hostSecrets = h,
                        e => console.log(e));
     }
+
+    createTrialFunctionsContainer() {
+        return Observable.of('done'); 
+    }
 }

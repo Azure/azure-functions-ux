@@ -5,6 +5,7 @@ import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {FunctionsService} from '../services/functions.service';
+import {UserService} from '../services/user.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
@@ -31,15 +32,18 @@ export class AppComponent implements OnInit{
     public deleteSelectedFunction: boolean;
     public addedFunction: FunctionInfo;
     public noContainerFound: boolean;
+    public noTenantsFound: boolean;
     public subscriptionPickerPlaceholder: string;
     public serverFarmPickerPlaceholder: string;
     public geoRegions: DropDownElement<string>[];
     public selectedGeoRegion: string;
     public resetServerFarm: boolean;
     private initializing: boolean;
+    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
-    constructor(private _functionsService: FunctionsService) {
+    constructor(private _functionsService: FunctionsService, private _userService: UserService) {
         this.noContainerFound = false;
+        this.noTenantsFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
         this.serverFarmPickerPlaceholder = 'Select Server Farm (optional)';
         this.geoRegions = [
@@ -72,20 +76,30 @@ export class AppComponent implements OnInit{
                 if (!r) {
                     // No Container. Ask the user to pick.
                     //get a list of subs and ask the user to chose.
-                    this.initializing = false;
-                    this.noContainerFound = true;
-                    this._functionsService.getSubscriptions()
+                    this._userService.getTenants()
                         .subscribe(res => {
-                            this.subscriptions = res
-                                .map(e => ({ displayLabel: e.displayName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                            this.initializing = false;
+                            if (res.filter(e => e.TenantId.toLocaleLowerCase() !== this.tryAppServiceTenantId).length === 0) {
+                                // Try It Now
+                                this.noTenantsFound = true;
+                            } else {
+                                this.noContainerFound = true;
+                                // Normal Stuff
+                                this._functionsService.getSubscriptions()
+                                    .subscribe(res => {
+                                        this.subscriptions = res
+                                            .map(e => ({ displayLabel: e.displayName, value: e }))
+                                            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                                    });
+                                this._functionsService.getServerFarms()
+                                    .subscribe(res => {
+                                        this.serverFarms = res
+                                            .map(e => ({ displayLabel: e.serverFarmName, value: e }))
+                                            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                                    });
+                            }
                         });
-                    this._functionsService.getServerFarms()
-                        .subscribe(res => {
-                            this.serverFarms = res
-                                .map(e => ({ displayLabel: e.serverFarmName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-                        });
+                    
                 } else {
                     this.initFunctions();
                 }
@@ -146,4 +160,13 @@ export class AppComponent implements OnInit{
                                                          e.value.geoRegion.toLocaleLowerCase() === value.toLocaleLowerCase());
     }
 
+    createTrialFunctionsContainer() {
+        this.initializing = true;
+        this._functionsService.createTrialFunctionsContainer()
+            .subscribe(r => this.switchToTryAppServiceTenant());
+    }
+
+    switchToTryAppServiceTenant() {
+        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}`;
+    }
 }

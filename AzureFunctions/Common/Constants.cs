@@ -27,5 +27,6 @@ namespace AzureFunctions.Common
         public const string StorageAccountArmType = "Microsoft.Storage/storageAccounts";
         public const string TryAppServiceResourceGroupPrefix = "TRY_RG_";
         public const string TryAppServiceTenantId = "6224bcc1-1690-4d04-b905-92265f948dad";
+        public const string TryAppServiceCreateUrl = "https://tryappservice.azure.com/api/resource?x-ms-routing-name=next";
     }
 }

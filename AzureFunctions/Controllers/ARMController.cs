@@ -16,16 +16,10 @@ namespace AzureFunctions.Controllers
 {
     public class ARMController : ApiController
     {
-        private IArmManager _armManager;
         private const char base64Character62 = '+';
         private const char base64Character63 = '/';
         private const char base64UrlCharacter62 = '-';
         private const char base64UrlCharacter63 = '_';
-
-        public ARMController(IArmManager armManager)
-        {
-            this._armManager = armManager;
-        }
 
         [Authorize]
         [HttpGet]

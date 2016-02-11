@@ -62,6 +62,21 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateTriaFunctionContainer()
+        {
+            try
+            {
+                await this._armManager.CreateTrialFunctionContainer();
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> ListSubscriptions()
         {
