@@ -30,8 +30,11 @@ namespace AzureFunctions.Code
             _client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
         }
 
-        public async Task<FunctionContainer> GetFunctionContainer()
+        public async Task<FunctionsContainer> GetFunctionContainer(string functionContainerId)
         {
+            var functionContainer = await InternalGetFunctionsContainer(functionContainerId);
+            if (functionContainer != null) return functionContainer;
+
             var resourceGroup = await GetFunctionsResourceGroup();
             if (resourceGroup != null)
             {
@@ -41,6 +44,27 @@ namespace AzureFunctions.Code
             {
                 return null;
             }
+        }
+
+        private async Task<FunctionsContainer> InternalGetFunctionsContainer(string armId)
+        {
+            if (string.IsNullOrEmpty(armId)) return null;
+
+            try
+            {
+                //  /subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/sites/{2}
+                var parts = armId.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                var site = await Load(new Site(parts[1], parts[3], parts[7]));
+                await UpdateCustomSiteExtensionsIfNeeded(site);
+                return new FunctionsContainer
+                {
+                    ScmUrl = site.ScmHostName,
+                    BasicAuth = site.BasicAuth,
+                    Bearer = this._userSettings.BearerToken,
+                    ArmId = site.ArmId
+                };
+            }
+            catch { return null; }
         }
 
         public async Task<ResourceGroup> GetFunctionsResourceGroup(string subscriptionId = null)
@@ -61,13 +85,13 @@ namespace AzureFunctions.Code
                 : await Load(resourceGroup);
         }
 
-        public async Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId = null)
+        public async Task<FunctionsContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId = null)
         {
             var resourceGroup = await GetFunctionsResourceGroup(subscriptionId) ?? await CreateResourceGroup(subscriptionId, location);
             return await CreateFunctionContainer(resourceGroup, serverFarmId);
         }
 
-        public async Task<FunctionContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId = null)
+        public async Task<FunctionsContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId = null)
         {
             var tasks = new List<Task>();
             if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup, serverFarmId));
@@ -80,18 +104,24 @@ namespace AzureFunctions.Code
                 await LinkSiteAndStorageAccount(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
             }
 
-            if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                !resourceGroup.FunctionsSite.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
-            {
-                await PublishCustomSiteExtensions(resourceGroup.FunctionsSite);
-            }
+            await UpdateCustomSiteExtensionsIfNeeded(resourceGroup.FunctionsSite);
 
-            return new FunctionContainer
+            return new FunctionsContainer
             {
                 ScmUrl = resourceGroup.FunctionsSite.ScmHostName,
                 BasicAuth = resourceGroup.FunctionsSite.BasicAuth,
-                Bearer = this._userSettings.BearerToken
+                Bearer = this._userSettings.BearerToken,
+                ArmId = resourceGroup.FunctionsSite.ArmId
             };
+        }
+
+        private async Task UpdateCustomSiteExtensionsIfNeeded(Site site)
+        {
+            if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
+                !site.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
+            {
+                await PublishCustomSiteExtensions(site);
+            }
         }
 
         public async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)

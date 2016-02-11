@@ -8,9 +8,9 @@ namespace AzureFunctions.Contracts
     public interface IArmManager
     {
         Task CreateTrialFunctionContainer();
-        Task<FunctionContainer> GetFunctionContainer();
-        Task<FunctionContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId);
-        Task<FunctionContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId);
+        Task<FunctionsContainer> GetFunctionContainer(string functionContainerId);
+        Task<FunctionsContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId);
+        Task<FunctionsContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId);
         Task<IEnumerable<Subscription>> GetSubscriptions();
         Task<IEnumerable<ServerFarm>> GetServerFarms();
     }

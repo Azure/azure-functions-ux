@@ -148,7 +148,7 @@
     <Compile Include="Models\ArmResources\BaseResource.cs" />
     <Compile Include="Models\ArmResources\ServerFarm.cs" />
     <Compile Include="Models\ArmResources\StorageAccount.cs" />
-    <Compile Include="Models\FunctionContainer.cs" />
+    <Compile Include="Models\FunctionsContainer.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Models\ArmResources\ResourceGroup.cs" />
     <Compile Include="Models\ArmResources\Site.cs" />

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace AzureFunctions.Models
 {
-    public class FunctionContainer
+    public class FunctionsContainer
     {
         [JsonProperty(PropertyName = "scm_url")]
         public string ScmUrl { get; set; }
@@ -16,5 +16,8 @@ namespace AzureFunctions.Models
 
         [JsonProperty(PropertyName = "bearer")]
         public string Bearer { get; set; }
+
+        [JsonProperty(PropertyName = "armId")]
+        public string ArmId { get; set; }
     }
 }

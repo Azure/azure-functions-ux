@@ -30,16 +30,43 @@ namespace AzureFunctions.Controllers
         {
             this._armManager = armManager;
         }
+
         [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> GetFunctionContainer()
         {
             try
             {
-                var functionContainer = await this._armManager.GetFunctionContainer();
-                return functionContainer == null
-                    ? Request.CreateResponse(HttpStatusCode.NotFound)
-                    : Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+                var savedFunctionContainer = Request.Headers
+                    .GetCookies(Constants.SavedFunctionsContainer)
+                    ?.FirstOrDefault()
+                    ?[Constants.SavedFunctionsContainer]
+                    ?.Value;
+
+                var functionContainer = await this._armManager.GetFunctionContainer(savedFunctionContainer);
+
+                if (functionContainer == null)
+                {
+                    var response = Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.Headers.AddCookies(
+                        new[]
+                        {
+                            new CookieHeaderValue(Constants.SavedFunctionsContainer, string.Empty)
+                            { Expires = DateTimeOffset.UtcNow.AddDays(-1), Path = "/" }
+                        });
+                    return response;
+                }
+                else
+                {
+                    var response = Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+                    response.Headers.AddCookies(
+                        new[]
+                        {
+                            new CookieHeaderValue(Constants.SavedFunctionsContainer, functionContainer.ArmId)
+                            { Expires = DateTimeOffset.UtcNow.AddYears(1), Path = "/" }
+                        });
+                    return response;
+                }
             }
             catch (Exception e)
             {
