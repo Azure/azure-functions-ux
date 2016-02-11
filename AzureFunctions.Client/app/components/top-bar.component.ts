@@ -26,6 +26,6 @@ export class TopBarComponent implements OnInit {
     }
 
     selectTenant(tenant: TenantInfo) {
-        window.location.href = "api/tenants/" + tenant.TenantId;
+        window.location.href = `api/switchtenants/${tenant.TenantId}`;
     }
 }

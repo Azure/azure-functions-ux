@@ -48,39 +48,39 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpGet]
-        private async Task<HttpResponseMessage> GetTenants(string tenantId = null)
+        public async Task<HttpResponseMessage> GetTenants()
         {
-            if (string.IsNullOrEmpty(tenantId))
+            using (var client = GetClient(Request.RequestUri.GetLeftPart(UriPartial.Authority)))
             {
-                using (var client = GetClient(Request.RequestUri.GetLeftPart(UriPartial.Authority)))
+                var response = await client.GetAsync("tenantdetails");
+                if (!response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync("tenantdetails");
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return response;
-                    }
-
-                    var tenantsString = await response.Content.ReadAsStringAsync();
-                    var tenants = JArray.Parse(tenantsString);
-                    tenants = SetCurrentTenant(tenants);
-                    response = Request.CreateResponse(response.StatusCode);
-                    response.Content = new StringContent(tenants.ToString(), Encoding.UTF8, "application/json");
                     return response;
                 }
-            }
-            else
-            {
-                // switch tenant
-                var tenant = Guid.Parse(tenantId);
-                //KeyValuePair is a struct not a class. It can't be null.
-                var contextQuery = Request.GetQueryNameValuePairs().FirstOrDefault(s => s.Key.Equals("cx", StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
-                var response = Request.CreateResponse(HttpStatusCode.Redirect);
-                response.Headers.Add("Set-Cookie", String.Format("OAuthTenant={0}; path=/; secure; HttpOnly", tenant));
-                var uri = Request.RequestUri.AbsoluteUri;
-                var baseUri = new Uri(uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase)));
-                response.Headers.Location = new Uri(baseUri, WebUtility.UrlDecode(contextQuery));
+
+                var tenantsString = await response.Content.ReadAsStringAsync();
+                var tenants = JArray.Parse(tenantsString);
+                tenants = SetCurrentTenant(tenants);
+                response = Request.CreateResponse(response.StatusCode);
+                response.Content = new StringContent(tenants.ToString(), Encoding.UTF8, "application/json");
                 return response;
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage SwitchTenants(string tenantId)
+        {
+            // switch tenant
+            var tenant = Guid.Parse(tenantId);
+            //KeyValuePair is a struct not a class. It can't be null.
+            var contextQuery = Request.GetQueryNameValuePairs().FirstOrDefault(s => s.Key.Equals("cx", StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
+            var response = Request.CreateResponse(HttpStatusCode.Redirect);
+            response.Headers.Add("Set-Cookie", String.Format("OAuthTenant={0}; path=/; secure; HttpOnly", tenant));
+            var uri = Request.RequestUri.AbsoluteUri;
+            var baseUri = new Uri(uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase)));
+            response.Headers.Location = new Uri(baseUri, WebUtility.UrlDecode(contextQuery));
+            return response;
         }
 
         private JArray ToTenantDetails(JArray tenants)
