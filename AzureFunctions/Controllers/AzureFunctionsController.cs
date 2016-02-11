@@ -63,7 +63,7 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateTriaFunctionContainer()
+        public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
         {
             try
             {

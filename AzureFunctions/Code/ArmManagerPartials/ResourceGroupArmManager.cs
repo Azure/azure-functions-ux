@@ -28,7 +28,8 @@ namespace AzureFunctions.Code
 
             resourceGroup.FunctionsStorageAccount = resources.value
                 .Where(r => r.type.Equals(Constants.StorageAccountArmType, StringComparison.OrdinalIgnoreCase) &&
-                            r.name.StartsWith(Constants.FunctionsStorageAccountNamePrefix, StringComparison.OrdinalIgnoreCase))
+                            (r.name.StartsWith(Constants.FunctionsStorageAccountNamePrefix, StringComparison.OrdinalIgnoreCase) ||
+                            r.name.StartsWith("functions", StringComparison.OrdinalIgnoreCase)))
                 .Select(r => new StorageAccount(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, r.name))
                 .FirstOrDefault();
 
