@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div *ngIf="noTenantsFound">It looks like you don't an Azure account. Do you want to create a 24 hour free trial functions container?</div>
-            <button [disabled]="initializing" class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
+            <button *ngIf="noTenantsFound" [disabled]="initializing" class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
         </div>
     </div>
 </div>
