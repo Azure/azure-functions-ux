@@ -103,7 +103,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 :: 6. Install npm packages
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd npm install --production
+  call :ExecuteCmd npm install
   IF !ERRORLEVEL! NEQ 0 goto error
   call :ExecuteCmd npm run tsc
   IF !ERRORLEVEL! NEQ 0 goto error
