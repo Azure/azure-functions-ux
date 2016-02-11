@@ -131,6 +131,7 @@
     <Compile Include="Common\FailedRequestException.cs" />
     <Compile Include="Contracts\ISettings.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />
+    <Compile Include="Controllers\ARMController.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
