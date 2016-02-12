@@ -8,6 +8,8 @@ using System;
 using AzureFunctions.Code;
 using System.Web;
 using AzureFunctions.Contracts;
+using Serilog;
+using AzureFunctions.Trace;
 
 namespace AzureFunctions
 {
@@ -15,6 +17,9 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
+            FunctionsTrace.Diagnostics = new LoggerConfiguration()
+                .WriteTo.RollingFile(@"D:\home\LogFiles\functions-{Date}.txt", fileSizeLimitBytes: null)
+                .CreateLogger();
             var builder = new ContainerBuilder();
             var config = GlobalConfiguration.Configuration;
 

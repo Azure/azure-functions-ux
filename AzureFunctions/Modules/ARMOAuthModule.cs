@@ -118,14 +118,14 @@ namespace AzureFunctions.Modules
             {
                 if (response.StatusCode != HttpStatusCode.Unauthorized)
                 {
-                    Trace.TraceError(string.Format("Expected status {0} != {1} GET {2}", HttpStatusCode.Unauthorized, response.StatusCode, requestUri));
+                    System.Diagnostics.Trace.TraceError(string.Format("Expected status {0} != {1} GET {2}", HttpStatusCode.Unauthorized, response.StatusCode, requestUri));
                     return false;
                 }
 
                 var header = response.Headers["WWW-Authenticate"];
                 if (header == null || string.IsNullOrEmpty(header))
                 {
-                    Trace.TraceError(string.Format("Missing WWW-Authenticate response header GET {0}", requestUri));
+                    System.Diagnostics.Trace.TraceError(string.Format("Missing WWW-Authenticate response header GET {0}", requestUri));
                     return false;
                 }
 
@@ -133,7 +133,7 @@ namespace AzureFunctions.Modules
                 var index = header.IndexOf("authorization_uri=", StringComparison.OrdinalIgnoreCase);
                 if (index == -1)
                 {
-                    Trace.TraceError(string.Format("Invalid WWW-Authenticate response header {0} GET {1}", header, requestUri));
+                    System.Diagnostics.Trace.TraceError(string.Format("Invalid WWW-Authenticate response header {0} GET {1}", header, requestUri));
                     return false;
                 }
 

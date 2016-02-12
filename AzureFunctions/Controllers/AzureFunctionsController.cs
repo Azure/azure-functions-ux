@@ -6,6 +6,7 @@ using AzureFunctions.Models;
 using AzureFunctions.Models.ArmModels;
 using AzureFunctions.Models.ArmResources;
 using AzureFunctions.Modules;
+using AzureFunctions.Trace;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -70,13 +71,14 @@ namespace AzureFunctions.Controllers
             }
             catch (Exception e)
             {
+                FunctionsTrace.Diagnostics.Error(e, "Error in GetFunctionContainer() {@User}, {@Exception}", User, e);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location, string serverFarmId)
+        public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location, string serverFarmId = null)
         {
             try
             {
@@ -84,6 +86,7 @@ namespace AzureFunctions.Controllers
             }
             catch (Exception e)
             {
+                FunctionsTrace.Diagnostics.Error(e, $"Error in CreateFunctionsContainer({subscriptionId}, {location}, {serverFarmId}) {{@User}}, {{@Exception}}", User, e);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
         }
@@ -99,6 +102,7 @@ namespace AzureFunctions.Controllers
             }
             catch (Exception e)
             {
+                FunctionsTrace.Diagnostics.Error(e, "Error in CreateTrialFunctionsContainer() {@User}, {@Exception}", User, e);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
         }
