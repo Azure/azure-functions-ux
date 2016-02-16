@@ -60,6 +60,8 @@
     <TypeScriptCompile Include="app\services\mock-user.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <None Include="mocks\tenants.json" />
+    <TypeScriptCompile Include="typings\main.d.ts" />
+    <TypeScriptCompile Include="typings\main\ambient\es6-shim\es6-shim.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
