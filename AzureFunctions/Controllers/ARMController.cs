@@ -44,26 +44,47 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetTenants()
         {
-            using (var client = GetClient(Request.RequestUri.GetLeftPart(UriPartial.Authority)))
+            if (!Request.RequestUri.IsLoopback)
             {
-                var response = await client.GetAsync("tenantdetails");
-                if (!response.IsSuccessStatusCode)
+                using (var client = GetClient(Request.RequestUri.GetLeftPart(UriPartial.Authority)))
                 {
+                    var response = await client.GetAsync("tenantdetails");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return response;
+                    }
+
+                    var tenantsString = await response.Content.ReadAsStringAsync();
+                    var tenants = JArray.Parse(tenantsString);
+                    tenants = SetCurrentTenant(tenants);
+                    response = Request.CreateResponse(response.StatusCode);
+                    response.Content = new StringContent(tenants.ToString(), Encoding.UTF8, "application/json");
                     return response;
                 }
+            }
+            else
+            {
+                using (var client = GetClient("https://management.azure.com/"))
+                {
+                    var response = await client.GetAsync("tenants?api-version=2014-04-01");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return response;
+                    }
 
-                var tenantsString = await response.Content.ReadAsStringAsync();
-                var tenants = JArray.Parse(tenantsString);
-                tenants = SetCurrentTenant(tenants);
-                response = Request.CreateResponse(response.StatusCode);
-                response.Content = new StringContent(tenants.ToString(), Encoding.UTF8, "application/json");
-                return response;
+                    var tenantsString = await response.Content.ReadAsStringAsync();
+                    var tenants = (JArray)(JObject.Parse(tenantsString))["value"];
+                    tenants = SetCurrentTenant(ToTenantDetails(tenants));
+                    response = Request.CreateResponse(response.StatusCode);
+                    response.Content = new StringContent(tenants.ToString(), Encoding.UTF8, "application/json");
+                    return response;
+                }
             }
         }
 
         [Authorize]
         [HttpGet]
-        public HttpResponseMessage SwitchTenants(string tenantId)
+        public HttpResponseMessage SwitchTenants(string tenantId, string path = null)
         {
             // switch tenant
             var tenant = Guid.Parse(tenantId);
@@ -72,7 +93,7 @@ namespace AzureFunctions.Controllers
             var response = Request.CreateResponse(HttpStatusCode.Redirect);
             response.Headers.Add("Set-Cookie", String.Format("OAuthTenant={0}; path=/; secure; HttpOnly", tenant));
             var uri = Request.RequestUri.AbsoluteUri;
-            var baseUri = new Uri(uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase)));
+            var baseUri = new Uri($"{uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase))}/{path}");
             response.Headers.Location = new Uri(baseUri, WebUtility.UrlDecode(contextQuery));
             return response;
         }

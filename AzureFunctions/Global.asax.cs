@@ -10,6 +10,8 @@ using System.Web;
 using AzureFunctions.Contracts;
 using Serilog;
 using AzureFunctions.Trace;
+using System.Web.Hosting;
+using System.IO;
 
 namespace AzureFunctions
 {
@@ -17,8 +19,11 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
+            var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
+                ? HostingEnvironment.ApplicationPhysicalPath
+                : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
             FunctionsTrace.Diagnostics = new LoggerConfiguration()
-                .WriteTo.RollingFile(@"D:\home\LogFiles\functions-{Date}.txt", fileSizeLimitBytes: null)
+                .WriteTo.RollingFile(Path.Combine(logsPath, "functions-{Date}.txt"), fileSizeLimitBytes: null)
                 .CreateLogger();
             var builder = new ContainerBuilder();
             var config = GlobalConfiguration.Configuration;
@@ -27,7 +32,7 @@ namespace AzureFunctions
             RegisterTypes(builder);
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-         
+
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             RegisterRoutes(config);
         }
@@ -65,7 +70,7 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
+            config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
         }
     }

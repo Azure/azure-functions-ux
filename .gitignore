@@ -237,3 +237,5 @@ _Pvt_Extensions
 *.js
 .idea/
 typings/
+AzureFunctions.Client/Web.config
+AzureFunctions.Client/global.asax

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 
 namespace AzureFunctions.Code
 {
@@ -23,6 +24,6 @@ namespace AzureFunctions.Code
             catch { }
             return string.Empty;
         }
-        public string AppDataPath { get; } = @"D:\home\site\wwwroot\App_Data";
+        public string AppDataPath { get; } = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");
     }
 }
