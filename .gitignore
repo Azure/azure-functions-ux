@@ -239,3 +239,4 @@ _Pvt_Extensions
 typings/
 AzureFunctions.Client/Web.config
 AzureFunctions.Client/global.asax
+AzureFunctions.Client/functions-*.txt
