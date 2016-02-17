@@ -72,6 +72,15 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         this.initializing = true;
+        if (window.parent !== window) {
+            this._functionsService.initializeIframe(() => { this.initializeUser() });
+        }
+        else {
+            this.initializeUser();
+        }
+    }
+
+    private initializeUser(){
         this._functionsService.initializeUser()
             .subscribe(r => {
                 if (!r) {
@@ -100,7 +109,7 @@ export class AppComponent implements OnInit{
                                     });
                             }
                         });
-                    
+
                 } else {
                     this.initFunctions();
                 }

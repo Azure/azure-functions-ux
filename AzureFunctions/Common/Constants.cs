@@ -11,6 +11,7 @@ namespace AzureFunctions.Common
         public const string CSMApiVersion = "2014-04-01";
         public const string CSMUrl = "https://management.azure.com";
         public const string X_MS_OAUTH_TOKEN = "X-MS-OAUTH-TOKEN";
+        public const string ClientTokenHeader = "client-token";
         public const string ApplicationJson = "application/json";
         public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
         public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";

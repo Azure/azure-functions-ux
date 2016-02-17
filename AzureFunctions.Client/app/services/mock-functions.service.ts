@@ -18,6 +18,10 @@ export class MockFunctionsService implements IFunctionsService {
 
     constructor(private _http: Http) { }
 
+    initializeIframe(): Observable<ScmInfo> {
+        return null;
+    }
+
     initializeUser() {
         return this._http.get('mocks/scmInfo.json')
             .map<ScmInfo>(r => {

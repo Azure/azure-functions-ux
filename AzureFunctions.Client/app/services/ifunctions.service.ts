@@ -10,6 +10,7 @@ import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
 
 export interface IFunctionsService {
+    initializeIframe(callback: () => void): void;
     initializeUser(): Observable<ScmInfo>;
     getFunctions(): Observable<FunctionInfo[]>;
     getFileContent(file: VfsObject): Observable<string>;
