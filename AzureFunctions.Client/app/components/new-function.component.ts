@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'new-function',
-    templateUrl: 'templates/new-function.html',
+    templateUrl: 'templates/new-function.component.html',
     outputs: ['functionAdded']
 })
 export class NewFunctionComponent implements OnInit {

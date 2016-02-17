@@ -6,7 +6,7 @@ import {BindingDesignerComponent} from './binding-designer.component';
 
 @Component({
     selector: 'function-designer',
-    templateUrl: 'templates/function-designer.html',
+    templateUrl: 'templates/function-designer.component.html',
     inputs: ['functionConfigString'],
     directives: [BindingDesignerComponent]
 })

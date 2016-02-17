@@ -4,7 +4,7 @@ import {FunctionsService} from '../services/functions.service';
 
 @Component({
     selector: 'log-streaming',
-    templateUrl: 'templates/log-streaming.html',
+    templateUrl: 'templates/log-streaming.component.html',
     inputs: ['functionInfo']
 })
 export class LogStreamingComponent implements OnDestroy {

@@ -13,7 +13,7 @@ import {FunctionSecrets} from '../models/function-secrets';
 
 @Component({
     selector: 'function-edit',
-    templateUrl: 'templates/function-edit.html',
+    templateUrl: 'templates/function-edit.component.html',
     inputs: ['selectedFunction'],
     outputs: ['deleteSelectedFunction'],
     directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent, LogStreamingComponent]

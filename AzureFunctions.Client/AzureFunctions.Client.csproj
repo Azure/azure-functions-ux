@@ -23,6 +23,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mocks\user.json" />
+    <Content Include="templates\app.component.html" />
+    <Content Include="templates\binding-designer.component.html" />
+    <Content Include="templates\drop-down.component.html" />
+    <Content Include="templates\function-designer.component.html" />
+    <Content Include="templates\function-edit.component.html" />
+    <Content Include="templates\function-run.component.html" />
+    <Content Include="templates\log-streaming.component.html" />
+    <Content Include="templates\new-function.component.html" />
+    <Content Include="templates\sidebar.component.html" />
+    <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
@@ -60,8 +70,8 @@
     <TypeScriptCompile Include="app\services\mock-user.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <None Include="mocks\tenants.json" />
-    <TypeScriptCompile Include="typings\main.d.ts" />
-    <TypeScriptCompile Include="typings\main\ambient\es6-shim\es6-shim.d.ts" />
+    <TypeScriptCompile Include="typings\browser.d.ts" />
+    <TypeScriptCompile Include="typings\browser\ambient\es6-shim\es6-shim.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
@@ -82,16 +92,6 @@
     <Content Include="mocks\WebHook\function.json" />
     <Content Include="styles\main.css" />
     <Content Include="styles\pure-drawer.css" />
-    <Content Include="templates\app.html" />
-    <Content Include="templates\binding-designer.html" />
-    <Content Include="templates\drop-down.html" />
-    <Content Include="templates\function-designer.html" />
-    <Content Include="templates\function-edit.html" />
-    <Content Include="templates\function-run.html" />
-    <Content Include="templates\log-streaming.html" />
-    <Content Include="templates\new-function.html" />
-    <Content Include="templates\sidebar.html" />
-    <Content Include="templates\top-bar.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="mocks\BlobTrigger\index.js" />
