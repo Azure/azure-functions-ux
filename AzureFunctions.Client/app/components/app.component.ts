@@ -18,6 +18,7 @@ import {ServerFarm} from '../models/server-farm';
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
+    styleUrls: ['styles/app.style.css'],
     directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent, DropDownComponent]
 })
 export class AppComponent implements OnInit{

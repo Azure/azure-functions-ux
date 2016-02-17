@@ -5,7 +5,8 @@ import {DropDownElement} from '../models/drop-down-element';
     selector: 'drop-down',
     inputs: ['options', 'placeholder', 'resetOnChange'],
     outputs: ['value'],
-    templateUrl: 'templates/drop-down.component.html'
+    templateUrl: 'templates/drop-down.component.html',
+    styleUrls: ['styles/drop-down.style.css']
 })
 export class DropDownComponent<T> {
     public placeholder: string;

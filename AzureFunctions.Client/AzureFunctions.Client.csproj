@@ -23,6 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mocks\user.json" />
+    <Content Include="styles\app.style.css" />
+    <Content Include="styles\drop-down.style.css" />
+    <Content Include="styles\function-edit.style.css" />
+    <Content Include="styles\sidebar.style.css" />
+    <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\app.component.html" />
     <Content Include="templates\binding-designer.component.html" />
     <Content Include="templates\drop-down.component.html" />

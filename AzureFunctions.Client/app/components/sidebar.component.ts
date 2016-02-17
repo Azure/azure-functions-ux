@@ -9,6 +9,7 @@ import {Subject} from 'rxjs/Subject';
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
+    styleUrls: [ 'styles/sidebar.style.css' ],
     inputs: ['functionsInfo', 'deleteSelectedFunction', 'addedFunction'],
     outputs: ['functionSelected: selectedFunction']
 })

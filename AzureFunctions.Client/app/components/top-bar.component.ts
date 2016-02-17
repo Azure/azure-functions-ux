@@ -5,7 +5,8 @@ import {TenantInfo} from '../models/tenant-info';
 
 @Component({
     selector: 'top-bar',
-    templateUrl: 'templates/top-bar.component.html'
+    templateUrl: 'templates/top-bar.component.html',
+    styleUrls: ['styles/top-bar.style.css']
 })
 export class TopBarComponent implements OnInit {
     public user: User;
