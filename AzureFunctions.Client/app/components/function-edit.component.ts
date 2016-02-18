@@ -69,12 +69,12 @@ export class FunctionEditComponent {
                     inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
                         ? this.functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
                         : null);
-                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     if (inputBinding) {
                         this.isHttpFunction = true;
                     } else {
                         this.isHttpFunction = false;
                     }
+                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                 } else {
                     this.content = this.scriptContent;
                 }
