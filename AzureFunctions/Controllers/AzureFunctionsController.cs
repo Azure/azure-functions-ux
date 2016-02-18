@@ -34,11 +34,11 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<HttpResponseMessage> GetFunctionContainer()
+        public async Task<HttpResponseMessage> GetFunctionContainer(string resourceId = null)
         {
             try
             {
-                var savedFunctionContainer = Request.Headers
+                var savedFunctionContainer = resourceId ?? Request.Headers
                     .GetCookies(Constants.SavedFunctionsContainer)
                     ?.FirstOrDefault()
                     ?[Constants.SavedFunctionsContainer]
