@@ -76,7 +76,7 @@ export class AceEditorDirective {
         var _config = (/^(web|app).config$/i);
         var _csproj = (/.(cs|vb)proj$/i);
         var _xdt = (/.xdt$/i);
-        var _aspnet = (/.(cshtml|asp|aspx)$/i);
+        var _aspnet = (/.(cshtml|asp|aspx|csx)$/i);
         var syntax_mode = 'ace/mode/text';
         var modelist = ace.require('ace/ext/modelist');
         syntax_mode = modelist.getModeForPath(filename).mode;
