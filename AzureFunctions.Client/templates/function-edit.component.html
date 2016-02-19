@@ -2,6 +2,7 @@
     <h2>{{functionInfo.name}} 
         <i *ngIf="!functionInfo.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(functionInfo)"></i>
     </h2>
+
     <div *ngIf="!functionInfo.clientOnly">
         <div class="row">
             <div class="left"><label>Function Url:</label></div>
@@ -21,6 +22,9 @@
             <div class="left"><label>Log Streaming Url:</label></div>
             <div class="right"><pre (click)="highlightText($event)">{{logStreamingUrl}}</pre></div>
         </div>
+
+        <button class="custom-button" *ngIf="inIFrame" (click)="openPortalSettings()">Advanced Settings</button>
+
     </div>
 
 </div>

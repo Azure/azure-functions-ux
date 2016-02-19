@@ -6,6 +6,7 @@ import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
+import {PortalService} from '../services/portal.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
@@ -13,7 +14,6 @@ import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
-
 
 @Component({
     selector: 'azure-functions-app',
@@ -42,7 +42,10 @@ export class AppComponent implements OnInit{
     private initializing: boolean;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
-    constructor(private _functionsService: FunctionsService, private _userService: UserService) {
+    constructor(private _functionsService: FunctionsService,
+                private _userService: UserService,
+                private _portalService: PortalService) {
+
         this.noContainerFound = false;
         this.noTenantsFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
@@ -72,8 +75,11 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         this.initializing = true;
-        if (window.parent !== window) {
-            this._functionsService.initializeIframe(() => { this.initializeUser() });
+        if (this._portalService.inIFrame) {
+            this._portalService.initializeIframe((token : string) => {
+                this._functionsService.setToken(token);
+                this.initializeUser() 
+            });
         }
         else {
             this.initializeUser();

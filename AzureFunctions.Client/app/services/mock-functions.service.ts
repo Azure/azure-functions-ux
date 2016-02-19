@@ -18,8 +18,10 @@ export class MockFunctionsService implements IFunctionsService {
 
     constructor(private _http: Http) { }
 
-    initializeIframe(): Observable<ScmInfo> {
-        return null;
+    setToken(token : string) : void{
+        this.scmInfo = <ScmInfo>{
+            bearer: token
+        };
     }
 
     initializeUser() {

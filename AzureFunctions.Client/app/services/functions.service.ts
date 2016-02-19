@@ -18,21 +18,13 @@ import {HostSecrets} from '../models/host-secrets';
 export class FunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
     private hostSecrets: HostSecrets;
-    private iFrameInitCallback: () => void;
 
     constructor(private _http: Http) { }
     
-    initializeIframe(callback : () => void): void{
-        this.iFrameInitCallback = callback;
-
-        window.addEventListener("message", this.iframeReceivedMsg.bind(this), false);
-        window.parent.postMessage({
-            signature: "pcIframe",
-            data: "ready"
-        },
-        "*" /* Wildcard until Fx adds support to pass us parent URL */);
-
-        return null;
+    setToken(token : string) : void{
+        this.scmInfo = <ScmInfo>{
+            bearer: token
+        };
     }
 
     initializeUser() {
@@ -346,23 +338,4 @@ export class FunctionsService implements IFunctionsService {
         return headers;
     }
 
-    private iframeReceivedMsg(event: any): void {
-        if (event.data["signature"] !== "pcIframe") {
-            return;
-        }
-        var data = event.data["data"];
-        var methodName = !!data.method ? data.method : data;
-        console.log("[iFrame] Received mesg: " + methodName);
-
-        if (methodName === "Initialized") {
-            return;
-        }
-        else if (data.method === 'sendtoken') {
-            this.scmInfo = <ScmInfo>{
-                bearer: data.token
-            }
-
-            this.iFrameInitCallback();
-        }
-    }
 }
