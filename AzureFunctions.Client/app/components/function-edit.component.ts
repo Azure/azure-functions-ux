@@ -1,5 +1,6 @@
 import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
+import {PortalService} from '../services/portal.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
@@ -31,11 +32,12 @@ export class FunctionEditComponent {
     public isCode: boolean;
     public fileName: string;
     public isHttpFunction: boolean;
+    public inIFrame: boolean;
     private updatedContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
-
-    constructor(private _functionsService: FunctionsService) {
+    constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
+        this.inIFrame = this._portalService.inIFrame;
         this.isCode = true;
         this.deleteSelectedFunction = new EventEmitter<boolean>();
         this.functionSelectStream = new Subject<FunctionInfo>();
@@ -122,6 +124,10 @@ export class FunctionEditComponent {
 
     get logStreamingUrl(): string {
         return `${this._functionsService.getScmUrl()}/api/logstream/application`;
+    }
+
+    openPortalSettings() {
+        this._portalService.openSettings();
     }
 
     saveScript() {

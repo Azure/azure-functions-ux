@@ -70,9 +70,11 @@
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
+    <TypeScriptCompile Include="app\services\iportal.service.ts" />
     <TypeScriptCompile Include="app\services\iuser.service.ts" />
     <TypeScriptCompile Include="app\services\mock-functions.service.ts" />
     <TypeScriptCompile Include="app\services\mock-user.service.ts" />
+    <TypeScriptCompile Include="app\services\portal.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="typings\browser.d.ts" />
