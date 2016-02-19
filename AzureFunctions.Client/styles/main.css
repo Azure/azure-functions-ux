@@ -487,6 +487,7 @@ input.radio:focus ~ label:before {
 .row > .half-width {
     width: 49%;
     float: left;
+    max-width: 850px;
 }
 
 .view-table {
