@@ -1,0 +1,12 @@
+﻿.tabs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0px;
+    box-sizing: border-box;
+}
+
+.tab-active{
+    background-color: green;
+}
