@@ -39,6 +39,8 @@ export class AppComponent implements OnInit{
     public geoRegions: DropDownElement<string>[];
     public selectedGeoRegion: string;
     public resetServerFarm: boolean;
+    public inIFrame: boolean;
+
     private initializing: boolean;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
@@ -46,6 +48,7 @@ export class AppComponent implements OnInit{
                 private _userService: UserService,
                 private _portalService: PortalService) {
 
+        this.inIFrame = this._portalService.inIFrame;
         this.noContainerFound = false;
         this.noTenantsFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';

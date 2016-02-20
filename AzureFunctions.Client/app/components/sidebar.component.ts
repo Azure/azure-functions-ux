@@ -5,6 +5,7 @@ import {FunctionConfig} from '../models/function-config';
 import {VfsObject} from '../models/vfs-object';
 import {Observable} from 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'sidebar',
@@ -16,10 +17,13 @@ import {Subject} from 'rxjs/Subject';
 export class SideBarComponent {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
+    public inIFrame: boolean;
     private functionSelected: EventEmitter<FunctionInfo>;
 
-    constructor(private _functionsService: FunctionsService) {
+    constructor(private _functionsService: FunctionsService,
+                private _portalService: PortalService) {
         this.functionSelected = new EventEmitter<FunctionInfo>();
+        this.inIFrame = this._portalService.inIFrame;
     }
 
     set addedFunction(value: FunctionInfo) {
