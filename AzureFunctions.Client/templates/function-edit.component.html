@@ -1,18 +1,73 @@
 <div *ngIf="functionInfo" class="gutter-container">
-    <h2>{{functionInfo.name}} 
+    <h2>{{functionInfo.name}}
         <i *ngIf="!functionInfo.clientOnly" class="fa fa-trash clickable" (click)="deleteFunction(functionInfo)"></i>
     </h2>
 
-    <div *ngIf="!functionInfo.clientOnly">
-        <div class="row">
-            <div class="left"><label>Function Url:</label></div>
-            <div class="right"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
-        </div>
-        <div class="row" *ngIf="webHookType && webHookType !== 'genericJson'">
-            <div class="left"><label>WebHook Secret:</label></div>
-            <div class="right"><pre (click)="highlightText($event)">{{secrets.key}}</pre></div>
-        </div>
-    </div>
+    <tabs *ngIf="!functionInfo.clientOnly">
+        <tab tabTitle="Activation">
+            <div class="row">
+                <div class="left"><label>Function Url:</label></div>
+                <div class="right"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
+            </div>
+            <div class="row" *ngIf="webHookType && webHookType !== 'genericJson'">
+                <div class="left"><label>WebHook Secret:</label></div>
+                <div class="right"><pre (click)="highlightText($event)">{{secrets.key}}</pre></div>
+            </div>
+
+            <div class="view-table" *ngIf="scriptFile">
+            <div class="row">
+                <div class="left half-width" style="padding-right: 20px">
+                <div *ngIf="scriptFile" style="padding-bottom: 5px">
+                    <div class="file-tools">
+                        <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
+                    </div>
+                </div>
+                <div class="row" *ngIf="functionInfo && !functionInfo.clientOnly">
+                    <div>
+                        <label class="editor-button" [class.checked]="isCode" (click)="changeEditor('code')">
+                            <input type="radio" name="code-switch" value="code" /> Code
+                        </label>
+                        <label class="editor-button" [class.checked]="!isCode" (click)="changeEditor('config')">
+                            <input type="radio" name="code-switch" value="config" /> Config
+                        </label>
+                    </div>
+                </div>
+                    <div style="padding-top: 5px">
+                            <div class="ace_editor" aceEditor id="editor"
+
+                            (onSave)="saveScript()"
+                            (onContentChanged)="contentChanged($event)"
+                            [content]="content"
+                            [fileName]="fileName"
+                            [height]="500">
+                        </div>
+                    </div>
+                    <div *ngIf="functionInfo && !functionInfo.clientOnly" class="gutter-container">
+                        <h2>Logs:</h2>
+                        <log-streaming [functionInfo]="functionInfo"></log-streaming>
+                    </div>
+                </div>
+                <div class="right half-width">
+                    <function-run *ngIf="functionInfo && !functionInfo.clientOnly" [functionInfo]="functionInfo"></function-run>
+                </div>
+            </div>
+            </div>
+
+        </tab>
+        <tab tabTitle="Code">
+            Code
+        </tab>
+        <tab tabTitle="Output">
+            Output
+        </tab>
+        <tab tabTitle="Monitoring">
+            Monitoring
+        </tab>
+        <tab tabTitle="Configuration">
+            Configuration
+        </tab>        
+    </tabs>
+
     <div *ngIf="functionInfo.clientOnly">
         <div class="row">
             <div class="left"><label>Clone Url:</label></div>
@@ -29,7 +84,7 @@
 
 </div>
 
-<div class="view-table" *ngIf="scriptFile">
+<div class="view-table" *ngIf="scriptFile && functionInfo.clientOnly">
 <div class="row">
     <div class="left half-width" style="padding-right: 20px">
     <div *ngIf="scriptFile" style="padding-bottom: 5px">
@@ -41,15 +96,15 @@
         <div>
             <label class="editor-button" [class.checked]="isCode" (click)="changeEditor('code')">
                 <input type="radio" name="code-switch" value="code" /> Code
-            </label> 
+            </label>
             <label class="editor-button" [class.checked]="!isCode" (click)="changeEditor('config')">
                 <input type="radio" name="code-switch" value="config" /> Config
-            </label> 
+            </label>
         </div>
     </div>
         <div style="padding-top: 5px">
                 <div class="ace_editor" aceEditor id="editor"
-                
+
                 (onSave)="saveScript()"
                 (onContentChanged)="contentChanged($event)"
                 [content]="content"

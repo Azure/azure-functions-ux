@@ -1,0 +1,45 @@
+﻿.tabs ul{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    width: 40%;
+    border-bottom-width: 0px;
+    border-left: 1px solid #bbc8ce;
+    background-color: #dfe4e7;
+}
+
+.tabs li{
+    box-sizing: border-box;
+    border-top-width: 0px;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px;
+    border-right: 1px solid #bbc8ce;
+    border-top: 1px solid #bbc8ce;
+}
+
+.tabs li a{
+    color: #536E7A;
+    text-decoration: none;
+    outline: none;
+}
+
+.tabs .tab-active a{
+    color: #0273D4;
+}
+
+.tab-active{
+    background-color: #F1F1F8;
+}
+
+.tab-content{
+    border-top: 1px solid #bbc8ce;
+    margin-top: -1px; /* Get rid of gap with tab */
+    padding: 20px;
+}
