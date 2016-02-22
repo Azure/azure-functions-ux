@@ -1,6 +1,6 @@
 <div class="container">
-    <top-bar></top-bar>
-    <div class="content">
+    <top-bar *ngIf="!inIFrame"></top-bar>
+    <div class="content" [class.content-iframe]="inIFrame">
         <sidebar
             [functionsInfo]="functionsInfo"
             [deleteSelectedFunction]="deleteSelectedFunction"
