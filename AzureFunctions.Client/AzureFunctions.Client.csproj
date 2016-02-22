@@ -38,6 +38,8 @@
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\new-function.component.html" />
     <Content Include="templates\sidebar.component.html" />
+    <Content Include="templates\tab.component.html" />
+    <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />

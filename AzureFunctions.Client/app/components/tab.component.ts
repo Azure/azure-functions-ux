@@ -2,16 +2,13 @@
 
 @Component({
     selector: 'tab',
-    styles: [`
-    .pane{
-      padding: 1em;
-    }
-  `],
-    template: `
-    <div [hidden]="!active" class="pane">
-      <ng-content></ng-content>
-    </div>
-  `
+    styleUrls: ['styles/tabs.style.css'],
+    templateUrl: 'templates/tab.component.html',
+    // styles: [`
+    //     .pane{
+    //         padding: 1em;
+    //     }
+    // `]
 })
 export class TabComponent {
     @Input('tabTitle') title: string;
