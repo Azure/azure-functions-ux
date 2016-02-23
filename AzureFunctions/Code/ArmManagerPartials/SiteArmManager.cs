@@ -65,7 +65,7 @@ namespace AzureFunctions.Code
 
             var siteName = $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}";
             var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, siteName);
-            var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location });
+            var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location, kind = Constants.FunctionAppArmKind });
             var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
             await Load(site);
