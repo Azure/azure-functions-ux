@@ -385,7 +385,7 @@ namespace AzureFunctions.Modules
             tenantId = null;
 
             var request = application.Request;
-            if (request.Url.PathAndQuery.StartsWith("/api/tenants", StringComparison.OrdinalIgnoreCase))
+            if (request.Url.PathAndQuery.StartsWith("/api/switchtenants", StringComparison.OrdinalIgnoreCase))
             {
                 var parts = request.Url.PathAndQuery.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length >= 3)
