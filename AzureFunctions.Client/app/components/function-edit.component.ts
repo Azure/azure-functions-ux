@@ -11,6 +11,8 @@ import {FunctionConfig} from '../models/function-config';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
+import {TabsComponent} from './tabs.component';
+import {TabComponent} from './tab.component';
 
 @Component({
     selector: 'function-edit',
@@ -18,7 +20,14 @@ import {FunctionSecrets} from '../models/function-secrets';
     styleUrls: ['styles/function-edit.style.css'],
     inputs: ['selectedFunction'],
     outputs: ['deleteSelectedFunction'],
-    directives: [AceEditorDirective, FunctionRunComponent, FunctionDesignerComponent, LogStreamingComponent]
+    directives: [
+        AceEditorDirective,
+        FunctionRunComponent,
+        FunctionDesignerComponent,
+        LogStreamingComponent,
+        TabsComponent,
+        TabComponent
+    ]
 })
 export class FunctionEditComponent {
     public functionInfo: FunctionInfo;
