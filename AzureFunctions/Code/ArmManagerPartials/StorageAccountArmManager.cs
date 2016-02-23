@@ -39,9 +39,10 @@ namespace AzureFunctions.Code
                 storageResponse = await _client.GetAsync(ArmUriTemplates.StorageAccount.Bind(storageAccount));
                 await storageResponse.EnsureSuccessStatusCodeWithFullError();
                 var armStorageAccount = await storageResponse.Content.ReadAsAsync<ArmWrapper<ArmStorage>>();
-                isSucceeded = armStorageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);
+                isSucceeded = armStorageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase) ||
+                    armStorageAccount.properties.provisioningState.Equals("ResolvingDNS", StringComparison.OrdinalIgnoreCase);
                 tries--;
-                if (!isSucceeded) await Task.Delay(500);
+                if (!isSucceeded) await Task.Delay(200);
             } while (!isSucceeded && tries > 0);
             resourceGroup.FunctionsStorageAccount = storageAccount;
             return storageAccount;
