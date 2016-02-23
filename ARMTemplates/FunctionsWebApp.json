@@ -8,9 +8,6 @@
     "appName":{
       "type":"string"
     },
-    "appServicePlanName":{
-      "type":"string"
-    },
     "skuName":{
       "type":"string",
       "allowedValues":[
@@ -37,48 +34,20 @@
       }
     },
     {
-      "apiVersion": "2015-08-01",
-      "name": "[parameters('appServicePlanName')]",
-      "type": "Microsoft.Web/serverfarms",
-      "location": "[variables('location')]",
-      "sku": {
-        "name": "[parameters('skuName')]",
-        "capacity": 1
-      },
-      "properties": {
-        "name": "[parameters('appServicePlanName')]"
-      }
-    },
-    {
       "apiVersion":"2015-08-01",
       "name":"[parameters('appName')]",
       "type":"Microsoft.Web/sites",
+      "kind": "functionapp",
       "location":"[variables('location')]",
-      "dependsOn":[
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
-      ],
       "properties":{
-        "serverFarmId":"[parameters('appServicePlanName')]"
       },
       "resources": [
-        {
-          "apiVersion": "2015-08-01",
-          "name": "MSDeploy",
-          "type": "Extensions",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('appName'))]"
-          ],
-          "properties": {
-            "packageUri": "https://davidebbostorage.blob.core.windows.net/msdeploy-packages/functions.zip"
-          }
-        },
         {
           "apiVersion": "2015-08-01",
           "name": "appsettings",
           "type": "config",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites', parameters('appName'))]",
-            "[resourceId('Microsoft.Web/Sites/Extensions', parameters('appName'), 'MSDeploy')]",
             "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
           ],
           "properties": {
