@@ -29,9 +29,11 @@ namespace AzureFunctions
             var container = InitAutofacContainer();
             
             var config = GlobalConfiguration.Configuration;
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            InitLogging(container);
             RegisterRoutes(config);
         }
 
