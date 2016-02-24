@@ -32,6 +32,6 @@ namespace AzureFunctions.Common
         public const string SavedFunctionsContainer = "sfc";
         public const string FunctionAppArmKind = "functionapp";
 
-        public const string CompletedOperationTemplate = "Completed operation {TimedOperationId}: {OperationName} in {TimedOperationElapsed} ({TimeTakenMsec} ms) {OperationResult}";
+        public const string CompletedOperationTemplate = "Completed operation {TimedOperationId}: {OperationName} started {StartedTime} in {TimedOperationElapsed} ({TimeTakenMsec} ms) {OperationResult}";
     }
 }

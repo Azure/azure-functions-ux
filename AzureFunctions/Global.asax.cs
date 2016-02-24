@@ -54,7 +54,8 @@ namespace AzureFunctions
             {
                 new DataColumn {DataType = typeof(string), ColumnName = "OperationName" },
                 new DataColumn {DataType = typeof(int), ColumnName = "TimeTakenMsec" },
-                new DataColumn {DataType = typeof(string), ColumnName = "OperationResult" }
+                new DataColumn {DataType = typeof(string), ColumnName = "OperationResult" },
+                new DataColumn {DataType = typeof(DateTime), ColumnName = "StartedTime" }
             });
         }
 
