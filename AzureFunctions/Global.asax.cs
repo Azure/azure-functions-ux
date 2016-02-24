@@ -48,7 +48,7 @@ namespace AzureFunctions
 
         private void InitLogging(IContainer container)
         {
-            FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics" );
+            FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics");
             FunctionsTrace.Analytics = CreateLogger(container, "functions-analytics-{Date}.txt", "Analytics");
             FunctionsTrace.Performance = CreateLogger(container, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
             {
@@ -88,7 +88,7 @@ namespace AzureFunctions
                     .Union(additionalColumns ?? Enumerable.Empty<DataColumn>())
                     .ToList()
                 };
-                logger = logger.WriteTo.MSSqlServer(settings.LoggingSqlServerConnectionString, tableName, LogEventLevel.Information, columnOptions: columnOptions);
+                logger = logger.WriteTo.MSSqlServer(settings.LoggingSqlServerConnectionString, tableName, restrictedToMinimumLevel: LogEventLevel.Information, columnOptions: columnOptions);
             }
             return logger.CreateLogger();
         }
