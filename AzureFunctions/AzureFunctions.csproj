@@ -74,6 +74,18 @@
       <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.FullNetFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Serilog.Sinks.MSSqlServer, Version=3.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.MSSqlServer.3.0.46\lib\net45\Serilog.Sinks.MSSqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SerilogMetrics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4b150f150627b06, processorArchitecture=MSIL">
+      <HintPath>..\packages\SerilogMetrics.AddProperties.Fork.1.0.34\lib\net45\SerilogMetrics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SerilogWeb.Classic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9462ddd55fbc0e7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SerilogWeb.Classic.2.0.9\lib\net45\SerilogWeb.Classic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Services" />
@@ -111,6 +123,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="database.sql" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -138,6 +151,7 @@
     <Compile Include="Code\Settings.cs" />
     <Compile Include="Code\UserSettings.cs" />
     <Compile Include="Code\Utils.cs" />
+    <Compile Include="Code\Extensions\Extensions.cs" />
     <Compile Include="Contracts\IArmManager.cs" />
     <Compile Include="Code\Extensions\StringExtensions.cs" />
     <Compile Include="Common\Constants.cs" />

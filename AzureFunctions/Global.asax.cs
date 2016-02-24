@@ -12,6 +12,13 @@ using Serilog;
 using AzureFunctions.Trace;
 using System.Web.Hosting;
 using System.IO;
+using SerilogWeb.Classic.Enrichers;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace AzureFunctions
 {
@@ -19,22 +26,69 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
-            var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
-                ? HostingEnvironment.ApplicationPhysicalPath
-                : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
-            FunctionsTrace.Diagnostics = new LoggerConfiguration()
-                .WriteTo.RollingFile(Path.Combine(logsPath, "functions-{Date}.txt"), fileSizeLimitBytes: null)
-                .CreateLogger();
-            var builder = new ContainerBuilder();
+            var container = InitAutofacContainer();
+            
             var config = GlobalConfiguration.Configuration;
-
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            RegisterTypes(builder);
-            var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             RegisterRoutes(config);
+        }
+
+        private IContainer InitAutofacContainer()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            RegisterTypes(builder);
+            return builder.Build();
+        }
+
+        private void InitLogging(IContainer container)
+        {
+            FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics" );
+            FunctionsTrace.Analytics = CreateLogger(container, "functions-analytics-{Date}.txt", "Analytics");
+            FunctionsTrace.Performance = CreateLogger(container, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
+            {
+                new DataColumn {DataType = typeof(string), ColumnName = "OperationName" },
+                new DataColumn {DataType = typeof(int), ColumnName = "TimeTakenMsec" },
+                new DataColumn {DataType = typeof(string), ColumnName = "OperationResult" }
+            });
+        }
+
+        private ILogger CreateLogger(IContainer container, string fileName = null, string tableName = null, ICollection<DataColumn> additionalColumns = null, bool? logToFile = null, bool? logToSql = null)
+        {
+            var settings = container.Resolve<ISettings>();
+            var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
+                ? HostingEnvironment.ApplicationPhysicalPath
+                : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
+
+            var logger = new LoggerConfiguration()
+                .Enrich.With<HttpRequestIdEnricher>()
+                .Enrich.With<UserNameEnricher>();
+
+            if (logToFile ?? settings.LogToFile && !string.IsNullOrEmpty(fileName))
+            {
+                logger = logger.WriteTo.RollingFile(Path.Combine(logsPath, fileName), fileSizeLimitBytes: null);
+            }
+
+            if (logToSql ?? settings.LogToSql &&
+                !string.IsNullOrEmpty(settings.LoggingSqlServerConnectionString) &&
+                !string.IsNullOrEmpty(tableName))
+            {
+                var columnOptions = new ColumnOptions
+                {
+                    AdditionalDataColumns = new Collection<DataColumn>
+                    {
+                        new DataColumn {DataType = typeof(string), ColumnName = "UserName"},
+                        new DataColumn {DataType = typeof(string), ColumnName = "HttpRequestId"}
+                    }
+                    .Union(additionalColumns ?? Enumerable.Empty<DataColumn>())
+                    .ToList()
+                };
+                logger = logger.WriteTo.MSSqlServer(settings.LoggingSqlServerConnectionString, tableName, LogEventLevel.Information, columnOptions: columnOptions);
+            }
+            return logger.CreateLogger();
         }
 
         private void RegisterTypes(ContainerBuilder builder)

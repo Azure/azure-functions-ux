@@ -10,6 +10,9 @@ using AzureFunctions.Common;
 using System.Net.Http.Headers;
 using AzureFunctions.Code.Extensions;
 using AzureFunctions.Models.ArmResources;
+using AzureFunctions.Trace;
+using Serilog;
+using Serilog.Context;
 
 namespace AzureFunctions.Code
 {
@@ -18,6 +21,7 @@ namespace AzureFunctions.Code
         private HttpClient _client;
         private IUserSettings _userSettings;
         private ISettings _settings;
+
         private HttpContent NullContent { get { return new StringContent(string.Empty); } }
 
         public ArmManager(IUserSettings userSettings, ISettings settings)
@@ -32,57 +36,76 @@ namespace AzureFunctions.Code
 
         public async Task<FunctionsContainer> GetFunctionContainer(string functionContainerId)
         {
-            var functionContainer = await InternalGetFunctionsContainer(functionContainerId);
-            if (functionContainer != null) return functionContainer;
+            using (var perf = FunctionsTrace.BeginTimedOperation($"{nameof(functionContainerId)}:{functionContainerId.NullStatus()}"))
+            {
+                var functionContainer = await InternalGetFunctionsContainer(functionContainerId);
+                if (functionContainer != null)
+                {
+                    perf.AddProperties("PreCreated");
+                    return functionContainer;
+                }
 
-            var resourceGroup = await GetFunctionsResourceGroup();
-            if (resourceGroup != null)
-            {
-                return await CreateFunctionContainer(resourceGroup);
-            }
-            else
-            {
-                return null;
+                var resourceGroup = await GetFunctionsResourceGroup();
+                if (resourceGroup != null)
+                {
+                    perf.AddProperties("CreatedOrUpdated");
+                    return await CreateFunctionContainer(resourceGroup);
+                }
+                else
+                {
+                    perf.AddProperties("NotFound");
+                    return null;
+                }
             }
         }
 
         private async Task<FunctionsContainer> InternalGetFunctionsContainer(string armId)
         {
-            if (string.IsNullOrEmpty(armId)) return null;
-
-            try
+            using (var perf = FunctionsTrace.BeginTimedOperation($"{nameof(armId)}:{armId.NullStatus()}"))
             {
-                //  /subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/sites/{2}
-                var parts = armId.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                var site = await Load(new Site(parts[1], parts[3], parts[7]));
-                await UpdateCustomSiteExtensionsIfNeeded(site);
-                return new FunctionsContainer
+                if (!string.IsNullOrEmpty(armId))
                 {
-                    ScmUrl = site.ScmHostName,
-                    BasicAuth = site.BasicAuth,
-                    Bearer = this._userSettings.BearerToken,
-                    ArmId = site.ArmId
-                };
+                    try
+                    {
+                        //  /subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/sites/{2}
+                        var parts = armId.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        var site = await Load(new Site(parts[1], parts[3], parts[7]));
+                        await UpdateCustomSiteExtensionsIfNeeded(site);
+                        perf.AddProperties("Found");
+                        return new FunctionsContainer
+                        {
+                            ScmUrl = site.ScmHostName,
+                            BasicAuth = site.BasicAuth,
+                            Bearer = this._userSettings.BearerToken,
+                            ArmId = site.ArmId
+                        };
+                    }
+                    catch { }
+                }
+                perf.AddProperties("NotFound");
+                return null;
             }
-            catch { return null; }
         }
 
         public async Task<ResourceGroup> GetFunctionsResourceGroup(string subscriptionId = null)
         {
-            var subscriptions = await GetSubscriptions();
-            if (!string.IsNullOrEmpty(subscriptionId))
+            using (var perf = FunctionsTrace.BeginTimedOperation($"{nameof(subscriptionId)}:{subscriptionId.NullStatus()}"))
             {
-                subscriptions = subscriptions.Where(s => s.SubscriptionId.Equals(subscriptionId, StringComparison.OrdinalIgnoreCase));
-            }
+                var subscriptions = await GetSubscriptions();
+                if (!string.IsNullOrEmpty(subscriptionId))
+                {
+                    subscriptions = subscriptions.Where(s => s.SubscriptionId.Equals(subscriptionId, StringComparison.OrdinalIgnoreCase));
+                }
 
-            subscriptions = await subscriptions.Select(Load).IgnoreAndFilterFailures();
-            var resourceGroup = subscriptions
-                .Where(s => s.FunctionsResourceGroup != null)
-                .Select(s => s.FunctionsResourceGroup)
-                .FirstOrDefault();
-            return resourceGroup == null
-                ? null
-                : await Load(resourceGroup);
+                subscriptions = await subscriptions.Select(Load).IgnoreAndFilterFailures();
+                var resourceGroup = subscriptions
+                    .Where(s => s.FunctionsResourceGroup != null)
+                    .Select(s => s.FunctionsResourceGroup)
+                    .FirstOrDefault();
+                return resourceGroup == null
+                    ? null
+                    : await Load(resourceGroup);
+            }
         }
 
         public async Task<FunctionsContainer> CreateFunctionContainer(string subscriptionId, string location, string serverFarmId = null)
@@ -93,34 +116,45 @@ namespace AzureFunctions.Code
 
         public async Task<FunctionsContainer> CreateFunctionContainer(ResourceGroup resourceGroup, string serverFarmId = null)
         {
-            var tasks = new List<Task>();
-            if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup, serverFarmId));
-            if (resourceGroup.FunctionsStorageAccount == null) tasks.Add(CreateFunctionsStorageAccount(resourceGroup));
-            await tasks.WhenAll();
-
-            await new Task[] { Load(resourceGroup.FunctionsSite), Load(resourceGroup.FunctionsStorageAccount) }.WhenAll();
-            if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
+            using (FunctionsTrace.BeginTimedOperation($"{nameof(resourceGroup)}, {nameof(serverFarmId)}:{(serverFarmId.NullStatus())}"))
             {
-                await LinkSiteAndStorageAccount(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
+                var tasks = new List<Task>();
+                if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup, serverFarmId));
+                if (resourceGroup.FunctionsStorageAccount == null) tasks.Add(CreateFunctionsStorageAccount(resourceGroup));
+                await tasks.WhenAll();
+
+                await new Task[] { Load(resourceGroup.FunctionsSite), Load(resourceGroup.FunctionsStorageAccount) }.WhenAll();
+                if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
+                {
+                    await LinkSiteAndStorageAccount(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
+                }
+
+                await UpdateCustomSiteExtensionsIfNeeded(resourceGroup.FunctionsSite);
+
+                return new FunctionsContainer
+                {
+                    ScmUrl = resourceGroup.FunctionsSite.ScmHostName,
+                    BasicAuth = resourceGroup.FunctionsSite.BasicAuth,
+                    Bearer = this._userSettings.BearerToken,
+                    ArmId = resourceGroup.FunctionsSite.ArmId
+                };
             }
-
-            await UpdateCustomSiteExtensionsIfNeeded(resourceGroup.FunctionsSite);
-
-            return new FunctionsContainer
-            {
-                ScmUrl = resourceGroup.FunctionsSite.ScmHostName,
-                BasicAuth = resourceGroup.FunctionsSite.BasicAuth,
-                Bearer = this._userSettings.BearerToken,
-                ArmId = resourceGroup.FunctionsSite.ArmId
-            };
         }
 
         private async Task UpdateCustomSiteExtensionsIfNeeded(Site site)
         {
-            if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                !site.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
+            using (var perf = FunctionsTrace.BeginTimedOperation())
             {
-                await PublishCustomSiteExtensions(site);
+                if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
+                !site.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
+                {
+                    perf.AddProperties("Updated");
+                    await PublishCustomSiteExtensions(site);
+                }
+                else
+                {
+                    perf.AddProperties("NoUpdate");
+                }
             }
         }
 
@@ -134,8 +168,11 @@ namespace AzureFunctions.Code
 
         public async Task CreateTrialFunctionContainer()
         {
-            var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
-            await response.EnsureSuccessStatusCodeWithFullError();
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
+                await response.EnsureSuccessStatusCodeWithFullError();
+            }
         }
 
 
