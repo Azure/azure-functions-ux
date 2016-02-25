@@ -30,7 +30,8 @@ namespace AzureFunctions.Code
             return string.Empty;
         }
 
-        public string AppDataPath { get; } = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");
+        public string AppDataPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");
+        public string TemplatesPath => Path.Combine(AppDataPath, "Templates");
 
         public string LoggingSqlServerConnectionString => config();
 

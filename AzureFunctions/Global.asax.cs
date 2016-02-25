@@ -115,6 +115,10 @@ namespace AzureFunctions
             builder.RegisterType<ArmManager>()
                 .As<IArmManager>()
                 .InstancePerRequest();
+
+            builder.RegisterType<TemplatesManager>()
+                .As<ITemplatesManager>()
+                .SingleInstance();
         }
 
         private void RegisterRoutes(HttpConfiguration config)
@@ -125,6 +129,7 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("list-subscriptions", "api/subscriptions", new { controller = "AzureFunctions", action = "ListSubscriptions" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("list-serverfarms", "api/serverfarms", new { controller = "AzureFunctions", action = "ListServerFarms" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
+            config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });

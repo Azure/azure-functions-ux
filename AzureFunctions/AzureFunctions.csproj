@@ -79,7 +79,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SerilogMetrics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4b150f150627b06, processorArchitecture=MSIL">
-      <HintPath>..\packages\SerilogMetrics.AddProperties.Fork.1.0.35\lib\net45\SerilogMetrics.dll</HintPath>
+      <HintPath>..\packages\SerilogMetrics.AddProperties.Fork.1.0.36\lib\net45\SerilogMetrics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SerilogWeb.Classic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9462ddd55fbc0e7f, processorArchitecture=MSIL">
@@ -96,6 +96,22 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -149,6 +165,7 @@
     <Compile Include="Code\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\Settings.cs" />
+    <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Code\UserSettings.cs" />
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Code\Extensions\Extensions.cs" />
@@ -157,6 +174,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
     <Compile Include="Contracts\ISettings.cs" />
+    <Compile Include="Contracts\ITemplatesManager.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />
     <Compile Include="Controllers\ARMController.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
@@ -176,6 +194,7 @@
     <Compile Include="Models\ArmResources\ServerFarm.cs" />
     <Compile Include="Models\ArmResources\StorageAccount.cs" />
     <Compile Include="Models\FunctionsContainer.cs" />
+    <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Models\ArmResources\ResourceGroup.cs" />
     <Compile Include="Models\ArmResources\Site.cs" />

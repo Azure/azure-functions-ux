@@ -25,11 +25,13 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
-        private IArmManager _armManager;
+        private readonly IArmManager _armManager;
+        private readonly ITemplatesManager _templatesManager;
 
-        public AzureFunctionsController(IArmManager armManager)
+        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager)
         {
             this._armManager = armManager;
+            this._templatesManager = templatesManager;
         }
 
         [Authorize]
@@ -135,7 +137,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> ListServerFarms()
         {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
+            using (FunctionsTrace.BeginTimedOperation())
             {
                 return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetServerFarms());
             }
@@ -145,7 +147,7 @@ namespace AzureFunctions.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> Passthrough(PassthroughInfo passthroughInfo)
         {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
+            using (FunctionsTrace.BeginTimedOperation())
             using (var client = GetClient())
             {
                 var request = new HttpRequestMessage(
@@ -172,6 +174,18 @@ namespace AzureFunctions.Controllers
                 };
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage ListTemplates()
+        {
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates());
+            }
+        }
+
+
 
         private string GetToken()
         {
