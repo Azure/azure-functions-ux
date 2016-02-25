@@ -1,0 +1,30 @@
+﻿<div class="view-table" style="width: 90%" *ngIf="scriptFile">
+<div class="row">
+    <h2 class="dev-block-header">Code</h2>
+    <div class="dev-block-header">
+        <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
+    </div>
+    <div class="gutter-container" style="padding-top: 5px">
+        <div class="ace_editor" aceEditor id="editor"
+            (onSave)="saveScript()"
+            (onContentChanged)="contentChanged($event)"
+            [content]="content"
+            [fileName]="fileName"
+            [height]="600">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div *ngIf="functionInfo" class="gutter-container" style="margin-top:5px">
+        <log-streaming [functionInfo]="functionInfo"></log-streaming>
+    </div>
+</div>
+
+<div class="row">
+    <h2 style="margin-bottom: 5px">Run now</h2>
+</div>
+
+<function-run [functionInfo]="functionInfo"></function-run>
+
+</div>
