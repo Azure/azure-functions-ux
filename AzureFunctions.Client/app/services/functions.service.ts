@@ -4,6 +4,7 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
+import {CreateFunctionInfo} from '../models/create-function-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
@@ -97,22 +98,17 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getTemplates() {
-        var body: PassthroughInfo = {
-            httpMethod: "GET",
-            url: `${this.scmInfo.scm_url}/api/functions/templates`
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 || e.status === 404 ? this.getTemplates().map(r => ({json: () => r})) : e))
+        return this._http.get('api/templates', { headers: this.getHeaders() })
             .map<FunctionTemplate[]>(r => r.json());
     }
 
     createFunction(functionName: string, templateId: string) {
-        var body: PassthroughInfo = {
-            httpMethod: 'PUT',
-            url: `${this.scmInfo.scm_url}/api/functions/${functionName}`,
-            requestBody: (templateId && templateId !== 'Empty' ? { template_id: templateId } : null)
+        var body: CreateFunctionInfo = {
+            name: functionName,
+            templateId: (templateId && templateId !== 'Empty' ? templateId : null),
+            containerScmUrl: this.scmInfo.scm_url
         };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 

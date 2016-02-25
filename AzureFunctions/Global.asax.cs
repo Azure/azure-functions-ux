@@ -19,6 +19,8 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using AzureFunctions.Common;
 
 namespace AzureFunctions
 {
@@ -112,6 +114,19 @@ namespace AzureFunctions
                 .As<ISettings>()
                 .SingleInstance();
 
+            builder.Register(c =>
+            {
+                var userSettings = c.Resolve<IUserSettings>();
+                var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userSettings.BearerToken);
+                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
+                client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
+                return client;
+            })
+            .As<HttpClient>()
+            .InstancePerRequest();
+
             builder.RegisterType<ArmManager>()
                 .As<IArmManager>()
                 .InstancePerRequest();
@@ -130,6 +145,7 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("list-serverfarms", "api/serverfarms", new { controller = "AzureFunctions", action = "ListServerFarms" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
+            config.Routes.MapHttpRoute("create-function", "api/createfunction", new { controller = "AzureFunctions", action = "CreateFunction" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });

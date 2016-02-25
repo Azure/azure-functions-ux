@@ -1,4 +1,5 @@
 ﻿using AzureFunctions.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace AzureFunctions.Contracts
     public interface ITemplatesManager
     {
         IEnumerable<FunctionTemplate> GetTemplates();
+        Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId);
     }
 }

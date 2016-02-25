@@ -12,6 +12,9 @@ using System.Threading;
 using AzureFunctions.Trace;
 using Newtonsoft.Json;
 using System.Web.Hosting;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using AzureFunctions.Common;
 
 namespace AzureFunctions.Code
 {
@@ -29,9 +32,10 @@ namespace AzureFunctions.Code
             this._rwlock = new ReaderWriterLockSlim();
             this._fileSystemWatcher = new FileSystemWatcher
             {
+                IncludeSubdirectories = true,
                 Path = _settings.TemplatesPath,
-                NotifyFilter = NotifyFilters.LastWrite,
-                IncludeSubdirectories = true
+                Filter = Constants.MetadataJson,
+                NotifyFilter = NotifyFilters.LastWrite
             };
             this._fileSystemObservable =
                 Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(
@@ -74,12 +78,9 @@ namespace AzureFunctions.Code
             {
                 try
                 {
-                    using (var streamReader = new StreamReader(File.OpenRead(templatePath)))
-                    {
-                        var template = JsonConvert.DeserializeObject<FunctionTemplate>(await streamReader.ReadToEndAsync());
-                        template.Id = templateFolderName;
-                        return template;
-                    }
+                    var template = JsonConvert.DeserializeObject<FunctionTemplate>(await FileSystemHelpers.ReadAllTextFromFileAsync(templatePath));
+                    template.Id = templateFolderName;
+                    return template;
                 }
                 catch (Exception e)
                 {
@@ -95,6 +96,19 @@ namespace AzureFunctions.Code
             _rwlock.EnterReadLock();
             try { return _templates; }
             finally { _rwlock.ExitReadLock(); }
+        }
+
+        public async Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId)
+        {
+            var templatePath = Path.Combine(_settings.TemplatesPath, templateId);
+            if (!Directory.Exists(templatePath)) return null;
+
+            var content = await Directory
+                .GetFiles(templatePath)
+                .Where(p => !p.EndsWith(Constants.MetadataJson))
+                .Select(async p => new { FileName = Path.GetFileName(p), Content = await FileSystemHelpers.ReadAllTextFromFileAsync(p) })
+                .WhenAll();
+            return content.ToDictionary(k => k.FileName, v => v.Content);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace AzureFunctions.Common
         public const string TryAppServiceCreateUrl = "https://tryappservice.azure.com/api/resource?x-ms-routing-name=next";
         public const string SavedFunctionsContainer = "sfc";
         public const string FunctionAppArmKind = "functionapp";
+        public const string MetadataJson = "metadata.json";
 
         public const string CompletedOperationTemplate = "Completed operation {TimedOperationId}: {OperationName} started {StartedTime} in {TimedOperationElapsed} ({TimeTakenMsec} ms) {OperationResult}";
     }

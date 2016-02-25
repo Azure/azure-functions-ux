@@ -8,6 +8,7 @@ using AzureFunctions.Models.ArmResources;
 using AzureFunctions.Modules;
 using AzureFunctions.Trace;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,11 +28,13 @@ namespace AzureFunctions.Controllers
     {
         private readonly IArmManager _armManager;
         private readonly ITemplatesManager _templatesManager;
+        private readonly HttpClient _client;
 
-        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager)
+        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager, HttpClient client)
         {
             this._armManager = armManager;
             this._templatesManager = templatesManager;
+            this._client = client;
         }
 
         [Authorize]
@@ -145,10 +148,9 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> Passthrough(PassthroughInfo passthroughInfo)
+        public async Task<HttpResponseMessage> Passthrough([FromBody]PassthroughInfo passthroughInfo)
         {
             using (FunctionsTrace.BeginTimedOperation())
-            using (var client = GetClient())
             {
                 var request = new HttpRequestMessage(
                     new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
@@ -166,7 +168,7 @@ namespace AzureFunctions.Controllers
                     }
                 }
 
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
 
                 return new HttpResponseMessage(response.StatusCode)
                 {
@@ -185,20 +187,36 @@ namespace AzureFunctions.Controllers
             }
         }
 
-
-
-        private string GetToken()
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateFunction([FromBody]CreateFunctionInfo createFunctionInfo)
         {
-            return Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
-        }
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                if (createFunctionInfo == null ||
+                    string.IsNullOrEmpty(createFunctionInfo.Name) ||
+                    string.IsNullOrEmpty(createFunctionInfo.ContainerScmUrl))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, $"{nameof(createFunctionInfo)} can not be null");
+                }
 
-        private HttpClient GetClient()
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken());
-            client.DefaultRequestHeaders.Add("User-Agent", Request.RequestUri.Host);
-            client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
-            return client;
+                IDictionary<string, string> templateContent = null;
+                if (!string.IsNullOrEmpty(createFunctionInfo.TemplateId))
+                {
+                    templateContent = await _templatesManager.GetTemplateContentAsync(createFunctionInfo.TemplateId);
+                    if (templateContent == null)
+                    {
+                        throw new FileNotFoundException($"Template {createFunctionInfo.TemplateId} does not exist");
+                    }
+                }
+
+                var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
+                var response = await _client.PutAsJsonAsync(url, new { files = templateContent });
+                return new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = response.Content
+                };
+            }
         }
     }
 }

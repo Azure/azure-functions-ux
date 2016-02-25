@@ -16,22 +16,19 @@ using Serilog.Context;
 
 namespace AzureFunctions.Code
 {
-    public partial class ArmManager : IArmManager, IDisposable
+    public partial class ArmManager : IArmManager
     {
-        private HttpClient _client;
-        private IUserSettings _userSettings;
-        private ISettings _settings;
+        private readonly HttpClient _client;
+        private readonly IUserSettings _userSettings;
+        private readonly ISettings _settings;
 
         private HttpContent NullContent { get { return new StringContent(string.Empty); } }
 
-        public ArmManager(IUserSettings userSettings, ISettings settings)
+        public ArmManager(IUserSettings userSettings, ISettings settings, HttpClient client)
         {
             this._userSettings = userSettings;
             this._settings = settings;
-            this._client = new HttpClient();
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this._userSettings.BearerToken);
-            _client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
-            _client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
+            this._client = client;
         }
 
         public async Task<FunctionsContainer> GetFunctionContainer(string functionContainerId)
@@ -173,12 +170,6 @@ namespace AzureFunctions.Code
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
                 await response.EnsureSuccessStatusCodeWithFullError();
             }
-        }
-
-
-        public void Dispose()
-        {
-            _client.Dispose();
         }
     }
 }
