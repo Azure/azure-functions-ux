@@ -1,5 +1,5 @@
-﻿<div class="view-table" style="width: 90%" *ngIf="scriptFile">
-<div class="row">
+﻿<div style="width: 90%" *ngIf="scriptFile">
+<div>
     <h2 class="dev-block-header">Code</h2>
     <div class="dev-block-header">
         <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
@@ -15,15 +15,11 @@
     </div>
 </div>
 
-<div class="row">
-    <div *ngIf="functionInfo" class="gutter-container" style="margin-top:5px">
-        <log-streaming [functionInfo]="functionInfo"></log-streaming>
-    </div>
+<div *ngIf="functionInfo" class="gutter-container" style="margin-top:5px">
+    <log-streaming [functionInfo]="functionInfo"></log-streaming>
 </div>
 
-<div class="row">
-    <h2 style="margin-bottom: 5px">Run now</h2>
-</div>
+<h2 style="margin-bottom: 5px">Run now</h2>
 
 <function-run [functionInfo]="functionInfo"></function-run>
 

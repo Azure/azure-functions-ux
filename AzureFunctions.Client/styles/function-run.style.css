@@ -4,6 +4,7 @@
 
 .dev-run-block{
     flex-grow: 1;
+    min-width: 50%;
 }
 
 .dev-run-block button{
