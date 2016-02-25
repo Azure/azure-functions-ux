@@ -63,14 +63,14 @@ export class LogStreamingComponent implements OnDestroy {
         this.timerId = window.setInterval(() => {
             if (!this.stopped) {
                 this.log = this.xhReq.responseText;
+                window.setTimeout(() => {
+                    var el = document.getElementById('log-stream');
+                    if (el) {
+                        el.scrollTop = el.scrollHeight;
+                    }
+                });
             }
 
-            window.setTimeout(() => {
-                var el = document.getElementById('log-stream');
-                if (el) {
-                    el.scrollTop = el.scrollHeight;
-                }
-            });
         }, 1000);           
     }
 }

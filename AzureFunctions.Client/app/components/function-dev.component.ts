@@ -9,7 +9,6 @@ import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Rx';
-import {FunctionSecrets} from '../models/function-secrets';
 
 @Component({
     selector: 'function-dev',
@@ -39,9 +38,8 @@ export class FunctionDevComponent {
             .switchMap(fi =>
                 Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
-                    fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
-                    fi.clientOnly ? Observable.of(fi) : this._functionsService.getFunction(fi),
-                    (c, s, f) => ({ content: c, secrets: s, functionInfo: f })
+                    this._functionsService.getFunction(fi),
+                    (c, f) => ({ content: c, functionInfo: f })
                 )
             )
             .subscribe((res: any) => {
