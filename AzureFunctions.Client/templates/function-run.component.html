@@ -1,24 +1,27 @@
-<div class="function-run-container">
-    <div *ngIf="testDataFile">
-                <button 
-                class="custom-button"
-                style="margin-bottom: 44px"
-                [class.dirty]="testDataFile.isDirty"
-                (click)="runFunction()">
-
-                Run
-            </button>
-            <div class="ace_editor" aceEditor
+<div class="dev-run-container" *ngIf="testDataFile">        
+    <div class="dev-run-block" style="margin-right: 10px">
+        <div>Input</div>
+        <div class="ace_editor" aceEditor
             [content]="content"
             [fileName]="testDataFile.name"
             (onSave)="saveTestData()"
             (onContentChanged)="contentChanged($event)"
             [height]="500">
-            </div>
-        <div class="gutter-container" style="width: 800px">
-        <h2>Result:</h2>
+        </div>
+
+        <button 
+            class="custom-button"
+            [class.dirty]="testDataFile.isDirty"
+            (click)="runFunction()">
+
+            Run
+        </button>
+    </div>
+
+    <div class="dev-run-block">
+        <div>Output</div>
         <div class="loader run-loader" *ngIf="running"></div>
         <pre class="log-stream">{{runResult}}</pre>
-        </div>
+        
     </div>
 </div>

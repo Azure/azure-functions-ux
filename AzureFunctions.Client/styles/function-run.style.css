@@ -1,0 +1,16 @@
+.dev-run-container{
+    display: flex;
+}
+
+.dev-run-block{
+    flex-grow: 1;
+}
+
+.dev-run-block button{
+    float: right;
+    margin-top: 10px;
+}
+
+.dev-run-block > pre.log-stream{
+    height: 270px;
+}
