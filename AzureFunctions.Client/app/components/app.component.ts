@@ -78,6 +78,8 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         this.initializing = true;
+        this._functionsService.getTemplates()
+            .subscribe(res => this.functionTemplates = res);
         if (this._portalService.inIFrame) {
             this._portalService.initializeIframe((token : string) => {
                 this._functionsService.setToken(token);
@@ -134,8 +136,6 @@ export class AppComponent implements OnInit{
                 this.functionsInfo = res;
                 this.initializing = false;
             });
-        this._functionsService.getTemplates()
-            .subscribe(res => this.functionTemplates = res);
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
     }
