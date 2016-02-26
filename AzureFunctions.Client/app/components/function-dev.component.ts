@@ -60,7 +60,6 @@ export class FunctionDevComponent {
                 this.content = res.content;
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
-                this.content = this.isCode ? this.scriptContent : this.configContent;
                 var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
                     ? this.functionInfo.config.bindings.input.find(e => !!e.webHookType)
                     : null);
