@@ -1,4 +1,9 @@
 ﻿<div style="width: 90%" *ngIf="scriptFile">
+<div class="gutter-container">
+    <div><label>Function Url:</label></div>
+    <div><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
+</div>
+
 <div>
     <h2 class="dev-block-header">Code</h2>
     <div class="dev-block-header">
