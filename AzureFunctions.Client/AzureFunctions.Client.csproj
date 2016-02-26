@@ -27,7 +27,9 @@
     <Content Include="styles\drop-down.style.css" />
     <Content Include="styles\function-dev.style.css" />
     <Content Include="styles\function-edit.style.css" />
+    <Content Include="styles\function-run.style.css" />
     <Content Include="styles\sidebar.style.css" />
+    <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\app.component.html" />
     <Content Include="templates\binding-designer.component.html" />
@@ -39,6 +41,8 @@
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\new-function.component.html" />
     <Content Include="templates\sidebar.component.html" />
+    <Content Include="templates\tab.component.html" />
+    <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />
@@ -53,6 +57,8 @@
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\new-function.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
+    <TypeScriptCompile Include="app\components\tab.component.ts" />
+    <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
@@ -76,9 +82,11 @@
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
+    <TypeScriptCompile Include="app\services\iportal.service.ts" />
     <TypeScriptCompile Include="app\services\iuser.service.ts" />
     <TypeScriptCompile Include="app\services\mock-functions.service.ts" />
     <TypeScriptCompile Include="app\services\mock-user.service.ts" />
+    <TypeScriptCompile Include="app\services\portal.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="typings\browser.d.ts" />

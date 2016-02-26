@@ -1,14 +1,14 @@
 [
-    {"id":"BlobTrigger", "trigger": "Blob", "language": "JavaScript"},
-    {"id":"QueueTrigger-Bash", "trigger": "Queue", "language": "Bash"},
-    {"id":"QueueTrigger-Batch", "trigger": "Queue", "language": "Batch"},
-    {"id":"QueueTrigger-FSharp", "trigger": "Queue", "language": "F#"},
-    {"id":"QueueTrigger-Php", "trigger": "Queue", "language": "PHP"},
-    {"id":"QueueTrigger-Powershell", "trigger": "Queue", "language": "PowerShell"},
-    {"id":"QueueTrigger-Python", "trigger": "Queue", "language": "Python"},
-    {"id":"QueueTrigger", "trigger": "Queue", "language": "JavaScript"},
-    {"id":"ResizeImage", "trigger": "Queue", "language": "JavaScript"},
-    {"id":"ServiceBusQueueTrigger", "trigger": "ServiceBusQueue", "language": "JavaScript"},
-    {"id":"TimerTrigger", "trigger": "Timer", "language": "JavaScript"},
-    {"id":"WebHookTrigger", "trigger": "WebHook", "language": "JavaScript"}
+    {"name": "BlobTrigger", "id":"BlobTrigger", "trigger": "Blob", "language": "JavaScript"},
+    {"name": "QueueTrigger-Basj", "id":"QueueTrigger-Bash", "trigger": "Queue", "language": "Bash"},
+    {"name": "QueueTrgger-Batch", "id":"QueueTrigger-Batch", "trigger": "Queue", "language": "Batch"},
+    {"name": "QueueTrigger-FSharp", "id":"QueueTrigger-FSharp", "trigger": "Queue", "language": "F#"},
+    {"name": "QueueTrigger-Php", "id":"QueueTrigger-Php", "trigger": "Queue", "language": "PHP"},
+    {"name": "QueueTrigger-Powershell", "id":"QueueTrigger-Powershell", "trigger": "Queue", "language": "PowerShell"},
+    {"name": "QueueTrigger-Python", "id":"QueueTrigger-Python", "trigger": "Queue", "language": "Python"},
+    {"name": "QueueTrigger", "id":"QueueTrigger", "trigger": "Queue", "language": "JavaScript"},
+    {"name": "ResizeImage", "id":"ResizeImage", "trigger": "Queue", "language": "JavaScript"},
+    {"name": "ServiceBusQueueTrigger", "id":"ServiceBusQueueTrigger", "trigger": "ServiceBusQueue", "language": "JavaScript"},
+    {"name": "TimerTrigger", "id":"TimerTrigger", "trigger": "Timer", "language": "JavaScript"},
+    {"name": "WebHookTrigger", "id":"WebHookTrigger", "trigger": "WebHook", "language": "JavaScript"}
 ]
