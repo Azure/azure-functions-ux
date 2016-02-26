@@ -41,6 +41,7 @@ export class FunctionDevComponent {
     private functionSelectStream: Subject<FunctionInfo>;
 
     constructor(private _functionsService: FunctionsService) {
+        this.isCode = true;
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
