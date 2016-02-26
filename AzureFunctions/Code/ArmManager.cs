@@ -142,7 +142,12 @@ namespace AzureFunctions.Code
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
-                if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
+                if (site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) &&
+                    site.AppSettings[Constants.SiteExtensionsVersion].Equals("-1", StringComparison.OrdinalIgnoreCase))
+                {
+                    perf.AddProperties("NoUpdate");
+                }
+                else if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
                 !site.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
                 {
                     perf.AddProperties("Updated");
