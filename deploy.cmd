@@ -125,7 +125,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   call :ExecuteCmd ren index.html.prod index.html
   IF !ERRORLEVEL! NEQ 0 goto error
 
-  call :ExecuteCmd jspm bundle-sfx app sfx/app.js --minify
+  call :ExecuteCmd jspm bundle-sfx app sfx/app.js
   IF !ERRORLEVEL! NEQ 0 goto error
 
   popd
