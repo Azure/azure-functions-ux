@@ -12,7 +12,7 @@
     background-color: #202428;
     color: white;
     border-color: #3D4247;
-    height: 50px;
+    height: 40px;
     width: 100%;
     z-index: 100;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
@@ -37,14 +37,25 @@
     height: 100%;
 }
 
-.top-bar .top-bar-tools {
-    padding-right: 4px;
-}
-
 .top-bar .top-bar-tool {
     padding: 7px 10px;
-    border-right: 1px solid rgba(128,128,128,.4);
     border-left: 1px solid rgba(128,128,128,.4);
+}
+
+.top-bar-tools span{
+    margin-left: 10px;
+}
+
+.top-bar-tools span a{
+    color: #8FA4AE;
+}
+
+.top-bar-tools span a:hover{
+    color: #FFFFFF;
+}
+
+.top-bar-tools span:last-child a{
+    margin-right: 10px;
 }
 
 /* http://stackoverflow.com/a/6900392/3234163 */
@@ -59,18 +70,8 @@
 .top-bar-tool-selected, .top-bar-tool:hover {
     background-color: white;
     color: black;
-    padding-bottom: 8px !important;
-    padding-top: 8px !important;
-}
-
-.no-right-border {
-    border-right: none !important;
-}
-
-.user-tools-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    /*padding-bottom: 8px !important;*/
+    /*padding-top: 8px !important;*/
 }
 
 .top-bar-drop-down {
@@ -81,19 +82,9 @@
     box-shadow: 0 10px 20px -5px rgba(58,58,58,.25)
 }
 
-.top-bar-tool > div.clickable > div.use-name {
-    font-size: 14px;
-    text-align: center;
-}
-
-.top-bar-tool > div.clickable > div.tenant-name {
-    font-size: 10px;
-    text-align: center;
-}
-
 .left-most {
-    right: 4px;
-    top: 42px;
+    right: 0px;
+    top: 27px;
     position: absolute;
 }
 

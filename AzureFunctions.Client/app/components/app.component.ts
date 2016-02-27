@@ -1,9 +1,10 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, ViewChild} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {NewFunctionComponent} from './new-function.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
+import {AppSettingsComponent} from './app-settings.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
 import {PortalService} from '../services/portal.service';
@@ -19,9 +20,18 @@ import {ServerFarm} from '../models/server-farm';
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
     styleUrls: ['styles/app.style.css'],
-    directives: [SideBarComponent, TopBarComponent, NewFunctionComponent, FunctionEditComponent, DropDownComponent]
+    directives: [
+        SideBarComponent,
+        TopBarComponent,
+        NewFunctionComponent,
+        FunctionEditComponent,
+        DropDownComponent,
+        AppSettingsComponent
+    ]
 })
 export class AppComponent implements OnInit{
+    @ViewChild(SideBarComponent) sideBar: SideBarComponent;
+
     public functionsInfo: FunctionInfo[];
     public subscriptions: DropDownElement<Subscription>[];
     public serverFarms: DropDownElement<ServerFarm>[];
@@ -39,7 +49,7 @@ export class AppComponent implements OnInit{
     public geoRegions: DropDownElement<string>[];
     public selectedGeoRegion: string;
     public resetServerFarm: boolean;
-    public inIFrame: boolean;
+    public openAppSettings: boolean;
 
     private initializing: boolean;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
@@ -48,7 +58,6 @@ export class AppComponent implements OnInit{
                 private _userService: UserService,
                 private _portalService: PortalService) {
 
-        this.inIFrame = this._portalService.inIFrame;
         this.noContainerFound = false;
         this.noTenantsFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
@@ -132,7 +141,6 @@ export class AppComponent implements OnInit{
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
-                res.unshift(this._functionsService.getSettingsNode());
                 this.functionsInfo = res;
                 this.initializing = false;
             });
@@ -145,7 +153,9 @@ export class AppComponent implements OnInit{
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){
+        this.resetView();
         this.selectedFunction = functionInfo;
+        this.sideBar.selectedFunction = functionInfo;
     }
 
     onDeleteSelectedFunction(deleteSelectedFunction: boolean) {
@@ -187,5 +197,16 @@ export class AppComponent implements OnInit{
 
     switchToTryAppServiceTenant() {
         window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}`;
+    }
+
+    onAppSettingsClicked(){
+        this.resetView();
+        this.openAppSettings = true;
+    }
+
+    private resetView(){
+        this.openAppSettings = false;
+        this.selectedFunction = null;
+        this.sideBar.selectedFunction = null;
     }
 }

@@ -1,6 +1,6 @@
 <div class="container">
-    <top-bar *ngIf="!inIFrame"></top-bar>
-    <div class="content" [class.content-iframe]="inIFrame">
+    <top-bar (appSettingsClicked)='onAppSettingsClicked($event)'></top-bar>
+    <div class="content">
         <sidebar
             [functionsInfo]="functionsInfo"
             [deleteSelectedFunction]="deleteSelectedFunction"
@@ -18,6 +18,11 @@
                     <new-function (functionAdded)="onFunctionAdded($event)"></new-function>
                 </div>
             </div>
+
+            <div *ngIf="openAppSettings">
+                <app-settings></app-settings>
+            </div>
+
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
             <div class="table-layout" *ngIf="noContainerFound && subscriptions">
                 <div class="row">
@@ -38,8 +43,12 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="noTenantsFound">It looks like you don't an Azure account. Do you want to create a 24 hour free trial functions container?</div>
-            <button *ngIf="noTenantsFound" [disabled]="initializing" class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
+
+            <div *ngIf="noTenantsFound">
+                <div>It looks like you don't an Azure account. Do you want to create a 24 hour free trial functions container?</div>
+                <button [disabled]="initializing" class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
+            </div>
+
         </div>
     </div>
 </div>
