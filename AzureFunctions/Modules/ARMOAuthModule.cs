@@ -201,6 +201,14 @@ namespace AzureFunctions.Modules
             {
                 var displayName = request.Headers["X-MS-CLIENT-DISPLAY-NAME"];
                 var principalName = request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
+
+                if (principalName.Equals("Anonymous", StringComparison.OrdinalIgnoreCase))
+                {
+                    HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin";
+                    HttpContext.Current.Response.StatusCode = 302;
+                    HttpContext.Current.Response.End();
+                }
+
                 if (!string.IsNullOrWhiteSpace(principalName) ||
                     !string.IsNullOrWhiteSpace(displayName))
                 {
