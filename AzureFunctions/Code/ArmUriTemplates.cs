@@ -9,14 +9,16 @@ namespace AzureFunctions.Code
     public class ArmUriTemplates
     {
         private const string armApiVersion = "2014-04-01";
-        private const string websitesApiVersion = "2015-02-01";
+        private const string websitesApiVersion = "2015-08-01";
         private const string storageApiVersion = "2015-05-01-preview";
 
         public static readonly ArmUriTemplate Subscriptions = new ArmUriTemplate($"{Constants.CSMUrl}/subscriptions", armApiVersion);
         public static readonly ArmUriTemplate Subscription = new ArmUriTemplate($"{Subscriptions.TemplateUrl}/{{subscriptionId}}", armApiVersion);
+        public static readonly ArmUriTemplate SubscriptionResources = new ArmUriTemplate(Subscription.TemplateUrl + "/resources", armApiVersion);
 
         public static readonly ArmUriTemplate ResourceGroups = new ArmUriTemplate($"{Subscription.TemplateUrl}/resourceGroups", armApiVersion);
         public static readonly ArmUriTemplate ResourceGroup = new ArmUriTemplate($"{ResourceGroups.TemplateUrl}/{{resourceGroupName}}", armApiVersion);
+        public static readonly ArmUriTemplate ResourceGroupResources = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/resources", armApiVersion);
 
         public static readonly ArmUriTemplate WebsitesRegister = new ArmUriTemplate($"{Subscription.TemplateUrl}/providers/Microsoft.Web/register", websitesApiVersion);
 
@@ -26,6 +28,8 @@ namespace AzureFunctions.Code
         public static readonly ArmUriTemplate SitePublishingCredentials = new ArmUriTemplate($"{Site.TemplateUrl}/config/PublishingCredentials/list", websitesApiVersion);
         public static readonly ArmUriTemplate ListSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings/list", websitesApiVersion);
         public static readonly ArmUriTemplate PutSiteAppSettings = new ArmUriTemplate($"{Site.TemplateUrl}/config/appsettings", websitesApiVersion);
+        public static readonly ArmUriTemplate SubscriptionLevelServerFarms = new ArmUriTemplate($"{Subscription.TemplateUrl}/providers/Microsoft.Web/serverfarms", websitesApiVersion);
+        public static readonly ArmUriTemplate SiteConfig = new ArmUriTemplate($"{Site.TemplateUrl}/config/web", websitesApiVersion);
 
         public static readonly ArmUriTemplate StorageRegister = new ArmUriTemplate($"{Subscription.TemplateUrl}/providers/Microsoft.Storage/register", storageApiVersion);
         public static readonly ArmUriTemplate StorageAccounts = new ArmUriTemplate($"{ResourceGroup.TemplateUrl}/providers/Microsoft.Storage/storageAccounts", storageApiVersion);

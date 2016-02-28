@@ -1,0 +1,21 @@
+<h2 class="dev-block-header">Logs</h2>
+<div class="dev-block-header" style="margin-top: 5px">
+    <span>
+        <a href="#" *ngIf="stopped" (click)="startLogs()">
+            <i class="fa fa-play"></i>
+            Start log stream
+        </a>
+        <a href="#" *ngIf="!stopped" (click)="stopLogs()">
+            <i class="fa fa-pause"></i>
+            Pause log stream
+        </a>
+    </span>
+    <span>
+        <a href="#" (click)="clearLogs()">
+            <i class="fa fa-book"></i>
+            Clear Logs
+        </a>
+    </span>
+</div>
+
+<pre id="log-stream" class="log-stream">{{log}}</pre>

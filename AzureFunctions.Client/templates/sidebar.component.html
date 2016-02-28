@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul class="functions-list">
         <li *ngFor="#functionInfo of functionsInfo"
-           (click)="functionSelected.next(functionInfo)"
+           (click)="functionSelected.emit(functionInfo)"
            (click)="selectedFunction = functionInfo"
             class="function-item"
             [class.client-only]="functionInfo.clientOnly">

@@ -8,12 +8,21 @@ import {Observable} from 'rxjs/Rx';
 import {FunctionTemplate} from '../models/function-template';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
+import {HostSecrets} from '../models/host-secrets';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
+    private hostSecrets: HostSecrets;
 
     constructor(private _http: Http) { }
+
+    setToken(token : string) : void{
+        this.scmInfo = <ScmInfo>{
+            bearer: token
+        };
+    }
 
     initializeUser() {
         return this._http.get('mocks/scmInfo.json')
@@ -21,6 +30,10 @@ export class MockFunctionsService implements IFunctionsService {
                 this.scmInfo = r.json();
                 return this.scmInfo;
             });
+    }
+
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {
+        return this.initializeUser();
     }
 
     getFunctions() {
@@ -130,7 +143,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getSecrets(fi: FunctionInfo) {
-        return Observable.of({ webHookReceiverKey: 'random'});
+        return Observable.of({ key: 'random'});
     }
 
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
@@ -169,5 +182,21 @@ export class MockFunctionsService implements IFunctionsService {
 
     getBasicHeader() {
         return 'Basic Token';
+    }
+
+    getSubscriptions() {
+        return this._http.get('mocks/subscriptions.json')
+            .map<Subscription[]>(r => r.json());
+    }
+
+    getHostSecrets() {
+        return this._http.get('mocks/host-secrets.json')
+            .map<HostSecrets>(r => r.json())
+            .subscribe(h => this.hostSecrets = h,
+                       e => console.log(e));
+    }
+
+    createTrialFunctionsContainer() {
+        return Observable.of('done'); 
     }
 }

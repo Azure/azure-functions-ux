@@ -1,4 +1,3 @@
-
 export interface FunctionSecrets {
-    webHookReceiverKey: string;
+    key: string;
 }

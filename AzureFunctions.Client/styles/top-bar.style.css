@@ -1,0 +1,122 @@
+﻿/* top-bar styles */
+.logo {
+    color: #2E80AB;
+    font-size: larger;
+    margin-left: 15px
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #202428;
+    color: white;
+    border-color: #3D4247;
+    height: 40px;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
+
+.top-bar .left {
+    float: left;
+}
+
+.top-bar .right {
+    float: right;
+}
+
+.vertical-align-center {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.top-bar .dropdown-menu {
+    padding-left: 10px;
+    height: 100%;
+}
+
+.top-bar .top-bar-tool {
+    padding: 7px 10px;
+    border-left: 1px solid rgba(128,128,128,.4);
+}
+
+.top-bar-tools span{
+    margin-left: 10px;
+}
+
+.top-bar-tools span a{
+    color: #8FA4AE;
+}
+
+.top-bar-tools span a:hover{
+    color: #FFFFFF;
+}
+
+.top-bar-tools span:last-child a{
+    margin-right: 10px;
+}
+
+/* http://stackoverflow.com/a/6900392/3234163 */
+.top-bar-tool {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.top-bar-tool-selected, .top-bar-tool:hover {
+    background-color: white;
+    color: black;
+    /*padding-bottom: 8px !important;*/
+    /*padding-top: 8px !important;*/
+}
+
+.top-bar-drop-down {
+    width: 220px;
+    background-color: #FFFFFF;
+    color: black;
+    border-color: #b3b3b3;
+    box-shadow: 0 10px 20px -5px rgba(58,58,58,.25)
+}
+
+.left-most {
+    right: 0px;
+    top: 27px;
+    position: absolute;
+}
+
+.top-bar-drop-down-scrollviewer {
+    max-height: 505px;
+    overflow: auto;
+}
+
+.tenants-list {
+    list-style: none outside none;
+    padding: 0;
+    margin: 0;
+}
+
+.tenants-list > li {
+    padding: 12px 12px 12px 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.tenants-list > li:hover {
+    background-color: #CCCCCC;
+}
+
+.tenants-list > li > div {
+    font-size: 12px;
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clickable {
+    cursor: pointer;
+}

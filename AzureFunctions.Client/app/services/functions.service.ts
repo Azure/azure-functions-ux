@@ -4,23 +4,37 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
+import {CreateFunctionInfo} from '../models/create-function-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
+import {ServerFarm} from '../models/server-farm';
+import {HostSecrets} from '../models/host-secrets';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
+    private hostSecrets: HostSecrets;
+
     constructor(private _http: Http) { }
+    
+    setToken(token : string) : void{
+        this.scmInfo = <ScmInfo>{
+            bearer: token
+        };
+    }
 
     initializeUser() {
-        return this._http.post('api/init', '', { headers: this.getHeaders() })
+        return this._http.get('api/get', { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
                     return this.initializeUser().map(r => ({ json: () => r }));
+                } else if (e.status === 404) {
+                    return Observable.of({ json: () => undefined });
                 } else {
                     return Observable.of(e);
                 }
@@ -31,13 +45,29 @@ export class FunctionsService implements IFunctionsService {
             });
     }
 
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {
+        var serverFarmQuery = serverFarmId ? `&serverFarmId=${serverFarmId}` : '';
+        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=${region}${serverFarmQuery}`, '', { headers: this.getHeaders() })
+            .catch(e => {
+                if (e.status === 500) {
+                    return this.createFunctionsContainer(subscriptionId, region, serverFarmId).map(r => ({ json: () => r }));
+                } else {
+                    return Observable.of(e);
+                }
+            })
+            .map<ScmInfo>(r => {
+                this.scmInfo = r.json();
+                return this.scmInfo;
+            })
+    }
+
     getFunctions() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
             url: `${this.scmInfo.scm_url}/api/functions`
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 ? this.getFunctions().map(r => ({json: () => r})) : e))
+            .catch(e => (e.status === 503 || e.status === 404 ? this.getFunctions().map(r => ({json: () => r})) : e))
             .map<FunctionInfo[]>(r => r.json());
     }
 
@@ -68,22 +98,17 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getTemplates() {
-        var body: PassthroughInfo = {
-            httpMethod: "GET",
-            url: `${this.scmInfo.scm_url}/api/functions/templates`
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 ? this.getTemplates().map(r => ({json: () => r})) : e))
+        return this._http.get('api/templates', { headers: this.getHeaders() })
             .map<FunctionTemplate[]>(r => r.json());
     }
 
     createFunction(functionName: string, templateId: string) {
-        var body: PassthroughInfo = {
-            httpMethod: 'PUT',
-            url: `${this.scmInfo.scm_url}/api/functions/${functionName}`,
-            requestBody: (templateId && templateId !== 'Empty' ? { template_id: templateId } : null)
+        var body: CreateFunctionInfo = {
+            name: functionName,
+            templateId: (templateId && templateId !== 'Empty' ? templateId : null),
+            containerScmUrl: this.scmInfo.scm_url
         };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -142,11 +167,27 @@ export class FunctionsService implements IFunctionsService {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
+        var mainSiteUrl = this.scmInfo.scm_url.replace('.scm.', '.');
+        var inputBinding = (functionInfo.config && functionInfo.config.bindings && functionInfo.config.bindings.input
+            ? functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
+            : null);
+        var url = inputBinding
+            ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
+            : `${mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        var _content: any = inputBinding
+            ? content
+            : { input: content };
+        var mediaType = inputBinding
+            ? 'plain/text'
+            : 'application/json';
         var body: PassthroughInfo = {
             httpMethod: 'POST',
-            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${functionInfo.name.toLocaleLowerCase()}`,
-            requestBody: content,
-            mediaType: 'plain/text'
+            url: url,
+            requestBody: _content,
+            mediaType: mediaType,
+            headers: {
+                'x-functions-key': this.hostSecrets.masterKey
+            }
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .catch(e => Observable.of({
@@ -187,7 +228,7 @@ export class FunctionsService implements IFunctionsService {
             url: this.scmInfo.scm_url.replace('.scm.', '.')
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
+            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
     }
 
     warmupMainSiteApi() {
@@ -196,7 +237,7 @@ export class FunctionsService implements IFunctionsService {
             url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/`
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503) { this.warmupMainSiteApi(); } });
+            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSiteApi(); } });
     }
 
     getSecrets(fi: FunctionInfo) {
@@ -251,10 +292,46 @@ export class FunctionsService implements IFunctionsService {
         return `Basic ${this.scmInfo.basic}`;
     }
 
+    getSubscriptions() {
+        return this._http.get('api/subscriptions')
+            .map<Subscription[]>(r => r.json());
+    }
+
+    getServerFarms() {
+        return this._http.get('api/serverfarms')
+            .map<ServerFarm[]>(r => r.json());
+    }
+
+    getHostSecrets() {
+        var body: PassthroughInfo = {
+            httpMethod: 'GET',
+            url: `${this.scmInfo.scm_url}/api/vfs/data/functions/secrets/host.json`
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<HostSecrets>(r => r.json())
+            .subscribe(h => this.hostSecrets = h,
+                        e => console.log(e));
+    }
+
+    get HostSecrets() {
+        return this.hostSecrets;
+    }
+
+    createTrialFunctionsContainer() {
+        return this._http.post('api/createtrial', '', { headers: this.getHeaders() })
+            .map<string>(r => r.statusText);
+    }
+
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
+
+        if(this.scmInfo && this.scmInfo.bearer){
+            headers.append('client-token', this.scmInfo.bearer);
+        }
+
         return headers;
     }
+
 }

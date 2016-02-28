@@ -17,7 +17,8 @@
     <AssemblyName>AzureFunctions</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>4140</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -30,7 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>..\AzureFunctions.Client\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,6 +53,10 @@
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Destructurama.JsonNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2ad38909bb3e5c02, processorArchitecture=MSIL">
+      <HintPath>..\packages\Destructurama.JsonNet.1.0.3\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -59,6 +64,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.MSSqlServer, Version=3.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.MSSqlServer.3.0.46\lib\net45\Serilog.Sinks.MSSqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SerilogMetrics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4b150f150627b06, processorArchitecture=MSIL">
+      <HintPath>..\packages\SerilogMetrics.AddProperties.Fork.1.0.36\lib\net45\SerilogMetrics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SerilogWeb.Classic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9462ddd55fbc0e7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SerilogWeb.Classic.2.0.9\lib\net45\SerilogWeb.Classic.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,6 +96,22 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -98,6 +139,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="database.sql" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -111,33 +153,60 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\ArmManagerPartials\ResourceGroupArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\ServerFarmArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\SiteArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\StorageAccountArmManager.cs" />
+    <Compile Include="Code\ArmManagerPartials\SubscriptionArmManager.cs" />
     <Compile Include="Code\ArmManager.cs" />
     <Compile Include="Code\ArmUriTemplate.cs" />
     <Compile Include="Code\ArmUriTemplates.cs" />
+    <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
+    <Compile Include="Code\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Code\Extensions\TaskExtensions.cs" />
+    <Compile Include="Code\FileSystemHelpers.cs" />
+    <Compile Include="Code\Settings.cs" />
+    <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Code\UserSettings.cs" />
+    <Compile Include="Code\Utils.cs" />
+    <Compile Include="Code\Extensions\Extensions.cs" />
     <Compile Include="Contracts\IArmManager.cs" />
-    <Compile Include="Code\StringExtensions.cs" />
+    <Compile Include="Code\Extensions\StringExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
+    <Compile Include="Contracts\ISettings.cs" />
+    <Compile Include="Contracts\ITemplatesManager.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />
+    <Compile Include="Controllers\ARMController.cs" />
     <Compile Include="Controllers\AzureFunctionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArmModels\ArmArrayWrapper.cs" />
     <Compile Include="Models\ArmModels\ArmResourceGroup.cs" />
+    <Compile Include="Models\ArmModels\ArmServerFarm.cs" />
     <Compile Include="Models\ArmModels\ArmStorage.cs" />
     <Compile Include="Models\ArmModels\ArmSubscription.cs" />
     <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />
     <Compile Include="Models\ArmModels\ArmWebsite.cs" />
     <Compile Include="Models\ArmModels\ArmWebsitePublishingCredentials.cs" />
     <Compile Include="Models\ArmModels\ArmWrapper.cs" />
+    <Compile Include="Models\ArmResources\BaseResource.cs" />
+    <Compile Include="Models\ArmResources\ServerFarm.cs" />
+    <Compile Include="Models\ArmResources\StorageAccount.cs" />
+    <Compile Include="Models\CreateFunctionInfo.cs" />
+    <Compile Include="Models\FunctionsContainer.cs" />
+    <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
+    <Compile Include="Models\ArmResources\ResourceGroup.cs" />
+    <Compile Include="Models\ArmResources\Site.cs" />
+    <Compile Include="Models\ArmResources\Subscription.cs" />
     <Compile Include="Modules\AADOAuth2AccessToken.cs" />
     <Compile Include="Modules\ARMOAuthModule.cs" />
     <Compile Include="Modules\Extensions.cs" />
     <Compile Include="Modules\OpenIdConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trace\FunctionsTrace.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -172,6 +241,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)web.config $(ProjectDir)..\AzureFunctions.Client\web.config &amp; copy $(ProjectDir)global.asax $(ProjectDir)..\AzureFunctions.Client\global.asax</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

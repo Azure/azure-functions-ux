@@ -3,11 +3,14 @@ import {FunctionInfo} from '../models/function-info';
 import {ScmInfo} from '../models/scm-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
+import {Subscription} from '../models/subscription';
+import {HostSecrets} from '../models/host-secrets';
 
 export interface IFunctionsService {
+    setToken(token: string): void;
     initializeUser(): Observable<ScmInfo>;
     getFunctions(): Observable<FunctionInfo[]>;
     getFileContent(file: VfsObject): Observable<string>;
@@ -26,4 +29,8 @@ export interface IFunctionsService {
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets): Observable<FunctionSecrets>;
     getFunctionInvokeUrl(fi: FunctionInfo): string;
     getScmUrl();
+    getSubscriptions(): Observable<Subscription[]>;
+    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
+    getHostSecrets(): RxSubscription;
+    createTrialFunctionsContainer(): Observable<string>;
 }

@@ -1,0 +1,25 @@
+<div class="top-bar">
+    <div class="dropdown-menu left">
+        <div class="vertical-align-center logo" >Azure Functions</div>
+    </div>
+    <div class="top-bar-tools right vertical-align-center">
+        <span><a href='#'><i class="fa fa-clock-o"></i> Monitoring</a></span>
+        <span><a href='#' (click)='onAppSettingsClicked()'><i class="fa fa-wrench"></i> Function app settings</a></span>
+        <span *ngIf="user && currentTenant && !inIFrame"
+              class="top-bar-tool clickable"
+              [class.top-bar-tool-selected]="showUserMenu"
+              (click)="showUserMenu = !showUserMenu">
+
+            {{user.given_name}} {{user.family_name}} ({{currentTenant.DisplayName}})
+        </span>
+
+        <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
+            <ul *ngIf="tenants" class="tenants-list">
+                <li *ngFor="#tenant of tenants" (click)="selectTenant(tenant)">
+                    <div>{{tenant.DisplayName}}</div>
+                    <div>{{tenant.DomainName}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

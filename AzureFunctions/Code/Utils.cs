@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+
+namespace AzureFunctions.Code
+{
+    public static class Utils
+    {
+        public static async Task SafeGuard(Func<Task> action)
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Trace.TraceError($"SafeGuard Exception: {e.ToString()}");
+            }
+        }
+        public static async Task<T> SafeGuard<T>(Func<Task<T>> action)
+        {
+            try
+            {
+                return await action();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Trace.TraceError($"SafeGuard<T> Exception: {e.ToString()}");
+                return default(T);
+            }
+        }
+
+        public static async Task Retry(Func<Task> func, int retryCount)
+        {
+            while (true)
+            {
+                try
+                {
+                    await func();
+                    return;
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= 0) throw e;
+                    retryCount--;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        public static async Task<T> Retry<T>(Func<Task<T>> func, int retryCount)
+        {
+            while (true)
+            {
+                try
+                {
+                    return await func();
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= 0) throw e;
+                    retryCount--;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        public static async Task<T> Retry<T>(Func<Task<T>> func, Action<T> validate, Func<T, bool> retry, int maxRetryCount = -1)
+        {
+            T result = default(T);
+            while (true)
+            {
+                try
+                {
+                    result = await func();
+                    validate(result);
+                    return result;
+                }
+                catch
+                {
+                    if (!retry(result) || (maxRetryCount != -1 && --maxRetryCount == 0)) throw;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        //http://stackoverflow.com/a/1054087
+        static Random random = new Random();
+        public static string GetRandomHexNumber(int digits)
+        {
+            byte[] buffer = new byte[digits / 2];
+            random.NextBytes(buffer);
+            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
+            if (digits % 2 == 0)
+                return result.ToLowerInvariant();
+            return result + random.Next(16).ToString("X").ToLowerInvariant();
+        }
+    }
+}

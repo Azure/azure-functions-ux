@@ -5,7 +5,7 @@ import {Binding, BindingOption} from '../models/designer-schema';
 
 @Component({
     selector: 'binding-designer',
-    templateUrl: 'templates/binding-designer.html',
+    templateUrl: 'templates/binding-designer.component.html',
     inputs: ['currentBinding', 'bindings'],
     outputs: ['changedBinding']
 })

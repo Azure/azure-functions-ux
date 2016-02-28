@@ -1,0 +1,19 @@
+﻿h2.dev-block-header{
+    display: inline;
+}
+
+div.dev-block-header{
+    float: right;
+}
+
+.dev-block-header > span{
+    margin-left: 10px;
+}
+
+.dev-block-header > span a{
+    color: #536E7A;
+}
+
+.dev-block-header > span > a i{
+    margin-right: 5px;
+}

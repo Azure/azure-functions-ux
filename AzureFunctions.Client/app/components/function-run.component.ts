@@ -6,7 +6,8 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
 
 @Component({
     selector: 'function-run',
-    templateUrl: 'templates/function-run.html',
+    templateUrl: 'templates/function-run.component.html',
+    styleUrls: ['styles/function-run.style.css'],
     inputs: ['functionInfo'],
     directives: [AceEditorDirective]
 })

@@ -5,7 +5,8 @@ using System.Web;
 
 namespace AzureFunctions.Contracts
 {
-    public class IUserSettings
+    public interface IUserSettings
     {
+        string BearerToken { get; }
     }
 }

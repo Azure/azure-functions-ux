@@ -1,10 +1,14 @@
 ﻿using AzureFunctions.Code;
+using AzureFunctions.Code.Extensions;
 using AzureFunctions.Common;
 using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Models.ArmModels;
+using AzureFunctions.Models.ArmResources;
 using AzureFunctions.Modules;
+using AzureFunctions.Trace;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,170 +26,131 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
-        private IArmManager _armManager;
+        private readonly IArmManager _armManager;
+        private readonly ITemplatesManager _templatesManager;
+        private readonly HttpClient _client;
 
-        public AzureFunctionsController(IArmManager armManager)
+        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager, HttpClient client)
         {
             this._armManager = armManager;
+            this._templatesManager = templatesManager;
+            this._client = client;
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> InitializeUser()
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetFunctionContainer(string resourceId = null)
         {
-            using (var client = GetClient())
+            using (var perf = FunctionsTrace.BeginTimedOperation($"{nameof(resourceId)}:{resourceId.NullStatus()}"))
             {
-                var updateAppSettings = false;
-                // Get first sub
-                var subscriptionsResponse = await client.GetAsync(ArmUriTemplates.Subscriptions.Bind(string.Empty));
-                await subscriptionsResponse.EnsureSuccessStatusCodeWithFullError();
-                var subscriptions = await subscriptionsResponse.Content.ReadAsAsync<ArmSubscriptionsArray>();
-                var subscription = subscriptions.value.FirstOrDefault(s => s.displayName.IndexOf("msdn") != -1) ?? subscriptions.value.FirstOrDefault();
-
-                // look for a rg that starts with AzureFunctionsResourceGroup
-                var resourceGroupsResponse = await client.GetAsync(ArmUriTemplates.ResourceGroups.Bind(new { subscriptionId = subscription.subscriptionId }));
-                await resourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
-                var resourceGroups = await resourceGroupsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmResourceGroup>>();
-                var resourceGroup = resourceGroups.value.FirstOrDefault(rg => rg.name.Equals("AzureFunctions", StringComparison.OrdinalIgnoreCase));
-                if (resourceGroup == null)
+                try
                 {
-                    //create it
-                    var createRGResponse = await client.PutAsJsonAsync(ArmUriTemplates.ResourceGroup.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = "AzureFunctions" }), new { properties = new { }, location = "West US" });
-                    await createRGResponse.EnsureSuccessStatusCodeWithFullError();
-                    resourceGroup = await createRGResponse.Content.ReadAsAsync<ArmWrapper<ArmResourceGroup>>();
-                }
+                    var savedFunctionContainer = resourceId ?? Request.Headers
+                        .GetCookies(Constants.SavedFunctionsContainer)
+                        ?.FirstOrDefault()
+                        ?[Constants.SavedFunctionsContainer]
+                        ?.Value;
 
-                // look for a site that starts with AzureFunctionsContainer{random}
-                var sitesResponse = await client.GetAsync(ArmUriTemplates.Sites.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }));
-                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
-                var sites = await sitesResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmWebsite>>();
-                var site = sites.value.FirstOrDefault(s => s.name.StartsWith("Functions", StringComparison.OrdinalIgnoreCase));
-                string scmUrl = null;
-                if (site == null)
-                {
-                    //register the provider just in case
-                    await client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(new { subscriptionId = subscription.subscriptionId }), new StringContent(string.Empty));
+                    var functionContainer = await this._armManager.GetFunctionContainer(savedFunctionContainer);
 
-                    //create website
-                    var siteName = $"Functions{Guid.NewGuid().ToString().Split('-').First()}";
-                    var createSiteResponse = await client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = siteName }), new { properties = new { }, location = resourceGroup.location });
-                    await createSiteResponse.EnsureSuccessStatusCodeWithFullError();
-                    site = await createSiteResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsite>>();
-                    scmUrl = $"https://{site.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1) }";
-
-                    // publish private kudu
-                    await PublishSiteExtensions(client, scmUrl, firstTime: true);
-                }
-                else
-                {
-                    scmUrl = $"https://{site.properties.enabledHostNames.FirstOrDefault(h => h.IndexOf(".scm.", StringComparison.OrdinalIgnoreCase) != -1) }";
-                }
-
-
-                sitesResponse = await client.PostAsync(ArmUriTemplates.ListSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new StringContent(string.Empty));
-                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
-                var appSettings = await sitesResponse.Content.ReadAsAsync<ArmWrapper<Dictionary<string, string>>>();
-                if (!appSettings.properties.ContainsKey(Constants.AzureStorageAppSettingsName))
-                {
-                    // create storage account
-                    var storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccounts.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name }));
-                    await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                    var storageAccounts = await storageResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmStorage>>();
-                    var storageAccount = storageAccounts.value.FirstOrDefault(s =>
-                        s.name.StartsWith("AzureFunctions", StringComparison.OrdinalIgnoreCase) &&
-                        s.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase));
-
-                    if (storageAccount == null)
+                    if (functionContainer == null)
                     {
-                        var storageAccountName = $"AzureFunctions{Guid.NewGuid().ToString().Split('-').First()}".ToLowerInvariant();
-                        await client.PostAsJsonAsync(ArmUriTemplates.StorageRegister.Bind(new { subscriptionId = subscription.subscriptionId }), new { });
-                        storageResponse = await client.PutAsJsonAsync(ArmUriTemplates.StorageAccount.Bind(
-                            new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }),
-                            new { location = "West US", properties = new { accountType = "Standard_GRS" } });
-                        await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                        var isSucceeded = false;
-                        var tries = 10;
-                        do {
-                            storageResponse = await client.GetAsync(ArmUriTemplates.StorageAccount.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccountName }));
-                            await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                            storageAccount = await storageResponse.Content.ReadAsAsync<ArmWrapper<ArmStorage>>();
-                            isSucceeded = storageAccount.properties.provisioningState.Equals("Succeeded", StringComparison.OrdinalIgnoreCase);
-                            tries--;
-                            if (!isSucceeded) await Task.Delay(500);
-                        } while (!isSucceeded && tries > 0);
+                        perf.AddProperties("NotFound");
+                        var response = Request.CreateResponse(HttpStatusCode.NotFound);
+                        response.Headers.AddCookies(
+                            new[]
+                            {
+                            new CookieHeaderValue(Constants.SavedFunctionsContainer, string.Empty)
+                            { Expires = DateTimeOffset.UtcNow.AddDays(-1), Path = "/" }
+                            });
+                        return response;
                     }
-
-                    storageResponse = await client.PostAsync(ArmUriTemplates.StorageListKeys.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, storageAccountName = storageAccount.name }), new StringContent(string.Empty));
-                    await storageResponse.EnsureSuccessStatusCodeWithFullError();
-                    var key = (await storageResponse.Content.ReadAsAsync<Dictionary<string, string>>())["key1"];
-                    appSettings.properties[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
-                    appSettings.properties[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.name, key);
-
-                    //save it
-                    updateAppSettings = true;
-                }
-
-                sitesResponse = await client.PostAsync(ArmUriTemplates.SitePublishingCredentials.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new StringContent(string.Empty));
-                await sitesResponse.EnsureSuccessStatusCodeWithFullError();
-                var publishingCredentials = await sitesResponse.Content.ReadAsAsync<ArmWrapper<ArmWebsitePublishingCredentials>>();
-
-                using (var rstream = new StreamReader(@"D:\home\site\wwwroot\App_Data\version.txt"))
-                {
-                    var currentSiteExtensionsVersion = await rstream.ReadToEndAsync();
-                    if (!appSettings.properties.ContainsKey(Constants.SiteExtensionsVersion) ||
-                        !appSettings.properties[Constants.SiteExtensionsVersion].Equals(currentSiteExtensionsVersion, StringComparison.OrdinalIgnoreCase))
+                    else
                     {
-                        await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
-                        await PublishSiteExtensions(client, scmUrl, firstTime: false);
-                        appSettings.properties[Constants.SiteExtensionsVersion] = currentSiteExtensionsVersion;
-                        updateAppSettings = true;
+                        perf.AddProperties("Found");
+                        var response = Request.CreateResponse(HttpStatusCode.OK, functionContainer);
+                        response.Headers.AddCookies(
+                            new[]
+                            {
+                            new CookieHeaderValue(Constants.SavedFunctionsContainer, functionContainer.ArmId)
+                            { Expires = DateTimeOffset.UtcNow.AddYears(1), Path = "/" }
+                            });
+                        return response;
                     }
                 }
-
-                if (updateAppSettings)
+                catch (Exception e)
                 {
-                    sitesResponse = await client.PutAsJsonAsync(ArmUriTemplates.PutSiteAppSettings.Bind(new { subscriptionId = subscription.subscriptionId, resourceGroupName = resourceGroup.name, siteName = site.name }), new { properties = appSettings.properties });
-                    await sitesResponse.EnsureSuccessStatusCodeWithFullError();
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Error("Error in GetFunctionContainer(), {Exception}", e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
                 }
-
-                // return it's scm name
-                return Request.CreateResponse(HttpStatusCode.OK, new { scm_url = scmUrl, bearer = GetToken(), basic = $"{publishingCredentials.properties.publishingUserName}:{publishingCredentials.properties.publishingPassword}".ToBase64() });
-            }
-        }
-
-        private async Task PublishSiteExtensions(HttpClient client, string scmUrl, bool firstTime)
-        {
-            using (var kuduStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\Kudu.zip"))
-            using (var sdkStream = File.OpenRead(@"D:\home\site\wwwroot\App_Data\AzureFunctions.zip"))
-            {
-                if (firstTime)
-                {
-                    var vfsResponse = await client.PutAsync($"{scmUrl}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}"));
-                    await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-                    var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{scmUrl}/api/vfs/site/wwwroot/hostingstart.html");
-                    deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
-                    vfsResponse = await client.SendAsync(deleteReq);
-                    await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-                }
-                else
-                {
-                    await client.DeleteAsync($"{scmUrl}/api/processes/-1");
-                }
-                var pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(kuduStream));
-                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                pKuduResponse = await client.PutAsync($"{scmUrl}/api/zip", new StreamContent(sdkStream));
-                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-                await client.DeleteAsync($"{scmUrl}/api/processes/0");
-                await client.DeleteAsync($"{scmUrl}/api/processes/-1");
-                //pKuduResponse.EnsureSuccessStatusCode();
             }
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> Passthrough(PassthroughInfo passthroughInfo)
+        public async Task<HttpResponseMessage> CreateFunctionsContainer(string subscriptionId, string location, string serverFarmId = null)
         {
-            using (var client = GetClient())
+            using (var perf = FunctionsTrace.BeginTimedOperation($"{nameof(subscriptionId)}, {nameof(location)}, {nameof(serverFarmId)}:{serverFarmId.NullStatus()}"))
+            {
+                try
+                {
+                    return Request.CreateResponse(HttpStatusCode.Created, await _armManager.CreateFunctionContainer(subscriptionId, location, serverFarmId));
+                }
+                catch (Exception e)
+                {
+                    FunctionsTrace.Diagnostics.Error($"Error in CreateFunctionsContainer({subscriptionId}, {location}, {serverFarmId}) {{Exception}}", e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    await this._armManager.CreateTrialFunctionContainer();
+                    perf.AddProperties("Created");
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Error("Error in CreateTrialFunctionsContainer() {Exception}", e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> ListSubscriptions()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetSubscriptions());
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> ListServerFarms()
+        {
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetServerFarms());
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> Passthrough([FromBody]PassthroughInfo passthroughInfo)
+        {
+            using (FunctionsTrace.BeginTimedOperation())
             {
                 var request = new HttpRequestMessage(
                     new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
@@ -203,7 +168,7 @@ namespace AzureFunctions.Controllers
                     }
                 }
 
-                var response = await client.SendAsync(request);
+                var response = await _client.SendAsync(request);
 
                 return new HttpResponseMessage(response.StatusCode)
                 {
@@ -212,22 +177,46 @@ namespace AzureFunctions.Controllers
             }
         }
 
-        private string GetToken()
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage ListTemplates()
         {
-            return Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates());
+            }
         }
 
-        private HttpClient GetClient(string baseUri = null)
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateFunction([FromBody]CreateFunctionInfo createFunctionInfo)
         {
-            var client = new HttpClient();
-            if (!string.IsNullOrEmpty(baseUri))
+            using (FunctionsTrace.BeginTimedOperation())
             {
-                client.BaseAddress = new Uri(baseUri);
+                if (createFunctionInfo == null ||
+                    string.IsNullOrEmpty(createFunctionInfo.Name) ||
+                    string.IsNullOrEmpty(createFunctionInfo.ContainerScmUrl))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, $"{nameof(createFunctionInfo)} can not be null");
+                }
+
+                IDictionary<string, string> templateContent = null;
+                if (!string.IsNullOrEmpty(createFunctionInfo.TemplateId))
+                {
+                    templateContent = await _templatesManager.GetTemplateContentAsync(createFunctionInfo.TemplateId);
+                    if (templateContent == null)
+                    {
+                        throw new FileNotFoundException($"Template {createFunctionInfo.TemplateId} does not exist");
+                    }
+                }
+
+                var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
+                var response = await _client.PutAsJsonAsync(url, new { files = templateContent });
+                return new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = response.Content
+                };
             }
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken());
-            client.DefaultRequestHeaders.Add("User-Agent", Request.RequestUri.Host);
-            client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
-            return client;
         }
     }
 }

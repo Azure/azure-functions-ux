@@ -235,3 +235,10 @@ _Pvt_Extensions
 
 *.js.map
 *.js
+.idea/
+typings/
+AzureFunctions.Client/Web.config
+AzureFunctions.Client/global.asax
+AzureFunctions.Client/functions-*.txt
+AzureFunctions.Client/app_data
+jspm_packages/

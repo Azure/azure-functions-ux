@@ -37,7 +37,7 @@ namespace AzureFunctions.Modules
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
-                client.DefaultRequestHeaders.Add("User-Agent", "ManagePortal");
+                client.DefaultRequestHeaders.Add("User-Agent", "FunctionsPortal");
 
                 using (var response = client.PostAsync(tokenRequestUri, content).Result)
                 {
@@ -68,7 +68,7 @@ namespace AzureFunctions.Modules
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("client-request-id", Guid.NewGuid().ToString());
-                client.DefaultRequestHeaders.Add("User-Agent", "ManagePortal");
+                client.DefaultRequestHeaders.Add("User-Agent", "FunctionsPortal");
 
                 using (var response = client.PostAsync(tokenRequestUri, content).Result)
                 {

@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'new-function',
-    templateUrl: 'templates/new-function.html',
+    templateUrl: 'templates/new-function.component.html',
     outputs: ['functionAdded']
 })
 export class NewFunctionComponent implements OnInit {
@@ -54,7 +54,7 @@ export class NewFunctionComponent implements OnInit {
         this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
             .subscribe(res => {
                 window.setTimeout(() => {
-                    this.functionAdded.next(res);
+                    this.functionAdded.emit(res);
                     this.creating = false;
                 }, 1500);
             });

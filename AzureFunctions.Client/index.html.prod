@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <base href="/">
+  <title>Azure Functions</title>
+  <script src="node_modules/angular2/bundles/angular2-polyfills.min.js"></script>
+  <script src="jspm_packages/system.js"></script>
+  <script src="node_modules/ace-builds/src-min/ace.js"></script>
+  <script src="node_modules/ace-builds/src-min/ext-modelist.js"></script>
+  <script src="config.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
+  <link rel="stylesheet" type="text/css" href="styles/pure-drawer.css">
+  <link href="node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <azure-functions-app></azure-functions-app>
+  <script src="sfx/app.js"></script>
+</body>
+</html>
