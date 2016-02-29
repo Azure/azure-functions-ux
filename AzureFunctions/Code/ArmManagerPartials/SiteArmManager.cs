@@ -91,33 +91,6 @@ namespace AzureFunctions.Code
             }
         }
 
-        public async Task<Site> CreateHostSecretsIfNeeded(Site site)
-        {
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                var kuduResponse = await Utils
-                .Retry(() => _client.GetAsync($"{site.ScmHostName}/api/vfs/data/functions/secrets/host.json"),
-                        r => { if (r.StatusCode != HttpStatusCode.OK && r.StatusCode != HttpStatusCode.NotFound) r.EnsureSuccessStatusCode(); },
-                        r => r != null && (r.StatusCode == HttpStatusCode.ServiceUnavailable || r.StatusCode == HttpStatusCode.BadGateway),
-                        5);
-                if (kuduResponse.StatusCode == HttpStatusCode.NotFound)
-                {
-                    var secrets = new
-                    {
-                        masterKey = Utils.GetRandomHexNumber(40),
-                        functionKey = Utils.GetRandomHexNumber(40)
-                    };
-                    var vfsResponse = await Utils
-                    .Retry(() => _client.PutAsJsonAsync($"{site.ScmHostName}/api/vfs/data/functions/secrets/host.json", secrets),
-                           r => r.EnsureSuccessStatusCode(),
-                           r => r != null && (r.StatusCode == HttpStatusCode.ServiceUnavailable || r.StatusCode == HttpStatusCode.BadGateway),
-                           5);
-                    await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-                }
-                return site;
-            }
-        }
-
         public async Task<Site> UpdateSiteAppSettings(Site site)
         {
             using (FunctionsTrace.BeginTimedOperation())
