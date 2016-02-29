@@ -120,10 +120,7 @@ namespace AzureFunctions.Code
                 await tasks.WhenAll();
 
                 await new Task[] { Load(resourceGroup.FunctionsSite), Load(resourceGroup.FunctionsStorageAccount) }.WhenAll();
-                if (!resourceGroup.FunctionsSite.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
-                {
-                    await LinkSiteAndStorageAccount(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
-                }
+                await UpdateSiteAppSettings(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
 
                 return new FunctionsContainer
                 {
@@ -135,12 +132,25 @@ namespace AzureFunctions.Code
             }
         }
 
-        public async Task LinkSiteAndStorageAccount(Site site, StorageAccount storageAccount)
+        public async Task UpdateSiteAppSettings(Site site, StorageAccount storageAccount)
         {
             // Assumes site and storage are loaded
-            site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-            site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
-            await UpdateSiteAppSettings(site);
+            var update = false;
+            if (!site.AppSettings.ContainsKey(Constants.AzureStorageAppSettingsName))
+            {
+                site.AppSettings[Constants.AzureStorageAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+                site.AppSettings[Constants.AzureStorageDashboardAppSettingsName] = string.Format(Constants.StorageConnectionStringTemplate, storageAccount.StorageAccountName, storageAccount.StorageAccountKey);
+                update = true;
+            }
+
+            if (!site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
+            {
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
+                update = true;
+            }
+
+            if (update)
+                await UpdateSiteAppSettings(site);
         }
 
         public async Task CreateTrialFunctionContainer()
