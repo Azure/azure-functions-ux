@@ -83,62 +83,10 @@ namespace AzureFunctions.Code
                 var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location, kind = Constants.FunctionAppArmKind });
                 var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
-                await Load(site);
-                await CreateHostJson(site);
-                await PublishCustomSiteExtensions(site);
-                await UpdateConfig(site, new { properties = new { scmType = "LocalGit" } });
+                await Task.WhenAll(Load(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
+                UpdateSiteAppSettings(site);
                 resourceGroup.FunctionsSite = site;
-                return site;
-            }
-        }
-
-        public async Task<Site> CreateHostJson(Site site)
-        {
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                var vfsResponse = await Utils
-                .Retry(() => _client.PutAsync($"{site.ScmHostName}/api/vfs/site/wwwroot/host.json", new StringContent($"{{ \"id\": \"{Guid.NewGuid().ToString().Replace("-", "")}\"}}")),
-                       r => r.EnsureSuccessStatusCode(),
-                       r => r != null && r.StatusCode == HttpStatusCode.ServiceUnavailable,
-                       5);
-                await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-
-                var deleteReq = new HttpRequestMessage(HttpMethod.Delete, $"{site.ScmHostName}/api/vfs/site/wwwroot/hostingstart.html");
-                deleteReq.Headers.TryAddWithoutValidation("If-Match", "*");
-                vfsResponse = await Utils
-                    .Retry(() => _client.SendAsync(deleteReq),
-                           r => r.EnsureSuccessStatusCode(),
-                           r => r != null && r.StatusCode == HttpStatusCode.ServiceUnavailable,
-                           5);
-                await vfsResponse.EnsureSuccessStatusCodeWithFullError();
-
-                return site;
-            }
-        }
-
-        public async Task<Site> PublishCustomSiteExtensions(Site site)
-        {
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                await CreateHostSecretsIfNeeded(site);
-                await _client.DeleteAsync($"{site.ScmHostName}/api/processes/-1");
-
-                var pKuduResponse = await Utils
-                    .Retry(() => _client.PutAsync($"{site.ScmHostName}/api/zip", new StreamContent(File.OpenRead(Path.Combine(_settings.AppDataPath, "Kudu.zip")))),
-                       r => r.EnsureSuccessStatusCode(),
-                       r => r != null && r.StatusCode == HttpStatusCode.ServiceUnavailable,
-                       5);
-                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-
-                pKuduResponse = await Utils
-                    .Retry(() => _client.PutAsync($"{site.ScmHostName}/api/zip", new StreamContent(File.OpenRead(Path.Combine(_settings.AppDataPath, "AzureFunctions.zip")))),
-                       r => r.EnsureSuccessStatusCode(),
-                       r => r != null && r.StatusCode == HttpStatusCode.ServiceUnavailable,
-                       5);
-                await pKuduResponse.EnsureSuccessStatusCodeWithFullError();
-
-                site.AppSettings[Constants.SiteExtensionsVersion] = await _settings.GetCurrentSiteExtensionVersion();
-                await UpdateSiteAppSettings(site);
                 return site;
             }
         }

@@ -16,7 +16,6 @@ namespace AzureFunctions.Common
         public const string AzureStorageAppSettingsName = "AzureWebJobsStorage";
         public const string AzureStorageDashboardAppSettingsName = "AzureWebJobsDashboard";
         public const string StorageConnectionStringTemplate = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
-        public const string SiteExtensionsVersion = "SiteExtensionsVersion";
         public const string PublishingUserName = "publishingUserName";
         public const string PublishingPassword = "publishingPassword";
         public const string FunctionsResourceGroupName = "AzureFunctions";

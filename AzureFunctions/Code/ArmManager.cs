@@ -67,7 +67,6 @@ namespace AzureFunctions.Code
                         //  /subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Web/sites/{2}
                         var parts = armId.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                         var site = await Load(new Site(parts[1], parts[3], parts[7]));
-                        await UpdateCustomSiteExtensionsIfNeeded(site);
                         perf.AddProperties("Found");
                         return new FunctionsContainer
                         {
@@ -126,8 +125,6 @@ namespace AzureFunctions.Code
                     await LinkSiteAndStorageAccount(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
                 }
 
-                await UpdateCustomSiteExtensionsIfNeeded(resourceGroup.FunctionsSite);
-
                 return new FunctionsContainer
                 {
                     ScmUrl = resourceGroup.FunctionsSite.ScmHostName,
@@ -135,28 +132,6 @@ namespace AzureFunctions.Code
                     Bearer = this._userSettings.BearerToken,
                     ArmId = resourceGroup.FunctionsSite.ArmId
                 };
-            }
-        }
-
-        private async Task UpdateCustomSiteExtensionsIfNeeded(Site site)
-        {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
-            {
-                if (site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) &&
-                    site.AppSettings[Constants.SiteExtensionsVersion].Equals("-1", StringComparison.OrdinalIgnoreCase))
-                {
-                    perf.AddProperties("NoUpdate");
-                }
-                else if (!site.AppSettings.ContainsKey(Constants.SiteExtensionsVersion) ||
-                !site.AppSettings[Constants.SiteExtensionsVersion].Equals(await _settings.GetCurrentSiteExtensionVersion(), StringComparison.OrdinalIgnoreCase))
-                {
-                    perf.AddProperties("Updated");
-                    await PublishCustomSiteExtensions(site);
-                }
-                else
-                {
-                    perf.AddProperties("NoUpdate");
-                }
             }
         }
 
