@@ -90,6 +90,12 @@ export class AppComponent implements OnInit{
                 delete this.selectedFunction;
             }
         });
+
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+            this.resetView();
+            this.selectedFunction = fi;
+            this.sideBar.selectedFunction = fi;
+        });
     }
 
     ngOnInit() {
@@ -153,12 +159,6 @@ export class AppComponent implements OnInit{
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
-    }
-
-    onFunctionSelect(functionInfo: FunctionInfo){
-        this.resetView();
-        this.selectedFunction = functionInfo;
-        this.sideBar.selectedFunction = functionInfo;
     }
 
     createFunctionsContainer() {

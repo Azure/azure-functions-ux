@@ -1,8 +1,7 @@
 <div class="sidebar">
     <ul class="functions-list">
         <li *ngFor="#functionInfo of functionsInfo"
-           (click)="functionSelected.emit(functionInfo)"
-           (click)="selectedFunction = functionInfo"
+           (click)="selectFunction(functionInfo)"
             class="function-item"
             [class.client-only]="functionInfo.clientOnly">
             <span style="display: block; padding: 10px" class="function-item clickable" [class.client-only]="functionInfo.clientOnly" [class.selected]="functionInfo === selectedFunction" href="#">

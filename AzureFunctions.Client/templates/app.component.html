@@ -1,10 +1,7 @@
 <div class="container">
     <top-bar (appSettingsClicked)='onAppSettingsClicked($event)'></top-bar>
     <div class="content">
-        <sidebar
-            [functionsInfo]="functionsInfo"
-            (selectedFunction)="onFunctionSelect($event)">
-        </sidebar>
+        <sidebar [functionsInfo]="functionsInfo"></sidebar>
         <div class="work-space">
             <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">

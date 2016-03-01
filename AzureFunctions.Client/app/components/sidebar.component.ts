@@ -12,21 +12,19 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: [ 'styles/sidebar.style.css' ],
-    inputs: ['functionsInfo'],
-    outputs: ['functionSelected: selectedFunction']
+    inputs: ['functionsInfo']
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    private functionSelected: EventEmitter<FunctionInfo>;
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
                 private _portalService: PortalService,
                 private _broadcastService: IBroadcastService) {
+
         this.subscriptions = [];
-        this.functionSelected = new EventEmitter<FunctionInfo>();
         this.inIFrame = this._portalService.inIFrame;
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
@@ -41,12 +39,17 @@ export class SideBarComponent implements OnDestroy {
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
             this.functionsInfo.push(fi);
-            this.selectedFunction = fi;
-            this.functionSelected.emit(fi);
+            this.functionsInfo.sort();
+            this.selectFunction(fi);
         }));
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    selectFunction(fi: FunctionInfo) {
+        this.selectedFunction = fi;
+        this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
     }
 }

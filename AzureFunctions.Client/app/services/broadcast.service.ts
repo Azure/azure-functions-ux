@@ -7,10 +7,12 @@ import {FunctionInfo} from '../models/function-info';
 export class BroadcastService implements IBroadcastService {
     private functionDeletedEvent: EventEmitter<FunctionInfo>;
     private functionAddedEvent: EventEmitter<FunctionInfo>;
+    private functionSelectedEvent: EventEmitter<FunctionInfo>;
 
     constructor() {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
+        this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj: T) {
@@ -29,6 +31,8 @@ export class BroadcastService implements IBroadcastService {
                 return this.functionDeletedEvent;
             case BroadcastEvent.FunctionAdded:
                 return this.functionAddedEvent;
+            case BroadcastEvent.FunctionSelected:
+                return this.functionSelectedEvent;
         }
     }
 }

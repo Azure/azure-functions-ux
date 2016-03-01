@@ -33,14 +33,10 @@ import {FunctionConfigureComponent} from './function-configure.component';
     ]
 })
 export class FunctionEditComponent {
-    public functionInfo: FunctionInfo;
+    public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
 
     constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
         this.inIFrame = this._portalService.inIFrame;
-    }
-
-    set selectedFunction(value: FunctionInfo) {
-        this.functionInfo = value;
     }
 }
