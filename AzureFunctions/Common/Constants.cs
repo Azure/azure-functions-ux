@@ -31,6 +31,7 @@ namespace AzureFunctions.Common
         public const string SavedFunctionsContainer = "sfc";
         public const string FunctionAppArmKind = "functionapp";
         public const string MetadataJson = "metadata.json";
-
+        public const string FunctionsExtensionVersion = "FUNCTIONS_EXTENSION_VERSION";
+        public const string Latest = "latest";
     }
 }

@@ -74,16 +74,41 @@ namespace AzureFunctions.Code
 
         public async Task<Site> CreateFunctionsSite(ResourceGroup resourceGroup, string serverFarmId)
         {
+            if (resourceGroup.FunctionsStorageAccount == null)
+            {
+                throw new InvalidOperationException("storage account can't be null");
+            }
+
             using (FunctionsTrace.BeginTimedOperation())
             {
+                var storageAccount = resourceGroup.FunctionsStorageAccount;
                 await _client.PostAsync(ArmUriTemplates.WebsitesRegister.Bind(resourceGroup), NullContent);
 
                 var siteName = $"{Constants.FunctionsSitePrefix}{Guid.NewGuid().ToString().Split('-').First()}";
                 var site = new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, siteName);
-                var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), new { properties = new { serverFarmId = serverFarmId }, location = resourceGroup.Location, kind = Constants.FunctionAppArmKind });
+                var siteObject = new
+                {
+                    properties = new
+                    {
+                        serverFarmId = serverFarmId,
+                        siteConfig = new
+                        {
+                            appSettings = new[]
+                            {
+                                new { name = Constants.AzureStorageAppSettingsName, value = storageAccount.GetConnectionString() },
+                                new { name = Constants.AzureStorageDashboardAppSettingsName, value = storageAccount.GetConnectionString() },
+                                new { name = Constants.FunctionsExtensionVersion, value = Constants.Latest }
+                            },
+                            scmType = "LocalGit"
+                        }
+                    },
+                    location = resourceGroup.Location,
+                    kind = Constants.FunctionAppArmKind
+                };
+                var siteResponse = await _client.PutAsJsonAsync(ArmUriTemplates.Site.Bind(site), siteObject);
                 var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
-                await Task.WhenAll(Load(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
+                await Load(site);
                 resourceGroup.FunctionsSite = site;
                 return site;
             }

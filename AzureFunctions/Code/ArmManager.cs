@@ -114,10 +114,12 @@ namespace AzureFunctions.Code
         {
             using (FunctionsTrace.BeginTimedOperation($"{nameof(resourceGroup)}, {nameof(serverFarmId)}:{(serverFarmId.NullStatus())}"))
             {
-                var tasks = new List<Task>();
-                if (resourceGroup.FunctionsSite == null) tasks.Add(CreateFunctionsSite(resourceGroup, serverFarmId));
-                if (resourceGroup.FunctionsStorageAccount == null) tasks.Add(CreateFunctionsStorageAccount(resourceGroup));
-                await tasks.WhenAll();
+                if (resourceGroup.FunctionsStorageAccount == null)
+                {
+                    resourceGroup.FunctionsStorageAccount = await CreateFunctionsStorageAccount(resourceGroup);
+                }
+
+                resourceGroup.FunctionsSite = await CreateFunctionsSite(resourceGroup, serverFarmId);
 
                 await new Task[] { Load(resourceGroup.FunctionsSite), Load(resourceGroup.FunctionsStorageAccount) }.WhenAll();
                 await UpdateSiteAppSettings(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
@@ -143,9 +145,9 @@ namespace AzureFunctions.Code
                 update = true;
             }
 
-            if (!site.AppSettings.ContainsKey("FUNCTIONS_EXTENSION_VERSION"))
+            if (!site.AppSettings.ContainsKey(Constants.FunctionsExtensionVersion))
             {
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
+                site.AppSettings[Constants.FunctionsExtensionVersion] = Constants.Latest;
                 update = true;
             }
 

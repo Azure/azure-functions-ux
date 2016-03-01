@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AzureFunctions.Common;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace AzureFunctions.Models.ArmResources
             : base(subscriptionId, resourceGroupName)
         {
             this.StorageAccountName = storageAccountName;
+        }
+
+        public string GetConnectionString()
+        {
+            return string.Format(Constants.StorageConnectionStringTemplate, StorageAccountName, StorageAccountKey);
         }
     }
 }
