@@ -9,6 +9,8 @@ import {MockFunctionsService} from './services/mock-functions.service';
 import {UserService} from './services/user.service';
 import {MockUserService} from './services/mock-user.service';
 import {PortalService} from './services/portal.service';
+import {IBroadcastService} from './services/ibroadcast.service';
+import {BroadcastService} from './services/broadcast.service';
 
 if (window.location.protocol === 'http:') {
     bootstrap(
@@ -17,7 +19,8 @@ if (window.location.protocol === 'http:') {
             HTTP_PROVIDERS,
             provide(FunctionsService, { useClass: MockFunctionsService }),
             provide(UserService, { useClass: MockUserService }),
-            PortalService
+            PortalService,
+            provide(IBroadcastService, { useClass: BroadcastService })
         ]);
 } else {
     bootstrap(
@@ -26,6 +29,7 @@ if (window.location.protocol === 'http:') {
             HTTP_PROVIDERS,
             provide(FunctionsService, { useClass: FunctionsService }),
             provide(UserService, { useClass: UserService }),
-            PortalService
+            PortalService,
+            provide(IBroadcastService, { useClass: BroadcastService })
         ]);
 }

@@ -15,6 +15,7 @@ import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
+import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'azure-functions-app',
@@ -40,7 +41,6 @@ export class AppComponent implements OnInit{
     public selectedServerFarm: ServerFarm;
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
-    public deleteSelectedFunction: boolean;
     public addedFunction: FunctionInfo;
     public noContainerFound: boolean;
     public noTenantsFound: boolean;
@@ -56,7 +56,8 @@ export class AppComponent implements OnInit{
 
     constructor(private _functionsService: FunctionsService,
                 private _userService: UserService,
-                private _portalService: PortalService) {
+                private _portalService: PortalService,
+                private _broadcastService: IBroadcastService) {
 
         this.noContainerFound = false;
         this.noTenantsFound = false;
@@ -83,6 +84,13 @@ export class AppComponent implements OnInit{
             'South India']
         .map(e => ({displayLabel: e, value: e}))
         .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+
+
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
+            if (this.selectedFunction === fi) {
+                delete this.selectedFunction;
+            }
+        });
     }
 
     ngOnInit() {
@@ -156,13 +164,6 @@ export class AppComponent implements OnInit{
         this.resetView();
         this.selectedFunction = functionInfo;
         this.sideBar.selectedFunction = functionInfo;
-    }
-
-    onDeleteSelectedFunction(deleteSelectedFunction: boolean) {
-        this.deleteSelectedFunction = deleteSelectedFunction;
-        if (deleteSelectedFunction) {
-            this.selectedFunction = null;
-        }
     }
 
     createFunctionsContainer() {

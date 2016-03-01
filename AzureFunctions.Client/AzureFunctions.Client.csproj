@@ -44,6 +44,7 @@
     <Content Include="templates\function-run.component.html" />
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\new-function.component.html" />
+    <Content Include="templates\radio-selector.component.html" />
     <Content Include="templates\sidebar.component.html" />
     <Content Include="templates\tab.component.html" />
     <Content Include="templates\tabs.component.html" />
@@ -87,7 +88,9 @@
     <TypeScriptCompile Include="app\models\tenant-info.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
+    <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
+    <TypeScriptCompile Include="app\services\ibroadcast.service.ts" />
     <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
     <TypeScriptCompile Include="app\services\iportal.service.ts" />
     <TypeScriptCompile Include="app\services\iuser.service.ts" />

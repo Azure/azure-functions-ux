@@ -3,7 +3,6 @@
     <div class="content">
         <sidebar
             [functionsInfo]="functionsInfo"
-            [deleteSelectedFunction]="deleteSelectedFunction"
             [addedFunction]="addedFunction"
             (selectedFunction)="onFunctionSelect($event)">
         </sidebar>
@@ -11,7 +10,7 @@
             <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">
                 <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
-                    <function-edit [selectedFunction]="selectedFunction"  (deleteSelectedFunction)="onDeleteSelectedFunction($event)">
+                    <function-edit [selectedFunction]="selectedFunction">
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
