@@ -228,7 +228,7 @@ export class FunctionsService implements IFunctionsService {
             url: this.scmInfo.scm_url.replace('.scm.', '.')
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); } });
+            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); this.getHostSecrets(); } });
     }
 
     warmupMainSiteApi() {
@@ -310,7 +310,7 @@ export class FunctionsService implements IFunctionsService {
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
             .map<HostSecrets>(r => r.json())
             .subscribe(h => this.hostSecrets = h,
-                        e => console.log(e));
+                       e => { if (e.status === 404) { this.getHostSecrets(); } });
     }
 
     get HostSecrets() {
