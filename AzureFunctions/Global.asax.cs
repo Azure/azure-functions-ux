@@ -70,7 +70,8 @@ namespace AzureFunctions
 
             var logger = new LoggerConfiguration()
                 .Enrich.With<HttpRequestIdEnricher>()
-                .Enrich.With<UserNameEnricher>();
+                .Enrich.With<UserNameEnricher>()
+                .Enrich.With<EventIdEnricher>();
 
             if (logToFile ?? settings.LogToFile && !string.IsNullOrEmpty(fileName))
             {

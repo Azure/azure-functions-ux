@@ -3,6 +3,7 @@
 CREATE TABLE [Diagnostics] (
 
    [Id] int IDENTITY(1,1) NOT NULL,
+   [EventId] int NOT NULL,
    [Message] nvarchar(max) NULL,
    [MessageTemplate] nvarchar(max) NULL,
    [Level] nvarchar(128) NULL,
@@ -25,6 +26,7 @@ CREATE TABLE [Diagnostics] (
 CREATE TABLE [Performance] (
 
    [Id] int IDENTITY(1,1) NOT NULL,
+   [EventId] int NOT NULL,
    [Message] nvarchar(max) NULL,
    [MessageTemplate] nvarchar(max) NULL,
    [Level] nvarchar(128) NULL,
@@ -49,6 +51,7 @@ CREATE TABLE [Performance] (
 CREATE TABLE [Analytics] (
 
    [Id] int IDENTITY(1,1) NOT NULL,
+   [EventId] int NOT NULL,
    [Message] nvarchar(max) NULL,
    [MessageTemplate] nvarchar(max) NULL,
    [Level] nvarchar(128) NULL,

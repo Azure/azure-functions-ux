@@ -81,7 +81,7 @@ namespace AzureFunctions.Controllers
                 catch (Exception e)
                 {
                     perf.AddProperties("Error");
-                    FunctionsTrace.Diagnostics.Error("Error in GetFunctionContainer(), {Exception}", e.Message);
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInGetFunctionContainer, e.Message);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
                 }
             }
@@ -99,7 +99,7 @@ namespace AzureFunctions.Controllers
                 }
                 catch (Exception e)
                 {
-                    FunctionsTrace.Diagnostics.Error($"Error in CreateFunctionsContainer({subscriptionId}, {location}, {serverFarmId}) {{Exception}}", e.Message);
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateFunctionsContainer, subscriptionId, location, serverFarmId, e.Message);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
                 }
             }
@@ -120,7 +120,7 @@ namespace AzureFunctions.Controllers
                 catch (Exception e)
                 {
                     perf.AddProperties("Error");
-                    FunctionsTrace.Diagnostics.Error("Error in CreateTrialFunctionsContainer() {Exception}", e.Message);
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
                 }
             }

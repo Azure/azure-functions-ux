@@ -91,6 +91,7 @@
     <TypeScriptCompile Include="app\services\mock-user.service.ts" />
     <TypeScriptCompile Include="app\services\portal.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
+    <Content Include="index.html.prod" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="typings\browser.d.ts" />
     <TypeScriptCompile Include="typings\browser\ambient\es6-shim\es6-shim.d.ts" />

@@ -32,6 +32,5 @@ namespace AzureFunctions.Common
         public const string FunctionAppArmKind = "functionapp";
         public const string MetadataJson = "metadata.json";
 
-        public const string CompletedOperationTemplate = "Completed operation {TimedOperationId}: {OperationName} started {StartedTime} in {TimedOperationElapsed} ({TimeTakenMsec} ms) {OperationResult}";
     }
 }

@@ -206,7 +206,10 @@
     <Compile Include="Modules\Extensions.cs" />
     <Compile Include="Modules\OpenIdConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />
+    <Compile Include="Trace\TracingEvent.cs" />
+    <Compile Include="Trace\TracingEvents.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

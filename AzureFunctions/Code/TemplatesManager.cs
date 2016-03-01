@@ -84,7 +84,7 @@ namespace AzureFunctions.Code
                 }
                 catch (Exception e)
                 {
-                    FunctionsTrace.Diagnostics.Error($"Error in GetFunctionTemplate({templateFolderName}), {{Exception}}", e.Message);
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInGetFunctionTemplate, templateFolderName, e.Message);
                     return null;
                 }
             }
