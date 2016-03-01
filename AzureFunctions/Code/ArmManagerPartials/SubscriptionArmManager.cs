@@ -30,14 +30,13 @@ namespace AzureFunctions.Code
         {
             using (FunctionsTrace.BeginTimedOperation(nameof(subscription)))
             {
-                var armResourceGroupsResponse = await _client.GetAsync(ArmUriTemplates.ResourceGroups.Bind(subscription));
-                await armResourceGroupsResponse.EnsureSuccessStatusCodeWithFullError();
+                var armResourcesResponse = await _client.GetAsync(ArmUriTemplates.Resources.Bind(subscription));
+                await armResourcesResponse.EnsureSuccessStatusCodeWithFullError();
 
-                var armResourceGroups = await armResourceGroupsResponse.Content.ReadAsAsync<ArmArrayWrapper<ArmResourceGroup>>();
+                var armResources = await armResourcesResponse.Content.ReadAsAsync<ArmArrayWrapper<object>>();
 
-                subscription.FunctionsResourceGroup = armResourceGroups.value
-                    .Where(rg => rg.name.Equals(Constants.FunctionsResourceGroupName, StringComparison.OrdinalIgnoreCase) ||
-                                 rg.name.StartsWith(Constants.TryAppServiceResourceGroupPrefix, StringComparison.OrdinalIgnoreCase))
+                subscription.FunctionsResourceGroup = armResources.value
+                    .Where(rg => rg.kind.Equals(Constants.FunctionAppArmKind, StringComparison.OrdinalIgnoreCase))
                     .Select(rg => new ResourceGroup(subscription.SubscriptionId, rg.name, rg.location) { Tags = rg.tags })
                     .FirstOrDefault();
 
