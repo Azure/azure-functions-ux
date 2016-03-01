@@ -87,7 +87,8 @@ namespace AzureFunctions
                     AdditionalDataColumns = new Collection<DataColumn>
                     {
                         new DataColumn {DataType = typeof(string), ColumnName = "UserName"},
-                        new DataColumn {DataType = typeof(string), ColumnName = "HttpRequestId"}
+                        new DataColumn {DataType = typeof(string), ColumnName = "HttpRequestId"},
+                        new DataColumn {DataType = typeof(int), ColumnName = "EventIt"}
                     }
                     .Union(additionalColumns ?? Enumerable.Empty<DataColumn>())
                     .ToList()
