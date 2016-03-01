@@ -20,7 +20,8 @@ namespace AzureFunctions.Trace
 
         public static void Event(this ILogger logger, TracingEvent tracingEvent, params object [] properties)
         {
-            logger.Write(tracingEvent.Level, $"{tracingEvent.Message} {{{EventId}}}", properties, tracingEvent.EventId);
+            properties = properties.Concat(new object[] { tracingEvent.EventId }).ToArray();
+            logger.Write(tracingEvent.Level, $"{tracingEvent.Message} {{{EventId}}}", properties);
         }
 
         public static ITimedOperation BeginTimedOperation(string operationInfo = null, [CallerMemberName] string caller = null)
