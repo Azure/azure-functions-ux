@@ -36,6 +36,5 @@ namespace AzureFunctions.Code
         public static readonly ArmUriTemplate StorageAccount = new ArmUriTemplate($"{StorageAccounts.TemplateUrl}/{{storageAccountName}}", storageApiVersion);
         public static readonly ArmUriTemplate StorageListKeys = new ArmUriTemplate($"{StorageAccount.TemplateUrl}/listKeys", storageApiVersion);
 
-        public static readonly ArmUriTemplate Resources = new ArmUriTemplate($"{Subscription.TemplateUrl}/resources", armApiVersion);
     }
 }

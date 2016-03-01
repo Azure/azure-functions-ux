@@ -24,7 +24,8 @@ namespace AzureFunctions.Code
                 var resources = await armResourceGroupResourcesResponse.Content.ReadAsAsync<ArmArrayWrapper<object>>();
 
                 resourceGroup.FunctionsSite = resources.value
-                    .Where(r => r.kind.Equals(Constants.FunctionAppArmKind, StringComparison.OrdinalIgnoreCase))
+                    .Where(r => r.type.Equals(Constants.WebAppArmType, StringComparison.OrdinalIgnoreCase) &&
+                                r.name.StartsWith(Constants.FunctionsSitePrefix, StringComparison.OrdinalIgnoreCase))
                     .Select(r => new Site(resourceGroup.SubscriptionId, resourceGroup.ResourceGroupName, r.name))
                     .FirstOrDefault();
 
