@@ -1,4 +1,5 @@
 ﻿using AzureFunctions.Common;
+using AzureFunctions.Trace;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -236,6 +237,7 @@ namespace AzureFunctions.Modules
                 }
 
                 // Not allowed
+                FunctionsTrace.Diagnostics.Event(TracingEvents.UserForbidden, principalName);
                 HttpContext.Current.Response.StatusCode = 403;
                 HttpContext.Current.Response.End();
             }

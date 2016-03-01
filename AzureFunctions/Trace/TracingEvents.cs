@@ -42,5 +42,12 @@ namespace AzureFunctions.Trace
             Message = "Completed {TimedOperationId}: {OperationName} started {StartedTime} in {TimedOperationElapsed} ({TimeTakenMsec} ms) {OperationResult}",
             EventId = 4
         };
+
+        // EventId = 5
+        public static readonly TracingEvent UserForbidden = new TracingEvent
+        {
+            Message = "User {UserName} got 403 (Forbidden)",
+            EventId = 5
+        };
     }
 }
