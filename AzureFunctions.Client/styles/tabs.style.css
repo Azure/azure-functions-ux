@@ -22,15 +22,12 @@
     padding: 5px;
     border-right: 1px solid #bbc8ce;
     border-top: 1px solid #bbc8ce;
-}
-
-.tabs li a{
     color: #536E7A;
-    text-decoration: none;
     outline: none;
+    cursor: pointer;
 }
 
-.tabs .tab-active a{
+.tabs .tab-active {
     color: #0273D4;
 }
 
