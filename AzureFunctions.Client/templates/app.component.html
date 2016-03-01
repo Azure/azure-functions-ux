@@ -3,7 +3,6 @@
     <div class="content">
         <sidebar
             [functionsInfo]="functionsInfo"
-            [addedFunction]="addedFunction"
             (selectedFunction)="onFunctionSelect($event)">
         </sidebar>
         <div class="work-space">
@@ -14,7 +13,7 @@
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <new-function (functionAdded)="onFunctionAdded($event)"></new-function>
+                    <new-function></new-function>
                 </div>
             </div>
 

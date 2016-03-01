@@ -4,11 +4,11 @@ import {FunctionTemplate} from '../models/function-template';
 import {NewFunctionModel} from '../models/new-function-model';
 import {FunctionInfo} from '../models/function-info';
 import {Observable} from 'rxjs/Rx';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'new-function',
-    templateUrl: 'templates/new-function.component.html',
-    outputs: ['functionAdded']
+    templateUrl: 'templates/new-function.component.html'
 })
 export class NewFunctionComponent implements OnInit {
     public functionTemplates: FunctionTemplate[];
@@ -17,11 +17,10 @@ export class NewFunctionComponent implements OnInit {
     public triggers: { [id: string]: string[] };
     public model: NewFunctionModel;
     public creating: boolean;
-    private functionAdded: EventEmitter<FunctionInfo>;
 
 
-    constructor(private _functionsService: FunctionsService) {
-        this.functionAdded = new EventEmitter<FunctionInfo>();
+    constructor(private _functionsService: FunctionsService,
+                private _broadcastService: IBroadcastService) {
         this.model = {};
         this.triggers = {};
         this.contentSources = ['Empty', 'From Template', 'From Zip'];
@@ -54,7 +53,7 @@ export class NewFunctionComponent implements OnInit {
         this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
             .subscribe(res => {
                 window.setTimeout(() => {
-                    this.functionAdded.emit(res);
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                     this.creating = false;
                 }, 1500);
             });

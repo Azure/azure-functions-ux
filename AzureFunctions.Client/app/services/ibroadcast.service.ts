@@ -8,5 +8,6 @@ export abstract class IBroadcastService {
 }
 
 export enum BroadcastEvent {
-    FunctionDeleted
+    FunctionDeleted,
+    FunctionAdded
 }

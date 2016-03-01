@@ -41,7 +41,6 @@ export class AppComponent implements OnInit{
     public selectedServerFarm: ServerFarm;
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
-    public addedFunction: FunctionInfo;
     public noContainerFound: boolean;
     public noTenantsFound: boolean;
     public subscriptionPickerPlaceholder: string;
@@ -154,10 +153,6 @@ export class AppComponent implements OnInit{
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
-    }
-
-    onFunctionAdded(fi: FunctionInfo) {
-        this.addedFunction = fi;
     }
 
     onFunctionSelect(functionInfo: FunctionInfo){

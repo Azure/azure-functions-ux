@@ -5,9 +5,12 @@ import {FunctionInfo} from '../models/function-info';
 
 @Injectable()
 export class BroadcastService implements IBroadcastService {
-    public functionDeletedEvent: EventEmitter<FunctionInfo>;
+    private functionDeletedEvent: EventEmitter<FunctionInfo>;
+    private functionAddedEvent: EventEmitter<FunctionInfo>;
+
     constructor() {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
+        this.functionAddedEvent = new EventEmitter<FunctionInfo>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj: T) {
@@ -24,6 +27,8 @@ export class BroadcastService implements IBroadcastService {
         switch (eventType) {
             case BroadcastEvent.FunctionDeleted:
                 return this.functionDeletedEvent;
+            case BroadcastEvent.FunctionAdded:
+                return this.functionAddedEvent;
         }
     }
 }
