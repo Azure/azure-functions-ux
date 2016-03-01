@@ -26,6 +26,7 @@
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\app.style.css" />
     <Content Include="styles\drop-down.style.css" />
+    <Content Include="styles\function-configure.style.css" />
     <Content Include="styles\function-dev.style.css" />
     <Content Include="styles\function-edit.style.css" />
     <Content Include="styles\function-run.style.css" />
@@ -36,6 +37,7 @@
     <Content Include="templates\app.component.html" />
     <Content Include="templates\binding-designer.component.html" />
     <Content Include="templates\drop-down.component.html" />
+    <Content Include="templates\function-configure.component.html" />
     <Content Include="templates\function-dev.component.html" />
     <Content Include="templates\function-designer.component.html" />
     <Content Include="templates\function-edit.component.html" />
@@ -51,6 +53,7 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\drop-down.component.ts" />
+    <TypeScriptCompile Include="app\components\function-configure.component.ts" />
     <TypeScriptCompile Include="app\components\function-dev.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -59,6 +62,7 @@
     <TypeScriptCompile Include="app\components\function-run.component.ts" />
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\new-function.component.ts" />
+    <TypeScriptCompile Include="app\components\radio-selector.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
     <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\tabs.component.ts" />

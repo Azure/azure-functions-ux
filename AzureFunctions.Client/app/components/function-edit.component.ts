@@ -14,12 +14,14 @@ import {Observable} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
+import {FunctionConfigureComponent} from './function-configure.component';
 
 @Component({
     selector: 'function-edit',
     templateUrl: 'templates/function-edit.component.html',
     styleUrls: ['styles/function-edit.style.css'],
     inputs: ['selectedFunction'],
+    outputs: ['deleteSelectedFunction'],
     directives: [
         FunctionDevComponent,
         AceEditorDirective,
@@ -27,18 +29,25 @@ import {TabComponent} from './tab.component';
         FunctionDesignerComponent,
         LogStreamingComponent,
         TabsComponent,
-        TabComponent
+        TabComponent,
+        FunctionConfigureComponent
     ]
 })
 export class FunctionEditComponent {
     public functionInfo: FunctionInfo;
+    public deleteSelectedFunction: EventEmitter<boolean>;
     public inIFrame: boolean;
 
     constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
         this.inIFrame = this._portalService.inIFrame;
+        this.deleteSelectedFunction = new EventEmitter<boolean>();
     }
 
     set selectedFunction(value: FunctionInfo) {
         this.functionInfo = value;
+    }
+
+    onDeleteSelectedFunction(deleteSelectedFunction: boolean) {
+        this.deleteSelectedFunction.emit(deleteSelectedFunction);
     }
 }

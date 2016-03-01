@@ -9,6 +9,6 @@
         Monitor
     </tab>
     <tab tabTitle="Configure">
-        Configure
+        <function-configure [selectedFunction]="functionInfo" (deleteSelectedFunction)="onDeleteSelectedFunction($event)"></function-configure>
     </tab>
 </tabs>

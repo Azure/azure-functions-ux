@@ -1,0 +1,24 @@
+﻿<div class="wrapper">
+    <div id="function-settings">
+        <div class="configure-wrapper">
+            <div>Function State </div>
+            <div>
+                <div class="switch">
+                    <input type="radio" class="switch-input" name="view" id="readOnly">
+                    <label for="readOnly" class="switch-label switch-label-off">Enabled</label>
+                    <input type="radio" class="switch-input" name="view" id="readWrite" checked="checked">
+                    <label for="readWrite" class="switch-label switch-label-on">Disabled</label>
+                    <span class="switch-selection"></span>
+                </div>
+            </div>
+        </div>
+        <div class="configure-wrapper">
+            <div>Function URL</div>
+            <div><pre>https://philipwalton.github.io/solved-by-flexbox/demos/vertical-centering/</pre></div>
+        </div>
+    </div>
+
+    <div id="submit-delete">
+        <button id="submit-button" (click)="deleteFunction()">Delete</button>
+    </div>
+</div>
