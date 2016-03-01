@@ -23,10 +23,35 @@ export class PortalService implements IPortalService {
         this.postMessage("initialized");  
     }
 
-    openSettings(): void{
+    openContinuousDeployment(): void{
         this.postMessage({
-            method: 'open-settings'
-        });
+            method: 'open-ContinuousDeploymentListBlade'
+        })
+    }
+
+    openAuthentication(): void {
+        this.postMessage({
+            method: 'open-AppAuth'
+        })
+    }
+
+    openCors(): void {
+        this.postMessage({
+            method: 'open-ApiCors'
+        })
+    }
+
+    openApiDefinition(): void {
+        this.postMessage({
+            method: 'open-ApiDefinition'
+        })
+    }
+
+
+    openApp(): void{
+        this.postMessage({
+            method: 'open-WebsiteBlade'
+        })
     }
 
     private iframeReceivedMsg(event: any): void {
