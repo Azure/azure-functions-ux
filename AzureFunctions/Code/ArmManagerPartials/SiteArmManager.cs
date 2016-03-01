@@ -84,8 +84,6 @@ namespace AzureFunctions.Code
                 var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
                 await Task.WhenAll(Load(site), UpdateConfig(site, new { properties = new { scmType = "LocalGit" } }));
-                site.AppSettings["FUNCTIONS_EXTENSION_VERSION"] = "latest";
-                await UpdateSiteAppSettings(site);
                 resourceGroup.FunctionsSite = site;
                 return site;
             }
