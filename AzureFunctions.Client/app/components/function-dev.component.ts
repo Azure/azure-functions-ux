@@ -60,16 +60,16 @@ export class FunctionDevComponent {
                 this.content = res.content;
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
-                var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
-                    ? this.functionInfo.config.bindings.input.find(e => !!e.webHookType)
+                var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                    ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
                     : null);
                 if (inputBinding) {
                     this.webHookType = inputBinding.webHookType;
                 } else {
                     delete this.webHookType;
                 }
-                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings && this.functionInfo.config.bindings.input
-                    ? this.functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
+                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                    ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
                     : null);
                 if (inputBinding) {
                     this.isHttpFunction = true;

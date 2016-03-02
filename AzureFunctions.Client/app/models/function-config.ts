@@ -1,15 +1,11 @@
 export interface FunctionConfig {
     disabled: boolean;
-    bindings: FunctionBindings;
-}
-
-export interface FunctionBindings {
-    input: FunctionBinding[],
-    output: FunctionBinding[]
+    bindings: FunctionBinding[];
 }
 
 export interface FunctionBinding {
     name: string;
+    direction: string;
     type: string;
     path: string;
     queueName: string;

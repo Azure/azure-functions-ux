@@ -168,8 +168,8 @@ export class FunctionsService implements IFunctionsService {
 
     runFunction(functionInfo: FunctionInfo, content: string) {
         var mainSiteUrl = this.scmInfo.scm_url.replace('.scm.', '.');
-        var inputBinding = (functionInfo.config && functionInfo.config.bindings && functionInfo.config.bindings.input
-            ? functionInfo.config.bindings.input.find(e => e.type === 'httpTrigger')
+        var inputBinding = (functionInfo.config && functionInfo.config.bindings
+            ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
         var url = inputBinding
             ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`

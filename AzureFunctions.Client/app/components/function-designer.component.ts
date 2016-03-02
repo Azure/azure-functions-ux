@@ -26,9 +26,8 @@ export class FunctionDesignerComponent implements OnInit {
             .subscribe(r => this.triggerBindings = r.triggers);
 
         if (this.functionConfig &&
-            this.functionConfig.bindings &&
-            this.functionConfig.bindings.input) {
-            this.currentTriggerBinding = this.functionConfig.bindings.input.find(e => e.type.toLocaleLowerCase().endsWith('trigger'))
+            this.functionConfig.bindings) {
+            this.currentTriggerBinding = this.functionConfig.bindings.find(e => e.type.toLocaleLowerCase().endsWith('trigger'))
         }
     }
 
