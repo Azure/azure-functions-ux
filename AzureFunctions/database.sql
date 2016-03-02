@@ -31,6 +31,7 @@ CREATE TABLE [Performance] (
    [MessageTemplate] nvarchar(max) NULL,
    [Level] nvarchar(128) NULL,
    [TimeStamp] datetimeoffset(7) NOT NULL,
+   [StartedTime] datetime2 NULL,
    [Exception] nvarchar(max) NULL,
    [Properties] xml NULL,
    [LogEvent] nvarchar(max) NULL,
