@@ -50,6 +50,12 @@ namespace AzureFunctions
 
         private void InitLogging(IContainer container)
         {
+            var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
+               ? HostingEnvironment.ApplicationPhysicalPath
+               : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
+            var file = File.CreateText(Path.Combine(logsPath, "serilog.log"));
+            Serilog.Debugging.SelfLog.Out = TextWriter.Synchronized(file);
+
             FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics");
             FunctionsTrace.Analytics = CreateLogger(container, "functions-analytics-{Date}.txt", "Analytics");
             FunctionsTrace.Performance = CreateLogger(container, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
