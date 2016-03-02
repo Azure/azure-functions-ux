@@ -3,8 +3,8 @@
         <div class="vertical-align-center logo" >Azure Functions</div>
     </div>
     <div class="top-bar-tools right vertical-align-center">
-        <span><a href='#'><i class="fa fa-clock-o"></i> Monitoring</a></span>
-        <span><a href='#' (click)='onAppSettingsClicked()'><i class="fa fa-wrench"></i> Function app settings</a></span>
+        <span class="settings clickable"><i class="fa fa-clock-o"></i> Monitoring</span>
+        <span class="settings clickable" (click)='onAppSettingsClicked()'><i class="fa fa-wrench"></i> Function app settings</span>
         <span *ngIf="user && currentTenant && !inIFrame"
               class="top-bar-tool clickable"
               [class.top-bar-tool-selected]="showUserMenu"

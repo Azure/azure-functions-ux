@@ -46,15 +46,15 @@
     margin-left: 10px;
 }
 
-.top-bar-tools span a{
+.settings{
     color: #8FA4AE;
 }
 
-.top-bar-tools span a:hover{
+.settings:hover{
     color: #FFFFFF;
 }
 
-.top-bar-tools span:last-child a{
+.settings:last-child {
     margin-right: 10px;
 }
 
