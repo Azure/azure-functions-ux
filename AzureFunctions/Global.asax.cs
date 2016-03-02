@@ -53,7 +53,7 @@ namespace AzureFunctions
             var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
                ? HostingEnvironment.ApplicationPhysicalPath
                : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
-            var file = File.CreateText(Path.Combine(logsPath, "serilog.log"));
+            var file = File.CreateText(Path.Combine(logsPath, $"serilog-{Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID")?.Substring(0, 7)}.log"));
             Serilog.Debugging.SelfLog.Out = TextWriter.Synchronized(file);
 
             FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics");
