@@ -33,4 +33,5 @@ export interface IFunctionsService {
     createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
     getHostSecrets(): RxSubscription;
     createTrialFunctionsContainer(): Observable<string>;
+    updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
 }

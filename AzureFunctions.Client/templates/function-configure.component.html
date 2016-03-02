@@ -3,7 +3,7 @@
         <div class="configure-wrapper">
             <div>Function State </div>
             <div *ngIf="selectedFunction">
-                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled"></radio-selector>
+                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled" (value)="valueChange.next($event)"></radio-selector>
             </div>
         </div>
         <div class="configure-wrapper">

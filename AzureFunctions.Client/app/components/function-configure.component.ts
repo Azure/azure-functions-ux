@@ -1,4 +1,5 @@
-﻿import {Component, EventEmitter} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
+import {Subject} from 'rxjs/Subject';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
@@ -16,6 +17,7 @@ import {RadioSelectorComponent} from './radio-selector.component';
 export class FunctionConfigureComponent {
     public selectedFunction: FunctionInfo;
     public functionStatusOptions: SelectOption<boolean>[];
+    private valueChange: Subject<boolean>;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: IBroadcastService) {
@@ -27,6 +29,15 @@ export class FunctionConfigureComponent {
                 displayLabel: 'Disabled',
                 value: true
             }];
+        this.valueChange = new Subject<boolean>();
+        this.valueChange
+            .distinctUntilChanged()
+            .debounceTime<boolean>(500)
+            .switchMap<FunctionInfo>(state => {
+                this.selectedFunction.config.disabled = state;
+                return this._functionsService.updateFunction(this.selectedFunction);
+            })
+            .subscribe(fi => this.selectedFunction.config.disabled = fi.config.disabled);
     }
 
     deleteFunction() {

@@ -322,6 +322,16 @@ export class FunctionsService implements IFunctionsService {
             .map<string>(r => r.statusText);
     }
 
+    updateFunction(fi: FunctionInfo) {
+        var body: PassthroughInfo = {
+            httpMethod: "PUT",
+            url: fi.href,
+            requestBody: fi
+        };
+        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<FunctionInfo>(r => r.json());
+    }
+
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();

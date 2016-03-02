@@ -4,7 +4,7 @@ import {SelectOption} from '../models/select-option';
 @Component({
     selector: 'radio-selector',
     inputs: ['options', 'defaultValue'],
-    //outputs: ['value'],
+    outputs: ['value'],
     templateUrl: 'templates/radio-selector.component.html',
     styleUrls: ['styles/radio-selector.style.css']
 })
@@ -30,5 +30,6 @@ export class RadioSelectorComponent<T> {
 
     select(option: SelectOption<T>) {
         this.defaultValue = option.value;
+        this.value.emit(option.value);
     }
 }

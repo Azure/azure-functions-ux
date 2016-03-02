@@ -199,4 +199,9 @@ export class MockFunctionsService implements IFunctionsService {
     createTrialFunctionsContainer() {
         return Observable.of('done'); 
     }
+
+    updateFunction(fi: FunctionInfo) {
+        console.log(fi);
+        return Observable.of(fi);
+    }
 }
