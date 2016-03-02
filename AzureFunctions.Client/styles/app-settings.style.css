@@ -1,1 +1,155 @@
-﻿
+﻿.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+    .wrapper > div {
+        padding: 20px;
+        border-bottom: 1px solid black;
+    }
+
+    .wrapper > div:first-child {
+        border-bottom: none;
+    }
+
+    .wrapper > div:last-child {
+        border-bottom: none;
+    }
+
+#heading {
+    flex-grow: 1;
+    border-bottom: none;
+    font-size: 45px;
+}
+
+#advanced-settings {
+    flex-grow: 1;
+}
+
+.setting-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-wrapper > label {
+    font-size: 20px;
+}
+
+.setting-wrapper > div {
+    padding: 10px 0 10px 0;
+}
+
+/* start range */
+/* http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 60%;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 10px;
+    background: #F1F1F8;
+    border: none;
+    border-radius: 0;
+    border: 2px solid black;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 30px;
+    width: 10px;
+    background: #428bca;
+    border-radius: 0;
+    margin-top: -12px;
+}
+
+input[type=range]::-moz-range-track {
+    height: 8px;
+    background: #F1F1F8;
+    border: none;
+    border-radius: 0;
+    border: 2px solid black;
+}
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 30px;
+    width: 10px;
+    background: #428bca;
+    border-radius: 0;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]::-ms-track {
+    height: 10px;
+}
+
+input[type=range]::-ms-fill-lower, input[type=range]::-ms-fill-upper {
+    background: #F1F1F8;
+    border-radius: 0;
+    border: 2px solid black;
+}
+
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 30px;
+    width: 10px;
+    border-radius: 0;
+    background: #428bca;
+}
+/* end range */
+
+
+.features-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+
+.features-wrapper > div {
+    flex-grow: 1;
+    border: 1px solid black;
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
+
+.features-wrapper > div:first-child {
+    border-top: 1px solid black;
+}
+
+    .features-wrapper > div > div {
+        padding: 10px;
+    }
+
+    .features-wrapper > div > div:first-child {
+        flex-grow: 3;
+        width: 60%;
+    }
+
+    .features-wrapper > div > div:last-child {
+        flex-grow: 1;
+        width: 25%;
+    }
+
+    .features-wrapper > div > div:last-child > div {
+        margin-left: 15px;
+        padding: 6px 25px 6px 25px;
+        font-size: 14px;
+        border: 1px solid transparent;
+        color: #fff;
+        background-color: #428bca;
+        text-align: center;
+    }
