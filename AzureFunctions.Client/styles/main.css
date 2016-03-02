@@ -24,7 +24,9 @@ pre {
     border: 1px solid #ccc;
 }
 
-
+.clickable {
+    cursor: pointer;
+}
 
 /* side-bar style */
 

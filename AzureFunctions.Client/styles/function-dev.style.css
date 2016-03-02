@@ -10,10 +10,10 @@ div.dev-block-header{
     margin-left: 10px;
 }
 
-.dev-block-header > span a{
+.dev-block-header > span span{
     color: #536E7A;
 }
 
-.dev-block-header > span > a i{
+.dev-block-header > span > span i{
     margin-right: 5px;
 }
