@@ -3,17 +3,31 @@ import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {SelectOption} from '../models/select-option';
+import {RadioSelectorComponent} from './radio-selector.component';
 
 @Component({
     selector: 'function-configure',
     templateUrl: 'templates/function-configure.component.html',
     styleUrls: ['styles/function-configure.style.css'],
-    inputs: ['selectedFunction']
+    inputs: ['selectedFunction'],
+    directives: [RadioSelectorComponent]
 })
 export class FunctionConfigureComponent {
     public selectedFunction: FunctionInfo;
+    public functionStatusOptions: SelectOption<boolean>[];
+
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: IBroadcastService) { }
+                private _broadcastService: IBroadcastService) {
+        this.functionStatusOptions = [
+            {
+                displayLabel: 'Enabled',
+                value: false
+            }, {
+                displayLabel: 'Disabled',
+                value: true
+            }];
+    }
 
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);

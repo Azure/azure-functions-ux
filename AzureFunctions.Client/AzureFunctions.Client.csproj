@@ -30,6 +30,7 @@
     <Content Include="styles\function-dev.style.css" />
     <Content Include="styles\function-edit.style.css" />
     <Content Include="styles\function-run.style.css" />
+    <Content Include="styles\radio-selector.style.css" />
     <Content Include="styles\sidebar.style.css" />
     <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
@@ -82,6 +83,7 @@
     <TypeScriptCompile Include="app\models\create-function-info.ts" />
     <TypeScriptCompile Include="app\models\run-response.ts" />
     <TypeScriptCompile Include="app\models\scm-info.ts" />
+    <TypeScriptCompile Include="app\models\select-option.ts" />
     <TypeScriptCompile Include="app\models\server-farm.ts" />
     <TypeScriptCompile Include="app\models\subscription.ts" />
     <TypeScriptCompile Include="app\models\template-input.ts" />

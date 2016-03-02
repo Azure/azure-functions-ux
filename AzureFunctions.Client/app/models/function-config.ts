@@ -1,4 +1,5 @@
 export interface FunctionConfig {
+    disabled: boolean;
     bindings: FunctionBindings;
 }
 

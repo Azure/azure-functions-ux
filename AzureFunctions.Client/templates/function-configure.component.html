@@ -2,14 +2,8 @@
     <div id="function-settings">
         <div class="configure-wrapper">
             <div>Function State </div>
-            <div>
-                <div class="switch">
-                    <input type="radio" class="switch-input" name="view" id="readOnly">
-                    <label for="readOnly" class="switch-label switch-label-off">Enabled</label>
-                    <input type="radio" class="switch-input" name="view" id="readWrite" checked="checked">
-                    <label for="readWrite" class="switch-label switch-label-on">Disabled</label>
-                    <span class="switch-selection"></span>
-                </div>
+            <div *ngIf="selectedFunction">
+                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled"></radio-selector>
             </div>
         </div>
         <div class="configure-wrapper">
