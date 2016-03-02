@@ -144,7 +144,7 @@ input[type=range]::-ms-thumb {
         width: 25%;
     }
 
-    .features-wrapper > div > div:last-child > div {
+    .features-wrapper > div > div:last-child > div, .button-div {
         margin-left: 15px;
         padding: 6px 25px 6px 25px;
         font-size: 14px;
@@ -153,3 +153,7 @@ input[type=range]::-ms-thumb {
         background-color: #428bca;
         text-align: center;
     }
+
+.button-div {
+    width: 20%;
+}
