@@ -118,8 +118,19 @@ namespace AzureFunctions.Code
                 {
                     resourceGroup.FunctionsStorageAccount = await CreateFunctionsStorageAccount(resourceGroup);
                 }
+                else
+                {
+                    await Load(resourceGroup.FunctionsStorageAccount);
+                }
 
-                resourceGroup.FunctionsSite = await CreateFunctionsSite(resourceGroup, serverFarmId);
+                if (resourceGroup.FunctionsSite == null)
+                {
+                    resourceGroup.FunctionsSite = await CreateFunctionsSite(resourceGroup, serverFarmId);
+                }
+                else
+                {
+                    await Load(resourceGroup.FunctionsSite);
+                }
 
                 await UpdateSiteAppSettings(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
 
