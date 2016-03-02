@@ -50,7 +50,7 @@ namespace AzureFunctions.Code
                     tries--;
                     if (!isSucceeded) await Task.Delay(200);
                 } while (!isSucceeded && tries > 0);
-                resourceGroup.FunctionsStorageAccount = storageAccount;
+                resourceGroup.FunctionsStorageAccount = await Load(storageAccount);
                 return storageAccount;
             }
         }

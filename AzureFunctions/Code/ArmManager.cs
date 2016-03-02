@@ -121,7 +121,6 @@ namespace AzureFunctions.Code
 
                 resourceGroup.FunctionsSite = await CreateFunctionsSite(resourceGroup, serverFarmId);
 
-                await new Task[] { Load(resourceGroup.FunctionsSite), Load(resourceGroup.FunctionsStorageAccount) }.WhenAll();
                 await UpdateSiteAppSettings(resourceGroup.FunctionsSite, resourceGroup.FunctionsStorageAccount);
 
                 return new FunctionsContainer

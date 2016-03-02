@@ -109,7 +109,6 @@ namespace AzureFunctions.Code
                 var armSite = await siteResponse.EnsureSuccessStatusCodeWithFullError();
 
                 await Load(site);
-                resourceGroup.FunctionsSite = site;
                 return site;
             }
         }
