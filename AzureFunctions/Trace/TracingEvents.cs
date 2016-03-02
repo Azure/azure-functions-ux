@@ -1,10 +1,4 @@
-﻿using Serilog.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace AzureFunctions.Trace
+﻿namespace AzureFunctions.Trace
 {
     public static class TracingEvents
     {
