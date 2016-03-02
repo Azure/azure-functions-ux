@@ -14,13 +14,14 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {ServerFarm} from '../models/server-farm';
 import {HostSecrets} from '../models/host-secrets';
+import {PortalService} from './portal.service';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
     private hostSecrets: HostSecrets;
 
-    constructor(private _http: Http) { }
+    constructor(private _http: Http, private _portalService: PortalService) { }
     
     setToken(token : string) : void{
         this.scmInfo = <ScmInfo>{
@@ -29,7 +30,8 @@ export class FunctionsService implements IFunctionsService {
     }
 
     initializeUser() {
-        return this._http.get('api/get', { headers: this.getHeaders() })
+        var url = this._portalService.inIFrame ? `api/get${this._portalService.resourceId}` : 'api/get';
+        return this._http.get(url, { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
                     return this.initializeUser().map(r => ({ json: () => r }));
