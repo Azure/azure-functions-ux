@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
@@ -10,8 +10,8 @@ import {FunctionsService} from '../services/functions.service';
     inputs: ['selectedFunction'],
     directives: [AceEditorDirective]
 })
-export class FunctionIntegrateComponent implements OnInit {
-    public selectedFunction: FunctionInfo;
+export class FunctionIntegrateComponent {
+    public _selectedFunction: FunctionInfo;
     public configContent: string;
     public updatedContent: string;
     public isDirty: boolean;
@@ -20,8 +20,9 @@ export class FunctionIntegrateComponent implements OnInit {
         this.isDirty = false;
     }
 
-    ngOnInit() {
-        this.configContent = JSON.stringify(this.selectedFunction.config, undefined, 2);
+    set selectedFunction(value: FunctionInfo) {
+        this._selectedFunction = value;
+        this.configContent = JSON.stringify(value.config, undefined, 2);
     }
 
     contentChanged(content: string) {
@@ -31,8 +32,8 @@ export class FunctionIntegrateComponent implements OnInit {
 
     saveConfig() {
         if (this.isDirty) {
-            this.selectedFunction.config = JSON.parse(this.updatedContent);
-            this._functionsService.updateFunction(this.selectedFunction)
+            this._selectedFunction.config = JSON.parse(this.updatedContent);
+            this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => this.isDirty = false);
         }
     }
