@@ -122,20 +122,20 @@ export class FunctionsService implements IFunctionsService {
 
     createFunction(functionName: string, templateId: string) {
         if (templateId) {
-        var body: CreateFunctionInfo = {
-            name: functionName,
-            templateId: (templateId && templateId !== 'Empty' ? templateId : null),
-            containerScmUrl: this.scmInfo.scm_url
-        };
-        return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getHeaders() })
-            .map<FunctionInfo>(r => r.json());
+            var body: CreateFunctionInfo = {
+                name: functionName,
+                templateId: (templateId && templateId !== 'Empty' ? templateId : null),
+                containerScmUrl: this.scmInfo.scm_url
+            };
+            return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getHeaders() })
+                .map<FunctionInfo>(r => r.json());
         } else {
-            var body: PassthroughInfo = {
+            var passthrowBody: PassthroughInfo = {
                 httpMethod: "PUT",
                 url: `${this.scmInfo.scm_url}/api/functions/${functionName}`,
                 requestBody: { config: {} }
             };
-            return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+            return this._http.post('api/passthrough', JSON.stringify(passthrowBody), { headers: this.getHeaders() })
                 .map<FunctionInfo>(r => r.json());
         }
     }
