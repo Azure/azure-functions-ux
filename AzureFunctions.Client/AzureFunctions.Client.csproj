@@ -29,6 +29,7 @@
     <Content Include="styles\function-configure.style.css" />
     <Content Include="styles\function-dev.style.css" />
     <Content Include="styles\function-edit.style.css" />
+    <Content Include="styles\function-integrate.style.css" />
     <Content Include="styles\function-run.style.css" />
     <Content Include="styles\radio-selector.style.css" />
     <Content Include="styles\sidebar.style.css" />
@@ -42,6 +43,7 @@
     <Content Include="templates\function-dev.component.html" />
     <Content Include="templates\function-designer.component.html" />
     <Content Include="templates\function-edit.component.html" />
+    <Content Include="templates\function-integrate.component.html" />
     <Content Include="templates\function-run.component.html" />
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\new-function.component.html" />
@@ -61,6 +63,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="app\components\function-designer.component.ts" />
     <TypeScriptCompile Include="app\components\function-edit.component.ts" />
+    <TypeScriptCompile Include="app\components\function-integrate.component.ts" />
     <TypeScriptCompile Include="app\components\function-run.component.ts" />
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\new-function.component.ts" />

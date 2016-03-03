@@ -8,6 +8,7 @@ import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionDevComponent} from './function-dev.component';
+import {FunctionIntegrateComponent} from './function-integrate.component';
 import {FunctionConfig} from '../models/function-config';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Rx';
@@ -23,6 +24,7 @@ import {FunctionConfigureComponent} from './function-configure.component';
     inputs: ['selectedFunction'],
     directives: [
         FunctionDevComponent,
+        FunctionIntegrateComponent,
         AceEditorDirective,
         FunctionRunComponent,
         FunctionDesignerComponent,
