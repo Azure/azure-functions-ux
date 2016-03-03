@@ -8,8 +8,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    box-shadow: 3px 0 6px rgba(0,0,0,0.3);
-    background-color: #ECEFF1;
+    background-color: #F3F3F3;
     bottom: 0;
     /*overflow: auto;*/
     z-index: 1;
@@ -24,23 +23,32 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    text-align: center;
+    text-align: left;
+
 }
 
 .functions-list li {
-    border-bottom: 1px solid #CFD8DC;
-    color: #536E7A;
+    border-bottom: 2px solid #C3C4C3;
+    color: #000;
+}
+
+.functions-list li span {
+    display: block;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+.functions-list i {
+    color: #6AAAF4;
 }
 
 .functions-list li:hover {
-    background-color: #D4D7D8;
+    background-color: #D1D2D4;
 }
 
 .functions-list .selected {
     position: relative;
-    background-color: #BFC9D0;
-    color: #0273D4;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    background-color: #D1D2D4;
     border-bottom: none;
 }
 

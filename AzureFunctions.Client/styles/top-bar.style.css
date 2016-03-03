@@ -9,13 +9,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #202428;
+    background-color: #113C6D;
     color: white;
-    border-color: #3D4247;
     height: 40px;
     width: 100%;
     z-index: 100;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
 }
 
 .top-bar .left {
@@ -43,15 +41,15 @@
 }
 
 .top-bar-tools span{
-    margin-left: 10px;
+    margin-left: -5px;
 }
 
 .settings{
-    color: #8FA4AE;
+    color: #FFFFFF;
 }
 
 .settings:hover{
-    color: #FFFFFF;
+    background-color: #19507B;
 }
 
 .settings:last-child {
@@ -67,11 +65,15 @@
     user-select: none;
 }
 
-.top-bar-tool-selected, .top-bar-tool:hover {
-    background-color: white;
-    color: black;
+.top-bar-tool-selected {
+    background-color: white !important;
+    color: black !important;
     /*padding-bottom: 8px !important;*/
     /*padding-top: 8px !important;*/
+}
+
+.top-bar-tool:hover {
+    background-color: #19507B;
 }
 
 .top-bar-drop-down {

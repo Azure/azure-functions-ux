@@ -9,8 +9,8 @@
     margin-left: 20px;
     width: 40%;
     border-bottom-width: 0px;
-    border-left: 1px solid #bbc8ce;
-    background-color: #dfe4e7;
+    border-left: 2px solid #E7E7E7;
+    background-color: #FFF;
 }
 
 .tabs li{
@@ -20,23 +20,23 @@
     text-align: center;
     font-size: 16px;
     padding: 5px;
-    border-right: 1px solid #bbc8ce;
-    border-top: 1px solid #bbc8ce;
-    color: #536E7A;
+    border-right: 2px solid #E7E7E7;
+    border-top: 2px solid #E7E7E7;
+    color: #5DA3F6;
     outline: none;
     cursor: pointer;
 }
 
 .tabs .tab-active {
-    color: #0273D4;
+    color: #000;
 }
 
 .tab-active{
-    background-color: #F1F1F8;
+    background-color: #FFF;
 }
 
 .tab-content{
-    border-top: 1px solid #bbc8ce;
-    margin-top: -1px; /* Get rid of gap with tab */
+    border-top: 2px solid #E7E7E7;
+    margin-top: -2px; /* Get rid of gap with tab */
     padding: 20px;
 }

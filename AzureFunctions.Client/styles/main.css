@@ -1,10 +1,8 @@
-
-
 body {
     margin: 0;
     height: 100%;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
-    background-color: #F1F1F8;
+    background-color: #FFF;
 }
 
 a {
@@ -15,13 +13,14 @@ pre {
     display: block;
     padding: 3px;
     margin: 0 0 10px;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.42857143;
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #f5f5f5;
+    background-color: #FFF;
     border: 1px solid #ccc;
+    font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
 }
 
 .clickable {
@@ -34,7 +33,7 @@ pre {
 
 .content .work-space {
     position: relative;
-    padding: 0 0 0 20px;
+    padding: 0;
 }
 
 .file-list {
@@ -84,13 +83,13 @@ pre {
 .custom-button {
     margin-left: 15px;
     display: inline;
-    padding: 6px 25px 6px 25px;
+    padding: 6px 45px 6px 45px;
     font-size: 14px;
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;
     color: #fff;
-    background-color: #89c402;
+    background-color: #539CF6;
 }
 
 .custom-button:disabled {

@@ -1,4 +1,8 @@
-﻿h2.dev-block-header{
+﻿h2 {
+    font-weight: 400;
+}
+
+h2.dev-block-header{
     display: inline;
 }
 
@@ -6,12 +10,18 @@ div.dev-block-header{
     float: right;
 }
 
+div.inline-no-float {
+    float: none;
+    display: inline-block;
+    margin-left: 10px;
+}
+
 .dev-block-header > span{
     margin-left: 10px;
 }
 
 .dev-block-header > span span{
-    color: #536E7A;
+    color: #539CF6;
 }
 
 .dev-block-header > span > span i{
