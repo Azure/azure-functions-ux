@@ -38,5 +38,7 @@ namespace AzureFunctions.Code
         public bool LogToSql => bool.Parse(config(false.ToString()));
 
         public bool LogToFile => bool.Parse(config(true.ToString()));
+
+        public bool LogLoggingDebugInfo => bool.Parse(config(false.ToString()));
     }
 }

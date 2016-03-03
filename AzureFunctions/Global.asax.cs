@@ -50,15 +50,19 @@ namespace AzureFunctions
 
         private void InitLogging(IContainer container)
         {
-            var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
+            var settings = container.Resolve<ISettings>();
+            if (settings.LogLoggingDebugInfo)
+            {
+                var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
                ? HostingEnvironment.ApplicationPhysicalPath
                : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");
-            var file = File.CreateText(Path.Combine(logsPath, $"serilog-{Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID")?.Substring(0, 7)}.log"));
-            Serilog.Debugging.SelfLog.Out = TextWriter.Synchronized(file);
+                var file = File.CreateText(Path.Combine(logsPath, $"serilog-{Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID")?.Substring(0, 7)}.log"));
+                Serilog.Debugging.SelfLog.Out = TextWriter.Synchronized(file);
+            }
 
-            FunctionsTrace.Diagnostics = CreateLogger(container, "functions-diagnostics-{Date}.txt", "Diagnostics");
-            FunctionsTrace.Analytics = CreateLogger(container, "functions-analytics-{Date}.txt", "Analytics");
-            FunctionsTrace.Performance = CreateLogger(container, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
+            FunctionsTrace.Diagnostics = CreateLogger(settings, "functions-diagnostics-{Date}.txt", "Diagnostics");
+            FunctionsTrace.Analytics = CreateLogger(settings, "functions-analytics-{Date}.txt", "Analytics");
+            FunctionsTrace.Performance = CreateLogger(settings, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
             {
                 new DataColumn {DataType = typeof(string), ColumnName = "OperationName" },
                 new DataColumn {DataType = typeof(int), ColumnName = "TimeTakenMsec" },
@@ -67,9 +71,8 @@ namespace AzureFunctions
             });
         }
 
-        private ILogger CreateLogger(IContainer container, string fileName = null, string tableName = null, ICollection<DataColumn> additionalColumns = null, bool? logToFile = null, bool? logToSql = null)
+        private ILogger CreateLogger(ISettings settings, string fileName = null, string tableName = null, ICollection<DataColumn> additionalColumns = null, bool? logToFile = null, bool? logToSql = null)
         {
-            var settings = container.Resolve<ISettings>();
             var logsPath = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"))
                 ? HostingEnvironment.ApplicationPhysicalPath
                 : Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles");

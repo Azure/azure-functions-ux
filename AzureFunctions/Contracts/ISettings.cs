@@ -14,5 +14,6 @@ namespace AzureFunctions.Contracts
         string LoggingSqlServerConnectionString { get; }
         bool LogToSql { get; }
         bool LogToFile { get; }
+        bool LogLoggingDebugInfo { get; }
     }
 }
