@@ -20,19 +20,20 @@ export class AceEditorDirective {
         this.initialHeight = window.innerHeight;
 
         let el = elementRef.nativeElement;
-        el.classList.add("editor");
-        el.style.width = "100%";
+        el.classList.add('editor');
+        el.style.width = '100%';
+        ace.config.set('themePath', '/ace/themes');
         this.editor = ace.edit(el);
-        this.editor.setTheme("ace/theme/github");
+        this.editor.setTheme('ace/theme/visualstudio');
         this.editor.getSession().setTabSize(4);
         this.editor.getSession().setUseSoftTabs(true);
         this.editor.$blockScrolling = Infinity;
         this.editor.setOptions({
-            "showPrintMargin": false,
-            "fontSize": 14
+            'showPrintMargin': false,
+            'fontSize': 14
         });
 
-        this.editor.on("change", (e) => {
+        this.editor.on('change', (e) => {
             // (Attempt to) separate user change from programatical
             // https://github.com/ajaxorg/ace/issues/503
             if (this.editor.curOp && this.editor.curOp.command.name) {
