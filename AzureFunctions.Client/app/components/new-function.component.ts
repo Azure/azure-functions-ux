@@ -50,7 +50,9 @@ export class NewFunctionComponent implements OnInit {
 
     createFunction() {
         this.creating = true;
-        this._functionsService.createFunction(this.model.functionName, this.getSelectedTamplate().id)
+        var template = this.getSelectedTamplate();
+        var templateId = template ? template.id : null;
+        this._functionsService.createFunction(this.model.functionName, templateId)
             .subscribe(res => {
                 window.setTimeout(() => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
