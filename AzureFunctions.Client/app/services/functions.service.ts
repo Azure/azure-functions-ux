@@ -30,7 +30,13 @@ export class FunctionsService implements IFunctionsService {
     }
 
     initializeUser() {
-        var url = this._portalService.inIFrame ? `api/get${this._portalService.resourceId}` : 'api/get';
+        var url = 'api/get';
+        if (this._portalService.inIFrame) {
+            url = `api/get${this._portalService.resourceId}`;
+        } else if (window.location.pathname !== '/') {
+            url = `api/get${window.location.pathname}`;
+        }
+
         return this._http.get(url, { headers: this.getHeaders() })
             .catch(e => {
                 if (e.status === 500) {
