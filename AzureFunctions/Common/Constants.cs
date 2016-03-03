@@ -29,7 +29,7 @@ namespace AzureFunctions.Common
         public const string TryAppServiceTenantId = "6224bcc1-1690-4d04-b905-92265f948dad";
         public const string TryAppServiceCreateUrl = "https://tryappservice.azure.com/api/resource?x-ms-routing-name=next";
         public const string SavedFunctionsContainer = "sfc";
-        public const string FunctionAppArmKind = "functionapp";
+        public const string FunctionAppArmKind = "functionappdev";
         public const string MetadataJson = "metadata.json";
         public const string FunctionsExtensionVersion = "FUNCTIONS_EXTENSION_VERSION";
         public const string Latest = "latest";
