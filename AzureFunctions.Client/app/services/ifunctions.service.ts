@@ -34,4 +34,5 @@ export interface IFunctionsService {
     getHostSecrets(): RxSubscription;
     createTrialFunctionsContainer(): Observable<string>;
     updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
+    redirectToIbizaIfNeeded();
 }

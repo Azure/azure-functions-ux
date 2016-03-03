@@ -204,4 +204,8 @@ export class MockFunctionsService implements IFunctionsService {
         console.log(fi);
         return Observable.of(fi);
     }
+
+    redirectToIbizaIfNeeded() {
+        console.log('redirectToIbizaIfNeeded');
+    }
 }

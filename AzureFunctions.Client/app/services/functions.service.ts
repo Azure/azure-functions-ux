@@ -49,15 +49,18 @@ export class FunctionsService implements IFunctionsService {
             })
             .map<ScmInfo>(r => {
                 this.scmInfo = r.json();
-                if (!this._portalService.inIFrame &&
-                    window.location.search.indexOf("ibiza=disabled") === -1 &&
-                    this.scmInfo.armId)
-                {
-                    var url = 'https://portal.azure.com/?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting&websitesextension_functions=true#resource';
-                    window.location.replace(`${url}${this.scmInfo.armId}`);
-                }
                 return this.scmInfo;
             });
+    }
+
+    redirectToIbizaIfNeeded() {
+        if (!this._portalService.inIFrame &&
+            window.location.search.indexOf("ibiza=disabled") === -1 &&
+            this.scmInfo &&
+            this.scmInfo.armId) {
+            var url = 'https://portal.azure.com/?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting&websitesextension_functions=true#resource';
+            window.location.replace(`${url}${this.scmInfo.armId}`);
+        }
     }
 
     createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {

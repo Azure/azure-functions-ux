@@ -151,6 +151,7 @@ export class AppComponent implements OnInit{
 
     initFunctions() {
         this.noContainerFound = false;
+        this._functionsService.redirectToIbizaIfNeeded();
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
