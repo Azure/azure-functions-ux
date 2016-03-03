@@ -11,6 +11,7 @@ export class UserService implements IUserService {
 
     getTenants() {
         return this._http.get('api/tenants')
+            .catch(e => Observable.of({ json: () => [] }))
             .map<TenantInfo[]>(r => r.json());
     }
 
