@@ -1,4 +1,6 @@
-﻿namespace AzureFunctions.Trace
+﻿using Serilog.Events;
+
+namespace AzureFunctions.Trace
 {
     public static class TracingEvents
     {
@@ -42,6 +44,13 @@
         {
             Message = "User {UserName} got 403 (Forbidden)",
             EventId = 5
+        };
+
+        public static readonly TracingEvent ClientError = new TracingEvent
+        {
+            Message = "{ErrorMessage}, {StackTrace}",
+            EventId = 6,
+            Level = LogEventLevel.Error
         };
     }
 }

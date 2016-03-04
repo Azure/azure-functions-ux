@@ -22,6 +22,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ace\themes\theme-visualstudio.js" />
+    <Content Include="ace\themes\visualstudio.css" />
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\integrate.style.css" />
@@ -85,6 +87,7 @@
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
+    <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
     <TypeScriptCompile Include="app\models\binding-input-list.ts" />
     <TypeScriptCompile Include="app\models\binding-input.ts" />

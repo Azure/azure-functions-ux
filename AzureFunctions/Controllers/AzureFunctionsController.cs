@@ -222,5 +222,13 @@ namespace AzureFunctions.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync());
         }
+
+        [Authorize]
+        [HttpPost]
+        public HttpResponseMessage ReportClientError([FromBody] ClientError clientError)
+        {
+            FunctionsTrace.Diagnostics.Error(new Exception(clientError.Message), TracingEvents.ClientError.Message, clientError.Message, clientError.StackTrace);
+            return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
     }
 }

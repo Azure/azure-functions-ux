@@ -162,6 +162,8 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
             config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
+
+            config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
         }
     }
 }

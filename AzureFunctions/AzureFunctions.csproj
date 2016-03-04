@@ -194,6 +194,7 @@
     <Compile Include="Models\ArmResources\BaseResource.cs" />
     <Compile Include="Models\ArmResources\ServerFarm.cs" />
     <Compile Include="Models\ArmResources\StorageAccount.cs" />
+    <Compile Include="Models\ClientError.cs" />
     <Compile Include="Models\CreateFunctionInfo.cs" />
     <Compile Include="Models\FunctionsContainer.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
