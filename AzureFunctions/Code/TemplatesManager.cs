@@ -110,5 +110,17 @@ namespace AzureFunctions.Code
                 .WhenAll();
             return content.ToDictionary(k => k.FileName, v => v.Content);
         }
+
+        public async Task<JObject> GetBindingConfigAsync()
+        {
+            if (File.Exists(_settings.BindingsJsonPath))
+            {
+                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(_settings.BindingsJsonPath));
+            }
+            else
+            {
+                throw new FileNotFoundException($"Can't find {_settings.BindingsJsonPath}");
+            }
+        }
     }
 }

@@ -215,5 +215,12 @@ namespace AzureFunctions.Controllers
                 };
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetBindingConfig()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync());
+        }
     }
 }

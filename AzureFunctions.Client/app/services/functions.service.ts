@@ -344,10 +344,8 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getBindingConfig(): Observable<BindingConfig> {
-        return this._http.get('mocks/bindings.json')
-            .map<BindingConfig>(r => {
-                return r.json();
-            });
+        return this._http.get('api/bindingconfig', { headers: this.getHeaders() })
+            .map<BindingConfig>(r => r.json());;
     }
 
     get HostSecrets() {
