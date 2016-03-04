@@ -10,6 +10,7 @@ import {BindingList} from '../models/binding-list';
 import {FunctionInfo} from '../models/function-info';
 import {BindingManager} from '../models/binding-manager';
 import {FunctionTemplate} from '../models/function-template';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 declare var jQuery: any;
 
@@ -33,7 +34,10 @@ export class FunctionNewComponent {
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
 
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef, private _functionsService: FunctionsService) {
+    constructor( @Inject(ElementRef) elementRef: ElementRef,
+        private _functionsService: FunctionsService,
+        private _broadcastService: IBroadcastService)
+    {
         this.elementRef = elementRef;        
     }
 
@@ -143,7 +147,10 @@ export class FunctionNewComponent {
         
         this._functionsService.updateFunction(funcInfo)
             .subscribe(res => {
-                this.functionAdded.emit(res);
+                window.setTimeout(() => {
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                    this.functionAdded.emit(res);
+                }, 1500);
             });
     }
 }
