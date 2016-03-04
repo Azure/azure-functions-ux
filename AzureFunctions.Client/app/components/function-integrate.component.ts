@@ -2,6 +2,7 @@
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'function-integrate',
@@ -16,7 +17,9 @@ export class FunctionIntegrateComponent {
     public updatedContent: string;
     public isDirty: boolean;
 
-    constructor(private _functionsService: FunctionsService) {
+    constructor(
+        private _functionsService: FunctionsService,
+        private _portalService: PortalService) {
         this.isDirty = false;
     }
 
@@ -36,5 +39,11 @@ export class FunctionIntegrateComponent {
             this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => this.isDirty = false);
         }
+    }
+
+    openStoragePickerBlade(){
+        this._portalService.openStorageBlade("StorageAccountPickerBlade", (appSettingName : string ) =>{
+            console.log("Setting name: " + appSettingName);
+        });
     }
 }

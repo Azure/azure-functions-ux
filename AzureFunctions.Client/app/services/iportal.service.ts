@@ -1,9 +1,7 @@
 ﻿export interface IPortalService {
     inIFrame: boolean;
     initializeIframe(callback: (token: string) => void): void;
-    openContinuousDeployment(): void;
-    openAuthentication(): void;
-    openCors(): void;
-    openApiDefinition(): void;
-    openApp(): void;
+    openBlade(name: string) : void;
+    openStorageBlade(name: string, addResourceCallback: (appSettingName: string) => void): void;
+
 }

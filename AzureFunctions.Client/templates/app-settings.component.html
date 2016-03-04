@@ -1,4 +1,3 @@
-﻿
 <div class="wrapper">
     <div id="heading">
         Function App Settings
@@ -23,7 +22,7 @@
                     Continuous Integration
                 </div>
                 <div>
-                    <div class="clickable" (click)='openContinuousDeployment()'>Configure Continuous Integration</div>
+                    <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>Configure Continuous Integration</div>
                 </div>
             </div>
             <div>
@@ -31,7 +30,7 @@
                     Authrntication / Authorization
                 </div>
                 <div>
-                    <div class="clickable" (click)='openAuthentication()'>Configure Authentication</div>
+                    <div class="clickable" (click)='openBlade("AppAuth")'>Configure Authentication</div>
                 </div>
             </div>
             <div>
@@ -39,7 +38,7 @@
                     CORS
                 </div>
                 <div>
-                    <div class="clickable" (click)='openCors()'>Configure CORS</div>
+                    <div class="clickable" (click)='openBlade("ApiCors")'>Configure CORS</div>
                 </div>
             </div>
             <div>
@@ -47,7 +46,7 @@
                     API definition
                 </div>
                 <div>
-                    <div class="clickable" (click)='openApiDefinition()'>Configure API metadata</div>
+                    <div class="clickable" (click)='openBlade("ApiDefinition")'>Configure API metadata</div>
                 </div>
             </div>
         </div>
@@ -60,6 +59,6 @@
     <div class="setting-wrapper">
         <label>Advanced Settings</label>
         <div>You can also manage your function app like any other App Service instance.</div>
-        <div class="button-div clickable" (click)='openApp()'>Go to App Service Settings</div>
+        <div class="button-div clickable" (click)='openBlade("WebsiteBlade")'>Go to App Service Settings</div>
     </div>
 </div>

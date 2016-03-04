@@ -5,14 +5,15 @@ import {IPortalService} from './iportal.service.ts';
 export class PortalService implements IPortalService {
     public resourceId = '';
     private portalSignature: string = "pcIframe";
-    private iFrameInitCallback: (token: string) => void;
+    private initCallback: (token: string) => void;
+    private getAppSettingCallback: (appSettingName: string) => void;
 
     get inIFrame() : boolean{
         return window.parent !== window;
     }
 
     initializeIframe(callback: (token: string) => void): void {
-        this.iFrameInitCallback = callback;
+        this.initCallback = callback;
 
         window.addEventListener("message", this.iframeReceivedMsg.bind(this), false);
         this.postMessage("ready");
@@ -23,34 +24,16 @@ export class PortalService implements IPortalService {
         this.postMessage("initialized");  
     }
 
-    openContinuousDeployment(): void{
+    openBlade(name: string) : void{
         this.postMessage({
-            method: 'open-ContinuousDeploymentListBlade'
+            method: 'open-' + name
         })
     }
 
-    openAuthentication(): void {
+    openStorageBlade(name: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.getAppSettingCallback = getAppSettingCallback;
         this.postMessage({
-            method: 'open-AppAuth'
-        })
-    }
-
-    openCors(): void {
-        this.postMessage({
-            method: 'open-ApiCors'
-        })
-    }
-
-    openApiDefinition(): void {
-        this.postMessage({
-            method: 'open-ApiDefinition'
-        })
-    }
-
-
-    openApp(): void{
-        this.postMessage({
-            method: 'open-WebsiteBlade'
+            method: 'open-' + name
         })
     }
 
@@ -66,7 +49,10 @@ export class PortalService implements IPortalService {
             this.resourceId = data.resourceId;
         }
         else if (data.method === 'send-token') {
-            this.iFrameInitCallback(data.token);
+            this.initCallback(data.token);
+        }
+        else if (data.method === 'send-appSettingName') {
+            this.getAppSettingCallback(data.appSettingName);
         }
     }
 

@@ -11,23 +11,7 @@ export class AppSettingsComponent {
     constructor(private _functionsService : FunctionsService,
                 private _portalService : PortalService){}
 
-    openContinuousDeployment(){
-        this._portalService.openContinuousDeployment();
-    }
-
-    openAuthentication() {
-        this._portalService.openAuthentication();
-    }
-
-    openCors() {
-        this._portalService.openCors();
-    }
-
-    openApiDefinition() {
-        this._portalService.openApiDefinition();
-    }
-
-    openApp(){
-        this._portalService.openApp();
+    openBlade(name : string){
+        this._portalService.openBlade(name);
     }
 }
