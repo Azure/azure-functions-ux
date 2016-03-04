@@ -7,17 +7,16 @@ import {Observable} from 'rxjs/Rx';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
-    selector: 'new-function',
-    templateUrl: 'templates/new-function.component.html'
+    selector: 'function-new-v2',
+    templateUrl: 'templates/function-new-v2.component.html'
 })
-export class NewFunctionComponent implements OnInit {
+export class FunctionNewV2Component implements OnInit {
     public functionTemplates: FunctionTemplate[];
     public contentSources: string[];
     public languages: string[];
     public triggers: { [id: string]: string[] };
     public model: NewFunctionModel;
     public creating: boolean;
-
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: IBroadcastService) {

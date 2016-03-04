@@ -1,0 +1,67 @@
+﻿.bs-glyphicons li {
+    width: 12.5%;
+    font-size: 12px;
+}
+
+.bs-glyphicons {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    /*width: 75%;*/
+    padding-top: 8px;
+}
+
+.bs-glyphicons {
+    margin: 0 -10px 20px;
+    overflow: hidden;
+}
+
+.bs-glyphicons li {
+    float: left;
+    width: 25%;
+    height: 115px;
+    padding: 10px;
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #fff;
+}
+
+.bs-glyphicons-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.bs-glyphicons .glyphicon {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.bs-glyphicons li:hover{
+    background-color: #BFC9D0;
+    color: #0273D4;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer; 
+    /*cursor: hand;*/
+}
+
+.bs-glyphicons li.selected{
+    background-color: #BFC9D0;
+    color: #0273D4;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer; 
+    /*cursor: hand;*/
+}
+
+.bs-glyphicons li {
+    width: 12.5%;
+    font-size: 12px;
+}

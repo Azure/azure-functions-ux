@@ -10,6 +10,7 @@ import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
+import {BindingConfig} from '../models/binding';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -71,6 +72,11 @@ export class MockFunctionsService implements IFunctionsService {
     getTemplates() {
         return this._http.get('mocks/functionTemplates.json')
             .map<FunctionTemplate[]>(r => r.json());
+
+        //return this._http.get('mocks/templates.json')
+        //    .map<FunctionTemplate[]>(r => {
+        //        return r.json();
+        //    });
     }
 
     getNewFunctionNode(): FunctionInfo {
@@ -187,6 +193,13 @@ export class MockFunctionsService implements IFunctionsService {
     getSubscriptions() {
         return this._http.get('mocks/subscriptions.json')
             .map<Subscription[]>(r => r.json());
+    }
+
+    getBindingConfig(): Observable<BindingConfig> {
+        return this._http.get('mocks/bindings.json')
+            .map<BindingConfig>(r => {
+                return r.json();
+            });
     }
 
     getHostSecrets() {

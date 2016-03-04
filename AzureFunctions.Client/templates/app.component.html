@@ -1,17 +1,22 @@
-<div class="container">
+<div class="container-full">
     <top-bar (appSettingsClicked)='onAppSettingsClicked($event)'></top-bar>
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo"></sidebar>
         <div class="work-space">
             <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">
-                <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
+                <div *ngIf="(selectedFunction.name !== 'New Function' && selectedFunction.name !== 'New Function (V2)') || !selectedFunction.clientOnly">
                     <function-edit [selectedFunction]="selectedFunction">
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <new-function></new-function>
+                    <function-new-v2></function-new-v2>
+                    
                 </div>
+                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function (V2)'">
+                    <function-new></function-new>                    
+                </div>
+
             </div>
 
             <div *ngIf="openAppSettings">

@@ -1,0 +1,341 @@
+{
+    "$schema": "",
+    "contentVersion": "1.0.0.0",
+    "variables": {
+        "storageConnStringLabel": "Please provide a Storage Account Connection String",
+        "appSettingsHelp": "You can use %<App Setting Name>% to reference an App Setting you've already configured",
+        "triggerRefHelp": "You can use brackets ({value}) and percent symbols (%value%) to format your path based on parameters from the trigger object."
+    },
+    "bindings": [
+      {
+        "type": "timerTrigger",
+        "displayName": "Timer",
+        "direction": "trigger",
+        "settings": [
+          {
+            "name": "schedule",
+            "value": "string",
+            "required": true,
+            "label": "How often would you like to run? Please provide a cron expression.",
+            "help": "A cron express is a way of expressing a schedule. See the docs to learn more."
+          },
+          {
+            "name": "runOnStartup",
+            "value": "boolean",
+            "label": "Run on start up?",
+            "help": "When true, your function will run on start. Useful for debugging."
+          }
+        ]
+      },
+      {
+        "type": "eventHubTrigger",
+        "displayName": "Azure Event Hub",
+        "direction": "trigger",
+        "settings": [
+          {
+            "name": "path",
+            "value": "string",
+            "required": true,
+            "label": "Which Event Hub would you like to trigger off of?",
+            "help": "[variables('appSettingsHelp')]"
+          },
+          {
+            "name": "connectionString",
+            "value": "string",
+            "resource": "EventHub",
+            "required": true,
+            "label": "Please provide a Connection string with receive permissions to an EventHub.",
+            "help": "[variables('appSettingsHelp')]"
+          }
+        ]
+      },
+       {
+            "type": "eventHub",
+            "displayName": "Azure Event Hub",
+            "direction": "output",
+            "settings": [
+                {
+                    "name": "path",
+                    "value": "string",
+                    "required": true,
+                    "label": "Which event hub would you like to output to?",
+                    "help": "[variables('appSettingsHelp')]"
+                },
+                {
+                    "name": "connectionString",
+                    "value": "string",
+                    "resource": "EventHub",
+                    "required": true,
+                    "label": "Please provide a Connection string with send permissions to an EventHub.",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "queue",
+            "displayName": "Azure Storage Queue",
+            "direction": "output",
+            "settings": [
+                {
+                    "name": "queueName",
+                    "value": "string",
+                    "required": true,
+                    "label": "Which queue would you like to output to?",
+                    "help": "If your queue doesn't exist yet, don't worry. We'll create one for you in your specifed Storage Account."
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "queueTrigger",
+            "displayName": "Azure Storage Queue",
+            "direction": "trigger",
+            "settings": [
+                {
+                    "name": "queueName",
+                    "value": "string",
+                    "required": true,
+                    "label": "Which queue would you like to trigger off of?",
+                    "help": "If your queue doesn't exist yet, don't worry. We'll wait for it to exist before we start creating events."
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "blob",
+            "displayName": "Azure Storage Blob",
+            "direction": "output",
+            "settings": [
+                {
+                    "name": "path",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the Blob Path you would like to output to?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "blob",
+            "displayName": "Azure Storage Blob",
+            "direction": "input",
+            "settings": [
+                {
+                    "name": "path",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the Blob Path you would like to read from?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "blobTrigger",
+            "displayName": "Azure Storage Blob",
+            "direction": "trigger",
+            "settings": [
+                {
+                    "name": "path",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the Blob Path you would like to trigger & read from?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "httpTrigger",
+            "displayName": "HTTP",
+            "direction": "trigger",
+            "settings": [
+                {
+                    "name": "webHookType",
+                    "value": "enum",
+                    "enum": [
+                        {
+                            "value": "github",
+                            "display": "GitHub"
+                        },
+                        {
+                            "value": "slack",
+                            "display": "Slack"
+                        },
+                        {
+                            "value": "generic",
+                            "display": "Generic"
+                        }
+                    ],
+                    "label": "Is this a WebHook? Select which type of WebHook",
+                    "help": "If your type isn't listed here, you can leave this blank."
+                }
+            ]
+        },
+        {
+            "type": "http",
+            "displayName": "HTTP",
+            "direction": "output",
+            "settings": [ ]
+        },
+        {
+            "type": "serviceBusTrigger",
+            "displayName": "Azure Service Bus",
+            "direction": "trigger",
+            "settings": [
+                {
+                    "name": "queueName",
+                    "value": "string",
+                    "required": true,
+                    "label": "Which queue would you like to output to?",
+                    "help": "<TBD>"
+                },
+                {
+                    "name": "subscriptionName",
+                    "value": "string",
+                    "resource": "ServiceBus",
+                    "required": true,
+                    "label": "Please provide a Service Bus Connection String",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "serviceBus",
+            "displayName": "Azure Service Bus",
+            "direction": "output",
+            "settings": [
+                {
+                    "name": "queueName",
+                    "value": "string",
+                    "required": true,
+                    "label": "Which queue would you like to trigger off of?",
+                    "help": "<TBD>"
+                },
+                {
+                    "name": "subscriptionName",
+                    "value": "string",
+                    "resource": "ServiceBus",
+                    "required": true,
+                    "label": "Please provide a Service Bus Connection String",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "displayName": "Azure Storage Table",
+            "direction": "output",
+            "settings": [
+                {
+                    "name": "tableName",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the name of the Table you would like to output to?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "partitionKey",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the key of the partition you would like to output to?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "rowKey",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the row key of the value you would like to output?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        },
+        {
+            "type": "table",
+            "displayName": "Azure Storage Table",
+            "direction": "input",
+            "settings": [
+                {
+                    "name": "tableName",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the name of the Table you would like to read from?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "partitionKey",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the key of the partition you would like to read from?",
+                    "help": "[variables('triggerRefHelp')]"
+                },
+                {
+                    "name": "take",
+                    "value": "int",
+                    "required": true,
+                    "label": "What is the max number of records you'd like to read?",
+                    "help": "You may receive less records, if your table has less records or your filter returns less results."
+                },
+                {
+                    "name": "filter",
+                    "value": "string",
+                    "required": true,
+                    "label": "What is the filter you'd like to apply to the table?",
+                    "help": "<TBD>"
+                },
+                {
+                    "name": "storageAccount",
+                    "value": "string",
+                    "resource": "Storage",
+                    "required": true,
+                    "label": "[variables('storageConnStringLabel')]",
+                    "help": "[variables('appSettingsHelp')]"
+                }
+            ]
+        }
+    ]
+}
