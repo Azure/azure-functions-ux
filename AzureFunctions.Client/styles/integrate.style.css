@@ -1,0 +1,21 @@
+﻿.list-group-item active{
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26) !important;
+    cursor: pointer !important; 
+    /*cursor: hand;*/
+}
+
+.list-special .list-group-item:hover {
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26) !important;
+    cursor: pointer !important; 
+}
+
+.list-special .list-group-item.active {
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26) !important;
+    cursor: pointer !important; 
+}

@@ -8,6 +8,7 @@ import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
+import {BindingConfig} from '../models/binding';
 
 export interface IFunctionsService {
     setToken(token: string): void;
@@ -33,6 +34,7 @@ export interface IFunctionsService {
     createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
     getHostSecrets(): RxSubscription;
     createTrialFunctionsContainer(): Observable<string>;
+    getBindingConfig(): Observable<BindingConfig>;
     updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
     redirectToIbizaIfNeeded();
 }

@@ -1,0 +1,39 @@
+﻿<!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
+<div class="form-group">    
+    <label [attr.for]="input.id" class="col-sm-6 control-label" style="font-size:small;">{{input.label}}</label>
+
+    <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}">
+        <span class="input-group-btn">
+            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
+        </span>
+    </div>
+
+    <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="checkbox">
+        <span class="input-group-btn">
+            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
+        </span>
+    </div>
+
+    <div *ngIf="input.type === 'label'" class="col-sm-6 input-group">
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.text}}" disabled>
+        <span class="input-group-btn">
+            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
+        </span>
+    </div>
+
+    <div *ngIf="input.type === 'select'" class="col-sm-6 input-group">
+        <select id="{{input.id}}" class="form-control" [(ngModel)]="input.value">
+            <option *ngFor="#o of input.options" [value]="o.key">{{o.value}}</option>
+        </select>
+        <span class="input-group-btn">
+            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
+        </span>
+        <span class="input-group-btn">
+            <button style="height:34px" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+        </span>
+    </div>
+
+</div>

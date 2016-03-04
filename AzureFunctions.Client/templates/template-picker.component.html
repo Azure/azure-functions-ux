@@ -1,0 +1,36 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <span *ngIf="filterItems.length > 0">
+            Language:
+            <select [(ngModel)]="selectedKey" (change)="onKeyChanged($event)">
+                <option *ngFor="#item of filterItems" [value]="item.value">{{item.name}}</option>
+            </select>
+        </span>
+        <span style="margin-left:20px;">
+            Scenario:
+            <select>
+                <option selected>All</option>
+                <option>Scenario1</option>
+                <option>Scenario2</option>
+            </select>
+        </span>
+    </div>
+
+    <div class="panel-body">
+        <div class="bs-glyphicons">
+            <ul class="bs-glyphicons-list">
+                <li *ngFor="#template of templates" (click)="onTemplateCliked(template.value)" [class.selected]="selectedTemplate == template.value" style="width:100px">
+                    <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
+                    <div class="glyphicon-class">{{template.name}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div *ngIf="showFooter" class="panel-footer">        
+        <button type="button" class="btn btn-default pull-right" (click)="onCancelClicked()" style="margin-left:10px">Cancel</button>
+        <button *ngIf="!selectedTemplate" type="button" class="btn btn-primary pull-right" disabled="disabled">Select</button>
+        <button *ngIf="selectedTemplate" type="button" class="btn btn-primary pull-right" (click)="onSelectClicked()">Select</button>
+        <div class="clearfix"></div>
+    </div>
+</div>
