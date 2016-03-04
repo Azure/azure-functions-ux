@@ -3,6 +3,7 @@
 ```
 cd AzureFunctions.Client
 npm install
+bower install
 npm start
 ```
 

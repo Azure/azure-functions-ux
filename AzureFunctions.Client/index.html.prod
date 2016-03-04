@@ -10,9 +10,12 @@
   <script src="node_modules/ace-builds/src-min/ace.js"></script>
   <script src="node_modules/ace-builds/src-min/ext-modelist.js"></script>
   <script src="config.js"></script>
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="styles/main.css">
   <link rel="stylesheet" type="text/css" href="styles/pure-drawer.css">
   <link href="node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <azure-functions-app></azure-functions-app>

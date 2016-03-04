@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
-import {NewFunctionComponent} from './new-function.component';
+import {FunctionNewV2Component} from './function-new-v2.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {AppSettingsComponent} from './app-settings.component';
@@ -16,6 +16,7 @@ import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {FunctionNewComponent} from './function-new.component';
 
 @Component({
     selector: 'azure-functions-app',
@@ -24,10 +25,11 @@ import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service'
     directives: [
         SideBarComponent,
         TopBarComponent,
-        NewFunctionComponent,
+        FunctionNewV2Component,
         FunctionEditComponent,
         DropDownComponent,
-        AppSettingsComponent
+        AppSettingsComponent,
+        FunctionNewComponent
     ]
 })
 export class AppComponent implements OnInit{
@@ -155,6 +157,8 @@ export class AppComponent implements OnInit{
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
+                res.unshift(this._functionsService.getNewFunctionNode());
+                res[1].name = "New Function (V2)";
                 this.functionsInfo = res;
                 this.initializing = false;
             });

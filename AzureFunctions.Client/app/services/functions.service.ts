@@ -14,6 +14,7 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {ServerFarm} from '../models/server-farm';
 import {HostSecrets} from '../models/host-secrets';
+import {BindingConfig} from '../models/binding';
 import {PortalService} from './portal.service';
 
 @Injectable()
@@ -55,6 +56,7 @@ export class FunctionsService implements IFunctionsService {
 
     redirectToIbizaIfNeeded() {
         if (!this._portalService.inIFrame &&
+            window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1 &&
             this.scmInfo &&
             this.scmInfo.armId) {
@@ -341,6 +343,13 @@ export class FunctionsService implements IFunctionsService {
                        e => { if (e.status === 404) { this.getHostSecrets(); } });
     }
 
+    getBindingConfig(): Observable<BindingConfig> {
+        return this._http.get('mocks/bindings.json')
+            .map<BindingConfig>(r => {
+                return r.json();
+            });
+    }
+
     get HostSecrets() {
         return this.hostSecrets;
     }
@@ -371,5 +380,4 @@ export class FunctionsService implements IFunctionsService {
 
         return headers;
     }
-
 }

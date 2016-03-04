@@ -16,6 +16,7 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
 import {FunctionConfigureComponent} from './function-configure.component';
+import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 
 @Component({
     selector: 'function-edit',
@@ -31,7 +32,8 @@ import {FunctionConfigureComponent} from './function-configure.component';
         LogStreamingComponent,
         TabsComponent,
         TabComponent,
-        FunctionConfigureComponent
+        FunctionConfigureComponent,
+        FunctionIntegrateV2Component
     ]
 })
 export class FunctionEditComponent {
@@ -40,5 +42,9 @@ export class FunctionEditComponent {
 
     constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
         this.inIFrame = this._portalService.inIFrame;
+    }
+
+    onFunctionSaved(selectedFunction: FunctionInfo) {
+        this.selectedFunction = selectedFunction;
     }
 }

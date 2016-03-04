@@ -1,0 +1,38 @@
+﻿<form class="form-horizontal">
+    <div class="form-group">
+        <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
+        <div [ngClass]="className()">
+            <input id="nameId" [(ngModel)]="functionName" type="email" class="form-control" placeholder="Function name">
+        </div>
+    </div>
+</form>
+
+<br />
+
+<template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
+
+<div *ngIf="model.config">
+
+    <h2>Configuration</h2>
+    <hr />
+    <div *ngIf="!model.trigger" class="text-center">
+        <br />
+        No configuration required for this template
+        <br />
+        <hr />
+    </div>
+
+    <div *ngIf="model.config && model.trigger">
+        <h4>Trigger</h4>
+        <binding *ngIf="model.trigger" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+        <h4 *ngIf="model.inputs">Integration</h4>
+        <binding *ngFor="#binding of model.inputs" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+        <binding *ngFor="#binding of model.outputs" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+
+        <hr />
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" (click)="onCreate()">Create</button>
+    </div>
+</div>

@@ -5,6 +5,9 @@
     <tab tabTitle="Integrate">
         <function-integrate [selectedFunction]="selectedFunction"></function-integrate>
     </tab>
+    <tab tabTitle="Integrate (V2)">
+        <function-integrate-v2 [selectedFunction]="selectedFunction" (save)="onFunctionSaved($event)"></function-integrate-v2>
+    </tab>
     <tab tabTitle="Monitor">
         Monitor
     </tab>
