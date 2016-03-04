@@ -133,7 +133,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 
 :: 7. Install bower
 IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
-  call :ExecuteCmd install bower
+  call :ExecuteCmd bower install
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
