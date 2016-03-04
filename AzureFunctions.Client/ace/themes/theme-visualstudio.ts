@@ -1,11 +1,13 @@
-define("ace/theme/visualstudio",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
+declare var define: any;
+
+define("ace/theme/visualstudio", ["require", "exports", "module", "ace/lib/dom"], function (require, exports, module) {
 "use strict";
 
 exports.isDark = false;
 exports.cssClass = "ace-vs";
 exports.cssText = `.ace-vs .ace_gutter {
-  background: #f0f0f0;
-  color: #333;
+  background: #FFF;
+  color: rgb(69, 174, 163);
 }
 
 .ace-vs .ace_print-margin {
