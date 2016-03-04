@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, Inject, AfterViewInit, Input} from 'angular2/core';
+﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from 'angular2/core';
 import {BindingList} from '../models/binding-list';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
@@ -20,7 +20,7 @@ declare var jQuery: any;
 
 
 export class FunctionIntegrateV2Component {
-
+    @Output() save = new EventEmitter<FunctionInfo>();
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
@@ -32,17 +32,19 @@ export class FunctionIntegrateV2Component {
     private _bindingManager: BindingManager = new BindingManager();
     
     set selectedFunction(fi: FunctionInfo) {
-        this._functionInfo = fi;
-        this._functionsService.getBindingConfig().subscribe((bindings) => {
-            this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
-            if (this.model.config.bindings.length > 0) {
-                this.currentBinding = this.model.config.bindings[0];
-                this.currentBindingId = this.currentBinding.id;
-            }
+        if (!this._functionInfo) {
+            this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
+            this._functionsService.getBindingConfig().subscribe((bindings) => {
+                this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
+                if (this.model.config.bindings.length > 0) {
+                    this.currentBinding = this.model.config.bindings[0];
+                    this.currentBindingId = this.currentBinding.id;
+                }
 
-            this.model.setBindings();
-            jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
-        });
+                this.model.setBindings();
+                jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
+            });
+        }
     }
 
     constructor( @Inject(ElementRef) elementRef: ElementRef, private _functionsService: FunctionsService) {
@@ -80,12 +82,7 @@ export class FunctionIntegrateV2Component {
             this.model.setBindings();
             this.pickerType = TemplatePickerType.none;
 
-            this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
-
-            // Save updated function config
-            this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-                //TODO: refresh selecteFunction function-dev.component
-            });
+            this.updateFunction();
         });
     }
 
@@ -98,11 +95,13 @@ export class FunctionIntegrateV2Component {
         this.model.removeBinding(binding.id);
         this.currentBinding = null;
         this.model.setBindings();
+        this.updateFunction();
     }
 
     onUpdateBinding(binding: UIFunctionBinding) {
         this.model.updateBinding(binding);
         this.model.setBindings();
+        this.updateFunction();
     }
 
     onBindingSelect(id: string) {     
@@ -113,5 +112,13 @@ export class FunctionIntegrateV2Component {
         this.pickerType = TemplatePickerType.none;
         this.currentBinding = this.model.getBinding(id);
         this.currentBindingId = this.currentBinding.id;
+    }
+
+    private updateFunction() {
+        this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
+        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
+            //TODO: refresh selecteFunction function-dev.component
+            this.save.emit(JSON.parse(JSON.stringify(this._functionInfo)));
+        });
     }
 }

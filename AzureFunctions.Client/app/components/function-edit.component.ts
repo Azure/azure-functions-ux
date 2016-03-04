@@ -43,4 +43,8 @@ export class FunctionEditComponent {
     constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
         this.inIFrame = this._portalService.inIFrame;
     }
+
+    onFunctionSaved(selectedFunction: FunctionInfo) {
+        this.selectedFunction = selectedFunction;
+    }
 }
