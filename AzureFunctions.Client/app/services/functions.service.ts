@@ -56,6 +56,7 @@ export class FunctionsService implements IFunctionsService {
 
     redirectToIbizaIfNeeded() {
         if (!this._portalService.inIFrame &&
+            window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1 &&
             this.scmInfo &&
             this.scmInfo.armId) {
