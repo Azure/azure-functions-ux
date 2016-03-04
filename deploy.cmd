@@ -131,6 +131,12 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
+:: 7. Install bower
+IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
+  call :ExecuteCmd install bower
+  IF !ERRORLEVEL! NEQ 0 goto error
+)
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end

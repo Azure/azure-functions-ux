@@ -10,6 +10,7 @@
     </div>
 
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
+        <!-- TODO: move this to css -->
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input id="{{input.id}}" [(ngModel)]="input.value" type="checkbox">
         <span class="input-group-btn">

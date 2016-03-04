@@ -81,7 +81,7 @@ export class BindingComponent {
                     case SettingType.boolean:
                         let chInput = new CheckboxInput();
                         chInput.id = setting.name;
-                        input.type = setting.value;  
+                        chInput.type = setting.value;  
                         chInput.label = this.replaceVariables(setting.label, bindings.variables);
                         chInput.required = false;
                         chInput.value = functionSettingV.value;// || setting.defaultValue;

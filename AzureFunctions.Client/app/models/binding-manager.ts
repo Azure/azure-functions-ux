@@ -71,12 +71,11 @@ export class BindingManager {
         });
     }
 
-    getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[]): UIFunctionBinding {
-
+    getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[]): UIFunctionBinding {        
         var schema = this.getBindingSchema(type, direction, bindings);
         var result = {
             id: this.guid(),
-            name: "testing",
+            name: schema.displayName,
             type: type,
             direction: direction,
             settings: []

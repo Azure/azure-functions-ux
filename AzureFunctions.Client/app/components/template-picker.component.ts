@@ -52,7 +52,7 @@ export class TemplatePickerComponent {
                         this.title = "Choose a template";                        
                         templates.forEach((template) => {
                             this.templates.push({
-                                name: template.name + " (" + template.language  +")",
+                                name: template.name,
                                 value: template.id,
                                 key: template.language
                             });
