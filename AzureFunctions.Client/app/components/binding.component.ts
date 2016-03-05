@@ -1,5 +1,5 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput} from '../models/binding-input';
+import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
@@ -31,7 +31,7 @@ export class BindingComponent {
         this._elementRef = elementRef;
     }
 
-    set clickSave(value: boolean) {        
+    set clickSave(value: boolean) {   
         if (value) {
             this.saveClicked();
         }
@@ -62,29 +62,27 @@ export class BindingComponent {
                         input.type = setting.value;                  
                         input.label = this.replaceVariables(setting.label, bindings.variables);
                         input.required = setting.required;
-                        input.value = functionSettingV.value;// || setting.defaultValue;
+                        input.value = functionSettingV.value || setting.defaultValue;
                         input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                         this.model.inputs.push(input);
                         break;
-                    //case UIFunctionSettingType.select:
-                    //    let ddInput = new DropDownInput();
-                    //    ddInput.key = setting.name;
-                    //    ddInput.text = setting.label;
-                    //    setting.options.forEach((option) => {
-                    //        ddInput.options.push({ key: option.key, value: option.value });
-                    //    });
-                    //    ddInput.order = order;                    
-                    //    ddInput.value = functionSettingV.value || setting.options[0].value;
-                    //    ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                    //    this.model.inputs.push(ddInput);
-                    //    break;
+                    case SettingType.enum:
+                        let ddInput = new SelectInput();
+                        ddInput.id = setting.name;
+                        ddInput.type = setting.value;    
+                        ddInput.label = setting.label;
+                        ddInput.enum = setting.enum;
+                        ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
+                        ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                        this.model.inputs.push(ddInput);
+                        break;
                     case SettingType.boolean:
                         let chInput = new CheckboxInput();
                         chInput.id = setting.name;
                         chInput.type = setting.value;  
                         chInput.label = this.replaceVariables(setting.label, bindings.variables);
                         chInput.required = false;
-                        chInput.value = functionSettingV.value;// || setting.defaultValue;
+                        chInput.value = functionSettingV.value || setting.defaultValue;
                         chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                         this.model.inputs.push(chInput);
                         break;

@@ -1,4 +1,4 @@
-﻿import {SettingType} from './binding';
+﻿import {SettingType, EnumOption} from './binding';
 
 export class BindingInputBase<T>
 {
@@ -35,5 +35,14 @@ export class LabelInput extends BindingInputBase<string>{
     constructor() {
         super();
         this.type = SettingType.label;
+    }
+}
+
+export class SelectInput extends BindingInputBase<string>{
+    enum: EnumOption[];
+
+    constructor() {
+        super();
+        this.type = SettingType.enum;
     }
 }

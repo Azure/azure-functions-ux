@@ -17,7 +17,7 @@ export class BindingList {
         }
 
         this.config.bindings.forEach((i) => {
-            i.title = i.name + " (" + i.type + ")";
+            i.title = i.name ? i.name : "" + " (" + i.type + ")";
         });
 
         this.trigger = this.config.bindings.find((binding: UIFunctionBinding, index) => {
@@ -29,7 +29,7 @@ export class BindingList {
         });
 
         this.outputs = this.config.bindings.filter((binding: UIFunctionBinding, index) => {
-            return binding.direction === DirectionType.output;
+            return binding.direction === DirectionType.out;
         });
 
         if (this.inputs.length === 0) {

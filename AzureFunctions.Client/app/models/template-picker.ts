@@ -1,7 +1,7 @@
 ﻿export enum TemplatePickerType {
     trigger,
-    input,
-    output,
+    in,
+    out,
     template,
     none
 }

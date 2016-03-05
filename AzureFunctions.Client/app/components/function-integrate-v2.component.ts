@@ -56,10 +56,10 @@ export class FunctionIntegrateV2Component {
 
         switch (type) {
             case DirectionType.in:
-                this.pickerType = TemplatePickerType.input;
+                this.pickerType = TemplatePickerType.in;
                 break;
-            case DirectionType.output:
-                this.pickerType = TemplatePickerType.output;
+            case DirectionType.out:
+                this.pickerType = TemplatePickerType.out;
                 break;
             case DirectionType.trigger:
                 this.pickerType = TemplatePickerType.trigger;

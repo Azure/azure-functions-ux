@@ -30,19 +30,19 @@ export class TemplatePickerComponent {
     constructor(private _functionsService: FunctionsService) {
     }
 
-    set type(type: TemplatePickerType) {       
+    set type(type: TemplatePickerType) {
         this._functionsService.getTemplates().subscribe((templates) => {
             this._functionsService.getBindingConfig().subscribe((config) => {                
                 this.bindings = config.bindings;                 
                 switch (type) {
-                    case TemplatePickerType.input:
+                    case TemplatePickerType.in:
                         this.title = "Choose an input binding";
                         this.templates = this.getTemplates(DirectionType.in);
 
                         break;
-                    case TemplatePickerType.output:
+                    case TemplatePickerType.out:
                         this.title = "Choose an output binding";
-                        this.templates = this.getTemplates(DirectionType.output);
+                        this.templates = this.getTemplates(DirectionType.out);
                         break;
                     case TemplatePickerType.trigger:
                         this.title = "Choose a trigger";

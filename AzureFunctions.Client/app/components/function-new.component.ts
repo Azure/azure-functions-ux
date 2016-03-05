@@ -93,7 +93,7 @@ export class FunctionNewComponent {
         });
     }
 
-    onCreate() {        
+    onCreate() {  
         if (!this.functionName) {
             return;
         }

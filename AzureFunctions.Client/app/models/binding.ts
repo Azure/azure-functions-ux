@@ -34,8 +34,13 @@ export interface Setting {
     label: string;
     defaultValue?: any;
     help?: string;
+    enum?: EnumOption[];
 }
 
+export interface EnumOption {
+    value: string;
+    display: string;
+} 
 
 export enum DirectionType {
     trigger = <any>"trigger",
@@ -52,7 +57,7 @@ export enum SettingType {
     string = <any>"string",
     boolean = <any>"boolean",
     label = <any>"label",
-    select = <any>"select",
+    enum = <any>"enum",
     int = <any>"int"
 }
 
