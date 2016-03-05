@@ -39,8 +39,8 @@ export interface Setting {
 
 export enum DirectionType {
     trigger = <any>"trigger",
-    input = <any>"input",
-    output = <any>"output"
+    in = <any>"in",
+    out = <any>"out"
 }
 
 export enum ResourceType {

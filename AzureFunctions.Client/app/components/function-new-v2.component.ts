@@ -27,8 +27,8 @@ export class FunctionNewV2Component implements OnInit {
 
     getSelectedTamplate(): FunctionTemplate {
         return this.functionTemplates
-            .find(e => e.language === this.model.selectedLanguage &&
-                       e.trigger === this.model.selectedTrigger);
+            .find(e => e.metadata.language === this.model.selectedLanguage &&
+                e.metadata.trigger === this.model.selectedTrigger);
     }
 
     ngOnInit() {
@@ -36,12 +36,12 @@ export class FunctionNewV2Component implements OnInit {
             .subscribe(res => {
                 this.functionTemplates = res;
                 this.languages = this.functionTemplates
-                    .map(e => e.language)
+                    .map(e => e.metadata.language)
                     .reduce((arr, e) => arr.indexOf(e) === -1 ? arr.concat(e) : arr, []);
                 for (var i = 0; i < this.languages.length; i++) {
                     this.triggers[this.languages[i]] = this.functionTemplates
-                        .filter(e => e.language === this.languages[i])
-                        .map(e => e.trigger)
+                        .filter(e => e.metadata.language === this.languages[i])
+                        .map(e => e.metadata.trigger)
                         .reduce((arr, e) => arr.indexOf(e) === -1 ? arr.concat(e) : arr, []);
                 }
             });

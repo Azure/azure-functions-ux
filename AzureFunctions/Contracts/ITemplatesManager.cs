@@ -12,6 +12,6 @@ namespace AzureFunctions.Contracts
     {
         IEnumerable<FunctionTemplate> GetTemplates();
         Task<JObject> GetBindingConfigAsync();
-        Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId);
+        Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId);        
     }
 }

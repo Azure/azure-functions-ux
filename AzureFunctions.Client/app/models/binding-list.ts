@@ -25,7 +25,7 @@ export class BindingList {
         });
 
         this.inputs = this.config.bindings.filter((binding: UIFunctionBinding, index) => {
-            return binding.direction === DirectionType.input;
+            return binding.direction === DirectionType.in;
         });
 
         this.outputs = this.config.bindings.filter((binding: UIFunctionBinding, index) => {

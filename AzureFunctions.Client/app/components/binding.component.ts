@@ -150,6 +150,6 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        this.model.label = this._binding.name + " (" + this._binding.type + ")";
+        this.model.label = this._binding.name ? this._binding.name : "" + " (" + this._binding.type + ")";
     }
 }

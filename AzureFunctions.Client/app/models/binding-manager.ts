@@ -4,7 +4,7 @@ import {Template} from './template-picker';
 
 export class BindingManager {
 
-    functionConfigToUI(config :FunctionConfig, bindings: Binding[]): UIFunctionConfig {
+    functionConfigToUI(config: FunctionConfig, bindings: Binding[]): UIFunctionConfig {
         var configUI = {
             schema: "",
             version: "",
@@ -15,18 +15,22 @@ export class BindingManager {
             var typeString: string = b.type;
             var type: BindingType = BindingType[typeString];
             var behaviorString: string = b.direction;
-            var directions: DirectionType = DirectionType[behaviorString];
+            var direction: DirectionType = DirectionType[behaviorString];
+
+            if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== 1)) {
+                direction = DirectionType.trigger;
+            }
 
             var fb: UIFunctionBinding = {
                 id: this.guid(),
                 name: b.name,
                 type: type,
-                direction: directions,
+                direction: direction,
                 settings: []
             };
 
             var bindingConfig = bindings.find((cb) => {
-                return cb.direction === directions && cb.type === type;
+                return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
             });
 
             bindingConfig.settings.forEach((s) => {
@@ -51,7 +55,7 @@ export class BindingManager {
         config.bindings.forEach((b) => {
             var bindingToAdd = {
                 type: b.type,
-                direction: b.direction,
+                direction: b.direction === DirectionType.trigger ? DirectionType.in : b.direction,
                 name: b.name
             };
 

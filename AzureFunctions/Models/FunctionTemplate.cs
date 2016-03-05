@@ -1,19 +1,18 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AzureFunctions.Models
 {
     public class FunctionTemplate
     {
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "language")]
-        public string Language { get; set; }
+        [JsonProperty(PropertyName = "function")]
+        public JObject Function { get; set; }
 
-        [JsonProperty(PropertyName = "trigger")]
-        public string Trigger { get; set; }
+        [JsonProperty(PropertyName = "metadata")]
+        public JObject Metadata { get; set; }
+
     }
 }

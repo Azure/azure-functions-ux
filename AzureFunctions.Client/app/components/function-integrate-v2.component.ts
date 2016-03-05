@@ -55,7 +55,7 @@ export class FunctionIntegrateV2Component {
         this.currentBindingId = type.toString();
 
         switch (type) {
-            case DirectionType.input:
+            case DirectionType.in:
                 this.pickerType = TemplatePickerType.input;
                 break;
             case DirectionType.output:

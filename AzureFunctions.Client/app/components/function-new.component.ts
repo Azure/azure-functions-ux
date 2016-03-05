@@ -48,7 +48,7 @@ export class FunctionNewComponent {
         //var language = LanguageType[splitResult[1]];       
 
         this._functionsService.getTemplates().subscribe((templates) => {
-            var functionTemplate: FunctionTemplate = templates.find((t) => t.name === templateName);
+            var functionTemplate: FunctionTemplate = templates.find((t) => t.id === templateName);
             
             //if (type) {
             //    functionTemplate = templates.find((t) => {
@@ -66,16 +66,22 @@ export class FunctionNewComponent {
             //    });
             //}
 
-            this.model.config = {
-                schema: "",
-                version: "",
-                bindings: []
-            };
+            //this.model.config = {
+            //    schema: "",
+            //    version: "",
+            //    bindings: []
+            //};
 
             this._functionsService.getBindingConfig().subscribe((bindings) => {
 
-                var binding = bindings.bindings.find((b) => b.type.toString().toLowerCase() === templateName.toLowerCase());
-                this.model.config.bindings.push(this.bc.getDefaultBinding(binding.type, binding.direction, bindings.bindings));
+                //var binding = bindings.bindings.find((b) => b.type.toString().toLowerCase() === templateName.toLowerCase());
+
+                this.model.config = this.bc.functionConfigToUI({
+                    disabled: false,                                        
+                    bindings: functionTemplate.function.bindings
+                }, bindings.bindings);
+
+                //this.model.config.bindings.push(this.bc.getDefaultBinding(binding.type, binding.direction, bindings.bindings));
 
                 //functionTemplate.bindings.forEach((b) => {
                 //    this.model.config.bindings.push(this.bc.getDefaultBinding(b.type, b.direction, bindings.bindings));

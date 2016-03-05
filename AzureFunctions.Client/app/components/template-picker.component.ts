@@ -37,7 +37,7 @@ export class TemplatePickerComponent {
                 switch (type) {
                     case TemplatePickerType.input:
                         this.title = "Choose an input binding";
-                        this.templates = this.getTemplates(DirectionType.input);
+                        this.templates = this.getTemplates(DirectionType.in);
 
                         break;
                     case TemplatePickerType.output:
@@ -52,9 +52,9 @@ export class TemplatePickerComponent {
                         this.title = "Choose a template";                        
                         templates.forEach((template) => {
                             this.templates.push({
-                                name: template.name,
+                                name: template.metadata.name,
                                 value: template.id,
-                                key: template.language
+                                key: template.metadata.language
                             });
                         });
 
