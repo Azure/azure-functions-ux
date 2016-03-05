@@ -205,7 +205,7 @@ namespace AzureFunctions.Modules
 
                 if (principalName.Equals("Anonymous", StringComparison.OrdinalIgnoreCase))
                 {
-                    HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin";
+                    HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
                     HttpContext.Current.Response.StatusCode = 302;
                     HttpContext.Current.Response.End();
                 }

@@ -26,7 +26,7 @@ export class FunctionsService implements IFunctionsService {
     
     setToken(token : string) : void{
         this.scmInfo = <ScmInfo>{
-            bearer: token
+            bearerPortal: token
         };
     }
 
@@ -374,6 +374,10 @@ export class FunctionsService implements IFunctionsService {
 
         if(this.scmInfo && this.scmInfo.bearer){
             headers.append('client-token', this.scmInfo.bearer);
+        }
+
+        if (this.scmInfo && this.scmInfo.bearerPortal) {
+            headers.append('portal-token', this.scmInfo.bearerPortal);
         }
 
         return headers;

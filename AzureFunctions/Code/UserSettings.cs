@@ -20,15 +20,8 @@ namespace AzureFunctions.Code
         {
             get
             {
-                var headerValues = this._currentRequest.Headers.GetValues(Constants.ClientTokenHeader);
-                var token = headerValues != null ? headerValues.FirstOrDefault() : null;
-                if (token == null)
-                {
-                    headerValues = this._currentRequest.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN);
-                    token = headerValues != null ? headerValues.FirstOrDefault() : null;
-                }
-
-                return token;
+                return this._currentRequest.Headers.GetValues(Constants.PortalTokenHeader)?.FirstOrDefault()
+                    ?? this._currentRequest.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN)?.FirstOrDefault();
             }
         }
     }
