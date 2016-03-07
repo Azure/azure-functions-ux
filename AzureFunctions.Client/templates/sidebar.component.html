@@ -1,6 +1,11 @@
 <div class="sidebar">
     <ul class="functions-list">
-        <li *ngFor="#functionInfo of functionsInfo"
+        <li>
+            <span class="function-item full-height">
+                <input type="text" id="search-box" placeholder="Search my functions" [(ngModel)]="searchValue" />
+            </span>
+        </li>
+        <li *ngFor="#functionInfo of functionsInfo | sidebarFilter:searchValue"
            (click)="selectFunction(functionInfo)"
             class="function-item">
             <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">

@@ -7,12 +7,14 @@ import {Observable, Subscription} from 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
 import {PortalService} from '../services/portal.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: [ 'styles/sidebar.style.css' ],
-    inputs: ['functionsInfo']
+    inputs: ['functionsInfo'],
+    pipes: [SideBarFilterPipe]
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];

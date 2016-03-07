@@ -112,3 +112,15 @@
 .function-item .selected a {
     color: #0273D4;
 }
+
+.full-height {
+    padding: 0 !important;
+}
+
+#search-box {
+    background-color: #F3F3F3;
+    height: 40px;
+    width: 100%;
+    border: none;
+    padding-left: 10px;
+}
