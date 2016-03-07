@@ -123,4 +123,12 @@
     width: 100%;
     border: none;
     padding-left: 10px;
+    font-style: italic;
+}
+
+#search-box:focus {
+    background-color: #FFF;
+    font-style: normal;
+    border: none;
+    outline: none;
 }
