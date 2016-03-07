@@ -197,7 +197,7 @@ export class AppComponent implements OnInit{
     }
 
     switchToTryAppServiceTenant() {
-        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}`;
+        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}${window.location.search}`;
     }
 
     onAppSettingsClicked(){
