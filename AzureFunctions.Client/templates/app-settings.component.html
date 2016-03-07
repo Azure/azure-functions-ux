@@ -11,15 +11,12 @@
     </div>
 
     <div class="setting-wrapper">
-        <label>Runtime configuration</label>
-    </div>
-
-    <div class="setting-wrapper">
         <label>Features</label>
         <div class="features-wrapper">
             <div>
                 <div>
-                    Continuous Integration
+                    <h2>Continuous Integration</h2>
+                    You can also deploy your code from GitHub, Visual Studio Team Services, and more.
                 </div>
                 <div>
                     <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>Configure Continuous Integration</div>
@@ -27,7 +24,8 @@
             </div>
             <div>
                 <div>
-                    Authrntication / Authorization
+                    <h2>Authentication/Authorization</h2>
+                    For functions that use the HTTP trigger, you can require calls to be authenticated.
                 </div>
                 <div>
                     <div class="clickable" (click)='openBlade("AppAuth")'>Configure Authentication</div>
@@ -35,7 +33,8 @@
             </div>
             <div>
                 <div>
-                    CORS
+                    <h2>CORS</h2>
+                    Allow your HTTP-triggered functions to be called from within a web browser.
                 </div>
                 <div>
                     <div class="clickable" (click)='openBlade("ApiCors")'>Configure CORS</div>
@@ -43,17 +42,14 @@
             </div>
             <div>
                 <div>
-                    API definition
+                    <h2>API definition</h2>
+                    Allow clients to more easily consume your HTTP-triggered functions.
                 </div>
                 <div>
                     <div class="clickable" (click)='openBlade("ApiDefinition")'>Configure API metadata</div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="setting-wrapper">
-        <label>Application Settings</label>
     </div>
 
     <div class="setting-wrapper">

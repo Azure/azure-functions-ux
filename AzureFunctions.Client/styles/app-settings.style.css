@@ -5,7 +5,7 @@
 
     .wrapper > div {
         padding: 20px;
-        border-bottom: 1px solid black;
+        border-bottom: 2px solid #E7E7E7;
     }
 
     .wrapper > div:first-child {
@@ -15,6 +15,11 @@
     .wrapper > div:last-child {
         border-bottom: none;
     }
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
 
 #heading {
     flex-grow: 1;
@@ -118,7 +123,6 @@ input[type=range]::-ms-thumb {
 
 .features-wrapper > div {
     flex-grow: 1;
-    border: 1px solid black;
     border-top: none;
     display: flex;
     flex-direction: row;
@@ -127,7 +131,6 @@ input[type=range]::-ms-thumb {
 }
 
 .features-wrapper > div:first-child {
-    border-top: 1px solid black;
 }
 
     .features-wrapper > div > div {
