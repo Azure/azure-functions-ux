@@ -17,7 +17,7 @@ export class BindingManager {
             var behaviorString: string = b.direction;
             var direction: DirectionType = DirectionType[behaviorString];
 
-            if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== 1)) {
+            if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
                 direction = DirectionType.trigger;
             }
 

@@ -40,6 +40,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
+    public selectedTabTitle:string = "";
 
     constructor(
         private _functionsService: FunctionsService,
@@ -52,6 +53,10 @@ export class FunctionEditComponent {
     onFunctionSaved(selectedFunction: FunctionInfo) {
         this.selectedFunction = selectedFunction;
     }
+
+    onTabSelected(selectedTab: TabComponent) {        
+        this.selectedTabTitle = selectedTab.title;
+	}
 
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
