@@ -17,6 +17,7 @@ import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
 import {FunctionConfigureComponent} from './function-configure.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'function-edit',
@@ -40,11 +41,25 @@ export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
 
-    constructor(private _functionsService: FunctionsService, private _portalService: PortalService) {
+    constructor(
+        private _functionsService: FunctionsService,
+        private _portalService: PortalService,
+        private _broadcastService: IBroadcastService) {
+
         this.inIFrame = this._portalService.inIFrame;
     }
 
     onFunctionSaved(selectedFunction: FunctionInfo) {
         this.selectedFunction = selectedFunction;
+    }
+
+    deleteFunction() {
+        var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
+        if (result) {
+            this._functionsService.deleteFunction(this.selectedFunction)
+                .subscribe(r => {
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
+                });
+        }
     }
 }
