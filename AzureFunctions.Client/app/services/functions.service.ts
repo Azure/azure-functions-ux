@@ -16,13 +16,17 @@ import {ServerFarm} from '../models/server-farm';
 import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
 import {PortalService} from './portal.service';
+import {UserService} from './user.service';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
     private scmInfo: ScmInfo;
     private hostSecrets: HostSecrets;
 
-    constructor(private _http: Http, private _portalService: PortalService) { }
+    constructor(
+        private _http: Http,
+        private _portalService: PortalService,
+        private _userService: UserService) { }
     
     setToken(token : string) : void{
         this.scmInfo = <ScmInfo>{
@@ -60,8 +64,16 @@ export class FunctionsService implements IFunctionsService {
             window.location.search.indexOf("ibiza=disabled") === -1 &&
             this.scmInfo &&
             this.scmInfo.armId) {
-            var url = 'https://portal.azure.com/?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting&websitesextension_functions=true#resource';
-            window.location.replace(`${url}${this.scmInfo.armId}`);
+            this._userService.getTenants()
+                .subscribe(tenants => {
+                    var currentTenant = tenants.find(t => t.Current);
+                    var portalHostName = 'https://portal.azure.com';
+                    var query = `?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting`;
+                    var environment = window.location.host.indexOf('staging') === -1
+                        ? '&websitesextension_functions=true' // production
+                        : '&websitesextension_functionsstaged=true'; // staging
+                    window.location.replace(`${portalHostName}/${currentTenant.DomainName}${query}${environment}#resource${this.scmInfo.armId}`);
+                });
         }
     }
 
