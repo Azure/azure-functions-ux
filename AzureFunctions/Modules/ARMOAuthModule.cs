@@ -219,6 +219,7 @@ namespace AzureFunctions.Modules
                 {
                     principal = new ClaimsPrincipal(new ClaimsIdentity("SCM"));
                 }
+
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
 

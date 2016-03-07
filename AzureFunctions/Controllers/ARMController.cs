@@ -93,7 +93,8 @@ namespace AzureFunctions.Controllers
             var response = Request.CreateResponse(HttpStatusCode.Redirect);
             response.Headers.Add("Set-Cookie", String.Format("OAuthTenant={0}; path=/; secure; HttpOnly", tenant));
             var uri = Request.RequestUri.AbsoluteUri;
-            var baseUri = new Uri($"{uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase))}/{path}");
+            var query = Request.RequestUri.Query;
+            var baseUri = new Uri($"{uri.Substring(0, uri.IndexOf("/api/", StringComparison.OrdinalIgnoreCase))}/{path}{query}");
             response.Headers.Location = new Uri(baseUri, WebUtility.UrlDecode(contextQuery));
             return response;
         }
