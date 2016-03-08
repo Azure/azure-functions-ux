@@ -208,7 +208,11 @@ namespace AzureFunctions.Modules
 
                 if (principalName.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (string.IsNullOrEmpty(portalToken))
+                    if (request.UrlReferrer?.PathAndQuery.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        principal = new ClaimsPrincipal(new ClaimsIdentity("Portal/1.0.0"));
+                    }
+                    else if (string.IsNullOrEmpty(portalToken))
                     {
                         HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
                         HttpContext.Current.Response.StatusCode = 302;
