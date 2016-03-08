@@ -210,7 +210,7 @@ namespace AzureFunctions.Modules
                 {
                     if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                     {
-                        principal = new ClaimsPrincipal(new ClaimsIdentity("Portal/1.0.0"));
+                        principal = new ClaimsPrincipal(new GenericIdentity("Portal/1.0.0"));
                     }
                     else if (string.IsNullOrEmpty(portalToken))
                     {
