@@ -29,5 +29,8 @@
         public const string MetadataJson = "metadata.json";
         public const string FunctionsExtensionVersion = "FUNCTIONS_EXTENSION_VERSION";
         public const string Latest = "latest";
+        public const string FrontEndDisplayNameHeader = "X-MS-CLIENT-DISPLAY-NAME";
+        public const string FrontEndPrincipalNameHeader = "X-MS-CLIENT-PRINCIPAL-NAME";
+        public const string AnonymousUserName = "Anonymous";
     }
 }

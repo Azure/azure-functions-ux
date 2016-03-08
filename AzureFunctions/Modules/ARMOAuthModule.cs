@@ -1,5 +1,7 @@
 ﻿using AzureFunctions.Common;
 using AzureFunctions.Trace;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -200,18 +202,25 @@ namespace AzureFunctions.Modules
             // only perform authentication if localhost
             if (!request.Url.IsLoopback)
             {
-                var displayName = request.Headers["X-MS-CLIENT-DISPLAY-NAME"];
-                var principalName = request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
+                var displayName = request.Headers[Constants.FrontEndDisplayNameHeader];
+                var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
+                var portalToken = request.Headers[Constants.PortalTokenHeader];
 
-                if (principalName.Equals("Anonymous", StringComparison.OrdinalIgnoreCase))
+                if (principalName.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
                 {
-                    HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
-                    HttpContext.Current.Response.StatusCode = 302;
-                    HttpContext.Current.Response.End();
+                    if (string.IsNullOrEmpty(portalToken))
+                    {
+                        HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
+                        HttpContext.Current.Response.StatusCode = 302;
+                        HttpContext.Current.Response.End();
+                    }
+                    else
+                    {
+                        principal = ParsePortalToken(portalToken);
+                    }
                 }
-
-                if (!string.IsNullOrWhiteSpace(principalName) ||
-                    !string.IsNullOrWhiteSpace(displayName))
+                else if (!string.IsNullOrWhiteSpace(principalName) ||
+                         !string.IsNullOrWhiteSpace(displayName))
                 {
                     principal = new GenericPrincipal(new GenericIdentity(principalName ?? displayName), new[] { "User" });
                 }
@@ -226,8 +235,8 @@ namespace AzureFunctions.Modules
                 _rwlock.EnterReadLock();
                 try
                 {
-                    if (!string.IsNullOrEmpty(principalName) &&
-                        _allowesUsers.Any(st => st.Equals(principalName, StringComparison.OrdinalIgnoreCase)))
+                    if (!string.IsNullOrEmpty(principal.Identity.Name) &&
+                        _allowesUsers.Any(st => st.Equals(principal.Identity.Name, StringComparison.OrdinalIgnoreCase)))
                     {
                         return;
                     }
@@ -238,12 +247,15 @@ namespace AzureFunctions.Modules
                 }
 
                 // Not allowed
-                FunctionsTrace.Diagnostics.Event(TracingEvents.UserForbidden, principalName);
+                FunctionsTrace.Diagnostics.Event(TracingEvents.UserForbidden, principal.Identity.Name);
                 HttpContext.Current.Response.StatusCode = 403;
                 HttpContext.Current.Response.End();
             }
 
-            response.Headers["Strict-Transport-Security"] = "max-age=0";
+            if (request.Url.IsLoopback)
+            {
+                response.Headers["Strict-Transport-Security"] = "max-age=0";
+            }
 
             if (request.Url.Scheme != "https")
             {
@@ -315,6 +327,29 @@ namespace AzureFunctions.Modules
 
             HttpContext.Current.User = principal;
             Thread.CurrentPrincipal = principal;
+        }
+
+        private static ClaimsPrincipal ParsePortalToken(string portalToken)
+        {
+            if (string.IsNullOrEmpty(portalToken))
+            {
+                throw new ArgumentException($"{nameof(portalToken)} cannot be null or empty.");
+            }
+
+            var jwtString = portalToken.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault();
+
+            if (string.IsNullOrEmpty(jwtString))
+            {
+                throw new ArgumentException($"{nameof(portalToken)} is malformed.");
+            }
+
+            jwtString = Encoding.UTF8.GetString(Convert.FromBase64String(jwtString));
+            var jwt = JsonConvert.DeserializeObject<JObject>(jwtString);
+
+            var principalName = jwt["email"]?.ToString() ?? jwt["unique_name"]?.ToString();
+            var displayName =  jwt["name"]?.ToString() ?? jwt["given_name"]?.ToString();
+
+            return new GenericPrincipal(new GenericIdentity(principalName ?? displayName), new[] { "User" });
         }
 
         public static string GetLoginUrl(HttpApplication application, string tenantId = null, string state = null)
