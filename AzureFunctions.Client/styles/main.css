@@ -181,61 +181,6 @@ pre {
     transform: rotate(45deg);
 }
 
-
-
-/* loader */
-.loader {
-    margin: 60px auto;
-    font-size: 10px;
-    position: relative;
-    text-indent: -9999em;
-    border-top: 1.1em solid rgba(195, 191, 191, 0.2);
-    border-right: 1.1em solid rgba(195, 191, 191, 0.2);
-    border-bottom: 1.1em solid rgba(195, 191, 191, 0.2);
-    border-left: 1.1em solid rgba(42, 42, 42, 0.77);
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
-}
-.loader,
-.loader:after {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    position: absolute;
-    top: 15px;
-    left: 500px;;
-}
-@-webkit-keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-.run-loader {
-    top: 69px;
-    left: 955px;
-}
-/* end loader */
-
 .run-button {
     background-color: #d9534f;
     border-color: #d43f3a;

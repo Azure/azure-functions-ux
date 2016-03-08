@@ -5,14 +5,13 @@
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo"></sidebar>
         <div class="work-space">
-            <div class="loader" *ngIf="initializing"></div>
             <div *ngIf="selectedFunction">
                 <div *ngIf="(selectedFunction.name !== 'New Function' && selectedFunction.name !== 'New Function (V2)') || !selectedFunction.clientOnly">
                     <function-edit [selectedFunction]="selectedFunction">
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <function-new-v2></function-new-v2>                    
+                    <function-new-v2></function-new-v2>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function (V2)'">
                     <function-new></function-new> 
@@ -39,14 +38,14 @@
                 </div>
                 <div class="row">
                     <div class="left">
-                        <button [disabled]="!selectedSubscription || !selectedGeoRegion || initializing" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+                        <button [disabled]="!selectedSubscription || !selectedGeoRegion" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
                     </div>
                 </div>
             </div>
 
             <div *ngIf="noTenantsFound">
                 <div>It looks like you don't have an Azure account. Do you want to create a 24 hour free trial functions container?</div>
-                <button [disabled]="initializing" class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
+                <button class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
             </div>
 
         </div>

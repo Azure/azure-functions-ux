@@ -16,7 +16,6 @@ export class FunctionNewV2Component implements OnInit {
     public languages: string[];
     public triggers: { [id: string]: string[] };
     public model: NewFunctionModel;
-    public creating: boolean;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: IBroadcastService) {
@@ -48,14 +47,14 @@ export class FunctionNewV2Component implements OnInit {
     }
 
     createFunction() {
-        this.creating = true;
+        this._broadcastService.setBusyState();
         var template = this.getSelectedTamplate();
         var templateId = template ? template.id : null;
         this._functionsService.createFunction(this.model.functionName, templateId)
             .subscribe(res => {
                 window.setTimeout(() => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                    this.creating = false;
+                    this._broadcastService.clearBusyState();
                 }, 1500);
             });
     }
