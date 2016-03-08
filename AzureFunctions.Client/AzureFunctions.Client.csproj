@@ -26,6 +26,7 @@
     <Content Include="ace\themes\visualstudio.css" />
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
+    <Content Include="styles\busy-state.style.css" />
     <Content Include="styles\integrate.style.css" />
     <Content Include="styles\template-picker.style.css" />
     <Content Include="styles\app.style.css" />
@@ -39,6 +40,7 @@
     <Content Include="styles\sidebar.style.css" />
     <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
+    <Content Include="templates\busy-state.component.html" />
     <Content Include="templates\function-integrate-v2.component.html" />
     <Content Include="templates\function-new.component.html" />
     <Content Include="templates\template-picker.component.html" />
@@ -66,6 +68,7 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\busy-state.component.ts" />
     <TypeScriptCompile Include="app\components\function-integrate-v2.component.ts" />
     <TypeScriptCompile Include="app\components\binding.component.ts" />
     <TypeScriptCompile Include="app\components\drop-down.component.ts" />
@@ -114,6 +117,7 @@
     <TypeScriptCompile Include="app\models\tenant-info.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
+    <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\ibroadcast.service.ts" />
@@ -127,6 +131,7 @@
     <Content Include="index.html.prod" />
     <Content Include="bower.json" />
     <Content Include="mocks\bindings.json" />
+    <Content Include="bs-config.json" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="app\models\binding-manager.ts" />
     <TypeScriptCompile Include="typings\browser.d.ts" />

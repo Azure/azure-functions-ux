@@ -17,6 +17,7 @@ import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 import {FunctionNewComponent} from './function-new.component';
+import {BusyStateComponent} from './busy-state.component';
 
 @Component({
     selector: 'azure-functions-app',
@@ -29,7 +30,8 @@ import {FunctionNewComponent} from './function-new.component';
         FunctionEditComponent,
         DropDownComponent,
         AppSettingsComponent,
-        FunctionNewComponent
+        FunctionNewComponent,
+        BusyStateComponent
     ]
 })
 export class AppComponent implements OnInit{
@@ -52,7 +54,6 @@ export class AppComponent implements OnInit{
     public resetServerFarm: boolean;
     public openAppSettings: boolean;
 
-    private initializing: boolean;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
     constructor(private _functionsService: FunctionsService,
@@ -101,7 +102,7 @@ export class AppComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.initializing = true;
+        this._broadcastService.setBusyState();
         this._functionsService.getTemplates()
             .subscribe(res => this.functionTemplates = res);
         if (this._portalService.inIFrame) {
@@ -123,7 +124,7 @@ export class AppComponent implements OnInit{
                     //get a list of subs and ask the user to chose.
                     this._userService.getTenants()
                         .subscribe(res => {
-                            this.initializing = false;
+                            this._broadcastService.clearBusyState();
                             if (res.filter(e => e.TenantId.toLocaleLowerCase() !== this.tryAppServiceTenantId).length === 0) {
                                 // Try It Now
                                 this.noTenantsFound = true;
@@ -160,14 +161,14 @@ export class AppComponent implements OnInit{
                 res.unshift(this._functionsService.getNewFunctionNode());
                 res[1].name = "New Function (V2)";
                 this.functionsInfo = res;
-                this.initializing = false;
+                this._broadcastService.clearBusyState();
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
     }
 
     createFunctionsContainer() {
-        this.initializing = true;
+        this._broadcastService.setBusyState();
         var serverFarmId = this.selectedServerFarm ? this.selectedServerFarm.armId : null;
         this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, serverFarmId)
             .subscribe(r => this.initFunctions());
@@ -191,7 +192,7 @@ export class AppComponent implements OnInit{
     }
 
     createTrialFunctionsContainer() {
-        this.initializing = true;
+        this._broadcastService.setBusyState();
         this._functionsService.createTrialFunctionsContainer()
             .subscribe(r => this.switchToTryAppServiceTenant());
     }
