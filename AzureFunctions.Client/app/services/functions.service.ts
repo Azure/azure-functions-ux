@@ -53,7 +53,13 @@ export class FunctionsService implements IFunctionsService {
                 }
             })
             .map<ScmInfo>(r => {
-                this.scmInfo = r.json();
+                var response: ScmInfo = r.json();
+
+                if (this.scmInfo) {
+                    response.bearerPortal = this.scmInfo.bearerPortal;
+                }
+
+                this.scmInfo = response;
                 return this.scmInfo;
             });
     }
@@ -156,7 +162,7 @@ export class FunctionsService implements IFunctionsService {
 
     createFunctionV2(functionName: string, files: any) {
         var body: CreateFunctionInfoV2 = {
-            name: functionName,          
+            name: functionName,
             containerScmUrl: this.scmInfo.scm_url,
             files: files
         };
