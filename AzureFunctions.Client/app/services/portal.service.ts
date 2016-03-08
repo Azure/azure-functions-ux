@@ -52,8 +52,10 @@ export class PortalService implements IPortalService {
             this.initCallback(data.token);
         }
         else if (data.method === 'send-appSettingName') {
-            this.getAppSettingCallback(data.appSettingName, data.cancelled);
-            this.getAppSettingCallback = null;
+            if(this.getAppSettingCallback){
+                this.getAppSettingCallback(data.appSettingName, data.cancelled);
+                this.getAppSettingCallback = null;
+            }
         }
     }
 
