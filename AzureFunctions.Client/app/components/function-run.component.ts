@@ -3,6 +3,7 @@ import {VfsObject} from '../models/vfs-object';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'function-run',
@@ -15,12 +16,11 @@ export class FunctionRunComponent {
     public testDataFile: VfsObject;
     public runId: string;
     public runResult: string;
-    public running: boolean;
     public content: string;
     private updatedContent: string;
     private _functionInfo: FunctionInfo;
 
-    constructor(private _functionsService: FunctionsService) { }
+    constructor(private _functionsService: FunctionsService, private _broadcastSetrvice: IBroadcastService) { }
 
     set functionInfo(fi: FunctionInfo) {
         this._functionInfo = fi;
@@ -48,12 +48,12 @@ export class FunctionRunComponent {
     }
 
     runFunction() {
-        this.running = true;
+        this._broadcastSetrvice.setBusyState();
         this.saveTestData();
         this._functionsService.runFunction(this._functionInfo, this.updatedContent || this.content)
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,
-                       () => this.running = false);
+                       () => this._broadcastSetrvice.clearBusyState());
     }
 
     getStatus() {
