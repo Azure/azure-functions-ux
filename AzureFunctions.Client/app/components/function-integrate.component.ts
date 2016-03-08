@@ -41,9 +41,9 @@ export class FunctionIntegrateComponent {
         }
     }
 
-    openStoragePickerBlade(){
-        this._portalService.openStorageBlade("StorageAccountPickerBlade", (appSettingName : string ) =>{
-            console.log("Setting name: " + appSettingName);
+    openCollectorBlade(name : string){
+        this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
+            console.log("Setting name: " + appSettingName + ", Cancelled: " + cancelled);
         });
     }
 }

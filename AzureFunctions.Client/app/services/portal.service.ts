@@ -6,7 +6,7 @@ export class PortalService implements IPortalService {
     public resourceId = '';
     private portalSignature: string = "pcIframe";
     private initCallback: (token: string) => void;
-    private getAppSettingCallback: (appSettingName: string) => void;
+    private getAppSettingCallback: (appSettingName: string, cancelled: boolean) => void;
 
     get inIFrame() : boolean{
         return window.parent !== window;
@@ -30,7 +30,7 @@ export class PortalService implements IPortalService {
         })
     }
 
-    openStorageBlade(name: string, getAppSettingCallback: (appSettingName: string) => void): void {
+    openCollectorBlade(name: string, getAppSettingCallback: (appSettingName: string, cancelled : boolean) => void): void {
         this.getAppSettingCallback = getAppSettingCallback;
         this.postMessage({
             method: 'open-' + name
@@ -52,7 +52,8 @@ export class PortalService implements IPortalService {
             this.initCallback(data.token);
         }
         else if (data.method === 'send-appSettingName') {
-            this.getAppSettingCallback(data.appSettingName);
+            this.getAppSettingCallback(data.appSettingName, data.cancelled);
+            this.getAppSettingCallback = null;
         }
     }
 
