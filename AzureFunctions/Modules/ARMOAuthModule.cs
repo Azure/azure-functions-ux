@@ -347,7 +347,7 @@ namespace AzureFunctions.Modules
                 throw new ArgumentException($"{nameof(portalToken)} is malformed.");
             }
 
-            jwtString = Encoding.UTF8.GetString(Convert.FromBase64String(jwtString));
+            jwtString = Encoding.UTF8.GetString(Convert.FromBase64String(jwtString.PadBase64()));
             var jwt = JsonConvert.DeserializeObject<JObject>(jwtString);
 
             var principalName = jwt["email"]?.ToString() ?? jwt["unique_name"]?.ToString();

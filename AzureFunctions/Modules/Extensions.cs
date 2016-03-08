@@ -15,5 +15,12 @@ namespace AzureFunctions.Modules
                 return (HttpWebResponse)e.Response;
             }
         }
+
+        public static string PadBase64(this string value)
+        {
+            return value.Length % 4 == 0
+                ? value
+                : value.PadRight(value.Length + (4 - value.Length % 4), '=');
+        }
     }
 }
