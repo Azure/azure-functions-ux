@@ -10,6 +10,7 @@ import {FunctionConfig} from '../models/function-config';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'function-dev',
@@ -40,19 +41,20 @@ export class FunctionDevComponent {
     private updatedContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
-    constructor(private _functionsService: FunctionsService) {
+    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
         this.isCode = true;
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
-            .switchMap(fi =>
-                Observable.zip(
+            .switchMap(fi => {
+                return Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
                     (c, s, f) => ({ content: c, secrets: s, functionInfo: f }))
-            )
+            })
             .subscribe((res: any) => {
+                this._broadcastService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.fileName = fileName;

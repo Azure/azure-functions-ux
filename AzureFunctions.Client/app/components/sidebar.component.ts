@@ -53,5 +53,6 @@ export class SideBarComponent implements OnDestroy {
     selectFunction(fi: FunctionInfo) {
         this.selectedFunction = fi;
         this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
+        this._broadcastService.setBusyState();
     }
 }
