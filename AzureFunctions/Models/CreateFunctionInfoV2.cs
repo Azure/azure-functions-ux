@@ -6,7 +6,7 @@ namespace AzureFunctions.Models
     public class CreateFunctionInfoV2
     {
         [JsonProperty(PropertyName = "files")]
-        public Dictionary<string, string> fiels { get; set; }
+        public Dictionary<string, string> files { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

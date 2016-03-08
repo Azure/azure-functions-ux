@@ -163,13 +163,4 @@ export class BindingComponent {
     private setLabel() {
         this.model.label = this._binding.name ? this._binding.name : "" + " (" + this._binding.type + ")";
     }
-
-    test(name: string) {
-        debugger;
-        //this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
-        //    if (!cancelled) {
-                //this.model.getInput(inputId).value = appSettingName;
-        //    }
-        //});
-    }
 }

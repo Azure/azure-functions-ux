@@ -230,7 +230,7 @@ namespace AzureFunctions.Controllers
                 }
 
                 var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
-                var response = await _client.PutAsJsonAsync(url, new { files = createFunctionInfo.fiels });
+                var response = await _client.PutAsJsonAsync(url, new { files = createFunctionInfo.files });
                 return new HttpResponseMessage(response.StatusCode)
                 {
                     Content = response.Content

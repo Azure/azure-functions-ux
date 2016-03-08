@@ -125,32 +125,9 @@ export class FunctionNewComponent {
         return this.functionName ? 'col-md-3' : 'col-md-3 has-error';
     }
 
-    private createFunction() {
-        var scmUrl = this._functionsService.getScmUrl();
-        var functionFolder = scmUrl + "/api/vfs/site/wwwroot/" + this.functionName;
-        var dataFolder = scmUrl + "/api/vfs/data/functions";
+    private createFunction() {              
+        this._selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
-        //https://functions728784f4.scm.azurewebsites.net/api/functions/test1
-        //var funcInfo =
-        //    {
-        //        name: this.functionName,
-        //        config: this.bc.UIToFunctionConfig(this.model.config),
-        //        //script_href: functionFolder + "/index.js",
-        //        //config_href: functionFolder + "/function.js",
-        //        //test_data_href: dataFolder + "/sampledata/" + this.functionName + ".dat",
-        //        //secrets_file_href: dataFolder + "/secrets/" + this.functionName + ".json",
-        //        script_href: "",
-        //        config_href: "",
-        //        test_data_href: "",
-        //        secrets_file_href: "",
-
-        //        href: this._functionsService.getScmUrl() + "/api/functions/" + this.functionName,
-
-        //        clientOnly: false,
-        //        template_id: null,
-        //        isDeleted: false
-        //    };
-        
         this._functionsService.createFunctionV2(this.functionName, this._selectedTemplate.files)
             .subscribe(res => {
                 window.setTimeout(() => {
