@@ -124,16 +124,18 @@ export class FunctionDevComponent {
         this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
                 this._broadcastService.clearBusyState();
-                if (typeof r !== 'string') {
+                if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
-                    this._broadcastService.clearGlobalDirtyState();
+                    this._broadcastService.clearDirtyState('function');
                 }
             });
     }
 
     contentChanged(content: string) {
-        this.scriptFile.isDirty = true;
-        this._broadcastService.setGlobalDirtyState();
+        if (!this.scriptFile.isDirty) {
+            this.scriptFile.isDirty = true;
+            this._broadcastService.setDirtyState('function');
+        }
         this.updatedContent = content;
     }
 

@@ -31,8 +31,11 @@ export class FunctionIntegrateComponent {
     }
 
     contentChanged(content: string) {
-        this.isDirty = true;
-        this._broadcastService.setGlobalDirtyState();
+        if (!this.isDirty) {
+            this.isDirty = true;
+            this._broadcastService.setDirtyState('function');
+        }
+
         this.updatedContent = content;
     }
 
@@ -41,8 +44,10 @@ export class FunctionIntegrateComponent {
             this._selectedFunction.config = JSON.parse(this.updatedContent);
             this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {
-                    this.isDirty = false;
-                    this._broadcastService.clearGlobalDirtyState();
+                    if (this.isDirty) {
+                        this.isDirty = false;
+                        this._broadcastService.clearDirtyState('function');
+                    }
                 });
         }
     }

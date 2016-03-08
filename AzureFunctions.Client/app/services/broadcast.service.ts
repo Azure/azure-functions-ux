@@ -9,8 +9,8 @@ export class BroadcastService implements IBroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private busyStateEvent: EventEmitter<boolean>;
-    private globalDirtyState: boolean = false;
-    private globalDirtyStateCounter: number = 0;
+    private dirtyStateMap: { [key: string]: number } = {};
+    private defaultDirtyReason = 'global';
 
     constructor() {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
@@ -37,21 +37,43 @@ export class BroadcastService implements IBroadcastService {
         this.busyStateEvent.emit(false);
     }
 
-    setGlobalDirtyState() {
-        this.globalDirtyStateCounter++;
-        this.globalDirtyState = true;
-    }
-
-    clearGlobalDirtyState() {
-        this.globalDirtyStateCounter--;
-        if (this.globalDirtyStateCounter < 1) {
-            this.globalDirtyStateCounter = 0;
-            this.globalDirtyState = false;
+    setDirtyState(reason?: string) {
+        reason = reason || this.defaultDirtyReason;
+        if (this.dirtyStateMap[reason]) {
+            this.dirtyStateMap[reason]++;
+        } else {
+            this.dirtyStateMap[reason] = 1;
         }
     }
 
-    getGlobalDirtyState() {
-        return this.globalDirtyState;
+    clearDirtyState(reason?: string, all?: boolean) {
+        reason = reason || this.defaultDirtyReason;
+
+        if (!this.dirtyStateMap[reason]) return;
+        
+        if (all) {
+            delete this.dirtyStateMap[reason];
+        } else {
+            this.dirtyStateMap[reason]--;
+        }
+    }
+
+    getDirtyState(reason?: string) {
+        if (reason) {
+            return (this.dirtyStateMap[reason] || 0) > 0;
+        } else {
+            return this.isEmptyMap(this.dirtyStateMap);
+        }
+    }
+
+    // http://stackoverflow.com/a/20494546/3234163
+    isEmptyMap(map: any): boolean {
+        for (var key in map) {
+            if (map.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     getEventEmitter(eventType: BroadcastEvent): any {
