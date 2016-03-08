@@ -1,7 +1,7 @@
 ﻿.container {
     height: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
     background-color: rgba(0, 0, 0, 0.40);
     z-index: 10;
 }
