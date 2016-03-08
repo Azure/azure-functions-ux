@@ -23,6 +23,9 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
+        // nothing to do if we're running in an iframe
+        if (this.inIFrame) return;
+
         this._userService.getUser()
             .subscribe((u) => {
                 this.user = u

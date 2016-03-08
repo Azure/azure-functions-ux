@@ -85,15 +85,18 @@ export class AppComponent implements OnInit{
 
     ngOnInit() {
         this._broadcastService.setBusyState();
-        this._functionsService.getTemplates()
-            .subscribe(res => this.functionTemplates = res);
+        
         if (this._portalService.inIFrame) {
             this._portalService.initializeIframe((token : string) => {
                 this._functionsService.setToken(token);
-                this.initializeUser() 
+                this._functionsService.getTemplates()
+                    .subscribe(res => this.functionTemplates = res);
+                this.initializeUser();
             });
         }
         else {
+            this._functionsService.getTemplates()
+                .subscribe(res => this.functionTemplates = res);
             this.initializeUser();
         }
     }
