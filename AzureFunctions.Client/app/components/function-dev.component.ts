@@ -47,6 +47,7 @@ export class FunctionDevComponent {
         this.functionSelectStream
             .distinctUntilChanged()
             .switchMap(fi => {
+                this._broadcastService.setBusyState();
                 return Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
