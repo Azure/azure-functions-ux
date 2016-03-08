@@ -43,7 +43,6 @@ export class FunctionNewComponent {
     }
 
     onTemplatePickUpComplete(templateName: string) {
-
         //var splitResult = templateName.split('_');
         //var type = BindingType[splitResult[0]];
         //var language = LanguageType[splitResult[1]];       

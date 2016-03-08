@@ -1,5 +1,5 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput} from '../models/binding-input';
+import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
@@ -27,7 +27,8 @@ export class BindingComponent {
     private _bindingManager: BindingManager = new BindingManager();
     private _binding: UIFunctionBinding;
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef, private _functionsService: FunctionsService) {
+    constructor( @Inject(ElementRef) elementRef: ElementRef,
+        private _functionsService: FunctionsService) {
         this._elementRef = elementRef;
     }
 
@@ -57,19 +58,31 @@ export class BindingComponent {
                 switch (setting.value) {                                        
                     case SettingType.string:
                     case SettingType.int:
-                        let input = new TextboxInput();
-                        input.id = setting.name;
-                        input.type = setting.value;                  
-                        input.label = this.replaceVariables(setting.label, bindings.variables);
-                        input.required = setting.required;
-                        input.value = functionSettingV.value || setting.defaultValue;
-                        input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                        this.model.inputs.push(input);
+                        if (setting.value === SettingType.string && setting.resource) {
+                            let input = new PickerInput();
+                            input.resource = setting.resource;
+                            input.id = setting.name;
+                            //input.type = setting.value;
+                            input.label = this.replaceVariables(setting.label, bindings.variables);
+                            input.required = setting.required;
+                            input.value = functionSettingV.value || setting.defaultValue;
+                            input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(input);
+                        } else {
+                            let input = new TextboxInput();                            
+                            input.id = setting.name;
+                            //input.type = setting.value;
+                            input.label = this.replaceVariables(setting.label, bindings.variables);
+                            input.required = setting.required;
+                            input.value = functionSettingV.value || setting.defaultValue;
+                            input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(input);
+                        }
                         break;
                     case SettingType.enum:
                         let ddInput = new SelectInput();
                         ddInput.id = setting.name;
-                        ddInput.type = setting.value;    
+                        //ddInput.type = setting.value;    
                         ddInput.label = setting.label;
                         ddInput.enum = setting.enum;
                         ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
@@ -149,5 +162,14 @@ export class BindingComponent {
 
     private setLabel() {
         this.model.label = this._binding.name ? this._binding.name : "" + " (" + this._binding.type + ")";
+    }
+
+    test(name: string) {
+        debugger;
+        //this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
+        //    if (!cancelled) {
+                //this.model.getInput(inputId).value = appSettingName;
+        //    }
+        //});
     }
 }

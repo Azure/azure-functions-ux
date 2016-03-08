@@ -1,4 +1,4 @@
-﻿import {SettingType, EnumOption} from './binding';
+﻿import {SettingType, EnumOption, ResourceType} from './binding';
 
 export class BindingInputBase<T>
 {
@@ -7,7 +7,7 @@ export class BindingInputBase<T>
     label: string;    
     required: boolean;   
     type: SettingType;
-    help: string;  
+    help: string;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -44,5 +44,23 @@ export class SelectInput extends BindingInputBase<string>{
     constructor() {
         super();
         this.type = SettingType.enum;
+    }
+}
+
+export class PickerInput extends BindingInputBase<string>{
+    resource: ResourceType;    
+    inProcess: boolean = false;
+
+    constructor() {
+        super();        
+        this.type = SettingType.picker;
+    }
+
+    setButtonNoActive() {        
+        this.inProcess = false;
+    }
+
+    setButtonActive() {        
+        this.inProcess = true;
     }
 }

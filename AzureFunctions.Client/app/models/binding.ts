@@ -50,7 +50,7 @@ export enum DirectionType {
 
 export enum ResourceType {
     Storage = <any>"Storage",
-    EventHub = <any>"EventHub"
+    EventHub = <any>"EventHub"    
 }
 
 export enum SettingType {
@@ -58,7 +58,8 @@ export enum SettingType {
     boolean = <any>"boolean",
     label = <any>"label",
     enum = <any>"enum",
-    int = <any>"int"
+    int = <any>"int",
+    picker = <any>"picker"
 }
 
 export interface UIFunctionConfig {
