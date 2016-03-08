@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+﻿import {Component, OnDestroy} from 'angular2/core';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
@@ -12,7 +12,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
     inputs: ['selectedFunction'],
     directives: [AceEditorDirective]
 })
-export class FunctionIntegrateComponent {
+export class FunctionIntegrateComponent implements OnDestroy {
     public _selectedFunction: FunctionInfo;
     public configContent: string;
     public updatedContent: string;
@@ -56,5 +56,9 @@ export class FunctionIntegrateComponent {
         this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
             console.log("Setting name: " + appSettingName + ", Cancelled: " + cancelled);
         });
+    }
+
+    ngOnDestroy() {
+        this._broadcastService.clearDirtyState('function');
     }
 }
