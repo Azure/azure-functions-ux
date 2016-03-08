@@ -208,7 +208,7 @@ namespace AzureFunctions.Modules
 
                 if (principalName.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (request.UrlReferrer?.PathAndQuery.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                    if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                     {
                         principal = new ClaimsPrincipal(new ClaimsIdentity("Portal/1.0.0"));
                     }
