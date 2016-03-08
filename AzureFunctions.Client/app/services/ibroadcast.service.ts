@@ -7,6 +7,9 @@ export abstract class IBroadcastService {
     abstract broadcast<T>(eventType: BroadcastEvent, obj?: T): void;
     abstract setBusyState();
     abstract clearBusyState();
+    abstract setGlobalDirtyState();
+    abstract clearGlobalDirtyState();
+    abstract getGlobalDirtyState(): boolean;
 }
 
 export enum BroadcastEvent {

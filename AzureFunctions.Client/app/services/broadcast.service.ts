@@ -9,6 +9,7 @@ export class BroadcastService implements IBroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private busyStateEvent: EventEmitter<boolean>;
+    private globalDirtyState: boolean;
 
     constructor() {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
@@ -33,6 +34,18 @@ export class BroadcastService implements IBroadcastService {
 
     clearBusyState() {
         this.busyStateEvent.emit(false);
+    }
+
+    setGlobalDirtyState() {
+        this.globalDirtyState = true;
+    }
+
+    clearGlobalDirtyState() {
+        this.globalDirtyState = false;
+    }
+
+    getGlobalDirtyState() {
+        return this.globalDirtyState;
     }
 
     getEventEmitter(eventType: BroadcastEvent): any {

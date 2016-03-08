@@ -126,12 +126,14 @@ export class FunctionDevComponent {
                 this._broadcastService.clearBusyState();
                 if (typeof r !== 'string') {
                     r.isDirty = false;
+                    this._broadcastService.clearGlobalDirtyState();
                 }
             });
     }
 
     contentChanged(content: string) {
         this.scriptFile.isDirty = true;
+        this._broadcastService.setGlobalDirtyState();
         this.updatedContent = content;
     }
 
