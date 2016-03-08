@@ -52,7 +52,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
         }
     }
 
-    openCollectorBlade(name : string){
+    openCollectorBlade(name : string) {
         this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
             console.log("Setting name: " + appSettingName + ", Cancelled: " + cancelled);
         });
