@@ -3,6 +3,7 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'function-integrate',
@@ -19,7 +20,8 @@ export class FunctionIntegrateComponent {
 
     constructor(
         private _functionsService: FunctionsService,
-        private _portalService: PortalService) {
+        private _portalService: PortalService,
+        private _broadcastService: IBroadcastService) {
         this.isDirty = false;
     }
 
@@ -30,6 +32,7 @@ export class FunctionIntegrateComponent {
 
     contentChanged(content: string) {
         this.isDirty = true;
+        this._broadcastService.setGlobalDirtyState();
         this.updatedContent = content;
     }
 
@@ -37,7 +40,10 @@ export class FunctionIntegrateComponent {
         if (this.isDirty) {
             this._selectedFunction.config = JSON.parse(this.updatedContent);
             this._functionsService.updateFunction(this._selectedFunction)
-                .subscribe(fi => this.isDirty = false);
+                .subscribe(fi => {
+                    this.isDirty = false;
+                    this._broadcastService.clearGlobalDirtyState();
+                });
         }
     }
 
