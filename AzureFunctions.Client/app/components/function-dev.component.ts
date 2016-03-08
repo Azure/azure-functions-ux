@@ -120,9 +120,10 @@ export class FunctionDevComponent {
     saveScript() {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
-
+        this._broadcastService.setBusyState();
         this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
+                this._broadcastService.clearBusyState();
                 if (typeof r !== 'string') {
                     r.isDirty = false;
                 }
