@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace AzureFunctions.Models
 {
@@ -14,5 +15,7 @@ namespace AzureFunctions.Models
         [JsonProperty(PropertyName = "metadata")]
         public JObject Metadata { get; set; }
 
+        [JsonProperty(PropertyName = "files")]
+        public Dictionary<string, string> Files { get; set; }
     }
 }

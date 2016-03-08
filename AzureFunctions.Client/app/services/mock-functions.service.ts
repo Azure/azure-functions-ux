@@ -69,6 +69,11 @@ export class MockFunctionsService implements IFunctionsService {
         return Observable.of({name: functionName});
     }
 
+    createFunctionV2(functionName: string, files: any) {
+        console.log(functionName);
+        return Observable.of({ name: functionName });
+    }
+
     getTemplates() {
         return this._http.get('mocks/functionTemplates.json')
             .map<FunctionTemplate[]>(r => r.json());

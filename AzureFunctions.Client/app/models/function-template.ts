@@ -5,6 +5,7 @@ export interface FunctionTemplate {
     id: string;
     function: FunctionTemplateBindings;
     metadata: FunctionTemplateMetadata;
+    files: any;
 }
 
 export interface FunctionTemplateBindings {

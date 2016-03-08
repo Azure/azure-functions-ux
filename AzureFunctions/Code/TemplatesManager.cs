@@ -73,16 +73,32 @@ namespace AzureFunctions.Code
 
         private async Task<FunctionTemplate> GetFunctionTemplate(string templateFolderName)
         {
-            var metadataPath = Path.Combine(_settings.TemplatesPath, templateFolderName, "metadata.json");
-            var functionPath = Path.Combine(_settings.TemplatesPath, templateFolderName, "function.json");
+            var templateDir = Path.Combine(_settings.TemplatesPath, templateFolderName);
+            var metadataPath = Path.Combine(templateDir, "metadata.json");
+            var functionPath = Path.Combine(templateDir, "function.json");
             if (File.Exists(metadataPath) && File.Exists(functionPath))
             {
                 try
                 {
-                    var template = new FunctionTemplate();
+                    var template = new FunctionTemplate()
+                    {
+                        Files = new Dictionary<string, string>()
+                    };
                     template.Metadata = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(metadataPath));
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
                     template.Id = templateFolderName;
+
+                    var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
+                    {
+                        return fileName != metadataPath && fileName != functionPath;
+                    });
+
+                    foreach(var fileName in files)
+                    {
+                        var fileContent = File.ReadAllText(fileName);
+                        template.Files.Add(Path.GetFileName(fileName), fileContent);
+                    }
+
                     return template;
                 }
                 catch (Exception e)

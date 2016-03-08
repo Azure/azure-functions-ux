@@ -217,6 +217,28 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateFunctionV2([FromBody]CreateFunctionInfoV2 createFunctionInfo)
+        {
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                if (createFunctionInfo == null ||
+                    string.IsNullOrEmpty(createFunctionInfo.Name) ||
+                    string.IsNullOrEmpty(createFunctionInfo.ContainerScmUrl))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, $"{nameof(createFunctionInfo)} can not be null");
+                }
+
+                var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
+                var response = await _client.PutAsJsonAsync(url, new { files = createFunctionInfo.fiels });
+                return new HttpResponseMessage(response.StatusCode)
+                {
+                    Content = response.Content
+                };
+            }
+        }
+
+        [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig()
         {

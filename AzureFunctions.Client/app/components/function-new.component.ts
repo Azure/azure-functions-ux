@@ -32,6 +32,7 @@ export class FunctionNewComponent {
     clickSave: boolean = false;
     updateBindingsCount = 0;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
+    private _selectedTemplate: FunctionTemplate;
 
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
@@ -48,7 +49,7 @@ export class FunctionNewComponent {
         //var language = LanguageType[splitResult[1]];       
 
         this._functionsService.getTemplates().subscribe((templates) => {
-            var functionTemplate: FunctionTemplate = templates.find((t) => t.id === templateName);
+            this._selectedTemplate = templates.find((t) => t.id === templateName);
             
             //if (type) {
             //    functionTemplate = templates.find((t) => {
@@ -78,7 +79,7 @@ export class FunctionNewComponent {
 
                 this.model.config = this.bc.functionConfigToUI({
                     disabled: false,                                        
-                    bindings: functionTemplate.function.bindings
+                    bindings: this._selectedTemplate.function.bindings
                 }, bindings.bindings);
 
                 //this.model.config.bindings.push(this.bc.getDefaultBinding(binding.type, binding.direction, bindings.bindings));
@@ -131,27 +132,27 @@ export class FunctionNewComponent {
         var dataFolder = scmUrl + "/api/vfs/data/functions";
 
         //https://functions728784f4.scm.azurewebsites.net/api/functions/test1
-        var funcInfo =
-            {
-                name: this.functionName,
-                config: this.bc.UIToFunctionConfig(this.model.config),
-                //script_href: functionFolder + "/index.js",
-                //config_href: functionFolder + "/function.js",
-                //test_data_href: dataFolder + "/sampledata/" + this.functionName + ".dat",
-                //secrets_file_href: dataFolder + "/secrets/" + this.functionName + ".json",
-                script_href: "",
-                config_href: "",
-                test_data_href: "",
-                secrets_file_href: "",
+        //var funcInfo =
+        //    {
+        //        name: this.functionName,
+        //        config: this.bc.UIToFunctionConfig(this.model.config),
+        //        //script_href: functionFolder + "/index.js",
+        //        //config_href: functionFolder + "/function.js",
+        //        //test_data_href: dataFolder + "/sampledata/" + this.functionName + ".dat",
+        //        //secrets_file_href: dataFolder + "/secrets/" + this.functionName + ".json",
+        //        script_href: "",
+        //        config_href: "",
+        //        test_data_href: "",
+        //        secrets_file_href: "",
 
-                href: this._functionsService.getScmUrl() + "/api/functions/" + this.functionName,
+        //        href: this._functionsService.getScmUrl() + "/api/functions/" + this.functionName,
 
-                clientOnly: false,
-                template_id: null,
-                isDeleted: false
-            };
+        //        clientOnly: false,
+        //        template_id: null,
+        //        isDeleted: false
+        //    };
         
-        this._functionsService.updateFunction(funcInfo)
+        this._functionsService.createFunctionV2(this.functionName, this._selectedTemplate.files)
             .subscribe(res => {
                 window.setTimeout(() => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

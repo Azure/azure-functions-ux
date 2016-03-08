@@ -4,7 +4,7 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
-import {CreateFunctionInfo} from '../models/create-function-info';
+import {CreateFunctionInfo, CreateFunctionInfoV2} from '../models/create-function-info';
 import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
@@ -152,6 +152,16 @@ export class FunctionsService implements IFunctionsService {
             return this._http.post('api/passthrough', JSON.stringify(passthrowBody), { headers: this.getHeaders() })
                 .map<FunctionInfo>(r => r.json());
         }
+    }
+
+    createFunctionV2(functionName: string, files: any) {
+        var body: CreateFunctionInfoV2 = {
+            name: functionName,          
+            containerScmUrl: this.scmInfo.scm_url,
+            files: files
+        };
+        return this._http.post('api/createfunctionv2', JSON.stringify(body), { headers: this.getHeaders() })
+            .map<FunctionInfo>(r => r.json());
     }
 
     getNewFunctionNode(): FunctionInfo {
