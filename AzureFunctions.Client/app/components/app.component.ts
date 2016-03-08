@@ -65,27 +65,9 @@ export class AppComponent implements OnInit{
         this.noTenantsFound = false;
         this.subscriptionPickerPlaceholder = 'Select Subscription';
         this.serverFarmPickerPlaceholder = 'Select Server Farm (optional)';
-        this.geoRegions = [
-            'East Asia',
-            'North Europe',
-            'West Europe',
-            'Southeast Asia',
-            'West US',
-            'East US',
-            'Japan West',
-            'Japan East',
-            'South Central US',
-            'East US 2',
-            'North Central US',
-            'Central US',
-            'Brazil South',
-            'Australia East',
-            'Australia Southeast',
-            'Central India',
-            'West India',
-            'South India']
-        .map(e => ({displayLabel: e, value: e}))
-        .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+        this.geoRegions = ['West US']
+            .map(e => ({ displayLabel: e, value: e }))
+            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
 
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {

@@ -32,10 +32,6 @@
                     <div class="left"><label>Region:</label></div>
                     <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
                 </div>
-                <div class="row" *ngIf="_serverFarms">
-                    <div class="left"><label>Server Farm (optional):</label></div>
-                    <drop-down [options]="_serverFarms" [placeholder]="serverFarmPickerPlaceholder" [resetOnChange]="resetServerFarm" (value)="selectedServerFarm = $event"></drop-down>
-                </div>
                 <div class="row">
                     <div class="left">
                         <button [disabled]="!selectedSubscription || !selectedGeoRegion" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
