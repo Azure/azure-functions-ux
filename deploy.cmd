@@ -148,7 +148,7 @@ IF NOT EXIST "%WEBJOB_PATH%" (
 )
 
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd" "%WEBJOB_PATH%"
-copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.cmd" "%WEBJOB_PATH%"
+copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.job" "%WEBJOB_PATH%"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
