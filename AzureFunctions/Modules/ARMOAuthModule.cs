@@ -30,49 +30,6 @@ namespace AzureFunctions.Modules
         public const string OAuthTokenCookie = "OAuthToken";
         public const string DeleteCookieFormat = "{0}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         public const int CookieChunkSize = 2000;
-        private static ReaderWriterLockSlim _rwlock;
-        private static string[] _allowesUsers;
-        private static FileSystemWatcher _watcher;
-
-        static ARMOAuthModule()
-        {
-            var path = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "users.txt");
-            _rwlock = new ReaderWriterLockSlim();
-            _watcher = new FileSystemWatcher();
-            _watcher.Path = Environment.ExpandEnvironmentVariables(HostingEnvironment.ApplicationPhysicalPath);
-            _watcher.Filter = "users.txt";
-            _watcher.NotifyFilter = NotifyFilters.LastWrite;
-            _watcher.Changed += new FileSystemEventHandler((s, e) =>
-            {
-                _rwlock.EnterWriteLock();
-                try
-                {
-                    _allowesUsers = File.ReadAllLines(path);
-                }
-                catch
-                {
-                    _allowesUsers = new string[0];
-                }
-                finally
-                {
-                    _rwlock.ExitWriteLock();
-                }
-            });
-            _watcher.EnableRaisingEvents = true;
-            _rwlock.EnterWriteLock();
-            try
-            {
-                _allowesUsers = File.ReadAllLines(path);
-            }
-            catch
-            {
-                _allowesUsers = new string[0];
-            }
-            finally
-            {
-                _rwlock.ExitWriteLock();
-            }
-        }
 
         public static readonly CookieTransform[] DefaultCookieTransforms = new CookieTransform[]
         {
@@ -236,24 +193,7 @@ namespace AzureFunctions.Modules
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
 
-                _rwlock.EnterReadLock();
-                try
-                {
-                    if (!string.IsNullOrEmpty(principal.Identity.Name) &&
-                        _allowesUsers.Any(st => st.Equals(principal.Identity.Name, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        return;
-                    }
-                }
-                finally
-                {
-                    _rwlock.ExitReadLock();
-                }
-
-                // Not allowed
-                FunctionsTrace.Diagnostics.Event(TracingEvents.UserForbidden, principal.Identity.Name);
-                HttpContext.Current.Response.StatusCode = 403;
-                HttpContext.Current.Response.End();
+                return;
             }
 
             if (request.Url.IsLoopback)
