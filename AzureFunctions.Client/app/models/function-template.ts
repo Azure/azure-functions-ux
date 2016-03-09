@@ -16,4 +16,5 @@ export interface FunctionTemplateMetadata {
     name: string;
     trigger: string;
     language: string;
+    category?: string;
 }

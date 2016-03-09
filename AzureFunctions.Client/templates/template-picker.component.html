@@ -6,12 +6,11 @@
                 <option *ngFor="#item of filterItems" [value]="item.value">{{item.name}}</option>
             </select>
         </span>
-        <span style="margin-left:20px;">
+        <span *ngIf="showScenarios" style="margin-left:20px;">
             Scenario:
-            <select>
-                <option selected>All</option>
-                <option>Scenario1</option>
-                <option>Scenario2</option>
+            <select (change)="scenarioChanged($event.target.value)">
+                <option selected value="Core">Core</option>
+                <option value="Broken">Broken</option>
             </select>
         </span>
     </div>

@@ -31,18 +31,20 @@ export class FunctionIntegrateV2Component {
     private  _functionInfo: FunctionInfo;                
     private _bindingManager: BindingManager = new BindingManager();
     
-    set selectedFunction(fi: FunctionInfo) {
-        this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
-        this._functionsService.getBindingConfig().subscribe((bindings) => {
-            this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
-            if (this.model.config.bindings.length > 0) {
-                this.currentBinding = this.model.config.bindings[0];
-                this.currentBindingId = this.currentBinding.id;
-            }
+    set selectedFunction(fi: FunctionInfo) {        
+        if (!this._functionInfo || this._functionInfo.name !== fi.name) {
+            this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
+            this._functionsService.getBindingConfig().subscribe((bindings) => {
+                this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
+                if (this.model.config.bindings.length > 0) {
+                    this.currentBinding = this.model.config.bindings[0];
+                    this.currentBindingId = this.currentBinding.id;
+                }
 
-            this.model.setBindings();
-            jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
-        });
+                this.model.setBindings();
+                jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
+            });
+        }
         
     }
 

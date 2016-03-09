@@ -22,6 +22,9 @@ export class TemplatePickerComponent {
     bc: BindingManager = new BindingManager();
     selectedKey: string = "all";
     bindings: Binding[];
+    showScenarios = false;
+    private _category: string = "Core";
+    private _type: TemplatePickerType;
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter();
@@ -31,31 +34,36 @@ export class TemplatePickerComponent {
     }
 
     set type(type: TemplatePickerType) {
+        this._type = type;
         this._functionsService.getTemplates().subscribe((templates) => {
             this._functionsService.getBindingConfig().subscribe((config) => {                
-                this.bindings = config.bindings;                 
+                this.bindings = config.bindings;
+                this.templates = [];               
                 switch (type) {
                     case TemplatePickerType.in:
                         this.title = "Choose an input binding";
-                        this.templates = this.getTemplates(DirectionType.in);
+                        this.templates = this.getBindingTemplates(DirectionType.in);
 
                         break;
                     case TemplatePickerType.out:
                         this.title = "Choose an output binding";
-                        this.templates = this.getTemplates(DirectionType.out);
+                        this.templates = this.getBindingTemplates(DirectionType.out);
                         break;
                     case TemplatePickerType.trigger:
                         this.title = "Choose a trigger";
-                        this.templates = this.getTemplates(DirectionType.trigger);
+                        this.templates = this.getBindingTemplates(DirectionType.trigger);
                         break;
                     case TemplatePickerType.template:
-                        this.title = "Choose a template";                        
+                        this.title = "Choose a template"; 
+                        this.showScenarios = true;
                         templates.forEach((template) => {
-                            this.templates.push({
-                                name: template.metadata.name,
-                                value: template.id,
-                                key: template.metadata.language
-                            });
+                            if ((this._category === template.metadata.category) || ((!template.metadata.category) && (this._category === "Broken"))) {
+                                this.templates.push({
+                                    name: template.metadata.name,
+                                    value: template.id,
+                                    key: template.metadata.category || "Broken"
+                                });
+                            }
                         });
 
                         //this.templates = this.getTemplates();
@@ -111,7 +119,12 @@ export class TemplatePickerComponent {
         }
     }
 
-    private getTemplates(direction: DirectionType): Template[] {
+    scenarioChanged(category: string) {
+        this._category = category;
+        this.type = this._type;
+    }
+
+    private getBindingTemplates(direction: DirectionType): Template[] {
         var result: Template[] = [];
         var filtered = this.bindings.filter((b) => {
             return b.direction === direction;
@@ -133,5 +146,5 @@ export class TemplatePickerComponent {
         });
 
         return result;
-    }
+    }    
 }

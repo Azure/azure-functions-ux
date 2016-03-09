@@ -3,7 +3,7 @@ import {FunctionBindingBase} from './binding';
 export interface FunctionTemplate {
     name: string;
     language: LanguageType;
-    bindings: FunctionBindingBase[];
+    bindings: FunctionBindingBase[];    
 }
 
 export interface TemplateFilterItem {
