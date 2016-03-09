@@ -27,8 +27,7 @@
 
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
         <!-- TODO: move this to css -->
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input id="{{input.id}}" [(ngModel)]="input.value" type="checkbox">
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>

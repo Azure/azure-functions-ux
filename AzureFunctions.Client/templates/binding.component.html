@@ -1,8 +1,9 @@
 ﻿<div class="panel panel-default">
 
     <div class="panel-heading">
-        <h3 class="panel-title pull-left">
-            {{model.label}}&nbsp;
+        <!--//TODO move to css -->
+        <h3 class="panel-title pull-left" style="margin-right:10px">
+            {{model.label}}
         </h3>
         <button *ngIf="canDelete" class="btn btn-default pull-left" (click)="removeClicked()"><span class="glyphicon glyphicon-trash"></span></button>
         <button *ngIf="canSave && model.isDirty()" (click)="saveClicked()" class="btn btn-primary pull-right">Save</button>
