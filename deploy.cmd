@@ -141,6 +141,14 @@ IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   popd
 )
 
+:: 8. Copy templates-update webjob
+SET WEBJOB_PATH=%HOME%\site\wwwroot\App_Data\jobs\triggered\templates-update
+IF NOT EXIST "%WEBJOB_PATH%" (
+  mkdir "%WEBJOB_PATH%"
+)
+
+copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd" "%WEBJOB_PATH%"
+copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.cmd" "%WEBJOB_PATH%"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
