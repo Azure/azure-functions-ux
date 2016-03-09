@@ -108,9 +108,9 @@ export class FunctionDevComponent {
     get functionInvokeUrl(): string {
         var code = '';
         if (this.isHttpFunction && this.secrets && this.secrets.key) {
-            code = `?key=${this.secrets.key}`;
+            code = `?code=${this.secrets.key}`;
         } else if (this.isHttpFunction && this._functionsService.HostSecrets.functionKey) {
-            code = `?key=${this._functionsService.HostSecrets.functionKey}`;
+            code = `?code=${this._functionsService.HostSecrets.functionKey}`;
         }
         return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
     }
