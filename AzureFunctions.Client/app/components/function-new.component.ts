@@ -17,6 +17,7 @@ declare var jQuery: any;
 @Component({
     selector: 'function-new',
     templateUrl: './templates/function-new.component.html',
+    styles: [`.wrapper { padding: 40px; }`],
     directives: [TemplatePickerComponent, BindingComponent, NgClass],
     outputs: ['functionAdded']
 })
