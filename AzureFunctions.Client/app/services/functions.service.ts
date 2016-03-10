@@ -217,18 +217,24 @@ export class FunctionsService implements IFunctionsService {
 
     runFunction(functionInfo: FunctionInfo, content: string) {
         var mainSiteUrl = this.scmInfo.scm_url.replace('.scm.', '.');
+
         var inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
+
         var url = inputBinding
             ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
             : `${mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+
         var _content: any = inputBinding
             ? content
             : { input: content };
+
         var mediaType = inputBinding
-            ? 'plain/text'
+            ? (inputBinding.webHookType ? 'application/json' : 'plain/text')
             : 'application/json';
+
+
         var body: PassthroughInfo = {
             httpMethod: 'POST',
             url: url,
