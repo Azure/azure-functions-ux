@@ -6,7 +6,7 @@ import {PickerInput} from '../models/binding-input';
 @Component({
     selector: 'binding-input',
     templateUrl: './templates/binding-input.component.html',
-    changeDetection: ChangeDetectionStrategy.CheckAlways,
+    //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"]
 })
 
@@ -30,15 +30,15 @@ export class BindingInputComponent {
 
     openCollectorBlade(name: string, id: string) {
         // for tests
-        if (window.location.hostname === "localhost") {
-            this.input.value = name;
-            this.setClass(name);
-            return;
-        }
+        //if (window.location.hostname === "localhost") {
+        //    this.input.value = name;
+        //    this.setClass(name);
+        //    return;
+        //}
 
         var picker = <PickerInput>this.input;
         picker.setButtonActive();
-        this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {
+        this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {            
             if (!cancelled) {
                 this.input.value = appSettingName;
                 this.setClass(appSettingName);                

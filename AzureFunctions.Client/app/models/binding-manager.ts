@@ -79,7 +79,7 @@ export class BindingManager {
         var schema = this.getBindingSchema(type, direction, bindings);
         var result = {
             id: this.guid(),
-            name: schema.displayName,
+            name: schema.defaultParameterName,
             type: type,
             direction: direction,
             settings: []
