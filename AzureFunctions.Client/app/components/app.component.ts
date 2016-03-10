@@ -49,6 +49,8 @@ export class AppComponent implements OnInit {
                         this.loggedIn = false;
                         this.gettingStarted = true;
                     }
+                    this._broadcastService.clearBusyState();
+                    this.ready = true;
                 },
                 () => {
                     this._broadcastService.clearBusyState();
