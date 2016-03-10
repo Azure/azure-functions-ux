@@ -12,8 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "ace-builds": "^1.2.2",
-    "angular2": "2.0.0-beta.7",
-    "systemjs": "0.19.22",
+    "angular2": "2.0.0-beta.9",
+    "systemjs": "0.19.24",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "font-awesome": "^4.5.0",
@@ -30,7 +30,7 @@
   },
   "jspm": {
     "dependencies": {
-      "angular2": "npm:angular2@^2.0.0-beta.7",
+      "angular2": "npm:angular2@^2.0.0-beta.9",
       "rxjs": "npm:rxjs@^5.0.0-beta.2",
       "ts": "github:frankwallis/plugin-typescript@^4.0.1"
     },

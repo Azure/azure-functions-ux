@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AzureFunctions.Modules
+namespace AzureFunctions.Authentication
 {
     [DataContract]
     public class OpenIdConfiguration

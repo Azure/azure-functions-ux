@@ -153,6 +153,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AADOAuth2AccessToken.cs" />
+    <Compile Include="Authentication\FrontEndAuthProvider.cs" />
+    <Compile Include="Authentication\IAuthProvider.cs" />
+    <Compile Include="Authentication\LocalhostAuthProvider.cs" />
+    <Compile Include="Authentication\OpenIdConfiguration.cs" />
+    <Compile Include="Authentication\SecurityManager.cs" />
+    <Compile Include="Authentication\SecuritySettings.cs" />
     <Compile Include="Code\ArmManagerPartials\ResourceGroupArmManager.cs" />
     <Compile Include="Code\ArmManagerPartials\ServerFarmArmManager.cs" />
     <Compile Include="Code\ArmManagerPartials\SiteArmManager.cs" />
@@ -203,10 +210,7 @@
     <Compile Include="Models\ArmResources\ResourceGroup.cs" />
     <Compile Include="Models\ArmResources\Site.cs" />
     <Compile Include="Models\ArmResources\Subscription.cs" />
-    <Compile Include="Modules\AADOAuth2AccessToken.cs" />
-    <Compile Include="Modules\ARMOAuthModule.cs" />
-    <Compile Include="Modules\Extensions.cs" />
-    <Compile Include="Modules\OpenIdConfiguration.cs" />
+    <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />

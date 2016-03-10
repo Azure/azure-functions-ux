@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace AzureFunctions.Modules
+namespace AzureFunctions.Authentication
 {
     public static class Extensions
     {

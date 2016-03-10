@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace AzureFunctions.Modules
+namespace AzureFunctions.Authentication
 {
     public class AADOAuth2AccessToken
     {
@@ -30,8 +30,8 @@ namespace AzureFunctions.Modules
             var payload = new StringBuilder("grant_type=authorization_code");
             payload.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(redirectUri));
             payload.AppendFormat("&code={0}", WebUtility.UrlEncode(code));
-            payload.AppendFormat("&client_id={0}", WebUtility.UrlEncode(ARMOAuthModule.AADClientId));
-            payload.AppendFormat("&client_secret={0}", WebUtility.UrlEncode(ARMOAuthModule.AADClientSecret));
+            payload.AppendFormat("&client_id={0}", WebUtility.UrlEncode(SecuritySettings.AADClientId));
+            payload.AppendFormat("&client_secret={0}", WebUtility.UrlEncode(SecuritySettings.AADClientSecret));
 
             var content = new StringContent(payload.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");
             using (var client = new HttpClient())
@@ -60,8 +60,8 @@ namespace AzureFunctions.Modules
 
             var payload = new StringBuilder("grant_type=refresh_token");
             payload.AppendFormat("&refresh_token={0}", WebUtility.UrlEncode(refreshToken));
-            payload.AppendFormat("&client_id={0}", WebUtility.UrlEncode(ARMOAuthModule.AADClientId));
-            payload.AppendFormat("&client_secret={0}", WebUtility.UrlEncode(ARMOAuthModule.AADClientSecret));
+            payload.AppendFormat("&client_id={0}", WebUtility.UrlEncode(SecuritySettings.AADClientId));
+            payload.AppendFormat("&client_secret={0}", WebUtility.UrlEncode(SecuritySettings.AADClientSecret));
             payload.AppendFormat("&resource={0}", WebUtility.UrlEncode(resource));
 
             var content = new StringContent(payload.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");

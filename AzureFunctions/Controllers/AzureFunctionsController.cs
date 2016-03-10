@@ -5,7 +5,6 @@ using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Models.ArmModels;
 using AzureFunctions.Models.ArmResources;
-using AzureFunctions.Modules;
 using AzureFunctions.Trace;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

@@ -43,15 +43,6 @@ export class FunctionsService implements IFunctionsService {
         }
 
         return this._http.get(url, { headers: this.getHeaders() })
-            .catch(e => {
-                if (e.status === 500) {
-                    return this.initializeUser().map(r => ({ json: () => r }));
-                } else if (e.status === 404) {
-                    return Observable.of({ json: () => undefined });
-                } else {
-                    return Observable.of(e);
-                }
-            })
             .map<ScmInfo>(r => {
                 var response: ScmInfo = r.json();
 

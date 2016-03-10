@@ -21,6 +21,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using AzureFunctions.Common;
+using AzureFunctions.Authentication;
 
 namespace AzureFunctions
 {
@@ -37,6 +38,18 @@ namespace AzureFunctions
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             InitLogging(container);
             RegisterRoutes(config);
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var context = new HttpContextWrapper(HttpContext.Current);
+            SecurityManager.PutOnCorrectTenant(context);
+        }
+
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            var context = new HttpContextWrapper(HttpContext.Current);
+            SecurityManager.AuthenticateRequest(context);
         }
 
         private IContainer InitAutofacContainer()

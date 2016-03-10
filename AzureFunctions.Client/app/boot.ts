@@ -12,33 +12,27 @@ import {PortalService} from './services/portal.service';
 import {IBroadcastService} from './services/ibroadcast.service';
 import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
-import {GettingStartedComponent} from './components/getting-started.component';
 
-var mockedProviders = [
-    provide(FunctionsService, { useClass: MockFunctionsService }),
-    provide(UserService, { useClass: MockUserService })
-];
-
-var prodProviders = [
-    provide(FunctionsService, { useClass: FunctionsService }),
-    provide(UserService, { useClass: UserService })
-];
-
-var commonProviders = [
-    HTTP_PROVIDERS,
-    PortalService,
-    provide(IBroadcastService, { useClass: BroadcastService }),
-    provide(ExceptionHandler, { useClass: FunctionsExceptionHandler })
-];
-
-var isProd = window.location.protocol === 'https:';
-var app = document.cookie.indexOf('authenticated=true')
-    ? AppComponent
-    : GettingStartedComponent;
-
-
-if (isProd) {
-    bootstrap(app, commonProviders.concat(prodProviders));
+if (window.location.protocol === 'http:') {
+    bootstrap(
+        AppComponent,
+        [
+            HTTP_PROVIDERS,
+            provide(FunctionsService, { useClass: MockFunctionsService }),
+            provide(UserService, { useClass: MockUserService }),
+            PortalService,
+            provide(IBroadcastService, { useClass: BroadcastService }),
+            provide(ExceptionHandler, { useClass: FunctionsExceptionHandler })
+        ]);
 } else {
-    bootstrap(app, commonProviders.concat(mockedProviders));
+    bootstrap(
+        AppComponent,
+        [
+            HTTP_PROVIDERS,
+            provide(FunctionsService, { useClass: FunctionsService }),
+            provide(UserService, { useClass: UserService }),
+            PortalService,
+            provide(IBroadcastService, { useClass: BroadcastService }),
+            provide(ExceptionHandler, { useClass: FunctionsExceptionHandler })
+        ]);
 }
