@@ -8,6 +8,11 @@ export class BindingInputBase<T>
     required: boolean;   
     type: SettingType;
     help: string;
+
+    errorClass: string;
+    noErrorClass: string;
+    class: string;
+    isValid: boolean = true;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -18,16 +23,13 @@ export class CheckboxInput extends BindingInputBase<boolean>{
 }
 
 
-export class TextboxInput extends BindingInputBase<string>{
-    class: string = 'col-sm-6 input-group';
+export class TextboxInput extends BindingInputBase<string>{    
 
     constructor() {
         super();
         this.type = SettingType.string;
-    }
-
-    setClass() {
-        this.class = this.value ? 'col-sm-6  input-group' : 'col-sm-6  input-group has-error';
+        this.noErrorClass = 'col-sm-6 input-group';
+        this.errorClass = 'col-sm-6 input-group has-error';
     }
 }
 
@@ -54,6 +56,8 @@ export class PickerInput extends BindingInputBase<string>{
     constructor() {
         super();        
         this.type = SettingType.picker;
+        this.noErrorClass = 'col-sm-6 input-group';
+        this.errorClass = 'col-sm-6 input-group has-error';
     }
 
     setButtonNoActive() {        

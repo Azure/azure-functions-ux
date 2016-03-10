@@ -21,11 +21,14 @@ export class BindingComponent {
     @Input() canSave: boolean = true;    
     @Output() remove = new EventEmitter<UIFunctionBinding>();
     @Output() update = new EventEmitter<UIFunctionBinding>();
+    @Output() validChange = new EventEmitter<BindingComponent>();
     @Input() saveClick = new EventEmitter<void>();
     public model = new BindingInputList();
+    public areInputsValid: boolean = true;
+    public bindingValue: UIFunctionBinding;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
-    private _binding: UIFunctionBinding;
+    
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService) {
@@ -40,10 +43,10 @@ export class BindingComponent {
 
     set binding(value: UIFunctionBinding) {     
         this._functionsService.getBindingConfig().subscribe((bindings) => {
-            this._binding = value;
+            this.bindingValue = value;
             // Convert settings to input conotrls        
             var order = 0;
-            var bindingSchema: Binding = this._bindingManager.getBindingSchema(this._binding.type, this._binding.direction, bindings.bindings);
+            var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             this.model.inputs = [];
 
 
@@ -51,7 +54,7 @@ export class BindingComponent {
             
             bindingSchema.settings.forEach((setting) => {
                 
-                var functionSettingV = this._binding.settings.find((s) => {
+                var functionSettingV = this.bindingValue.settings.find((s) => {
                     return s.name === setting.name;
                 });
 
@@ -107,7 +110,7 @@ export class BindingComponent {
             inputTb.id = "name";
             inputTb.label = "Parameter name";
             inputTb.required = true;
-            inputTb.value = this._binding.name;// || setting.defaultValue;
+            inputTb.value = this.bindingValue.name;// || setting.defaultValue;
             inputTb.help = "Parameter name";
             this.model.inputs.splice(0, 0, inputTb);
 
@@ -115,7 +118,7 @@ export class BindingComponent {
             inputLabel.id = "Behavior";
             inputLabel.label = "Behavior";
             //inputLabel.required = true;
-            inputLabel.value = this._binding.direction.toString();// || setting.defaultValue;
+            inputLabel.value = this.bindingValue.direction.toString();// || setting.defaultValue;
             inputLabel.help = "Behavior";
 
             this.model.inputs.splice(1, 0, inputLabel);
@@ -130,7 +133,7 @@ export class BindingComponent {
     }
 
     removeClicked() {
-        this.remove.emit(this._binding);
+        this.remove.emit(this.bindingValue);
     }
 
     discardClicked() {
@@ -138,8 +141,8 @@ export class BindingComponent {
     }
 
     saveClicked() {
-        this._binding.name = this.model.getInput("name").value;
-        this._binding.settings.forEach((s) => {
+        this.bindingValue.name = this.model.getInput("name").value;
+        this.bindingValue.settings.forEach((s) => {
 
             var input: BindingInputBase<any> = this.model.getInput(s.name);
             s.value = input.value;
@@ -147,7 +150,12 @@ export class BindingComponent {
 
         this.setLabel();
         this.model.saveOriginInputs();
-        this.update.emit(this._binding);
+        this.update.emit(this.bindingValue);
+    }
+
+    onValidChanged(input: BindingInputBase<any>) {        
+        this.areInputsValid = this.model.isValid();
+        this.validChange.emit(this);
     }
 
     private replaceVariables(value: string, variables: any): string {
@@ -161,6 +169,6 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        this.model.label = this._binding.name ? this._binding.name : "" + " (" + this._binding.type + ")";
+        this.model.label = this.bindingValue.name ? this.bindingValue.name : "" + " (" + this.bindingValue.type + ")";
     }
 }

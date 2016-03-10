@@ -2,14 +2,14 @@
 <div class="form-group">    
     <label [attr.for]="input.id" class="col-sm-6 control-label" style="font-size:small;">{{input.label}}</label>
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
-        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
     </div>
 
-    <div *ngIf="input.type === 'picker'" class="checkbox col-sm-6 input-group">
-        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" disabled>
+    <div *ngIf="input.type === 'picker'" [ngClass]="input.class">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" disabled>
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>

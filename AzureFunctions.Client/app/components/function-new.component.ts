@@ -32,8 +32,11 @@ export class FunctionNewComponent {
     model: BindingList = new BindingList();
     clickSave: boolean = false;
     updateBindingsCount = 0;
+    areInputsValid: boolean = false;
+    functionNameClass: string = "col-md-3 has-error";
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _selectedTemplate: FunctionTemplate;
+    private _bindingComponents: BindingComponent[] = [];
 
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
@@ -122,8 +125,29 @@ export class FunctionNewComponent {
         }
     }
 
-    className() {
-        return this.functionName ? 'col-md-3' : 'col-md-3 has-error';
+    functionNameChanged(value: string) {                
+        this.functionNameClass = this.areInputsValid ? 'col-md-3' : 'col-md-3 has-error';
+        this.validate();
+    }
+
+    onValidChanged(component: BindingComponent) {        
+        var i = this._bindingComponents.findIndex((b) => {           
+            return b.bindingValue.id === component.bindingValue.id;
+        });
+
+        if (i !== -1) {
+            this._bindingComponents[i] = component;
+        } else {
+            this._bindingComponents.push(component);            
+        }
+        this.validate();
+    }
+
+    private validate() {        
+        this.areInputsValid = this.functionName ? true : false;
+        this._bindingComponents.forEach((b) => {
+            this.areInputsValid = b.areInputsValid && this.areInputsValid;
+        });      
     }
 
     private createFunction() {              

@@ -5,8 +5,9 @@
         <h3 class="panel-title pull-left" style="margin-right:10px">
             {{model.label}}
         </h3>
-        <button *ngIf="canDelete" class="btn btn-default pull-left" (click)="removeClicked()"><span class="glyphicon glyphicon-trash"></span></button>
-        <button *ngIf="canSave && model.isDirty()" (click)="saveClicked()" class="btn btn-primary pull-right">Save</button>
+        <button *ngIf="canDelete" class="btn btn-default pull-left" (click)="removeClicked()"><span class="glyphicon glyphicon-trash"></span></button>        
+        <button *ngIf="canSave && model.isDirty() && areInputsValid" (click)="saveClicked()" class="btn btn-primary pull-right">Save</button>
+        <button *ngIf="canSave && model.isDirty() && !areInputsValid" (click)="saveClicked()" class="btn btn-primary pull-right" disabled>Save</button>
         <button *ngIf="canSave && model.isDirty()" (click)="discardClicked()" class="btn btn-default pull-right" style="margin-right:10px">Cancel</button>
         <div class="clearfix"></div>
     </div>
@@ -15,12 +16,12 @@
         <div class="container-fluid">
             <div class="col-md-6">
                 <form class="form-horizontal">
-                    <binding-input *ngFor="#input of model.leftInputs" [input]="input"></binding-input>                    
+                    <binding-input *ngFor="#input of model.leftInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>                    
                 </form>
             </div>
             <div class="col-md-6">
                 <form class="form-horizontal">
-                    <binding-input *ngFor="#input of model.rightInputs" [input]="input"></binding-input>
+                    <binding-input *ngFor="#input of model.rightInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
                 </form>
             </div>
         </div>

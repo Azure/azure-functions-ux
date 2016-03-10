@@ -33,26 +33,19 @@ export class BindingInputList {
             if (this.inputs[i].value !== this.originInputs[i].value) {
                 result = true;
             }
-
-            if (this.inputs[i].type === SettingType.string) {
-                var anyObj: any = this.inputs[i];
-                if (anyObj.setClass) {
-                    anyObj.setClass();
-                }
-            }
         }
         return result;
     }
 
-    //isValid() {
-    //    this.inputs.forEach((input) => {
-    //        var tb = <TextboxInput>input;
-
-    //        if (tb) {
-    //            tb.valid = tb.value ? true : false;
-    //        }
-    //    });
-    //}
+    isValid() {
+        var result = true;
+        this.inputs.forEach((input) => {            
+            if (!input.isValid) {
+                result = false;
+            }
+        });
+        return result;
+    }
 
     discard() {
         this.inputs = JSON.parse(JSON.stringify(this.originInputs));
