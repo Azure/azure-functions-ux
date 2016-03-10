@@ -31,9 +31,7 @@ namespace AzureFunctions.Authentication
                 }
                 else if (string.IsNullOrEmpty(portalToken))
                 {
-                    context.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
-                    context.Response.StatusCode = 302;
-                    context.Response.End();
+                    principal = new ClaimsPrincipal(new GenericIdentity(Constants.AnonymousUserName));
                 }
                 else
                 {

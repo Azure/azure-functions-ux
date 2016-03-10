@@ -111,7 +111,10 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF !ERRORLEVEL! NEQ 0 goto error
 
   call :ExecuteCmd npm install -g jspm
-  IF !ERRORLEVEL! NEQ 0 goto error
+  IF !ERRORLEVEL! NEQ 0 (
+	call :ExecuteCmd npm install -g jspm
+	IF !ERRORLEVEL! NEQ 0 goto error
+  )
 
   call :ExecuteCmd jspm install
   IF !ERRORLEVEL! NEQ 0 goto error
