@@ -171,7 +171,9 @@ namespace AzureFunctions.Modules
                     }
                     else if (string.IsNullOrEmpty(portalToken))
                     {
-                        principal = new ClaimsPrincipal(new GenericIdentity(Constants.AnonymousUserName));
+                        HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
+                        HttpContext.Current.Response.StatusCode = 302;
+                        HttpContext.Current.Response.End();
                     }
                     else
                     {
