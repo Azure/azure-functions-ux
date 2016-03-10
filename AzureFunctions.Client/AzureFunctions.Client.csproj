@@ -24,9 +24,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
     <Content Include="ace\themes\visualstudio.css" />
+    <Content Include="images\landing-page.png" />
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\busy-state.style.css" />
+    <Content Include="styles\getting-started.style.css" />
     <Content Include="styles\integrate.style.css" />
     <Content Include="styles\template-picker.style.css" />
     <Content Include="styles\app.style.css" />
@@ -43,6 +45,7 @@
     <Content Include="templates\busy-state.component.html" />
     <Content Include="templates\function-integrate-v2.component.html" />
     <Content Include="templates\function-new.component.html" />
+    <Content Include="templates\getting-started.component.html" />
     <Content Include="templates\template-picker.component.html" />
     <Content Include="templates\binding-input.component.html" />
     <Content Include="templates\binding.component.html" />
@@ -80,6 +83,7 @@
     <TypeScriptCompile Include="app\components\function-edit.component.ts" />
     <TypeScriptCompile Include="app\components\function-integrate.component.ts" />
     <TypeScriptCompile Include="app\components\function-run.component.ts" />
+    <TypeScriptCompile Include="app\components\getting-started.component.ts" />
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\function-new.component.ts" />
     <TypeScriptCompile Include="app\components\function-new-v2.component.ts" />
@@ -167,6 +171,7 @@
   <ItemGroup>
     <Content Include="package.json" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

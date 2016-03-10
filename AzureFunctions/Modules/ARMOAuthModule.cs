@@ -171,9 +171,7 @@ namespace AzureFunctions.Modules
                     }
                     else if (string.IsNullOrEmpty(portalToken))
                     {
-                        HttpContext.Current.Response.RedirectLocation = $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
-                        HttpContext.Current.Response.StatusCode = 302;
-                        HttpContext.Current.Response.End();
+                        principal = new ClaimsPrincipal(new GenericIdentity(Constants.AnonymousUserName));
                     }
                     else
                     {
@@ -187,11 +185,21 @@ namespace AzureFunctions.Modules
                 }
                 else
                 {
-                    principal = new ClaimsPrincipal(new ClaimsIdentity("SCM"));
+                    principal = new ClaimsPrincipal(new GenericIdentity("SCM"));
                 }
 
                 HttpContext.Current.User = principal;
                 Thread.CurrentPrincipal = principal;
+
+                if (!principal.Identity.Name.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase)
+                    && string.IsNullOrEmpty(request.Cookies[Constants.AuthenticatedCookie]?.Value))
+                {
+                    response.Cookies.Add(new HttpCookie(Constants.AuthenticatedCookie, "true") { Path = "/" });
+                }
+                else if (!string.IsNullOrEmpty(request.Cookies[Constants.AuthenticatedCookie]?.Value))
+                {
+                    response.Cookies.Add(new HttpCookie(Constants.AuthenticatedCookie, string.Empty) { Expires = DateTime.UtcNow.AddDays(-2), Path = "/" });
+                }
 
                 return;
             }

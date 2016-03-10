@@ -33,5 +33,6 @@
         public const string FrontEndPrincipalNameHeader = "X-MS-CLIENT-PRINCIPAL-NAME";
         public const string AnonymousUserName = "Anonymous";
         public const string PortalReferrer = "https://portal.azure.com/";
+        public const string AuthenticatedCookie = "authenticated";
     }
 }
