@@ -1,11 +1,12 @@
-﻿<form class="form-horizontal">
-    <div class="form-group">
-        <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
-        <div [ngClass]="functionNameClass">
-            <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
+﻿<div class="wrapper">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
+            <div [ngClass]="functionNameClass">
+                <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
     <br />
 
@@ -22,18 +23,19 @@
             <hr />
         </div>
 
-    <div *ngIf="model.config && model.trigger">
-        <h4>Trigger</h4>
-        <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-        <h4 *ngIf="model.inputs">Integration</h4>
-        <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-        <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+        <div *ngIf="model.config && model.trigger">
+            <h4>Trigger</h4>
+            <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+            <h4 *ngIf="model.inputs">Integration</h4>
+            <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+            <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
 
             <hr />
         </div>
 
-    <div class="text-center">
-        <button *ngIf="areInputsValid" class="btn btn-primary" (click)="onCreate()">Create</button>
-        <button *ngIf="!areInputsValid" class="btn btn-primary" (click)="onCreate()" disabled>Create</button>
+        <div class="text-center">
+            <button *ngIf="areInputsValid" class="btn btn-primary" (click)="onCreate()">Create</button>
+            <button *ngIf="!areInputsValid" class="btn btn-primary" (click)="onCreate()" disabled>Create</button>
+        </div>
     </div>
 </div>
