@@ -2,9 +2,10 @@
     <div class="form-group">
         <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
         <div [ngClass]="functionNameClass">
-            <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" type="email" class="form-control" placeholder="Function name">
+            <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
         </div>
-    </form>
+    </div>
+</form>
 
     <br />
 
