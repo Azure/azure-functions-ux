@@ -22,26 +22,7 @@
             </div>
 
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
-            <div class="table-layout" *ngIf="noContainerFound && subscriptions">
-                <div class="row">
-                    <div class="left"><label>Subscription:</label></div>
-                    <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="onSubscriptionSelect($event)"></drop-down>
-                </div>
-                <div class="row">
-                    <div class="left"><label>Region:</label></div>
-                    <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
-                </div>
-                <div class="row">
-                    <div class="left">
-                        <button [disabled]="!selectedSubscription || !selectedGeoRegion" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="noTenantsFound">
-                <div>It looks like you don't have an Azure account. Do you want to create a 24 hour free trial functions container?</div>
-                <button class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
-            </div>
+            
 
         </div>
     </div>

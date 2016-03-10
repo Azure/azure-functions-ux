@@ -1,16 +1,53 @@
 ﻿<div class="container">
-<div class="wrapper">
-    <div id="marketing">
-        <img src="/images/landing-page.png" />
-        <div>Lorem ipsum dolor sit amet, cu postea audire nam, et enim vivendo referrentur sit, eu sea persius incorrupte. Eam malis assueverit scripserit ut, te vix saperet laoreet. Mazim legere vel ea, mel assum periculis te, albucius patrioque concongue nostrud instructior, te vel stet dolorum. An sumo noster pro, ne veri errem admodum nec. No mediocrem adversarium philosophia nec. Modo saperet nam te, duo cu ancillae vulputate. Mel eu convenire gloriatur liberavisse.</div>
-     </div>
-    <div id="call-action">
-        <h2>Create your first function rigt now for free</h2>
-        <div>
-            Sign in with your Microsoft account for a free one-hour trial of Azure Functions. No credit card required.
+
+    <div *ngIf="!loggedIn" class="wrapper">
+        <div id="marketing">
+            <img src="/images/landing-page.png" />
+            <div>Lorem ipsum dolor sit amet, cu postea audire nam, et enim vivendo referrentur sit, eu sea persius incorrupte. Eam malis assueverit scripserit ut, te vix saperet laoreet. Mazim legere vel ea, mel assum periculis te, albucius patrioque concongue nostrud instructior, te vel stet dolorum. An sumo noster pro, ne veri errem admodum nec. No mediocrem adversarium philosophia nec. Modo saperet nam te, duo cu ancillae vulputate. Mel eu convenire gloriatur liberavisse.</div>
+         </div>
+        <div id="call-action">
+            <h2>Create your first function rigt now for free</h2>
+            <div>
+                Sign in with your Microsoft account for a free one-hour trial of Azure Functions. No credit card required.
+            </div>
+            <div (click)="login()" class="custom-button">Get Started</div>
+            <div><strong>Already an Azure customer?</strong> Get started on your subscription by signing in with your <a class="clickable" (click)="login()">Azure Account</a></div>
         </div>
-        <div (click)="login()" class="custom-button">Get Started</div>
-        <div><strong>Already an Azure customer?</strong> Get started on your subscription by signing in with your <a class="clickable" (click)="login()">Azure Account</a></div>
+    </div>
+
+    <div *ngIf="loggedIn" class="wrapper">
+        <h2>Get started with Azure Functions</h2>
+
+        <div *ngIf="user">
+            {{user.email}}
+        </div>
+
+        <div *ngIf="tryItNow">
+            <div>
+                It looks like you don't have an Azure account. Do you want to create a 24 hour free trial functions container?
+            </div>
+            <div (click)="createTrialFunctionsContainer()" class="custom-button">Create Trial Functions Container</div>
+        </div>
+
+        <div *ngIf="!tryItNow">
+            <div class="table-layout" *ngIf="noContainerFound && subscriptions">
+                <div class="row">
+                    <div class="left"><label>Subscription:</label></div>
+                    <drop-down [options]="subscriptions" placeholder="Select Subscription" (value)="onSubscriptionSelect($event)"></drop-down>
+                </div>
+                <div class="row">
+                    <div class="left"><label>Region:</label></div>
+                    <drop-down [options]="geoRegions" placeholder="Select Location" (value)="onGeoRegionChange($event)"></drop-down>
+                </div>
+                <div class="row">
+                    <div class="left">
+                        <button [disabled]="!selectedSubscription || !selectedGeoRegion" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-</div>
+
+
+
