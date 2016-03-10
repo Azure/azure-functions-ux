@@ -23,6 +23,8 @@ export interface Binding {
     type: BindingType;
     displayName: string;
     direction: DirectionType;
+    defaultParameterName?: string;
+    parameterNamePrompt?: string;
     settings: Setting[];
 }
 
@@ -83,4 +85,5 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     name: string;
     title?: string;
     settings: FunctionSetting[];
+    hiddenList?: string[];
 }

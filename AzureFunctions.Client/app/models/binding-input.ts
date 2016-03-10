@@ -13,6 +13,7 @@ export class BindingInputBase<T>
     noErrorClass: string;
     class: string;
     isValid: boolean = true;
+    isHidden: boolean = false;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{

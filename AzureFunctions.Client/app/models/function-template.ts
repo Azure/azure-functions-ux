@@ -17,4 +17,5 @@ export interface FunctionTemplateMetadata {
     trigger: string;
     language: string;
     category?: string;
+    userPrompt?: string[];
 }

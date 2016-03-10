@@ -17,12 +17,14 @@ export class BindingInputList {
         this.leftInputs = [];
         var pushLeft = true;
         this.inputs.forEach((input, index) => {
-            if (pushLeft) {
-                this.leftInputs.push(input);
-            } else {
-                this.rightInputs.push(input);
+            if (!input.isHidden) {
+                if (pushLeft) {
+                    this.leftInputs.push(input);
+                } else {
+                    this.rightInputs.push(input);
+                }
+                pushLeft = !pushLeft;
             }
-            pushLeft = !pushLeft;
         });
     }
 

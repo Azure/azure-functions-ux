@@ -47,50 +47,21 @@ export class FunctionNewComponent {
     }
 
     onTemplatePickUpComplete(templateName: string) {
-        //var splitResult = templateName.split('_');
-        //var type = BindingType[splitResult[0]];
-        //var language = LanguageType[splitResult[1]];       
-
+        this._bindingComponents = [];
         this._functionsService.getTemplates().subscribe((templates) => {
             this._selectedTemplate = templates.find((t) => t.id === templateName);
             
-            //if (type) {
-            //    functionTemplate = templates.find((t) => {
-            //        if (t.language === language) {
-            //            var find = t.bindings.find((b) => {
-            //                return b.type === type;
-            //            });
-            //            return find ? true : false;
-            //        }
-            //        return false;
-            //    });
-            //} else {
-            //    functionTemplate = templates.find((t) => {
-            //        return (t.language === language) && (t.bindings.length === 0);
-            //    });
-            //}
-
-            //this.model.config = {
-            //    schema: "",
-            //    version: "",
-            //    bindings: []
-            //};
-
             this._functionsService.getBindingConfig().subscribe((bindings) => {
-
-                //var binding = bindings.bindings.find((b) => b.type.toString().toLowerCase() === templateName.toLowerCase());
 
                 this.model.config = this.bc.functionConfigToUI({
                     disabled: false,                                        
                     bindings: this._selectedTemplate.function.bindings
                 }, bindings.bindings);
-
-                //this.model.config.bindings.push(this.bc.getDefaultBinding(binding.type, binding.direction, bindings.bindings));
-
-                //functionTemplate.bindings.forEach((b) => {
-                //    this.model.config.bindings.push(this.bc.getDefaultBinding(b.type, b.direction, bindings.bindings));
-                //});
                 
+                this.model.config.bindings.forEach((b) => {
+                    b.hiddenList = this._selectedTemplate.metadata.userPrompt || [];
+                });
+
                 this.model.setBindings();
 
             });

@@ -26,6 +26,7 @@ export class BindingComponent {
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
+    public hasInputsToShow = true;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     
@@ -41,14 +42,19 @@ export class BindingComponent {
         }
     }
 
-    set binding(value: UIFunctionBinding) {     
+    set binding(value: UIFunctionBinding) {
+        var that = this;     
         this._functionsService.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
             // Convert settings to input conotrls        
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
+            var newFunction = false;
             this.model.inputs = [];
-
+            
+            if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
+                newFunction = true;
+            }
 
             this.setLabel();
             
@@ -58,6 +64,15 @@ export class BindingComponent {
                     return s.name === setting.name;
                 });
 
+                var isHidden = false;                
+                if (newFunction) {
+                    isHidden = true;
+                    var match = this.bindingValue.hiddenList.find((h) => {
+                        return h === setting.name;
+                    });
+                    isHidden = match ? true : false;                    
+                }                
+
                 switch (setting.value) {                                        
                     case SettingType.string:
                     case SettingType.int:
@@ -65,7 +80,7 @@ export class BindingComponent {
                             let input = new PickerInput();
                             input.resource = setting.resource;
                             input.id = setting.name;
-                            //input.type = setting.value;
+                            input.isHidden = isHidden;
                             input.label = this.replaceVariables(setting.label, bindings.variables);
                             input.required = setting.required;
                             input.value = functionSettingV.value || setting.defaultValue;
@@ -74,7 +89,7 @@ export class BindingComponent {
                         } else {
                             let input = new TextboxInput();                            
                             input.id = setting.name;
-                            //input.type = setting.value;
+                            input.isHidden = isHidden;
                             input.label = this.replaceVariables(setting.label, bindings.variables);
                             input.required = setting.required;
                             input.value = functionSettingV.value || setting.defaultValue;
@@ -85,7 +100,7 @@ export class BindingComponent {
                     case SettingType.enum:
                         let ddInput = new SelectInput();
                         ddInput.id = setting.name;
-                        //ddInput.type = setting.value;    
+                        ddInput.isHidden = isHidden;
                         ddInput.label = setting.label;
                         ddInput.enum = setting.enum;
                         ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
@@ -95,6 +110,7 @@ export class BindingComponent {
                     case SettingType.boolean:
                         let chInput = new CheckboxInput();
                         chInput.id = setting.name;
+                        chInput.isHidden = isHidden;
                         chInput.type = setting.value;  
                         chInput.label = this.replaceVariables(setting.label, bindings.variables);
                         chInput.required = false;
@@ -108,22 +124,24 @@ export class BindingComponent {
 
             let inputTb = new TextboxInput();
             inputTb.id = "name";
-            inputTb.label = "Parameter name";
+            inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
+            inputTb.isHidden = newFunction;
             inputTb.required = true;
-            inputTb.value = this.bindingValue.name;// || setting.defaultValue;
+            inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
             inputTb.help = "Parameter name";
             this.model.inputs.splice(0, 0, inputTb);
 
             let inputLabel = new LabelInput();
             inputLabel.id = "Behavior";
+            inputLabel.isHidden = newFunction;
             inputLabel.label = "Behavior";
-            //inputLabel.required = true;
             inputLabel.value = this.bindingValue.direction.toString();// || setting.defaultValue;
             inputLabel.help = "Behavior";
 
             this.model.inputs.splice(1, 0, inputLabel);
 
             this.model.saveOriginInputs();
+            this.hasInputsToShow = this.model.leftInputs.length !== 0;
         });
     }
 
