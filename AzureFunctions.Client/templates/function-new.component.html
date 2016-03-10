@@ -12,30 +12,28 @@
 
     <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
 
-    <div *ngIf="model.config">
-
+    <div *ngIf="!hasConfigUI">
         <h2>Configuration</h2>
         <hr />
-        <div *ngIf="!model.trigger" class="text-center">
+        <div class="text-center">
             <br />
             No configuration required for this template
             <br />
             <hr />
         </div>
+    </div>
 
-        <div *ngIf="model.config && model.trigger">
-            <h4>Trigger</h4>
-            <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-            <h4 *ngIf="model.inputs">Integration</h4>
-            <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-            <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+    <div *ngIf="hasConfigUI">
+        <h2 *ngIf="model.trigger">Configuration</h2>      
+        <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>        
+        <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+        <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
 
-            <hr />
-        </div>
+        <hr />
+    </div>
 
-        <div class="text-center">
-            <button *ngIf="areInputsValid" class="btn btn-primary" (click)="onCreate()">Create</button>
-            <button *ngIf="!areInputsValid" class="btn btn-primary" (click)="onCreate()" disabled>Create</button>
-        </div>
+    <div class="text-center">
+        <button *ngIf="areInputsValid" class="btn btn-primary" (click)="onCreate()">Create</button>
+        <button *ngIf="!areInputsValid" class="btn btn-primary" (click)="onCreate()" disabled>Create</button>
     </div>
 </div>

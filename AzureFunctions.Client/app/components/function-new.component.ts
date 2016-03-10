@@ -27,15 +27,15 @@ export class FunctionNewComponent {
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
-    bc: BindingManager = new BindingManager();
-    //bindings: FunctionBinding[] = [];
+    bc: BindingManager = new BindingManager();    
     model: BindingList = new BindingList();
     clickSave: boolean = false;
     updateBindingsCount = 0;
     areInputsValid: boolean = false;
     functionNameClass: string = "col-md-3 has-error";
-    private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
+    hasConfigUI :boolean = true;
     private _selectedTemplate: FunctionTemplate;
+    private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();    
     private _bindingComponents: BindingComponent[] = [];
 
 
@@ -62,6 +62,8 @@ export class FunctionNewComponent {
                     b.hiddenList = this._selectedTemplate.metadata.userPrompt || [];
                 });
 
+                this.hasConfigUI = ((this._selectedTemplate.metadata.userPrompt) && (this._selectedTemplate.metadata.userPrompt.length > 0));
+                    
                 this.model.setBindings();
 
             });
@@ -73,7 +75,7 @@ export class FunctionNewComponent {
             return;
         }
         this.updateBindingsCount = this.model.config.bindings.length;
-        if (this.updateBindingsCount === 0) {
+        if (this.updateBindingsCount === 0 || !this.hasConfigUI) {
             this.createFunction();
             return;
         }

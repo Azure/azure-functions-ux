@@ -17,7 +17,8 @@ export class BindingList {
         }
 
         this.config.bindings.forEach((i) => {
-            i.title = i.name ? i.name : "" + " (" + i.type + ")";
+            var typeString = " (" + i.type + ")";
+            i.title = i.name ? i.name + typeString : typeString;            
         });
 
         this.trigger = this.config.bindings.find((binding: UIFunctionBinding, index) => {

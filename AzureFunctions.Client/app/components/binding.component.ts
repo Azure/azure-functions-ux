@@ -70,7 +70,7 @@ export class BindingComponent {
                     var match = this.bindingValue.hiddenList.find((h) => {
                         return h === setting.name;
                     });
-                    isHidden = match ? true : false;                    
+                    isHidden = match ? false : true;
                 }                
 
                 switch (setting.value) {                                        
@@ -140,7 +140,7 @@ export class BindingComponent {
 
             this.model.inputs.splice(1, 0, inputLabel);
 
-            this.model.saveOriginInputs();
+            this.model.saveOriginInputs();            
             this.hasInputsToShow = this.model.leftInputs.length !== 0;
         });
     }
@@ -187,6 +187,7 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        this.model.label = this.bindingValue.name ? this.bindingValue.name : "" + " (" + this.bindingValue.type + ")";
+        var typeString = " (" + this.bindingValue.type + ")";
+        this.model.label = this.bindingValue.name ? this.bindingValue.name + typeString : typeString;
     }
 }
