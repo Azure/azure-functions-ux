@@ -46,8 +46,6 @@ export class DashboardComponent implements OnInit {
         private _portalService: PortalService,
         private _broadcastService: IBroadcastService) {
 
-
-
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
                 delete this.selectedFunction;
@@ -69,7 +67,8 @@ export class DashboardComponent implements OnInit {
                 this._functionsService.setToken(token);
                 this._functionsService.getTemplates()
                     .subscribe(res => this.functionTemplates = res);
-                this.initFunctions();
+                this._functionsService.initializeUser()
+                    .subscribe(r => this.initFunctions());
             });
         }
         else {
