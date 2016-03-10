@@ -28,10 +28,10 @@
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\busy-state.style.css" />
+    <Content Include="styles\dashboard.style.css" />
     <Content Include="styles\getting-started.style.css" />
     <Content Include="styles\integrate.style.css" />
     <Content Include="styles\template-picker.style.css" />
-    <Content Include="styles\app.style.css" />
     <Content Include="styles\drop-down.style.css" />
     <Content Include="styles\function-configure.style.css" />
     <Content Include="styles\function-dev.style.css" />
@@ -43,6 +43,7 @@
     <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\busy-state.component.html" />
+    <Content Include="templates\dashboard.component.html" />
     <Content Include="templates\function-integrate-v2.component.html" />
     <Content Include="templates\function-new.component.html" />
     <Content Include="templates\getting-started.component.html" />
@@ -50,7 +51,6 @@
     <Content Include="templates\binding-input.component.html" />
     <Content Include="templates\binding.component.html" />
     <Content Include="templates\app-settings.component.html" />
-    <Content Include="templates\app.component.html" />
     <Content Include="templates\binding-designer.component.html" />
     <Content Include="templates\drop-down.component.html" />
     <Content Include="templates\function-configure.component.html" />
@@ -72,6 +72,7 @@
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
     <TypeScriptCompile Include="app\components\busy-state.component.ts" />
+    <TypeScriptCompile Include="app\components\dashboard.component.ts" />
     <TypeScriptCompile Include="app\components\function-integrate-v2.component.ts" />
     <TypeScriptCompile Include="app\components\binding.component.ts" />
     <TypeScriptCompile Include="app\components\drop-down.component.ts" />

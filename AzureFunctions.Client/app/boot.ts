@@ -1,5 +1,4 @@
 /// <reference path="..\typings\browser.d.ts" />
-
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './components/app.component';
@@ -12,7 +11,6 @@ import {PortalService} from './services/portal.service';
 import {IBroadcastService} from './services/ibroadcast.service';
 import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
-import {GettingStartedComponent} from './components/getting-started.component';
 
 var mockedProviders = [
     provide(FunctionsService, { useClass: MockFunctionsService }),
@@ -31,14 +29,10 @@ var commonProviders = [
     provide(ExceptionHandler, { useClass: FunctionsExceptionHandler })
 ];
 
-var isProd = window.location.protocol === 'https:';
-var app = document.cookie.indexOf('authenticated=true') !== -1
-    ? AppComponent
-    : GettingStartedComponent;
+var useMockedProviders = (window.location.protocol === 'http:');
 
-
-if (isProd) {
-    bootstrap(app, commonProviders.concat(prodProviders));
+if (useMockedProviders) {
+    bootstrap(AppComponent, commonProviders.concat(mockedProviders));
 } else {
-    bootstrap(app, commonProviders.concat(mockedProviders));
+    bootstrap(AppComponent, commonProviders.concat(prodProviders));
 }

@@ -1,7 +1,7 @@
 ﻿import {Component} from 'angular2/core';
 
 @Component({
-    selector: 'azure-functions-app',
+    selector: 'getting-started',
     templateUrl: 'templates/getting-started.component.html',
     styleUrls: ['styles/getting-started.style.css']
 })
