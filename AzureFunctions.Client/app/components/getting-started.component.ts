@@ -7,6 +7,6 @@
 })
 export class GettingStartedComponent {
     login() {
-        window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin`);
+        window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin${window.location.search}`);
     }
 }
