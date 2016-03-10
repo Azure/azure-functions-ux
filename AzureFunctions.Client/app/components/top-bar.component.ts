@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter} from 'angular2/core';
+import {Component, OnInit, EventEmitter, Input} from 'angular2/core';
 import {UserService} from '../services/user.service';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
@@ -11,6 +11,7 @@ import {PortalService} from '../services/portal.service';
     outputs: ['appSettingsClicked']
 })
 export class TopBarComponent implements OnInit {
+    @Input() gettingStarted: boolean;
     public user: User;
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
