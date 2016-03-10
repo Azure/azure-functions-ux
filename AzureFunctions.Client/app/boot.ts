@@ -32,7 +32,7 @@ var commonProviders = [
 ];
 
 var isProd = window.location.protocol === 'https:';
-var app = document.cookie.indexOf('authenticated=true')
+var app = document.cookie.indexOf('authenticated=true') !== -1
     ? AppComponent
     : GettingStartedComponent;
 
