@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
                         this.gettingStarted = true;
                     } else {
                         this.loggedIn = false;
+                        this.gettingStarted = true;
                     }
                 },
                 () => {
