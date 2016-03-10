@@ -1,0 +1,50 @@
+<busy-state></busy-state>
+<div class="container-full">
+    <!-- TODO: move padding to css -->
+    <top-bar (appSettingsClicked)='onAppSettingsClicked($event)'></top-bar>
+    <div class="content">
+        <sidebar [functionsInfo]="functionsInfo"></sidebar>
+        <div class="work-space">
+            <div *ngIf="selectedFunction">
+                <div *ngIf="(selectedFunction.name !== 'New Function' && selectedFunction.name !== 'New Function (V2)') || !selectedFunction.clientOnly">
+                    <function-edit [selectedFunction]="selectedFunction">
+                    </function-edit>
+                </div>
+                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
+                    <function-new-v2></function-new-v2>
+                </div>
+                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function (V2)'">
+                    <function-new></function-new> 
+                </div>
+            </div>
+
+            <div *ngIf="openAppSettings">
+                <app-settings></app-settings>
+            </div>
+
+            <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
+            <div class="table-layout" *ngIf="noContainerFound && subscriptions">
+                <div class="row">
+                    <div class="left"><label>Subscription:</label></div>
+                    <drop-down [options]="subscriptions" [placeholder]="subscriptionPickerPlaceholder" (value)="onSubscriptionSelect($event)"></drop-down>
+                </div>
+                <div class="row">
+                    <div class="left"><label>Region:</label></div>
+                    <drop-down [options]="geoRegions" [placeholder]="'Select Location'" (value)="onGeoRegionChange($event)"></drop-down>
+                </div>
+                <div class="row">
+                    <div class="left">
+                        <button [disabled]="!selectedSubscription || !selectedGeoRegion" class="custom-button clear-both" (click)="createFunctionsContainer()">Create</button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="noTenantsFound">
+                <div>It looks like you don't have an Azure account. Do you want to create a 24 hour free trial functions container?</div>
+                <button class="custom-button clear-both" (click)="createTrialFunctionsContainer()">Create Trial Functions Container</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

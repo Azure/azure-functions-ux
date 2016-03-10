@@ -196,8 +196,7 @@ namespace AzureFunctions.Modules
                 {
                     response.Cookies.Add(new HttpCookie(Constants.AuthenticatedCookie, "true") { Path = "/" });
                 }
-                else if (principal.Identity.Name.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase) &&
-                    !string.IsNullOrEmpty(request.Cookies[Constants.AuthenticatedCookie]?.Value))
+                else if (!string.IsNullOrEmpty(request.Cookies[Constants.AuthenticatedCookie]?.Value))
                 {
                     response.Cookies.Add(new HttpCookie(Constants.AuthenticatedCookie, string.Empty) { Expires = DateTime.UtcNow.AddDays(-2), Path = "/" });
                 }
