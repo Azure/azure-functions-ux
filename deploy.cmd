@@ -100,7 +100,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 :: 5. Create lastCommit, packageJsonLastCommit, bowerLastCommit, typingsLastCommit vars
   pushd "%DEPLOYMENT_SOURCE%"
 
-  call :ExecuteCmd git log -n 1 > latestCommit.txt
+  call :ExecuteCmd git log -n 1 > lastCommit.txt
   IF !ERRORLEVEL! NEQ 0 goto error
   SET /p lastCommit=<lastCommit.txt
   DEL lastCommit.txt
@@ -131,6 +131,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 
   IF NOT EXIST "%NPM_TOOLS%" (
     mkdir "%NPM_TOOLS%"
+  ) ELSE (
+    echo Folder "%NPM_TOOLS%" exists
   )
 
   SET PATH=%PATH%;%NPM_TOOLS%
@@ -144,6 +146,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
       call :ExecuteCmd npm install -g jspm
       IF !ERRORLEVEL! NEQ 0 goto error
     )
+  ) ELSE (
+    echo jspm.cmd exists, skipping npm install -g jspm
   )
 
   SET res=F
@@ -152,6 +156,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%res%"=="T" (
     call :ExecuteCmd npm install
     IF !ERRORLEVEL! NEQ 0 goto error
+  ) ELSE (
+    echo skipping npm install
   )
 
   SET res=F
@@ -160,6 +166,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%res%"=="T" (
     call :ExecuteCmd jspm install
     IF !ERRORLEVEL! NEQ 0 goto error
+  ) ELSE (
+    echo skipping jspm install
   )
 
   SET res=F
@@ -168,6 +176,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%res%"=="T" (
     call :ExecuteCmd npm run typings install
     IF !ERRORLEVEL! NEQ 0 goto error
+  ) ELSE (
+    echo skipping typings install
   )
 
   call :ExecuteCmd npm run tsc
@@ -195,6 +205,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   IF "%res%"=="T" (
     call :ExecuteCmd bower install
     IF !ERRORLEVEL! NEQ 0 goto error
+  ) ELSE (
+    echo skipping bower install
   )
   popd
 )
