@@ -1,22 +1,6 @@
 ﻿<top-bar gettingStarted="true" ></top-bar>
 <div class="container">
-
-    <div *ngIf="!_loggedIn" class="wrapper">
-        <div id="marketing">
-            <img src="/images/landing-page.png" />
-            <div>Lorem ipsum dolor sit amet, cu postea audire nam, et enim vivendo referrentur sit, eu sea persius incorrupte. Eam malis assueverit scripserit ut, te vix saperet laoreet. Mazim legere vel ea, mel assum periculis te, albucius patrioque concongue nostrud instructior, te vel stet dolorum. An sumo noster pro, ne veri errem admodum nec. No mediocrem adversarium philosophia nec. Modo saperet nam te, duo cu ancillae vulputate. Mel eu convenire gloriatur liberavisse.</div>
-         </div>
-        <div id="call-action">
-            <h2>Create your first function right now for free</h2>
-            <div>
-                Sign in with your Microsoft account for a free one-hour trial of Azure Functions. No credit card required.
-            </div>
-            <div (click)="login()" class="custom-button">Get Started</div>
-            <div><strong>Already an Azure customer?</strong> Get started on your subscription by signing in with your <a class="clickable" (click)="login()">Azure Account</a></div>
-        </div>
-    </div>
-
-    <div *ngIf="_loggedIn" class="wrapper">
+    <div class="wrapper">
         <h2>Get started with Azure Functions</h2>
 
         <div *ngIf="user">

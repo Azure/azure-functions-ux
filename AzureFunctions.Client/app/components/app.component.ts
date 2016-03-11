@@ -10,12 +10,11 @@ import {BusyStateComponent} from './busy-state.component';
     selector: 'azure-functions-app',
     template: `<busy-state></busy-state>
 <functions-dashboard *ngIf="!gettingStarted"></functions-dashboard>
-<getting-started *ngIf="gettingStarted && ready" [loggedIn]="loggedIn" (userReady)="onUserReady($event)"></getting-started>`,
+<getting-started *ngIf="gettingStarted && ready" (userReady)="onUserReady($event)"></getting-started>`,
     directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent]
 })
 export class AppComponent implements OnInit {
     public gettingStarted: boolean;
-    public loggedIn: boolean;
     public ready: boolean;
 
     constructor(
@@ -40,23 +39,20 @@ export class AppComponent implements OnInit {
 
         this._functionsService.initializeUser()
             .subscribe(
-                res => this.gettingStarted = !res,
-                e => {
-                    if (e.status === 404) {
-                        this.loggedIn = true;
-                        this.gettingStarted = true;
-                    } else {
-                        this.loggedIn = false;
-                        this.gettingStarted = true;
-                    }
+                res => {
+                    this.gettingStarted = !res;
                     this._broadcastService.clearBusyState();
                     this.ready = true;
                 },
-                () => {
-                    this._broadcastService.clearBusyState();
-                    this.ready = true;
-                }
-            );
+                e => {
+                    if (e.status === 404) {
+                        this.gettingStarted = true;
+                        this._broadcastService.clearBusyState();
+                        this.ready = true;
+                    } else {
+                        console.log(e);
+                    }
+                });
     }
 
     onUserReady(userReady: boolean) {

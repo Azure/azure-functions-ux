@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output, EventEmitter} from 'angular2/core';
+﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from 'angular2/core';
 import {UserService} from '../services/user.service';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
@@ -14,9 +14,8 @@ import {TopBarComponent} from './top-bar.component';
     styleUrls: ['styles/getting-started.style.css'],
     directives: [DropDownComponent, TopBarComponent]
 })
-export class GettingStartedComponent {
+export class GettingStartedComponent implements OnInit {
     @Output() userReady: EventEmitter<boolean>;
-    public _loggedIn: boolean;
 
     public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
@@ -39,10 +38,7 @@ export class GettingStartedComponent {
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 
-    @Input() set loggedIn(value: boolean) {
-        this._loggedIn = value;
-        if (!value) return;
-
+    ngOnInit() {
         this._broadcastService.setBusyState();
 
         this._userService.getUser()
