@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AADOAuth2AccessToken.cs" />
+    <Compile Include="Authentication\AzureFunctionsIdentity.cs" />
+    <Compile Include="Authentication\AzureFunctionsPrincipal.cs" />
     <Compile Include="Authentication\FrontEndAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Authentication\LocalhostAuthProvider.cs" />

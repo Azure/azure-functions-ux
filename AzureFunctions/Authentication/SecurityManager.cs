@@ -23,9 +23,9 @@ namespace AzureFunctions.Authentication
                 : _frontEndAuthProvider;
         }
 
-        public static void AuthenticateRequest(HttpContextBase context)
+        public static bool TryAuthenticateRequest(HttpContextBase context)
         {
-            GetAuthProvider(context).AuthenticateRequest(context);
+            return GetAuthProvider(context).TryAuthenticateRequest(context);
         }
 
         public static void PutOnCorrectTenant(HttpContextBase context)
@@ -33,5 +33,9 @@ namespace AzureFunctions.Authentication
             GetAuthProvider(context).PutOnCorrectTenant(context);
         }
 
+        public static string GetLoginUrl(HttpContextBase context)
+        {
+            return GetAuthProvider(context).GetLoginUrl(context);
+        }
     }
 }

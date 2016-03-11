@@ -14,9 +14,9 @@ namespace AzureFunctions.Authentication
 {
     public class FrontEndAuthProvider : IAuthProvider
     {
-        public void AuthenticateRequest(HttpContextBase context)
+        public bool TryAuthenticateRequest(HttpContextBase context)
         {
-            ClaimsPrincipal principal = null;
+            IPrincipal principal = null;
             var request = context.Request;
             var response = context.Response;
             var displayName = request.Headers[Constants.FrontEndDisplayNameHeader];
@@ -27,11 +27,11 @@ namespace AzureFunctions.Authentication
             {
                 if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                 {
-                    principal = new ClaimsPrincipal(new GenericIdentity("Portal/1.0.0"));
+                    principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }
                 else if (string.IsNullOrEmpty(portalToken))
                 {
-                    principal = new ClaimsPrincipal(new GenericIdentity(Constants.AnonymousUserName));
+                    principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
                 }
                 else
                 {
@@ -41,17 +41,18 @@ namespace AzureFunctions.Authentication
             else if (!string.IsNullOrWhiteSpace(principalName) ||
                      !string.IsNullOrWhiteSpace(displayName))
             {
-                principal = new GenericPrincipal(new GenericIdentity(principalName ?? displayName), new[] { "User" });
+                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(principalName ?? displayName));
             }
             else
             {
-                principal = new ClaimsPrincipal(new GenericIdentity("SCM"));
+                // throw?
+                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity("SCM"));
             }
 
             HttpContext.Current.User = principal;
             Thread.CurrentPrincipal = principal;
 
-            return;
+            return (principal.Identity as AzureFunctionsIdentity).IsAuthenticated;
         }
 
         public void PutOnCorrectTenant(HttpContextBase context)
@@ -144,6 +145,12 @@ namespace AzureFunctions.Authentication
             if (subscription == null) return false;
 
             return TryGetTenantForSubscription(subscription, out correctTenant);
+        }
+
+        public string GetLoginUrl(HttpContextBase context)
+        {
+            var request = context.Request;
+            return $"{request.Url.GetLeftPart(UriPartial.Authority).TrimEnd('/')}/signin{request.Url.Query}";
         }
     }
 }

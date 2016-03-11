@@ -34,5 +34,6 @@
         public const string AnonymousUserName = "Anonymous";
         public const string PortalReferrer = "https://portal.azure.com/";
         public const string AuthenticatedCookie = "authenticated";
+        public const string PortalAnonymousUser = "Portal/1.0.0";
     }
 }

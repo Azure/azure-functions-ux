@@ -25,6 +25,7 @@
     <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
     <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
+    <Content Include="landing.html" />
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\busy-state.style.css" />

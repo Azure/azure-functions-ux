@@ -29,7 +29,7 @@ namespace AzureFunctions.Authentication
             new MachineKeyTransform()
         };
 
-        public void AuthenticateRequest(HttpContextBase context)
+        public bool TryAuthenticateRequest(HttpContextBase context)
         {
             ClaimsPrincipal principal = null;
             var request = context.Request;
@@ -41,7 +41,7 @@ namespace AzureFunctions.Authentication
             if (request.Url.Scheme != "https")
             {
                 response.Redirect(String.Format("https://{0}{1}", request.Url.Authority, request.Url.PathAndQuery), endResponse: true);
-                return;
+                return false;
             }
 
             if (request.Url.PathAndQuery.StartsWith("/logout", StringComparison.OrdinalIgnoreCase))
@@ -50,7 +50,7 @@ namespace AzureFunctions.Authentication
 
                 var logoutUrl = GetLogoutUrl(context);
                 response.Redirect(logoutUrl, endResponse: true);
-                return;
+                return false;
             }
 
             string tenantId;
@@ -60,7 +60,7 @@ namespace AzureFunctions.Authentication
 
                 var loginUrl = GetLoginUrl(context, tenantId, "/token");
                 response.Redirect(loginUrl, endResponse: true);
-                return;
+                return false;
             }
 
             var id_token = request.Form["id_token"];
@@ -81,7 +81,7 @@ namespace AzureFunctions.Authentication
                 var token = AADOAuth2AccessToken.GetAccessTokenByCode(tenantIdClaim.Value, code, redirect_uri);
                 WriteOAuthTokenCookie(context, token);
                 response.Redirect(base_uri + state, endResponse: true);
-                return;
+                return true;
             }
             else
             {
@@ -103,11 +103,12 @@ namespace AzureFunctions.Authentication
             {
                 var loginUrl = GetLoginUrl(context);
                 response.Redirect(loginUrl, endResponse: true);
-                return;
+                return false;
             }
 
             HttpContext.Current.User = principal;
             Thread.CurrentPrincipal = principal;
+            return true;
         }
 
         public void PutOnCorrectTenant(HttpContextBase context)
@@ -375,6 +376,11 @@ namespace AzureFunctions.Authentication
                 // bad cookie
                 return null;
             }
+        }
+
+        public string GetLoginUrl(HttpContextBase context)
+        {
+            return GetLoginUrl(context, null, null);
         }
     }
 }

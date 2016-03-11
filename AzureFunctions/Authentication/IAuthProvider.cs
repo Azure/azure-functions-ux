@@ -4,7 +4,8 @@ namespace AzureFunctions.Authentication
 {
     public interface IAuthProvider
     {
-        void AuthenticateRequest(HttpContextBase context);
+        bool TryAuthenticateRequest(HttpContextBase context);
         void PutOnCorrectTenant(HttpContextBase context);
+        string GetLoginUrl(HttpContextBase context);
     }
 }

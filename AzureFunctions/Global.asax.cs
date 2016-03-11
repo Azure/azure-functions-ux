@@ -3,7 +3,6 @@ using Autofac.Integration.WebApi;
 using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using System;
 using AzureFunctions.Code;
 using System.Web;
@@ -22,6 +21,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using AzureFunctions.Common;
 using AzureFunctions.Authentication;
+using System.Web.Routing;
 
 namespace AzureFunctions
 {
@@ -49,7 +49,27 @@ namespace AzureFunctions
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            SecurityManager.AuthenticateRequest(context);
+
+            if (!SecurityManager.TryAuthenticateRequest(context))
+            {
+                var route = RouteTable.Routes.GetRouteData(context);
+                // If the route is not registerd in the WebAPI RouteTable
+                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+                // If the route doesn't have authenticated value assume true
+                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+                var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+                if (isAuthenticated)
+                {
+                    context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
+                    context.Response.StatusCode = 403; // Forbidden
+                }
+                else if (!isFile)
+                {
+                    context.Response.WriteFile("landing.html");
+                    context.Response.Flush();
+                    context.Response.End();
+                }
+            }
         }
 
         private IContainer InitAutofacContainer()
@@ -162,22 +182,22 @@ namespace AzureFunctions
 
         private void RegisterRoutes(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("get-functions-container", "api/get/{*resourceId}", new { controller = "AzureFunctions", action = "GetFunctionContainer" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("create-function-container", "api/create", new { controller = "AzureFunctions", action = "CreateFunctionsContainer" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
-            config.Routes.MapHttpRoute("create-trial-function-container", "api/createtrial", new { controller = "AzureFunctions", action = "CreateTrialFunctionsContainer" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
-            config.Routes.MapHttpRoute("list-subscriptions", "api/subscriptions", new { controller = "AzureFunctions", action = "ListSubscriptions" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("list-serverfarms", "api/serverfarms", new { controller = "AzureFunctions", action = "ListServerFarms" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
-            config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("create-function", "api/createfunction", new { controller = "AzureFunctions", action = "CreateFunction" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
-            config.Routes.MapHttpRoute("create-function-v2", "api/createfunctionv2", new { controller = "AzureFunctions", action = "CreateFunctionV2" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
+            config.Routes.MapHttpRoute("get-functions-container", "api/get/{*resourceId}", new { controller = "AzureFunctions", action = "GetFunctionContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("create-function-container", "api/create", new { controller = "AzureFunctions", action = "CreateFunctionsContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("create-trial-function-container", "api/createtrial", new { controller = "AzureFunctions", action = "CreateTrialFunctionsContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("list-subscriptions", "api/subscriptions", new { controller = "AzureFunctions", action = "ListSubscriptions", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("list-serverfarms", "api/serverfarms", new { controller = "AzureFunctions", action = "ListServerFarms", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("create-function", "api/createfunction", new { controller = "AzureFunctions", action = "CreateFunction", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("create-function-v2", "api/createfunctionv2", new { controller = "AzureFunctions", action = "CreateFunctionV2", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
 
-            config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
-            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken" }, new { verb = new HttpMethodConstraint(HttpMethod.Get) });
+            config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError" }, new { verb = new HttpMethodConstraint(HttpMethod.Post) });
+            config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

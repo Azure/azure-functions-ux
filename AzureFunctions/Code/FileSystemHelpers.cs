@@ -16,5 +16,10 @@ namespace AzureFunctions.Code
                 return await streamReader.ReadToEndAsync();
             }
         }
+
+        public static bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
     }
 }
