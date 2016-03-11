@@ -97,27 +97,78 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 
-:: 5. Select node version
-:: call :SelectNodeVersion
+:: 5. Create lastCommit, packageJsonLastCommit, bowerLastCommit, typingsLastCommit vars
+  pushd "%DEPLOYMENT_SOURCE%"
+
+  call :ExecuteCmd git log -n 1 > latestCommit.txt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  SET /p lastCommit=<lastCommit.txt
+  DEL lastCommit.txt
+
+
+  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\package.json > packageJsonLastCommit.txt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  SET /p packageJsonLastCommit=<packageJsonLastCommit.txt
+  DEL packageJsonLastCommit.txt
+
+  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\bower.json > bowerLastCommit.txt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  SET /p bowerLastCommit=<bowerLastCommit.txt
+  DEL bowerLastCommit.txt
+
+  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\typings.json > typingsLastCommit.txt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  SET /p typingsLastCommit=<typingsLastCommit.txt
+  DEL typingsLastCommit.txt
+
+  popd
 
 :: 6. Install npm packages
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  call :ExecuteCmd npm install
-  IF !ERRORLEVEL! NEQ 0 goto error
+  SET NPM_TOOLS="%HOME%\npm_tools"
 
-  call :ExecuteCmd npm run typings install
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  call :ExecuteCmd npm install -g jspm
-  IF !ERRORLEVEL! NEQ 0 (
-	call :ExecuteCmd npm install -g jspm
-	IF !ERRORLEVEL! NEQ 0 goto error
+  IF NOT EXIST "%NPM_TOOLS%" (
+    mkdir "%NPM_TOOLS%"
   )
 
-  call :ExecuteCmd jspm install
-  IF !ERRORLEVEL! NEQ 0 goto error
+  SET PATH=%PATH%;%NPM_TOOLS%
+
+  IF NOT EXIST "%NPM_TOOLS%\jspm.cmd" (
+    call :ExecuteCmd npm config set prefix "D:\home\npm_tools"
+    IF !ERRORLEVEL! NEQ 0 goto error
+
+    call :ExecuteCmd npm install -g jspm
+    IF !ERRORLEVEL! NEQ 0 (
+      call :ExecuteCmd npm install -g jspm
+      IF !ERRORLEVEL! NEQ 0 goto error
+    )
+  )
+
+  SET res=F
+  IF NOT "%packageJsonLastCommit%" == "%lastCommit%" SET res=T
+  IF NOT EXIST "node_modules" SET res=T
+  IF "%res%"=="T" (
+    call :ExecuteCmd npm install
+    IF !ERRORLEVEL! NEQ 0 goto error
+  )
+
+  SET res=F
+  IF NOT "%packageJsonLastCommit%" == "%lastCommit%" SET res=T
+  IF NOT EXIST "jspm_packages" SET res=T
+  IF "%res%"=="T" (
+    call :ExecuteCmd jspm install
+    IF !ERRORLEVEL! NEQ 0 goto error
+  )
+
+  SET res=F
+  IF NOT "%typingsLastCommit%" == "%lastCommit%" SET res=T
+  IF NOT EXIST "typings" SET res=T
+  IF "%res%"=="T" (
+    call :ExecuteCmd npm run typings install
+    IF !ERRORLEVEL! NEQ 0 goto error
+  )
 
   call :ExecuteCmd npm run tsc
   IF !ERRORLEVEL! NEQ 0 goto error
@@ -138,9 +189,13 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  call :ExecuteCmd bower install
-  IF !ERRORLEVEL! NEQ 0 goto error
-
+  SET res=F
+  IF NOT "%bowerLastCommit%" == "%lastCommit%" SET res=T
+  IF NOT EXIST "bower_components" SET res=T
+  IF "%res%"=="T" (
+    call :ExecuteCmd bower install
+    IF !ERRORLEVEL! NEQ 0 goto error
+  )
   popd
 )
 
