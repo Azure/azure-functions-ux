@@ -30,11 +30,11 @@ export class BindingInputComponent {
 
     openCollectorBlade(name: string, id: string) {
         // for tests
-        //if (window.location.hostname === "localhost") {
-        //    this.input.value = name;
-        //    this.setClass(name);
-        //    return;
-        //}
+        if (window.location.hostname === "localhost") {
+            this.input.value = name;
+            this.setClass(name);
+            return;
+        }
 
         var picker = <PickerInput>this.input;
         picker.setButtonActive();

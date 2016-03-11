@@ -7,6 +7,7 @@ import {TemplatePickerComponent} from './template-picker.component';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {TemplatePickerType} from '../models/template-picker';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 declare var jQuery: any;
 
@@ -48,7 +49,10 @@ export class FunctionIntegrateV2Component {
         
     }
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef, private _functionsService: FunctionsService) {
+    constructor(
+        @Inject(ElementRef) elementRef: ElementRef,
+        private _functionsService: FunctionsService,
+        private _broadcastService: IBroadcastService) {    
         this._elementRef = elementRef;
     }
 
@@ -117,9 +121,8 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
-        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-            //TODO: refresh selecteFunction function-dev.component
-            this.save.emit(JSON.parse(JSON.stringify(this._functionInfo)));
+        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {                        
+            this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
     }
 }

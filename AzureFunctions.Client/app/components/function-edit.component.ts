@@ -48,10 +48,10 @@ export class FunctionEditComponent {
         private _broadcastService: IBroadcastService) {
 
         this.inIFrame = this._portalService.inIFrame;
-    }
 
-    onFunctionSaved(selectedFunction: FunctionInfo) {
-        this.selectedFunction = selectedFunction;
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
+            this.selectedFunction = fi;
+        });
     }
 
     onTabSelected(selectedTab: TabComponent) {        

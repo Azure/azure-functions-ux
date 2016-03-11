@@ -54,10 +54,19 @@ export class DashboardComponent implements OnInit {
             }
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {            
             this.resetView();
             this.selectedFunction = fi;
             this.sideBar.selectedFunction = fi;
+        });
+
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
+            var index = this.functionsInfo.findIndex((f) => {
+                return f.name === fi.name;
+            });
+            if (index !== -1) {
+                this.functionsInfo[index] = fi;
+            }
         });
     }
 
