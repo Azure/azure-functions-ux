@@ -149,7 +149,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   )
 
   SET res=F
-  IF NOT "%packageJsonLastCommit%" == "%lastCommit%" SET res=T
+  IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "node_modules" SET res=T
   IF "%res%"=="T" (
     call :ExecuteCmd npm install
@@ -159,7 +159,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   )
 
   SET res=F
-  IF NOT "%packageJsonLastCommit%" == "%lastCommit%" SET res=T
+  IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "jspm_packages" SET res=T
   IF "%res%"=="T" (
     call :ExecuteCmd "%NPM_TOOLS%\jspm.cmd" install
@@ -169,7 +169,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   )
 
   SET res=F
-  IF NOT "%typingsLastCommit%" == "%lastCommit%" SET res=T
+  IF "%typingsLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "typings" SET res=T
   IF "%res%"=="T" (
     call :ExecuteCmd npm run typings install
@@ -198,7 +198,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
   SET res=F
-  IF NOT "%bowerLastCommit%" == "%lastCommit%" SET res=T
+  IF NOT "%bowerLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "bower_components" SET res=T
   IF "%res%"=="T" (
     call :ExecuteCmd bower install
