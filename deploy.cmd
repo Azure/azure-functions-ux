@@ -127,16 +127,14 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  SET NPM_TOOLS=%HOME%\npm_tools
-
-  IF NOT EXIST "%NPM_TOOLS%" (
-    mkdir "%NPM_TOOLS%"
+  IF NOT EXIST "%HOME%\npm_tools" (
+    mkdir "%HOME%\npm_tools"
   ) ELSE (
-    echo Folder "%NPM_TOOLS%" exists
+    echo Folder "%HOME%\npm_tools" exists
   )
 
   IF NOT EXIST "%NPM_TOOLS%\jspm.cmd" (
-    call :ExecuteCmd npm config set prefix "%NPM_TOOLS%"
+    call :ExecuteCmd npm config set prefix "%HOME%\npm_tools"
     IF !ERRORLEVEL! NEQ 0 goto error
 
     call :ExecuteCmd npm install -g jspm
@@ -162,7 +160,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "jspm_packages" SET res=T
   IF "%res%"=="T" (
-    call :ExecuteCmd "%NPM_TOOLS%\jspm.cmd" install
+    call :ExecuteCmd "%HOME%\npm_tools\jspm.cmd" install
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
     echo skipping jspm install
