@@ -127,7 +127,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  SET NPM_TOOLS="%HOME%\npm_tools"
+  SET NPM_TOOLS=%HOME%\npm_tools
 
   IF NOT EXIST "%NPM_TOOLS%" (
     mkdir "%NPM_TOOLS%"
