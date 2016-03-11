@@ -1,4 +1,4 @@
-@if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
+::@if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
 
 :: ----------------------
 :: KUDU Deployment Script
@@ -127,14 +127,14 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  IF NOT EXIST "%HOME%\npm_tools" (
-    mkdir "%HOME%\npm_tools"
+  IF NOT EXIST "D:\home\npm_tools" (
+    mkdir "D:\home\npm_tools"
   ) ELSE (
-    echo Folder "%HOME%\npm_tools" exists
+    echo Folder "D:\home\npm_tools" exists
   )
 
-  IF NOT EXIST "%NPM_TOOLS%\jspm.cmd" (
-    call :ExecuteCmd npm config set prefix "%HOME%\npm_tools"
+  IF NOT EXIST "D:\home\npm_tools\jspm.cmd" (
+    call :ExecuteCmd npm config set prefix "D:\home\npm_tools"
     IF !ERRORLEVEL! NEQ 0 goto error
 
     call :ExecuteCmd npm install -g jspm
@@ -160,7 +160,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "jspm_packages" SET res=T
   IF "%res%"=="T" (
-    call :ExecuteCmd "%HOME%\npm_tools\jspm.cmd" install
+    call :ExecuteCmd "D:\home\npm_tools\jspm.cmd" install
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
     echo skipping jspm install
