@@ -130,7 +130,6 @@ export class FunctionNewComponent {
             .subscribe(res => {
                 window.setTimeout(() => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                    this.functionAdded.emit(res);
                 }, 1500);
             });
     }

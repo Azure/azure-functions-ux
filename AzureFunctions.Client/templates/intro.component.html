@@ -1,0 +1,89 @@
+﻿<!-- TODO: move styles to css-->
+<div class="container-fluid" style="margin: 40px">
+    <div class="container-fluid col-md-6">
+        <h2>The faster way to functions</h2>
+        Write any function in minutes - whether to run a simple job that claens up a database or build a more complex  architecture. Creating function is easier than before whatever you choesen OS, platform, or development method. No install required.
+    </div>
+        
+    <div class="container-fluid col-md-6" style="margin-top:40px">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-1" heigth="100%">
+            <div class="text-center">
+                <span class="glyphicon glyphicon-flash text-center"></span>
+                <div>Trigger</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <svg width="100%" viewBox="0 0 250 50">
+                <polygon fill=black stroke-width=0
+                         points="0,23 200,23 200,20 250,25 200,30 200,27 0,27" />
+            </svg>
+        </div>
+        <div class="col-md-1">
+            <div class="text-center">
+                <span class="glyphicon glyphicon-log-in text-center"></span>
+                <div>Input</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <svg width="100%" viewBox="0 0 250 50">
+                <polygon fill=black stroke-width=0
+                         points="0,23 200,23 200,20 250,25 200,30 200,27 0,27" />
+            </svg>
+        </div>
+        <div class="col-md-1">
+            <div class="text-center">
+                <span class="glyphicon glyphicon-log-out"></span>
+                <div>Output</div>
+            </div>
+
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+
+ </div>
+
+<hr>
+<div class="text-center">
+    Get started with a premade function:
+</div>
+
+
+<div class="bs-glyphicons" style="text-align: center;">        
+    <ul class="bs-glyphicons-list" style="display: inline-block;">
+        <li style="float: left;" (click)="onFunctionCliked('timer')" [class.selected]="selectedFunction == 'timer'" style="width:100px">
+            <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
+            <div class="glyphicon-class">Timer</div>
+        </li>
+        <li style="float: left;" (click)="onFunctionCliked('data')" [class.selected]="selectedFunction == 'data'" style="width:100px">
+            <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
+            <div class="glyphicon-class">Data processing</div>
+        </li>
+        <li style="float: left;" (click)="onFunctionCliked('webhook')" [class.selected]="selectedFunction == 'webhook'" style="width:100px">
+            <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
+            <div class="glyphicon-class">Webhook and API</div>
+        </li>
+        <li style="float: left;" (click)="onFunctionCliked('iot')" [class.selected]="selectedFunction == 'iot'" style="width:100px">
+            <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
+            <div class="glyphicon-class">IoT</div>
+        </li>
+    </ul>
+</div>
+
+<br>
+
+<div class="text-center">
+    <button *ngIf="selectedFunction" class="btn btn-primary" (click)="onCreateNewFunction()">Create a new function</button>
+    <button *ngIf="!selectedFunction" class="btn btn-primary" (click)="onCreateNewFunction()" disabled>Create a new function</button>
+</div>
+
+<div class="text-center">
+    Or get started on your own.
+    <br>
+    <a href='#' (click)='createFromScratch()'>Create a new function from scratch </a>or
+    <a href='#' (click)='startFromSC()'> start from source control</a>
+</div>

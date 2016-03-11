@@ -17,6 +17,7 @@ import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 import {FunctionNewComponent} from './function-new.component';
+import {IntroComponent} from './intro.component';
 
 @Component({
     selector: 'functions-dashboard',
@@ -29,7 +30,8 @@ import {FunctionNewComponent} from './function-new.component';
         FunctionEditComponent,
         DropDownComponent,
         AppSettingsComponent,
-        FunctionNewComponent
+        FunctionNewComponent,
+        IntroComponent
     ]
 })
 export class DashboardComponent implements OnInit {

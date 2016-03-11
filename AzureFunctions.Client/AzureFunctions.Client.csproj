@@ -45,6 +45,7 @@
     <Content Include="templates\app.component.html" />
     <Content Include="templates\busy-state.component.html" />
     <Content Include="templates\dashboard.component.html" />
+    <Content Include="templates\intro.component.html" />
     <Content Include="templates\function-integrate-v2.component.html" />
     <Content Include="templates\function-new.component.html" />
     <Content Include="templates\getting-started.component.html" />
@@ -72,6 +73,7 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\intro.component.ts" />
     <TypeScriptCompile Include="app\components\busy-state.component.ts" />
     <TypeScriptCompile Include="app\components\dashboard.component.ts" />
     <TypeScriptCompile Include="app\components\function-integrate-v2.component.ts" />
