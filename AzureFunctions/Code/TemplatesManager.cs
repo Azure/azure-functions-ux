@@ -34,7 +34,7 @@ namespace AzureFunctions.Code
             {
                 IncludeSubdirectories = true,
                 Path = _settings.TemplatesPath,
-                Filter = Constants.MetadataJson,
+                Filter = "*.*",
                 NotifyFilter = NotifyFilters.LastWrite
             };
             this._fileSystemObservable =
