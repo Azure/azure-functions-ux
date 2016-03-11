@@ -100,23 +100,23 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 :: 5. Create lastCommit, packageJsonLastCommit, bowerLastCommit, typingsLastCommit vars
   pushd "%DEPLOYMENT_SOURCE%"
 
-  call :ExecuteCmd git log -n 1 > lastCommit.txt
+  call :ExecuteCmd git log -n 1 --oneline > lastCommit.txt
   IF !ERRORLEVEL! NEQ 0 goto error
   SET /p lastCommit=<lastCommit.txt
   DEL lastCommit.txt
 
 
-  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\package.json > packageJsonLastCommit.txt
+  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\package.json > packageJsonLastCommit.txt
   IF !ERRORLEVEL! NEQ 0 goto error
   SET /p packageJsonLastCommit=<packageJsonLastCommit.txt
   DEL packageJsonLastCommit.txt
 
-  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\bower.json > bowerLastCommit.txt
+  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\bower.json > bowerLastCommit.txt
   IF !ERRORLEVEL! NEQ 0 goto error
   SET /p bowerLastCommit=<bowerLastCommit.txt
   DEL bowerLastCommit.txt
 
-  call :ExecuteCmd git log -n 1 -- AzureFunctions.Client\typings.json > typingsLastCommit.txt
+  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\typings.json > typingsLastCommit.txt
   IF !ERRORLEVEL! NEQ 0 goto error
   SET /p typingsLastCommit=<typingsLastCommit.txt
   DEL typingsLastCommit.txt
