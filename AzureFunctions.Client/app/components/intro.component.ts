@@ -37,10 +37,12 @@ export class IntroComponent {
 
             if (selectedTemplate) {
                 selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
+                this._broadcastService.setBusyState();
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
                         window.setTimeout(() => {
                             this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                            this._broadcastService.clearBusyState();
                         }, 1500);
                     });
             }

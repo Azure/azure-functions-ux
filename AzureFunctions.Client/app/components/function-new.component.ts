@@ -125,11 +125,13 @@ export class FunctionNewComponent {
 
     private createFunction() {              
         this._selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
-
+        
+        this._broadcastService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this._selectedTemplate.files)
             .subscribe(res => {
-                window.setTimeout(() => {
+                window.setTimeout(() => {                    
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                    this._broadcastService.clearBusyState();
                 }, 1500);
             });
     }
