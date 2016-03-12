@@ -7,6 +7,8 @@ import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {TopBarComponent} from './top-bar.component';
+import {ArmService} from '../services/arm.service';
+import {FunctionContainer} from '../models/function-container';
 
 @Component({
     selector: 'getting-started',
@@ -15,13 +17,15 @@ import {TopBarComponent} from './top-bar.component';
     directives: [DropDownComponent, TopBarComponent]
 })
 export class GettingStartedComponent implements OnInit {
-    @Output() userReady: EventEmitter<boolean>;
+    @Output() userReady: EventEmitter<FunctionContainer>;
 
     public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
     public subscriptions: DropDownElement<Subscription>[];
     public selectedSubscription: Subscription;
     public selectedGeoRegion: string;
+    public functionContainers: FunctionContainer[];
+    public functionContainerName: string;
 
     public user: User;
 
@@ -30,9 +34,14 @@ export class GettingStartedComponent implements OnInit {
     constructor(
         private _userService: UserService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService
+        private _broadcastService: IBroadcastService,
+        private _armService: ArmService
     ) {
-        this.userReady = new EventEmitter<boolean>();
+        //http://stackoverflow.com/a/8084248/3234163
+        var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+        this.functionContainerName = `functions${this.makeId()}`;
+        this.functionContainers = [];
+        this.userReady = new EventEmitter<FunctionContainer>();
         this.geoRegions = ['West US']
             .map(e => ({ displayLabel: e, value: e }))
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
@@ -52,7 +61,7 @@ export class GettingStartedComponent implements OnInit {
                 } else {
                     this.tryItNow = false;
                     this._broadcastService.setBusyState();
-                    this._functionsService.getSubscriptions()
+                    this._armService.getSubscriptions()
                         .subscribe(subs => {
                             this.subscriptions = subs
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
@@ -76,12 +85,20 @@ export class GettingStartedComponent implements OnInit {
 
     createFunctionsContainer() {
         this._broadcastService.setBusyState();
-        this._functionsService.createFunctionsContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion)
-            .subscribe(r => this.userReady.emit(true), undefined, () => this._broadcastService.clearBusyState());
+
+        this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
+            .retry(3)
+            .subscribe(r => this.userReady.emit(r), e => console.log(e), () => this._broadcastService.clearBusyState());
     }
 
     onSubscriptionSelect(value: Subscription) {
-        this.selectedSubscription = value;
+        this._broadcastService.setBusyState();
+        this._armService.getFunctionContainers(value.subscriptionId)
+            .subscribe(fc => {
+                this.selectedSubscription = value;
+                this.functionContainers = fc;
+                this._broadcastService.clearBusyState();
+            });
     }
 
     onGeoRegionChange(value: string) {
@@ -90,5 +107,16 @@ export class GettingStartedComponent implements OnInit {
 
     login() {
         window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin${window.location.search}`);
+    }
+
+    // http://stackoverflow.com/a/1349426/3234163
+    makeId() {
+        var text = '';
+        var possible = 'abcdef123456789';
+
+        for (var i = 0; i < 8; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
     }
 }

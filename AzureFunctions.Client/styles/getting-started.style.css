@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+label {
+    display: block;
+}
+
 .container {
     display: block;
     height: 100%;
@@ -11,7 +15,7 @@
 }
 
 .wrapper {
-    width: 60%;
+    width: 40%;
     margin-right: auto;
     margin-left: auto;
     position: relative;
@@ -37,4 +41,15 @@ img {
 
 .custom-button {
     padding: 10px 60px 10px 60px !important;
+}
+
+#create-new-container > div {
+    padding-top: 30px;
+}
+button {
+    margin-top: 20px;
+}
+
+.user-input {
+    padding-top: 10px;
 }

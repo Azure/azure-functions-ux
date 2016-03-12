@@ -182,10 +182,11 @@ namespace AzureFunctions
 
         private void RegisterRoutes(HttpConfiguration config)
         {
+            config.Routes.MapHttpRoute("get-subscriptions", "api/subscriptions", new { controller = "Subscription", action = "List", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+
             config.Routes.MapHttpRoute("get-functions-container", "api/get/{*resourceId}", new { controller = "AzureFunctions", action = "GetFunctionContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("create-function-container", "api/create", new { controller = "AzureFunctions", action = "CreateFunctionsContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("create-trial-function-container", "api/createtrial", new { controller = "AzureFunctions", action = "CreateTrialFunctionsContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-            config.Routes.MapHttpRoute("list-subscriptions", "api/subscriptions", new { controller = "AzureFunctions", action = "ListSubscriptions", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("list-serverfarms", "api/serverfarms", new { controller = "AzureFunctions", action = "ListServerFarms", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });

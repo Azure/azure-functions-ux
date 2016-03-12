@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild} from 'angular2/core';
+﻿import {Component, OnInit, ViewChild, Input} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {FunctionNewV2Component} from './function-new-v2.component';
@@ -19,6 +19,7 @@ import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service'
 import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
+import {FunctionContainer} from '../models/function-container';
 
 @Component({
     selector: 'functions-dashboard',
@@ -38,6 +39,7 @@ import {TutorialComponent} from './tutorial.component';
 })
 export class DashboardComponent implements OnInit {
     @ViewChild(SideBarComponent) sideBar: SideBarComponent;
+    @Input() functionContainer: FunctionContainer;
 
     public functionsInfo: FunctionInfo[];
     public functionTemplates: FunctionTemplate[];
@@ -91,7 +93,13 @@ export class DashboardComponent implements OnInit {
         else {
             this._functionsService.getTemplates()
                 .subscribe(res => this.functionTemplates = res);
-            this.initFunctions();
+            if (!this._functionsService.isInitialized()) {
+                var armId = this.functionContainer ? this.functionContainer.id : null;
+                this._functionsService.initializeUser(armId)
+                    .subscribe(r => this.initFunctions());
+            } else {
+                this.initFunctions();
+            }
         }
     }
 

@@ -5,22 +5,26 @@ import {PortalService} from '../services/portal.service';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 import {BusyStateComponent} from './busy-state.component';
+import {ArmService} from '../services/arm.service';
+import {FunctionContainer} from '../models/function-container';
 
 @Component({
     selector: 'azure-functions-app',
     template: `<busy-state></busy-state>
-<functions-dashboard *ngIf="!gettingStarted"></functions-dashboard>
+<functions-dashboard *ngIf="!gettingStarted" [functionContainer]="functionContainer"></functions-dashboard>
 <getting-started *ngIf="gettingStarted && ready" (userReady)="onUserReady($event)"></getting-started>`,
     directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent]
 })
 export class AppComponent implements OnInit {
     public gettingStarted: boolean;
+    public functionContainer: FunctionContainer;
     public ready: boolean;
 
     constructor(
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService
+        private _broadcastService: IBroadcastService,
+        private _armService: ArmService
     ) {
         this.ready = false;
         if (_portalService.inIFrame ||
@@ -36,26 +40,15 @@ export class AppComponent implements OnInit {
         if (!this.gettingStarted) return;
 
         this._broadcastService.setBusyState();
-
-        this._functionsService.initializeUser()
-            .subscribe(
-                res => {
-                    this.gettingStarted = !res;
-                    this._broadcastService.clearBusyState();
-                    this.ready = true;
-                },
-                e => {
-                    if (e.status === 404) {
-                        this.gettingStarted = true;
-                        this._broadcastService.clearBusyState();
-                        this.ready = true;
-                    } else {
-                        console.log(e);
-                    }
-                });
+        this._armService.Initialize()
+            .subscribe(() => {
+                this.ready = true;
+                this._broadcastService.clearBusyState();
+            });
     }
 
-    onUserReady(userReady: boolean) {
-        this.gettingStarted = !userReady;
+    onUserReady(functionContainer: FunctionContainer) {
+        this.gettingStarted = !functionContainer;
+        this.functionContainer = functionContainer;
     }
 }

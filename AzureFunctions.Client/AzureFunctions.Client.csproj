@@ -108,6 +108,9 @@
     <TypeScriptCompile Include="app\models\binding-input-list.ts" />
     <TypeScriptCompile Include="app\models\binding-input.ts" />
     <TypeScriptCompile Include="app\models\binding-list.ts" />
+    <TypeScriptCompile Include="app\models\function-container.ts" />
+    <TypeScriptCompile Include="app\models\resource-group.ts" />
+    <TypeScriptCompile Include="app\models\storage-account.ts" />
     <TypeScriptCompile Include="app\models\template.ts" />
     <TypeScriptCompile Include="app\models\template-picker.ts" />
     <TypeScriptCompile Include="app\models\binding.ts" />
@@ -132,8 +135,10 @@
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
+    <TypeScriptCompile Include="app\services\arm.service.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
+    <TypeScriptCompile Include="app\services\iarm.service.ts" />
     <TypeScriptCompile Include="app\services\ibroadcast.service.ts" />
     <TypeScriptCompile Include="app\services\ifunctions.service.ts" />
     <TypeScriptCompile Include="app\services\iportal.service.ts" />

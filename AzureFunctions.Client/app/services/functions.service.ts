@@ -34,12 +34,18 @@ export class FunctionsService implements IFunctionsService {
         };
     }
 
-    initializeUser() {
+    isInitialized(){
+        return this.scmInfo && this.scmInfo.scm_url;
+    }
+
+    initializeUser(armId?: string) {
         var url = 'api/get';
         if (this._portalService.inIFrame) {
             url = `api/get${this._portalService.resourceId}`;
         } else if (window.location.pathname !== '/') {
             url = `api/get${window.location.pathname}`;
+        } else if (armId) {
+            url = `api/get${armId}`;
         }
 
         return this._http.get(url, { headers: this.getHeaders() })
@@ -72,22 +78,6 @@ export class FunctionsService implements IFunctionsService {
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${query}${environment}#resource${this.scmInfo.armId}`);
                 });
         }
-    }
-
-    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string) {
-        var serverFarmQuery = serverFarmId ? `&serverFarmId=${serverFarmId}` : '';
-        return this._http.post(`api/create?subscriptionId=${subscriptionId}&location=${region}${serverFarmQuery}`, '', { headers: this.getHeaders() })
-            .catch(e => {
-                if (e.status === 500) {
-                    return this.createFunctionsContainer(subscriptionId, region, serverFarmId).map(r => ({ json: () => r }));
-                } else {
-                    return Observable.of(e);
-                }
-            })
-            .map<ScmInfo>(r => {
-                this.scmInfo = r.json();
-                return this.scmInfo;
-            })
     }
 
     getFunctions() {
@@ -181,20 +171,6 @@ export class FunctionsService implements IFunctionsService {
             href: null,
             config: null,
             script_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/host.json`,
-            template_id: null,
-            test_data_href: null,
-            clientOnly: true,
-            isDeleted: false,
-            secrets_file_href: null
-        };
-    }
-
-    getLogStreamingNode() {
-        return {
-            name: 'Log Streaming',
-            href: null,
-            config: null,
-            script_href: null,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -345,16 +321,6 @@ export class FunctionsService implements IFunctionsService {
 
     getBasicHeader() {
         return `Basic ${this.scmInfo.basic}`;
-    }
-
-    getSubscriptions() {
-        return this._http.get('api/subscriptions')
-            .map<Subscription[]>(r => r.json());
-    }
-
-    getServerFarms() {
-        return this._http.get('api/serverfarms')
-            .map<ServerFarm[]>(r => r.json());
     }
 
     getHostSecrets() {

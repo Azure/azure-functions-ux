@@ -31,8 +31,6 @@ export interface IFunctionsService {
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets): Observable<FunctionSecrets>;
     getFunctionInvokeUrl(fi: FunctionInfo): string;
     getScmUrl();
-    getSubscriptions(): Observable<Subscription[]>;
-    createFunctionsContainer(subscriptionId: string, region: string, serverFarmId?: string): Observable<ScmInfo>;
     getHostSecrets(): RxSubscription;
     createTrialFunctionsContainer(): Observable<string>;
     getBindingConfig(): Observable<BindingConfig>;
