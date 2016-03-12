@@ -4,6 +4,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 import {BindingType} from '../models/binding';
 import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'intro',
@@ -16,7 +17,8 @@ export class IntroComponent {
     selectedFunction: string;
 
     constructor( private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {        
+        private _broadcastService: IBroadcastService,
+        private _portalService: PortalService) {        
     }
 
     onFunctionCliked(selectedFunction: string) {
@@ -54,6 +56,7 @@ export class IntroComponent {
         this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[1]);
     }
 
-    startFromSC() {
+    startFromSC() {        
+        this._portalService.openBlade("ContinuousDeploymentListBlade");
     }
 }
