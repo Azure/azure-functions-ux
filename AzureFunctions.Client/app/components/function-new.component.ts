@@ -34,7 +34,7 @@ export class FunctionNewComponent {
     areInputsValid: boolean = false;
     functionNameClass: string = "col-md-3 has-error";
     hasConfigUI :boolean = true;
-    private _selectedTemplate: FunctionTemplate;
+    selectedTemplate: FunctionTemplate;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();    
     private _bindingComponents: BindingComponent[] = [];
 
@@ -49,20 +49,20 @@ export class FunctionNewComponent {
     onTemplatePickUpComplete(templateName: string) {
         this._bindingComponents = [];
         this._functionsService.getTemplates().subscribe((templates) => {
-            this._selectedTemplate = templates.find((t) => t.id === templateName);
+            this.selectedTemplate = templates.find((t) => t.id === templateName);
             
             this._functionsService.getBindingConfig().subscribe((bindings) => {
 
                 this.model.config = this.bc.functionConfigToUI({
                     disabled: false,                                        
-                    bindings: this._selectedTemplate.function.bindings
+                    bindings: this.selectedTemplate.function.bindings
                 }, bindings.bindings);
                 
                 this.model.config.bindings.forEach((b) => {
-                    b.hiddenList = this._selectedTemplate.metadata.userPrompt || [];
+                    b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
                 });
 
-                this.hasConfigUI = ((this._selectedTemplate.metadata.userPrompt) && (this._selectedTemplate.metadata.userPrompt.length > 0));
+                this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
                     
                 this.model.setBindings();
 
@@ -124,10 +124,10 @@ export class FunctionNewComponent {
     }
 
     private createFunction() {              
-        this._selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
+        this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
         
         this._broadcastService.setBusyState();
-        this._functionsService.createFunctionV2(this.functionName, this._selectedTemplate.files)
+        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {
                 window.setTimeout(() => {                    
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

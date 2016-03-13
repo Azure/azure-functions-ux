@@ -1,30 +1,17 @@
 ﻿<div class="wrapper">
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
-            <div [ngClass]="functionNameClass">
-                <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
-            </div>
-        </div>
-    </form>
-
-    <br />
 
     <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
 
-    <div *ngIf="!hasConfigUI">
-        <h2>Configuration</h2>
-        <hr />
-        <div class="text-center">
-            <br />
-            No configuration required for this template
-            <br />
-            <hr />
-        </div>
-    </div>
-
-    <div *ngIf="hasConfigUI">
-        <h2 *ngIf="model.trigger">Configuration</h2>      
+    <div>
+        <h2 *ngIf="model.trigger">Configuration</h2>
+        <form *ngIf="selectedTemplate" class="form-horizontal">
+            <div class="form-group">
+                <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
+                <div [ngClass]="functionNameClass">
+                    <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
+                </div>
+            </div>
+        </form>    
         <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>        
         <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
         <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
