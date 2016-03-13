@@ -8,7 +8,8 @@ export class BroadcastService implements IBroadcastService {
     private functionDeletedEvent: EventEmitter<FunctionInfo>;
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
-    private functionUpdatedEvent: EventEmitter<FunctionInfo>; 
+    private functionUpdatedEvent: EventEmitter<FunctionInfo>;
+    private goToIntroEvent: EventEmitter<void>;
     private busyStateEvent: EventEmitter<boolean>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
@@ -19,6 +20,7 @@ export class BroadcastService implements IBroadcastService {
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.busyStateEvent = new EventEmitter<boolean>();
+        this.goToIntroEvent = new EventEmitter<void>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -94,6 +96,9 @@ export class BroadcastService implements IBroadcastService {
 
             case BroadcastEvent.BusyState:
                 return this.busyStateEvent;
+
+            case BroadcastEvent.GoToIntro:
+                return this.goToIntroEvent;
         }
     }
 }

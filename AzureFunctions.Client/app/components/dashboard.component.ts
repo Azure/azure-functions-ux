@@ -68,6 +68,10 @@ export class DashboardComponent implements OnInit {
                 this.functionsInfo[index] = fi;
             }
         });
+
+        this._broadcastService.subscribe<void>(BroadcastEvent.GoToIntro, () => {
+            delete this.selectedFunction;
+        });
     }
 
     ngOnInit() {

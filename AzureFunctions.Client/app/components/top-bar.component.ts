@@ -3,6 +3,7 @@ import {UserService} from '../services/user.service';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
 import {PortalService} from '../services/portal.service';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'top-bar',
@@ -18,7 +19,8 @@ export class TopBarComponent implements OnInit {
     public inIFrame: boolean;
     private appSettingsClicked: EventEmitter<any>;
 
-    constructor(private _userService: UserService, private _portalService : PortalService) { 
+    constructor(private _userService: UserService, private _portalService: PortalService,
+        private _broadcastService: IBroadcastService) { 
         this.appSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._portalService.inIFrame;
     }
@@ -45,5 +47,9 @@ export class TopBarComponent implements OnInit {
 
     onAppSettingsClicked(){
         this.appSettingsClicked.emit(null);
+    }
+
+    onAzureFunctionClick() {
+        this._broadcastService.broadcast(BroadcastEvent.GoToIntro);
     }
 }

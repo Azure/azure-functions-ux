@@ -17,5 +17,6 @@ export enum BroadcastEvent {
     FunctionAdded,
     FunctionSelected,
     FunctionUpdated,
-    BusyState
+    BusyState,
+    GoToIntro
 }

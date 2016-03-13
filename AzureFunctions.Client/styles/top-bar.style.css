@@ -2,7 +2,8 @@
 .logo {
     color: #2E80AB;
     font-size: larger;
-    margin-left: 15px
+    margin-left: 15px;
+    cursor: pointer;
 }
 
 .top-bar {
