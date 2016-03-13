@@ -33,12 +33,12 @@ export class BindingManager {
                 return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
             });
 
-            bindingConfig.settings.forEach((s) => {
-                fb.settings.push({
-                    name: s.name,
-                    value: b[s.name]
-                });
-            });
+            for (var key in b) {
+                    fb.settings.push({
+                        name: key,
+                        value: b[key]
+                    });
+            }
 
             configUI.bindings.push(fb);
         });
@@ -54,14 +54,12 @@ export class BindingManager {
 
         config.bindings.forEach((b) => {
             var bindingToAdd = {
-                type: b.type,
-                direction: b.direction === DirectionType.trigger ? DirectionType.in : b.direction,
-                name: b.name
             };
 
             b.settings.forEach((s) => {
                 bindingToAdd[s.name] = s.value;
             });
+            bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
 
             result.bindings.push(bindingToAdd);
         });

@@ -64,62 +64,64 @@ export class BindingComponent {
                     return s.name === setting.name;
                 });
 
-                var isHidden = false;                
-                if (newFunction) {
-                    isHidden = true;
-                    var match = this.bindingValue.hiddenList.find((h) => {
-                        return h === setting.name;
-                    });
-                    isHidden = match ? false : true;
-                }                
+                if (functionSettingV) {
+                    var isHidden = false;
+                    if (newFunction) {
+                        isHidden = true;
+                        var match = this.bindingValue.hiddenList.find((h) => {
+                            return h === setting.name;
+                        });
+                        isHidden = match ? false : true;
+                    }
 
-                switch (setting.value) {                                        
-                    case SettingType.string:
-                    case SettingType.int:
-                        if (setting.value === SettingType.string && setting.resource) {
-                            let input = new PickerInput();
-                            input.resource = setting.resource;
-                            input.id = setting.name;
-                            input.isHidden = isHidden;
-                            input.label = this.replaceVariables(setting.label, bindings.variables);
-                            input.required = setting.required;
-                            input.value = functionSettingV.value || setting.defaultValue;
-                            input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            this.model.inputs.push(input);
-                        } else {
-                            let input = new TextboxInput();                            
-                            input.id = setting.name;
-                            input.isHidden = isHidden;
-                            input.label = this.replaceVariables(setting.label, bindings.variables);
-                            input.required = setting.required;
-                            input.value = functionSettingV.value || setting.defaultValue;
-                            input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            this.model.inputs.push(input);
-                        }
-                        break;
-                    case SettingType.enum:
-                        let ddInput = new SelectInput();
-                        ddInput.id = setting.name;
-                        ddInput.isHidden = isHidden;
-                        ddInput.label = setting.label;
-                        ddInput.enum = setting.enum;
-                        ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
-                        ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                        this.model.inputs.push(ddInput);
-                        break;
-                    case SettingType.boolean:
-                        let chInput = new CheckboxInput();
-                        chInput.id = setting.name;
-                        chInput.isHidden = isHidden;
-                        chInput.type = setting.value;  
-                        chInput.label = this.replaceVariables(setting.label, bindings.variables);
-                        chInput.required = false;
-                        chInput.value = functionSettingV.value || setting.defaultValue;
-                        chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                        this.model.inputs.push(chInput);
-                        break;
-                }
-                order++;
+                    switch (setting.value) {
+                        case SettingType.string:
+                        case SettingType.int:
+                            if (setting.value === SettingType.string && setting.resource) {
+                                let input = new PickerInput();
+                                input.resource = setting.resource;
+                                input.id = setting.name;
+                                input.isHidden = isHidden;
+                                input.label = this.replaceVariables(setting.label, bindings.variables);
+                                input.required = setting.required;
+                                input.value = functionSettingV.value || setting.defaultValue;
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                this.model.inputs.push(input);
+                            } else {
+                                let input = new TextboxInput();
+                                input.id = setting.name;
+                                input.isHidden = isHidden;
+                                input.label = this.replaceVariables(setting.label, bindings.variables);
+                                input.required = setting.required;
+                                input.value = functionSettingV.value || setting.defaultValue;
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                this.model.inputs.push(input);
+                            }
+                            break;
+                        case SettingType.enum:
+                            let ddInput = new SelectInput();
+                            ddInput.id = setting.name;
+                            ddInput.isHidden = isHidden;
+                            ddInput.label = setting.label;
+                            ddInput.enum = setting.enum;
+                            ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
+                            ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(ddInput);
+                            break;
+                        case SettingType.boolean:
+                            let chInput = new CheckboxInput();
+                            chInput.id = setting.name;
+                            chInput.isHidden = isHidden;
+                            chInput.type = setting.value;
+                            chInput.label = this.replaceVariables(setting.label, bindings.variables);
+                            chInput.required = false;
+                            chInput.value = functionSettingV.value || setting.defaultValue;
+                            chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(chInput);
+                            break;
+                    }
+                    order++;
+                }               
             });
 
             let inputTb = new TextboxInput();
@@ -163,7 +165,9 @@ export class BindingComponent {
         this.bindingValue.settings.forEach((s) => {
 
             var input: BindingInputBase<any> = this.model.getInput(s.name);
-            s.value = input.value;
+            if (input) {
+                s.value = input.value;
+            }
         });
 
         this.setLabel();
