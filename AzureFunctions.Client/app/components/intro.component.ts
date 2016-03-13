@@ -35,6 +35,18 @@ export class IntroComponent {
                     functionName = "timer";
                     selectedTemplate = templates.find((t) => (t.id === "TimerTrigger"));
                     break;
+                case 'data':
+                    functionName = "data";
+                    selectedTemplate = templates.find((t) => (t.id === "QueueTrigger"));
+                    break;
+                case 'webhook':
+                    functionName = "webhook";
+                    selectedTemplate = templates.find((t) => (t.id === "HttpTrigger"));
+                    break;
+                case 'iot':
+                    functionName = "iot";
+                    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
+                    break;
             }
 
             if (selectedTemplate) {
