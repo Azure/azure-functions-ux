@@ -13,7 +13,6 @@ using AzureFunctions.Models.ArmResources;
 using AzureFunctions.Trace;
 using Serilog;
 using Serilog.Context;
-using AzureFunctions.Models.ArmModels;
 
 namespace AzureFunctions.Code
 {
@@ -23,7 +22,7 @@ namespace AzureFunctions.Code
         private readonly IUserSettings _userSettings;
         private readonly ISettings _settings;
 
-        //private HttpContent NullContent { get { return new StringContent(string.Empty); } }
+        private HttpContent NullContent { get { return new StringContent(string.Empty); } }
 
         public ArmManager(IUserSettings userSettings, ISettings settings, HttpClient client)
         {
@@ -31,21 +30,6 @@ namespace AzureFunctions.Code
             this._settings = settings;
             this._client = client;
         }
-
-        public async Task<IEnumerable<Subscription>> ListSubscriptionsAsync()
-        {
-            var subscriptionsResponse = await _client.GetAsync(ArmUriTemplates.Subscriptions.Bind(string.Empty));
-            await subscriptionsResponse.EnsureSuccessStatusCodeWithFullError();
-
-            var subscriptions = await subscriptionsResponse.Content.ReadAsAsync<ArmSubscriptionsArray>();
-            return subscriptions.value.Select(s => new Subscription(s.subscriptionId, s.displayName));
-        }
-
-        Task<IEnumerable<FunctionsContainer>> ListFunctionContainersAsync(string subscription)
-        {
-
-        }
-
 
         public async Task<FunctionsContainer> GetFunctionContainer(string functionContainerId)
         {

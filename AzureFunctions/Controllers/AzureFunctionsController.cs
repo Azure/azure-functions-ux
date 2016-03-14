@@ -125,7 +125,15 @@ namespace AzureFunctions.Controllers
         //    }
         //}
 
-
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> ListSubscriptions()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, await _armManager.GetSubscriptions());
+            }
+        }
 
         [Authorize]
         [HttpGet]

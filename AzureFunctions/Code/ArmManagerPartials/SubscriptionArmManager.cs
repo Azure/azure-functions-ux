@@ -14,9 +14,16 @@ namespace AzureFunctions.Code
     public partial class ArmManager
     {
 
-        public Task<IEnumerable<Subscription>> ListSubscriptionsAsync()
+        public async Task<IEnumerable<Subscription>> GetSubscriptions()
         {
-            
+            using (FunctionsTrace.BeginTimedOperation())
+            {
+                var subscriptionsResponse = await _client.GetAsync(ArmUriTemplates.Subscriptions.Bind(string.Empty));
+                await subscriptionsResponse.EnsureSuccessStatusCodeWithFullError();
+
+                var subscriptions = await subscriptionsResponse.Content.ReadAsAsync<ArmSubscriptionsArray>();
+                return subscriptions.value.Select(s => new Subscription(s.subscriptionId, s.displayName));
+            }
         }
 
         public async Task<Subscription> Load(Subscription subscription)
