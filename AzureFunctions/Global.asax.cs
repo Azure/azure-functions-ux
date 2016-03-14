@@ -58,15 +58,22 @@ namespace AzureFunctions
                 // If the route doesn't have authenticated value assume true
                 var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
                 var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+                var isQuery = context.Request.Url.Query.IndexOf("preview=true", StringComparison.OrdinalIgnoreCase) != -1;
+
                 if (isAuthenticated)
                 {
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
                 }
-                else if (!isFile)
+                else if (!isFile && isQuery)
                 {
                     context.Response.WriteFile("landing.html");
                     context.Response.Flush();
+                    context.Response.End();
+                }
+                else if (!isFile && !isQuery)
+                {
+                    context.Response.StatusCode = 401;
                     context.Response.End();
                 }
             }
