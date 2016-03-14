@@ -63,8 +63,8 @@ button {
     flex-grow: 1;
 }
 
-#create-or-choose > div:first-child {
-    border-right: 1px solid black;
+#create-or-choose > div:nth-child(odd) {
+    border-left: 1px solid black;
 }
 
 .function-container {
