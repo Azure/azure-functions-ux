@@ -28,7 +28,7 @@
                         This subscription already has a function app in it. Functions apps are containers where your functions get executed.
                     </div>
 
-                    <div>
+                    <div id="create-or-choose">
                         <div>
                             <h3>Create a new function app</h3>
                             <div class="user-input">
@@ -44,7 +44,7 @@
 
                         <div *ngIf="functionContainers.length > 0">
                             <h3>Use an existing function app</h3>
-                            <div *ngFor="#container of functionContainers">{{container.name}}</div>
+                            <div class="function-container" *ngFor="#container of functionContainers" (click)="selectContainer(container)">{{container.name}} ({{container.location}})</div>
                         </div>
                     </div>
 

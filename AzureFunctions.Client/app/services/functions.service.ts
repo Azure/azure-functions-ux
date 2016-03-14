@@ -42,10 +42,10 @@ export class FunctionsService implements IFunctionsService {
         var url = 'api/get';
         if (this._portalService.inIFrame) {
             url = `api/get${this._portalService.resourceId}`;
-        } else if (window.location.pathname !== '/') {
-            url = `api/get${window.location.pathname}`;
         } else if (armId) {
             url = `api/get${armId}`;
+        } else if (window.location.pathname !== '/') {
+            url = `api/get${window.location.pathname}`;
         }
 
         return this._http.get(url, { headers: this.getHeaders() })

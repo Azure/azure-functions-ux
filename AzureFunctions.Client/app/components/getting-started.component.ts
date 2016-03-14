@@ -109,6 +109,10 @@ export class GettingStartedComponent implements OnInit {
         window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin${window.location.search}`);
     }
 
+    selectContainer(container: FunctionContainer) {
+        this.userReady.emit(container);
+    }
+
     // http://stackoverflow.com/a/1349426/3234163
     makeId() {
         var text = '';

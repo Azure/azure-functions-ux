@@ -15,7 +15,7 @@ label {
 }
 
 .wrapper {
-    width: 40%;
+    width: 70%;
     margin-right: auto;
     margin-left: auto;
     position: relative;
@@ -52,4 +52,27 @@ button {
 
 .user-input {
     padding-top: 10px;
+}
+
+#create-or-choose {
+    display: flex;
+    flex-direction: row;
+}
+
+#create-or-choose > div {
+    flex-grow: 1;
+}
+
+#create-or-choose > div:first-child {
+    border-right: 1px solid black;
+}
+
+.function-container {
+    font-size: x-large;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.function-container:hover {
+    background-color: #DBDBDB;
 }

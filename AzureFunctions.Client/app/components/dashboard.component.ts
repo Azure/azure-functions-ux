@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
             }
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {            
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
             this.resetView();
             this.selectedFunction = fi;
             this.sideBar.selectedFunction = fi;
