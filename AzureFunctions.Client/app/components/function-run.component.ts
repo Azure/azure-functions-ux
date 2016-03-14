@@ -14,7 +14,6 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class FunctionRunComponent {
     public testDataFile: VfsObject;
-    public runId: string;
     public runResult: string;
     public content: string;
     private updatedContent: string;
@@ -54,10 +53,5 @@ export class FunctionRunComponent {
             .subscribe(r => this.runResult = r,
                        e => this.runResult = e,
                        () => this._broadcastSetrvice.clearBusyState());
-    }
-
-    getStatus() {
-        this._functionsService.getRunStatus(this._functionInfo, this.runId)
-            .subscribe(r => this.runResult = r);
     }
 }

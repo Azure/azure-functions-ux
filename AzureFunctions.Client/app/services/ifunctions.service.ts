@@ -23,7 +23,6 @@ export interface IFunctionsService {
     getSettingsNode(): FunctionInfo;
     getTestData(functionInfo: FunctionInfo): Observable<string>;
     runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
-    getRunStatus(functionInfo: FunctionInfo, runId: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
     getDesignerSchema(): Observable<DesignerSchema>;
     warmupMainSite();

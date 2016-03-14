@@ -81,38 +81,21 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getFunctions() {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: `${this.scmInfo.scm_url}/api/functions`
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => (e.status === 503 || e.status === 404 ? this.getFunctions().map(r => ({json: () => r})) : e))
+        return this._http.get(`${this.scmInfo.scm_url}/api/functions`, { headers: this.getHeaders() })
+            .retry(3)
             .map<FunctionInfo[]>(r => r.json());
     }
 
     getFileContent(file: VfsObject | string) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: typeof file === 'string' ? file : file.href
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => Observable.of({
-                text: () => ''
-            }))
+        return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getHeaders() })
             .map<string>(r => r.text());
     }
 
     saveFile(file: VfsObject | string, updatedContent: string) {
-        var body: PassthroughInfo = {
-            httpMethod: "PUT",
-            url: typeof file === 'string' ? file : file.href,
-            requestBody: updatedContent,
-            headers: {
-                'If-Match': '*'
-            },
-            mediaType: 'plain/text'
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        var headers = this.getHeaders('plain/text');
+        headers.append('If-Match', '*');
+
+        return this._http.put(typeof file === 'string' ? file : file.href, updatedContent, { headers: headers })
             .map<VfsObject|string>(r => file);
     }
 
@@ -131,12 +114,7 @@ export class FunctionsService implements IFunctionsService {
             return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getHeaders() })
                 .map<FunctionInfo>(r => r.json());
         } else {
-            var passthrowBody: PassthroughInfo = {
-                httpMethod: "PUT",
-                url: `${this.scmInfo.scm_url}/api/functions/${functionName}`,
-                requestBody: { config: {} }
-            };
-            return this._http.post('api/passthrough', JSON.stringify(passthrowBody), { headers: this.getHeaders() })
+            return this._http.put(`${this.scmInfo.scm_url}/api/functions/${functionName}`, JSON.stringify({config: {}}), { headers: this.getHeaders() })
                 .map<FunctionInfo>(r => r.json());
         }
     }
@@ -180,11 +158,7 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getTestData(functionInfo: FunctionInfo) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: functionInfo.test_data_href,
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.get(functionInfo.test_data_href, { headers: this.getHeaders() })
             .catch(e => Observable.of({
                 text: () => ''
             }))
@@ -227,24 +201,8 @@ export class FunctionsService implements IFunctionsService {
             .map<string>(r => r.text());
     }
 
-    getRunStatus(functionInfo: FunctionInfo, runId: string) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: `${functionInfo.href}/status/${runId}`
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .catch(e => Observable.of({
-                text: () => e.text()
-            }))
-            .map<string>(r => r.text());
-    }
-
     deleteFunction(functionInfo: FunctionInfo) {
-        var body: PassthroughInfo = {
-            httpMethod: 'DELETE',
-            url: functionInfo.href
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.delete(functionInfo.href, { headers: this.getHeaders() })
             .map<string>(r => r.statusText);
     }
 
@@ -272,11 +230,7 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getSecrets(fi: FunctionInfo) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: fi.secrets_file_href
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.get(fi.secrets_file_href, { headers: this.getHeaders() })
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
@@ -293,21 +247,12 @@ export class FunctionsService implements IFunctionsService {
     }
 
     saveFunction(fi: FunctionInfo, config: any) {
-        var body: PassthroughInfo = {
-            httpMethod: 'PUT',
-            url: fi.href,
-            requestBody: { config: config }
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.put(fi.href, JSON.stringify({config: config}), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
     getFunction(fi: FunctionInfo) {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: fi.href
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.get(fi.href, { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -324,14 +269,10 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getHostSecrets() {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: `${this.scmInfo.scm_url}/api/vfs/data/functions/secrets/host.json`
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.get(`${this.scmInfo.scm_url}/api/vfs/data/functions/secrets/host.json`, { headers: this.getHeaders() })
+            .retry(3)
             .map<HostSecrets>(r => r.json())
-            .subscribe(h => this.hostSecrets = h,
-                       e => { if (e.status === 404) { this.getHostSecrets(); } });
+            .subscribe(h => this.hostSecrets = h, e => console.log(e));
     }
 
     getBindingConfig(): Observable<BindingConfig> {
@@ -349,12 +290,7 @@ export class FunctionsService implements IFunctionsService {
     }
 
     updateFunction(fi: FunctionInfo) {
-        var body: PassthroughInfo = {
-            httpMethod: "PUT",
-            url: fi.href,
-            requestBody: fi
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+        return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -365,10 +301,12 @@ export class FunctionsService implements IFunctionsService {
 
         if(this.scmInfo && this.scmInfo.bearer){
             headers.append('client-token', this.scmInfo.bearer);
+            headers.append('Authorization', `Bearer ${this.scmInfo.bearer}`);
         }
 
         if (this.scmInfo && this.scmInfo.bearerPortal) {
             headers.append('portal-token', this.scmInfo.bearerPortal);
+            headers.append('Authorization', `Bearer ${this.scmInfo.bearerPortal}`);
         }
 
         return headers;
