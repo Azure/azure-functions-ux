@@ -63,7 +63,7 @@ button {
     flex-grow: 1;
 }
 
-#create-or-choose > div:nth-child(odd) {
+#create-or-choose > div+div {
     border-left: 1px solid black;
 }
 
@@ -75,4 +75,9 @@ button {
 
 .function-container:hover {
     background-color: #DBDBDB;
+}
+
+.error-output {
+    border: 1px solid red;
+    color: red;
 }
