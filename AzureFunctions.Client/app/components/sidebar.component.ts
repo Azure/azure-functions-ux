@@ -8,6 +8,7 @@ import {Subject} from 'rxjs/Subject';
 import {PortalService} from '../services/portal.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'sidebar',
@@ -44,6 +45,13 @@ export class SideBarComponent implements OnDestroy {
             this.functionsInfo.sort();
             this.selectFunction(fi);
         }));
+
+        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
+            if(event.step === TutorialStep.NextSteps){
+                let selectedFi = this.functionsInfo.find(fi => fi === event.functionInfo);
+                this.selectFunction(selectedFi);
+            }
+        });
     }
 
     ngOnDestroy() {

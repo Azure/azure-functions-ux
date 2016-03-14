@@ -45,7 +45,11 @@
     margin-left: -5px;
 }
 
-.settings{
+.top-bar-tools span:last-of-type{
+    margin-left: 2px;
+}
+
+/*.settings{
     color: #FFFFFF;
 }
 
@@ -55,7 +59,7 @@
 
 .settings:last-child {
     margin-right: 10px;
-}
+}*/
 
 /* http://stackoverflow.com/a/6900392/3234163 */
 .top-bar-tool {
@@ -71,6 +75,11 @@
     color: black !important;
     /*padding-bottom: 8px !important;*/
     /*padding-top: 8px !important;*/
+}
+
+.top-bar-settings-selected{
+    background-color: #FFFFFF;
+    color: black;
 }
 
 .top-bar-tool:hover {

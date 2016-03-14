@@ -2,6 +2,7 @@
 import {IBroadcastService, BroadcastEvent} from './ibroadcast.service';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Injectable()
 export class BroadcastService implements IBroadcastService {
@@ -11,6 +12,7 @@ export class BroadcastService implements IBroadcastService {
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
     private goToIntroEvent: EventEmitter<void>;
     private busyStateEvent: EventEmitter<boolean>;
+    private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -21,6 +23,7 @@ export class BroadcastService implements IBroadcastService {
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.busyStateEvent = new EventEmitter<boolean>();
         this.goToIntroEvent = new EventEmitter<void>();
+        this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -99,6 +102,9 @@ export class BroadcastService implements IBroadcastService {
 
             case BroadcastEvent.GoToIntro:
                 return this.goToIntroEvent;
+
+            case BroadcastEvent.TutorialStep:
+                return this.tutorialStepEvent;
         }
     }
 }

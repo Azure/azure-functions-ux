@@ -4,11 +4,13 @@ import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
 import {PortalService} from '../services/portal.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'top-bar',
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
+    inputs: ['isFunctionSelected'],
     outputs: ['appSettingsClicked']
 })
 export class TopBarComponent implements OnInit {
@@ -17,12 +19,22 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
+    public isAppSettingSelected: boolean;
+    private _isFunctionSelected: boolean;
     private appSettingsClicked: EventEmitter<any>;
 
-    constructor(private _userService: UserService, private _portalService: PortalService,
-        private _broadcastService: IBroadcastService) { 
+    constructor(private _userService: UserService,
+                private _portalService : PortalService,
+                private _broadcastService: IBroadcastService) { 
+
         this.appSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._portalService.inIFrame;
+
+        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
+            if(event.step === TutorialStep.AppSettings){
+                this.onAppSettingsClicked();
+            }
+        });
     }
 
     ngOnInit() {
@@ -45,8 +57,18 @@ export class TopBarComponent implements OnInit {
         window.location.href = `api/switchtenants/${tenant.TenantId}`;
     }
 
-    onAppSettingsClicked(){
+    onAppSettingsClicked(){ 
         this.appSettingsClicked.emit(null);
+        this.isAppSettingSelected = true;
+    }
+
+    set isFunctionSelected(selected : boolean){
+        this._isFunctionSelected = selected;
+        this.isAppSettingSelected = selected ? false : this.isAppSettingSelected;
+    }
+
+    get isFunctionSelected(){
+        return this._isFunctionSelected;
     }
 
     onAzureFunctionClick() {

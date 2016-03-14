@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="templates\tutorial.component.html" />
     <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
     <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
@@ -44,6 +45,7 @@
     <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\app.component.html" />
+    <Content Include="styles\tutorial.style.css" />
     <Content Include="templates\busy-state.component.html" />
     <Content Include="templates\dashboard.component.html" />
     <Content Include="templates\intro.component.html" />
@@ -98,6 +100,8 @@
     <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
+    <TypeScriptCompile Include="app\components\tutorial.component.ts" />
+    <TypeScriptCompile Include="app\constants.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
@@ -124,6 +128,7 @@
     <TypeScriptCompile Include="app\models\subscription.ts" />
     <TypeScriptCompile Include="app\models\template-input.ts" />
     <TypeScriptCompile Include="app\models\tenant-info.ts" />
+    <TypeScriptCompile Include="app\models\tutorial.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />

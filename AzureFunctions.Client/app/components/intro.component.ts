@@ -5,6 +5,7 @@ import {BindingType} from '../models/binding';
 import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';
 import {PortalService} from '../services/portal.service';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'intro',
@@ -47,13 +48,21 @@ export class IntroComponent {
                     functionName = "iot";
                     selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
                     break;
-            }
-
+            } 
+ 
             if (selectedTemplate) {
+
                 selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
                 this._broadcastService.setBusyState();
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
+                        this._broadcastService.broadcast<TutorialEvent>(
+                            BroadcastEvent.TutorialStep,
+                            {
+                                functionInfo: res,
+                                step: TutorialStep.Waiting
+                            });
+
                         window.setTimeout(() => {
                             this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                             this._broadcastService.clearBusyState();

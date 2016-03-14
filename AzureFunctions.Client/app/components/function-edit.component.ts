@@ -18,9 +18,10 @@ import {TabComponent} from './tab.component';
 import {FunctionConfigureComponent} from './function-configure.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {TabNames} from '../constants';
 
 @Component({
-    selector: 'function-edit',
+    selector: 'function-edit', 
     templateUrl: 'templates/function-edit.component.html',
     styleUrls: ['styles/function-edit.style.css'],
     inputs: ['selectedFunction'],
@@ -41,6 +42,10 @@ export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
     public selectedTabTitle:string = "";
+
+    public DevelopTab = TabNames.develop;
+    public IntegrateTab = TabNames.integrate;
+    public ManageTab = TabNames.manage;
 
     constructor(
         private _functionsService: FunctionsService,

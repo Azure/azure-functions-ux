@@ -1,9 +1,11 @@
 ﻿<div class="container-full">
     <!-- TODO: move padding to css -->
-    <top-bar (appSettingsClicked)='onAppSettingsClicked($event)'></top-bar>
+    <top-bar (appSettingsClicked)='onAppSettingsClicked($event)' [isFunctionSelected]="!!selectedFunction"></top-bar>
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo"></sidebar>
         <div class="work-space">
+            <tutorial></tutorial>
+
             <div *ngIf="selectedFunction">
                 <div *ngIf="(selectedFunction.name !== 'New Function' && selectedFunction.name !== 'New Function (V2)') || !selectedFunction.clientOnly">
                     <function-edit [selectedFunction]="selectedFunction">

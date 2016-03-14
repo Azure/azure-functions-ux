@@ -1,15 +1,16 @@
+<tutorial></tutorial>
 <tabs (tabSelected) = 'onTabSelected($event)'>    
-    <tab tabTitle="Develop">
+    <tab [tabTitle]="DevelopTab">
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab tabTitle="Integrate">
         <function-integrate *ngIf="selectedTabTitle === 'Integrate'" [selectedFunction]="selectedFunction"></function-integrate>
     </tab>
-    <tab tabTitle="Integrate (V2)">
+    <tab [tabTitle]="IntegrateTab">
         <function-integrate-v2 *ngIf="selectedTabTitle === 'Integrate (V2)'" [selectedFunction]="selectedFunction"></function-integrate-v2>
     </tab>
-    <tab tabTitle="Monitor">
-        Monitor
+    <tab [tabTitle]="ManageTab">
+        Manage
     </tab>
 </tabs>
 <div id="delete-function" class="clickable" (click)="deleteFunction()"><i class="fa fa-trash"></i> Delete function</div>

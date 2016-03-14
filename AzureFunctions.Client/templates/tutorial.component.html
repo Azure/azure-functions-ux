@@ -1,0 +1,78 @@
+﻿<div *ngIf="currentStep > 0">
+    <div class="tutorial-overlay-top-bar"></div>
+    <div class="tutorial-overlay"></div>
+    <div class="tutorial-modal">
+        <div class="tutorial-modal-curposition">{{currentStep}} of 5</div>
+
+        <div *ngIf="currentStep === 1">
+            <h2>Develop</h2>
+
+            <p>
+                The fastest way to edit code is with the code editor, but you can also use Git.
+                This example uses NodeJS, but many other languages are also supported.
+            </p>
+            <p>
+                This page also includes a log stream and a test console for helping you debug your function.
+            </p>
+        </div>
+
+        <div *ngIf="currentStep === 2">
+            <h2>Integrate</h2>
+            <p>
+                You can easily integrate with other services and data sources from here.
+            </p>
+            <ul>
+                <li><span>Trigger</span> - A function can be run based on an external action,
+                such as when an item is inserted into a queue.</li>
+                <li><span>Inputs</span> - Other, non-triggering data sources can be added and 
+                conditioned on the trigger data. These are passed in as parameters to your function.</li>
+                <li><span>Output</span> - The results of your function's execution can be sent
+                out to multiple targets.</li>
+            </ul>
+        </div>
+
+        <div *ngIf="currentStep === 3">
+            <h2>Manage</h2>
+            <p>
+                This is the function management tab, where you will find configuration options specific to your function.
+            </p>
+            <p>
+                If you want to stop your function from triggering, you can disable it here.
+                This is also where you can delete your function, so be careful!
+            </p>
+        </div>
+
+        <div *ngIf="currentStep === 4">
+            <h2>Function App Settings</h2>
+            <p>
+                Your functions run within a "Function App."  It houses centralized settings for your
+                functions and gives you the ability to add features such as continuous integration
+                and user authentication.
+            </p>
+            <p>
+                This screen is where you can configure settings which affect all of the functions
+                within your function app.
+            </p>
+        </div>
+
+        <div *ngIf="currentStep === 5">
+            <h2>Next Steps</h2>
+            <p>
+                Now that you've seen a bit of what Azure Functions can do, try it out for yourself...
+            </p>
+            <ul>
+                <li><span>Tweak this sample function</span> - Make it yours on the easy-to-use dashboard</li>
+                <li><span>Create a brand-new function</span> - Check out the templates for prebuilt functions</li>
+                <li><span>Dive into the documentation</span> - Explore all of the Azure Functions 
+                features <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839">here</a></li>
+            </ul>
+        </div>
+
+
+        <div class="tutorial-modal-nav">
+            <button class="custom-button" (click)="nextStep()">{{buttonText}}</button>
+             <a href="#" (click)="currentStep = -1" *ngIf="currentStep < 5">Skip and start coding now</a>
+        </div>
+    </div>
+</div>
+ 
