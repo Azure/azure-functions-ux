@@ -20,6 +20,7 @@ import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'functions-dashboard',
@@ -76,6 +77,12 @@ export class DashboardComponent implements OnInit {
         this._broadcastService.subscribe<void>(BroadcastEvent.GoToIntro, () => {
             delete this.selectedFunction;
         });
+
+        // TODO: What's the right way of doing something like this?
+        Observable.fromEvent(document, 'click')
+            .debounceTime(60000) // 1 minute
+            .switchMap<string>(() => this._functionsService.warmupMainSite())
+            .subscribe(e => console.log(e));
     }
 
     ngOnInit() {

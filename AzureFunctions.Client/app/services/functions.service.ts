@@ -216,8 +216,10 @@ export class FunctionsService implements IFunctionsService {
             httpMethod: 'GET',
             url: this.scmInfo.scm_url.replace('.scm.', '.')
         };
-        this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSite(); } else { this.warmupMainSiteApi(); this.getHostSecrets(); } });
+        var observable = this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getHeaders() })
+                        .map<string>(r => r.statusText);
+        observable.subscribe(() => this.getHostSecrets(), () => this.getHostSecrets());
+        return observable;
     }
 
     warmupMainSiteApi() {
