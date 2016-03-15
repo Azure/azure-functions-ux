@@ -5,6 +5,7 @@ import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
 import {BindingInputList} from '../models/binding-input-list';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 declare var jQuery: any;
 
@@ -27,13 +28,24 @@ export class BindingComponent {
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
     public hasInputsToShow = true;
+    public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
-        private _functionsService: FunctionsService) {
-        this._elementRef = elementRef;
+        private _functionsService: FunctionsService,
+        private _broadcastService: IBroadcastService) {
+        this._elementRef = elementRef;        
+
+        this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
+            this.isDirty = this.model.isDirty();
+            if (this.isDirty) {
+                this._broadcastService.setDirtyState("function_integrate");
+            } else {
+                this._broadcastService.clearDirtyState("function_integrate", true);
+            }
+        });
     }
 
     set clickSave(value: boolean) {   

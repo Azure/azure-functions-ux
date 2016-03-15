@@ -28,8 +28,7 @@ export class BindingInputList {
         });
     }
 
-    isDirty() {
-        // TODO: change to variable as angular2 pulls the function forever
+    isDirty() : boolean {        
         var result = false;
         for (var i = 0; i < this.inputs.length; i++) {
             if (this.inputs[i].value !== this.originInputs[i].value) {

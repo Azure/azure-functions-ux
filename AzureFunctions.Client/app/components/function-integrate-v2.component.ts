@@ -57,6 +57,11 @@ export class FunctionIntegrateV2Component {
     }
 
     newBinding(type: DirectionType) {
+        debugger;
+        if (!this.checkDirty()) {
+            return;
+        }
+
         this.currentBindingId = type.toString();
 
         switch (type) {
@@ -109,7 +114,10 @@ export class FunctionIntegrateV2Component {
         this.updateFunction();
     }
 
-    onBindingSelect(id: string) {     
+    onBindingSelect(id: string) {
+        if (!this.checkDirty()) {
+            return;
+        }
         if (this.currentBinding && id === this.currentBinding.id) {
             return;
         }
@@ -124,5 +132,17 @@ export class FunctionIntegrateV2Component {
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {                        
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
+    }
+
+    private checkDirty() : boolean {
+        var switchBinding = true;
+        if (this._broadcastService.getDirtyState('function_integrate')) {
+            switchBinding = confirm(`Changes made will be lost. Are you sure you want to continue?`);
+        }
+
+        if (switchBinding) {
+            this._broadcastService.clearDirtyState('function_integrate', true);
+        }
+        return switchBinding;
     }
 }

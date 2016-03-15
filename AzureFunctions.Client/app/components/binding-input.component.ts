@@ -2,6 +2,7 @@
 import {BindingInputBase} from '../models/binding-input';
 import {PortalService} from '../services/portal.service';
 import {PickerInput} from '../models/binding-input';
+import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'binding-input',
@@ -16,7 +17,9 @@ export class BindingInputComponent {
     @Output() validChange = new EventEmitter<BindingInputBase<any>>();
     private _input: BindingInputBase<any>;
 
-    constructor(private _portalService: PortalService) {        
+    constructor(private _portalService: PortalService,
+        private _broadcastService: IBroadcastService) {
+
     }
 
     set input(input: BindingInputBase<any>) {
@@ -49,6 +52,7 @@ export class BindingInputComponent {
 
     inputChanged(value: any) {    
         this.setClass(value);
+        this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
     }
 
     private setClass(value: any) {        

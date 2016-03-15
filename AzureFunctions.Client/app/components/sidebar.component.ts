@@ -59,13 +59,14 @@ export class SideBarComponent implements OnDestroy {
     }
 
     selectFunction(fi: FunctionInfo) {
-        var switchFunction = true;
-        if (this._broadcastService.getDirtyState('function')) {
+        var switchFunction = true;        
+        if (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) {
             switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
         }
 
         if (switchFunction) {
             this._broadcastService.clearDirtyState('function', true);
+            this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedFunction = fi;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
         }

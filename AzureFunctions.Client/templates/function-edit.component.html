@@ -4,10 +4,10 @@
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab tabTitle="Integrate">
-        <function-integrate *ngIf="selectedTabTitle === 'Integrate'" [selectedFunction]="selectedFunction"></function-integrate>
+        <function-integrate [selectedFunction]="selectedFunction"></function-integrate>
     </tab>
     <tab [tabTitle]="IntegrateTab">
-        <function-integrate-v2 *ngIf="selectedTabTitle === 'Integrate (V2)'" [selectedFunction]="selectedFunction"></function-integrate-v2>
+        <function-integrate-v2 [selectedFunction]="selectedFunction"></function-integrate-v2>
     </tab>
     <tab tabTitle="Monitor">
         <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
