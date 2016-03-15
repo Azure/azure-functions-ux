@@ -1,5 +1,5 @@
 <tutorial></tutorial>
-<tabs (tabSelected) = 'onTabSelected($event)'>    
+<tabs (tabSelected) = 'onTabSelected($event)'>
     <tab [tabTitle]="DevelopTab">
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
@@ -8,6 +8,9 @@
     </tab>
     <tab [tabTitle]="IntegrateTab">
         <function-integrate-v2 *ngIf="selectedTabTitle === 'Integrate (V2)'" [selectedFunction]="selectedFunction"></function-integrate-v2>
+    </tab>
+    <tab tabTitle="Monitor">
+        <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
     </tab>
     <tab [tabTitle]="ManageTab">
         Manage

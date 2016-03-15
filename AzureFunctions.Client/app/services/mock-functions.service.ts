@@ -25,6 +25,10 @@ export class MockFunctionsService implements IFunctionsService {
         };
     }
 
+    isInitialized() {
+        return true;
+    }
+
     initializeUser() {
         return this._http.get('mocks/scmInfo.json')
             .map<ScmInfo>(r => {

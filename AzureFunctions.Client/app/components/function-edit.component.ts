@@ -19,6 +19,7 @@ import {FunctionConfigureComponent} from './function-configure.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {TabNames} from '../constants';
+import {FunctionMonitorComponent} from './function-monitor.component'
 
 @Component({
     selector: 'function-edit', 
@@ -35,7 +36,8 @@ import {TabNames} from '../constants';
         TabsComponent,
         TabComponent,
         FunctionConfigureComponent,
-        FunctionIntegrateV2Component
+        FunctionIntegrateV2Component,
+        FunctionMonitorComponent
     ]
 })
 export class FunctionEditComponent {
