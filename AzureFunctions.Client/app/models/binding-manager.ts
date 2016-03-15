@@ -41,7 +41,7 @@ export class BindingManager {
                     name: key,
                     value: b[key]
                 });
-            }
+            }           
 
             configUI.bindings.push(fb);
         });
@@ -60,13 +60,13 @@ export class BindingManager {
                 result[key] = config.originalConfig[key];
             }
         }
-
+        
         config.bindings.forEach((b) => {
             var bindingToAdd = {
             };
             
             b.settings.forEach((s) => {
-                bindingToAdd[s.name] = s.value;
+                bindingToAdd[s.name] = s.value ? s.value : "";
             });
             bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
 

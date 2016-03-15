@@ -35,6 +35,7 @@ export class BindingInputComponent {
         // for tests
         if (window.location.hostname === "localhost") {
             this.input.value = name;
+            this.inputChanged(name);
             this.setClass(name);
             return;
         }
@@ -44,13 +45,14 @@ export class BindingInputComponent {
         this._portalService.openCollectorBlade(name, (appSettingName: string, cancelled: boolean) => {            
             if (!cancelled) {
                 this.input.value = appSettingName;
-                this.setClass(appSettingName);                
+                this.inputChanged(name);
+                this.setClass(appSettingName);
             }
             picker.setButtonNoActive();
         });
     }
 
-    inputChanged(value: any) {    
+    inputChanged(value: any) {
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
     }
