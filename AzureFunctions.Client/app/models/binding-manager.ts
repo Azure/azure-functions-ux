@@ -8,7 +8,8 @@ export class BindingManager {
         var configUI = {
             schema: "",
             version: "",
-            bindings: []
+            bindings: [],
+            originalConfig: config
         };
 
         config.bindings.forEach((b) => {
@@ -17,8 +18,10 @@ export class BindingManager {
             var behaviorString: string = b.direction;
             var direction: DirectionType = DirectionType[behaviorString];
 
-            if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
-                direction = DirectionType.trigger;
+            if (typeString) {
+                if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
+                    direction = DirectionType.trigger;
+                }
             }
 
             var fb: UIFunctionBinding = {
@@ -34,10 +37,10 @@ export class BindingManager {
             });
 
             for (var key in b) {
-                    fb.settings.push({
-                        name: key,
-                        value: b[key]
-                    });
+                fb.settings.push({
+                    name: key,
+                    value: b[key]
+                });
             }
 
             configUI.bindings.push(fb);
@@ -52,10 +55,17 @@ export class BindingManager {
             bindings: []
         };
 
+        //top-level
+        for (var key in config.originalConfig) {
+            if ((key !== "bindings") && (key !== "disabled")) {
+                result[key] = config.originalConfig[key];
+            }
+        }
+
         config.bindings.forEach((b) => {
             var bindingToAdd = {
             };
-
+            
             b.settings.forEach((s) => {
                 bindingToAdd[s.name] = s.value;
             });
@@ -82,6 +92,16 @@ export class BindingManager {
             direction: direction,
             settings: []
         };
+
+        result.settings.push({
+            value: schema.defaultParameterName,
+            name: "name"
+        });
+
+        result.settings.push({
+            value: type,
+            name: "type"
+        });
 
         schema.settings.forEach((s) => {
             result.settings.push({
@@ -119,5 +139,5 @@ export class BindingManager {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
-    }
+     }
 }

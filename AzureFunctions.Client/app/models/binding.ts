@@ -68,6 +68,7 @@ export interface UIFunctionConfig {
     schema: string;
     version: string;
     bindings: UIFunctionBinding[];
+    originalConfig: any;
 }
 
 export interface FunctionSetting {
