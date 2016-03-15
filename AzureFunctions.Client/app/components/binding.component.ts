@@ -37,16 +37,19 @@ export class BindingComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService) {
         this._elementRef = elementRef;        
-
+                
         this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
             this.isDirty = this.model.isDirty();
-            if (this.isDirty) {
-                this._broadcastService.setDirtyState("function_integrate");
-            } else {
-                this._broadcastService.clearDirtyState("function_integrate", true);
-            }
-        });
-    }
+            
+                if (this.canDelete) {
+                    if (this.isDirty) {
+                        this._broadcastService.setDirtyState("function_integrate");
+                    } else {
+                        this._broadcastService.clearDirtyState("function_integrate", true);
+                    }
+                }
+            });
+    }    
 
     set clickSave(value: boolean) {   
         if (value) {
@@ -55,6 +58,7 @@ export class BindingComponent {
     }
 
     set binding(value: UIFunctionBinding) {
+        this.isDirty = false;
         var that = this;     
         this._functionsService.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
@@ -172,7 +176,7 @@ export class BindingComponent {
         this.model.discard();
     }
 
-    saveClicked() {
+    saveClicked() {        
         this.bindingValue.name = this.model.getInput("name").value;
         this.bindingValue.settings.forEach((s) => {
 
@@ -185,6 +189,9 @@ export class BindingComponent {
         this.setLabel();
         this.model.saveOriginInputs();
         this.update.emit(this.bindingValue);
+
+        this._broadcastService.clearDirtyState('function_integrate', true);
+        this.isDirty = false;
     }
 
     onValidChanged(input: BindingInputBase<any>) {        

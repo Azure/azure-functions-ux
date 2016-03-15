@@ -56,8 +56,7 @@ export class FunctionIntegrateV2Component {
         this._elementRef = elementRef;
     }
 
-    newBinding(type: DirectionType) {
-        debugger;
+    newBinding(type: DirectionType) {        
         if (!this.checkDirty()) {
             return;
         }
