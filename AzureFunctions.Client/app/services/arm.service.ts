@@ -72,7 +72,7 @@ export class ArmService implements IArmService {
                         { name: 'AzureWebJobsDashboard', value: connectionString },
                         { name: 'FUNCTIONS_EXTENSION_VERSION', value: 'latest' },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
-                        { name: 'WEBSITE_CONTENTSHARE', value: name }
+                        { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() }
                     ]
                 },
                 scmType: 'LocalGit'
