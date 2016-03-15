@@ -54,7 +54,6 @@ export class FunctionNewComponent {
             this._functionsService.getBindingConfig().subscribe((bindings) => {
 
                 this.model.config = this.bc.functionConfigToUI({
-                    disabled: false,                                        
                     bindings: this.selectedTemplate.function.bindings
                 }, bindings.bindings);
                 

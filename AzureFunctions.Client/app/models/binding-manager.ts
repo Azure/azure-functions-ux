@@ -51,13 +51,12 @@ export class BindingManager {
 
     UIToFunctionConfig(config: UIFunctionConfig): FunctionConfig {
         var result = {
-            disabled: false,
             bindings: []
         };
 
         //top-level
         for (var key in config.originalConfig) {
-            if ((key !== "bindings") && (key !== "disabled")) {
+            if (key !== "bindings") {
                 result[key] = config.originalConfig[key];
             }
         }
