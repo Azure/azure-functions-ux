@@ -66,6 +66,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }    
     
     onEditorChange(editorType: string) {
+        this._broadcastService.clearDirtyState('function_integrate', true);
         this.changeEditor.emit(editorType);
     }
 }

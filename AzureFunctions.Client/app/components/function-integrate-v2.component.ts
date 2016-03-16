@@ -34,7 +34,9 @@ export class FunctionIntegrateV2Component {
     private _bindingManager: BindingManager = new BindingManager();
     
     set selectedFunction(fi: FunctionInfo) {        
-        if (this._functionInfo !== fi) {
+        if (!this._functionInfo || this._functionInfo.name !== fi.name) {
+            this.currentBinding = null;
+            this.currentBindingId = "";
             this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
@@ -128,6 +130,7 @@ export class FunctionIntegrateV2Component {
     }
 
     onEditorChange(editorType: string) {
+        this._broadcastService.clearDirtyState('function_integrate', true);
         this.changeEditor.emit(editorType);
     }
 
