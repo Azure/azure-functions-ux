@@ -72,7 +72,7 @@ export class BindingManager {
                 if (findIndex === -1) {
                     fb.settings.push({
                         name: key,
-                        value: key === b[key]
+                        value: b[key]
                     });
                 }
             }                
