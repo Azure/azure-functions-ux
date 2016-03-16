@@ -43,7 +43,8 @@ import {FunctionMonitorComponent} from './function-monitor.component'
 export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    public selectedTabTitle:string = "";
+    public selectedTabTitle: string = "";
+    public editorType: string = "standard";
 
     public DevelopTab = TabNames.develop;
     public IntegrateTab = TabNames.integrate;
@@ -56,8 +57,8 @@ export class FunctionEditComponent {
 
         this.inIFrame = this._portalService.inIFrame;
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
-            this.selectedFunction = fi;
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {            
+            this.selectedFunction = JSON.parse(JSON.stringify(fi));
         });
     }
 
@@ -73,5 +74,9 @@ export class FunctionEditComponent {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
                 });
         }
+    }
+
+    onEditorChange(editorType: string) {
+        this.editorType = editorType;
     }
 }

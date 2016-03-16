@@ -1,5 +1,5 @@
-﻿<div style="width: 90%">
-    <div>
+﻿<div class="container-fluid">
+    <div class="col-md-10">    
         <h2 class="dev-block-header">Config</h2>
         <div class="dev-block-header">
             <button class="custom-button" [class.dirty]="isDirty" (click)="saveConfig()">Save</button>
@@ -13,6 +13,10 @@
                  [height]="600">
             </div>
         </div>
+    </div>
+    <div class="col-md-2">
+        <!-- TODO: move to css -->
+        <div class="clickable pull-right" (click)="onEditorChange('standard')" style="color: #5DA3F6;">Standard editor</div>
     </div>
 </div>
 

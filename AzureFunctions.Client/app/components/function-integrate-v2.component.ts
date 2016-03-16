@@ -22,6 +22,7 @@ declare var jQuery: any;
 
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
+    @Output() changeEditor = new EventEmitter<string>();
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
@@ -33,7 +34,7 @@ export class FunctionIntegrateV2Component {
     private _bindingManager: BindingManager = new BindingManager();
     
     set selectedFunction(fi: FunctionInfo) {        
-        if (!this._functionInfo || this._functionInfo.name !== fi.name) {
+        if (this._functionInfo !== fi) {
             this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
@@ -124,6 +125,10 @@ export class FunctionIntegrateV2Component {
         this.pickerType = TemplatePickerType.none;
         this.currentBinding = this.model.getBinding(id);
         this.currentBindingId = this.currentBinding.id;
+    }
+
+    onEditorChange(editorType: string) {
+        this.changeEditor.emit(editorType);
     }
 
     private updateFunction() {

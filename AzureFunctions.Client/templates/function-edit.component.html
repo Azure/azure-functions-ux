@@ -4,10 +4,8 @@
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab tabTitle="Integrate">
-        <function-integrate [selectedFunction]="selectedFunction"></function-integrate>
-    </tab>
-    <tab [tabTitle]="IntegrateTab">
-        <function-integrate-v2 [selectedFunction]="selectedFunction"></function-integrate-v2>
+        <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
+        <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>        
     </tab>
     <tab tabTitle="Monitor">
         <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
