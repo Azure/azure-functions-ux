@@ -17,76 +17,35 @@ import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
 import {PortalService} from './portal.service';
 import {UserService} from './user.service';
+import {FunctionContainer} from '../models/function-container';
+import {ArmService} from './arm.service';
 
 @Injectable()
 export class FunctionsService implements IFunctionsService {
-    private scmInfo: ScmInfo;
     private hostSecrets: HostSecrets;
+    private token: string;
+    private scmUrl: string;
+    private mainSiteUrl: string;
+    private appSettings: { [key: string]: string };
 
     constructor(
         private _http: Http,
         private _portalService: PortalService,
-        private _userService: UserService) { }
-    
-    setToken(token : string) : void{
-        if(!this.scmInfo){
-            this.scmInfo = <ScmInfo>{
-                bearerPortal: token
-            };
-        }
-        else{
-            this.scmInfo.bearerPortal = token;
-        }
+        private _userService: UserService,
+        private _armService: ArmService) {
+
+        this._userService.getToken().subscribe(t => this.token = t);
+        this.appSettings = {};
     }
 
-    isInitialized(){
-        return this.scmInfo && this.scmInfo.scm_url;
-    }
-
-    initializeUser(armId?: string) {
-        var url = 'api/get';
-        if (this._portalService.inIFrame) {
-            url = `api/get${this._portalService.resourceId}`;
-        } else if (armId) {
-            url = `api/get${armId}`;
-        } else if (window.location.pathname !== '/') {
-            url = `api/get${window.location.pathname}`;
-        }
-
-        return this._http.get(url, { headers: this.getPassthroughHeaders() })
-            .map<ScmInfo>(r => {                
-                var response: ScmInfo = r.json();
-
-                if (this.scmInfo) {
-                    response.bearerPortal = this.scmInfo.bearerPortal;
-                }
-
-                this.scmInfo = response;
-                return this.scmInfo;
-            });
-    }
-
-    redirectToIbizaIfNeeded() {
-        if (!this._portalService.inIFrame &&
-            window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1 &&
-            this.scmInfo &&
-            this.scmInfo.armId) {
-            this._userService.getTenants()
-                .subscribe(tenants => {
-                    var currentTenant = tenants.find(t => t.Current);
-                    var portalHostName = 'https://portal.azure.com';
-                    var query = `?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting`;
-                    var environment = window.location.host.indexOf('staging') === -1
-                        ? '&websitesextension_functions=true' // production
-                        : '&websitesextension_functionsstaged=true'; // staging
-                    window.location.replace(`${portalHostName}/${currentTenant.DomainName}${query}${environment}#resource${this.scmInfo.armId}`);
-                });
-        }
+    setFunctionContainer(fc: FunctionContainer) {
+        this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+        this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);
     }
 
     getFunctions() {
-        return this._http.get(`${this.scmInfo.scm_url}/api/functions`, { headers: this.getHeaders() })
+        return this._http.get(`${this.scmUrl}/api/functions`, { headers: this.getHeaders() })
             .retry(3)
             .map<FunctionInfo[]>(r => r.json());
     }
@@ -114,12 +73,12 @@ export class FunctionsService implements IFunctionsService {
             var body: CreateFunctionInfo = {
                 name: functionName,
                 templateId: (templateId && templateId !== 'Empty' ? templateId : null),
-                containerScmUrl: this.scmInfo.scm_url
+                containerScmUrl: this.scmUrl
             };
             return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
                 .map<FunctionInfo>(r => r.json());
         } else {
-            return this._http.put(`${this.scmInfo.scm_url}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getPassthroughHeaders() })
+            return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getPassthroughHeaders() })
                 .map<FunctionInfo>(r => r.json());
         }
     }
@@ -127,7 +86,7 @@ export class FunctionsService implements IFunctionsService {
     createFunctionV2(functionName: string, files: any) {
         var body: CreateFunctionInfoV2 = {
             name: functionName,
-            containerScmUrl: this.scmInfo.scm_url,
+            containerScmUrl: this.scmUrl,
             files: files
         };
         return this._http.post('api/createfunctionv2', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
@@ -153,7 +112,7 @@ export class FunctionsService implements IFunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            script_href: `${this.scmInfo.scm_url}/api/vfs/site/wwwroot/host.json`,
+            script_href: `${this.scmUrl}/api/vfs/site/wwwroot/host.json`,
             template_id: null,
             test_data_href: null,
             clientOnly: true,
@@ -171,15 +130,13 @@ export class FunctionsService implements IFunctionsService {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-        var mainSiteUrl = this.scmInfo.scm_url.replace('.scm.', '.');
-
         var inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
 
         var url = inputBinding
-            ? `${mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
-            : `${mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+            ? `${this.mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
+            : `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
 
         var _content: any = inputBinding
             ? content
@@ -219,7 +176,7 @@ export class FunctionsService implements IFunctionsService {
     warmupMainSite() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: this.scmInfo.scm_url.replace('.scm.', '.')
+            url: this.scmUrl.replace('.scm.', '.')
         };
         var observable = this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
                         .map<string>(r => r.statusText);
@@ -230,7 +187,7 @@ export class FunctionsService implements IFunctionsService {
     warmupMainSiteApi() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
-            url: `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/`
+            url: `${this.scmUrl.replace('.scm.', '.')}/api/`
         };
         this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
             .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSiteApi(); } });
@@ -250,7 +207,7 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getFunctionInvokeUrl(fi: FunctionInfo) {
-        return `${this.scmInfo.scm_url.replace('.scm.', '.')}/api/${fi.name}`;
+        return `${this.scmUrl.replace('.scm.', '.')}/api/${fi.name}`;
     }
 
     saveFunction(fi: FunctionInfo, config: any) {
@@ -264,11 +221,11 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getScmUrl() {
-        return this.scmInfo.scm_url;
+        return this.scmUrl;
     }
 
     getDefaultStorageAccount() {
-        for (var key in this.scmInfo.appSettings) {
+        for (var key in this.appSettings) {
             if (key.toString().endsWith("_STORAGE")) {
                 return key;
             }
@@ -277,16 +234,8 @@ export class FunctionsService implements IFunctionsService {
         return "";
     }
 
-    getBearerHeader() {
-        return `Bearer ${this.scmInfo.bearer}`;
-    }
-
-    getBasicHeader() {
-        return `Basic ${this.scmInfo.basic}`;
-    }
-
     getHostSecrets() {
-        return this._http.get(`${this.scmInfo.scm_url}/api/vfs/data/functions/secrets/host.json`, { headers: this.getHeaders() })
+        return this._http.get(`${this.scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getHeaders() })
             .retry(3)
             .map<HostSecrets>(r => r.json())
             .subscribe(h => this.hostSecrets = h, e => console.log(e));
@@ -316,8 +265,8 @@ export class FunctionsService implements IFunctionsService {
         var headers = new Headers();
         headers.append('Content-Type', contentType);
 
-        if(this.scmInfo){
-            headers.append('Authorization', `Bearer ${this.scmInfo.bearerPortal || this.scmInfo.bearer}`);
+        if (this.token) {
+            headers.append('Authorization', `Bearer ${this.token}`);
         }
 
         return headers;
@@ -328,12 +277,9 @@ export class FunctionsService implements IFunctionsService {
         var headers = new Headers();
         headers.append('Content-Type', contentType);
 
-        if (this.scmInfo && this.scmInfo.bearer) {
-            headers.append('client-token', this.scmInfo.bearer);
-        }
-
-        if (this.scmInfo && this.scmInfo.bearerPortal) {
-            headers.append('portal-token', this.scmInfo.bearerPortal);
+        if (this.token) {
+            headers.append('client-token', this.token);
+            headers.append('portal-token', this.token);
         }
 
         return headers;

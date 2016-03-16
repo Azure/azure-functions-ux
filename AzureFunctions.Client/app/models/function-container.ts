@@ -4,4 +4,10 @@
     type: string;
     kind: string;
     location: string;
+    properties: {
+        hostNameSslStates: [{
+            name: string;
+            hostType: number;
+        }];
+    }
 }

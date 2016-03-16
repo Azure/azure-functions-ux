@@ -3,9 +3,8 @@ import {FunctionsService} from '.././services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
 import {VfsObject} from '../models/vfs-object';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {Subject} from 'rxjs/Subject';
-import {PortalService} from '../services/portal.service';
+import {Observable, Subscription, Subject} from 'rxjs/Rx';
+import {UserService} from '../services/user.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
@@ -24,11 +23,11 @@ export class SideBarComponent implements OnDestroy {
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
-                private _portalService: PortalService,
+                private _userService: UserService,
                 private _broadcastService: IBroadcastService) {
 
         this.subscriptions = [];
-        this.inIFrame = this._portalService.inIFrame;
+        this.inIFrame = this._userService.inIFrame;
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) delete this.selectedFunction;
@@ -59,7 +58,7 @@ export class SideBarComponent implements OnDestroy {
     }
 
     selectFunction(fi: FunctionInfo) {
-        var switchFunction = true;        
+        var switchFunction = true;
         if (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) {
             switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
         }

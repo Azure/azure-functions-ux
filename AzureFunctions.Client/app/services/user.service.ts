@@ -4,10 +4,16 @@ import {Observable} from 'rxjs/Rx';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
 import {IUserService} from './iuser.service';
+import {PortalService} from './portal.service';
 
 @Injectable()
 export class UserService implements IUserService {
-    constructor(private _http: Http) { }
+    public inIFrame: boolean;
+    private currentToken: string;
+    constructor(private _http: Http, private _portalService: PortalService) { 
+        this.inIFrame = window.parent !== window;
+        this.getToken().subscribe(t => this.currentToken = t);
+    }
 
     getTenants() {
         return this._http.get('api/tenants')
@@ -18,5 +24,17 @@ export class UserService implements IUserService {
     getUser() {
         return this._http.get('api/token')
             .map<User>(r => r.json());
+    }
+
+    getCurrentToken() {
+        return this.currentToken;
+    }
+
+    getToken() {
+        if (this.inIFrame) {
+            return this._portalService.getToken();
+        } else {
+            return this._http.get('api/token?plaintext=true').map<string>(r => r.text());
+        }
     }
 }

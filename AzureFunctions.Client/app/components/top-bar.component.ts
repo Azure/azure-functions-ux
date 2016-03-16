@@ -2,7 +2,6 @@ import {Component, OnInit, EventEmitter, Input} from 'angular2/core';
 import {UserService} from '../services/user.service';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
-import {PortalService} from '../services/portal.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
@@ -24,11 +23,10 @@ export class TopBarComponent implements OnInit {
     private appSettingsClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
-                private _portalService : PortalService,
-                private _broadcastService: IBroadcastService) { 
+                private _broadcastService: IBroadcastService) {
 
         this.appSettingsClicked = new EventEmitter<any>();
-        this.inIFrame = this._portalService.inIFrame;
+        this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             if(event.step === TutorialStep.AppSettings){

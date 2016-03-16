@@ -1,29 +1,28 @@
-import {Component, OnInit, OnDestroy} from 'angular2/core';
+import {Component, OnInit, OnDestroy, OnChanges, Input} from 'angular2/core';
 import {FunctionInfo} from '../models/function-info';
-import {FunctionsService} from '../services/functions.service';
+import {UserService} from '../services/user.service';
+import {FunctionContainer} from '../models/function-container';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: 'templates/log-streaming.component.html',
-    inputs: ['functionInfo'],
     styleUrls: ['styles/function-dev.style.css']
 })
-export class LogStreamingComponent implements OnDestroy {
+export class LogStreamingComponent implements OnDestroy, OnInit, OnChanges {
     public log: string;
     public stopped: boolean;
     private xhReq: XMLHttpRequest;
-    private basic: string;
-    private scmUrl: string;
     private timerId: number;
-    private _functionInfo: FunctionInfo;
+    @Input() functionInfo: FunctionInfo;
 
-    constructor(private _functionsService: FunctionsService) {
-        this.basic = _functionsService.getBasicHeader();
-        this.scmUrl = _functionsService.getScmUrl();
+    constructor(private _userService: UserService) { }
+
+    ngOnInit() {
+        this.initLogs();
+        this.startLogs()
     }
 
-    set functionInfo(value: FunctionInfo) {
-        this._functionInfo = value;
+    ngOnChanges() {
         this.initLogs();
         this.startLogs()
     }
@@ -47,16 +46,17 @@ export class LogStreamingComponent implements OnDestroy {
         this.initLogs();
     }
 
-    private initLogs(){
+    private initLogs() {
         if (this.xhReq) {
             window.clearInterval(this.timerId);
             this.log = '';
             this.xhReq.abort();
         }
+        var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
 
         this.xhReq = new XMLHttpRequest();
-        this.xhReq.open('GET', `${this.scmUrl}/api/logstream/application/functions/function/${this._functionInfo.name}`, true);
-        this.xhReq.setRequestHeader('Authorization', this.basic);
+        this.xhReq.open('GET', `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`, true);
+        this.xhReq.setRequestHeader('Authorization', `Bearer ${this._userService.getCurrentToken()}`);
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
 
@@ -71,6 +71,6 @@ export class LogStreamingComponent implements OnDestroy {
                 });
             }
 
-        }, 1000);           
+        }, 1000);
     }
 }

@@ -109,6 +109,7 @@
     <TypeScriptCompile Include="app\models\binding-input.ts" />
     <TypeScriptCompile Include="app\models\binding-list.ts" />
     <TypeScriptCompile Include="app\models\function-container.ts" />
+    <TypeScriptCompile Include="app\models\publishing-credentials.ts" />
     <TypeScriptCompile Include="app\models\resource-group.ts" />
     <TypeScriptCompile Include="app\models\storage-account.ts" />
     <TypeScriptCompile Include="app\models\template.ts" />

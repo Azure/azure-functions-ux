@@ -1,5 +1,5 @@
 ﻿import {Component} from 'angular2/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs/Rx';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';

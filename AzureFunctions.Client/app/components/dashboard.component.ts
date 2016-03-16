@@ -20,7 +20,7 @@ import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'functions-dashboard',
@@ -88,33 +88,12 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this._broadcastService.setBusyState();
 
-        if (this._portalService.inIFrame) {
-            this._portalService.initializeIframe((token: string) => {
-                this._functionsService.setToken(token);
-                this._functionsService.getTemplates()
-                    .subscribe(res => this.functionTemplates = res);
-                this._functionsService.initializeUser()
-                    .subscribe(r => this.initFunctions());
-            }, (token: string) =>{
-                // token refresh
-                this._functionsService.setToken(token);
-            });
-        }
-        else {
-            this._functionsService.getTemplates()
-                .subscribe(res => this.functionTemplates = res);
-            if (!this._functionsService.isInitialized()) {
-                var armId = this.functionContainer ? this.functionContainer.id : null;
-                this._functionsService.initializeUser(armId)
-                    .subscribe(r => this.initFunctions());
-            } else {
-                this.initFunctions();
-            }
-        }
+        this._functionsService.getTemplates()
+            .subscribe(res => this.functionTemplates = res);
+        this.initFunctions();
     }
 
     initFunctions() {
-        this._functionsService.redirectToIbizaIfNeeded();
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());                

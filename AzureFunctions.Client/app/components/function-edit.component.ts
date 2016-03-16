@@ -1,6 +1,6 @@
 import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
-import {PortalService} from '../services/portal.service';
+import {UserService} from '../services/user.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
@@ -10,8 +10,7 @@ import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionDevComponent} from './function-dev.component';
 import {FunctionIntegrateComponent} from './function-integrate.component';
 import {FunctionConfig} from '../models/function-config';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
@@ -52,10 +51,10 @@ export class FunctionEditComponent {
 
     constructor(
         private _functionsService: FunctionsService,
-        private _portalService: PortalService,
+        private _userService: UserService,
         private _broadcastService: IBroadcastService) {
 
-        this.inIFrame = this._portalService.inIFrame;
+        this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {            
             this.selectedFunction = JSON.parse(JSON.stringify(fi));

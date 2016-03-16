@@ -11,6 +11,7 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
+import {FunctionContainer} from '../models/function-container';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -19,10 +20,8 @@ export class MockFunctionsService implements IFunctionsService {
 
     constructor(private _http: Http) { }
 
-    setToken(token : string) : void{
-        this.scmInfo = <ScmInfo>{
-            bearer: token
-        };
+    setFunctionContainer(fc: FunctionContainer) {
+        
     }
 
     isInitialized() {

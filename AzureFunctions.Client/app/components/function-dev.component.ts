@@ -7,8 +7,7 @@ import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 

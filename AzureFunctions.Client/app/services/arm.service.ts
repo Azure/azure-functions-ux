@@ -3,10 +3,11 @@ import {Injectable, EventEmitter} from 'angular2/core';
 import {IArmService} from './iarm.service';
 import {Subscription} from '../models/subscription';
 import {FunctionContainer} from '../models/function-container';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
-import {Subject} from 'rxjs/Subject';
+import {Observable, Subscription as RxSubscription, Subject} from 'rxjs/Rx';
 import {StorageAccount} from '../models/storage-account';
 import {ResourceGroup} from '../models/resource-group';
+import {UserService} from './user.service';
+import {PublishingCredentials} from '../models/publishing-credentials';
 
 @Injectable()
 export class ArmService implements IArmService {
@@ -16,14 +17,8 @@ export class ArmService implements IArmService {
     private storageApiVersion = '2015-05-01-preview';
     private websiteApiVersion = '2015-08-01';
 
-    constructor(private _http: Http) {}
-
-    Initialize() {
-        var observable = this._http.get('api/token?plaintext=true')
-        .map<string>(r => r.text());
-
-        observable.subscribe(t => this.token = t);
-        return observable;
+    constructor(private _http: Http, private _userService: UserService) {
+        _userService.getToken().subscribe(t => this.token = t);
     }
 
     getSubscriptions() {
@@ -41,6 +36,10 @@ export class ArmService implements IArmService {
         });
     }
 
+    getFunctionContainer(armId: string) {
+        var url = `${this.armUrl}${armId}?api-version=${this.websiteApiVersion}`;
+        return this._http.get(url, { headers: this.getHeaders() }).map<FunctionContainer>(r => r.json());
+    }
 
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
@@ -59,6 +58,18 @@ export class ArmService implements IArmService {
             );
 
         return result;
+    }
+
+    getPublishingCredentials(functionContainer: FunctionContainer) {
+        var url = `${this.armUrl}${functionContainer.id}/config/publishingcredentials/list?api-version=${this.websiteApiVersion}`;
+        return this._http.post(url, '', { headers: this.getHeaders() })
+            .map<PublishingCredentials>(r => r.json());
+    }
+
+    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
+        var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
+        return this._http.post(url, '', { headers: this.getHeaders() })
+            .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
     private createFunctionApp(subscription: string, geoRegion: string, name: string, storageAccount: StorageAccount, secrets: { key1: string, key2: string }, result: Subject<FunctionContainer>) {

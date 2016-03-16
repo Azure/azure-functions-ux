@@ -83,7 +83,7 @@ export class FunctionIntegrateV2Component {
 
     }
 
-    onBindingCreateComplete(behavior: DirectionType, templateName: string) {        
+    onBindingCreateComplete(behavior: DirectionType, templateName: string) {
         this._functionsService.getBindingConfig().subscribe((bindings) => {
             this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
 

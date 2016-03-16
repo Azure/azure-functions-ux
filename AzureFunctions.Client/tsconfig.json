@@ -12,6 +12,8 @@
   "exclude": [
     "jspm_packages",
     "node_modules",
+    "bower_components",
+    "App_Data",
     "typings/main",
     "typings/main.d.ts"
   ]

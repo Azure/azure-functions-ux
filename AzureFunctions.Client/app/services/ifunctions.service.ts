@@ -9,10 +9,10 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
+import {FunctionContainer} from '../models/function-container';
 
 export interface IFunctionsService {
-    setToken(token: string): void;
-    initializeUser(): Observable<ScmInfo>;
+    setFunctionContainer(functionContainer: FunctionContainer): void;
     getFunctions(): Observable<FunctionInfo[]>;
     getFileContent(file: VfsObject): Observable<string>;
     saveFile(file: VfsObject|string, updatedContent: string): Observable<VfsObject>;
@@ -29,11 +29,10 @@ export interface IFunctionsService {
     getSecrets(fi: FunctionInfo): Observable<FunctionSecrets>;
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets): Observable<FunctionSecrets>;
     getFunctionInvokeUrl(fi: FunctionInfo): string;
-    getScmUrl();    
+    getScmUrl();
     getDefaultStorageAccount();
     getHostSecrets(): RxSubscription;
     createTrialFunctionsContainer(): Observable<string>;
     getBindingConfig(): Observable<BindingConfig>;
     updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
-    redirectToIbizaIfNeeded();
 }

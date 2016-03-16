@@ -1,29 +1,32 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
+import {Observable, Subject} from 'rxjs/Rx';
 
 @Injectable()
 export class PortalService implements IPortalService {
-    public resourceId = '';
     private portalSignature: string = "pcIframe";
-    private initCallback: (token: string) => void;
-    private refreshCallback: (token: string) => void;
     private getAppSettingCallback: (appSettingName: string, cancelled: boolean) => void;
+    private resourceIdObservable: Subject<string>;
+    private tokenObservable: Subject<string>;
 
-    get inIFrame() : boolean{
-        return window.parent !== window;
-    }
-
-    initializeIframe(initCallback: (token: string) => void, refreshCallback: (token: string) => void): void {
-        this.initCallback = initCallback;
-        this.refreshCallback = refreshCallback;
-
+    constructor() {
+        this.tokenObservable = new Subject<string>();
+        this.resourceIdObservable = new Subject<string>();
         window.addEventListener("message", this.iframeReceivedMsg.bind(this), false);
         this.postMessage("ready");
 
         // Temporary since portal hides the ready message from the extension.  Once we have the new App Blade,
         // it will pass it through and we can get rid of this.  Currently we're just using this to tell
         // Ibiza to resolve its onInputsSet call which stops the loading bar.
-        this.postMessage("initialized");  
+        this.postMessage("initialized");
+    }
+
+    getToken() {
+        return this.tokenObservable;
+    }
+
+    getResourceId() {
+        return this.resourceIdObservable;
     }
 
     openBlade(name: string) : void{
@@ -48,16 +51,13 @@ export class PortalService implements IPortalService {
         console.log("[iFrame] Received mesg: " + methodName);
 
         if (methodName === "send-resourceId") {
-            this.resourceId = data.resourceId;
-        }
-        else if (data.method === 'send-token') {
-            this.initCallback(data.token);
-        }
-        else if (data.method === 'send-tokenrefresh') {
-            this.refreshCallback(data.token);
-        }
-        else if (data.method === 'send-appSettingName') {
-            if(this.getAppSettingCallback){
+            this.resourceIdObservable.next(data.resourceId);
+        } else if (data.method === 'send-token') {
+            this.tokenObservable.next(data.token);
+        } else if (data.method === 'send-tokenrefresh') {
+            this.tokenObservable.next(data.token);
+        } else if (data.method === 'send-appSettingName') {
+            if (this.getAppSettingCallback) {
                 this.getAppSettingCallback(data.appSettingName, data.cancelled);
                 this.getAppSettingCallback = null;
             }
