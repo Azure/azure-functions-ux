@@ -103,8 +103,7 @@ export class FunctionNewComponent {
         }
     }
 
-    functionNameChanged(value: string) {                
-        this.functionNameClass = this.areInputsValid ? 'col-md-3' : 'col-md-3 has-error';
+    functionNameChanged(value: string) {        
         this.validate();
     }
 
@@ -123,6 +122,7 @@ export class FunctionNewComponent {
 
     private validate() {        
         this.areInputsValid = this.functionName ? true : false;
+        this.functionNameClass = this.areInputsValid ? 'col-md-3' : 'col-md-3 has-error';
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
         });      
