@@ -16,7 +16,7 @@ export interface FunctionTemplateMetadata {
     name: string;
     trigger: string;
     language: string;
-    category?: string;
+    category?: string[];
     userPrompt?: string[];
     defaultFunctionName?: string;
 }

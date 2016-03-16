@@ -10,7 +10,8 @@
     http = <any>"http",
     table = <any>"table",
     serviceBus = <any>"serviceBus",
-    serviceBusTrigger = <any>"serviceBusTrigger"
+    serviceBusTrigger = <any>"serviceBusTrigger",
+    manualTrigger = <any>"manualTrigger"
 }
 
 export interface BindingConfig {

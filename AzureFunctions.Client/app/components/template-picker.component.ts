@@ -61,15 +61,18 @@ export class TemplatePickerComponent {
                         this.title = "Choose a template"; 
                         this.showScenarios = true;
                         templates.forEach((template) => {
-                            if ((this._category === template.metadata.category) || ((!template.metadata.category) && (this._category === "Broken"))) {
+                            var matchIndex = template.metadata.category.findIndex((c) => {
+                                return c === this._category;
+                            });
+
+                            if (matchIndex !== -1) {
                                 this.templates.push({
                                     name: template.metadata.name,
                                     value: template.id,
-                                    key: template.metadata.category || "Broken"
+                                    keys: template.metadata.category || ["Experimental"]
                                 });
                             }
                         });
-
                         break;
                 }
             });
@@ -110,14 +113,11 @@ export class TemplatePickerComponent {
 
             var trigger = this.bindings.find((b) => {
                 return b.direction === DirectionType.trigger;
-            });
-
-            var type = trigger ? trigger.type.toString() : "empty";
+            });            
 
             result.push({
                 name: binding.type.toString(),
-                value: binding.type.toString(),
-                key: binding.type.toString()
+                value: binding.type.toString()                
             });
         });
 
