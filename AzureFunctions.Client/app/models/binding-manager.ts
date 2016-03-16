@@ -2,6 +2,7 @@
 import {FunctionConfig} from './function-config';
 import {Template} from './template-picker';
 import {FunctionInfo} from '../models/function-info';
+import {FunctionBinding} from './function-config';
 
 export class BindingManager {
 
@@ -52,26 +53,29 @@ export class BindingManager {
                 return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
             });
 
-            // Copy biding level settings
-            for (var key in b) {
-                fb.settings.push({
-                    name: key,
-                    value: key === b[key]
-                });
-            }           
-
-            bindingConfig.settings.forEach((s) => {
-                var findIndex = fb.settings.findIndex((setting) => {
-                    return setting.name === s.name;
-                });
-
-                if (findIndex === -1) {
+            if (bindingConfig) {
+                bindingConfig.settings.forEach((s) => {
                     fb.settings.push({
                         name: s.name,
                         value: b[s.name]
                     });
+                    
+                });
+            }
+
+            // Copy binding level settings
+            for (var key in b) {
+                var findIndex = fb.settings.findIndex((setting) => {
+                    return setting.name === key;
+                });
+
+                if (findIndex === -1) {
+                    fb.settings.push({
+                        name: key,
+                        value: key === b[key]
+                    });
                 }
-            });
+            }                
 
             configUI.bindings.push(fb);
         });
@@ -159,8 +163,18 @@ export class BindingManager {
         return result;
     }
 
+    setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {        
+        bindings.forEach((b) => {
+            for (var key in b) {
+                if (key === "storageAccount") {
+                    b[key] = defaultStorageAccount;
+                }
+            }
+        });
+    }
+
     //http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-     guid() {
+    guid() {
         return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
              this.s4() + '-' + this.s4() + this.s4() + this.s4();
     }

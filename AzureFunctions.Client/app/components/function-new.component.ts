@@ -47,25 +47,20 @@ export class FunctionNewComponent {
     }
 
     onTemplatePickUpComplete(templateName: string) {
+        var tht = this;
         this._bindingComponents = [];
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);            
 
-            this._functionsService.getBindingConfig().subscribe((bindings) => {                                
+            this._functionsService.getBindingConfig().subscribe((bindings) => {    
+                
+                this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
+                                            
                 this.model.config = this.bc.functionConfigToUI({
                     bindings: this.selectedTemplate.function.bindings
-                }, bindings.bindings);                                
-
-                // Set default value for storage account
-                this.model.config.bindings.forEach((b) => {
-                    b.settings.forEach((s) => {
-                        if (s.name === "storageAccount") {
-                            s.value = this._functionsService.getDefaultStorageAccount();
-                        }
-                    });
-                });
+                }, bindings.bindings);                
 
                 this.model.config.bindings.forEach((b) => {
                     b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
@@ -74,7 +69,7 @@ export class FunctionNewComponent {
                 this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
                     
                 this.model.setBindings();
-
+                this.validate();
             });
         });
     }

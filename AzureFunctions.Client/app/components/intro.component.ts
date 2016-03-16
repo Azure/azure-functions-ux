@@ -17,6 +17,7 @@ import {BindingManager} from '../models/binding-manager';
 export class IntroComponent {    
     @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
+    bc: BindingManager = new BindingManager();
 
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
@@ -33,13 +34,13 @@ export class IntroComponent {
 
             switch (this.selectedFunction) {
                 case 'timer':                    
-                    selectedTemplate = templates.find((t) => (t.id === "TimerTrigger"));
+                    selectedTemplate = templates.find((t) => (t.id === "TimerTrigger-NodeJS"));
                     break;
                 case 'data':                    
-                    selectedTemplate = templates.find((t) => (t.id === "QueueTrigger"));
+                    selectedTemplate = templates.find((t) => (t.id === "QueueTrigger-NodeJS"));
                     break;
                 case 'webhook':                    
-                    selectedTemplate = templates.find((t) => (t.id === "HttpTrigger"));
+                    selectedTemplate = templates.find((t) => (t.id === "HttpTrigger-NodeJS"));
                     break;
                 //case 'iot':                    
                 //    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
@@ -47,8 +48,9 @@ export class IntroComponent {
             } 
  
             if (selectedTemplate) {
-
+                
                 var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
 
                 selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
                 this._broadcastService.setBusyState();
