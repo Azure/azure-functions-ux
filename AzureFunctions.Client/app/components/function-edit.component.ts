@@ -61,9 +61,9 @@ export class FunctionEditComponent {
         });
     }
 
-    onTabSelected(selectedTab: TabComponent) {        
+    onTabSelected(selectedTab: TabComponent) {
         this.selectedTabTitle = selectedTab.title;
-	}
+    }
 
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
