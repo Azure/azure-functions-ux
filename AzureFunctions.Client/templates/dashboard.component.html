@@ -7,14 +7,11 @@
             <tutorial></tutorial>
 
             <div *ngIf="selectedFunction">
-                <div *ngIf="(selectedFunction.name !== 'New Function' && selectedFunction.name !== 'New Function (V2)') || !selectedFunction.clientOnly">
+                <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
                     <function-edit [selectedFunction]="selectedFunction">
                     </function-edit>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <function-new-v2></function-new-v2>
-                </div>
-                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function (V2)'">
                     <function-new [functionsInfo]="functionsInfo"></function-new>
                 </div>
             </div>

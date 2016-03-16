@@ -117,9 +117,7 @@ export class DashboardComponent implements OnInit {
         this._functionsService.redirectToIbizaIfNeeded();
         this._functionsService.getFunctions()
             .subscribe(res => {
-                res.unshift(this._functionsService.getNewFunctionNode());
-                res.unshift(this._functionsService.getNewFunctionNode());
-                res[1].name = "New Function (V2)";
+                res.unshift(this._functionsService.getNewFunctionNode());                
                 this.functionsInfo = res;
                 this._broadcastService.clearBusyState();
             });
