@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace AzureFunctions.Models
 {
@@ -15,5 +16,9 @@ namespace AzureFunctions.Models
 
         [JsonProperty(PropertyName = "armId")]
         public string ArmId { get; set; }
+
+        [JsonProperty(PropertyName = "appSettings")]
+        public Dictionary<string, string> AppSettings { get; set; }
+
     }
 }

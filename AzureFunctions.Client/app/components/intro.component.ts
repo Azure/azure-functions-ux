@@ -6,6 +6,7 @@ import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {BindingManager} from '../models/binding-manager';
 
 @Component({
     selector: 'intro',
@@ -28,29 +29,26 @@ export class IntroComponent {
 
     onCreateNewFunction() {
         this._functionsService.getTemplates().subscribe((templates) => {       
-            var functionName: string;
             var selectedTemplate: FunctionTemplate;
 
             switch (this.selectedFunction) {
-                case 'timer':
-                    functionName = "timer";
+                case 'timer':                    
                     selectedTemplate = templates.find((t) => (t.id === "TimerTrigger"));
                     break;
-                case 'data':
-                    functionName = "data";
+                case 'data':                    
                     selectedTemplate = templates.find((t) => (t.id === "QueueTrigger"));
                     break;
-                case 'webhook':
-                    functionName = "webhook";
+                case 'webhook':                    
                     selectedTemplate = templates.find((t) => (t.id === "HttpTrigger"));
                     break;
-                case 'iot':
-                    functionName = "iot";
-                    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
-                    break;
+                //case 'iot':                    
+                //    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
+                //    break;
             } 
  
             if (selectedTemplate) {
+
+                var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
 
                 selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
                 this._broadcastService.setBusyState();

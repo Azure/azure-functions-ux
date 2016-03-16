@@ -5,7 +5,6 @@ import {BindingComponent} from './binding.component';
 import {TemplatePickerComponent} from './template-picker.component';
 import {TemplatePickerType} from '../models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
-//import {LanguageType, FunctionTemplate} from '../models/template';
 import {BindingList} from '../models/binding-list';
 import {FunctionInfo} from '../models/function-info';
 import {BindingManager} from '../models/binding-manager';
@@ -23,6 +22,7 @@ declare var jQuery: any;
 })
 
 export class FunctionNewComponent {
+    @Input() functionsInfo: FunctionInfo[];
 
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
@@ -32,7 +32,7 @@ export class FunctionNewComponent {
     clickSave: boolean = false;
     updateBindingsCount = 0;
     areInputsValid: boolean = false;
-    functionNameClass: string = "col-md-3 has-error";
+    functionNameClass: string = "col-md-3";
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();    
@@ -51,12 +51,22 @@ export class FunctionNewComponent {
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
-            this._functionsService.getBindingConfig().subscribe((bindings) => {
+            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);            
 
+            this._functionsService.getBindingConfig().subscribe((bindings) => {                                
                 this.model.config = this.bc.functionConfigToUI({
                     bindings: this.selectedTemplate.function.bindings
-                }, bindings.bindings);
-                
+                }, bindings.bindings);                                
+
+                // Set default value for storage account
+                this.model.config.bindings.forEach((b) => {
+                    b.settings.forEach((s) => {
+                        if (s.name === "storageAccount") {
+                            s.value = this._functionsService.getDefaultStorageAccount();
+                        }
+                    });
+                });
+
                 this.model.config.bindings.forEach((b) => {
                     b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
                 });

@@ -15,7 +15,7 @@
                     <function-new-v2></function-new-v2>
                 </div>
                 <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function (V2)'">
-                    <function-new></function-new>
+                    <function-new [functionsInfo]="functionsInfo"></function-new>
                 </div>
             </div>
 

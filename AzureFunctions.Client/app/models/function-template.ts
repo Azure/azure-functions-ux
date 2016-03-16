@@ -5,7 +5,7 @@ export interface FunctionTemplate {
     id: string;
     function: FunctionTemplateBindings;
     metadata: FunctionTemplateMetadata;
-    files: any;
+    files: any;    
 }
 
 export interface FunctionTemplateBindings {
@@ -18,4 +18,5 @@ export interface FunctionTemplateMetadata {
     language: string;
     category?: string;
     userPrompt?: string[];
+    defaultFunctionName?: string;
 }

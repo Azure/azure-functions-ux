@@ -4,4 +4,5 @@ export interface ScmInfo {
     bearerPortal: string;
     basic: string;
     armId: string;
+    appSettings: any;
 }

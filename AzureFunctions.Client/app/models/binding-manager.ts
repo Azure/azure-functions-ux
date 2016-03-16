@@ -1,8 +1,24 @@
 ﻿import {UIFunctionConfig, UIFunctionBinding, DirectionType, SettingType, BindingType, Binding} from './binding';
 import {FunctionConfig} from './function-config';
 import {Template} from './template-picker';
+import {FunctionInfo} from '../models/function-info';
 
 export class BindingManager {
+
+    public static getFunctionName(defaultName: string, functionsInfo: FunctionInfo[]): string {
+        var i = 1;
+        while (true) {
+            var func = functionsInfo.find((value) => {
+                return defaultName + i.toString() === value.name;
+            });
+
+            if (func) {
+                i++;
+            } else {
+                return defaultName + i;
+            }
+        }
+    }
 
     functionConfigToUI(config: FunctionConfig, bindings: Binding[]): UIFunctionConfig {
         var configUI = {
@@ -36,12 +52,26 @@ export class BindingManager {
                 return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
             });
 
+            // Copy biding level settings
             for (var key in b) {
                 fb.settings.push({
                     name: key,
-                    value: b[key]
+                    value: key === b[key]
                 });
             }           
+
+            bindingConfig.settings.forEach((s) => {
+                var findIndex = fb.settings.findIndex((setting) => {
+                    return setting.name === s.name;
+                });
+
+                if (findIndex === -1) {
+                    fb.settings.push({
+                        name: s.name,
+                        value: b[s.name]
+                    });
+                }
+            });
 
             configUI.bindings.push(fb);
         });
@@ -82,7 +112,8 @@ export class BindingManager {
         });
     }
 
-    getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[]): UIFunctionBinding {        
+    getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[], defaultStorageAccount): UIFunctionBinding {
+        
         var schema = this.getBindingSchema(type, direction, bindings);
         var result = {
             id: this.guid(),
@@ -102,9 +133,9 @@ export class BindingManager {
             name: "type"
         });
 
-        schema.settings.forEach((s) => {
+        schema.settings.forEach((s) => {            
             result.settings.push({
-                value: s.defaultValue,
+                value: s.name === "storageAccount" ? defaultStorageAccount : s.defaultValue,
                 name: s.name
             });
         });

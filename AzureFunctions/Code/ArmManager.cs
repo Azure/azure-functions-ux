@@ -73,7 +73,8 @@ namespace AzureFunctions.Code
                             ScmUrl = site.ScmHostName,
                             BasicAuth = site.BasicAuth,
                             Bearer = this._userSettings.BearerToken,
-                            ArmId = site.ArmId
+                            ArmId = site.ArmId,
+                            AppSettings = site.AppSettings
                         };
                     }
                     catch { }

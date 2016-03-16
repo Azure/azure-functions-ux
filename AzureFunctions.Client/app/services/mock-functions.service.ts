@@ -191,6 +191,16 @@ export class MockFunctionsService implements IFunctionsService {
         return this.scmInfo.scm_url;
     }
 
+    getDefaultStorageAccount() {
+        for (var key in this.scmInfo.appSettings) {
+            if (key.toString().endsWith("_STORAGE")) {
+                return key;
+            }
+        }
+
+        return "";
+    }
+
     getBearerHeader() {
         return 'Bearer token';
     }

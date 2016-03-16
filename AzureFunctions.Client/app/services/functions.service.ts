@@ -49,7 +49,7 @@ export class FunctionsService implements IFunctionsService {
         }
 
         return this._http.get(url, { headers: this.getPassthroughHeaders() })
-            .map<ScmInfo>(r => {
+            .map<ScmInfo>(r => {                
                 var response: ScmInfo = r.json();
 
                 if (this.scmInfo) {
@@ -260,6 +260,16 @@ export class FunctionsService implements IFunctionsService {
 
     getScmUrl() {
         return this.scmInfo.scm_url;
+    }
+
+    getDefaultStorageAccount() {
+        for (var key in this.scmInfo.appSettings) {
+            if (key.toString().endsWith("_STORAGE")) {
+                return key;
+            }
+        }
+
+        return "";
     }
 
     getBearerHeader() {

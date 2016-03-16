@@ -66,20 +66,6 @@ export class TemplatePickerComponent {
                             }
                         });
 
-                        //this.templates = this.getTemplates();
-
-
-
-                        //this.filterItems.push({ name: "All languages", value: "all" });
-                        //this.filterItems.push({ name: "Javascript", value: LanguageType.Javascript.toString() });
-                        //this.filterItems.push({ name: "CSharp", value: LanguageType.CSharp.toString() });
-                        //this.filterItems.push({ name: "Python", value: "" });
-                        //this.filterItems.push({ name: "Php", value: "" });
-                        //this.filterItems.push({ name: "FortranSharp", value: "" });
-                        //this.filterItems.push({ name: "Batch", value: "" });
-                        //this.filterItems.push({ name: "PowerShell", value: "" });
-                        //this.filterItems.push({ name: "Bash", value: "" });
-
                         break;
                 }
             });
@@ -89,21 +75,7 @@ export class TemplatePickerComponent {
     ngOnInit() {
     }
 
-    //onKeyChanged(event: any) {        
-    //    this.selectedTemplate = "";
-    //    if (event.target.value) {
-    //        if (event.target.value === "all") {
-    //            this.templates = this.getTemplates();
-    //        } else {
-    //            this.templates = this.getTemplates().filter((t) => {
-    //                return t.key === event.target.value;
-    //            });
-    //        }
-    //    }
-    //}
-
     onSelectClicked() {
-        //var saveSelectedTemplate = this.selectedTemplate;
         this.complete.emit(this.selectedTemplate); // this fires an eventClicked
         this.selectedTemplate = "";
     }
