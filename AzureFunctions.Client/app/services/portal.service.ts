@@ -6,14 +6,16 @@ export class PortalService implements IPortalService {
     public resourceId = '';
     private portalSignature: string = "pcIframe";
     private initCallback: (token: string) => void;
+    private refreshCallback: (token: string) => void;
     private getAppSettingCallback: (appSettingName: string, cancelled: boolean) => void;
 
     get inIFrame() : boolean{
         return window.parent !== window;
     }
 
-    initializeIframe(callback: (token: string) => void): void {
-        this.initCallback = callback;
+    initializeIframe(initCallback: (token: string) => void, refreshCallback: (token: string) => void): void {
+        this.initCallback = initCallback;
+        this.refreshCallback = refreshCallback;
 
         window.addEventListener("message", this.iframeReceivedMsg.bind(this), false);
         this.postMessage("ready");
@@ -50,6 +52,9 @@ export class PortalService implements IPortalService {
         }
         else if (data.method === 'send-token') {
             this.initCallback(data.token);
+        }
+        else if (data.method === 'send-tokenrefresh') {
+            this.refreshCallback(data.token);
         }
         else if (data.method === 'send-appSettingName') {
             if(this.getAppSettingCallback){

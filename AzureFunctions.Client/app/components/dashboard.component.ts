@@ -95,6 +95,9 @@ export class DashboardComponent implements OnInit {
                     .subscribe(res => this.functionTemplates = res);
                 this._functionsService.initializeUser()
                     .subscribe(r => this.initFunctions());
+            }, (token: string) =>{
+                // token refresh
+                this._functionsService.setToken(token);
             });
         }
         else {

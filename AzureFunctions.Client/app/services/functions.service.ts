@@ -29,9 +29,14 @@ export class FunctionsService implements IFunctionsService {
         private _userService: UserService) { }
     
     setToken(token : string) : void{
-        this.scmInfo = <ScmInfo>{
-            bearerPortal: token
-        };
+        if(!this.scmInfo){
+            this.scmInfo = <ScmInfo>{
+                bearerPortal: token
+            };
+        }
+        else{
+            this.scmInfo.bearerPortal = token;
+        }
     }
 
     isInitialized(){
