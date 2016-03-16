@@ -27,7 +27,7 @@
 
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
         <!-- TODO: move this to css -->
-        <input id="{{input.id}}" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
@@ -41,7 +41,7 @@
     </div>
 
     <div *ngIf="input.type === 'enum'" class="col-sm-6 input-group">
-        <select id="{{input.id}}" class="form-control" [(ngModel)]="input.value">
+        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" class="form-control" [(ngModel)]="input.value">
             <option *ngFor="#o of input.enum" [value]="o.value">{{o.display}}</option>
         </select>
         <span class="input-group-btn">

@@ -174,6 +174,8 @@ export class BindingComponent {
 
     discardClicked() {
         this.model.discard();
+        this._broadcastService.clearDirtyState('function_integrate', true);
+        this.isDirty = false;
     }
 
     saveClicked() {        
