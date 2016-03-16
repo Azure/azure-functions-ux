@@ -49,13 +49,14 @@ export class FunctionNewComponent {
     onTemplatePickUpComplete(templateName: string) {
         var tht = this;
         this._bindingComponents = [];
+        this._broadcastService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);            
 
             this._functionsService.getBindingConfig().subscribe((bindings) => {    
-                
+                this._broadcastService.clearBusyState();
                 this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
                                             
                 this.model.config = this.bc.functionConfigToUI({
