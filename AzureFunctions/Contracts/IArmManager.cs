@@ -1,7 +1,4 @@
-﻿using AzureFunctions.Models;
-using AzureFunctions.Models.ArmResources;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AzureFunctions.Contracts
 {

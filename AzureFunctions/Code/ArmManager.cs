@@ -1,18 +1,9 @@
-﻿using AzureFunctions.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AzureFunctions.Models;
-using System.Threading.Tasks;
-using System.Net.Http;
+﻿using AzureFunctions.Code.Extensions;
 using AzureFunctions.Common;
-using System.Net.Http.Headers;
-using AzureFunctions.Code.Extensions;
-using AzureFunctions.Models.ArmResources;
+using AzureFunctions.Contracts;
 using AzureFunctions.Trace;
-using Serilog;
-using Serilog.Context;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AzureFunctions.Code
 {

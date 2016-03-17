@@ -1,24 +1,22 @@
-﻿using AzureFunctions.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AzureFunctions.Code.Extensions;
+using AzureFunctions.Common;
+using AzureFunctions.Contracts;
 using AzureFunctions.Models;
-using System.Threading.Tasks;
-using System.IO;
-using System.Reactive.Linq;
-using AzureFunctions.Code.Extensions;
-using System.Threading;
 using AzureFunctions.Trace;
 using Newtonsoft.Json;
-using System.Web.Hosting;
 using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using AzureFunctions.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Hosting;
 
 namespace AzureFunctions.Code
 {
-    public class TemplatesManager : ITemplatesManager
+    public class TemplatesManager : ITemplatesManager, IDisposable
     {
         private readonly ISettings _settings;
         private readonly FileSystemWatcher _fileSystemWatcher;
@@ -139,6 +137,20 @@ namespace AzureFunctions.Code
             else
             {
                 throw new FileNotFoundException($"Can't find {_settings.BindingsJsonPath}");
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool flag)
+        {
+            if (flag)
+            {
+                this._rwlock.Dispose();
             }
         }
     }

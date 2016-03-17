@@ -26,26 +26,26 @@ namespace AzureFunctions.Controllers
             this._client = client;
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
-        //{
-        //    using (var perf = FunctionsTrace.BeginTimedOperation())
-        //    {
-        //        try
-        //        {
-        //            await this._armManager.CreateTrialFunctionContainer();
-        //            perf.AddProperties("Created");
-        //            return Request.CreateResponse(HttpStatusCode.Created);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //           perf.AddProperties("Error");
-        //            FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
-        //            return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
-        //        }
-        //    }
-        //}
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    await this._armManager.CreateTrialFunctionContainer();
+                    perf.AddProperties("Created");
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
 
         [Authorize]
         [HttpPost]

@@ -164,16 +164,13 @@
     <Compile Include="Authentication\SecuritySettings.cs" />
     <Compile Include="Code\ArmManager.cs" />
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
-    <Compile Include="Code\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\FileSystemHelpers.cs" />
     <Compile Include="Code\Settings.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
     <Compile Include="Code\UserSettings.cs" />
     <Compile Include="Code\Utils.cs" />
-    <Compile Include="Code\Extensions\Extensions.cs" />
     <Compile Include="Contracts\IArmManager.cs" />
-    <Compile Include="Code\Extensions\StringExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
     <Compile Include="Contracts\ISettings.cs" />
@@ -184,27 +181,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ArmModels\ArmArrayWrapper.cs" />
-    <Compile Include="Models\ArmModels\ArmResourceGroup.cs" />
-    <Compile Include="Models\ArmModels\ArmServerFarm.cs" />
-    <Compile Include="Models\ArmModels\ArmStorage.cs" />
-    <Compile Include="Models\ArmModels\ArmSubscription.cs" />
-    <Compile Include="Models\ArmModels\ArmSubscriptionsArray.cs" />
-    <Compile Include="Models\ArmModels\ArmWebsite.cs" />
-    <Compile Include="Models\ArmModels\ArmWebsitePublishingCredentials.cs" />
-    <Compile Include="Models\ArmModels\ArmWrapper.cs" />
-    <Compile Include="Models\ArmResources\BaseResource.cs" />
-    <Compile Include="Models\ArmResources\ServerFarm.cs" />
-    <Compile Include="Models\ArmResources\StorageAccount.cs" />
     <Compile Include="Models\ClientError.cs" />
     <Compile Include="Models\CreateFunctionInfoV2.cs" />
     <Compile Include="Models\CreateFunctionInfo.cs" />
-    <Compile Include="Models\FunctionsContainer.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
-    <Compile Include="Models\ArmResources\ResourceGroup.cs" />
-    <Compile Include="Models\ArmResources\Site.cs" />
-    <Compile Include="Models\ArmResources\Subscription.cs" />
     <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trace\EventIdEnricher.cs" />

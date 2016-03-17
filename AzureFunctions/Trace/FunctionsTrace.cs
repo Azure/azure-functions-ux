@@ -1,11 +1,6 @@
-﻿using AzureFunctions.Common;
-using Serilog;
-using Serilog.Core;
+﻿using Serilog;
 using Serilog.Events;
 using SerilogMetrics;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
