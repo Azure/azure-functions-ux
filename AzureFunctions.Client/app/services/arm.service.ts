@@ -45,7 +45,7 @@ export class ArmService implements IArmService {
         var result = new Subject<FunctionContainer>();
         geoRegion = geoRegion.replace(' ', '');
         var observable = Observable.create();
-        this.getResrouceGroup(subscription, geoRegion)
+        var continuation = () => this.getResrouceGroup(subscription, geoRegion)
         .subscribe(
             rg => {
                 this.getStorageAccount(subscription, geoRegion)
@@ -57,6 +57,7 @@ export class ArmService implements IArmService {
             error => this.createResoruceGroup(subscription, geoRegion, name, result)
             );
 
+        this.registerProviders(subscription).subscribe(() => continuation(), e => this.completeError(result, e));
         return result;
     }
 
@@ -70,6 +71,15 @@ export class ArmService implements IArmService {
         var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
+    private registerProviders(subscription: string) {
+        var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
+        var storageUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Storage/register?api-version=${this.storageApiVersion}`;
+        return Observable.zip(
+            this._http.post(websiteUrl, '', { headers: this.getHeaders() }),
+            this._http.post(storageUrl, '', { headers: this.getHeaders() })
+        );
     }
 
     private createFunctionApp(subscription: string, geoRegion: string, name: string, storageAccount: StorageAccount, secrets: { key1: string, key2: string }, result: Subject<FunctionContainer>) {
