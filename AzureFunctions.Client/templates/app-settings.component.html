@@ -3,7 +3,7 @@
         Function App Settings
     </div>
 
-    <div class="setting-wrapper">
+    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label>Memory Size</label>
         <div>
             <input type="range">

@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
     initFunctions() {
         this._functionsService.getFunctions()
             .subscribe(res => {
-                res.unshift(this._functionsService.getNewFunctionNode());                
+                res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._broadcastService.clearBusyState();
             });

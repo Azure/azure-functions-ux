@@ -13,13 +13,14 @@ import {Observable} from 'rxjs/Rx';
 @Component({
     selector: 'azure-functions-app',
     template: `<busy-state></busy-state>
-<functions-dashboard *ngIf="!gettingStarted && ready"></functions-dashboard>
+<functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
 <getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>`,
     directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent]
 })
 export class AppComponent implements OnInit {
     public gettingStarted: boolean;
     public ready: boolean;
+    public functionContainer: FunctionContainer;
 
     constructor(
         private _portalService: PortalService,
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit {
                 this.gettingStarted = false;
                 this._broadcastService.clearBusyState();
                 this.ready = true;
+                this.functionContainer = functionContainer;
             } else {
                 this._broadcastService.setBusyState();
                 this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc));

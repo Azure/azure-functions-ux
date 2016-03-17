@@ -9,5 +9,6 @@
             name: string;
             hostType: number;
         }];
+        sku: string;
     }
 }

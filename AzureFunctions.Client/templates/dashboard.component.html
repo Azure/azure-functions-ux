@@ -17,7 +17,7 @@
             </div>
 
             <div *ngIf="openAppSettings">
-                <app-settings></app-settings>
+                <app-settings [functionContainer]="functionContainer"></app-settings>
             </div>
 
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
