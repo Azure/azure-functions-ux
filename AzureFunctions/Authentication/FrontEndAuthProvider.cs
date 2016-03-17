@@ -25,7 +25,8 @@ namespace AzureFunctions.Authentication
 
             if (principalName.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
-                if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
+                    request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.MsPortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }
