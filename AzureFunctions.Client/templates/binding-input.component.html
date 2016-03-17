@@ -22,6 +22,14 @@
                 <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
                 <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
              </button>
+            <button *ngIf="input.resource === 'DocumentDB'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("DocDbPickerBlade", input.id)'>
+                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
+                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
+            </button>
+            <button *ngIf="input.resource === 'ServiceBus'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("NotificationHubPickerBlade", input.id)'>
+                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
+                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
+            </button>            
         </span>
     </div>
 

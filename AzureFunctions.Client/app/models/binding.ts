@@ -11,7 +11,8 @@
     table = <any>"table",
     serviceBus = <any>"serviceBus",
     serviceBusTrigger = <any>"serviceBusTrigger",
-    manualTrigger = <any>"manualTrigger"
+    manualTrigger = <any>"manualTrigger",
+    documentdb = <any>"documentdb"
 }
 
 export interface BindingConfig {
