@@ -1,6 +1,6 @@
 <html>
 
-  <head>
+<head>
     <base href="/">
     <title>Azure Functions</title>
 
@@ -27,23 +27,35 @@
 
     <!-- 2. Configure SystemJS -->
     <script>
-      System.config({
-        packages: {
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        }
-      });
-      System.import('app/boot')
-            .then(null, console.error.bind(console));
+        System.config({
+            paths: {
+                "npm:*": "node_modules/*"
+            },
+            packages: {
+                app: {
+                    format: 'register',
+                    defaultExtension: 'js'
+                },
+                'angular2-highcharts': {
+                    main: 'index',
+                    format: 'cjs',
+                    defaultExtension: 'js'
+                }
+            },
+            map: {
+                'angular2-highcharts': 'npm:angular2-highcharts',
+                'highcharts/highstock.src': 'npm:highcharts/highstock.js'
+            }
+        });
+        System.import('app/boot')
+              .then(null, console.error.bind(console));
     </script>
 
-  </head>
+</head>
 
-  <!-- 3. Display the application -->
-  <body>
+<!-- 3. Display the application -->
+<body>
     <azure-functions-app>Loading...</azure-functions-app>
-  </body>
+</body>
 
 </html>

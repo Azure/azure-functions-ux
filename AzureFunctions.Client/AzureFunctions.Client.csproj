@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -22,7 +22,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\tutorial.component.html" />
+    <Content Include="styles\app-monitoring.style.css" />
     <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
     <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
@@ -72,6 +74,7 @@
     <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
+    <TypeScriptCompile Include="app\components\app-monitoring.component.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />

@@ -4,6 +4,7 @@ import {TopBarComponent} from './top-bar.component';
 import {FunctionNewV2Component} from './function-new-v2.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
+import {AppMonitoringComponent} from './app-monitoring.component';
 import {AppSettingsComponent} from './app-settings.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
@@ -32,6 +33,7 @@ import {Observable} from 'rxjs/Rx';
         FunctionNewV2Component,
         FunctionEditComponent,
         DropDownComponent,
+        AppMonitoringComponent,
         AppSettingsComponent,
         FunctionNewComponent,
         IntroComponent,
@@ -45,6 +47,7 @@ export class DashboardComponent implements OnInit {
     public functionsInfo: FunctionInfo[];
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
+    public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openIntro: boolean = true;
 
@@ -63,9 +66,9 @@ export class DashboardComponent implements OnInit {
             this.setDisabled(config);
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {            
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
             this.resetView();
-            this.sideBar.selectedFunction = fi;            
+            this.sideBar.selectedFunction = fi;
             
             this._broadcastService.setBusyState();
             this._functionsService.getConfig().subscribe((config) => {
@@ -75,7 +78,7 @@ export class DashboardComponent implements OnInit {
                     this._functionsService.getFunction(fi).subscribe((fi) => {
                         this.selectedFunction = fi;
                         this._broadcastService.clearBusyState();
-                    });
+        });
                 } else {
                     this.selectedFunction = fi;
                     this._broadcastService.clearBusyState();
@@ -108,10 +111,10 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this._broadcastService.setBusyState();
 
-        this._functionsService.getTemplates()
-            .subscribe(res => this.functionTemplates = res);
-        this.initFunctions();
-    }
+            this._functionsService.getTemplates()
+                .subscribe(res => this.functionTemplates = res);
+                this.initFunctions();
+            }
 
     initFunctions() {
         this._functionsService.getFunctions()
@@ -124,6 +127,10 @@ export class DashboardComponent implements OnInit {
         this._functionsService.getHostSecrets();
     }
 
+    onAppMonitoringClicked() {
+        this.resetView();
+        this.openAppMonitoring = true;
+    }
 
     onAppSettingsClicked() {
         this.resetView();
@@ -133,6 +140,7 @@ export class DashboardComponent implements OnInit {
     private resetView() {
         this.openAppSettings = false;
         this.openIntro = false;
+        this.openAppMonitoring = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;
     }

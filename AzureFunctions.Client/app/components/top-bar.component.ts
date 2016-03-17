@@ -11,7 +11,7 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
     inputs: ['isFunctionSelected'],
-    outputs: ['appSettingsClicked']
+    outputs: ['appSettingsClicked', 'appMonitoringClicked']
 })
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
@@ -19,19 +19,22 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
+    public isAppMonitoringSelected: boolean;
     public isAppSettingSelected: boolean;
     private _isFunctionSelected: boolean;
+    private appMonitoringClicked: EventEmitter<any>;
     private appSettingsClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
                 private _broadcastService: IBroadcastService,
                 private _portalService: PortalService) {
 
+        this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            if(event.step === TutorialStep.AppSettings){
+            if (event.step === TutorialStep.AppSettings) {
                 this.onAppSettingsClicked();
             }
         });
@@ -57,17 +60,25 @@ export class TopBarComponent implements OnInit {
         window.location.href = `api/switchtenants/${tenant.TenantId}`;
     }
 
-    onAppSettingsClicked(){ 
+    onAppMonitoringClicked() {
+        this.appMonitoringClicked.emit(null);
+        this.isAppMonitoringSelected = true;
+        this.isAppSettingSelected = false;
+    }
+
+    onAppSettingsClicked() {
         this.appSettingsClicked.emit(null);
         this.isAppSettingSelected = true;
+        this.isAppMonitoringSelected = false;
     }
 
-    set isFunctionSelected(selected : boolean){
+    set isFunctionSelected(selected: boolean) {
         this._isFunctionSelected = selected;
         this.isAppSettingSelected = selected ? false : this.isAppSettingSelected;
+        this.isAppMonitoringSelected = selected ? false : this.isAppMonitoringSelected;
     }
 
-    get isFunctionSelected(){
+    get isFunctionSelected() {
         return this._isFunctionSelected;
     }
 
