@@ -118,13 +118,14 @@ export class FunctionDevComponent implements OnChanges {
         return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
     }
 
-    saveScript() {
+    saveScript(dontClearBusy?: boolean) {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
         this._broadcastService.setBusyState();
         return this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
-                this._broadcastService.clearBusyState();
+                if (!dontClearBusy)
+                    this._broadcastService.clearBusyState();
                 if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
@@ -155,7 +156,7 @@ export class FunctionDevComponent implements OnChanges {
     }
 
     saveTestData() {
-        this.functionInfo.test_data = this.functionInfo.test_data || this.updatedTestContent;
+        this.functionInfo.test_data = this.updatedTestContent || this.functionInfo.test_data;
         this._functionsService.updateFunction(this.functionInfo)
             .subscribe(r => Object.assign(this.functionInfo, r));
     }
@@ -163,7 +164,7 @@ export class FunctionDevComponent implements OnChanges {
     runFunction() {
         this.saveTestData();
         if (this.scriptFile.isDirty) {
-            this.saveScript().add(() => this.runFunction());
+            this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
             this._broadcastService.setBusyState();
             this._functionsService.runFunction(this.functionInfo, this.updatedTestContent || this.functionInfo.test_data)
