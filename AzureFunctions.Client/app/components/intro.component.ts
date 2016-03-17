@@ -53,6 +53,12 @@ export class IntroComponent {
                 this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
 
                 selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
+
+                if (selectedTemplate.files["sample.dat"]) {
+                    selectedTemplate.files["../../../data/functions/sampledata/" + functionName + ".dat"] = selectedTemplate.files["sample.dat"];
+                    delete selectedTemplate.files["sample.dat"];
+                }
+
                 this._broadcastService.setBusyState();
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
