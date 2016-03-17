@@ -155,6 +155,7 @@ export class FunctionDevComponent implements OnChanges {
     }
 
     saveTestData() {
+        this.functionInfo.test_data = this.functionInfo.test_data || this.updatedTestContent;
         this._functionsService.updateFunction(this.functionInfo)
             .subscribe(r => Object.assign(this.functionInfo, r));
     }
