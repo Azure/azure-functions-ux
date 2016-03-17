@@ -8,7 +8,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 @Component({
     selector: 'function-run',
     templateUrl: 'templates/function-run.component.html',
-    styleUrls: ['styles/function-run.style.css'],
+styleUrls: ['styles/function-run.style.css'],
     inputs: ['functionInfo'],
     directives: [AceEditorDirective]
 })
@@ -50,8 +50,7 @@ export class FunctionRunComponent {
         this._broadcastSetrvice.setBusyState();
         this.saveTestData();
         this._functionsService.runFunction(this._functionInfo, this.updatedContent || this.content)
-            .subscribe(r => this.runResult = r,
-                       e => this.runResult = e,
-                       () => this._broadcastSetrvice.clearBusyState());
+            .subscribe(r => { this.runResult = r; this._broadcastSetrvice.clearBusyState(); },
+                       e => { this.runResult = e._body; this._broadcastSetrvice.clearBusyState(); });
     }
 }

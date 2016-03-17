@@ -157,9 +157,6 @@ export class FunctionsService implements IFunctionsService {
             }
         };
         return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
-            .catch(e => Observable.of({
-                text: () => JSON.stringify(e)
-            }))
             .map<string>(r => r.text());
     }
 

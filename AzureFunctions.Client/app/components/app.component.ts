@@ -70,9 +70,11 @@ export class AppComponent implements OnInit {
                 this._broadcastService.clearBusyState();
                 this.ready = true;
             } else {
+                this._broadcastService.setBusyState();
                 this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc));
             }
         } else {
+                this._broadcastService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
 
