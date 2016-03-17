@@ -90,7 +90,8 @@ export class FunctionsService implements IFunctionsService {
             files: files
         };
         return this._http.post('api/createfunctionv2', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
-            .map<FunctionInfo>(r => r.json());
+            .catch(e => Observable.of({ json: () => null }))
+            .map<FunctionInfo>(r => r.json());            
     }
 
     getNewFunctionNode(): FunctionInfo {

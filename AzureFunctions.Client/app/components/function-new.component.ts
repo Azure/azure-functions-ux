@@ -135,6 +135,12 @@ export class FunctionNewComponent {
         this._broadcastService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {
+                if (!res) {
+                    this._broadcastService.clearBusyState();
+                    alert("Function creation error! Please try again.");
+                    return;
+                }
+
                 window.setTimeout(() => {                    
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                     this._broadcastService.clearBusyState();

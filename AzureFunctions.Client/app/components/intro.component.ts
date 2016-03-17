@@ -56,6 +56,12 @@ export class IntroComponent {
                 this._broadcastService.setBusyState();
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
+                        if (!res) {
+                            this._broadcastService.clearBusyState();
+                            alert("Function creation error! Please try again.");
+                            return;
+                        }
+
                         this._broadcastService.broadcast<TutorialEvent>(
                             BroadcastEvent.TutorialStep,
                             {
