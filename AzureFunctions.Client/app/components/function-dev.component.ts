@@ -108,7 +108,9 @@ export class FunctionDevComponent implements OnChanges {
     //TODO: change to field;
     get functionInvokeUrl(): string {
         var code = '';
-        if (this.isHttpFunction && this.secrets && this.secrets.key) {
+        if (this.webHookType === 'github') {
+            code = '';
+        } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
             code = `?code=${this.secrets.key}`;
         } else if (this.isHttpFunction && this._functionsService.HostSecrets.functionKey) {
             code = `?code=${this._functionsService.HostSecrets.functionKey}`;

@@ -2,6 +2,8 @@
     <div class="gutter-container">
         <div><label>Function Url:</label></div>
         <div><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
+        <div *ngIf="webHookType === 'github'"><label>Github Secret:</label></div>
+        <div *ngIf="webHookType === 'github'"><pre (click)="highlightText($event)">{{secrets?.key}}</pre></div>
     </div>
 
     <div>
