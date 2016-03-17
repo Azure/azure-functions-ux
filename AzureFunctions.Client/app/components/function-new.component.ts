@@ -60,6 +60,7 @@ export class FunctionNewComponent {
                 this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
                                             
                 this.model.config = this.bc.functionConfigToUI({
+                    disabled: false,                    
                     bindings: this.selectedTemplate.function.bindings
                 }, bindings.bindings);                
 
