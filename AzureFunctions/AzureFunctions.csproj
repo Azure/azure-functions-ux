@@ -162,14 +162,7 @@
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Authentication\SecuritySettings.cs" />
-    <Compile Include="Code\ArmManagerPartials\ResourceGroupArmManager.cs" />
-    <Compile Include="Code\ArmManagerPartials\ServerFarmArmManager.cs" />
-    <Compile Include="Code\ArmManagerPartials\SiteArmManager.cs" />
-    <Compile Include="Code\ArmManagerPartials\StorageAccountArmManager.cs" />
-    <Compile Include="Code\ArmManagerPartials\SubscriptionArmManager.cs" />
     <Compile Include="Code\ArmManager.cs" />
-    <Compile Include="Code\ArmUriTemplate.cs" />
-    <Compile Include="Code\ArmUriTemplates.cs" />
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Code\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
