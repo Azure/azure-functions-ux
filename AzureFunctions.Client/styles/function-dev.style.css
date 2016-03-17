@@ -27,3 +27,21 @@ div.inline-no-float {
 .dev-block-header > span > span i{
     margin-right: 5px;
 }
+
+.dev-run-container{
+    display: flex;
+}
+
+.dev-run-block{
+    flex-grow: 1;
+    min-width: 50%;
+}
+
+.dev-run-block button{
+    float: right;
+    margin-top: 10px;
+}
+
+.dev-run-block > pre.log-stream{
+    height: 270px;
+}

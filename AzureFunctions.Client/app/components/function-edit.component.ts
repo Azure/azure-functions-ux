@@ -4,7 +4,6 @@ import {UserService} from '../services/user.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
-import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionDevComponent} from './function-dev.component';
@@ -29,7 +28,6 @@ import {FunctionMonitorComponent} from './function-monitor.component'
         FunctionDevComponent,
         FunctionIntegrateComponent,
         AceEditorDirective,
-        FunctionRunComponent,
         FunctionDesignerComponent,
         LogStreamingComponent,
         TabsComponent,
@@ -56,7 +54,7 @@ export class FunctionEditComponent {
 
         this.inIFrame = this._userService.inIFrame;
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {            
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
             this.selectedFunction = JSON.parse(JSON.stringify(fi));
         });
     }

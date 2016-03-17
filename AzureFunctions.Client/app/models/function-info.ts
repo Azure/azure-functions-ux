@@ -11,4 +11,5 @@ export interface FunctionInfo {
     config: FunctionConfig;
     clientOnly: boolean;
     isDeleted: boolean;
+    test_data: string;
 }

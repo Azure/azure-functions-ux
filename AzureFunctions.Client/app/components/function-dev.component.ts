@@ -1,13 +1,12 @@
-﻿import {Component, OnInit, EventEmitter, QueryList} from 'angular2/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
-import {FunctionRunComponent} from './function-run.component';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
-import {Observable, Subject} from 'rxjs/Rx';
+import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 
@@ -15,15 +14,14 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
     selector: 'function-dev',
     templateUrl: 'templates/function-dev.component.html',
     styleUrls: ['styles/function-dev.style.css'],
-    inputs: ['selectedFunction'],
     directives: [
         AceEditorDirective,
-        FunctionRunComponent,
         FunctionDesignerComponent,
         LogStreamingComponent
     ]
 })
-export class FunctionDevComponent {
+export class FunctionDevComponent implements OnChanges {
+    @Input() selectedFunction: FunctionInfo;
     public functionInfo: FunctionInfo;
     public scriptFile: VfsObject;
     public content: string;
@@ -37,7 +35,10 @@ export class FunctionDevComponent {
     public isCode: boolean;
     public isHttpFunction: boolean;
 
+    public runResult: string;
+
     private updatedContent: string;
+    private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
     constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
@@ -98,9 +99,10 @@ export class FunctionDevComponent {
         }
     }
 
-    set selectedFunction(value: FunctionInfo) {
-        this.functionSelectStream
-            .next(value);
+    ngOnChanges(changes: {[key: string]: SimpleChange}) {
+        if (changes['selectedFunction']) {
+            this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+        }
     }
 
     //TODO: change to field;
@@ -118,7 +120,7 @@ export class FunctionDevComponent {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
         this._broadcastService.setBusyState();
-        this._functionsService.saveFile(this.scriptFile, this.updatedContent)
+        return this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
                 this._broadcastService.clearBusyState();
                 if (typeof r !== 'string' && r.isDirty) {
@@ -144,5 +146,28 @@ export class FunctionDevComponent {
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
+    }
+
+    testContentChanged(content: string) {
+        this.updatedTestContent = content;
+    }
+
+    saveTestData() {
+        this._functionsService.updateFunction(this.functionInfo)
+            .subscribe(r => Object.assign(this.functionInfo, r));
+    }
+
+    runFunction() {
+        this.saveTestData();
+        if (this.scriptFile.isDirty) {
+            this.saveScript().add(() => this.runFunction());
+        } else {
+            this._broadcastService.setBusyState();
+            this._functionsService.runFunction(this.functionInfo, this.updatedTestContent || this.functionInfo.test_data)
+                .subscribe(
+                    r => { this.runResult = r; this._broadcastService.clearBusyState(); },
+                    e => { this.runResult = e._body; this._broadcastService.clearBusyState(); }
+                );
+        }
     }
 }

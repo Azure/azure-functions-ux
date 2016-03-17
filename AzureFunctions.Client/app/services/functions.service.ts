@@ -103,7 +103,8 @@ export class FunctionsService implements IFunctionsService {
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null
+            secrets_file_href: null,
+            test_data: null
         };
     }
 
@@ -117,7 +118,8 @@ export class FunctionsService implements IFunctionsService {
             test_data_href: null,
             clientOnly: true,
             isDeleted: false,
-            secrets_file_href: null
+            secrets_file_href: null,
+            test_data: null
         };
     }
 
