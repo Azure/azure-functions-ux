@@ -41,7 +41,7 @@ export class BindingInputComponent {
 
         var picker = <PickerInput>this.input;
         picker.setButtonActive();
-        this._portalService.openCollectorBlade(name, (appSettingName: string) => {            
+        this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {            
             if (appSettingName) {
                 this.input.value = appSettingName;
                 this.inputChanged(name);

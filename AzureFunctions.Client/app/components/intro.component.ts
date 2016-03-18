@@ -48,7 +48,8 @@ export class IntroComponent {
             } 
  
             if (selectedTemplate) {
-                
+                this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id });
+
                 var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                 this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
 
@@ -63,10 +64,14 @@ export class IntroComponent {
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
                         if (!res) {
+                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
+
                             this._broadcastService.clearBusyState();
                             alert("Function creation error! Please try again.");
                             return;
                         }
+
+                        this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id });
 
                         this._broadcastService.broadcast<TutorialEvent>(
                             BroadcastEvent.TutorialStep,
@@ -85,11 +90,12 @@ export class IntroComponent {
         });
     }
 
-    createFromScratch() {                
+    createFromScratch() {
+        this._portalService.logAction('intro-create-from-scratch', 'created');
         this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[1]);
     }
 
-    startFromSC() {        
-        this._portalService.openBlade("ContinuousDeploymentListBlade");
+    startFromSC() {
+        this._portalService.openBlade("ContinuousDeploymentListBlade", "intro");
     }
 }

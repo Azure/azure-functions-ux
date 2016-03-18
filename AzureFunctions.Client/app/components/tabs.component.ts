@@ -1,6 +1,7 @@
 ﻿import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter } from 'angular2/core';
 import { TabComponent } from './tab.component';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TabNames} from '../constants';
 
@@ -14,7 +15,7 @@ export class TabsComponent implements AfterContentInit {
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
     @Output() tabSelected = new EventEmitter<TabComponent>();
 
-    constructor(private _broadcastService: IBroadcastService){
+    constructor(private _broadcastService: IBroadcastService, private _portalService : PortalService){
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             
@@ -35,7 +36,7 @@ export class TabsComponent implements AfterContentInit {
             }
 
             if (selectedTab) {
-                this.selectTab(selectedTab);
+                this.selectTabHelper(selectedTab, false);
             }
         });
     }
@@ -44,7 +45,7 @@ export class TabsComponent implements AfterContentInit {
         let activeTabs = this.tabs.filter((tab) => tab.active);
 
         if (activeTabs.length === 0) {
-            this.selectTab(this.tabs.first);
+            this.selectTabHelper(this.tabs.first, false);
         }
 
         this._broadcastService.broadcast<TutorialEvent>(
@@ -55,9 +56,19 @@ export class TabsComponent implements AfterContentInit {
            });
     }
 
+
     selectTab(tab: TabComponent) {
+        this.selectTabHelper(tab, true);
+    }
+
+    selectTabHelper(tab: TabComponent, logClick: boolean) {
+        if (logClick) {
+            this._portalService.logAction("tabs", "click develop", null);
+        }
+
         this.tabs.toArray().forEach(tab => tab.active = false);
         tab.active = true;
         this.tabSelected.emit(tab);
+
     }
 }
