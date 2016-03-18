@@ -1,5 +1,6 @@
 import {Component, OnInit, EventEmitter} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
+import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -51,7 +52,8 @@ export class FunctionEditComponent {
     constructor(
         private _functionsService: FunctionsService,
         private _userService: UserService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: IBroadcastService,
+        private _portalService : PortalService) {
 
         this.inIFrame = this._userService.inIFrame;
 
@@ -70,6 +72,7 @@ export class FunctionEditComponent {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
         if (result) {
             this._broadcastService.setBusyState();
+            this._portalService.logAction("edit-component", "delete");
             this._functionsService.deleteFunction(this.selectedFunction)
                 .subscribe(r => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
@@ -79,6 +82,7 @@ export class FunctionEditComponent {
     }
 
     onEditorChange(editorType: string) {
+        this._portalService.logAction("function-edit", "switchEditor", { type: editorType });
         this.editorType = editorType;
     }
 }

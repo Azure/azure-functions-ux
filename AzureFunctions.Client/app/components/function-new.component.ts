@@ -10,6 +10,7 @@ import {FunctionInfo} from '../models/function-info';
 import {BindingManager} from '../models/binding-manager';
 import {FunctionTemplate} from '../models/function-template';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {PortalService} from '../services/portal.service';
 
 declare var jQuery: any;
 
@@ -42,7 +43,8 @@ export class FunctionNewComponent {
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService)
+        private _broadcastService: IBroadcastService,
+        private _portalService : PortalService)
     {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -131,7 +133,8 @@ export class FunctionNewComponent {
         });      
     }
 
-    private createFunction() {              
+    private createFunction() {         
+        this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id });
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));       
         if (this.selectedTemplate.files["sample.dat"]) {
             this.selectedTemplate.files["../../../data/functions/sampledata/" + this.functionName + ".dat"] = this.selectedTemplate.files["sample.dat"];
@@ -142,10 +145,13 @@ export class FunctionNewComponent {
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {
                 if (!res) {
+                    this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id });
                     this._broadcastService.clearBusyState();
                     alert("Function creation error! Please try again.");
                     return;
                 }
+
+                this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id });
 
                 window.setTimeout(() => {                    
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

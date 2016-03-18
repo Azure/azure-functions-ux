@@ -6,7 +6,7 @@ import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
 import {BindingInputList} from '../models/binding-input-list';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
-
+import {PortalService} from '../services/portal.service';
 declare var jQuery: any;
 
 @Component({
@@ -36,7 +36,8 @@ export class BindingComponent {
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: IBroadcastService,
+        private _portalService: PortalService) {
         this._elementRef = elementRef;                         
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -182,6 +183,13 @@ export class BindingComponent {
     }
 
     saveClicked() {        
+        this._portalService.logAction(
+            "binding-component",
+            "save-binding", {
+                type: this.bindingValue.type,
+                direction: this.bindingValue.direction
+            });
+
         this.bindingValue.name = this.model.getInput("name").value;
         this.bindingValue.settings.forEach((s) => {
 
