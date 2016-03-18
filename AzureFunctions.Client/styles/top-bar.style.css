@@ -38,7 +38,7 @@
 
 .top-bar .top-bar-tool {
     padding: 7px 10px;
-    border-left: 1px solid rgba(128,128,128,.4);
+    /*border-left: 1px solid rgba(128,128,128,.4);*/
 }
 
 .top-bar-tools span{
