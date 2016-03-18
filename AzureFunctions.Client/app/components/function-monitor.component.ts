@@ -19,6 +19,6 @@ export class FunctionMonitorComponent implements OnInit {
 
     ngOnInit(){
         var scmUrl = this.selectedFunction.href.substring(0, this.selectedFunction.href.indexOf('/api/'));
-        this.dashboardUrl = `${scmUrl}/azurejobs`;
+        this.dashboardUrl = `${scmUrl}/azurejobs/#/functions`;
     }
 }
