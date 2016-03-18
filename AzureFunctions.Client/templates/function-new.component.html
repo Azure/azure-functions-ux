@@ -1,6 +1,10 @@
 ﻿<div class="wrapper">
+    <br>
+    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
+        Read only - because you have started editing with source control, this view is read only.
+    </div>
 
-    <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
+    <template-picker *ngIf="!disabled" [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
 
     <div>
         <h2 *ngIf="model.trigger">Configuration</h2>

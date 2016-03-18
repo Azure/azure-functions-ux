@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
     public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public openAppSettings: boolean;
-
+    public openIntro: boolean = true;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -59,20 +59,29 @@ export class DashboardComponent implements OnInit {
             }
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+        this._functionsService.getConfig().subscribe((config) => {
+            this.setDisabled(config);
+        });
+
+        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {            
             this.resetView();
-            this.sideBar.selectedFunction = fi;
+            this.sideBar.selectedFunction = fi;            
             
-            if (fi.name !== "New Function") {
-                this._broadcastService.setBusyState();
-                this._functionsService.getFunction(fi).subscribe((fi) => {
+            this._broadcastService.setBusyState();
+            this._functionsService.getConfig().subscribe((config) => {
+                this.setDisabled(config);
+
+                if(fi.name !== "New Function") {                    
+                    this._functionsService.getFunction(fi).subscribe((fi) => {
+                        this.selectedFunction = fi;
+                        this._broadcastService.clearBusyState();
+                    });
+                } else {
                     this.selectedFunction = fi;
                     this._broadcastService.clearBusyState();
-                });
-            } else {
-                this.selectedFunction = fi;
-                this._broadcastService.clearBusyState();
-            }
+                }
+
+            });
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
@@ -85,6 +94,7 @@ export class DashboardComponent implements OnInit {
         });
 
         this._broadcastService.subscribe<void>(BroadcastEvent.GoToIntro, () => {
+            this.openIntro = true;
             delete this.selectedFunction;
         });
 
@@ -122,7 +132,16 @@ export class DashboardComponent implements OnInit {
 
     private resetView() {
         this.openAppSettings = false;
+        this.openIntro = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;
+    }
+
+    private setDisabled(config: any) {
+        if (!config["scmType"] || config["scmType"] !== "None") {
+            this._broadcastService.setDirtyState("function_disabled");
+        } else {
+            this._broadcastService.clearDirtyState("function_disabled", true);
+        }
     }
 }

@@ -13,12 +13,13 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 
 export class BindingInputComponent {    
     @Output() validChange = new EventEmitter<BindingInputBase<any>>();
-    @Input() disabled: boolean;
+    public disabled: boolean;
     private _input: BindingInputBase<any>;
 
     constructor(private _portalService: PortalService,
         private _broadcastService: IBroadcastService) {
 
+        this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
     set input(input: BindingInputBase<any>) {

@@ -16,12 +16,12 @@
         <div class="container-fluid">
             <div class="col-md-6">
                 <form class="form-horizontal">
-                    <binding-input *ngFor="#input of model.leftInputs" (validChange)="onValidChanged($event)" [input]="input" [disabled]="disabled"></binding-input>                    
+                    <binding-input *ngFor="#input of model.leftInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>                    
                 </form>
             </div>
             <div class="col-md-6">
                 <form class="form-horizontal">
-                    <binding-input *ngFor="#input of model.rightInputs" (validChange)="onValidChanged($event)" [input]="input" [disabled]="disabled"></binding-input>
+                    <binding-input *ngFor="#input of model.rightInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
                 </form>
             </div>
         </div>

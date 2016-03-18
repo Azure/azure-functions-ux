@@ -24,7 +24,7 @@ export class BindingComponent {
     @Output() update = new EventEmitter<UIFunctionBinding>();
     @Output() validChange = new EventEmitter<BindingComponent>();
     @Input() saveClick = new EventEmitter<void>();
-    @Input() disabled: boolean;
+    public disabled: boolean;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
@@ -38,6 +38,8 @@ export class BindingComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService) {
         this._elementRef = elementRef;                         
+
+        this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
             this.isDirty = this.model.isDirty();

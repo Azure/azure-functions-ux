@@ -15,17 +15,19 @@ import {BindingManager} from '../models/binding-manager';
 })
 
 export class IntroComponent {    
-    @Input() functionsInfo: FunctionInfo[];
+    @Input() functionsInfo: FunctionInfo[];    
     selectedFunction: string;
     bc: BindingManager = new BindingManager();
 
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
-        private _portalService: PortalService) {        
+        private _portalService: PortalService) {                
     }
 
     onFunctionCliked(selectedFunction: string) {
-        this.selectedFunction = selectedFunction;
+        if (!this._broadcastService.getDirtyState("function_disabled")) {
+            this.selectedFunction = selectedFunction;
+        }
     }
 
     onCreateNewFunction() {
@@ -86,7 +88,7 @@ export class IntroComponent {
     }
 
     createFromScratch() {                
-        this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[1]);
+        this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[0]);
     }
 
     startFromSC() {        

@@ -35,6 +35,7 @@ export class FunctionNewComponent {
     functionNameClass: string = "col-md-3";
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
+    public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();    
     private _bindingComponents: BindingComponent[] = [];
 
@@ -43,7 +44,8 @@ export class FunctionNewComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService)
     {
-        this.elementRef = elementRef;        
+        this.elementRef = elementRef;
+        this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
     onTemplatePickUpComplete(templateName: string) {

@@ -23,7 +23,7 @@ declare var jQuery: any;
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
     @Output() changeEditor = new EventEmitter<string>();
-    @Input() disabled: boolean;
+    public disabled: boolean;
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
@@ -34,7 +34,9 @@ export class FunctionIntegrateV2Component {
     private  _functionInfo: FunctionInfo;                
     private _bindingManager: BindingManager = new BindingManager();
     
-    set selectedFunction(fi: FunctionInfo) {        
+    set selectedFunction(fi: FunctionInfo) {
+        this.disabled = this._broadcastService.getDirtyState("function_disabled");
+                
         if (!this._functionInfo || this._functionInfo.name !== fi.name) {
             this.currentBinding = null;
             this.currentBindingId = "";

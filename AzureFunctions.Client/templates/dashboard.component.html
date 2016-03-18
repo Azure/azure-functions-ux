@@ -22,7 +22,7 @@
 
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
             
-            <div *ngIf="!selectedFunction && !openAppSettings && !noContainerFound">
+            <div *ngIf="openIntro">
                 <intro [functionsInfo]="functionsInfo"></intro>
             </div>
         </div>

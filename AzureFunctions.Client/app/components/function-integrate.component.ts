@@ -14,7 +14,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class FunctionIntegrateComponent implements OnDestroy {
     @Output() changeEditor = new EventEmitter<string>();
-    @Input() disabled: boolean;
+    public disabled: boolean;
 
     public _selectedFunction: FunctionInfo;
     public configContent: string;
@@ -26,6 +26,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
         private _portalService: PortalService,
         private _broadcastService: IBroadcastService) {
         this.isDirty = false;
+        this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
     set selectedFunction(value: FunctionInfo) {        

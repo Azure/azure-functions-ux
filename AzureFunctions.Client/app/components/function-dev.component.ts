@@ -22,7 +22,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class FunctionDevComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
-    @Input() disabled: boolean;
+    public disabled: boolean;
     public functionInfo: FunctionInfo;
     public scriptFile: VfsObject;
     public content: string;
@@ -42,12 +42,13 @@ export class FunctionDevComponent implements OnChanges {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
-    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
+    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {        
         this.isCode = true;
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
-            .switchMap(fi => {
+            .switchMap(fi => {                
+                this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._broadcastService.setBusyState();
                 return Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
