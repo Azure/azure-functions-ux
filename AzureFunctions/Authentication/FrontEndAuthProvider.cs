@@ -72,7 +72,7 @@ namespace AzureFunctions.Authentication
             }
         }
 
-        private ClaimsPrincipal ParsePortalToken(string portalToken)
+        private AzureFunctionsPrincipal ParsePortalToken(string portalToken)
         {
             if (string.IsNullOrEmpty(portalToken))
             {
@@ -92,7 +92,7 @@ namespace AzureFunctions.Authentication
             var principalName = jwt["email"]?.ToString() ?? jwt["unique_name"]?.ToString();
             var displayName = jwt["name"]?.ToString() ?? jwt["given_name"]?.ToString();
 
-            return new GenericPrincipal(new GenericIdentity(principalName ?? displayName), new[] { "User" });
+            return new AzureFunctionsPrincipal(new AzureFunctionsIdentity(principalName ?? displayName));
         }
 
         private bool TryGetTenantForSubscription(string subscriptionId, out string tenantId)
