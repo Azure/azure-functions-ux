@@ -31,7 +31,7 @@ export class SideBarComponent implements OnDestroy {
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) delete this.selectedFunction;
-            for (var i = 0; this.functionsInfo.length; i++) {
+            for (var i = 0; i < this.functionsInfo.length; i++) {
                 if (this.functionsInfo[i] === fi) {
                     this.functionsInfo.splice(i, 1);
                     break;
