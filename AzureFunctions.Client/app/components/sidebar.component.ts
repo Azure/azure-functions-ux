@@ -41,7 +41,12 @@ export class SideBarComponent implements OnDestroy {
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
             this.functionsInfo.push(fi);
-            this.functionsInfo.sort();
+            this.functionsInfo.sort((f1, f2) => {
+                if (f1.name === "New Function") {
+                    return -1;
+                }
+                return f1.name > f2.name ? 1 : -1;
+            });
             this.selectFunction(fi);
         }));
 
