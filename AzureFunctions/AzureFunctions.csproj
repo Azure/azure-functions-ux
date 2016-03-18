@@ -182,8 +182,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ClientError.cs" />
-    <Compile Include="Models\CreateFunctionInfoV2.cs" />
-    <Compile Include="Models\CreateFunctionInfo.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Authentication\Extensions.cs" />

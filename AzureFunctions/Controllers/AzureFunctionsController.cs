@@ -86,60 +86,6 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> CreateFunction([FromBody]CreateFunctionInfo createFunctionInfo)
-        {
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                if (createFunctionInfo == null ||
-                    string.IsNullOrEmpty(createFunctionInfo.Name) ||
-                    string.IsNullOrEmpty(createFunctionInfo.ContainerScmUrl))
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, $"{nameof(createFunctionInfo)} can not be null");
-                }
-
-                IDictionary<string, string> templateContent = null;
-                if (!string.IsNullOrEmpty(createFunctionInfo.TemplateId))
-                {
-                    templateContent = await _templatesManager.GetTemplateContentAsync(createFunctionInfo.TemplateId);
-                    if (templateContent == null)
-                    {
-                        throw new FileNotFoundException($"Template {createFunctionInfo.TemplateId} does not exist");
-                    }
-                }
-
-                var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
-                var response = await _client.PutAsJsonAsync(url, new { files = templateContent });
-                return new HttpResponseMessage(response.StatusCode)
-                {
-                    Content = response.Content
-                };
-            }
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> CreateFunctionV2([FromBody]CreateFunctionInfoV2 createFunctionInfo)
-        {
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                if (createFunctionInfo == null ||
-                    string.IsNullOrEmpty(createFunctionInfo.Name) ||
-                    string.IsNullOrEmpty(createFunctionInfo.ContainerScmUrl))
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, $"{nameof(createFunctionInfo)} can not be null");
-                }
-
-                var url = $"{createFunctionInfo.ContainerScmUrl.TrimEnd('/')}/api/functions/{createFunctionInfo.Name}";
-                var response = await _client.PutAsJsonAsync(url, new { files = createFunctionInfo.files });
-                return new HttpResponseMessage(response.StatusCode)
-                {
-                    Content = response.Content
-                };
-            }
-        }
-
-        [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig()
         {

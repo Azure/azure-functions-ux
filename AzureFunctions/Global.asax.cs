@@ -193,8 +193,6 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("kudu-passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "Passthrough", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("create-function", "api/createfunction", new { controller = "AzureFunctions", action = "CreateFunction", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-            config.Routes.MapHttpRoute("create-function-v2", "api/createfunctionv2", new { controller = "AzureFunctions", action = "CreateFunctionV2", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
