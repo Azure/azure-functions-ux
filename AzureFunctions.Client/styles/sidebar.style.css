@@ -10,7 +10,7 @@
     left: 0;
     background-color: #F3F3F3;
     bottom: 0;
-    /*overflow: auto;*/
+    overflow-y: auto;
     z-index: 10;
     padding-top: 40px;
 }
