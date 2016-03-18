@@ -87,14 +87,9 @@ export class FunctionsService implements IFunctionsService {
     }
 
     createFunctionV2(functionName: string, files: any) {
-        var body: CreateFunctionInfoV2 = {
-            name: functionName,
-            containerScmUrl: this.scmUrl,
-            files: files
-        };
-        return this._http.post('api/createfunctionv2', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
+        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files }), { headers: this.getHeaders() })
             .catch(e => Observable.of({ json: () => null }))
-            .map<FunctionInfo>(r => r.json());            
+            .map<FunctionInfo>(r => r.json());
     }
 
     getNewFunctionNode(): FunctionInfo {
