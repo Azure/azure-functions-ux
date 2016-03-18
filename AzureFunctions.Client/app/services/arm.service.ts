@@ -73,6 +73,12 @@ export class ArmService implements IArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
+    getConfig(functionContainer: FunctionContainer) {
+        var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
+        return this._http.get(url, { headers: this.getHeaders() })
+            .map<{ [key: string]: string }>(r => r.json().properties);
+	}
+
     private registerProviders(subscription: string) {
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
         var storageUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Storage/register?api-version=${this.storageApiVersion}`;

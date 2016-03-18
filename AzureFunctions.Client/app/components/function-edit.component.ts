@@ -42,6 +42,7 @@ export class FunctionEditComponent {
     public inIFrame: boolean;
     public selectedTabTitle: string = "";
     public editorType: string = "standard";
+    public disabled = false;
 
     public DevelopTab = TabNames.develop;
     public IntegrateTab = TabNames.integrate;
@@ -57,6 +58,11 @@ export class FunctionEditComponent {
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
             this.selectedFunction = JSON.parse(JSON.stringify(fi));
         });
+        
+        if (this._functionsService.getConfig()["scmType"]) {
+            this.disabled = true;
+        }
+
     }
 
     onTabSelected(selectedTab: TabComponent) {

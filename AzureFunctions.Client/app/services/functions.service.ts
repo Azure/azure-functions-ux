@@ -27,6 +27,7 @@ export class FunctionsService implements IFunctionsService {
     private scmUrl: string;
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
+    private config: any;
 
     constructor(
         private _http: Http,
@@ -36,12 +37,14 @@ export class FunctionsService implements IFunctionsService {
 
         this._userService.getToken().subscribe(t => this.token = t);
         this.appSettings = {};
+        this.config = {};
     }
 
     setFunctionContainer(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
         this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);
+        this._armService.getConfig(fc).subscribe((config) => this.config = config);
     }
 
     getFunctions() {
@@ -232,6 +235,10 @@ export class FunctionsService implements IFunctionsService {
         }
 
         return "";
+    }
+
+    getConfig() {
+        return this.config;
     }
 
     getHostSecrets() {

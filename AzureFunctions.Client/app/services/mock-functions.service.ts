@@ -203,6 +203,10 @@ export class MockFunctionsService implements IFunctionsService {
         return "";
     }
 
+    getConfig() {
+        return {};
+    }
+
     getBearerHeader() {
         return 'Bearer token';
     }
