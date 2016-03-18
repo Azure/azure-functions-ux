@@ -101,6 +101,8 @@ export class FunctionDevComponent implements OnChanges {
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
         if (changes['selectedFunction']) {
+            delete this.updatedTestContent;
+            delete this.runResult;
             this.functionSelectStream.next(changes['selectedFunction'].currentValue);
         }
     }
@@ -156,9 +158,11 @@ export class FunctionDevComponent implements OnChanges {
     }
 
     saveTestData() {
-        this.functionInfo.test_data = this.updatedTestContent || this.functionInfo.test_data;
-        this._functionsService.updateFunction(this.functionInfo)
-            .subscribe(r => Object.assign(this.functionInfo, r));
+        if (this.updatedTestContent && this.updatedTestContent !== this.functionInfo.test_data) {
+            this.functionInfo.test_data = this.updatedTestContent;
+            this._functionsService.updateFunction(this.functionInfo)
+                .subscribe(r => Object.assign(this.functionInfo, r));
+        }
     }
 
     runFunction() {

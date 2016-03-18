@@ -64,6 +64,7 @@ export class AceEditorDirective {
 
     set content(str: string) {
         str = str || '';
+        if (str === this.editor.getValue()) return;
         this.editor.session.setValue(str);
         this.editor.clearSelection();
         this.editor.moveCursorTo(0, 0);
