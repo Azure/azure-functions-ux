@@ -89,9 +89,8 @@ to disable it.
     margin-left: 0px;
 }
 
-.tutorial-modal-nav a{
+.tutorial-modal-nav div{
     margin-top: 10px;
-    display: block;
 }
 
 .tutorial-modal ul{

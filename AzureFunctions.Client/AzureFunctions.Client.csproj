@@ -89,7 +89,6 @@
     <TypeScriptCompile Include="app\components\function-designer.component.ts" />
     <TypeScriptCompile Include="app\components\function-edit.component.ts" />
     <TypeScriptCompile Include="app\components\function-integrate.component.ts" />
-    <TypeScriptCompile Include="app\components\function-run.component.ts" />
     <TypeScriptCompile Include="app\components\getting-started.component.ts" />
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\function-new.component.ts" />
@@ -112,6 +111,7 @@
     <TypeScriptCompile Include="app\models\publishing-credentials.ts" />
     <TypeScriptCompile Include="app\models\resource-group.ts" />
     <TypeScriptCompile Include="app\models\storage-account.ts" />
+    <TypeScriptCompile Include="app\models\portal.ts" />
     <TypeScriptCompile Include="app\models\template.ts" />
     <TypeScriptCompile Include="app\models\template-picker.ts" />
     <TypeScriptCompile Include="app\models\binding.ts" />

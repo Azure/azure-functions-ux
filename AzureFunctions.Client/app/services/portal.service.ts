@@ -1,24 +1,22 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
 import {Observable, Subject} from 'rxjs/Rx';
+import {Event, Data, Verbs} from '../models/portal';
 
 @Injectable()
 export class PortalService implements IPortalService {
-    private portalSignature: string = "pcIframe";
-    private getAppSettingCallback: (appSettingName: string, cancelled: boolean) => void;
+    private portalSignature: string = "FxAppBlade";
     private resourceIdObservable: Subject<string>;
     private tokenObservable: Subject<string>;
+    private getAppSettingCallback: (appSettingName: string) => void;
+    private shellSrc: string;
 
     constructor() {
         this.tokenObservable = new Subject<string>();
         this.resourceIdObservable = new Subject<string>();
-        window.addEventListener("message", this.iframeReceivedMsg.bind(this), false);
-        this.postMessage("ready");
-
-        // Temporary since portal hides the ready message from the extension.  Once we have the new App Blade,
-        // it will pass it through and we can get rid of this.  Currently we're just using this to tell
-        // Ibiza to resolve its onInputsSet call which stops the loading bar.
-        this.postMessage("initialized");
+        if (this.inIFrame()){
+            this.initializeIframe();
+        }
     }
 
     getToken() {
@@ -29,46 +27,63 @@ export class PortalService implements IPortalService {
         return this.resourceIdObservable;
     }
 
+    initializeIframe(): void {
+
+        this.shellSrc = window.location.search.match(/=(.+)/)[1];
+
+        window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
+
+        // This is a required message. It tells the shell that your iframe is ready to receive messages.
+        this.postMessage(Verbs.ready, null);
+        this.postMessage(Verbs.getAuthToken, null);
+    }
+
     openBlade(name: string) : void{
-        this.postMessage({
-            method: 'open-' + name
-        })
+        this.postMessage(Verbs.openBlade, name);
     }
 
-    openCollectorBlade(name: string, getAppSettingCallback: (appSettingName: string, cancelled : boolean) => void): void {
+    openCollectorBlade(name: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.getAppSettingCallback = getAppSettingCallback;
-        this.postMessage({
-            method: 'open-' + name
-        })
+        this.postMessage(Verbs.openBlade, name);
     }
 
-    private iframeReceivedMsg(event: any): void {
-        if (event.data["signature"] !== this.portalSignature) {
+    private iframeReceivedMsg(event: Event): void {
+        
+        if (event && event.data && event.data.signature !== this.portalSignature) {
             return;
         }
-        var data = event.data["data"];
-        var methodName = !!data.method ? data.method : data;
+
+        var data = event.data.data;
+        let methodName = event.data.kind;
+
         console.log("[iFrame] Received mesg: " + methodName);
 
-        if (methodName === "send-resourceId") {
-            this.resourceIdObservable.next(data.resourceId);
-        } else if (data.method === 'send-token') {
-            this.tokenObservable.next(data.token);
-        } else if (data.method === 'send-tokenrefresh') {
-            this.tokenObservable.next(data.token);
-        } else if (data.method === 'send-appSettingName') {
-            if (this.getAppSettingCallback) {
-                this.getAppSettingCallback(data.appSettingName, data.cancelled);
+        if (methodName === Verbs.sendResourceId) {
+            this.resourceIdObservable.next(data);
+        }
+        else if (methodName === Verbs.sendToken) {
+            this.tokenObservable.next(data);
+        }
+        else if (methodName === Verbs.sendAppSettingName) {
+            if(this.getAppSettingCallback){
+
+                this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
         }
     }
 
-    private postMessage(data : any){
-        window.parent.postMessage({
-            signature: this.portalSignature,
-            data: data
-        },
-        "*" /* Wildcard until Fx adds support to pass us parent URL */);
+    private postMessage(verb: string, data: string){
+        if(this.inIFrame()){
+            window.parent.postMessage(<Data>{
+                signature : this.portalSignature,
+                kind: verb,
+                data: data
+            }, this.shellSrc);
+        }
+    }
+
+    private inIFrame() : boolean{
+        return window.parent !== window;
     }
 }

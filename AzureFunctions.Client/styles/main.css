@@ -27,6 +27,11 @@ pre {
     cursor: pointer;
 }
 
+.link{
+    cursor: pointer;
+    color: #5DA3F6
+}
+
 /* side-bar style */
 
 /* work space */

@@ -71,7 +71,7 @@
 
         <div class="tutorial-modal-nav">
             <button class="custom-button" (click)="nextStep()">{{buttonText}}</button>
-             <a href="#" (click)="currentStep = -1" *ngIf="currentStep < 5">Skip and start coding now</a>
+            <div class="link" (click)="currentStep = -1" *ngIf="currentStep < 5">Skip and start coding now</div>
         </div>
     </div>
 </div>
