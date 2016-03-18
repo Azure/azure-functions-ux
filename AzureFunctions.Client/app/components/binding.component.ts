@@ -19,16 +19,17 @@ declare var jQuery: any;
 
 export class BindingComponent {
     @Input() canDelete: boolean = true;
-    @Input() canSave: boolean = true;    
+    @Input() canSave: boolean = true;
     @Output() remove = new EventEmitter<UIFunctionBinding>();
     @Output() update = new EventEmitter<UIFunctionBinding>();
     @Output() validChange = new EventEmitter<BindingComponent>();
     @Input() saveClick = new EventEmitter<void>();
+    @Input() disabled: boolean;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
     public hasInputsToShow = true;
-    public isDirty: boolean = false;
+    public isDirty: boolean = false;    
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     
@@ -36,8 +37,8 @@ export class BindingComponent {
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService) {
-        this._elementRef = elementRef;        
-                
+        this._elementRef = elementRef;                         
+
         this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
             this.isDirty = this.model.isDirty();
             

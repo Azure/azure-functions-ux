@@ -22,6 +22,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class FunctionDevComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
+    @Input() disabled: boolean;
     public functionInfo: FunctionInfo;
     public scriptFile: VfsObject;
     public content: string;

@@ -2,7 +2,7 @@
     <div class="col-md-10">    
         <h2 class="dev-block-header">Config</h2>
         <div class="dev-block-header">
-            <button class="custom-button" [class.dirty]="isDirty" (click)="saveConfig()">Save</button>
+            <button class="custom-button" [class.dirty]="isDirty" [disabled]="disabled" (click)="saveConfig()">Save</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
             <div class="ace_editor" aceEditor id="editor"

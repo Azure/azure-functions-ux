@@ -12,9 +12,8 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 
 export class BindingInputComponent {    
-    //isValid?: boolean = null; 
-    //class: string;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>();
+    @Input() disabled: boolean;
     private _input: BindingInputBase<any>;
 
     constructor(private _portalService: PortalService,

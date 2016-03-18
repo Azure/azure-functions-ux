@@ -1,4 +1,4 @@
-﻿import {Component, OnDestroy, Output, EventEmitter} from 'angular2/core';
+﻿import {Component, OnDestroy, Output, EventEmitter, Input} from 'angular2/core';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
@@ -14,6 +14,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class FunctionIntegrateComponent implements OnDestroy {
     @Output() changeEditor = new EventEmitter<string>();
+    @Input() disabled: boolean;
 
     public _selectedFunction: FunctionInfo;
     public configContent: string;

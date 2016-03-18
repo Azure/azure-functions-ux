@@ -9,7 +9,7 @@
     <div>
         <h2 class="dev-block-header">Code</h2>
         <div class="dev-block-header">
-            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">Save</button>
+            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">Save</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
             <div class="ace_editor" aceEditor id="editor"

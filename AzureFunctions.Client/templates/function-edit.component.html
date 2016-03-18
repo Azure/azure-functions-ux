@@ -4,14 +4,14 @@
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">            
             Read only - because you have started editing with source control, this view is read only.
         </div>
-        <function-dev [selectedFunction]="selectedFunction"></function-dev>
+        <function-dev [selectedFunction]="selectedFunction" [disabled]="disabled"></function-dev>
     </tab>
     <tab tabTitle="Integrate">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">            
             Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json
         </div>
-        <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
-        <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>        
+        <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction" [disabled]="disabled"></function-integrate-v2>
+        <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction" [disabled]="disabled"></function-integrate>        
     </tab>
     <tab tabTitle="Monitor">
         <function-monitor [selectedFunction]="selectedFunction"></function-monitor>

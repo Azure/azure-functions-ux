@@ -2,7 +2,7 @@
 <div class="form-group">    
     <label [attr.for]="input.id" class="col-sm-6 control-label" style="font-size:small;">{{input.label}}</label>
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
-        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" [disabled]="disabled">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
@@ -14,19 +14,19 @@
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
         <span class="input-group-btn">
-            <button *ngIf="input.resource === 'Storage'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("StorageAccountPickerBlade", input.id)'>
+            <button *ngIf="input.resource === 'Storage'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("StorageAccountPickerBlade", input.id)' [disabled]="disabled">
                 <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
                 <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
             </button>
-            <button *ngIf="input.resource === 'EventHub'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("CustomConnectionPickerBlade", input.id)'>
+            <button *ngIf="input.resource === 'EventHub'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("CustomConnectionPickerBlade", input.id)' [disabled]="disabled">
                 <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
                 <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
              </button>
-            <button *ngIf="input.resource === 'DocumentDB'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("DocDbPickerBlade", input.id)'>
+            <button *ngIf="input.resource === 'DocumentDB'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("DocDbPickerBlade", input.id)' [disabled]="disabled">
                 <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
                 <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
             </button>
-            <button *ngIf="input.resource === 'ServiceBus'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("NotificationHubPickerBlade", input.id)'>
+            <button *ngIf="input.resource === 'ServiceBus'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("NotificationHubPickerBlade", input.id)' [disabled]="disabled">
                 <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
                 <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
             </button>            
@@ -35,7 +35,7 @@
 
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
         <!-- TODO: move this to css -->
-        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [disabled]="disabled">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
@@ -49,7 +49,7 @@
     </div>
 
     <div *ngIf="input.type === 'enum'" class="col-sm-6 input-group">
-        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" class="form-control" [(ngModel)]="input.value">
+        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" class="form-control" [(ngModel)]="input.value" [disabled]="disabled">
             <option *ngFor="#o of input.enum" [value]="o.value">{{o.display}}</option>
         </select>
         <span class="input-group-btn">
