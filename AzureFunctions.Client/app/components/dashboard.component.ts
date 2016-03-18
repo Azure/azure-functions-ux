@@ -63,14 +63,16 @@ export class DashboardComponent implements OnInit {
             this.resetView();
             this.sideBar.selectedFunction = fi;
             
-            if (fi.name !== "New Function") {                
+            if (fi.name !== "New Function") {
                 this._broadcastService.setBusyState();
-                this._functionsService.getFunction(fi).subscribe((fi) => {                    
+                this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
                     this._broadcastService.clearBusyState();
                 });
+            } else {
+                this.selectedFunction = fi;
+                this._broadcastService.clearBusyState();
             }
-
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
