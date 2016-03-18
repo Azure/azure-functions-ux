@@ -1,7 +1,7 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
 import {Observable, Subject} from 'rxjs/Rx';
-import {Event, Data, Verbs} from '../models/portal';
+import {Event, Data, Verbs, Action} from '../models/portal';
 
 @Injectable()
 export class PortalService implements IPortalService {
@@ -38,13 +38,25 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.getAuthToken, null);
     }
 
-    openBlade(name: string) : void{
+    openBlade(name: string, source: string) : void{
+        this.logAction(source, "open blade " + name, null);
         this.postMessage(Verbs.openBlade, name);
     }
 
-    openCollectorBlade(name: string, getAppSettingCallback: (appSettingName: string) => void): void {
+    openCollectorBlade(name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.logAction(source, "open-blade-" + name, null);
         this.getAppSettingCallback = getAppSettingCallback;
         this.postMessage(Verbs.openBlade, name);
+    }
+
+    logAction(subcomponent: string, action: string, data?: any): void{
+        let actionStr = JSON.stringify(<Action>{
+            subcomponent: subcomponent,
+            action: action,
+            data: data
+        });
+
+        this.postMessage(Verbs.logAction, actionStr);
     }
 
     private iframeReceivedMsg(event: Event): void {

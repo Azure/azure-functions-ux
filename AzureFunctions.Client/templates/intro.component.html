@@ -77,8 +77,7 @@
 <br>
 
 <div class="text-center">
-    <button *ngIf="selectedFunction" class="btn btn-primary" (click)="onCreateNewFunction()">Create a new function</button>
-    <button *ngIf="!selectedFunction" class="btn btn-primary" (click)="onCreateNewFunction()" disabled>Create a new function</button>
+    <button class="btn btn-primary" (click)="onCreateNewFunction()" [disabled]="!selectedFunction">Create a new function</button>
 </div>
 
 <div class="text-center">
