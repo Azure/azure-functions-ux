@@ -72,9 +72,11 @@ export class FunctionEditComponent {
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
         if (result) {
+            this._broadcastService.setBusyState();
             this._functionsService.deleteFunction(this.selectedFunction)
                 .subscribe(r => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
+                    this._broadcastService.clearBusyState();
                 });
         }
     }
