@@ -5,7 +5,7 @@ declare var ace: any;
 
 @Directive({
     selector: '[aceEditor]',
-    inputs: ['content', 'fileName', 'height'],
+    inputs: ['content', 'fileName', 'height', 'readOnly'],
     outputs: ['onContentChanged', 'onSave']
 })
 export class AceEditorDirective {
@@ -38,7 +38,7 @@ export class AceEditorDirective {
             // https://github.com/ajaxorg/ace/issues/503
             if (this.editor.curOp && this.editor.curOp.command.name) {
                 this.onContentChanged.emit(this.editor.getValue());
-            }
+            }            
         });
 
         this.editor.commands.addCommand({
@@ -73,6 +73,10 @@ export class AceEditorDirective {
 
     set fileName(fileName: string) {
         this.editor.session.setMode(this.getMode(fileName));
+    }
+
+    set readOnly(value: boolean) {       
+        this.editor.setReadOnly(value);
     }
 
     getMode(filename: string): string {

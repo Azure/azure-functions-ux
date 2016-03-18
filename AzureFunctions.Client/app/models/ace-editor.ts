@@ -13,6 +13,7 @@ export interface AceEditor {
     $blockScrolling: number;
     commands: any;
     curOp: any;
+    setReadOnly(value: boolean);
 }
 
 interface AceEditorSession {
