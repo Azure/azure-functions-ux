@@ -100,7 +100,13 @@ export class BindingManager {
             };
             
             b.settings.forEach((s) => {
-                bindingToAdd[s.name] = s.value ? s.value : "";
+                if (s.value === false) {
+                    bindingToAdd[s.name] = false;
+                } else if (!s.value) {
+                    bindingToAdd[s.name] = "";
+                } else {
+                    bindingToAdd[s.name] = s.value;
+                }                
             });
             bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
 
