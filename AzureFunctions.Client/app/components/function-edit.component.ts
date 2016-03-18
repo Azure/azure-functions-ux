@@ -58,8 +58,8 @@ export class FunctionEditComponent {
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
             this.selectedFunction = JSON.parse(JSON.stringify(fi));
         });
-        
-        if (this._functionsService.getConfig()["scmType"]) {
+                
+        if (!this._functionsService.getConfig()["scmType"] || this._functionsService.getConfig()["scmType"] !== "None") {
             this.disabled = true;
         }
 
