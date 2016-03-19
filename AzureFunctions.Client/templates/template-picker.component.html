@@ -1,9 +1,9 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
-        <span *ngIf="filterItems.length > 0">
+        <span *ngIf="languages.length > 0">
             Language:
-            <select [(ngModel)]="selectedKey" (change)="onKeyChanged($event)">
-                <option *ngFor="#item of filterItems" [value]="item.value">{{item.name}}</option>
+            <select (change)="onLanguageChanged($event.target.value)">
+                <option *ngFor="#l of languages" [value]="l">{{l}}</option>
             </select>
         </span>
         <span *ngIf="showScenarios" style="margin-left:20px;">

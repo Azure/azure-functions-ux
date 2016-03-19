@@ -21,10 +21,11 @@ export class TemplatePickerComponent {
     templates: Template[] = [];
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
-    selectedKey: string = "all";
     bindings: Binding[];
     showScenarios = false;
+    languages: string[] = [];
     private _category: string = "Core";
+    private _language: string = "All";
     private _type: TemplatePickerType;
 
     @Input() showFooter: boolean;
@@ -39,7 +40,7 @@ export class TemplatePickerComponent {
         this._type = type;
         this._broadcastService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
-            this._functionsService.getBindingConfig().subscribe((config) => { 
+            this._functionsService.getBindingConfig().subscribe((config) => {                
                 this._broadcastService.clearBusyState();               
                 this.bindings = config.bindings;
                 this.templates = [];               
@@ -60,17 +61,34 @@ export class TemplatePickerComponent {
                     case TemplatePickerType.template:
                         this.title = "Choose a template"; 
                         this.showScenarios = true;
+                        this.languages = ["All"];
                         templates.forEach((template) => {
+
+                            var lang = this.languages.find((l) => {
+                                return l === template.metadata.language;
+                            });
+
+                            if (!lang) {
+                                this.languages.push(template.metadata.language);
+                            }
+
                             var matchIndex = template.metadata.category.findIndex((c) => {
                                 return c === this._category;
                             });
 
                             if (matchIndex !== -1) {
-                                this.templates.push({
-                                    name: template.metadata.name,
-                                    value: template.id,
-                                    keys: template.metadata.category || ["Experimental"]
-                                });
+                                if ((this._language === "All") || (template.metadata.language === this._language)) {
+                                    var keys = template.metadata.category || ["Experimental"];
+                                    keys.push(
+                                        template.metadata.language
+                                    );
+
+                                    this.templates.push({
+                                        name: template.metadata.name,
+                                        value: template.id,
+                                        keys: template.metadata.category || ["Experimental"]
+                                    });
+                                }
                             }
                         });
                         break;
@@ -96,6 +114,11 @@ export class TemplatePickerComponent {
         if (!this.showFooter) {
             this.complete.emit(this.selectedTemplate);
         }
+    }
+
+    onLanguageChanged(language: string) {
+        this._language = language;
+        this.type = this._type;
     }
 
     scenarioChanged(category: string) {
