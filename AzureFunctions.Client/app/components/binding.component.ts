@@ -48,8 +48,10 @@ export class BindingComponent {
                 if (this.canDelete) {
                     if (this.isDirty) {
                         this._broadcastService.setDirtyState("function_integrate");
+                        this._portalService.setDirtyState(true);
                     } else {
                         this._broadcastService.clearDirtyState("function_integrate", true);
+                        this._portalService.setDirtyState(false);
                     }
                 }
             });
@@ -179,6 +181,7 @@ export class BindingComponent {
     discardClicked() {
         this.model.discard();
         this._broadcastService.clearDirtyState('function_integrate', true);
+        this._portalService.setDirtyState(false);
         this.isDirty = false;
     }
 
@@ -204,6 +207,7 @@ export class BindingComponent {
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
+        this._portalService.setDirtyState(false);
         this.isDirty = false;
     }
 

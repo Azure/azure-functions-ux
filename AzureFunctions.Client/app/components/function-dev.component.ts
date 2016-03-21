@@ -9,6 +9,7 @@ import {FunctionConfig} from '../models/function-config';
 import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'function-dev',
@@ -43,7 +44,10 @@ export class FunctionDevComponent implements OnChanges {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
-    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
+    constructor(private _functionsService: FunctionsService,
+                private _broadcastService: IBroadcastService,
+                private _portalService: PortalService) {
+
         this.isCode = true;
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
@@ -134,6 +138,7 @@ export class FunctionDevComponent implements OnChanges {
                 if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
+                    this._portalService.setDirtyState(false);
                 }
             });
     }
@@ -142,6 +147,7 @@ export class FunctionDevComponent implements OnChanges {
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
             this._broadcastService.setDirtyState('function');
+            this._portalService.setDirtyState(true);
         }
         this.updatedContent = content;
     }

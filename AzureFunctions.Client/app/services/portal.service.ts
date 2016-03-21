@@ -58,6 +58,11 @@ export class PortalService implements IPortalService {
 
         this.postMessage(Verbs.logAction, actionStr);
     }
+    
+    setDirtyState(dirty : boolean) : void{
+        this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
+    }
+
 
     private iframeReceivedMsg(event: Event): void {
         

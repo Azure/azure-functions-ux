@@ -24,4 +24,5 @@ export class Verbs{
     public static sendAppSettingName = "send-appSettingName";
     public static sendTokenRefresh = "send-token-refresh";
     public static logAction = "log-action";
+    public static setDirtyState = "set-dirtystate";
 }

@@ -148,8 +148,10 @@ export class DashboardComponent implements OnInit {
     private setDisabled(config: any) {
         if (!config["scmType"] || config["scmType"] !== "None") {
             this._broadcastService.setDirtyState("function_disabled");
+            this._portalService.setDirtyState(true);
         } else {
             this._broadcastService.clearDirtyState("function_disabled", true);
+            this._portalService.setDirtyState(false);
         }
     }
 }

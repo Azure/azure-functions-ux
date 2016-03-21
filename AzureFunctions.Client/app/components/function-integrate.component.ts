@@ -38,6 +38,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
         if (!this.isDirty) {
             this.isDirty = true;
             this._broadcastService.setDirtyState('function');
+            this._portalService.setDirtyState(true);
         }
 
         this.updatedContent = content;
@@ -51,6 +52,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
                     if (this.isDirty) {
                         this.isDirty = false;
                         this._broadcastService.clearDirtyState('function');
+                        this._portalService.setDirtyState(false);
                         this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, fi);
                     }
                 });
@@ -65,10 +67,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     ngOnDestroy() {
         this._broadcastService.clearDirtyState('function');
+        this._portalService.setDirtyState(false);
     }    
     
     onEditorChange(editorType: string) {
         this._broadcastService.clearDirtyState('function_integrate', true);
+        this._portalService.setDirtyState(false);
         this.changeEditor.emit(editorType);
     }
 }
