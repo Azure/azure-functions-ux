@@ -204,7 +204,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getConfig() {
-        return {};
+        return Observable.of({});
     }
 
     getBearerHeader() {

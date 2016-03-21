@@ -18,4 +18,12 @@ export class MockUserService implements IUserService {
         return this._http.get('mocks/user.json')
             .map<User>(r => r.json());
     }
+
+    getCurrentToken() {
+        return 'token';
+    }
+
+    getToken() {
+        return Observable.of('token');
+    }
 }

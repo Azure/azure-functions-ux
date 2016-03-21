@@ -48,6 +48,8 @@ export class AppComponent implements OnInit {
                     .subscribe((res: string) => this.initializeDashboard(res));
             } else {
                 // Initialize for mocked data
+                this._broadcastService.clearBusyState();
+                this.ready = true;
             }
         } else {
             this._userService.getToken()
