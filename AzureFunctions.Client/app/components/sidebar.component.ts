@@ -51,7 +51,7 @@ export class SideBarComponent implements OnDestroy {
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
-            if(event.step === TutorialStep.NextSteps){
+            if(event && event.step === TutorialStep.NextSteps){
                 let selectedFi = this.functionsInfo.find(fi => fi === event.functionInfo);
                 this.selectFunction(selectedFi);
             }

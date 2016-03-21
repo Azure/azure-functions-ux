@@ -15,17 +15,18 @@ export class TutorialComponent {
 
     constructor(private _broadcastService: IBroadcastService){
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
+            if (event) {
+                // Gets called only from intro after a template has been selected
+                if (event.step === TutorialStep.Waiting) {
+                    this.currentStep = event.step;
+                    this.initialFunction = event.functionInfo;
+                }
 
-            // Gets called only from intro after a template has been selected
-            if (event.step === TutorialStep.Waiting){
-                this.currentStep = event.step;
-                this.initialFunction = event.functionInfo;
-            }
-
-            // Gets called after the tabs component has completed loading.
-            else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
-                this.currentStep = event.step;
-                this.broadCaseCurrentStep();
+                // Gets called after the tabs component has completed loading.
+                else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
+                    this.currentStep = event.step;
+                    this.broadCaseCurrentStep();
+                }
             }
         });
     } 

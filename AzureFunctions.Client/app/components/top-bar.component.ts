@@ -34,7 +34,7 @@ export class TopBarComponent implements OnInit {
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            if (event.step === TutorialStep.AppSettings) {
+            if (event && event.step === TutorialStep.AppSettings) {
                 this.onAppSettingsClicked();
             }
         });

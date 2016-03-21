@@ -18,25 +18,26 @@ export class TabsComponent implements AfterContentInit {
     constructor(private _broadcastService: IBroadcastService, private _portalService : PortalService){
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            
-            let selectedTab: TabComponent;
-            switch(event.step){
-                case TutorialStep.Develop:
-                case TutorialStep.NextSteps:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.develop);
-                    break;
-                case TutorialStep.Integrate:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.integrate);
-                    break;
-                case TutorialStep.Manage:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.manage);
-                    break;
-                default:
-                    break;
-            }
+            if (event) {
+                let selectedTab: TabComponent;
+                switch (event.step) {
+                    case TutorialStep.Develop:
+                    case TutorialStep.NextSteps:
+                        selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.develop);
+                        break;
+                    case TutorialStep.Integrate:
+                        selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.integrate);
+                        break;
+                    case TutorialStep.Manage:
+                        selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.manage);
+                        break;
+                    default:
+                        break;
+                }
 
-            if (selectedTab) {
-                this.selectTabHelper(selectedTab, false);
+                if (selectedTab) {
+                    this.selectTabHelper(selectedTab, false);
+                }
             }
         });
     }
