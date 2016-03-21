@@ -45,6 +45,12 @@
                 (click)="runFunction()">
                 {{scriptFile.isDirty ? 'Save and run' : 'Run'}}
             </button>
+            <button
+                *ngIf="running"
+                class="custom-button cancel-button"
+                (click)="cancelCurrentRun()">
+                Cancel
+            </button>
         </div>
 
         <div class="dev-run-block">

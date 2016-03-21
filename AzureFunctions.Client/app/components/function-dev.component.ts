@@ -37,17 +37,18 @@ export class FunctionDevComponent implements OnChanges {
     public isHttpFunction: boolean;
 
     public runResult: string;
+    public running: Subscription;
 
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
 
-    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {        
+    constructor(private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
         this.isCode = true;
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
-            .switchMap(fi => {                
+            .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._broadcastService.setBusyState();
                 return Observable.zip(
@@ -173,11 +174,19 @@ export class FunctionDevComponent implements OnChanges {
             this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
             this._broadcastService.setBusyState();
-            this._functionsService.runFunction(this.functionInfo, this.updatedTestContent || this.functionInfo.test_data)
+            this.running = this._functionsService.runFunction(this.functionInfo, this.updatedTestContent || this.functionInfo.test_data)
                 .subscribe(
-                    r => { this.runResult = r; this._broadcastService.clearBusyState(); },
-                    e => { this.runResult = e._body; this._broadcastService.clearBusyState(); }
+                    r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; },
+                    e => { this.runResult = e._body; this._broadcastService.clearBusyState(); delete this.running; }
                 );
+        }
+    }
+
+    cancelCurrentRun() {
+        this._broadcastService.clearBusyState();
+        if (this.running) {
+            this.running.unsubscribe();
+            delete this.running;
         }
     }
 }

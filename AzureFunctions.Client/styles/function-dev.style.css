@@ -45,3 +45,10 @@ div.inline-no-float {
 .dev-run-block > pre.log-stream{
     height: 270px;
 }
+
+.cancel-button {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    z-index: 2000;
+    position: relative;
+}
