@@ -3,7 +3,6 @@ import {IBroadcastService, BroadcastEvent} from './ibroadcast.service';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {PortalService} from './portal.service';
 
 @Injectable()
 export class BroadcastService implements IBroadcastService {
@@ -19,7 +18,7 @@ export class BroadcastService implements IBroadcastService {
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
-    constructor(private _portalService : PortalService) {
+    constructor() {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
@@ -50,7 +49,6 @@ export class BroadcastService implements IBroadcastService {
     }
 
     setDirtyState(reason?: string) {
-        this._portalService.setDirtyState(true);
         reason = reason || this.defaultDirtyReason;
         if (this.dirtyStateMap[reason]) {
             this.dirtyStateMap[reason]++;
@@ -60,7 +58,6 @@ export class BroadcastService implements IBroadcastService {
     }
 
     clearDirtyState(reason?: string, all?: boolean) {
-        this._portalService.setDirtyState(false);
         reason = reason || this.defaultDirtyReason;
 
         if (!this.dirtyStateMap[reason]) return;
