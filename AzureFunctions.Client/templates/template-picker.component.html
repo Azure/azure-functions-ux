@@ -6,11 +6,10 @@
                 <option *ngFor="#l of languages" [value]="l">{{l}}</option>
             </select>
         </span>
-        <span *ngIf="showScenarios" style="margin-left:20px;">
+        <span *ngIf="categories.length > 0" style="margin-left:20px;">
             Scenario:
             <select (change)="scenarioChanged($event.target.value)">
-                <option selected value="Core">Core</option>
-                <option value="Experimental">Experimental</option>
+                <option *ngFor="#c of categories" [value]="c">{{c}}</option>
             </select>
         </span>
     </div>

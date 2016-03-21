@@ -21,9 +21,9 @@ export class TemplatePickerComponent {
     templates: Template[] = [];
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
-    bindings: Binding[];
-    showScenarios = false;
+    bindings: Binding[];    
     languages: string[] = [];
+    categories: string[] = [];
     private _category: string = "Core";
     private _language: string = "All";
     private _type: TemplatePickerType;
@@ -60,17 +60,25 @@ export class TemplatePickerComponent {
                         break;
                     case TemplatePickerType.template:
                         this.title = "Choose a template"; 
-                        this.showScenarios = true;
                         this.languages = ["All"];
                         templates.forEach((template) => {
 
                             var lang = this.languages.find((l) => {
                                 return l === template.metadata.language;
                             });
-
                             if (!lang) {
                                 this.languages.push(template.metadata.language);
                             }
+
+                            template.metadata.category.forEach((c) => {
+                                var index = this.categories.findIndex((category) => {
+                                    return category === c;
+                                });
+
+                                if (index === -1) {
+                                    this.categories.push(c);
+                                }
+                            });
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
                                 return c === this._category;
