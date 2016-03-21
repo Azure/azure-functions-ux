@@ -153,6 +153,12 @@ export class BindingComponent {
             inputTb.required = true;
             inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
             inputTb.help = "Parameter name";
+            inputTb.validators = [
+                {
+                    expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
+                    errorText: "Not valid value"
+                }
+            ];
             this.model.inputs.splice(0, 0, inputTb);
 
             let inputLabel = new LabelInput();

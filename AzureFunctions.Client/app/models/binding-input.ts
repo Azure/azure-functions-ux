@@ -14,6 +14,13 @@ export class BindingInputBase<T>
     class: string;
     isValid: boolean = true;
     isHidden: boolean = false;
+    errorText: string;
+    validators: RegexValidator[] = [];
+}
+
+export class RegexValidator {
+    expression: string;
+    errorText: string;    
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{

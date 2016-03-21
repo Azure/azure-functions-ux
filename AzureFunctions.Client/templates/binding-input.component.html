@@ -5,7 +5,7 @@
         <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" [disabled]="disabled">
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>
+        </span>        
     </div>
 
     <div *ngIf="input.type === 'picker'" [ngClass]="input.class">
@@ -55,6 +55,11 @@
         <span class="input-group-btn">
             <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
         </span>
-    </div>
+    </div>    
 
+</div>
+
+<div *ngIf="input.errorText" class="form-group has-error">
+    <div class="col-sm-6"></div>
+    <div class="help-block col-sm-6" style="padding: 0;margin:-10px 0px 0px 0px;">{{input.errorText}}</div>
 </div>
