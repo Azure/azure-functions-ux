@@ -6,7 +6,9 @@
     <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label>Memory Size</label>
         <div>
-            <input type="range">
+            <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize)">
+            <span>{{memorySize}} MB</span>
+            <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">Save</button>
         </div>
     </div>
 

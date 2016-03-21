@@ -77,7 +77,15 @@ export class ArmService implements IArmService {
         var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
         return this._http.get(url, { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
-	}
+    }
+
+    updateMemorySize(functionContainer: FunctionContainer, memorySize: string | number) {
+        var nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize) : memorySize;
+        var url = `${this.armUrl}${functionContainer.id}?api-version=${this.websiteApiVersion}`;
+        functionContainer.properties.containerSize = nMemorySize;
+        return this._http.put(url, JSON.stringify(functionContainer), { headers: this.getHeaders() })
+            .map<FunctionContainer>(r => r.json());
+    }
 
     private registerProviders(subscription: string) {
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;

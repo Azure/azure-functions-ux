@@ -10,5 +10,6 @@
             hostType: number;
         }];
         sku: string;
+        containerSize: number;
     }
 }

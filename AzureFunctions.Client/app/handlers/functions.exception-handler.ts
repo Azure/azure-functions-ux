@@ -29,7 +29,13 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
         if (error._body) {
             try {
                 var response = JSON.parse(error._body);
-                return response.ExceptionMessage || response.Message;
+                if (response.ExceptionMessage || response.Message) {
+                    return response.ExceptionMessage || response.Message;
+                } else if (response.error && response.error.message) {
+                    return response.error.message;
+                } else {
+                    return JSON.stringify(response);
+                }
             } catch (e) {
                 return error._body + '';
             }

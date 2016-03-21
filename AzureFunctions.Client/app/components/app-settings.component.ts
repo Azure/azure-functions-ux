@@ -1,19 +1,39 @@
-﻿import {Component, Input} from 'angular2/core';
-import {FunctionsService} from '../services/functions.service';
+﻿import {Component, Input, EventEmitter, OnInit} from 'angular2/core';
+import {ArmService} from '../services/arm.service';
 import {PortalService} from '../services/portal.service';
 import {FunctionContainer} from '../models/function-container';
+import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'app-settings',
     templateUrl: 'templates/app-settings.component.html',
     styleUrls: ['styles/app-settings.style.css']
 })
-export class AppSettingsComponent {
+export class AppSettingsComponent implements OnInit {
     @Input() functionContainer: FunctionContainer;
-    constructor(private _functionsService : FunctionsService,
-                private _portalService : PortalService){}
+    public memorySize: number | string;
+    public dirty: boolean;
 
-    openBlade(name : string){
+    constructor(private _armService : ArmService,
+                private _portalService : PortalService,
+                private _broadcastService: IBroadcastService) {
+    }
+
+    onChange(value: string | number) {
+        this.dirty = (typeof value === 'string' ? parseInt(value) : value) !== this.functionContainer.properties.containerSize;
+    }
+
+    ngOnInit() {
+        this.memorySize = this.functionContainer.properties.containerSize;
+    }
+
+    openBlade(name : string) {
         this._portalService.openBlade(name, "app-settings");
+    }
+
+    saveMemorySize(value: string | number) {
+        this._broadcastService.setBusyState();
+        this._armService.updateMemorySize(this.functionContainer, value)
+            .subscribe(r => { this._broadcastService.clearBusyState(); Object.assign(this.functionContainer, r); this.dirty = false; });
     }
 }

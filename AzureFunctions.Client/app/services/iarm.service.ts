@@ -7,4 +7,5 @@ export abstract class IArmService {
     abstract getFunctionContainers(subscription: string): Observable<FunctionContainer[]>;
     abstract createFunctionContainer(subscription: string, geoRegion: string, name: string): Observable<FunctionContainer>;
     abstract getFunctionContainer(armId: string): Observable<FunctionContainer>;
+    abstract updateMemorySize(functionContainer: FunctionContainer, memorySize: number): Observable<FunctionContainer>;
 }
