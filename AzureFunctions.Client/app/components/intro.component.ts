@@ -69,7 +69,7 @@ export class IntroComponent {
                             this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
 
                             this._broadcastService.clearBusyState();
-                            alert("Function creation error! Please try again.");
+                            this._broadcastService.broadcast(BroadcastEvent.Error, "Function creation error! Please try again.");
                             return;
                         }
 

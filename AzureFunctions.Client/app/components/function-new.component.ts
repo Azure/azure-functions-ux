@@ -146,8 +146,8 @@ export class FunctionNewComponent {
             .subscribe(res => {
                 if (!res) {
                     this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id });
-                    this._broadcastService.clearBusyState();
-                    alert("Function creation error! Please try again.");
+                    this._broadcastService.clearBusyState();                    
+                    this._broadcastService.broadcast(BroadcastEvent.Error, "Function creation error! Please try again.");
                     return;
                 }
 
