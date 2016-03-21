@@ -9,13 +9,15 @@ import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
 import {UserService} from '../services/user.service';
 import {Observable} from 'rxjs/Rx';
+import {ErrorListComponent} from './error-list.component';
 
 @Component({
     selector: 'azure-functions-app',
     template: `<busy-state></busy-state>
+<error-list></error-list>
 <functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
 <getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>`,
-    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent]
+    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
 })
 export class AppComponent implements OnInit {
     public gettingStarted: boolean;

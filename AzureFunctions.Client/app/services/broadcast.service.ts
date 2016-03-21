@@ -14,6 +14,7 @@ export class BroadcastService implements IBroadcastService {
     private busyStateEvent: EventEmitter<boolean>;
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
+    private errorEvent: EventEmitter<string>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -26,6 +27,7 @@ export class BroadcastService implements IBroadcastService {
         this.goToIntroEvent = new EventEmitter<void>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
+        this.errorEvent = new EventEmitter<string>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -110,6 +112,9 @@ export class BroadcastService implements IBroadcastService {
 
             case BroadcastEvent.IntegrateChanged:
                 return this.tutorialStepEvent;
+
+            case BroadcastEvent.Error:
+                return this.errorEvent;
         }
     }
 }
