@@ -95,10 +95,8 @@ export class AppComponent implements OnInit {
                 .subscribe(tenants => {
                     var currentTenant = tenants.find(t => t.Current);
                     var portalHostName = 'https://portal.azure.com';
-                    var query = `?feature.canmodifystamps=true&BizTalkExtension=canary&Microsoft_Azure_Microservices=canary&WebsitesExtension=canary&ClearDBExtension=canary&websitesextension_cloneapp=true&HubsExtension_ItemHideKey=GalleryApplicationTesting`;
-                    var environment = window.location.host.indexOf('staging') === -1
-                        ? '&websitesextension_functions=true' // production
-                        : '&websitesextension_functionsstaged=true'; // staging
+                    var query = '?microsoft_azure_marketplace_ItemHideKey=GalleryApplicationTesting';
+                    var environment = window.location.host.indexOf('staging') > -1 ? '&websitesextension_functionsstaged=true' : '';
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${query}${environment}#resource${armId}`);
                 });
             return true;
