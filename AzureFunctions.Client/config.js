@@ -25,6 +25,7 @@ System.config({
 
   map: {
     "angular2": "npm:angular2@2.0.0-beta.7",
+    "angular2-highcharts": "npm:angular2-highcharts@0.0.5",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
     "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.6",
     "ts": "github:frankwallis/plugin-typescript@4.0.1",
@@ -96,6 +97,9 @@ System.config({
     },
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
+    },
+    "npm:angular2-highcharts@0.0.5": {
+      "highcharts": "npm:highcharts@4.2.3"
     },
     "npm:angular2@2.0.0-beta.7": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
@@ -264,6 +268,9 @@ System.config({
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
+    },
+    "npm:highcharts@4.2.3": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"

@@ -157,8 +157,6 @@
     <Content Include="bs-config.json" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="app\models\binding-manager.ts" />
-    <TypeScriptCompile Include="typings\browser.d.ts" />
-    <TypeScriptCompile Include="typings\browser\ambient\es6-shim\es6-shim.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />

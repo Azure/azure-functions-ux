@@ -13,6 +13,7 @@
   "dependencies": {
     "ace-builds": "^1.2.2",
     "angular2": "2.0.0-beta.9",
+    "angular2-highcharts": "0.0.5",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "font-awesome": "^4.5.0",
@@ -31,11 +32,12 @@
   "jspm": {
     "dependencies": {
       "angular2": "npm:angular2@^2.0.0-beta.9",
+      "angular2-highcharts": "npm:angular2-highcharts@^0.0.5",
       "rxjs": "npm:rxjs@^5.0.0-beta.2",
       "ts": "github:frankwallis/plugin-typescript@^4.0.1"
     },
     "devDependencies": {
-      "typescript": "npm:typescript@^1.7.5"
+      "typescript": "npm:typescript@^1.8.5"
     }
   }
 }

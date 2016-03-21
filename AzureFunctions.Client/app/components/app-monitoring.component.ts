@@ -14,6 +14,6 @@ export class AppMonitoringComponent {
         private _portalService: PortalService) { }
 
     openBlade(name: string) {
-        this._portalService.openBlade(name);
+        this._portalService.openBlade(name, 'app-monitoring');
     }
 }
