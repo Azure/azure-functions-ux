@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild, Input} from 'angular2/core';
+﻿import {Component, OnInit, ViewChild, Input ,OnChanges} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {FunctionNewV2Component} from './function-new-v2.component';
@@ -40,12 +40,11 @@ import {Observable} from 'rxjs/Rx';
         TutorialComponent
     ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnChanges {
     @ViewChild(SideBarComponent) sideBar: SideBarComponent;
     @Input() functionContainer: FunctionContainer;
 
     public functionsInfo: FunctionInfo[];
-    public functionTemplates: FunctionTemplate[];
     public selectedFunction: FunctionInfo;
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
@@ -67,7 +66,7 @@ export class DashboardComponent implements OnInit {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
-            this.resetView();
+            this.resetView(false);
             this.sideBar.selectedFunction = fi;
             
             this._broadcastService.setBusyState();
@@ -78,7 +77,7 @@ export class DashboardComponent implements OnInit {
                     this._functionsService.getFunction(fi).subscribe((fi) => {
                         this.selectedFunction = fi;
                         this._broadcastService.clearBusyState();
-        });
+                    });
                 } else {
                     this.selectedFunction = fi;
                     this._broadcastService.clearBusyState();
@@ -97,8 +96,7 @@ export class DashboardComponent implements OnInit {
         });
 
         this._broadcastService.subscribe<void>(BroadcastEvent.GoToIntro, () => {
-            this.openIntro = true;
-            delete this.selectedFunction;
+            this.resetView(true);
         });
 
         // TODO: What's the right way of doing something like this?
@@ -109,37 +107,42 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._broadcastService.setBusyState();
+        this.initFunctions();
+    }
 
-            this._functionsService.getTemplates()
-                .subscribe(res => this.functionTemplates = res);
-                this.initFunctions();
-            }
+    // Handles the scenario where the FunctionInfo binding on the app.component has changed,
+    // like for instance if we get a new resourceId from Ibiza.
+    ngOnChanges() {
+        this.initFunctions();
+    }
 
     initFunctions() {
+        this._broadcastService.setBusyState();
+
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._broadcastService.clearBusyState();
+                this.resetView(true);
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
     }
 
     onAppMonitoringClicked() {
-        this.resetView();
+        this.resetView(false);
         this.openAppMonitoring = true;
     }
 
     onAppSettingsClicked() {
-        this.resetView();
+        this.resetView(false);
         this.openAppSettings = true;
     }
 
-    private resetView() {
+    private resetView(openIntro : boolean) {
         this.openAppSettings = false;
-        this.openIntro = false;
+        this.openIntro = openIntro;
         this.openAppMonitoring = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;

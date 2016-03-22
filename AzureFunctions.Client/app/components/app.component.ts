@@ -46,8 +46,19 @@ export class AppComponent implements OnInit {
 
         if (!this.gettingStarted) {
             if (this._userService.inIFrame) {
-                Observable.zip(this._userService.getToken(), this._portalService.getResourceId(), (t, r) => r)
-                    .subscribe((res: string) => this.initializeDashboard(res));
+                var _token;
+
+                // Used to handle initialization, as well as resourceId changes sent from Ibiza. 
+                this._portalService.getResourceId().distinctUntilChanged().subscribe((resourceId: string) => {
+                    if (_token) {
+                        this.initializeDashboard(resourceId);
+                    } else {
+                        this._userService.getToken().subscribe((token: string) => {
+                            _token = token;
+                            this.initializeDashboard(resourceId);
+                        });
+                    }
+                });
             } else {
                 // Initialize for mocked data
                 this._broadcastService.clearBusyState();
@@ -80,7 +91,7 @@ export class AppComponent implements OnInit {
                 this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc));
             }
         } else {
-                this._broadcastService.setBusyState();
+            this._broadcastService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
 
