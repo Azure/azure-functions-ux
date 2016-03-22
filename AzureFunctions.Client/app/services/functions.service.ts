@@ -146,17 +146,10 @@ export class FunctionsService implements IFunctionsService {
             ? (inputBinding.webHookType ? 'application/json' : 'plain/text')
             : 'application/json';
 
+        var headers = this.getHeaders(mediaType);
+        headers.append('x-functions-key', this.hostSecrets.masterKey);
 
-        var body: PassthroughInfo = {
-            httpMethod: 'POST',
-            url: url,
-            requestBody: _content,
-            mediaType: mediaType,
-            headers: {
-                'x-functions-key': this.hostSecrets.masterKey
-            }
-        };
-        return this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
+        return this._http.post(url, JSON.stringify(_content), { headers: headers })
             .map<string>(r => r.text());
     }
 
@@ -175,19 +168,11 @@ export class FunctionsService implements IFunctionsService {
             httpMethod: 'GET',
             url: this.scmUrl.replace('.scm.', '.')
         };
-        var observable = this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
-                        .map<string>(r => r.statusText);
+        var observable = this._http.get(this.mainSiteUrl, { headers: this.getHeaders() })
+            .map<string>(r => r.statusText);
+
         observable.subscribe(() => this.getHostSecrets(), () => this.getHostSecrets());
         return observable;
-    }
-
-    warmupMainSiteApi() {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: `${this.scmUrl.replace('.scm.', '.')}/api/`
-        };
-        this._http.post('api/passthrough', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
-            .subscribe(() => { }, e => { if (e.status === 503 || e.status === 403) { this.warmupMainSiteApi(); } });
     }
 
     getSecrets(fi: FunctionInfo) {
