@@ -33,13 +33,14 @@
                             <h3>Create a new function app</h3>
                             <div class="user-input">
                                 <label>Give your function app a name</label>
-                                <input type="text" [(ngModel)]="functionContainerName" />
+                                <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
+                                <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
                             </div>
                             <div class="user-input">
                                 <label>Pick a region</label>
                                 <drop-down [options]="geoRegions" placeholder="Select Location" (value)="onGeoRegionChange($event)"></drop-down>
                             </div>
-                            <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">Get coding</button>
+                            <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName || !isValidContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">Get coding</button>
                         </div>
 
                         <div *ngIf="functionContainers.length > 0">

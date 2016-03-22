@@ -9,6 +9,7 @@ import {DropDownComponent} from './drop-down.component';
 import {TopBarComponent} from './top-bar.component';
 import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'getting-started',
@@ -27,6 +28,9 @@ export class GettingStartedComponent implements OnInit {
     public functionContainers: FunctionContainer[];
     public functionContainerName: string;
     public createError: string;
+    public functionContainerNameEvent: EventEmitter<string>;
+    public isValidContainerName: boolean;
+    public validationError: string;
 
     public user: User;
 
@@ -38,6 +42,7 @@ export class GettingStartedComponent implements OnInit {
         private _broadcastService: IBroadcastService,
         private _armService: ArmService
     ) {
+        this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163
         var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
         this.functionContainerName = `functions${this.makeId()}`;
@@ -46,6 +51,13 @@ export class GettingStartedComponent implements OnInit {
         this.geoRegions = ['West US']
             .map(e => ({ displayLabel: e, value: e }))
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+        this.functionContainerNameEvent = new EventEmitter<string>();
+        this.functionContainerNameEvent
+            .switchMap<{ isValid: boolean; reason: string}>(() => this.validateContainerName(this.functionContainerName))
+            .subscribe(v => {
+                this.isValidContainerName = v.isValid;
+                this.validationError = v.reason;
+            });
     }
 
     ngOnInit() {
@@ -105,6 +117,7 @@ export class GettingStartedComponent implements OnInit {
                 this.selectedSubscription = value;
                 this.functionContainers = fc;
                 this._broadcastService.clearBusyState();
+                this.functionContainerNameEvent.emit(this.functionContainerName);
             });
     }
 
@@ -129,5 +142,19 @@ export class GettingStartedComponent implements OnInit {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
         return text;
+    }
+
+    validateContainerName(name: string): Observable<{ isValid: boolean; reason: string}>{
+        var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
+        if (name.length < 2) {
+            return Observable.of({ isValid: false, reason: 'The name must be at lease 2 characters' });
+        } else if (name.length > 60) {
+            return Observable.of({ isValid: false, reason: 'The name must be at most 60 characters' });
+        } else if (!name.match(regEx)) {
+            return Observable.of({ isValid: false, reason: 'The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)'});
+        } else {
+            return this._armService.validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
+                .map<{ isValid: boolean; reason: string}>(v => ({ isValid: v, reason: `function app name ${name} isn't available`}));
+        }
     }
 }

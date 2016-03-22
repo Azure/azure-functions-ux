@@ -8,4 +8,5 @@ export abstract class IArmService {
     abstract createFunctionContainer(subscription: string, geoRegion: string, name: string): Observable<FunctionContainer>;
     abstract getFunctionContainer(armId: string): Observable<FunctionContainer>;
     abstract updateMemorySize(functionContainer: FunctionContainer, memorySize: number): Observable<FunctionContainer>;
+    abstract validateSiteNameAvailable(subscriptionId: string, containerName: string): Observable<boolean>;
 }
