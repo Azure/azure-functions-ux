@@ -2,7 +2,7 @@
     <div class="tutorial-overlay-top-bar"></div>
     <div class="tutorial-overlay"></div>
     <div class="tutorial-modal">
-        <div class="tutorial-modal-curposition">{{currentStep}} of 5</div>
+        <div class="tutorial-modal-curposition">{{currentStep}} of 4</div>
 
         <div *ngIf="currentStep === 1">
             <h2>Develop</h2>
@@ -32,17 +32,6 @@
         </div>
 
         <div *ngIf="currentStep === 3">
-            <h2>Manage</h2>
-            <p>
-                This is the function management tab, where you will find configuration options specific to your function.
-            </p>
-            <p>
-                If you want to stop your function from triggering, you can disable it here.
-                This is also where you can delete your function, so be careful!
-            </p>
-        </div>
-
-        <div *ngIf="currentStep === 4">
             <h2>Function App Settings</h2>
             <p>
                 Your functions run within a "Function App."  It houses centralized settings for your
@@ -55,7 +44,7 @@
             </p>
         </div>
 
-        <div *ngIf="currentStep === 5">
+        <div *ngIf="currentStep === 4">
             <h2>Next Steps</h2>
             <p>
                 Now that you've seen a bit of what Azure Functions can do, try it out for yourself...
@@ -71,7 +60,7 @@
 
         <div class="tutorial-modal-nav">
             <button class="custom-button" (click)="nextStep()">{{buttonText}}</button>
-            <div class="link" (click)="currentStep = -1" *ngIf="currentStep < 5">Skip and start coding now</div>
+            <div class="link" (click)="currentStep = -1" *ngIf="currentStep < 4">Skip and start coding now</div>
         </div>
     </div>
 </div>

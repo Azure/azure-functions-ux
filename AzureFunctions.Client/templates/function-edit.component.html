@@ -6,18 +6,15 @@
         </div>
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
-    <tab tabTitle="Integrate">
+    <tab [tabTitle]="IntegrateTab">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">            
             Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json
         </div>
         <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
         <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>        
     </tab>
-    <tab tabTitle="Monitor">
+    <tab [tabTitle]="MonitorTab">
         <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
-    </tab>
-    <tab [tabTitle]="ManageTab">
-        Manage
     </tab>
 </tabs>
 <div *ngIf="!disabled" id="delete-function" class="clickable" (click)="deleteFunction()"><i class="fa fa-trash"></i> Delete function</div>

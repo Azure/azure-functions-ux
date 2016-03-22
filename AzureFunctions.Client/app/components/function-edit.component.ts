@@ -47,7 +47,7 @@ export class FunctionEditComponent {
 
     public DevelopTab = TabNames.develop;
     public IntegrateTab = TabNames.integrate;
-    public ManageTab = TabNames.manage;
+    public MonitorTab = TabNames.monitor;
 
     constructor(
         private _functionsService: FunctionsService,

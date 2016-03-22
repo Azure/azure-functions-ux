@@ -15,18 +15,16 @@ export class TutorialComponent {
 
     constructor(private _broadcastService: IBroadcastService){
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            if (event) {
-                // Gets called only from intro after a template has been selected
-                if (event.step === TutorialStep.Waiting) {
-                    this.currentStep = event.step;
-                    this.initialFunction = event.functionInfo;
-                }
+            // Gets called only from intro after a template has been selected
+            if (event.step === TutorialStep.Waiting){
+                this.currentStep = event.step;
+                this.initialFunction = event.functionInfo;
+            }
 
-                // Gets called after the tabs component has completed loading.
-                else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
-                    this.currentStep = event.step;
-                    this.broadCaseCurrentStep();
-                }
+            // Gets called after the tabs component has completed loading.
+            else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
+                this.currentStep = event.step;
+                this.broadCastCurrentStep();
             }
         });
     } 
@@ -38,9 +36,6 @@ export class TutorialComponent {
                 this.currentStep = TutorialStep.Integrate;
                 break;
             case TutorialStep.Integrate:
-                this.currentStep = TutorialStep.Manage;
-                break;
-            case TutorialStep.Manage:
                 this.currentStep = TutorialStep.AppSettings;
                 break;
             case TutorialStep.AppSettings:
@@ -55,11 +50,11 @@ export class TutorialComponent {
         }
 
         if (this.currentStep !== TutorialStep.Off) {
-            this.broadCaseCurrentStep();
+            this.broadCastCurrentStep();
         }
     }
 
-    private broadCaseCurrentStep(){
+    private broadCastCurrentStep(){
         this._broadcastService.broadcast<TutorialEvent>(
             BroadcastEvent.TutorialStep,
             {

@@ -111,7 +111,7 @@ export class BroadcastService implements IBroadcastService {
                 return this.tutorialStepEvent;
 
             case BroadcastEvent.IntegrateChanged:
-                return this.tutorialStepEvent;
+                return this.integrateChnagedEvent;
 
             case BroadcastEvent.Error:
                 return this.errorEvent;

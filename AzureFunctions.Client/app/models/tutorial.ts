@@ -11,7 +11,6 @@ export enum TutorialStep {
     Waiting,
     Develop,
     Integrate,
-    Manage,
     AppSettings,
     NextSteps
 }
