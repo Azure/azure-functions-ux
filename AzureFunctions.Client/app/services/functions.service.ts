@@ -140,7 +140,7 @@ export class FunctionsService implements IFunctionsService {
 
         var _content: any = inputBinding
             ? content
-            : { input: content };
+            : JSON.stringify({ input: content });
 
         var mediaType = inputBinding
             ? (inputBinding.webHookType ? 'application/json' : 'plain/text')
@@ -149,7 +149,7 @@ export class FunctionsService implements IFunctionsService {
         var headers = this.getHeaders(mediaType);
         headers.append('x-functions-key', this.hostSecrets.masterKey);
 
-        return this._http.post(url, JSON.stringify(_content), { headers: headers })
+        return this._http.post(url, _content, { headers: headers })
             .map<string>(r => r.text());
     }
 
