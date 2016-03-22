@@ -36,4 +36,5 @@ export interface IFunctionsService {
     createTrialFunctionsContainer(): Observable<string>;
     getBindingConfig(): Observable<BindingConfig>;
     updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
+    getFunctionErrors(fi: FunctionInfo): Observable<string[]>;
 }

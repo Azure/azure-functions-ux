@@ -246,4 +246,8 @@ export class MockFunctionsService implements IFunctionsService {
     redirectToIbizaIfNeeded() {
         console.log('redirectToIbizaIfNeeded');
     }
+
+    getFunctionErrors(fi: FunctionInfo) {
+        return Observable.of(['error']);
+    }
 }

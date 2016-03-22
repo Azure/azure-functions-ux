@@ -36,13 +36,13 @@ export class FunctionsService implements IFunctionsService {
         private _armService: ArmService) {
 
         this._userService.getToken().subscribe(t => this.token = t);
-        this.appSettings = {};        
+        this.appSettings = {};
     }
 
     setFunctionContainer(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
-        this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);        
+        this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);
         this.fc = fc;
     }
 
@@ -259,6 +259,13 @@ export class FunctionsService implements IFunctionsService {
     updateFunction(fi: FunctionInfo) {
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
+    }
+
+    getFunctionErrors(fi: FunctionInfo) {
+        var headers = this.getHeaders();
+        headers.append('x-functions-key', this.hostSecrets.masterKey);
+        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}`, { headers: headers })
+            .map<string[]>(r => r.json() || []);
     }
 
     private getHeaders(contentType?: string): Headers {
