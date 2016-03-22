@@ -58,7 +58,7 @@ export class LogStreamingComponent implements OnDestroy, OnInit, OnChanges {
         }
 
         this._functionsService.getFunctionErrors(this.functionInfo)
-            .subscribe((r: string[]) => this.hostErrors = r.reduce((a, b) => a + '\n' + b, ''));
+            .subscribe((r: string[]) => this.hostErrors = r.reduce((a, b) => a + b + '\n', ''));
 
         var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
 
