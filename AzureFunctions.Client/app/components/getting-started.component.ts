@@ -123,6 +123,11 @@ export class GettingStartedComponent implements OnInit {
                 this.geoRegions = r
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                if (this.geoRegions.length === 0) {
+                    this.createError = `Subscription ${value.displayName} (${value.subscriptionId}) is not white listed for running functions`;
+                } else {
+                    delete this.createError;
+                }
             });
     }
 

@@ -31,6 +31,8 @@ export class DropDownComponent<T> {
         // If there is only 1, auto-select it
         if (this._options.length > 0) {
             this.onSelect(this._options[0].id.toString());
+        } else if (this._options.length === 0) {
+            delete this.selectedValue;
         }
     }
 
