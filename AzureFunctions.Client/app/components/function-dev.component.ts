@@ -10,6 +10,7 @@ import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {PortalService} from '../services/portal.service';
+import {BindingType} from '../models/binding';
 
 @Component({
     selector: 'function-dev',
@@ -39,6 +40,7 @@ export class FunctionDevComponent implements OnChanges {
 
     public runResult: string;
     public running: Subscription;
+    public showFunctionInvokeUrl: boolean = false;
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -55,6 +57,11 @@ export class FunctionDevComponent implements OnChanges {
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._broadcastService.setBusyState();
+                var index = fi.config.bindings.findIndex((b) => {
+                    return b.type === BindingType.httpTrigger.toString();
+                });
+                this.showFunctionInvokeUrl = index === -1 ? false : true;
+
                 return Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
@@ -62,7 +69,7 @@ export class FunctionDevComponent implements OnChanges {
                     (c, s, f) => ({ content: c, secrets: s, functionInfo: f }))
             })
             .subscribe((res: any) => {
-                this._broadcastService.clearBusyState();
+                this._broadcastService.clearBusyState();                
                 this.functionInfo = res.functionInfo;
                 var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.fileName = fileName;
