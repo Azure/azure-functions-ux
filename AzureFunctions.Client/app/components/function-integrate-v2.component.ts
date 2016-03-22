@@ -31,7 +31,7 @@ export class FunctionIntegrateV2Component {
     public currentBindingId: string = "";
 
     private _elementRef: ElementRef;
-    private  _functionInfo: FunctionInfo;                
+    private  _functionInfo: FunctionInfo;
     private _bindingManager: BindingManager = new BindingManager();
     
     set selectedFunction(fi: FunctionInfo) {
@@ -58,11 +58,11 @@ export class FunctionIntegrateV2Component {
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {    
+        private _broadcastService: IBroadcastService) {
         this._elementRef = elementRef;
     }
 
-    newBinding(type: DirectionType) {        
+    newBinding(type: DirectionType) {
         if (!this.checkDirty()) {
             return;
         }
@@ -139,7 +139,7 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
-        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {                        
+        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
     }

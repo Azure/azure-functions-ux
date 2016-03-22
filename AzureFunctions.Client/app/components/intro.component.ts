@@ -14,14 +14,14 @@ import {BindingManager} from '../models/binding-manager';
     styleUrls: ['styles/template-picker.style.css'] 
 })
 
-export class IntroComponent {    
-    @Input() functionsInfo: FunctionInfo[];    
+export class IntroComponent {
+    @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
     bc: BindingManager = new BindingManager();
 
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
-        private _portalService: PortalService) {                
+        private _portalService: PortalService) {
     }
 
     onFunctionCliked(selectedFunction: string) {
@@ -31,20 +31,20 @@ export class IntroComponent {
     }
 
     onCreateNewFunction() {
-        this._functionsService.getTemplates().subscribe((templates) => {       
+        this._functionsService.getTemplates().subscribe((templates) => {
             var selectedTemplate: FunctionTemplate;
 
             switch (this.selectedFunction) {
-                case 'timer':                    
+                case 'timer':
                     selectedTemplate = templates.find((t) => (t.id === "TimerTrigger-NodeJS"));
                     break;
-                case 'data':                    
+                case 'data':
                     selectedTemplate = templates.find((t) => (t.id === "QueueTrigger-NodeJS"));
                     break;
-                case 'webhook':                    
+                case 'webhook':
                     selectedTemplate = templates.find((t) => (t.id === "HttpTrigger-NodeJS"));
                     break;
-                //case 'iot':                    
+                //case 'iot':
                 //    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
                 //    break;
             } 
@@ -92,7 +92,7 @@ export class IntroComponent {
         });
     }
 
-    createFromScratch() {                
+    createFromScratch() {
         this._portalService.logAction('intro-create-from-scratch', 'created');
         this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[0]);
     }

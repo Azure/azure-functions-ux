@@ -10,7 +10,7 @@ import {PortalService} from '../services/portal.service';
 declare var jQuery: any;
 
 @Component({
-    selector: 'binding',    
+    selector: 'binding',
     templateUrl: './templates/binding.component.html',
     //changeDetection: ChangeDetectionStrategy.OnPush,
     inputs: ['binding', 'clickSave'],
@@ -29,7 +29,7 @@ export class BindingComponent {
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
     public hasInputsToShow = true;
-    public isDirty: boolean = false;    
+    public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     
@@ -38,7 +38,7 @@ export class BindingComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
         private _portalService: PortalService) {
-        this._elementRef = elementRef;                         
+        this._elementRef = elementRef;
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
@@ -57,7 +57,7 @@ export class BindingComponent {
             });
     }    
 
-    set clickSave(value: boolean) {   
+    set clickSave(value: boolean) {
         if (value) {
             this.saveClicked();
         }
@@ -65,10 +65,10 @@ export class BindingComponent {
 
     set binding(value: UIFunctionBinding) {
         this.isDirty = false;
-        var that = this;     
+        var that = this;
         this._functionsService.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
-            // Convert settings to input conotrls        
+            // Convert settings to input conotrls
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             var newFunction = false;
@@ -193,7 +193,7 @@ export class BindingComponent {
         this.isDirty = false;
     }
 
-    saveClicked() {        
+    saveClicked() {
         this._portalService.logAction(
             "binding-component",
             "save-binding", {
@@ -219,7 +219,7 @@ export class BindingComponent {
         this.isDirty = false;
     }
 
-    onValidChanged(input: BindingInputBase<any>) {        
+    onValidChanged(input: BindingInputBase<any>) {
         this.areInputsValid = this.model.isValid();
         this.validChange.emit(this);
     }

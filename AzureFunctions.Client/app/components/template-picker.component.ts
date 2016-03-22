@@ -40,10 +40,10 @@ export class TemplatePickerComponent {
         this._type = type;
         this._broadcastService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
-            this._functionsService.getBindingConfig().subscribe((config) => {                
-                this._broadcastService.clearBusyState();               
+            this._functionsService.getBindingConfig().subscribe((config) => {
+                this._broadcastService.clearBusyState();
                 this.bindings = config.bindings;
-                this.templates = [];               
+                this.templates = [];
                 switch (type) {
                     case TemplatePickerType.in:
                         this.title = "Choose an input binding";
@@ -117,7 +117,7 @@ export class TemplatePickerComponent {
         this.cancel.emit(""); // this fires an eventClicked
     }
 
-    onTemplateCliked(template: string) {        
+    onTemplateCliked(template: string) {
         this.selectedTemplate = template;
         if (!this.showFooter) {
             this.complete.emit(this.selectedTemplate);
@@ -144,14 +144,14 @@ export class TemplatePickerComponent {
 
             var trigger = this.bindings.find((b) => {
                 return b.direction === DirectionType.trigger;
-            });            
+            });
 
             result.push({
                 name: binding.type.toString(),
-                value: binding.type.toString()                
+                value: binding.type.toString()
             });
         });
 
         return result;
-    }    
+    }
 }

@@ -69,7 +69,7 @@ export class FunctionDevComponent implements OnChanges {
                     (c, s, f) => ({ content: c, secrets: s, functionInfo: f }))
             })
             .subscribe((res: any) => {
-                this._broadcastService.clearBusyState();                
+                this._broadcastService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.fileName = fileName;

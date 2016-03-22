@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
             this._functionsService.getConfig().subscribe((config) => {
                 this.setDisabled(config);
 
-                if(fi.name !== "New Function") {                    
+                if(fi.name !== "New Function") {
                     this._functionsService.getFunction(fi).subscribe((fi) => {
                         this.selectedFunction = fi;
                         this._broadcastService.clearBusyState();

@@ -28,7 +28,7 @@ export class FunctionNewComponent {
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
-    bc: BindingManager = new BindingManager();    
+    bc: BindingManager = new BindingManager();
     model: BindingList = new BindingList();
     clickSave: boolean = false;
     updateBindingsCount = 0;
@@ -37,7 +37,7 @@ export class FunctionNewComponent {
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
     public disabled: boolean;
-    private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();    
+    private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
 
 
@@ -57,23 +57,23 @@ export class FunctionNewComponent {
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
-            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);            
+            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
 
-            this._functionsService.getBindingConfig().subscribe((bindings) => {    
+            this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this._broadcastService.clearBusyState();
                 this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
-                                            
+
                 this.model.config = this.bc.functionConfigToUI({
-                    disabled: false,                    
+                    disabled: false,
                     bindings: this.selectedTemplate.function.bindings
-                }, bindings.bindings);                
+                }, bindings.bindings);
 
                 this.model.config.bindings.forEach((b) => {
                     b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
                 });
 
                 this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
-                    
+
                 this.model.setBindings();
                 this.validate();
             });
@@ -103,29 +103,29 @@ export class FunctionNewComponent {
         this.updateBindingsCount--;
 
         if (this.updateBindingsCount === 0) {
-            //Last binding update            
+            //Last binding update
             this.createFunction();
         }
     }
 
-    functionNameChanged(value: string) {        
+    functionNameChanged(value: string) {
         this.validate();
     }
 
-    onValidChanged(component: BindingComponent) {        
-        var i = this._bindingComponents.findIndex((b) => {           
+    onValidChanged(component: BindingComponent) {
+        var i = this._bindingComponents.findIndex((b) => {
             return b.bindingValue.id === component.bindingValue.id;
         });
 
         if (i !== -1) {
             this._bindingComponents[i] = component;
         } else {
-            this._bindingComponents.push(component);            
+            this._bindingComponents.push(component);
         }
         this.validate();
     }
 
-    private validate() {        
+    private validate() {
         this.areInputsValid = this.functionName ? true : false;
         this.functionNameClass = this.areInputsValid ? 'col-md-3' : 'col-md-3 has-error';
         this._bindingComponents.forEach((b) => {
@@ -133,9 +133,9 @@ export class FunctionNewComponent {
         });      
     }
 
-    private createFunction() {         
+    private createFunction() {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id });
-        this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));       
+        this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
         if (this.selectedTemplate.files["sample.dat"]) {
             this.selectedTemplate.files["../../../data/functions/sampledata/" + this.functionName + ".dat"] = this.selectedTemplate.files["sample.dat"];
             delete this.selectedTemplate.files["sample.dat"];
@@ -146,14 +146,14 @@ export class FunctionNewComponent {
             .subscribe(res => {
                 if (!res) {
                     this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id });
-                    this._broadcastService.clearBusyState();                    
+                    this._broadcastService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.Error, "Function creation error! Please try again.");
                     return;
                 }
 
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id });
 
-                window.setTimeout(() => {                    
+                window.setTimeout(() => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                     this._broadcastService.clearBusyState();
                 }, 1500);

@@ -29,12 +29,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
-    set selectedFunction(value: FunctionInfo) {        
+    set selectedFunction(value: FunctionInfo) {
         this._selectedFunction = value;
         this.configContent = JSON.stringify(value.config, undefined, 2);
     }
 
-    contentChanged(content: string) {        
+    contentChanged(content: string) {
         if (!this.isDirty) {
             this.isDirty = true;
             this._broadcastService.setDirtyState('function');
@@ -44,7 +44,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this.updatedContent = content;
     }
 
-    saveConfig() {        
+    saveConfig() {
         if (this.isDirty) {
             this._selectedFunction.config = JSON.parse(this.updatedContent);
             this._functionsService.updateFunction(this._selectedFunction)
