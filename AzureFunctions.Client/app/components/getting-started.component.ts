@@ -118,7 +118,7 @@ export class GettingStartedComponent implements OnInit {
                 this._broadcastService.clearBusyState();
                 this.functionContainerNameEvent.emit(this.functionContainerName);
             });
-        this._armService.getDeynamicStampLocations(value.subscriptionId)
+        this._armService.getDynamicStampLocations(value.subscriptionId)
             .subscribe(r => {
                 this.geoRegions = r
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))

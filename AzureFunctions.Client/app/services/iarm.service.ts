@@ -9,5 +9,5 @@ export abstract class IArmService {
     abstract getFunctionContainer(armId: string): Observable<FunctionContainer>;
     abstract updateMemorySize(functionContainer: FunctionContainer, memorySize: number): Observable<FunctionContainer>;
     abstract validateSiteNameAvailable(subscriptionId: string, containerName: string): Observable<boolean>;
-    abstract getDeynamicStampLocations(subscriptionId: string): Observable<{ name: string, displayName: string }[]>;
+    abstract getDynamicStampLocations(subscriptionId: string): Observable<{ name: string, displayName: string }[]>;
 }
