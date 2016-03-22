@@ -48,9 +48,7 @@ export class GettingStartedComponent implements OnInit {
         this.functionContainerName = `functions${this.makeId()}`;
         this.functionContainers = [];
         this.userReady = new EventEmitter<FunctionContainer>();
-        this.geoRegions = ['West US']
-            .map(e => ({ displayLabel: e, value: e }))
-            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+        this.geoRegions = [];
         this.functionContainerNameEvent = new EventEmitter<string>();
         this.functionContainerNameEvent
             .switchMap<{ isValid: boolean; reason: string}>(() => this.validateContainerName(this.functionContainerName))
@@ -112,12 +110,19 @@ export class GettingStartedComponent implements OnInit {
 
     onSubscriptionSelect(value: Subscription) {
         this._broadcastService.setBusyState();
+        delete this.selectedGeoRegion;
         this._armService.getFunctionContainers(value.subscriptionId)
             .subscribe(fc => {
                 this.selectedSubscription = value;
                 this.functionContainers = fc;
                 this._broadcastService.clearBusyState();
                 this.functionContainerNameEvent.emit(this.functionContainerName);
+            });
+        this._armService.getDeynamicStampLocations(value.subscriptionId)
+            .subscribe(r => {
+                this.geoRegions = r
+                    .map(e => ({ displayLabel: e.displayName, value: e.name }))
+                    .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
             });
     }
 
