@@ -138,7 +138,7 @@ export class FunctionsService implements IFunctionsService {
             ? `${this.mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
             : `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
 
-        var _content: any = inputBinding
+        var _content: string = inputBinding
             ? content
             : JSON.stringify({ input: content });
 
