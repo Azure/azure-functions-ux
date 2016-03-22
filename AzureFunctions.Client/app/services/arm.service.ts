@@ -108,7 +108,8 @@ export class ArmService implements IArmService {
                         { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~0.1' },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
-                        { name: `${storageAccount.name}_STORAGE`, value: connectionString }
+                        { name: `${storageAccount.name}_STORAGE`, value: connectionString },
+                        { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' }
                     ]
                 },
                 scmType: 'LocalGit'
