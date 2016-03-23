@@ -58,7 +58,9 @@ export enum DirectionType {
 
 export enum ResourceType {
     Storage = <any>"Storage",
-    EventHub = <any>"EventHub"    
+    EventHub = <any>"EventHub",
+    ServiceBus = <any>"ServiceBus",
+    DocumentDB = <any>"DocumentDB"       
 }
 
 export enum SettingType {

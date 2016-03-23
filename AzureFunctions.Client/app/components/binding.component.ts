@@ -153,7 +153,7 @@ export class BindingComponent {
                 inputTb.isHidden = newFunction;
                 inputTb.required = true;
                 inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
-                inputTb.help = "Parameter name";
+                inputTb.help = bindingSchema.parameterNamePrompt || "Parameter name";
                 inputTb.validators = [
                     {
                         expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
