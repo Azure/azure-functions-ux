@@ -13,7 +13,8 @@
     serviceBusTrigger = <any>"serviceBusTrigger",
     manualTrigger = <any>"manualTrigger",
     documentdb = <any>"documentdb",
-    easyTable = <any>"easyTable"
+    easyTable = <any>"easyTable",
+    notificationHub = <any>"notificationHub"
 }
 
 export interface BindingConfig {
