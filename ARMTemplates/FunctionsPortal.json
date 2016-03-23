@@ -39,7 +39,10 @@
       "location":"[parameters('appLocation')]",
       "properties":{
         "serverFarmId":"[parameters('appServicePlanId')]",
-        "hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"]
+        // "hostNames" only work after the initial creation.
+        //"hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"],
+        // "hostNameSslStates" only works after the hostname is added by "hostNamed" above
+        //"hostNameSslStates": [{"name": "functions.azure.com", "sslState": 1, "thumbprint": "24FF1B66125A680A292AC71EDD4230F14A6174A4", "toUpdate": true}]
       },
       "resources": [
         {
@@ -61,7 +64,7 @@
                 "[resourceId('Microsoft.Web/Sites/slots', parameters('appName'), variables('slotName'))]"
               ],
               "properties":{
-                "RepoUrl":"https://github.com/projectkudu/WebJobsPortal",
+                "RepoUrl":"https://github.com/projectkudu/AzureFunctions",
                 "branch":"master"
               }
             }
