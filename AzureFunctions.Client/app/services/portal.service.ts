@@ -1,7 +1,9 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
+
 import {Observable, ReplaySubject} from 'rxjs/Rx';
-import {Event, Data, Verbs, Action} from '../models/portal';
+import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
+import {BroadcastEvent, IBroadcastService} from './ibroadcast.service';
 
 @Injectable()
 export class PortalService implements IPortalService {
@@ -11,7 +13,7 @@ export class PortalService implements IPortalService {
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
-    constructor() {
+    constructor(private _broadcastService : IBroadcastService) {
         this.tokenObservable = new ReplaySubject<string>(1);
         this.resourceIdObservable = new ReplaySubject<string>(1);
         if (this.inIFrame()){
@@ -36,6 +38,10 @@ export class PortalService implements IPortalService {
         // This is a required message. It tells the shell that your iframe is ready to receive messages.
         this.postMessage(Verbs.ready, null);
         this.postMessage(Verbs.getAuthToken, null);
+
+        this._broadcastService.subscribe<string>(BroadcastEvent.Error, (message : string) =>{
+            this.logMessage(LogEntryLevel.Error, message);
+        });
     }
 
     openBlade(name: string, source: string) : void{
@@ -62,7 +68,16 @@ export class PortalService implements IPortalService {
     setDirtyState(dirty : boolean) : void{
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
     }
+    
+    logMessage(level : LogEntryLevel, message : string, ...restArgs: any[]){
+        let messageStr = JSON.stringify(<Message>{
+            level : level,
+            message : message,
+            restArgs : restArgs
+        });
 
+        this.postMessage(Verbs.logMessage, messageStr);
+    }
 
     private iframeReceivedMsg(event: Event): void {
         
