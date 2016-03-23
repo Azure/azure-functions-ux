@@ -123,8 +123,7 @@ export class ArmService implements IArmService {
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
                         { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' }
                     ]
-                },
-                scmType: 'LocalGit'
+                }
             },
             location: geoRegion,
             kind: 'functionapp'
