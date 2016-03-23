@@ -28,7 +28,7 @@ export class BindingComponent {
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
-    public hasInputsToShow = true;
+    public hasInputsToShow = false;
     public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
