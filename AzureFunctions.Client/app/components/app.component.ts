@@ -46,22 +46,13 @@ export class AppComponent implements OnInit {
 
         if (!this.gettingStarted) {
             if (this._userService.inIFrame) {
-                var _token;
-
-                // Used to handle initialization, as well as resourceId changes sent from Ibiza. 
-                this._portalService.getResourceId()
-                    .distinctUntilChanged()
-                    .debounceTime(500)
-                    .subscribe((resourceId: string) => {
-
-                    if (_token) {
-                        this.initializeDashboard(resourceId);
-                    } else {
-                        this._userService.getToken().subscribe((token: string) => {
-                            _token = token;
+                this._userService.getToken().subscribe((token : string) =>{
+                    this._portalService.getResourceId()
+                        .distinctUntilChanged()
+                        .debounceTime(500)
+                        .subscribe((resourceId: string) => {
                             this.initializeDashboard(resourceId);
                         });
-                    }
                 });
             } else {
                 // Initialize for mocked data

@@ -1,19 +1,19 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
-import {Observable, Subject} from 'rxjs/Rx';
+import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action} from '../models/portal';
 
 @Injectable()
 export class PortalService implements IPortalService {
     private portalSignature: string = "FxAppBlade";
-    private resourceIdObservable: Subject<string>;
-    private tokenObservable: Subject<string>;
+    private resourceIdObservable: ReplaySubject<string>;
+    private tokenObservable: ReplaySubject<string>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
     constructor() {
-        this.tokenObservable = new Subject<string>();
-        this.resourceIdObservable = new Subject<string>();
+        this.tokenObservable = new ReplaySubject<string>(1);
+        this.resourceIdObservable = new ReplaySubject<string>(1);
         if (this.inIFrame()){
             this.initializeIframe();
         }
