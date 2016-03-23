@@ -47,13 +47,13 @@ namespace AzureFunctions.Authentication
             else
             {
                 // throw?
-                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity("SCM"));
+                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
             }
 
             HttpContext.Current.User = principal;
             Thread.CurrentPrincipal = principal;
 
-            return (principal.Identity as AzureFunctionsIdentity).IsAuthenticated;
+            return (principal.Identity as AzureFunctionsIdentity)?.IsAuthenticated == true;
         }
 
         public void PutOnCorrectTenant(HttpContextBase context)
