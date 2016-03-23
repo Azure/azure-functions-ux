@@ -23,7 +23,7 @@ namespace AzureFunctions.Authentication
             var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
             var portalToken = request.Headers[Constants.PortalTokenHeader];
 
-            if (principalName.Equals(Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
                 if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
                     request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.MsPortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
