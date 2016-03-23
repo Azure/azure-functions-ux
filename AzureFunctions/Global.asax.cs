@@ -67,13 +67,13 @@ namespace AzureFunctions
                 }
                 else if (!isFile && isQuery)
                 {
-                    context.Response.WriteFile("landing.html");
+                    context.Response.WriteFile(HostingEnvironment.MapPath("~/landing.html"));
                     context.Response.Flush();
                     context.Response.End();
                 }
                 else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
                 {
-                    context.Response.WriteFile("health.html");
+                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
                     context.Response.Flush();
                     context.Response.End();
                 }
