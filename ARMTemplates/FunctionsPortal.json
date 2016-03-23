@@ -38,7 +38,8 @@
       "type":"Microsoft.Web/sites",
       "location":"[parameters('appLocation')]",
       "properties":{
-        "serverFarmId":"[parameters('appServicePlanId')]"
+        "serverFarmId":"[parameters('appServicePlanId')]",
+        "hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"]
       },
       "resources": [
         {
@@ -60,7 +61,7 @@
                 "[resourceId('Microsoft.Web/Sites/slots', parameters('appName'), variables('slotName'))]"
               ],
               "properties":{
-                "RepoUrl":"https://github.com/projectkudu/AzureFunctions",
+                "RepoUrl":"https://github.com/projectkudu/WebJobsPortal",
                 "branch":"master"
               }
             }
