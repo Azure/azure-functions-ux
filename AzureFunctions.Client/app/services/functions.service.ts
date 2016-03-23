@@ -145,11 +145,20 @@ export class FunctionsService implements IFunctionsService {
             ? content
             : JSON.stringify({ input: content });
 
-        var mediaType = inputBinding
-            ? (inputBinding.webHookType ? 'application/json' : 'plain/text')
-            : 'application/json';
+        var contentType: string;
+        if (!inputBinding || inputBinding && inputBinding.webHookType) {
+            contentType = 'application/json';
+        } else {
+            try {
+                var temp = JSON.parse(_content);
+                contentType = 'application/json';
+            } catch (e) {
+                contentType = 'plain/text';
+            }
+        }
 
-        var headers = this.getHeaders(mediaType);
+        var headers = this.getHeaders(contentType);
+
         headers.append('x-functions-key', this.hostSecrets.masterKey);
 
         return this._http.post(url, _content, { headers: headers })
