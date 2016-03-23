@@ -71,6 +71,11 @@ namespace AzureFunctions
                     context.Response.Flush();
                     context.Response.End();
                 }
+                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Response.StatusCode = 200;
+                    context.Response.End();
+                }
                 else if (!isFile && !isQuery)
                 {
                     context.Response.StatusCode = 401;
