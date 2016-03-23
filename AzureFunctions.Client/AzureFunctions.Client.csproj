@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="health.html" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
