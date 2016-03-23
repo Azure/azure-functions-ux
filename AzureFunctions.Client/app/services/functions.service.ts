@@ -261,7 +261,7 @@ export class FunctionsService implements IFunctionsService {
     getFunctionErrors(fi: FunctionInfo) {
         var headers = this.getHeaders();
         headers.append('x-functions-key', this.hostSecrets.masterKey);
-        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}`, { headers: headers })
+        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: headers })
             .map<string[]>(r => r.json().errors || []);
     }
 
