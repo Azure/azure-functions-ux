@@ -138,10 +138,7 @@ export class FunctionNewComponent {
     private createFunction() {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id });
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
-        if (this.selectedTemplate.files["sample.dat"]) {
-            this.selectedTemplate.files["../../../data/functions/sampledata/" + this.functionName + ".dat"] = this.selectedTemplate.files["sample.dat"];
-            delete this.selectedTemplate.files["sample.dat"];
-        }
+
         
         this._broadcastService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
