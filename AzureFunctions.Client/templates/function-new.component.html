@@ -6,8 +6,10 @@
 
     <template-picker *ngIf="!disabled" [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
 
+    <p *ngIf="functionDescription">{{functionDescription}}</p>
+
     <div>
-        <h2 *ngIf="model.trigger">Configuration</h2>
+        <h2 *ngIf="selectedTemplate">Configuration</h2>        
         <form *ngIf="selectedTemplate" class="form-horizontal">
             <div class="form-group">
                 <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>

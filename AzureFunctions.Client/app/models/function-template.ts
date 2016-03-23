@@ -19,4 +19,5 @@ export interface FunctionTemplateMetadata {
     category?: string[];
     userPrompt?: string[];
     defaultFunctionName?: string;
+    description?: string;
 }
