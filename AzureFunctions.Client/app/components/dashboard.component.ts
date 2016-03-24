@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         Observable.fromEvent(document, 'click')
             .debounceTime(60000) // 1 minute
             .switchMap<string[]>(() => this._functionsService.getHostErrors())
-            .subscribe(e => errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
+            .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
     }
 
     ngOnInit() {
