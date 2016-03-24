@@ -3,12 +3,19 @@
         Function App Settings
     </div>
 
-    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
+    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper features-wrapper">
         <label>Memory Size</label>
-        <div>
-            <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize)">
-            <span>{{memorySize}} MB</span>
-            <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">Save</button>
+        <div >
+            <!-- TODO: move css -->
+            <div style="flex-grow: 10">
+                <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize)">
+            </div>
+            <div style="flex-grow: 1">
+                <span>{{memorySize}} MB</span>
+            </div>
+            <div style="flex-grow: 1">
+                <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">Save</button>
+            </div>
         </div>
     </div>
 

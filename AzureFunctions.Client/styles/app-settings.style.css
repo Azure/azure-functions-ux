@@ -49,7 +49,6 @@ h2 {
 
 input[type=range] {
     -webkit-appearance: none;
-    width: 60%;
     display: inline-block;
 }
 
