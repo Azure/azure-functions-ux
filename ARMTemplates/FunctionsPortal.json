@@ -39,6 +39,9 @@
       "location":"[parameters('appLocation')]",
       "properties":{
         "serverFarmId":"[parameters('appServicePlanId')]",
+        "siteConfig": {
+          "alwaysOn": true
+        }
         // "hostNames" only work after the initial creation.
         //"hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"],
         // "hostNameSslStates" only works after the hostname is added by "hostNamed" above
