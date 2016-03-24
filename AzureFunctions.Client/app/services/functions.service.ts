@@ -265,6 +265,13 @@ export class FunctionsService implements IFunctionsService {
             .map<string[]>(r => r.json().errors || []);
     }
 
+    getHostErrors() {
+        var headers = this.getHeaders();
+        headers.append('x-functions-key', this.hostSecrets.masterKey);
+        return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: headers })
+            .map<string[]>(r => r.json().errors || []);
+    }
+
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();

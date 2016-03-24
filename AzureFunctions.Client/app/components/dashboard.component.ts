@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild, Input ,OnChanges} from 'angular2/core';
+﻿import {Component, OnInit, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {FunctionNewV2Component} from './function-new-v2.component';
@@ -102,8 +102,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         // TODO: What's the right way of doing something like this?
         Observable.fromEvent(document, 'click')
             .debounceTime(60000) // 1 minute
-            .switchMap<string>(() => this._functionsService.warmupMainSite())
-            .subscribe(e => console.log(e));
+            .switchMap<string[]>(() => this._functionsService.getHostErrors())
+            .subscribe(e => errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
     }
 
     ngOnInit() {
@@ -112,8 +112,11 @@ export class DashboardComponent implements OnInit, OnChanges {
 
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
     // like for instance if we get a new resourceId from Ibiza.
-    ngOnChanges() {
-        this.initFunctions();
+    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+        if (changes['functionContainer'] &&
+            !changes['functionContainer'].isFirstChange) {
+            this.initFunctions();
+        }
     }
 
     initFunctions() {
@@ -127,7 +130,11 @@ export class DashboardComponent implements OnInit, OnChanges {
                 this.resetView(true);
             });
         this._functionsService.warmupMainSite();
-        this._functionsService.getHostSecrets();
+        this._functionsService.getHostSecrets()
+            .add(() => {
+                this._functionsService.getHostErrors()
+                .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
+            });
     }
 
     onAppMonitoringClicked() {

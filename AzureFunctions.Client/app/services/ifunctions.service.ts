@@ -37,4 +37,5 @@ export interface IFunctionsService {
     getBindingConfig(): Observable<BindingConfig>;
     updateFunction(fi: FunctionInfo): Observable<FunctionInfo>;
     getFunctionErrors(fi: FunctionInfo): Observable<string[]>;
+    getHostErrors(): Observable<string[]>;
 }

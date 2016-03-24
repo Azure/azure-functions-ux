@@ -250,4 +250,8 @@ export class MockFunctionsService implements IFunctionsService {
     getFunctionErrors(fi: FunctionInfo) {
         return Observable.of(['error']);
     }
+
+    getHostErrors() {
+        return Observable.of(['error']);
+    }
 }
