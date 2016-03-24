@@ -179,6 +179,12 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   call :ExecuteCmd npm run tsc
   IF !ERRORLEVEL! NEQ 0 goto error
 
+  call :ExecuteCmd rm index.html
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  call :ExecuteCmd ren index.html.prod index.html
+  IF !ERRORLEVEL! NEQ 0 goto error
+
   call :ExecuteCmd "D:\home\npm_tools\jspm.cmd" bundle-sfx app sfx/app.js
   IF !ERRORLEVEL! NEQ 0 goto error
 

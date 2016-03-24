@@ -1,12 +1,6 @@
-html, body {
-  height: 100%;
-}
-
 body {
-  margin: 0;
-}
-
-body {
+    margin: 0;
+    height: 100%;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
     background-color: #FFF;
 }
