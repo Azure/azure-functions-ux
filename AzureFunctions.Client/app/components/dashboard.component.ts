@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
+﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {FunctionNewV2Component} from './function-new-v2.component';
@@ -40,7 +40,7 @@ import {Observable} from 'rxjs/Rx';
         TutorialComponent
     ]
 })
-export class DashboardComponent implements OnInit, OnChanges {
+export class DashboardComponent implements OnChanges {
     @ViewChild(SideBarComponent) sideBar: SideBarComponent;
     @Input() functionContainer: FunctionContainer;
 
@@ -102,17 +102,10 @@ export class DashboardComponent implements OnInit, OnChanges {
             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
     }
 
-    ngOnInit() {
-        this.initFunctions();
-    }
-
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
     // like for instance if we get a new resourceId from Ibiza.
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (changes['functionContainer'] &&
-            !changes['functionContainer'].isFirstChange) {
-            this.initFunctions();
-        }
+        this.initFunctions();
     }
 
     initFunctions() {
