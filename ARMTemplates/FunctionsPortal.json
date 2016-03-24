@@ -4,76 +4,86 @@
   "parameters":{
     "storageAccountName": {
       "type": "string"
-    },
-    "appName":{
-      "type":"string"
-    },
-    "appLocation":{
-      "type":"string"
-    },
-    "appServicePlanId":{
-      "type":"string"
-    }
-  },
-  "variables": {
-    "location": "[resourceGroup().location]",
-    "slotName": "Staging",
-    "storageAccountName": "[parameters('storageAccountName')]",
-    "storageAccountType": "Standard_LRS",
-    "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
-  },
-  "resources":[
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[variables('location')]",
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
-      }
-    },
-    {
-      "apiVersion":"2015-08-01",
-      "name":"[parameters('appName')]",
-      "type":"Microsoft.Web/sites",
-      "location":"[parameters('appLocation')]",
-      "properties":{
-        "serverFarmId":"[parameters('appServicePlanId')]",
-        "siteConfig": {
-          "alwaysOn": true
-        }
-        // "hostNames" only work after the initial creation.
-        //"hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"],
-        // "hostNameSslStates" only works after the hostname is added by "hostNamed" above
-        //"hostNameSslStates": [{"name": "functions.azure.com", "sslState": 1, "thumbprint": "24FF1B66125A680A292AC71EDD4230F14A6174A4", "toUpdate": true}]
       },
-      "resources": [
+      "appName":{
+        "type":"string"
+        },
+        "appLocation":{
+          "type":"string"
+          },
+          "appServicePlanId":{
+            "type":"string"
+          }
+          },
+          "variables": {
+            "location": "[resourceGroup().location]",
+            "slotName": "Staging",
+            "storageAccountName": "[parameters('storageAccountName')]",
+            "storageAccountType": "Standard_LRS",
+            "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+            },
+            "resources":[
+            {
+              "type": "Microsoft.Storage/storageAccounts",
+              "name": "[variables('storageAccountName')]",
+              "apiVersion": "2015-05-01-preview",
+              "location": "[variables('location')]",
+              "properties": {
+                "accountType": "[variables('storageAccountType')]"
+              }
+              },
+              {
+                "apiVersion":"2015-08-01",
+                "name":"[parameters('appName')]",
+                "type":"Microsoft.Web/sites",
+                "location":"[parameters('appLocation')]",
+                "properties":{
+                  "serverFarmId":"[parameters('appServicePlanId')]",
+                  "siteConfig": {
+                    "alwaysOn": true,
+                    "appSettings": [ 
+                      { "name": "functions_slot_name", "value": "production" },
+                      { "name": "WEBSITE_NODE_DEFAULT_VERSION", "value": "4.2.3"}
+                    ]
+                  },
+                // "hostNames" only work after the initial creation.
+                  //"hostNames": ["functions.trafficmanager.net", "functions.azure.com", "[concat(parameters('appName'), '.azurewebsites.net')]"],
+                // "hostNameSslStates" only works after the hostname is added by "hostNamed" above
+                  //"hostNameSslStates": [{"name": "functions.azure.com", "sslState": 1, "thumbprint": "24FF1B66125A680A292AC71EDD4230F14A6174A4", "toUpdate": true}]
+        },
+        "resources": [
         {
           "apiVersion": "2015-08-01",
           "name": "[variables('slotName')]",
           "type": "slots",
           "location": "[parameters('appLocation')]",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('appName'))]"
+          "[resourceId('Microsoft.Web/Sites', parameters('appName'))]"
           ],
           "properties": {
-          },
-          "resources": [
+            "siteConfig": {
+              "appSettings": [
+                { "name": "functions_slot_name", "value": "staging" },
+                { "name": "WEBSITE_NODE_DEFAULT_VERSION", "value": "4.2.3"}
+              ]
+            }
+            },
+            "resources": [
             {
               "apiVersion":"2015-08-01",
               "name":"web",
               "type":"sourcecontrols",
               "dependsOn":[
-                "[resourceId('Microsoft.Web/Sites/slots', parameters('appName'), variables('slotName'))]"
+              "[resourceId('Microsoft.Web/Sites/slots', parameters('appName'), variables('slotName'))]"
               ],
               "properties":{
                 "RepoUrl":"https://github.com/projectkudu/AzureFunctions",
                 "branch":"master"
               }
             }
+            ]
+          }
           ]
         }
-      ]
-    }
-  ]
-}
+        ]
+      }

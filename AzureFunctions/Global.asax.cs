@@ -212,12 +212,13 @@ namespace AzureFunctions
         {
             try
             {
-                var hostName = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+                var slotName = Environment.GetEnvironmentVariable("functions_slot_name");
                 // localhost
-                if (string.IsNullOrEmpty(hostName)) return;
+                if (string.IsNullOrEmpty(slotName)) return;
+
                 var indexHtml = File.ReadAllText(HostingEnvironment.MapPath("~/index.html"));
 
-                if (hostName.IndexOf("staging", StringComparison.OrdinalIgnoreCase) == -1)
+                if (slotName.Equals("staging", StringComparison.OrdinalIgnoreCase))
                 {
                     // prod
                     if (indexHtml.IndexOf("functions.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
