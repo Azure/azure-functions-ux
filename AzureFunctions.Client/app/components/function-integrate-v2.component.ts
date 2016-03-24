@@ -140,6 +140,7 @@ export class FunctionIntegrateV2Component {
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
 
+        // Update test_data only from develop tab
         if (this._functionInfo.test_data) {
             delete this._functionInfo.test_data;
         }
