@@ -10,7 +10,6 @@ export class BroadcastService implements IBroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private goToIntroEvent: EventEmitter<void>;
     private busyStateEvent: EventEmitter<boolean>;
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
@@ -24,7 +23,6 @@ export class BroadcastService implements IBroadcastService {
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.busyStateEvent = new EventEmitter<boolean>();
-        this.goToIntroEvent = new EventEmitter<void>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<string>();
@@ -103,9 +101,6 @@ export class BroadcastService implements IBroadcastService {
 
             case BroadcastEvent.BusyState:
                 return this.busyStateEvent;
-
-            case BroadcastEvent.GoToIntro:
-                return this.goToIntroEvent;
 
             case BroadcastEvent.TutorialStep:
                 return this.tutorialStepEvent;

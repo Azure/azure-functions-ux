@@ -18,7 +18,6 @@ export enum BroadcastEvent {
     FunctionSelected,
     FunctionUpdated,
     BusyState,
-    GoToIntro,
     TutorialStep,
     IntegrateChanged,
     Error

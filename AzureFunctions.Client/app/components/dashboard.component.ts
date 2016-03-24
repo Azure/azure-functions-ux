@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
-            this.resetView(false);
+            this.resetView();
             this.sideBar.selectedFunction = fi;
             
             this._broadcastService.setBusyState();
@@ -93,10 +93,6 @@ export class DashboardComponent implements OnInit, OnChanges {
             if (index !== -1) {
                 this.functionsInfo[index] = fi;
             }
-        });
-
-        this._broadcastService.subscribe<void>(BroadcastEvent.GoToIntro, () => {
-            this.resetView(true);
         });
 
         // TODO: What's the right way of doing something like this?
@@ -127,7 +123,8 @@ export class DashboardComponent implements OnInit, OnChanges {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._broadcastService.clearBusyState();
-                this.resetView(true);
+                this.resetView();
+                this.openIntro = true;
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets()
@@ -138,19 +135,24 @@ export class DashboardComponent implements OnInit, OnChanges {
     }
 
     onAppMonitoringClicked() {
-        this.resetView(false);
+        this.resetView();
         this.openAppMonitoring = true;
     }
 
     onAppSettingsClicked() {
-        this.resetView(false);
+        this.resetView();
         this.openAppSettings = true;
     }
 
-    private resetView(openIntro : boolean) {
+    onQuickstartClicked() {
+        this.resetView();
+        this.openIntro = true;
+    }
+
+    private resetView() {
         this.openAppSettings = false;
-        this.openIntro = openIntro;
         this.openAppMonitoring = false;
+        this.openIntro = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;
     }

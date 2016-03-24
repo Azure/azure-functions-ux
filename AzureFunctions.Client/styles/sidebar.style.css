@@ -8,11 +8,10 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #F3F3F3;
+    background-color: #E6E7E8;
     bottom: 0;
     overflow-y: auto;
-    z-index: 10;
-    padding-top: 40px;
+    z-index: 100;
 }
 
 .sidebar-iframe{
