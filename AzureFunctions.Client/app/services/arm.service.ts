@@ -1,4 +1,4 @@
-﻿import {Http, Headers} from 'angular2/http';
+import {Http, Headers, Response} from 'angular2/http';
 import {Injectable, EventEmitter} from 'angular2/core';
 import {IArmService} from './iarm.service';
 import {Subscription} from '../models/subscription';
@@ -44,20 +44,7 @@ export class ArmService implements IArmService {
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
         geoRegion = geoRegion.replace(' ', '');
-        var observable = Observable.create();
-        var continuation = () => this.getResrouceGroup(subscription, geoRegion)
-        .subscribe(
-            rg => {
-                this.getStorageAccount(subscription, geoRegion)
-                .subscribe(
-                    sa => sa ? this.pullStorageAccount(subscription, geoRegion, sa, name, result) : this.createStorageAccount(subscription, geoRegion, name, result),
-                    error => this.createStorageAccount(subscription, geoRegion, name, result)
-                    );
-            },
-            error => this.createResoruceGroup(subscription, geoRegion, name, result)
-            );
-
-        this.registerProviders(subscription).subscribe(() => continuation(), e => this.completeError(result, e));
+        this.registerProviders(subscription, geoRegion, name, result);
         return result;
     }
 
@@ -99,14 +86,49 @@ export class ArmService implements IArmService {
             .map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties));
     }
 
-    private registerProviders(subscription: string) {
+    private registerProviders(subscription: string, geoRegion: string, name: string, result: Subject<FunctionContainer>) {
+        var providersUrl = `${this.armUrl}/subscriptions/${subscription}/providers?api-version=${this.armApiVersion}`;
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
         var storageUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Storage/register?api-version=${this.storageApiVersion}`;
-        return Observable.zip(
-            this._http.post(websiteUrl, '', { headers: this.getHeaders() }),
-            this._http.post(storageUrl, '', { headers: this.getHeaders() })
-        );
+
+        var createApp = () => this.getResrouceGroup(subscription, geoRegion)
+            .subscribe(
+            rg => {
+                this.getStorageAccount(subscription, geoRegion)
+                    .subscribe(
+                    sa => sa ? this.pullStorageAccount(subscription, geoRegion, sa, name, result) : this.createStorageAccount(subscription, geoRegion, name, result),
+                    error => this.createStorageAccount(subscription, geoRegion, name, result)
+                    );
+            },
+            error => this.createResoruceGroup(subscription, geoRegion, name, result)
+            );
+
+        var registerProviders = (providers?: string[]) => {
+            var observables: Observable<Response>[] = [];
+            if (!providers || !providers.find(e => e.toLowerCase() === 'microsoft.web')) {
+                observables.push(this._http.post(websiteUrl, '', { headers: this.getHeaders() }));
+            }
+            if (!providers || !providers.find(e => e.toLowerCase() === 'microsoft.storage')) {
+                observables.push(this._http.post(storageUrl, '', { headers: this.getHeaders() }));
+            }
+            if (observables.length > 0) {
+                Observable.forkJoin(observables)
+                    .subscribe(
+                    r => createApp(),
+                    e => this.completeError(result, e));
+            } else {
+                createApp();
+            }
+        };
+
+        this._http.get(providersUrl, { headers: this.getHeaders() })
+            .map<string[]>(r => r.json().value.map(e => e['namespace']))
+            .subscribe(
+            p => registerProviders(p),
+            e => registerProviders());
     }
+
+
 
     private createFunctionApp(subscription: string, geoRegion: string, name: string, storageAccount: StorageAccount, secrets: { key1: string, key2: string }, result: Subject<FunctionContainer>) {
         var url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Web/sites/${name}?api-version=${this.websiteApiVersion}`;

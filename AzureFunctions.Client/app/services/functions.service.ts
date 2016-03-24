@@ -234,7 +234,7 @@ export class FunctionsService implements IFunctionsService {
 
     getHostSecrets() {
         return this._http.get(`${this.scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getHeaders() })
-            .retry(3)
+            .retryWhen(errors => errors.delay(100))
             .map<HostSecrets>(r => r.json())
             .subscribe(h => this.hostSecrets = h, e => console.log(e));
     }
