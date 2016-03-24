@@ -29,6 +29,7 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
+            InitIndexHtml();
             var container = InitAutofacContainer();
             
             var config = GlobalConfiguration.Configuration;
@@ -205,6 +206,37 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+        }
+
+        private void InitIndexHtml()
+        {
+            try
+            {
+                var hostName = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME");
+                // localhost
+                if (string.IsNullOrEmpty(hostName)) return;
+                var indexHtml = File.ReadAllText(HostingEnvironment.MapPath("~/index.html"));
+
+                if (hostName.IndexOf("staging", StringComparison.OrdinalIgnoreCase) == -1)
+                {
+                    // prod
+                    if (indexHtml.IndexOf("functions.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
+                    {
+                        // copy
+                        File.Copy(HostingEnvironment.MapPath("~/prod.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
+                    }
+                }
+                else
+                {
+                    // stage
+                    if (indexHtml.IndexOf("functions-staging.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
+                    {
+                        // copy
+                        File.Copy(HostingEnvironment.MapPath("~/stage.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
+                    }
+                }
+            }
+            catch { }
         }
     }
 }
