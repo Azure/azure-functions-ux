@@ -48,34 +48,6 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> Passthrough([FromBody]PassthroughInfo passthroughInfo)
-        {
-            var request = new HttpRequestMessage(
-                new HttpMethod(passthroughInfo.HttpMethod), passthroughInfo.Url + (string.IsNullOrEmpty(passthroughInfo.QueryString) ? string.Empty : $"?{passthroughInfo.QueryString}"));
-
-            if (passthroughInfo.RequestBody != null)
-            {
-                request.Content = new StringContent(passthroughInfo.RequestBody.ToString(), Encoding.UTF8, passthroughInfo.MediaType ?? Constants.ApplicationJson);
-            }
-
-            if (passthroughInfo.Headers != null)
-            {
-                foreach (var pair in passthroughInfo.Headers)
-                {
-                    request.Headers.Add(pair.Key, pair.Value);
-                }
-            }
-
-            var response = await _client.SendAsync(request);
-
-            return new HttpResponseMessage(response.StatusCode)
-            {
-                Content = response.Content
-            };
-        }
-
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage ListTemplates()
         {

@@ -183,7 +183,6 @@
     </Compile>
     <Compile Include="Models\ClientError.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
-    <Compile Include="Models\PassthroughInfo.cs" />
     <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trace\EventIdEnricher.cs" />
