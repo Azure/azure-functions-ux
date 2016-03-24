@@ -36,7 +36,7 @@ export class FunctionIntegrateV2Component {
     
     set selectedFunction(fi: FunctionInfo) {
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
-                
+        
         if (!this._functionInfo || this._functionInfo.name !== fi.name) {
             this.currentBinding = null;
             this.currentBindingId = "";
@@ -139,6 +139,11 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
+
+        if (this._functionInfo.test_data) {
+            delete this._functionInfo.test_data;
+        }
+
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
