@@ -218,7 +218,7 @@ namespace AzureFunctions
 
                 var indexHtml = File.ReadAllText(HostingEnvironment.MapPath("~/index.html"));
 
-                if (slotName.Equals("staging", StringComparison.OrdinalIgnoreCase))
+                if (slotName.Equals("production", StringComparison.OrdinalIgnoreCase))
                 {
                     // prod
                     if (indexHtml.IndexOf("functions.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
