@@ -10,8 +10,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #113C6D;
-    color: white;
+    background-color: #E6E7E8;
+    color: #419BF3;
     height: 40px;
     width: 100%;
     z-index: 100;
@@ -31,11 +31,6 @@
     transform: translateY(-50%);
 }
 
-.top-bar .azure-logo {
-    padding-left: 10px;
-    height: 100%;
-}
-
 .top-bar .top-bar-tool {
     padding: 7px 10px;
     /*border-left: 1px solid rgba(128,128,128,.4);*/
@@ -47,6 +42,10 @@
 
 .top-bar-tools span:last-of-type{
     margin-left: 2px;
+}
+
+.top-bar svg{
+    fill: #2E80AB;
 }
 
 /*.settings{
