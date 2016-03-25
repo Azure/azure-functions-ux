@@ -33,5 +33,7 @@ ForEach ($e in $values.value)
     $Subscription = (Get-AzureRmContext).Subscription.SubscriptionId
     $farmId = "/subscriptions/$Subscription/resourceGroups/Default-Web-$appLocation/providers/Microsoft.Web/serverfarms/Default1"
     New-AzureRmResourceGroup -Name $name -Location $location -Force
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $name -appLocation $appLocation -TemplateFile FunctionsPortal.json -appName $name -appServicePlanId $farmId -storageAccountName $storageName -Force
+    $appSettings = Invoke-AzureRmResourceAction -ResourceGroupName $name -ResourceType Microsoft.Web/sites/config -ResourceName $name/appsettings -Action list -ApiVersion 2015-08-01 -Force
+    $sasUrl = $appsettings.Properties.WEBSITE_HTTPLOGGING_CONTAINER_URL
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $name -appLocation $appLocation -TemplateFile FunctionsPortal.json -appName $name -appServicePlanId $farmId -storageAccountName $storageName -sasUrl $sasUrl -Force
 }

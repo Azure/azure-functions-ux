@@ -68,8 +68,8 @@ namespace AzureFunctions
                 }
                 else if (!isFile && isQuery)
                 {
-                    context.Response.WriteFile(HostingEnvironment.MapPath("~/landing.html"));
-                    context.Response.Flush();
+                    context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE");
+                    context.Response.StatusCode = 302;
                     context.Response.End();
                 }
                 else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
@@ -212,7 +212,7 @@ namespace AzureFunctions
         {
             try
             {
-                var slotName = Environment.GetEnvironmentVariable("functions_slot_name");
+                var slotName = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME");
                 // localhost
                 if (string.IsNullOrEmpty(slotName)) return;
 
