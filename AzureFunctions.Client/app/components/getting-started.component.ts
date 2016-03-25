@@ -26,7 +26,6 @@ export class GettingStartedComponent implements OnInit {
     public functionContainers: DropDownElement<FunctionContainer>[];
     public selectedSubscription: Subscription;
     public selectedGeoRegion: string;
-    // public functionContainers: FunctionContainer[];
     public functionContainerName: string;
     public createError: string;
     public functionContainerNameEvent: EventEmitter<string>;
@@ -117,7 +116,7 @@ export class GettingStartedComponent implements OnInit {
                 this.selectedSubscription = value;
                 this.functionContainers = fc
                     .map(c =>({
-                        displayLabel: c.name + ` (${c.location})`,
+                        displayLabel: `${c.name} (${c.location})`,
                         value: c
                     }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
