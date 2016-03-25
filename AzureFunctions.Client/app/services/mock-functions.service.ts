@@ -252,6 +252,6 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     getHostErrors() {
-        return Observable.of(['error']);
+        return Observable.of([undefined, undefined, 'error', 'error', 'test 1', 'test 1']);
     }
 }
