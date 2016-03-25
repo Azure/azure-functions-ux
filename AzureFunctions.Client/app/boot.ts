@@ -11,6 +11,7 @@ import {IBroadcastService} from './services/ibroadcast.service';
 import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {ArmService} from './services/arm.service';
+import {MonitoringService} from './services/appMonitoring.service';
 
 if (window.location.protocol === 'http:') {
     bootstrap(
@@ -22,7 +23,8 @@ if (window.location.protocol === 'http:') {
             PortalService,
             provide(IBroadcastService, { useClass: BroadcastService }),
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
-            provide(ArmService, { useClass: ArmService })
+            provide(ArmService, { useClass: ArmService }),
+            provide(MonitoringService, { useClass: MonitoringService })
         ]);
 } else {
     if (window.location.hostname.indexOf('localhost') === -1) {
@@ -38,6 +40,7 @@ if (window.location.protocol === 'http:') {
             PortalService,
             provide(IBroadcastService, { useClass: BroadcastService }),
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
-            provide(ArmService, { useClass: ArmService })
+            provide(ArmService, { useClass: ArmService }),
+            provide(MonitoringService, { useClass: MonitoringService })
         ]);
 }

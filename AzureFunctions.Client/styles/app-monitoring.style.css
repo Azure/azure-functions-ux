@@ -1,1 +1,32 @@
-﻿
+﻿.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+    .wrapper > div {
+        padding: 20px;
+        border-bottom: 2px solid #E7E7E7;
+    }
+
+    .wrapper > div:first-child {
+        border-bottom: none;
+    }
+
+    .wrapper > div:last-child {
+        border-bottom: none;
+    }
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#heading {
+    flex-grow: 1;
+    border-bottom: none;
+    font-size: 45px;
+}
+
+.title{
+    text-align: center;
+}

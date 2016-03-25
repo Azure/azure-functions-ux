@@ -26,6 +26,7 @@ System.config({
   map: {
     "angular2": "npm:angular2@2.0.0-beta.7",
     "angular2-highcharts": "npm:angular2-highcharts@0.0.5",
+    "nvd3": "npm:nvd3@1.8.2",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
     "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.6",
     "ts": "github:frankwallis/plugin-typescript@4.0.1",
@@ -278,6 +279,9 @@ System.config({
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.10.3",
       "brorand": "npm:brorand@1.0.5"
+    },
+    "npm:nvd3@1.8.2": {
+      "d3": "npm:d3@3.5.16"
     },
     "npm:parse-asn1@5.0.0": {
       "asn1.js": "npm:asn1.js@4.5.0",

@@ -10,6 +10,7 @@ import {FunctionContainer} from '../models/function-container';
 import {UserService} from '../services/user.service';
 import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list.component';
+import {MonitoringService} from '../services/appMonitoring.service';
 
 @Component({
     selector: 'azure-functions-app',
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
         private _armService: ArmService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _monitoringService: MonitoringService
     ) {
         this.ready = false;
         if (_userService.inIFrame ||
