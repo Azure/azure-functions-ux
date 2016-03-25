@@ -41,17 +41,18 @@ export class BindingManager {
                 }
             }
 
+            var bindingConfig = bindings.find((cb) => {
+                return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
+            });
+
             var fb: UIFunctionBinding = {
                 id: this.guid(),
                 name: b.name,
                 type: type,
                 direction: direction,
-                settings: []
+                settings: [],
+                displayName: bindingConfig ? bindingConfig.displayName : ""
             };
-
-            var bindingConfig = bindings.find((cb) => {
-                return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
-            });
 
             if (bindingConfig) {
                 bindingConfig.settings.forEach((s) => {
@@ -130,7 +131,8 @@ export class BindingManager {
             name: schema.defaultParameterName,
             type: type,
             direction: direction,
-            settings: []
+            settings: [],
+            displayName: schema.displayName
         };
 
         result.settings.push({

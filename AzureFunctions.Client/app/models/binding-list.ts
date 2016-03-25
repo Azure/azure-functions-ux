@@ -17,7 +17,7 @@ export class BindingList {
         }
 
         this.config.bindings.forEach((i) => {
-            var typeString = " (" + i.type + ")";
+            var typeString = " (" + i.displayName + ")";
             i.title = i.name ? i.name + typeString : typeString;            
         });
 

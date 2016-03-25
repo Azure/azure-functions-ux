@@ -235,7 +235,7 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        var typeString = " (" + this.bindingValue.type + ")";
+        var typeString = " (" + this.bindingValue.displayName + ")";
         this.model.label = this.bindingValue.name ? this.bindingValue.name + typeString : typeString;
     }
 }

@@ -95,4 +95,5 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     title?: string;
     settings: FunctionSetting[];
     hiddenList?: string[];
+    displayName: string;
 }
