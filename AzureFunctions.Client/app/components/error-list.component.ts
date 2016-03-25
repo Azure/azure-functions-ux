@@ -10,7 +10,7 @@ import {ErrorItem} from '../models/error-item';
             <div class="clickable close-button" (click)="dismissError(i)">x</div>
             <div class="error-message">
                 <p><strong>Error:</strong></p>
-                <p>{{error.message}}</p>
+                <p>{{error.message}} <a *ngIf="error.href && error.hrefText" [attr.href]="error.href" target="_blank">{{error.hrefText}}</a></p>
             </div>
         </div>
     </div>`,
@@ -47,12 +47,19 @@ import {ErrorItem} from '../models/error-item';
 })
 export class ErrorListComponent {
     public errorList: ErrorItem[];
+    genericError: ErrorItem = {
+        message: `You may be experiencing an error. If you're having issues, please post them`,
+        href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
+        hrefText: 'here'
+    };
+
     constructor(private _broadcastService: IBroadcastService) {
         this.errorList = [];
         _broadcastService.subscribe(BroadcastEvent.Error, (e: string) => {
-            this.errorList.push({
-                message: e,
-            });
+            var errorItem: ErrorItem = e ? { message: e} : this.genericError
+            if (!this.errorList.find(e => e.message === errorItem.message)) {
+                this.errorList.push(errorItem);
+            }
         });
     }
 

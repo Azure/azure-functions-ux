@@ -9,20 +9,8 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
     }
 
     call(error) {
-        var body = {
-            message: error.message,
-            stackTrace: error.stack
-        };
-
         this._broadcastService.clearBusyState();
         this._broadcastService.broadcast(BroadcastEvent.Error, this.getErrorMessage(error));
-
-        console.error('Reporting the following errors');
-        console.error(error);
-        this._http.post('api/clienterror', JSON.stringify(body), { headers: this.getHeaders() })
-            .subscribe(r => {
-                console.log('Reported error successfully');
-            }, e => { console.error('Can\'t report error: ' + JSON.stringify(e)) });
     }
 
     private getErrorMessage(error: any): string {
@@ -34,17 +22,15 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
                 } else if (response.error && response.error.message) {
                     return response.error.message;
                 } else {
-                    return JSON.stringify(response);
+                    return undefined;
                 }
             } catch (e) {
-                return error._body + '';
+                return undefined;
             }
         } else if (error.message) {
             return error.message;
-        } else if (error.stack) {
-            return error.stack
         } else {
-            return JSON.stringify(error);
+            return undefined;
         }
     }
 
