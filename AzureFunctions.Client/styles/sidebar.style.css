@@ -10,7 +10,6 @@
     left: 0;
     background-color: #E6E7E8;
     bottom: 0;
-    overflow-y: auto;
     z-index: 100;
 }
 
@@ -24,6 +23,11 @@
     padding: 0;
     text-align: left;
 
+}
+
+.functions-list {
+    height:96%;
+    overflow-y:auto;
 }
 
 .functions-list li {
@@ -130,4 +134,9 @@
     font-style: normal;
     border: none;
     outline: none;
+}
+
+#refresh {
+    padding: 2px 10px 5px 15px;
+    height: 4%;
 }

@@ -6,7 +6,7 @@
              [isFunctionSelected]="!!selectedFunction"></top-bar>
 
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo"></sidebar>
+        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)'></sidebar>
         <div class="work-space">
             <tutorial></tutorial>
 
