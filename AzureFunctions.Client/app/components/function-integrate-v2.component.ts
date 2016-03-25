@@ -15,7 +15,7 @@ declare var jQuery: any;
     selector: 'function-integrate-v2',
     templateUrl: './templates/function-integrate-v2.component.html',
     directives: [BindingComponent, TemplatePickerComponent],
-    styleUrls: ['styles/integrate.style.css'],
+    styleUrls: ['styles/function-integrate.style.css'],
     inputs: ['selectedFunction']
 })
 

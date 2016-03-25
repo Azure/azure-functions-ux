@@ -17,3 +17,10 @@ div.dev-block-header{
 .dev-block-header > span > span i{
     margin-right: 5px;
 }
+
+#toggle-editor {    
+    top: 0;
+    right: 0;
+    padding: 7px;
+    color: #419BF3;
+}
