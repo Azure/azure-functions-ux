@@ -26,7 +26,7 @@ to disable it.
 
 /* just some content with arbitrary styles for explanation purposes */
 .tutorial-modal {
-    box-sizing: : border-box;
+    box-sizing: border-box;
     width: 500px;
     height: 325px;
     position: absolute;

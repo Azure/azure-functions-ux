@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="health.html" />
+    <Content Include="images\Functions.svg" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />

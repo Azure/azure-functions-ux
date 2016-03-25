@@ -1,59 +1,52 @@
 ﻿<top-bar gettingStarted="true" ></top-bar>
+<div class="start-banner">
+    <div class="start-banner-content">
+        <img src="/images/functions.svg" height="60px"/>
+        <!--<object data="/images/functions.svg" type="image/svg+xml" />-->
+        <h1>Get started with Azure Functions</h1>
+    </div>
+</div>
+
 <div class="container">
-    <div class="wrapper">
-        <h2>Get started with Azure Functions</h2>
-
-        <div *ngIf="user">
-        </div>
-
-        <div *ngIf="tryItNow">
-            <!--<div>
-                It looks like you don't have an Azure account. Do you want to create a 24 hour free trial functions container?
+    <div *ngIf="!tryItNow">
+        <div *ngIf="subscriptions">
+            
+            <div class="start-left start-half">
+                <h3>Your subscription</h3>
+                <label>Subscription</label>
+                <drop-down [options]="subscriptions" placeholder="Select Subscription" (value)="onSubscriptionSelect($event)"></drop-down>
             </div>
-            <div (click)="createTrialFunctionsContainer()" class="custom-button">Create Trial Functions Container</div>-->
-        </div>
 
-        <div *ngIf="!tryItNow">
-            <div id="create-new-container" *ngIf="subscriptions">
-                <div>
-                    <label>Subscription:</label>
-                    <drop-down [options]="subscriptions" placeholder="Select Subscription" (value)="onSubscriptionSelect($event)"></drop-down>
-                </div>
+            <div *ngIf="functionContainers.length > 0" class="start-half start-right">
+                <h3>Your function apps</h3>
+                <span>This subscription contains multiple function apps.*  Select one, or create a new one below.</span>
+                
+                <label class="start-below-description">Function apps</label>
+                <drop-down [options]="functionContainers" (value)="onContainerChange($event)"></drop-down>
+                <button [disabled]="!functionContainer" class="custom-button clear-both" (click)="openSelectedContainer()">Open</button>
+            </div>
 
-                <div *ngIf="selectedSubscription">
-                    <div *ngIf="functionContainers.length === 0">
-                        We'll need to create a function app in this subscription. Functions apps are containers where your functions get executed.
-                    </div>
-                    <div *ngIf="functionContainers.length > 0">
-                        This subscription already has a function app in it. Functions apps are containers where your functions get executed.
-                    </div>
+            <div class="start-half start-right start-row" [class.start-row]="functionContainers.length > 0">
+                <h3>New function app</h3>
+                <div *ngIf="functionContainers.length === 0">Your subscription contains no function apps.* Create one now.</div>
+                <label [class.start-below-description]="functionContainers.length === 0">Name</label>
+                <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
+                <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
 
-                    <div id="create-or-choose">
-                        <div>
-                            <h3>Create a new function app</h3>
-                            <div class="user-input">
-                                <label>Give your function app a name</label>
-                                <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
-                                <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
-                            </div>
-                            <div class="user-input">
-                                <label>Pick a region</label>
-                                <drop-down [options]="geoRegions" placeholder="Select Location" (value)="onGeoRegionChange($event)"></drop-down>
-                            </div>
-                            <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName || !isValidContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">Get coding</button>
-                        </div>
+                <label style="margin-top: 25px">Region</label>
+                <drop-down [options]="geoRegions" placeholder="Select Location" (value)="onGeoRegionChange($event)"></drop-down>
 
-                        <div *ngIf="functionContainers.length > 0">
-                            <h3>Use an existing function app</h3>
-                            <div class="function-container" *ngFor="#container of functionContainers" (click)="selectContainer(container)">{{container.name}} ({{container.location}})</div>
-                        </div>
-                    </div>
-
-                    <div class="error-output" *ngIf="createError">{{createError}}</div>
-
-                </div>
+                <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName || !isValidContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">Create + get started</button>
 
             </div>
+
+
+            <div class="start-row start-half start-right">
+                * Function apps are containers where your functions are executed.
+            </div> 
+
+            <!--<div class="error-output" *ngIf="createError">{{createError}}</div>-->
+
         </div>
     </div>
 </div>

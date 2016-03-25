@@ -23,9 +23,10 @@ export class GettingStartedComponent implements OnInit {
     public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
     public subscriptions: DropDownElement<Subscription>[];
+    public functionContainers: DropDownElement<FunctionContainer>[];
     public selectedSubscription: Subscription;
     public selectedGeoRegion: string;
-    public functionContainers: FunctionContainer[];
+    // public functionContainers: FunctionContainer[];
     public functionContainerName: string;
     public createError: string;
     public functionContainerNameEvent: EventEmitter<string>;
@@ -34,6 +35,7 @@ export class GettingStartedComponent implements OnInit {
 
     public user: User;
 
+    private functionContainer : FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
     constructor(
@@ -81,7 +83,6 @@ export class GettingStartedComponent implements OnInit {
                         });
                 }
             });
-
     }
 
     createTrialFunctionsContainer() {
@@ -114,7 +115,13 @@ export class GettingStartedComponent implements OnInit {
         this._armService.getFunctionContainers(value.subscriptionId)
             .subscribe(fc => {
                 this.selectedSubscription = value;
-                this.functionContainers = fc;
+                this.functionContainers = fc
+                    .map(c =>({
+                        displayLabel: c.name + ` (${c.location})`,
+                        value: c
+                    }))
+                    .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+
                 this._broadcastService.clearBusyState();
                 this.functionContainerNameEvent.emit(this.functionContainerName);
             });
@@ -135,12 +142,16 @@ export class GettingStartedComponent implements OnInit {
         this.selectedGeoRegion = value;
     }
 
-    login() {
-        window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin${window.location.search}`);
+    onContainerChange(value: FunctionContainer){
+        this.functionContainer = value;
     }
 
-    selectContainer(container: FunctionContainer) {
-        this.userReady.emit(container);
+    openSelectedContainer() {
+        this.userReady.emit(this.functionContainer);
+    }
+
+    login() {
+        window.location.replace(`${window.location.protocol}//${window.location.hostname}/signin${window.location.search}`);
     }
 
     // http://stackoverflow.com/a/1349426/3234163

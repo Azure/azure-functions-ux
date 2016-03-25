@@ -1,9 +1,8 @@
 ﻿/* top-bar styles */
 .logo {
-    color: #2E80AB;
+    color: #419BF3;
     font-size: larger;
     margin-left: 15px;
-    cursor: pointer;
 }
 
 .top-bar {
@@ -17,6 +16,12 @@
     z-index: 100;
 }
 
+.top-bar-getting-started{
+    background-color: #FFF;
+    color: #000 
+}
+
+
 .top-bar .left {
     float: left;
 }
@@ -29,6 +34,11 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.top-bar .azure-logo {
+    padding-left: 10px;
+    height: 100%;
 }
 
 .top-bar .top-bar-tool {

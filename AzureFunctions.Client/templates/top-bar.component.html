@@ -1,7 +1,8 @@
-<div class="top-bar">
-    <!--<div class="azure-logo left">
-        <div class="vertical-align-center logo" (click)="onAzureFunctionClick()">Azure Functions</div>
-    </div>-->
+<div class="top-bar" [class.top-bar-getting-started]="gettingStarted">
+    <div class="azure-logo left">
+        <div class="vertical-align-center logo">Azure Functions</div>
+    </div>
+
     <div class="top-bar-tools right vertical-align-center">
         <span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"
