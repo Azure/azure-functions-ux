@@ -1,9 +1,10 @@
-﻿div {
+﻿/*div {
     text-align: center;
-}
+}*/
 
 label {
     display: block;
+    font-weight: 500;
 }
 
 .container {
@@ -12,72 +13,84 @@ label {
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    width: 900px;
+    padding-top: 30px;
 }
 
-.wrapper {
-    width: 70%;
-    margin-right: auto;
-    margin-left: auto;
+.container > div{
+    text-align: left;
+}
+
+.start-banner{
+    background-color: #1569B3;
+    height: 150px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.start-banner-content{
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    color: #FFF;
 }
 
-img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+.start-banner-content *{
+    display: inline;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+    font-size: 48px;
 }
 
-#call-action > div {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+.start-banner-content img{
+    margin-top: -16px;
+    margin-right: 10px;
 }
 
-    #call-action > div:nth-child(even) {
-        padding: 30px;
-    }
+.start-right{
+    float: right;
+    padding-left: 20px;
+}
+
+.start-left{
+    float: left;
+    padding-right: 20px;
+}
+
+.start-row{
+    clear: both;
+    padding-top: 50px;
+}
+
+.start-half{
+    width: 50%
+}
+
+.start-below-description{
+    margin-top: 25px;
+}
 
 .custom-button {
-    padding: 10px 60px 10px 60px !important;
+    /*padding: 10px 60px 10px 60px !important;*/
+    margin-left: 0px;
+    padding: 6px 15px;
 }
 
-#create-new-container > div {
-    padding-top: 30px;
+input{
+    background: #fff;
+    border: 2px solid #dedede;
+    padding-right: 30px;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+    height: 29px;
 }
+
 button {
     margin-top: 20px;
 }
 
-.user-input {
-    padding-top: 10px;
-}
-
-#create-or-choose {
-    display: flex;
-    flex-direction: row;
-}
-
-#create-or-choose > div {
-    flex-grow: 1;
-}
-
-#create-or-choose > div+div {
-    border-left: 1px solid black;
-}
-
-.function-container {
-    font-size: x-large;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.function-container:hover {
-    background-color: #DBDBDB;
-}
-
 .error-output {
-    border: 1px solid red;
+    border: 1px none;
     color: red;
 }
