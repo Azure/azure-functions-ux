@@ -67,22 +67,28 @@ export class TopBarComponent implements OnInit {
     }
 
     onAppMonitoringClicked() {
-        this.resetView();
-        this.appMonitoringClicked.emit(null);
-        this.isAppMonitoringSelected = true;
+        if (this.canLeaveFunction()) {
+            this.resetView();
+            this.appMonitoringClicked.emit(null);
+            this.isAppMonitoringSelected = true;
+        }
     }
 
     onAppSettingsClicked() {
-        this.resetView();
-        this.appSettingsClicked.emit(null);
-        this.isAppSettingSelected = true;
+        if (this.canLeaveFunction()) {
+            this.resetView();
+            this.appSettingsClicked.emit(null);
+            this.isAppSettingSelected = true;
+        }
     }
 
     onQuickstartClicked() {
-        this._portalService.logAction('top-bar-azure-functions-link', 'click');
-        this.resetView();
-        this.quickstartClicked.emit(null);
-        this.isQuickstartSelected = true;
+        if (this.canLeaveFunction()) {
+            this._portalService.logAction('top-bar-azure-functions-link', 'click');
+            this.resetView();
+            this.quickstartClicked.emit(null);
+            this.isQuickstartSelected = true;
+        }
     }
 
     set isFunctionSelected(selected: boolean) {
@@ -100,5 +106,19 @@ export class TopBarComponent implements OnInit {
         this.isAppMonitoringSelected = false;
         this.isAppSettingSelected = false;
         this.isQuickstartSelected = false;
+    }
+
+    // TODO: Remove duplicated code between here and SitebarComponent
+    private canLeaveFunction() {
+        var leaveFunction = true;
+        if (this.isFunctionSelected &&
+            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) {
+            leaveFunction = confirm(`Changes made to the current function will be lost. Are you sure you want to continue?`);
+            if (leaveFunction) {
+                this._broadcastService.clearDirtyState('function', true);
+                this._broadcastService.clearDirtyState('function_integrate', true);
+            }
+        }
+        return leaveFunction;
     }
 }
