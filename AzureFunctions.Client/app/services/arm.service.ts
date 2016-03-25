@@ -246,7 +246,6 @@ export class ArmService implements IArmService {
 
     private completeError(o: Subject<FunctionContainer>, error: any) {
         o.error(error);
-        o.complete();
     }
 
     private getHeaders(): Headers {
