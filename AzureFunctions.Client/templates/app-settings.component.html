@@ -5,7 +5,8 @@
 
     <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper features-wrapper">
         <label>Memory Size</label>
-        <div >
+        <!-- TODO: move css -->
+        <div style="height: 60px">
             <!-- TODO: move css -->
             <div style="flex-grow: 10">
                 <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
