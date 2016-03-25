@@ -100,8 +100,8 @@ export class AppComponent implements OnInit {
             this._userService.getTenants()
                 .subscribe(tenants => {
                     var currentTenant = tenants.find(t => t.Current);
-                    var portalHostName = 'https://portal.azure.com';
-                    var query = '?feature.customportal=false&microsoft_azure_marketplace_ItemHideKey=GalleryApplicationTesting';
+                    var portalHostName = 'https://ms.portal.azure.com';
+                    var query = '?microsoft_azure_marketplace_ItemHideKey=GalleryApplicationTesting';
                     var environment = window.location.host.indexOf('staging') > -1 ? '&websitesextension_functionsstaged=true' : '';
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${query}${environment}#resource${armId}`);
                 });
