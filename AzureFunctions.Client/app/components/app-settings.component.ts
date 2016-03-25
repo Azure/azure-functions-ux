@@ -19,7 +19,11 @@ export class AppSettingsComponent implements OnInit {
                 private _broadcastService: IBroadcastService) {
     }
 
-    onChange(value: string | number) {
+    onChange(value: string | number, event?: any) {
+        if (this.isIE()) {
+            value = event.srcElement.value;
+            this.memorySize = value;
+        }
         this.dirty = (typeof value === 'string' ? parseInt(value) : value) !== this.functionContainer.properties.containerSize;
     }
 
@@ -35,5 +39,9 @@ export class AppSettingsComponent implements OnInit {
         this._broadcastService.setBusyState();
         this._armService.updateMemorySize(this.functionContainer, value)
             .subscribe(r => { this._broadcastService.clearBusyState(); Object.assign(this.functionContainer, r); this.dirty = false; });
+    }
+
+    isIE(): boolean {
+        return navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;
     }
 }

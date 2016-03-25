@@ -8,7 +8,7 @@
         <div >
             <!-- TODO: move css -->
             <div style="flex-grow: 10">
-                <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize)">
+                <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
             </div>
             <div style="flex-grow: 1">
                 <span>{{memorySize}} MB</span>
