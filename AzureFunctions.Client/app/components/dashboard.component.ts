@@ -130,6 +130,10 @@ export class DashboardComponent implements OnChanges {
             });
     }
 
+    onRefreshClicked() {
+        this.initFunctions();
+    }
+
     onAppMonitoringClicked() {
         this.resetView();
         this.openAppMonitoring = true;

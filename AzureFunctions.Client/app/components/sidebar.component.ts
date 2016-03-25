@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, OnDestroy} from 'angular2/core';
+import {Component, OnInit, EventEmitter, OnDestroy, Output} from 'angular2/core';
 import {FunctionsService} from '.././services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
@@ -20,6 +20,7 @@ export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
+    @Output() refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
@@ -67,16 +68,25 @@ export class SideBarComponent implements OnDestroy {
     }
 
     selectFunction(fi: FunctionInfo) {
-        var switchFunction = true;
-        if (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) {
-            switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
-        }
-
-        if (switchFunction) {
+        if (this.switchFunctions()) {
             this._broadcastService.clearDirtyState('function', true);
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedFunction = fi;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
         }
+    }
+
+    refresh() {
+        if (this.switchFunctions()) {
+            this.refreshClicked.emit(null);
+        }
+    }
+
+    private switchFunctions() {
+        var switchFunction = true;
+        if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
+            switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
+        }
+        return switchFunction;
     }
 }
