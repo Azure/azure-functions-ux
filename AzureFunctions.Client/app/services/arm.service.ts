@@ -143,7 +143,8 @@ export class ArmService implements IArmService {
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
-                        { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' }
+                        { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' },
+                        { name: 'WEBSITE_NODE_DEFAULT_VERSION', value: '4.1.2' }
                     ]
                 }
             },
