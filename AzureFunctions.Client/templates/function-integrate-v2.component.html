@@ -33,8 +33,6 @@
 
     </div>
     <div class="col-md-2">
-        <!-- TODO: move to css -->
-        <div class="clickable pull-right" (click)="onEditorChange('advanced')" style="color: #5DA3F6;">Advanced editor</div>
     </div>
 </div>
 
@@ -86,3 +84,5 @@
 
 
 <template-picker *ngIf="pickerType!==4" [type]="pickerType" [showFooter]="true" (complete)="onBindingCreateComplete(behavior, $event)" (cancel)="onBindingCreateCancel($event)"></template-picker>
+
+<div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('advanced')"><i class="fa fa-edit"></i> Advanced editor</div>
