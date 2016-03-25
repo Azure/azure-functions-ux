@@ -21,7 +21,7 @@ import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 
 @Component({
     selector: 'functions-dashboard',
@@ -49,6 +49,8 @@ export class DashboardComponent implements OnChanges {
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openIntro: boolean = true;
+
+    private checkHostSubscription: RxSubscription;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -96,10 +98,7 @@ export class DashboardComponent implements OnChanges {
         });
 
         // TODO: What's the right way of doing something like this?
-        Observable.fromEvent(document, 'click')
-            .debounceTime(60000) // 1 minute
-            .switchMap<string[]>(() => this._functionsService.getHostErrors())
-            .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
+        
     }
 
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
@@ -122,8 +121,12 @@ export class DashboardComponent implements OnChanges {
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets()
             .add(() => {
-                this._functionsService.getHostErrors()
-                .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
+                if (this.checkHostSubscription && !this.checkHostSubscription.isUnsubscribed) {
+                    this.checkHostSubscription.unsubscribe();
+                }
+                this.checkHostSubscription = Observable.timer(1, 60000)
+                    .concatMap<string[]>(() => this._functionsService.getHostErrors().catch(e => Observable.of([])))
+                    .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
             });
     }
 
