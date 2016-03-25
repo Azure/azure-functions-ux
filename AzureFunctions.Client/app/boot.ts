@@ -1,7 +1,7 @@
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './components/app.component';
-import {provide, ExceptionHandler} from 'angular2/core';
+import {provide, ExceptionHandler, enableProdMode} from 'angular2/core';
 import {FunctionsService} from './services/functions.service';
 import {MockFunctionsService} from './services/mock-functions.service';
 import {UserService} from './services/user.service';
@@ -25,6 +25,10 @@ if (window.location.protocol === 'http:') {
             provide(ArmService, { useClass: ArmService })
         ]);
 } else {
+    if (window.location.hostname.indexOf('localhost') === -1) {
+        enableProdMode();
+    }
+
     bootstrap(
         AppComponent,
         [
