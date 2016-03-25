@@ -112,7 +112,7 @@ export class TopBarComponent implements OnInit {
     private canLeaveFunction() {
         var leaveFunction = true;
         if (this.isFunctionSelected &&
-            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) {
+            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
             leaveFunction = confirm(`Changes made to the current function will be lost. Are you sure you want to continue?`);
             if (leaveFunction) {
                 this._broadcastService.clearDirtyState('function', true);
