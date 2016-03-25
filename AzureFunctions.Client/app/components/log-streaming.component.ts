@@ -1,15 +1,16 @@
-import {Component, OnInit, OnDestroy, OnChanges, Input} from 'angular2/core';
+import {Component, OnDestroy, OnChanges, Input} from 'angular2/core';
 import {FunctionInfo} from '../models/function-info';
 import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';
 import {FunctionsService} from '../services/functions.service';
+import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: 'templates/log-streaming.component.html',
     styleUrls: ['styles/function-dev.style.css']
 })
-export class LogStreamingComponent implements OnDestroy, OnInit, OnChanges {
+export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
     public stopped: boolean;
     private hostErrors: string;
@@ -17,13 +18,8 @@ export class LogStreamingComponent implements OnDestroy, OnInit, OnChanges {
     private timerId: number;
     @Input() functionInfo: FunctionInfo;
 
-    constructor(private _userService: UserService, private _functionsService: FunctionsService) {
+    constructor(private _userService: UserService, private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
         this.hostErrors = '';
-    }
-
-    ngOnInit() {
-        this.initLogs();
-        this.startLogs()
     }
 
     ngOnChanges() {
@@ -58,7 +54,10 @@ export class LogStreamingComponent implements OnDestroy, OnInit, OnChanges {
         }
 
         this._functionsService.getFunctionErrors(this.functionInfo)
-            .subscribe((r: string[]) => this.hostErrors = r.reduce((a, b) => a + b + '\n', ''));
+            .subscribe(
+                (r: string[]) => this.hostErrors = r.reduce((a, b) => a + b + '\n', ''),
+                error => this._functionsService.getHostErrors()
+                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e))));
 
         var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
 
