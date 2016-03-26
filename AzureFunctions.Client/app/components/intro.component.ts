@@ -11,7 +11,7 @@ import {BindingManager} from '../models/binding-manager';
 @Component({
     selector: 'intro',
     templateUrl: './templates/intro.component.html',
-    styleUrls: ['styles/template-picker.style.css'] 
+    styleUrls: ['styles/intro.style.css'] 
 })
 
 export class IntroComponent {

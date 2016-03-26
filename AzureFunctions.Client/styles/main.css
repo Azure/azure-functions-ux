@@ -3,18 +3,10 @@ html, body {
 }
 
 body {
-  
-}
-
-body {
     margin: 0;
     height: 100%;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
     background-color: #FFF;
-
-    /* We shouldn't be forcing this, but Ibiza has a horizontal scroll bar for some reason
-       and it's simpler to just put a margin here for now. */
-    margin: 0 10px 0 0 !important;
 }
 
 a {

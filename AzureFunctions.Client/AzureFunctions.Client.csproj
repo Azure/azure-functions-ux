@@ -25,7 +25,13 @@
     <Content Include="health.html" />
     <Content Include="prod.html" />
     <Content Include="stage.html" />
+    <Content Include="images\data-process-template.svg" />
+    <Content Include="images\function-io.svg" />
     <Content Include="images\Functions.svg" />
+    <Content Include="images\iot-template.svg" />
+    <Content Include="images\timer-template.svg" />
+    <Content Include="images\webhook-api-template.svg" />
+    <Content Include="styles\intro.style.css" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
