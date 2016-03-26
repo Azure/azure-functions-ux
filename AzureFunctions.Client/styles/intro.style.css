@@ -1,0 +1,83 @@
+﻿.intro-container{
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    text-align: center;
+
+    /* Full page height minus top-bar height */
+    height: calc(100% - 40px);
+}
+
+.intro-banner{
+    background-color: #0076DA;
+    color: #FFF;
+    margin-top: 20px;
+    padding: 10px 0px 40px 0px;
+
+}
+
+.intro-banner > div{
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+}
+
+.intro-banner h1{
+    font-size: 60px;
+}
+
+.intro-banner p{
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+.intro-banner img{
+    float: right;
+    margin-left: 40px;
+}
+
+.intro-template{
+    padding: 10px;
+    display: inline-block;
+    border: 3px solid transparent;
+    font-size: 16px;
+}
+
+.intro-template:hover{
+    border: 3px solid #C2C5C9;
+}
+
+.intro-template-selected, .intro-template-selected:hover{
+    border: 3px solid #419BF3;
+}
+
+
+.intro-template div:first-of-type{
+    background-color: #419BF3;
+    padding: 30px;
+}
+
+.intro-template div:nth-of-type(2){
+    margin-top: 15px;
+}
+
+.intro-body img{
+    width: 70px;
+    height: 70px;
+}
+
+.intro-footer{
+    background-color: #C2C5C9;
+    padding: 10px 0 25px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.intro-footer span{
+    font-size: 16px;
+    color: #0076DA;
+}
+
+.custom-button{
+    margin: 30px 0px;
+}
