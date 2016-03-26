@@ -243,3 +243,4 @@ AzureFunctions.Client/functions-*.txt
 AzureFunctions.Client/app_data
 jspm_packages/
 AzureFunctions.Client/bower_components/
+.DS_Store

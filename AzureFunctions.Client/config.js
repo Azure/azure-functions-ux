@@ -24,6 +24,7 @@ System.config({
   },
 
   map: {
+    "ng2-nvd3": "github:ahmelsayed/ng2-nvd3@1.0.7",
     "angular2": "npm:angular2@2.0.0-beta.7",
     "angular2-highcharts": "npm:angular2-highcharts@0.0.5",
     "nvd3": "npm:nvd3@1.8.2",
