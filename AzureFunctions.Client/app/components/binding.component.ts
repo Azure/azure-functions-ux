@@ -23,6 +23,7 @@ export class BindingComponent {
     @Output() remove = new EventEmitter<UIFunctionBinding>();
     @Output() update = new EventEmitter<UIFunctionBinding>();
     @Output() validChange = new EventEmitter<BindingComponent>();
+    @Output() hasInputsToShowEvent = new EventEmitter<boolean>();
     @Input() saveClick = new EventEmitter<void>();
     public disabled: boolean;
     public model = new BindingInputList();
@@ -173,6 +174,7 @@ export class BindingComponent {
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
+                this.hasInputsToShowEvent.emit(this.hasInputsToShow);
             }
         });
     }

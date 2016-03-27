@@ -1,0 +1,25 @@
+﻿.newfunc-container{
+    padding: 20px;
+}
+
+.newfunc-container > div{
+    margin-bottom: 30px;
+}
+
+.custom-button{
+    margin: 10px 0px;
+}
+
+.error-output {
+    color: red;
+}
+
+input{
+    background: #fff;
+    border: 2px solid #dedede;
+    padding-right: 30px;
+    position: relative;
+    vertical-align: middle;
+    height: 29px;
+    width: 300px;
+}

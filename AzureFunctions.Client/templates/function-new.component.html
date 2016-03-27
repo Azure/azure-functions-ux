@@ -1,32 +1,47 @@
-﻿<div class="wrapper">
-    <br>
-    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-        Read only - because you have started editing with source control, this view is read only.
-    </div>
+﻿<div class="newfunc-container">
+<div>
+    <h3>Name your function</h3>
+    <input type="text"
+           [(ngModel)]="functionName"
+           (ngModelChange)="functionNameChanged($event)"
+           placeholder="Function name">
+    <div *ngIf="!!functionNameError" class="error-output">{{functionNameError}}</div>
+</div>
 
+<div>
+    <h3>Choose a template</h3>
     <template-picker *ngIf="!disabled" [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
-
     <p *ngIf="functionDescription">{{functionDescription}}</p>
+</div>
 
-    <div>
-        <h2 *ngIf="selectedTemplate">Configuration</h2>        
-        <form *ngIf="selectedTemplate" class="form-horizontal">
-            <div class="form-group">
-                <label [attr.for]="nameId" class="col-md-1 control-label" style="font-size:small;">Name:</label>
-                <div [ngClass]="functionNameClass">
-                    <input id="nameId" [(ngModel)]="functionName" (ngModelChange)="functionNameChanged($event)" class="form-control" placeholder="Function name">
-                </div>
-            </div>
-        </form>    
-        <binding *ngIf="model.trigger" (validChange)="onValidChanged($event)" [binding]="model.trigger" [canDelete]="false" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>        
-        <binding *ngFor="#binding of model.inputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-        <binding *ngFor="#binding of model.outputs" (validChange)="onValidChanged($event)" [binding]="binding" [canSave]="false" [clickSave]="clickSave" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
-
-        <hr />
-    </div>
-
-    <div class="text-center">
-        <button *ngIf="areInputsValid" class="btn btn-primary" (click)="onCreate()">Create</button>
-        <button *ngIf="!areInputsValid" class="btn btn-primary" (click)="onCreate()" disabled>Create</button>
-    </div>
+<div *ngIf="selectedTemplate">
+    <h3 *ngIf="model.trigger && hasInputsToShow">Configure</h3>
+    <binding *ngIf="model.trigger"
+             (validChange)="onValidChanged($event)"
+             [binding]="model.trigger"
+             [canDelete]="false"
+             [canSave]="false"
+             [clickSave]="clickSave"
+             (remove)="onRemoveBinding($event)"
+             (update)="onUpdateBinding($event)"
+             (hasInputsToShowEvent)="onInputsToShowChanged($event)"></binding>
+             
+    <binding *ngFor="#binding of model.inputs"
+             (validChange)="onValidChanged($event)"
+             [binding]="binding"
+             [canSave]="false"
+             [clickSave]="clickSave"
+             (remove)="onRemoveBinding($event)"
+             (update)="onUpdateBinding($event)"></binding>
+             
+    <binding *ngFor="#binding of model.outputs"
+             (validChange)="onValidChanged($event)"
+             [binding]="binding"
+             [canSave]="false"
+             [clickSave]="clickSave"
+             (remove)="onRemoveBinding($event)"
+             (update)="onUpdateBinding($event)"></binding>
+    
+    <button class="custom-button" [disabled]="!areInputsValid" (click)="onCreate()">Create</button>
+</div>
 </div>

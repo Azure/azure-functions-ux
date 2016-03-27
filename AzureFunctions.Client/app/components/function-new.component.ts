@@ -17,7 +17,7 @@ declare var jQuery: any;
 @Component({
     selector: 'function-new',
     templateUrl: './templates/function-new.component.html',
-    styles: [`.wrapper { padding: 20px; }`],
+    styleUrls: ['styles/function-new.style.css'],
     directives: [TemplatePickerComponent, BindingComponent, NgClass],
     outputs: ['functionAdded']
 })
@@ -28,15 +28,16 @@ export class FunctionNewComponent {
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
+    functionNameError: string = "";
     bc: BindingManager = new BindingManager();
     model: BindingList = new BindingList();
     clickSave: boolean = false;
     updateBindingsCount = 0;
     areInputsValid: boolean = false;
-    functionNameClass: string = "col-md-3";
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
     functionDescription: string;
+    hasInputsToShow: boolean;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -58,7 +59,9 @@ export class FunctionNewComponent {
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
-            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+            if(!this.functionName){
+                this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+            }
             this.functionDescription = this.selectedTemplate.metadata.description;
 
             this._functionsService.getBindingConfig().subscribe((bindings) => {
@@ -110,6 +113,10 @@ export class FunctionNewComponent {
         }
     }
 
+    onInputsToShowChanged(show : boolean){
+        this.hasInputsToShow = show;
+    }
+
     functionNameChanged(value: string) {
         this.validate();
     }
@@ -129,7 +136,7 @@ export class FunctionNewComponent {
 
     private validate() {
         this.areInputsValid = this.functionName ? true : false;
-        this.functionNameClass = this.areInputsValid ? 'col-md-3' : 'col-md-3 has-error';
+        this.functionNameError = this.areInputsValid ? '' : 'A function name is required';
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
         });      
