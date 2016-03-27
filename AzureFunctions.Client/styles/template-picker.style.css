@@ -1,67 +1,63 @@
-﻿.bs-glyphicons li {
-    width: 12.5%;
-    font-size: 12px;
+﻿drop-down{
+    display: inline-block;
 }
 
-.bs-glyphicons {
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.panel-heading h3 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: normal;
-    /*width: 75%;*/
-    padding-top: 8px;
-}
-
-.bs-glyphicons {
-    margin: 0 -10px 20px;
-    overflow: hidden;
-}
-
-.bs-glyphicons li {
-    float: left;
-    width: 25%;
-    height: 115px;
-    padding: 10px;
-    font-size: 10px;
-    line-height: 1.4;
-    text-align: center;
-    background-color: #f9f9f9;
-    border: 1px solid #fff;
-}
-
-.bs-glyphicons-list {
-    padding-left: 0;
-    list-style: none;
-}
-
-.bs-glyphicons .glyphicon {
+.tp-templates{
+    border: 1px solid #D4D2D2;
     margin-top: 5px;
+    height: 350px;
+    overflow-y: scroll;
+}
+
+.tp-template{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    border: 3px solid transparent;
+    text-align: center;
+    margin: 5px;
+}
+
+.tp-template:hover{
+    border: 3px solid #C2C5C9;
+}
+
+.tp-template-selected{
+    border: 3px solid #419BF3;
+}
+
+.tp-template-selected:hover{
+    border: 3px solid #419BF3;
+}
+
+.tp-template-container{
+    top: 40px;
+    position: relative;
+}
+
+.tp-template-content{
+    /* Makes the content size not count to container which allows squares to line up vertically */
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.tp-template-icon{
     margin-bottom: 10px;
-    font-size: 24px;
 }
 
-.bs-glyphicons li:hover{
-    background-color: #BFC9D0;
-    color: #0273D4;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-    cursor: pointer; 
-    /*cursor: hand;*/
+.tp-template-icon-selected{
+    color: #419BF3;
 }
 
-.bs-glyphicons li.selected{
-    background-color: #BFC9D0;
-    color: #0273D4;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-    cursor: pointer; 
-    /*cursor: hand;*/
+.tp-template-content .glyphicon{
+    font-size: 60px;
 }
 
-.bs-glyphicons li {
-    width: 12.5%;
-    font-size: 12px;
+.tp-footer{
+    margin-top: 20px;
+}
+
+.custom-button, .custom-button-invert{
+    margin-left: 0px;
 }

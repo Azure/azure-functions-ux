@@ -1,34 +1,37 @@
-﻿<div class="panel panel-default">
-    <div class="panel-heading">
-        <span *ngIf="languages.length > 0">
-            Language:
-            <select (change)="onLanguageChanged($event.target.value)">
-                <option *ngFor="#l of languages" [value]="l">{{l}}</option>
-            </select>
-        </span>
-        <span *ngIf="categories.length > 0" style="margin-left:20px;">
-            Scenario:
-            <select (change)="scenarioChanged($event.target.value)">
-                <option *ngFor="#c of categories" [value]="c">{{c}}</option>
-            </select>
-        </span>
-    </div>
+﻿<div>
+<div>
+    <span *ngIf="languages.length > 0">
+        Language:
+        <drop-down [options]="languages"
+                    class="tpicker-dropdown"
+                    (value)="onLanguageChanged($event)"></drop-down>
+    </span>
+    <span *ngIf="categories.length > 0" style="margin-left:20px;">
+        Scenario:
+        <drop-down [options]="categories"
+                    class="tpicker-dropdown"
+                    (value)="onScenarioChanged($event)"></drop-down>
+    </span>
+</div>
 
-    <div class="panel-body">
-        <div class="bs-glyphicons">
-            <ul class="bs-glyphicons-list">
-                <li *ngFor="#template of templates" (click)="onTemplateCliked(template.value)" [class.selected]="selectedTemplate == template.value" style="width:100px">
-                    <div class="glyphicon glyphicon-file" aria-hidden="true"></div>
-                    <div class="glyphicon-class">{{template.name}}</div>
-                </li>
-            </ul>
+<div class="tp-templates">
+    <div *ngFor="#template of templates"
+        class="tp-template"
+        (click)="onTemplateCliked(template.value)"
+        [class.tp-template-selected]="selectedTemplate == template.value">
+
+        <div class="tp-template-container">
+            <div class="tp-template-content">
+                <div class="glyphicon glyphicon-file tp-template-icon"
+                     [class.tp-template-icon-selected]="selectedTemplate == template.value"></div>
+                <div>{{template.name}}</div>
+            </div>
         </div>
     </div>
+</div>
 
-    <div *ngIf="showFooter" class="panel-footer">        
-        <button type="button" class="btn btn-default pull-right" (click)="onCancelClicked()" style="margin-left:10px">Cancel</button>
-        <button *ngIf="!selectedTemplate" type="button" class="btn btn-primary pull-right" disabled="disabled">Select</button>
-        <button *ngIf="selectedTemplate" type="button" class="btn btn-primary pull-right" (click)="onSelectClicked()">Select</button>
-        <div class="clearfix"></div>
-    </div>
+<div *ngIf="showFooter" class="tp-footer">
+    <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">Select</button>
+    <button class="custom-button-invert" (click)="onCancelClicked()">Cancel</button>
+</div>
 </div>

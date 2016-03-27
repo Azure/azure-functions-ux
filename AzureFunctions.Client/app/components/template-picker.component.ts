@@ -6,15 +6,20 @@ import {BindingManager} from '../models/binding-manager';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../models/template';
 import {FunctionsService} from '../services/functions.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {DropDownComponent} from './drop-down.component';
+import {DropDownElement} from '../models/drop-down-element';
 
 @Component({
     selector: 'template-picker',
     templateUrl: './templates/template-picker.component.html',
     inputs: ['type'],
-    styleUrls: ['styles/template-picker.style.css']
+    styleUrls: ['styles/template-picker.style.css'],
+    directives: [DropDownComponent]
 })
 
 export class TemplatePickerComponent {
+    public languages: DropDownElement<string>[] = [];
+    public categories: DropDownElement<string>[] = [];
 
     title: string;
     selectedTemplate: string;
@@ -22,11 +27,10 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];    
-    languages: string[] = [];
-    categories: string[] = [];
     private _category: string = "Core";
     private _language: string = "All";
     private _type: TemplatePickerType;
+    private _initialized = false;
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter();
@@ -60,25 +64,40 @@ export class TemplatePickerComponent {
                         break;
                     case TemplatePickerType.template:
                         this.title = "Choose a template"; 
-                        this.languages = ["All"];
+                        
+                        let initLanguages = false;
+                        if(this.languages.length === 0){
+                            this.languages = [{ displayLabel: "All", value: "All" }];
+                            initLanguages = true;
+                        }
+
+                        let initCategories = this.categories.length === 0;
+
                         templates.forEach((template) => {
 
-                            var lang = this.languages.find((l) => {
-                                return l === template.metadata.language;
-                            });
-                            if (!lang) {
-                                this.languages.push(template.metadata.language);
+                            if(initLanguages){
+                                var lang = this.languages.find((l) => {
+                                    return l.value === template.metadata.language;
+                                });
+                                if (!lang) {
+                                    this.languages.push({
+                                        displayLabel: template.metadata.language,
+                                        value: template.metadata.language
+                                    });
+                                }
                             }
 
-                            template.metadata.category.forEach((c) => {
-                                var index = this.categories.findIndex((category) => {
-                                    return category === c;
-                                });
+                            if(initCategories){
+                                template.metadata.category.forEach((c) => {
+                                    var index = this.categories.findIndex((category) => {
+                                        return category.value === c;
+                                    });
 
-                                if (index === -1) {
-                                    this.categories.push(c);
-                                }
-                            });
+                                    if (index === -1) {
+                                        this.categories.push({ displayLabel: c, value: c});
+                                    }
+                                });
+                            }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
                                 return c === this._category;
@@ -129,7 +148,7 @@ export class TemplatePickerComponent {
         this.type = this._type;
     }
 
-    scenarioChanged(category: string) {
+    onScenarioChanged(category: string) {
         this._category = category;
         this.type = this._type;
     }

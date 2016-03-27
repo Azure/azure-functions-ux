@@ -89,7 +89,7 @@ pre {
     display: inline;
 }
 
-.custom-button {
+.custom-button, .custom-button-invert{
     margin-left: 15px;
     display: inline;
     padding: 6px 45px 6px 45px;
@@ -100,6 +100,12 @@ pre {
     color: #fff;
     background-color: #539CF6;
 }
+
+.custom-button-invert{
+    background-color: #FFF;
+    color: #539CF6;
+}
+
 
 .custom-button:disabled {
     cursor: not-allowed;
