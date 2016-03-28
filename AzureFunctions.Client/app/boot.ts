@@ -14,6 +14,10 @@ import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {ArmService} from './services/arm.service';
 import {MonitoringService} from './services/appMonitoring.service';
+import {TelemetryService} from './services/telemetry.service';
+
+declare var mixpanel: any;
+
 
 if (window.location.protocol === 'http:') {
     bootstrap(
@@ -26,7 +30,8 @@ if (window.location.protocol === 'http:') {
             provide(IBroadcastService, { useClass: BroadcastService }),
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
             provide(ArmService, { useClass: ArmService }),
-            provide(MonitoringService, { useClass: MonitoringService })
+            provide(MonitoringService, { useClass: MonitoringService }),
+            TelemetryService
         ]);
 } else {
     if (window.location.hostname.indexOf('localhost') === -1) {
@@ -43,6 +48,25 @@ if (window.location.protocol === 'http:') {
             provide(IBroadcastService, { useClass: BroadcastService }),
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
             provide(ArmService, { useClass: ArmService }),
-            provide(MonitoringService, { useClass: MonitoringService })
+            provide(MonitoringService, { useClass: MonitoringService }),
+            TelemetryService
         ]);
+}
+
+if (mixpanel) {
+    var correlationId = getParameterByName("correlationId");
+    if (correlationId) {
+        mixpanel.identify(correlationId);
+    }
+}
+
+function getParameterByName(name: string): string {
+    var url = window.location.href;
+    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
+    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
