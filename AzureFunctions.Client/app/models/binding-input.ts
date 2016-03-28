@@ -4,8 +4,8 @@ export class BindingInputBase<T>
 {
     value: T;
     id: string;
-    label: string;    
-    required: boolean;   
+    label: string;
+    required: boolean;
     type: SettingType;
     help: string;
 
@@ -20,7 +20,7 @@ export class BindingInputBase<T>
 
 export class RegexValidator {
     expression: string;
-    errorText: string;    
+    errorText: string;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -31,7 +31,7 @@ export class CheckboxInput extends BindingInputBase<boolean>{
 }
 
 
-export class TextboxInput extends BindingInputBase<string>{    
+export class TextboxInput extends BindingInputBase<string>{
 
     constructor() {
         super();
@@ -58,21 +58,21 @@ export class SelectInput extends BindingInputBase<string>{
 }
 
 export class PickerInput extends BindingInputBase<string>{
-    resource: ResourceType;    
+    resource: ResourceType;
     inProcess: boolean = false;
 
     constructor() {
-        super();        
+        super();
         this.type = SettingType.picker;
         this.noErrorClass = 'input-group';
         this.errorClass = 'input-group has-error';
     }
 
-    setButtonNoActive() {        
+    setButtonNoActive() {
         this.inProcess = false;
     }
 
-    setButtonActive() {        
+    setButtonActive() {
         this.inProcess = true;
     }
 }

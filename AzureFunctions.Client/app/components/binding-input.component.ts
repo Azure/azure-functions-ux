@@ -3,18 +3,23 @@ import {BindingInputBase} from '../models/binding-input';
 import {PortalService} from '../services/portal.service';
 import {PickerInput} from '../models/binding-input';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {SettingType} from '../models/binding';
+import {DropDownElement} from '../models/drop-down-element';
+import {DropDownComponent} from './drop-down.component';
 
 @Component({
     selector: 'binding-input',
     templateUrl: './templates/binding-input.component.html',
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"],
-    styleUrls: ['styles/binding.style.css']
+    styleUrls: ['styles/binding.style.css'],
+    directives: [DropDownComponent]
 })
 
 export class BindingInputComponent {
     @Output() validChange = new EventEmitter<BindingInputBase<any>>();
     public disabled: boolean;
+    public enumInputs: DropDownElement<any>[];
     private _input: BindingInputBase<any>;
 
     constructor(private _portalService: PortalService,
@@ -26,6 +31,11 @@ export class BindingInputComponent {
     set input(input: BindingInputBase<any>) {
         this._input = input;
         this.setClass(input.value);
+        if (this._input.type === SettingType.enum) {
+            var enums: { display: string; value: any }[] = (<any>this._input).enum;
+            this.enumInputs = enums
+                .map(e => ({ displayLabel: e.display, value: e.value, default: this._input.value === e.value }));
+        }
     }
 
     get input(): BindingInputBase<any> {
@@ -72,6 +82,11 @@ export class BindingInputComponent {
     inputChanged(value: any) {
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
+    }
+
+    onDropDownInputChanged(value: any) {
+        this._input.value = value;
+        this.inputChanged(value);
     }
 
     private setClass(value: any) {

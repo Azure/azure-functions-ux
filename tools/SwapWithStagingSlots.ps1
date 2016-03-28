@@ -26,7 +26,7 @@ $ParametersObject = @{
   ContentPaths = @("/*")
 }
 
-Write-Host Flushing the CDN
-Invoke-AzureRmResourceAction -ResourceGroupName functions-bay -ResourceType Microsoft.Cdn/profiles/endpoints -ResourceName azure-functions/functions -Action purge -Parameters $ParametersObject -ApiVersion 2015-06-01 -Force
+#Write-Host Flushing the CDN
+#Invoke-AzureRmResourceAction -ResourceGroupName functions-bay -ResourceType Microsoft.Cdn/profiles/endpoints -ResourceName azure-functions/functions -Action purge -Parameters $ParametersObject -ApiVersion 2015-06-01 -Force
 
-Write-Host Flushing is complete
+#Write-Host Flushing is complete

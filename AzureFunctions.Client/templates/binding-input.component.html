@@ -44,10 +44,8 @@
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
-    <div *ngIf="input.type === 'enum'">
-        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" [disabled]="disabled">
-            <option *ngFor="#o of input.enum" [value]="o.value">{{o.display}}</option>
-        </select>
+    <div *ngIf="input.type === 'enum'" id="enum-list">
+        <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [disabled]="disabled"></drop-down>
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 

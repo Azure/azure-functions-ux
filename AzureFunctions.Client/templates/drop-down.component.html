@@ -1,5 +1,5 @@
 ﻿<div class="drop-down-container" *ngIf="_options">
-    <select (change)="onSelect($event.target.value)" class="drop-down-select">
+    <select (change)="onSelect($event.target.value)" class="drop-down-select" [disabled]="disabled">
         <option selected disabled hidden style='display: none' value=''></option>
         <option *ngFor="#option of _options" [value]="option.id">{{option.displayLabel}}</option>
     </select>

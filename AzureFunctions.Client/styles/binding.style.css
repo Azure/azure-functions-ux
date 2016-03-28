@@ -57,6 +57,6 @@ input[type=checkbox]{
     margin: 0px;
 }
 
-input[type=text]{
+input[type=text], #enum-list {
     width: 300px;
 }
