@@ -53,7 +53,7 @@ if (window.location.protocol === 'http:') {
         ]);
 }
 
-if (mixpanel) {
+if (typeof mixpanel !==  'undefined') {
     var correlationId = getParameterByName("correlationId");
     if (correlationId) {
         mixpanel.identify(correlationId);
