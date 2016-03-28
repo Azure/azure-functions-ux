@@ -27,10 +27,10 @@
         <log-streaming [functionInfo]="functionInfo"></log-streaming>
     </div>
 
-    <h2>Run</h2>
+    <h2 class="dev-block-header">Run</h2>
     <div class="dev-run-container" *ngIf="functionInfo">
         <div class="dev-run-block" style="margin-right: 10px">
-            <div>Request body</div>
+            <div style="padding-bottom: 6px">Request body</div>
             <div class="ace_editor" aceEditor
                 [content]="functionInfo.test_data"
                 fileName="sample.dat"

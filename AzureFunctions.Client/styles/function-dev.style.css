@@ -52,3 +52,7 @@ div.inline-no-float {
     z-index: 2000;
     position: relative;
 }
+
+.log-stream {
+    margin-top: 5px;
+}

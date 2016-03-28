@@ -15,16 +15,17 @@ a {
 
 pre {
     display: block;
-    padding: 3px;
+    padding: 5px;
     margin: 0 0 10px;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.42857143;
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #FFF;
+    background-color: ##f5f5f5;
     border: 1px solid #ccc;
     font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+    border-radius: 0;
 }
 
 .clickable {
@@ -73,7 +74,7 @@ pre {
 
 .ace_editor {
     border: 1px solid #bcbcbc;
-    border-radius: 4px 4px 0px;
+    border-radius: 0;
     font: monospace !important;
 }
 
