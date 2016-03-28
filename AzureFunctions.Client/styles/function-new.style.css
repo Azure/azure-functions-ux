@@ -3,15 +3,11 @@
 }
 
 .newfunc-container > div{
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .custom-button{
-    margin: 10px 0px;
-}
-
-.error-output {
-    color: red;
+    margin: 0px;
 }
 
 input{

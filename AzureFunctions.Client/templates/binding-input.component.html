@@ -1,65 +1,40 @@
 ﻿<!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">    
-    <label [attr.for]="input.id" class="col-sm-6 control-label" style="font-size:small;">{{input.label}}</label>
+    <label [attr.for]="input.id" class="col-sm-5 control-label">{{input.label}} 
+        <button type="button"
+                class="btn btn-default info-button"
+                data-toggle="popover"
+                data-trigger="focus"
+                data-placement="top"
+                [attr.data-content]="input.help">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </button>
+   </label>
+
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
-        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" [disabled]="disabled">
-        <span class="input-group-btn">
-            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>        
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" placeholder="{{input.label}}" [disabled]="disabled">
     </div>
 
-    <div *ngIf="input.type === 'picker'" [ngClass]="input.class">
-        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.label}}" disabled>
-        <span class="input-group-btn">
-            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>
-        <span class="input-group-btn">
-            <button *ngIf="input.resource === 'Storage'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("StorageAccountPickerBlade", input.id)' [disabled]="disabled">
-                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
-                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
-            </button>
-            <button *ngIf="input.resource === 'EventHub'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("CustomConnectionPickerBlade", input.id)' [disabled]="disabled">
-                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
-                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
-             </button>
-            <button *ngIf="input.resource === 'DocumentDB'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("DocDbPickerBlade", input.id)' [disabled]="disabled">
-                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
-                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
-            </button>
-            <button *ngIf="input.resource === 'ServiceBus'" style="height:34px" type="button" class="btn btn-default" (click)='openCollectorBlade("NotificationHubPickerBlade", input.id)' [disabled]="disabled">
-                <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
-                <span *ngIf="!input.inProcess" class="glyphicon glyphicon-plus"></span>
-            </button>            
-        </span>
+    <div *ngIf="input.type === 'picker'" [ngClass]="input.class" class="picker-container">
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" placeholder="{{input.label}}" disabled>
+        <i *ngIf="!input.inProcess" class="glyphicon glyphicon-plus" (click)="openCollectorBlade(input.resource, input.id)"></i>
+        <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
         <!-- TODO: move this to css -->
         <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [disabled]="disabled">
-        <span class="input-group-btn">
-            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>
     </div>
 
     <div *ngIf="input.type === 'label'" class="col-sm-6 input-group">
-        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" class="form-control" placeholder="{{input.text}}" disabled>
-        <span class="input-group-btn">
-            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
     </div>
 
     <div *ngIf="input.type === 'enum'" class="col-sm-6 input-group">
-        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" class="form-control" [(ngModel)]="input.value" [disabled]="disabled">
+        <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" [disabled]="disabled">
             <option *ngFor="#o of input.enum" [value]="o.value">{{o.display}}</option>
         </select>
-        <span class="input-group-btn">
-            <button style="height:34px" type="button" class="btn btn-default" data-toggle="popover" data-trigger="focus" data-placement="left" [attr.data-content]="input.help"><span class="glyphicon glyphicon-info-sign"></span></button>
-        </span>
-    </div>    
+    </div>
 
-</div>
-
-<div *ngIf="input.errorText" class="form-group has-error">
-    <div class="col-sm-6"></div>
-    <div class="help-block col-sm-6" style="padding: 0;margin:-10px 0px 0px 0px;">{{input.errorText}}</div>
 </div>

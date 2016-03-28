@@ -8,7 +8,8 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
     selector: 'binding-input',
     templateUrl: './templates/binding-input.component.html',
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
-    inputs: ["input"]
+    inputs: ["input"],
+    styleUrls: ['styles/binding.style.css']
 })
 
 export class BindingInputComponent {
@@ -31,7 +32,23 @@ export class BindingInputComponent {
         return this._input;
     }
 
-    openCollectorBlade(name: string, id: string) {
+    openCollectorBlade(resource: string, id: string) {
+        let name = "";
+        switch(resource){
+            case "Storage":
+                name = "StorageAccountPickerBlade";
+                break;
+            case "EventHub":
+                name = "CustomConnectionPickerBlade";
+                break;
+            case "DocumentDB":
+                name = "DocDbPickerBlade";
+                break;
+            case "ServiceBus":
+                name = "NotificationHubPickerBlade";
+                break;
+        }
+
         // for tests
         if (window.location.hostname === "localhost") {
             this.input.value = name;

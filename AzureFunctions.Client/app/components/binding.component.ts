@@ -12,6 +12,7 @@ declare var jQuery: any;
 @Component({
     selector: 'binding',
     templateUrl: './templates/binding.component.html',
+    styleUrls: ['styles/binding.style.css'],
     //changeDetection: ChangeDetectionStrategy.OnPush,
     inputs: ['binding', 'clickSave'],
     directives: [BindingInputComponent]

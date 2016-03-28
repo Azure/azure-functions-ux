@@ -117,6 +117,10 @@ pre {
     border-color: #d43f3a;
 }
 
+.error-output {
+    color: red;
+}
+
 .gutter-container {
     padding-bottom: 20px;
 }

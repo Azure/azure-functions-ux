@@ -42,13 +42,13 @@ to disable it.
 .tutorial-modal:before {
     content: '';
     position: absolute;
-    top: -20px;
+    top: -18px;
     left: 50px;
     width: 0; 
     height: 0; 
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 20px solid #797171;
+    border-bottom: 18px solid #797171;
 }
 
 /* Top arrow filler */

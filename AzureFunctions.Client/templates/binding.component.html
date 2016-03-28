@@ -1,14 +1,11 @@
-﻿<div *ngIf="hasInputsToShow" class="panel panel-default">
-
+﻿<div *ngIf="hasInputsToShow">
+<div class="panel panel-default">
     <div class="panel-heading">
         <!--//TODO move to css -->
-        <h3 class="panel-title pull-left" style="margin-right:10px">
+        <h3 class="panel-title pull-left">
             {{model.label}}
         </h3>
-        <button *ngIf="canDelete" class="btn btn-default pull-left" (click)="removeClicked()" [disabled]="disabled"><span class="glyphicon glyphicon-trash"></span></button>        
-        <button *ngIf="canSave && isDirty && areInputsValid" (click)="saveClicked()" class="btn btn-primary pull-right">Save</button>
-        <button *ngIf="canSave && isDirty && !areInputsValid" (click)="saveClicked()" class="btn btn-primary pull-right" disabled>Save</button>
-        <button *ngIf="canSave && isDirty" (click)="discardClicked()" class="btn btn-default pull-right" style="margin-right:10px">Cancel</button>
+        <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">delete</span>
         <div class="clearfix"></div>
     </div>
 
@@ -26,4 +23,11 @@
             </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="canSave && isDirty">
+    <button (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">Save</button>
+    <button (click)="discardClicked()" class="custom-button-invert">Cancel</button>
+</div>
+
 </div>
