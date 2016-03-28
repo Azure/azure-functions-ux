@@ -25,8 +25,10 @@
     "zone.js": "0.5.15"
   },
   "devDependencies": {
-    "jspm": "^0.16.30",
     "concurrently": "^2.0.0",
+    "gulp": "^3.9.1",
+    "gulp-inline-ng2-template": "^1.1.2",
+    "jspm": "^0.16.30",
     "lite-server": "^2.1.0",
     "typescript": "^1.8.5",
     "typings": "^0.6.8"

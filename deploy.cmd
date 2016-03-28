@@ -175,6 +175,9 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   ) ELSE (
     echo skipping typings install
   )
+  
+  call :ExecuteCmd gulp
+  IF !ERRORLEVEL! NEQ 0 goto error
 
   call :ExecuteCmd npm run tsc
   IF !ERRORLEVEL! NEQ 0 goto error
