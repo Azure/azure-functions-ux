@@ -36,8 +36,8 @@ export class TextboxInput extends BindingInputBase<string>{
     constructor() {
         super();
         this.type = SettingType.string;
-        this.noErrorClass = 'col-sm-6 input-group';
-        this.errorClass = 'col-sm-6 input-group has-error';
+        this.noErrorClass = 'input-group';
+        this.errorClass = 'input-group has-error';
     }
 }
 
@@ -64,8 +64,8 @@ export class PickerInput extends BindingInputBase<string>{
     constructor() {
         super();        
         this.type = SettingType.picker;
-        this.noErrorClass = 'col-sm-6 input-group';
-        this.errorClass = 'col-sm-6 input-group has-error';
+        this.noErrorClass = 'input-group';
+        this.errorClass = 'input-group has-error';
     }
 
     setButtonNoActive() {        
