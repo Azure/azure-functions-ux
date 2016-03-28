@@ -5,12 +5,10 @@ import {FunctionInfo} from '../models/function-info';
     selector: 'function-monitor',
     template:`<div class="wrapper">
     <div class="text-center">
-        <p>Integrated view coming soon. Please use the links below:</p>
+        <p>Stay tuned for the new integrated view - it's coming soon.</p>
     </div>
     <div class="text-center">
-        <a [attr.href]="dashboardUrl" target="_blank">View the invocation log <i class="fa fa-external-link"></i></a>
-        <br/>
-        <a [attr.href]="pulseUrl" target="_blank">View the live event stream <i class="fa fa-external-link"></i></a>
+        <p>Until then, you can still see your Azure Functions <a [attr.href]="dashboardUrl" target="_blank">invocation log</a> and <a [attr.href]="pulseUrl" target="_blank">live event stream</a>.</p> 
     </div>
     <div class="text-center">
         <p></p>
