@@ -5,7 +5,7 @@
         <h3 class="panel-title pull-left">
             {{model.label}}
         </h3>
-        <span *ngIf="canDelete" class="link" (click)="removeClicked()">delete</span>
+        <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">delete</span>
         <div class="clearfix"></div>
     </div>
 
