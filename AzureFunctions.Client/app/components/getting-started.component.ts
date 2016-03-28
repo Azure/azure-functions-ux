@@ -10,6 +10,7 @@ import {TopBarComponent} from './top-bar.component';
 import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
+import {TelemetryService} from '../services/telemetry.service';
 
 @Component({
     selector: 'getting-started',
@@ -41,7 +42,8 @@ export class GettingStartedComponent implements OnInit {
         private _userService: UserService,
         private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
-        private _armService: ArmService
+        private _armService: ArmService,
+        private _telemetryService: TelemetryService
     ) {
         this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163
@@ -97,15 +99,13 @@ export class GettingStartedComponent implements OnInit {
     createFunctionsContainer() {
         delete this.createError;
         this._broadcastService.setBusyState();
+        this._telemetryService.track('gettingstarted-create-functionapp');
 
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
-            .subscribe(r => this.userReady.emit(r), e => {
-                if (e._body) {
-                    var body = JSON.parse(e._body);
-                    this.createError = body.error && body.error.message ? body.error.message : JSON.stringify(body);
-                    this._broadcastService.clearBusyState();
-                }
-            } , () => this._broadcastService.clearBusyState());
+            .subscribe(r => {
+                this.userReady.emit(r);
+                this._broadcastService.clearBusyState()
+            });
     }
 
     onSubscriptionSelect(value: Subscription) {
