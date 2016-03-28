@@ -15,7 +15,7 @@
 }
 
 .intro-banner > div{
-    width: 1000px;
+    width: 800px;  /* Keeping small so that it fits for Mac Retina */
     margin: auto;
     text-align: left;
 }
@@ -66,8 +66,8 @@
 
 .intro-footer{
     background-color: #C2C5C9;
-    padding: 10px 0 25px 0;
-    position: absolute;
+    padding: 10px 0 25px 250px;
+    position: fixed;
     bottom: 0;
     right: 0;
     left: 0;
