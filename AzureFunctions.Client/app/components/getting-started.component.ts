@@ -102,13 +102,10 @@ export class GettingStartedComponent implements OnInit {
         this._telemetryService.track('gettingstarted-create-functionapp');
 
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
-            .subscribe(r => this.userReady.emit(r), e => {
-                if (e._body) {
-                    var body = JSON.parse(e._body);
-                    this.createError = body.error && body.error.message ? body.error.message : JSON.stringify(body);
-                    this._broadcastService.clearBusyState();
-                }
-            } , () => this._broadcastService.clearBusyState());
+            .subscribe(r => {
+                this.userReady.emit(r);
+                this._broadcastService.clearBusyState()
+            });
     }
 
     onSubscriptionSelect(value: Subscription) {
