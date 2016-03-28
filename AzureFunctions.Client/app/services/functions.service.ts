@@ -85,7 +85,7 @@ export class FunctionsService implements IFunctionsService {
         }
     }
 
-    createFunctionV2(functionName: string, files: any) {        
+    createFunctionV2(functionName: string, files: any) {
         var sampleData = files["sample.dat"];
         delete files["sample.dat"];
 
@@ -157,11 +157,7 @@ export class FunctionsService implements IFunctionsService {
             }
         }
 
-        var headers = this.getHeaders(contentType);
-
-        headers.append('x-functions-key', this.hostSecrets.masterKey);
-
-        return this._http.post(url, _content, { headers: headers })
+        return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
             .map<string>(r => r.text());
     }
 
@@ -259,16 +255,12 @@ export class FunctionsService implements IFunctionsService {
     }
 
     getFunctionErrors(fi: FunctionInfo) {
-        var headers = this.getHeaders();
-        headers.append('x-functions-key', this.hostSecrets.masterKey);
-        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: headers })
+        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
     }
 
     getHostErrors() {
-        var headers = this.getHeaders();
-        headers.append('x-functions-key', this.hostSecrets.masterKey);
-        return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: headers })
+        return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
     }
 
@@ -281,6 +273,16 @@ export class FunctionsService implements IFunctionsService {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
 
+        return headers;
+    }
+
+    private getMainSiteHeaders(contentType?: string): Headers {
+        contentType = contentType || 'application/json';
+        var headers = new Headers();
+        headers.append('Content-Type', contentType);
+        if (this.hostSecrets) {
+            headers.append('x-functions-key', this.hostSecrets.masterKey);
+        }
         return headers;
     }
 
