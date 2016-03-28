@@ -13,6 +13,7 @@
 
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
         <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="text" placeholder="{{input.label}}" [disabled]="disabled">
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
     <div *ngIf="input.type === 'picker'" [ngClass]="input.class" class="picker-container">
@@ -25,16 +26,19 @@
     <div *ngIf="input.type === 'boolean'" class="checkbox col-sm-2 input-group">
         <!-- TODO: move this to css -->
         <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [disabled]="disabled">
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
     <div *ngIf="input.type === 'label'" class="col-sm-6 input-group">
         <input id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
     <div *ngIf="input.type === 'enum'" class="col-sm-6 input-group">
         <select id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" [disabled]="disabled">
             <option *ngFor="#o of input.enum" [value]="o.value">{{o.display}}</option>
         </select>
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
 </div>

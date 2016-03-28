@@ -5,7 +5,7 @@
 .tp-templates{
     border: 1px solid #D4D2D2;
     margin-top: 5px;
-    max-height: 350px;
+    max-height: 375px;
     overflow-y: scroll;
 }
 
