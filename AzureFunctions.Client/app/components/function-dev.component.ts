@@ -174,7 +174,7 @@ export class FunctionDevComponent implements OnChanges {
     }
 
     saveTestData() {
-        if (this.updatedTestContent && this.updatedTestContent !== this.functionInfo.test_data) {
+        if (typeof this.updatedTestContent !== 'undefined' && this.updatedTestContent !== this.functionInfo.test_data) {
             this.functionInfo.test_data = this.updatedTestContent;
             this._functionsService.updateFunction(this.functionInfo)
                 .subscribe(r => Object.assign(this.functionInfo, r));
@@ -187,7 +187,8 @@ export class FunctionDevComponent implements OnChanges {
             this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
             this._broadcastService.setBusyState();
-            this.running = this._functionsService.runFunction(this.functionInfo, this.updatedTestContent || this.functionInfo.test_data)
+            var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
+            this.running = this._functionsService.runFunction(this.functionInfo, testData)
                 .subscribe(
                     r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; },
                     e => { this.runResult = e._body; this._broadcastService.clearBusyState(); delete this.running; }
