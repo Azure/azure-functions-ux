@@ -59,9 +59,7 @@ export class FunctionNewComponent {
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
-            if(!this.functionName){
-                this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-            }
+            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this.functionDescription = this.selectedTemplate.metadata.description;
 
             this._functionsService.getBindingConfig().subscribe((bindings) => {

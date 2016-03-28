@@ -46,6 +46,10 @@ input{
     padding: 0 5px;
 }
 
+input:disabled{
+    background-color: #F3F3F3;
+}
+
 input[type=checkbox]{
     height: 20px;
     width: 20px;
