@@ -122,7 +122,7 @@ export class ArmService implements IArmService {
         };
 
         this._http.get(providersUrl, { headers: this.getHeaders() })
-            .map<string[]>(r => r.json().value.map(e => e['namespace']))
+            .map<string[]>(r => r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace']))
             .subscribe(
             p => registerProviders(p),
             e => registerProviders());
