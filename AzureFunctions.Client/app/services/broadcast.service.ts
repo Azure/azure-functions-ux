@@ -75,6 +75,10 @@ export class BroadcastService implements IBroadcastService {
         }
     }
 
+    clearAllDirtyStates() {
+        this.dirtyStateMap = {};
+    }
+
     // http://stackoverflow.com/a/20494546/3234163
     isEmptyMap(map: any): boolean {
         for (var key in map) {

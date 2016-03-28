@@ -9,6 +9,7 @@ export abstract class IBroadcastService {
     abstract clearBusyState();
     abstract setDirtyState(reason?: string);
     abstract clearDirtyState(reason?: string, all?: boolean);
+    abstract clearAllDirtyStates();
     abstract getDirtyState(reason?: string): boolean;
 }
 

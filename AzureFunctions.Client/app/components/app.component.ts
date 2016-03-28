@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     public gettingStarted: boolean;
     public ready: boolean;
     public functionContainer: FunctionContainer;
+    public currentResourceId: string;
 
     constructor(
         private _portalService: PortalService,
@@ -53,7 +54,11 @@ export class AppComponent implements OnInit {
                         .distinctUntilChanged()
                         .debounceTime(500)
                         .subscribe((resourceId: string) => {
-                            this.initializeDashboard(resourceId);
+                            // Not sure why distinctUntilChanged() isn't taking care of this.
+                            if (this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
+                                this.currentResourceId = resourceId;
+                                this.initializeDashboard(resourceId);
+                            }
                         });
                 });
             } else {
@@ -73,8 +78,8 @@ export class AppComponent implements OnInit {
 
     initializeDashboard(functionContainer: FunctionContainer | string) {
         if (this.redirectToIbizaIfNeeded(functionContainer)) return;
-
         if (typeof functionContainer !== 'string') {
+            this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
 
