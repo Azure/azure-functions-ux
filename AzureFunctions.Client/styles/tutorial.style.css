@@ -27,14 +27,14 @@ to disable it.
 /* just some content with arbitrary styles for explanation purposes */
 .tutorial-modal {
     box-sizing: border-box;
-    width: 500px;
-    height: 325px;
+    width: 550px;
+    height: 350px;
     position: absolute;
     top: 200px; 
     left: calc(50% - 250px);
     background-color: #FFFFFF;
-    border: 2px solid #797171;
-    padding: 10px;
+    border: 10px solid #797171;
+    padding: 20px;
     z-index: 91; /* One higher than the overlay layer so that users can still interact with it */
 }
 
@@ -42,13 +42,13 @@ to disable it.
 .tutorial-modal:before {
     content: '';
     position: absolute;
-    top: -18px;
+    top: -30px;
     left: 50px;
     width: 0; 
     height: 0; 
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 18px solid #797171;
+    border-bottom: 20px solid #797171;
 }
 
 /* Top arrow filler */
@@ -69,8 +69,8 @@ to disable it.
 }
 
 .tutorial-modal h2{
-    margin-top: 10px;
-    display: inline
+    display: inline;
+    font-size: 24px;
 }
 
 .tutorial-modal > div > p:first-of-type{
