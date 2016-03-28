@@ -92,7 +92,8 @@
 }
 
 .top-bar-tool:hover {
-    background-color: #19507B;
+    background-color: white;
+    color: black;
 }
 
 .top-bar-drop-down {
