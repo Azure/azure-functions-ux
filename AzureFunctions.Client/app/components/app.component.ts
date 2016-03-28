@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
                         .debounceTime(500)
                         .subscribe((resourceId: string) => {
                             // Not sure why distinctUntilChanged() isn't taking care of this.
-                            if (this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
+                            if (!this.currentResourceId || this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
                                 this.currentResourceId = resourceId;
                                 this.initializeDashboard(resourceId);
                             }
