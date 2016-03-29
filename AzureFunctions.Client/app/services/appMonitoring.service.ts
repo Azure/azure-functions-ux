@@ -30,7 +30,8 @@ export class MonitoringService implements IMonitoringService {
     }
 
     getFunctionAppConsumptionData() {
-        var url = this._functionsService.getScmUrl() + "/AZUREJOBS/api/containers/timeline?limit=10";
+        var utcDate = new Date().toJSON().slice(0, 10);
+        var url = this._functionsService.getScmUrl() + "/AZUREJOBS/api/containers/timeline?start=" + utcDate;
         return this._http.get(url, { headers: this.getHeaders() })
             .retry(3)
             .map<MonitoringConsumption[]>(r => r.json().results);

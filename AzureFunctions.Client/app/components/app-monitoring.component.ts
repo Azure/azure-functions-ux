@@ -37,35 +37,44 @@ export class AppMonitoringComponent implements OnInit {
     }
 
     convertToConsumptionChartDataAndDraw(appConsumption: MonitoringConsumption[]) {
-        var data = [];
-        for (var i = 0; i < appConsumption.length; i++) {
-            data.push({
-                x: appConsumption[i].startTimeBucket,
-                xDisplay: new Date(appConsumption[i].startTime),
-                deltaY: 1
-            });
-            data.push({
-                x: appConsumption[i].startTimeBucket + appConsumption[i].length,
-                xDisplay: (new Date(new Date(appConsumption[i].startTime).getTime() + appConsumption[i].length * 60 * 1000)),
-                deltaY: -1
-            });
-        }
+        var monitoringData = []; // monitoringData object that stores the start and end time periods for the container consumption
+        var points = []; // saves the [x,y] values for the chart
+        // build the consumption data with the start and endtime values for x-axis and the delataY corresponding the active and inactive states of the container
+        if (appConsumption.length > 0) {
+            for (var i = 0; i < appConsumption.length; i++) {
+                monitoringData.push({
+                    x: appConsumption[i].startTimeBucket,
+                    xDisplay: new Date(appConsumption[i].startTime),
+                    deltaY: 1 // container active state
+                });
+                monitoringData.push({
+                    x: appConsumption[i].startTimeBucket + appConsumption[i].length,
+                    xDisplay: (new Date(new Date(appConsumption[i].startTime).getTime() + appConsumption[i].length * 60 * 1000)), // convert to local datetime type
+                    deltaY: -1 //container inactive state
+                });
+            }
 
-        data = data.sort((i, j) => i.x - j.x);
-        var points = [];
-        var oldY = 0;
-        for (var t = data[0].x; t < data[data.length - 1].x; t++) {
+            monitoringData = monitoringData.sort((i, j) => i.x - j.x);
 
-            var filteredData = data.filter((d) => d.x == t);
-            if (filteredData.length > 0) {
-                var newY = oldY;
-                for (var item of filteredData) {
-                    newY = newY + item.deltaY;
+            var oldY = 0;
+            /*
+            aggregate logic for monitoring chart data
+            1. starting with the first time value (t) in the object and increments of a minute, until end of object array is reached
+            2. find the all values in monitoring data object that correspond to that time (t)
+            3. build the corresponding y values for the the time (t) and push the values to points object
+            */
+            for (var t = monitoringData[0].x; t < monitoringData[monitoringData.length - 1].x; t++) {
+                var filteredData = monitoringData.filter((d) => d.x == t);
+                if (filteredData.length > 0) {
+                    var newY = oldY;
+                    for (var item of filteredData) {
+                        newY = newY + item.deltaY;
+                    }
+                    var display = filteredData[0].xDisplay;
+                    points.push({ x: display, y: oldY });
+                    points.push({ x: display, y: newY });
+                    oldY = newY;
                 }
-                var display = filteredData[0].xDisplay;
-                points.push({ x: display, y: oldY });
-                points.push({ x: display, y: newY });
-                oldY = newY;
             }
         }
 
@@ -76,18 +85,20 @@ export class AppMonitoringComponent implements OnInit {
                 margin: {
                     top: 10,
                     right: 30,
-                    bottom: 60,
-                    left: 58
+                    bottom: 100,
+                    left: 85
                 },
                 showLegend: false,
+                valueFormat: function (d) {
+                    return d3.format(',d')(d);
+                },
                 x: function (d) { return d.x; },
                 y: function (d) { return d.y; },
                 xAxis: {
-                    tickFormat: d3.time.format("%b%d %H:%M"),
-                    tickValues: d3.time.hour.range(5), //https://github.com/mbostock/d3/wiki/Time-Intervals
+                    tickFormat: d3.time.format("%b%d %I:%M %p"),
+                    ticks: 10,
                     rotateLabels: -35
                 },
-                duration: 500,
                 xScale: d3.time.scale(),
                 showMaxMin: false
             },
@@ -100,11 +111,11 @@ export class AppMonitoringComponent implements OnInit {
             color: ['rgb(124, 181, 236)']
         }
 
-
         this.data = [
             {
                 key: "Units Consumed",
                 values: points,
+                area: true 
             }];
     }
 }
