@@ -93,7 +93,7 @@ pre {
 .custom-button, .custom-button-invert{
     margin-left: 15px;
     display: inline;
-    padding: 6px 45px 6px 45px;
+    padding: 5px 45px 5px 45px;
     font-size: 14px;
     cursor: pointer;
     background-image: none;
@@ -123,7 +123,7 @@ pre {
 }
 
 .gutter-container {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 
