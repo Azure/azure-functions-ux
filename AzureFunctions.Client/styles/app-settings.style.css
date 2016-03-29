@@ -17,14 +17,14 @@
     }
 
 h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: normal;
 }
 
 #heading {
     flex-grow: 1;
     border-bottom: none;
-    font-size: 45px;
+    font-size: 24px;
 }
 
 #advanced-settings {
@@ -37,7 +37,8 @@ h2 {
 }
 
 .setting-wrapper > label {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: normal;
 }
 
 .setting-wrapper > div {
@@ -57,11 +58,11 @@ input[type=range]:focus {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    height: 10px;
-    background: #F1F1F8;
+    height: 15px;
+    background: rgb(196, 201, 207);
     border: none;
     border-radius: 0;
-    border: 2px solid black;
+    border: 0;
 }
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -70,15 +71,15 @@ input[type=range]::-webkit-slider-thumb {
     width: 10px;
     background: #428bca;
     border-radius: 0;
-    margin-top: -12px;
+    margin-top: -8px;
 }
 
 input[type=range]::-moz-range-track {
     height: 8px;
-    background: #F1F1F8;
+    background: rgb(196, 201, 207);
     border: none;
     border-radius: 0;
-    border: 2px solid black;
+    border: 0;
 }
 input[type=range]::-moz-range-thumb {
     border: none;
@@ -99,9 +100,9 @@ input[type=range]::-ms-track {
 }
 
 input[type=range]::-ms-fill-lower, input[type=range]::-ms-fill-upper {
-    background: #F1F1F8;
+    background: rgb(196, 201, 207);
     border-radius: 0;
-    border: 2px solid black;
+    border: 0;
 }
 
 input[type=range]::-ms-thumb {
@@ -134,7 +135,8 @@ input[type=range]::-ms-thumb {
 }
 
     .features-wrapper > div > div {
-        padding: 10px;
+        padding: 1px 10px 10px 0;
+        font-size: 13px;
     }
 
     .features-wrapper > div > div:first-child {

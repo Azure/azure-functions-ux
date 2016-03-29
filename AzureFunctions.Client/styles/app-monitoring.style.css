@@ -17,14 +17,14 @@
     }
 
 h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: normal;
 }
 
 #heading {
     flex-grow: 1;
     border-bottom: none;
-    font-size: 45px;
+    font-size: 24px;
 }
 
 .title{
