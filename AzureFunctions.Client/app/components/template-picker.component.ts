@@ -179,7 +179,7 @@ export class TemplatePickerComponent {
             });
 
             result.push({
-                name: binding.type.toString(),
+                name: binding.displayName.toString(),
                 value: binding.type.toString()
             });
         });
