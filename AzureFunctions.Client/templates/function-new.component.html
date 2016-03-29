@@ -1,7 +1,15 @@
 ﻿<div class="newfunc-container">
-<div>
+
+<div *ngIf="disabled">
+    <br />
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        Read only - because you have started editing with source control, this view is read only.
+    </div>
+</div>
+
+<div *ngIf="!disabled">
     <h3>Choose a template</h3>
-    <template-picker *ngIf="!disabled" [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
+    <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
     <p *ngIf="functionDescription">{{functionDescription}}</p>
 </div>
 
