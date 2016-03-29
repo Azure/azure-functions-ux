@@ -12,4 +12,9 @@
 
 .container-full {
     padding: 20px 0px 0px 20px;
+}
+
+/* testing to see if container-full is somehow being overwritten by ibiza */
+.container-full2 {
+    padding: 20px 0px 0px 20px;
 } 
