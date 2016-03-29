@@ -26,7 +26,7 @@ export class TemplatePickerComponent {
     templates: Template[] = [];
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
-    bindings: Binding[];    
+    bindings: Binding[];
     private _category: string = "Core";
     private _language: string = "All";
     private _type: TemplatePickerType;
@@ -65,13 +65,17 @@ export class TemplatePickerComponent {
                     case TemplatePickerType.template:
                         this.title = "Choose a template"; 
                         
-                        let initLanguages = false;
+                        let initLanguages = false, initCategories = false;
                         if(this.languages.length === 0){
                             this.languages = [{ displayLabel: "All", value: "All" }];
                             initLanguages = true;
                         }
 
-                        let initCategories = this.categories.length === 0;
+
+                        if (this.categories.length === 0) {
+                            this.categories = [{ displayLabel: "All", value: "All" }];
+                            initCategories = true;
+                        }
 
                         templates.forEach((template) => {
 
@@ -94,13 +98,22 @@ export class TemplatePickerComponent {
                                     });
 
                                     if (index === -1) {
-                                        this.categories.push({ displayLabel: c, value: c});
+                                        var dropDownElement:any = {
+                                            displayLabel: c,
+                                            value: c
+                                        };
+
+                                        if (c === "Core") {
+                                            dropDownElement.default = true;
+                                        }
+
+                                        this.categories.push(dropDownElement);
                                     }
                                 });
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this._category;
+                                return c === this._category || this._category === "All";
                             });
 
                             if (matchIndex !== -1) {
@@ -121,7 +134,7 @@ export class TemplatePickerComponent {
                         break;
                 }
             });
-        });        
+        });
     }
 
     ngOnInit() {
