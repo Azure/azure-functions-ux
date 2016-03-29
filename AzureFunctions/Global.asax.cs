@@ -220,8 +220,9 @@ namespace AzureFunctions
 
                 if (slotName.Equals("production", StringComparison.OrdinalIgnoreCase))
                 {
+                    var prodHtml = File.ReadAllText(HostingEnvironment.MapPath("~/prod.html"));
                     // prod
-                    if (indexHtml.IndexOf("functions.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
+                    if (!indexHtml.Equals(prodHtml))
                     {
                         // copy
                         File.Copy(HostingEnvironment.MapPath("~/prod.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
@@ -229,8 +230,9 @@ namespace AzureFunctions
                 }
                 else
                 {
+                    var stageHtml = File.ReadAllText(HostingEnvironment.MapPath("~/stage.html"));
                     // stage
-                    if (indexHtml.IndexOf("functions-staging.azureedge.net", StringComparison.OrdinalIgnoreCase) == -1)
+                    if (!indexHtml.Equals(stageHtml))
                     {
                         // copy
                         File.Copy(HostingEnvironment.MapPath("~/stage.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
