@@ -4,6 +4,7 @@
 
     /* Full page height minus top-bar height */
     height: calc(100% - 40px);
+    min-height: 800px;
 }
 
 .intro-banner{
@@ -66,8 +67,8 @@
 
 .intro-footer{
     background-color: #C2C5C9;
-    padding: 10px 0 25px 250px;
-    position: fixed;
+    padding: 10px 0 25px 0px;
+    position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
