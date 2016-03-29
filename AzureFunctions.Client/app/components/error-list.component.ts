@@ -1,5 +1,7 @@
 import {Component} from 'angular2/core';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {PortalService} from '../services/portal.service';
+import {UserService} from '../services/user.service';
 import {ErrorItem} from '../models/error-item';
 
 @Component({
@@ -11,6 +13,7 @@ import {ErrorItem} from '../models/error-item';
             <div class="error-message">
                 <p><strong>Error:</strong></p>
                 <p>{{error.message}} <a *ngIf="error.href && error.hrefText" [attr.href]="error.href" target="_blank">{{error.hrefText}}</a></p>
+                <p *ngIf="_portalService?.sessionId" style="font-size: smaller">Correlation Id: {{_portalService.sessionId}}</p>
             </div>
         </div>
     </div>`,
@@ -53,7 +56,9 @@ export class ErrorListComponent {
         hrefText: 'here'
     };
 
-    constructor(private _broadcastService: IBroadcastService) {
+    // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
+    constructor(private _broadcastService: IBroadcastService, public _portalService: PortalService)
+    {
         this.errorList = [];
         _broadcastService.subscribe(BroadcastEvent.Error, (e: string) => {
             var errorItem: ErrorItem = e ? { message: e} : this.genericError
