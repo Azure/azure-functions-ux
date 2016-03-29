@@ -193,6 +193,10 @@ export class MockFunctionsService implements IFunctionsService {
         return this.scmInfo.scm_url;
     }
 
+    getSiteName() {
+        return "testSite";
+    }
+
     getDefaultStorageAccount() {
         for (var key in this.scmInfo.appSettings) {
             if (key.toString().endsWith("_STORAGE")) {

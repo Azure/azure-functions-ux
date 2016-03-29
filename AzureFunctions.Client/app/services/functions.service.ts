@@ -25,6 +25,7 @@ export class FunctionsService implements IFunctionsService {
     private hostSecrets: HostSecrets;
     private token: string;
     private scmUrl: string;
+    private siteName: string;
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
     private fc: FunctionContainer;
@@ -42,6 +43,7 @@ export class FunctionsService implements IFunctionsService {
     setFunctionContainer(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+        this.siteName = fc.name;
         this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);
         this.fc = fc;
     }
@@ -212,6 +214,10 @@ export class FunctionsService implements IFunctionsService {
 
     getScmUrl() {
         return this.scmUrl;
+    }
+    
+    getSiteName(){
+        return this.siteName;
     }
 
     getDefaultStorageAccount() {
