@@ -167,7 +167,7 @@ export class GettingStartedComponent implements OnInit {
     validateContainerName(name: string): Observable<{ isValid: boolean; reason: string}>{
         var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
         if (name.length < 2) {
-            return Observable.of({ isValid: false, reason: 'The name must be at lease 2 characters' });
+            return Observable.of({ isValid: false, reason: 'The name must be at least 2 characters' });
         } else if (name.length > 60) {
             return Observable.of({ isValid: false, reason: 'The name must be at most 60 characters' });
         } else if (!name.match(regEx)) {
