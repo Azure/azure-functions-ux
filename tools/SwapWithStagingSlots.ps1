@@ -1,4 +1,6 @@
-﻿# make sure the script stops if one of the swaps failed
+﻿# Before swapping, make sure to increase the version in AzureFunctions.Client\prod.html. Search for ?v= in two places.
+
+# make sure the script stops if one of the swaps failed
 $ErrorActionPreference = "Stop"
 
 Select-AzureRmSubscription -SubscriptionName "Websites migration"
