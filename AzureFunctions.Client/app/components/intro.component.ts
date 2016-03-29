@@ -22,6 +22,8 @@ export class IntroComponent {
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: IBroadcastService,
         private _portalService: PortalService) {
+
+        this.selectedFunction = "timer";
     }
 
     onFunctionCliked(selectedFunction: string) {
