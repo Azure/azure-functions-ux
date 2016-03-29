@@ -22,15 +22,14 @@ export class AppMonitoringComponent implements OnInit {
     public data: Object;
     private consumptionChartData: Array<Object>;
 
-    constructor(private _monitoringService: MonitoringService, private _portalService: PortalService, private _broadcastService: IBroadcastService) {}
+    constructor(private _monitoringService: MonitoringService, private _portalService: PortalService, private _broadcastService: IBroadcastService) { }
 
     ngOnInit() {
         this._broadcastService.setBusyState();
-        this._monitoringService.getFunctionAppConsumptionData().subscribe(res =>
-            {
-                this._broadcastService.clearBusyState();
-                this.convertToConsumptionChartDataAndDraw(res);
-            });
+        this._monitoringService.getFunctionAppConsumptionData().subscribe(res => {
+            this._broadcastService.clearBusyState();
+            this.convertToConsumptionChartDataAndDraw(res);
+        });
     }
 
     openBlade(name: string) {
@@ -38,88 +37,74 @@ export class AppMonitoringComponent implements OnInit {
     }
 
     convertToConsumptionChartDataAndDraw(appConsumption: MonitoringConsumption[]) {
-        var consumptionDisplayDates: Array<string>;
-        var consumptionLengths: Array<number>;
-        this.consumptionChartData = [];
-        consumptionDisplayDates = appConsumption.map(e => e.startTime);
-        consumptionLengths = appConsumption.map(e => e.length);
-        var dates = appConsumption.map(e => e.startTimeBucket);
-        var x: number[] = [];
-        var deltaY: number[] = [];
-        var deltaYSorted: number[] = [];
-        var displayDates: Object[] = [];
-        for (var i = 0; i < dates.length; i++) {
-            x.push(dates[i]);
-            deltaY.push(+1);
-            // end = start + length
-            var end = dates[i] + consumptionLengths[i];
-            x.push(end);
-            // convert end value from minutes to DateTime
-            consumptionDisplayDates.push(new Date(new Date(consumptionDisplayDates[i]).getTime() + end).toISOString());
-            deltaY.push(-1);
-        }
-        // store the unsorted values of array x
-        var xArray: number[] = Array.from(x);
-        x.sort((a, b) => (a > b ? 1 : a < b ? -1 : 0));
-
-        // update the Y values Array as per the sorted values in x
-        for (var i = 0; i < x.length; i++) {
-            var index = xArray.indexOf(x[i]);
-            deltaYSorted.push(deltaY[index]);
-            displayDates.push(new Date(consumptionDisplayDates[index]));
-            xArray[index] = -1; // replace the already visited value by -1, to handle duplicates
+        var data = [];
+        for (var i = 0; i < appConsumption.length; i++) {
+            data.push({
+                x: appConsumption[i].startTimeBucket,
+                xDisplay: new Date(appConsumption[i].startTime),
+                deltaY: 1
+            });
+            data.push({
+                x: appConsumption[i].startTimeBucket + appConsumption[i].length,
+                xDisplay: (new Date(new Date(appConsumption[i].startTime).getTime() + appConsumption[i].length * 60 * 1000)),
+                deltaY: -1
+            });
         }
 
-        var xCategories: number[] = [];
-        var y: number[] = [];
+        data = data.sort((i, j) => i.x - j.x);
+        var points = [];
+        var oldY = 0;
+        for (var t = data[0].x; t < data[data.length - 1].x; t++) {
 
-        var currX = -1;
-        var currY = 0;
-
-        for (var i = 0; i < x.length; i++) {
-            if (currX !== x[i]) {
-                this.consumptionChartData.push({
-                    label: displayDates[i],
-                    value: currY
-                });
+            var filteredData = data.filter((d) => d.x == t);
+            if (filteredData.length > 0) {
+                var newY = oldY;
+                for (var item of filteredData) {
+                    newY = newY + item.deltaY;
+                }
+                var display = filteredData[0].xDisplay;
+                points.push({ x: display, y: oldY });
+                points.push({ x: display, y: newY });
+                oldY = newY;
             }
-            currX = x[i];
-            currY = (currY + deltaYSorted[i]).valueOf();
         }
 
         this.options = {
             chart: {
-                type: 'discreteBarChart',
+                type: 'lineChart',
                 height: 450,
                 margin: {
-                    top: 20,
-                    right: 20,
-                    bottom: 50,
+                    top: 10,
+                    right: 30,
+                    bottom: 60,
                     left: 55
                 },
-                x: function (d) { return d.label; },
-                y: function (d) { return d.value; },
-                //  showValues: true,
-                valueFormat: function (d) {
-                    return d3.format(',d')(d);
-                },
-                duration: 0,
+                x: function (d) { return d.x; },
+                y: function (d) { return d.y; },
                 xAxis: {
-                    tickFormat: d3.time.format('%c')
+                    tickFormat: d3.time.format("%m/%d %H:%M"),
+                    tickValues: d3.time.hour.range(10), //https://github.com/mbostock/d3/wiki/Time-Intervals
+                    axisLabelDistance: -10,
+                    rotateLabels: -35
                 },
-                yAxis: {
-                    axisLabel: 'Function App Instances',
-                    tickFormat: (d3.format('d')),
-                    axisLabelDistance: -10
-                },
-                color: ['rgb(124, 181, 236)'] // give the same color to all bars of the chart
-            }
+                duration: 500,
+                xScale: d3.time.scale(),
+                showMaxMin: false
+            },
+            noData: "There is no Data",
+            yAxis: {
+                axisLabel: 'Function App Instances',
+                tickFormat: (d3.format('d')),
+                axisLabelDistance: -10
+            },
+            color: ['rgb(124, 181, 236)']
         }
+
 
         this.data = [
             {
                 key: "Units Consumed",
-                values: (this.consumptionChartData)
+                values: points,
             }];
     }
 }

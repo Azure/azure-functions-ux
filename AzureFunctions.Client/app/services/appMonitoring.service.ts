@@ -30,6 +30,20 @@ export class MonitoringService implements IMonitoringService {
     }
 
     getFunctionAppConsumptionData() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        var todayStr = mm + '/' + dd + '/' + yyyy;
         var url = this._functionsService.getScmUrl() + "/AZUREJOBS/api/containers/timeline?limit=10";
         return this._http.get(url, { headers: this.getHeaders() })
             .retry(3)
