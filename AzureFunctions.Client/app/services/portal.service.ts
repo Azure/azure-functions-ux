@@ -7,6 +7,7 @@ import {BroadcastEvent, IBroadcastService} from './ibroadcast.service';
 
 @Injectable()
 export class PortalService implements IPortalService {
+    public sessionId = "";
     private portalSignature: string = "FxAppBlade";
     private resourceIdObservable: ReplaySubject<string>;
     private tokenObservable: ReplaySubject<string>;
@@ -92,6 +93,9 @@ export class PortalService implements IPortalService {
 
         if (methodName === Verbs.sendResourceId) {
             this.resourceIdObservable.next(data);
+        }
+        else if(methodName === Verbs.sendSessionId){
+            this.sessionId = data;
         }
         else if (methodName === Verbs.sendToken) {
             this.tokenObservable.next(data);

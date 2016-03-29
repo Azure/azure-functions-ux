@@ -33,6 +33,7 @@ export class Verbs{
     public static setDirtyState = "set-dirtystate";
 
     // Requests from Ibiza
+    public static sendSessionId = "send-sessionId";
     public static sendToken = "send-token";
     public static sendResourceId = "send-resourceId";
     public static sendAppSettingName = "send-appSettingName";
