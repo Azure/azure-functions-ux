@@ -42,12 +42,18 @@
     right: 0;
 }
 
-.tp-template-icon{
+.tp-template-content > svg{
+    height: 85px;
+    width: 185px;
+    margin-top: -15px;
     margin-bottom: 10px;
+    margin-left: -6px;
 }
 
-.tp-template-icon-selected{
-    color: #419BF3;
+/* Purposely not setting class directly on path because IE doesn't seem to like
+   dynamic classes on SVG elements */
+.tp-template-icon-selected > svg > path{
+    fill: #419BF3;
 }
 
 .tp-template-content .glyphicon{

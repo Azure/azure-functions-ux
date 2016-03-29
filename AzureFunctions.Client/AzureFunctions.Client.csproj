@@ -25,6 +25,7 @@
     <Content Include="health.html" />
     <Content Include="images\arrow-right.svg" />
     <Content Include="images\bolt.svg" />
+    <Content Include="images\generic-template.svg" />
     <Content Include="images\stack.svg" />
     <Content Include="prod.html" />
     <Content Include="stage.html" />
