@@ -56,10 +56,6 @@ export class FunctionEditComponent {
         private _portalService : PortalService) {
 
         this.inIFrame = this._userService.inIFrame;
-
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
-            this.selectedFunction = JSON.parse(JSON.stringify(fi));
-        });
         
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
