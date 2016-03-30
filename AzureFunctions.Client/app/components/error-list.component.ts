@@ -3,6 +3,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
 import {ErrorItem} from '../models/error-item';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'error-list',
@@ -13,7 +14,8 @@ import {ErrorItem} from '../models/error-item';
             <div class="error-message">
                 <p><strong>Error:</strong></p>
                 <p>{{error.message}} <a *ngIf="error.href && error.hrefText" [attr.href]="error.href" target="_blank">{{error.hrefText}}</a></p>
-                <p *ngIf="_portalService?.sessionId" style="font-size: smaller">Correlation Id: {{_portalService.sessionId}}</p>
+                <p *ngIf="_portalService?.sessionId" style="font-size: smaller">Session Id: {{_portalService.sessionId}}</p>
+                <p style="font-size: smaller">Timestamp: {{error.dateTime}}</p>
             </div>
         </div>
     </div>`,
@@ -50,22 +52,25 @@ import {ErrorItem} from '../models/error-item';
 })
 export class ErrorListComponent {
     public errorList: ErrorItem[];
-    genericError: ErrorItem = {
-        message: `You may be experiencing an error. If you're having issues, please post them`,
-        href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
-        hrefText: 'here'
-    };
-
     // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
     constructor(private _broadcastService: IBroadcastService, public _portalService: PortalService)
     {
         this.errorList = [];
-        _broadcastService.subscribe(BroadcastEvent.Error, (e: string) => {
-            var errorItem: ErrorItem = e ? { message: e} : this.genericError
+        _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (e) => {
+            var errorItem: ErrorItem = e && e.message ? { message: e.message, dateTime: new Date().toISOString() } : this.getGenericError()
             if (!this.errorList.find(e => e.message === errorItem.message)) {
                 this.errorList.push(errorItem);
             }
         });
+    }
+
+    private getGenericError(): ErrorItem {
+        return {
+            message: `You may be experiencing an error. If you're having issues, please post them`,
+            href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
+            hrefText: 'here',
+            dateTime: new Date().toISOString()
+        };
     }
 
     dismissError(index: number) {

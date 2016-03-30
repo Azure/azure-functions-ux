@@ -3,6 +3,7 @@ import {IBroadcastService, BroadcastEvent} from './ibroadcast.service';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {ErrorEvent} from '../models/error-event';
 
 @Injectable()
 export class BroadcastService implements IBroadcastService {
@@ -13,7 +14,7 @@ export class BroadcastService implements IBroadcastService {
     private busyStateEvent: EventEmitter<boolean>;
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
-    private errorEvent: EventEmitter<string>;
+    private errorEvent: EventEmitter<ErrorEvent>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -25,7 +26,7 @@ export class BroadcastService implements IBroadcastService {
         this.busyStateEvent = new EventEmitter<boolean>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
-        this.errorEvent = new EventEmitter<string>();
+        this.errorEvent = new EventEmitter<ErrorEvent>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {

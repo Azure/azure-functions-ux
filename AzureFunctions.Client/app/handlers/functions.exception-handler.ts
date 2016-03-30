@@ -1,6 +1,7 @@
 import {ExceptionHandler, Inject} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {ErrorEvent} from '../models/error-event';
 
 export class FunctionsExceptionHandler extends ExceptionHandler {
 
@@ -10,7 +11,7 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
 
     call(error) {
         this._broadcastService.clearBusyState();
-        this._broadcastService.broadcast(BroadcastEvent.Error, this.getErrorMessage(error));
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this.getErrorMessage(error), details: this.getErrorDetails(error) });
     }
 
     private getErrorMessage(error: any): string {
@@ -31,6 +32,15 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
             return error.message;
         } else {
             return undefined;
+        }
+    }
+
+
+    private getErrorDetails(error: any): string {
+        try {
+            return JSON.stringify(error);
+        } catch (e) {
+            return error + '';
         }
     }
 

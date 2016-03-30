@@ -11,6 +11,7 @@ import {BindingManager} from '../models/binding-manager';
 import {FunctionTemplate} from '../models/function-template';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {PortalService} from '../services/portal.service';
+import {ErrorEvent} from '../models/error-event';
 
 declare var jQuery: any;
 
@@ -148,19 +149,14 @@ export class FunctionNewComponent {
         this._broadcastService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {
-                if (!res) {
-                    this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id });
-                    this._broadcastService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.Error, "Function creation error! Please try again.");
-                    return;
-                }
-
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id });
-
-                window.setTimeout(() => {
-                    this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                    this._broadcastService.clearBusyState();
-                }, 1500);
+                this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                this._broadcastService.clearBusyState();
+            },
+            e => {
+                this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id });
+                this._broadcastService.clearBusyState();
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
             });
     }
 }

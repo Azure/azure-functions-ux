@@ -1,9 +1,9 @@
 ﻿import {Injectable} from 'angular2/core';
 import {IPortalService} from './iportal.service.ts';
-
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
 import {BroadcastEvent, IBroadcastService} from './ibroadcast.service';
+import {ErrorEvent} from '../models/error-event';
 
 @Injectable()
 export class PortalService implements IPortalService {
@@ -40,8 +40,8 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.ready, null);
         this.postMessage(Verbs.getAuthToken, null);
 
-        this._broadcastService.subscribe<string>(BroadcastEvent.Error, (message : string) =>{
-            this.logMessage(LogEntryLevel.Error, message);
+        this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
+            this.logMessage(LogEntryLevel.Error, error.details);
         });
     }
 
