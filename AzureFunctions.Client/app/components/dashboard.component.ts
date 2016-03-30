@@ -22,6 +22,7 @@ import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'functions-dashboard',
@@ -126,7 +127,7 @@ export class DashboardComponent implements OnChanges {
                 }
                 this.checkHostSubscription = Observable.timer(1, 60000)
                     .concatMap<string[]>(() => this._functionsService.getHostErrors().catch(e => Observable.of([])))
-                    .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e)));
+                    .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` })));
             });
     }
 

@@ -7,6 +7,7 @@ import {FunctionInfo} from '../models/function-info';
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {BindingManager} from '../models/binding-manager';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'intro',
@@ -62,27 +63,20 @@ export class IntroComponent {
                 this._broadcastService.setBusyState();
                 this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                     .subscribe(res => {
-                        if (!res) {
-                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
-
-                            this._broadcastService.clearBusyState();
-                            this._broadcastService.broadcast(BroadcastEvent.Error, "Function creation error! Please try again.");
-                            return;
-                        }
-
                         this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id });
-
                         this._broadcastService.broadcast<TutorialEvent>(
                             BroadcastEvent.TutorialStep,
                             {
                                 functionInfo: res,
                                 step: TutorialStep.Waiting
                             });
-
-                        window.setTimeout(() => {
-                            this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                            this._broadcastService.clearBusyState();
-                        }, 1500);
+                        this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                        this._broadcastService.clearBusyState();
+                    },
+                    e => {
+                        this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
+                        this._broadcastService.clearBusyState();
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
                     });
             }
 

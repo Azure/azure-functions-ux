@@ -4,6 +4,7 @@ import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'log-streaming',
@@ -57,7 +58,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             .subscribe(
                 (r: string[]) => this.hostErrors = r.reduce((a, b) => a + b + '\n', ''),
                 error => this._functionsService.getHostErrors()
-                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast(BroadcastEvent.Error, e))));
+                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {message: e, details: `Host Error: ${e}`}))));
 
         var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
 
