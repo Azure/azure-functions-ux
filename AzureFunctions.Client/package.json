@@ -7,7 +7,10 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
-    "typings": "typings"
+    "typings": "typings",
+    "jspm:i": "jspm install",
+    "jspm:bundle": "jspm bundle-sfx app sfx/app.js",
+    "uglifyjs": "uglifyjs --compress --output sfx/app.min.js -- sfx/app.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -31,7 +34,8 @@
     "jspm": "^0.16.30",
     "lite-server": "^2.1.0",
     "typescript": "^1.8.5",
-    "typings": "^0.6.8"
+    "typings": "^0.6.8",
+    "uglifyjs": "^2.4.10"
   },
   "jspm": {
     "dependencies": {
