@@ -89,14 +89,6 @@ export class DashboardComponent implements OnChanges {
             });
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
-            var index = this.functionsInfo.findIndex((f) => {
-                return f.name === fi.name;
-            });
-            if (index !== -1) {
-                this.functionsInfo[index] = fi;
-            }
-        });
 
         // TODO: What's the right way of doing something like this?
         

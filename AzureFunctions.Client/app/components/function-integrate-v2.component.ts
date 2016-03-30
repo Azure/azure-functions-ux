@@ -27,7 +27,7 @@ export class FunctionIntegrateV2Component {
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
-    public currentBinding: UIFunctionBinding;
+    public currentBinding: UIFunctionBinding = null;
     public currentBindingId: string = "";
 
     private _elementRef: ElementRef;
@@ -36,11 +36,11 @@ export class FunctionIntegrateV2Component {
     
     set selectedFunction(fi: FunctionInfo) {
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
-        
+        debugger;
         if (!this._functionInfo || this._functionInfo.name !== fi.name) {
             this.currentBinding = null;
             this.currentBindingId = "";
-            this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
+            this._functionInfo = fi;
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
                 if (this.model.config.bindings.length > 0) {
@@ -52,7 +52,6 @@ export class FunctionIntegrateV2Component {
                 jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
             });
         }
-        
     }
 
     constructor(
@@ -146,7 +145,7 @@ export class FunctionIntegrateV2Component {
         }
 
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-            this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
+            //this.selectedFunction = this._functionInfo;
         });
     }
 

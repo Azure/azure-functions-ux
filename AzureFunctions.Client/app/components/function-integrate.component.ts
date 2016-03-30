@@ -53,7 +53,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
                         this.isDirty = false;
                         this._broadcastService.clearDirtyState('function');
                         this._portalService.setDirtyState(false);
-                        this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, fi);
                     }
                 });
         }
