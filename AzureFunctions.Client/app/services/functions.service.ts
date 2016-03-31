@@ -273,6 +273,7 @@ export class FunctionsService implements IFunctionsService {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
+        headers.append('Accept', 'application/json,*/*');
 
         if (this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
@@ -285,6 +286,7 @@ export class FunctionsService implements IFunctionsService {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
+        headers.append('Accept', 'application/json,*/*');
         if (this.hostSecrets) {
             headers.append('x-functions-key', this.hostSecrets.masterKey);
         }
@@ -295,6 +297,7 @@ export class FunctionsService implements IFunctionsService {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
+        headers.append('Accept', 'application/json,*/*');
 
         if (this.token) {
             headers.append('client-token', this.token);
