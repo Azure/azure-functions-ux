@@ -10,6 +10,7 @@
         Scenario:
         <drop-down [options]="categories"
                     class="tpicker-dropdown"
+                    [selectedValue]="category"
                     (value)="onScenarioChanged($event)"></drop-down>
     </span>
 </div>
