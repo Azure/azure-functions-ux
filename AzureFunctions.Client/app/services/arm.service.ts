@@ -196,6 +196,12 @@ export class ArmService implements IArmService {
             }
         };
         this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
+        .retryWhen(e => e.scan<number>((errorCount, err) => {
+            if (errorCount >= 5) {
+                throw err;
+            }
+            return errorCount + 1;
+        }, 0).delay(200))
         .subscribe(
             r => this.pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
             e => this.completeError(result, e));
