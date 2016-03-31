@@ -6,6 +6,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 import {SettingType} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
+import {PopOverComponent} from './pop-over.component';
 
 @Component({
     selector: 'binding-input',
@@ -13,7 +14,7 @@ import {DropDownComponent} from './drop-down.component';
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"],
     styleUrls: ['styles/binding.style.css'],
-    directives: [DropDownComponent]
+    directives: [DropDownComponent, PopOverComponent]
 })
 
 export class BindingInputComponent {

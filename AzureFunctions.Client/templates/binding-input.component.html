@@ -1,14 +1,9 @@
 ﻿<!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">    
     <label [attr.for]="input.id" class="control-label">{{input.label}} 
-        <button type="button"
-                class="btn btn-default info-button"
-                data-toggle="popover"
-                data-trigger="focus"
-                data-placement="top"
-                [attr.data-content]="input.help">
+        <pop-over [message]="input.help">
             <span class="glyphicon glyphicon-info-sign"></span>
-        </button>
+        </pop-over>
    </label>
 
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
