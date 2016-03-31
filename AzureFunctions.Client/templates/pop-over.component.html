@@ -1,0 +1,7 @@
+﻿  
+    <span class="pop-over-container">
+        <span class="pop-over" [class.pop-over-visible]="show === true">{{message}}</span>
+        <button class="pop-over-button" (focus)="show = true" (blur)="show = false">
+            <ng-content></ng-content>
+        </button>
+    </span>

@@ -180,11 +180,6 @@ export class BindingComponent {
         });
     }
 
-    ngAfterContentChecked() {
-        // TODO: find another way to enable popovers
-        jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
-    }
-
     removeClicked() {
         this.remove.emit(this.bindingValue);
     }
