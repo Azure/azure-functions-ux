@@ -79,6 +79,10 @@ export class TemplatePickerComponent {
 
                         templates.forEach((template) => {
 
+                            if (template.metadata.visible === false) {
+                                return;
+                            }
+
                             if(initLanguages){
                                 var lang = this.languages.find((l) => {
                                     return l.value === template.metadata.language;
