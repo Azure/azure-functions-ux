@@ -27,7 +27,7 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
-    private _category: string = "Core";
+    private category: string = "Core";
     private _language: string = "All";
     private _type: TemplatePickerType;
     private _initialized = false;
@@ -113,7 +113,7 @@ export class TemplatePickerComponent {
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this._category || this._category === "All";
+                                return c === this.category || this.category === "All";
                             });
 
                             if (matchIndex !== -1) {
@@ -131,6 +131,11 @@ export class TemplatePickerComponent {
                                 }
                             }
                         });
+
+                        if (this.templates.length === 0) {
+                            this.onScenarioChanged("All");
+                        }
+
                         break;
                 }
             });
@@ -146,7 +151,7 @@ export class TemplatePickerComponent {
     }
 
     onCancelClicked() {
-        this.cancel.emit(""); // this fires an eventClicked
+        this.cancel.emit(""); // this fires an eventClicked 
     }
 
     onTemplateCliked(template: string) {
@@ -162,7 +167,7 @@ export class TemplatePickerComponent {
     }
 
     onScenarioChanged(category: string) {
-        this._category = category;
+        this.category = category;
         this.type = this._type;
     }
 
