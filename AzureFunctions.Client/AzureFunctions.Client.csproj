@@ -38,6 +38,7 @@
     <Content Include="styles\binding.style.css" />
     <Content Include="styles\function-new.style.css" />
     <Content Include="styles\intro.style.css" />
+    <Content Include="styles\pop-over.style.css" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
@@ -113,6 +114,7 @@
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\function-new.component.ts" />
     <TypeScriptCompile Include="app\components\function-new-v2.component.ts" />
+    <TypeScriptCompile Include="app\components\pop-over.component.ts" />
     <TypeScriptCompile Include="app\components\radio-selector.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
     <TypeScriptCompile Include="app\components\tab.component.ts" />
@@ -177,6 +179,7 @@
     <Content Include="bs-config.json" />
     <None Include="mocks\tenants.json" />
     <TypeScriptCompile Include="app\models\binding-manager.ts" />
+    <Content Include="templates\pop-over.component.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
