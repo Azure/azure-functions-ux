@@ -18,8 +18,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     public _selectedFunction: FunctionInfo;
     public configContent: string;
-    public updatedContent: string;
     public isDirty: boolean;
+    private _originalContent: string;
 
     constructor(
         private _functionsService: FunctionsService,
@@ -32,6 +32,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     set selectedFunction(value: FunctionInfo) {
         this._selectedFunction = value;
         this.configContent = JSON.stringify(value.config, undefined, 2);
+        this._originalContent = this.configContent;
     }
 
     contentChanged(content: string) {
@@ -41,19 +42,23 @@ export class FunctionIntegrateComponent implements OnDestroy {
             this._portalService.setDirtyState(true);
         }
 
-        this.updatedContent = content;
+        this.configContent = content;
+    }
+
+    cancelConfig() {
+        this.configContent = this._originalContent;
+        this.clearDirty();
     }
 
     saveConfig() {
         if (this.isDirty) {
-            this._selectedFunction.config = JSON.parse(this.updatedContent);
+            this._selectedFunction.config = JSON.parse(this.configContent);
+            this._broadcastService.setBusyState();
             this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {
-                    if (this.isDirty) {
-                        this.isDirty = false;
-                        this._broadcastService.clearDirtyState('function');
-                        this._portalService.setDirtyState(false);
-                    }
+                    this._originalContent = this.configContent;
+                    this.clearDirty();
+                    this._broadcastService.clearBusyState();
                 });
         }
     }
@@ -73,5 +78,14 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.changeEditor.emit(editorType);
+    }
+
+    private clearDirty() {
+        if (this.isDirty) {
+            this.isDirty = false;
+            this._broadcastService.clearDirtyState('function');
+            this._portalService.setDirtyState(false);
+        }
+
     }
 }
