@@ -154,7 +154,8 @@ export class ArmService implements IArmService {
                         { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' },
                         { name: 'WEBSITE_NODE_DEFAULT_VERSION', value: '4.1.2' }
                     ]
-                }
+                },
+                sku: 'Dynamic'
             },
             location: geoRegion,
             kind: 'functionapp'
