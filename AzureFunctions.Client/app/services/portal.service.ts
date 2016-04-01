@@ -41,7 +41,9 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.getAuthToken, null);
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
-            this.logMessage(LogEntryLevel.Error, error.details);
+            if (error.details) {
+                this.logMessage(LogEntryLevel.Error, error.details);
+            }
         });
     }
 

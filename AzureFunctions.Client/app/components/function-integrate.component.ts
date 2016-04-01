@@ -4,6 +4,7 @@ import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'function-integrate',
@@ -52,6 +53,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     saveConfig() {
         if (this.isDirty) {
+            try {
             this._selectedFunction.config = JSON.parse(this.configContent);
             this._broadcastService.setBusyState();
             this._functionsService.updateFunction(this._selectedFunction)
@@ -60,6 +62,9 @@ export class FunctionIntegrateComponent implements OnDestroy {
                     this.clearDirty();
                     this._broadcastService.clearBusyState();
                 });
+            } catch (e) {
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` })
+            }
         }
     }
 
