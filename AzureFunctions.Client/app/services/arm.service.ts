@@ -86,6 +86,14 @@ export class ArmService implements IArmService {
             .map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties));
     }
 
+    warmUpFunctionApp(armId: string) {
+        var siteName = armId.split('/').pop();
+        this._http.get(`https://${siteName}.azurewebsites.net`)
+            .subscribe(r => console.log(r), e => console.log(e));
+        this._http.get(`https://${siteName}.scm.azurewebsites.net`, { headers: this.getHeaders() })
+            .subscribe(r => console.log(r), e => console.log(e));
+    }
+
     private registerProviders(subscription: string, geoRegion: string, name: string, result: Subject<FunctionContainer>) {
         var providersUrl = `${this.armUrl}/subscriptions/${subscription}/providers?api-version=${this.armApiVersion}`;
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
