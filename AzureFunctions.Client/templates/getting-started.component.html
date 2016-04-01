@@ -19,7 +19,7 @@
 
             <div *ngIf="functionContainers.length > 0" class="start-half start-right">
                 <h3>Your function apps</h3>
-                <span>This subscription contains one or more <strong>function apps</strong>. These are containers where your functions are executed. Select or create a new one below.</span>
+                <span>This subscription contains one or more <strong>function apps</strong>. These are containers where your functions are executed. Select one or create a new one below.</span>
                 
                 <label class="start-below-description">Function apps</label>
                 <drop-down [options]="functionContainers" (value)="onContainerChange($event)"></drop-down>
