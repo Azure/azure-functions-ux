@@ -94,7 +94,6 @@ export class MockFunctionsService implements IFunctionsService {
             config: null,
             script_href: null,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
@@ -109,7 +108,6 @@ export class MockFunctionsService implements IFunctionsService {
             config: null,
             script_href: 'mocks/host/host.json',
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
@@ -124,16 +122,11 @@ export class MockFunctionsService implements IFunctionsService {
             config: null,
             script_href: null,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
             test_data: null
         };
-    }
-
-    getTestData(functionInfo: FunctionInfo) {
-        return Observable.of('sample test data');
     }
 
     getRunStatus(functionInfo: FunctionInfo, runId: string) {
@@ -176,7 +169,6 @@ export class MockFunctionsService implements IFunctionsService {
             config: config,
             name: fi.name,
             script_href: fi.script_href,
-            test_data_href: fi.test_data_href,
             secrets_file_href: fi.secrets_file_href,
             href: fi.href,
             template_id: fi.template_id,

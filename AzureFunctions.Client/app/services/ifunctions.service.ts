@@ -21,7 +21,6 @@ export interface IFunctionsService {
     createFunctionV2(functionName: string, files: any): Observable<FunctionInfo>;
     getNewFunctionNode(): FunctionInfo;
     getSettingsNode(): FunctionInfo;
-    getTestData(functionInfo: FunctionInfo): Observable<string>;
     runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
     getDesignerSchema(): Observable<DesignerSchema>;

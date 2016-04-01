@@ -102,7 +102,6 @@ export class FunctionsService implements IFunctionsService {
             config: null,
             script_href: null,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
@@ -117,20 +116,11 @@ export class FunctionsService implements IFunctionsService {
             config: null,
             script_href: `${this.scmUrl}/api/vfs/site/wwwroot/host.json`,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
             test_data: null
         };
-    }
-
-    getTestData(functionInfo: FunctionInfo) {
-        return this._http.get(functionInfo.test_data_href, { headers: this.getHeaders() })
-            .catch(e => Observable.of({
-                text: () => ''
-            }))
-            .map<string>(r => r.text());
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
