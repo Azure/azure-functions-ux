@@ -89,33 +89,31 @@ export class AppMonitoringComponent implements OnInit {
                     left: 85
                 },
                 showLegend: false,
-                valueFormat: function (d) {
-                    return d3.format(',d')(d);
-                },
                 x: function (d) { return d.x; },
                 y: function (d) { return d.y; },
+                useInteractiveGuideline: true,
                 xAxis: {
                     tickFormat: d3.time.format("%b%d %I:%M %p"),
-                    ticks: 10,
+                    ticks: (d3.time.minute, 15), // creates ticks at every 15 minute interval
                     rotateLabels: -35
                 },
                 xScale: d3.time.scale(),
-                showMaxMin: false
-            },
-            noData: "There is no Data",
-            yAxis: {
-                axisLabel: 'Function App Instances',
-                tickFormat: (d3.format('d')),
-                axisLabelDistance: -10
-            },
-            color: ['rgb(124, 181, 236)']
+                showMaxMin: false,
+                noData: "There is no Data",
+                yAxis: {
+                    axisLabel: 'Function App Instances',
+                    tickFormat: (d3.format('d')),
+                    axisLabelDistance: -10
+                },
+                color: ['rgb(124, 181, 236)']
+            }
         }
 
         this.data = [
             {
                 key: "Units Consumed",
                 values: points,
-                area: true 
+                area: true
             }];
     }
 }
