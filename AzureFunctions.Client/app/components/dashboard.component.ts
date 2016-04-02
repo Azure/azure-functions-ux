@@ -100,7 +100,7 @@ export class DashboardComponent implements OnChanges {
         this.initFunctions();
     }
 
-    initFunctions() {
+    initFunctions(selectedFunctionName? : string) {
         this._broadcastService.setBusyState();
 
         this._functionsService.getFunctions()
@@ -110,6 +110,17 @@ export class DashboardComponent implements OnChanges {
                 this._broadcastService.clearBusyState();
                 this.resetView();
                 this.openIntro = true;
+
+                if (selectedFunctionName) {
+                    var findSelected = this.functionsInfo.find((f) => {
+                        return f.name === selectedFunctionName;
+                    });
+                    if (findSelected) {
+                        this.openIntro = false;
+                        this.selectedFunction = findSelected;
+                        this.sideBar.selectedFunction = findSelected;
+                    }
+                }
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets()
@@ -124,7 +135,7 @@ export class DashboardComponent implements OnChanges {
     }
 
     onRefreshClicked() {
-        this.initFunctions();
+        this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
     }
 
     onAppMonitoringClicked() {
