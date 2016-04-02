@@ -14,4 +14,15 @@ export class PopOverComponent{
 
     constructor(){
     }
+
+    onBlur(event: any) {
+        this.show = false;
+
+        if (event.relatedTarget) {
+            window.open(
+                event.relatedTarget.toString(),
+                '_blank' // <- This is what makes it open in a new window.
+            );
+        }
+    }
 }
