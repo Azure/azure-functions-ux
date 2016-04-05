@@ -57,6 +57,13 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this._utilities.copyContentToClipboard(this._elementRef.nativeElement.querySelector('pre'));
     }
 
+    handleKeyPress(e: KeyboardEvent) {
+        if ((e.which === 65 || e.keyCode == 65) && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            this._utilities.highlightText(this._elementRef.nativeElement.querySelector('pre'));
+        }
+    }
+
     private initLogs() {
         if (this.xhReq) {
             window.clearInterval(this.timerId);
