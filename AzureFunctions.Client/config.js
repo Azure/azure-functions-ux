@@ -32,7 +32,7 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "ng2-nvd3": "github:ahmelsayed/ng2-nvd3@1.0.7",
     "nvd3": "npm:nvd3@1.8.2",
-    "rxjs": "npm:rxjs@5.0.0-beta.4",
+    "rxjs": "npm:rxjs@5.0.0-beta.2",
     "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.6",
     "ts": "github:frankwallis/plugin-typescript@4.0.5",
     "typescript": "npm:typescript@1.8.9",
@@ -112,7 +112,7 @@ System.config({
     },
     "npm:angular2@2.0.0-beta.13": {
       "reflect-metadata": "npm:reflect-metadata@0.1.2",
-      "rxjs": "npm:rxjs@5.0.0-beta.4",
+      "rxjs": "npm:rxjs@5.0.0-beta.2",
       "zone.js": "npm:zone.js@0.6.8"
     },
     "npm:asn1.js@4.5.0": {
@@ -352,7 +352,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:rxjs@5.0.0-beta.4": {
+    "npm:rxjs@5.0.0-beta.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
