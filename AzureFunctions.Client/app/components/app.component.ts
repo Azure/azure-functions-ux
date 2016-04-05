@@ -111,7 +111,12 @@ export class AppComponent implements OnInit {
                 .subscribe(tenants => {
                     var currentTenant = tenants.find(t => t.Current);
                     var portalHostName = 'https://portal.azure.com';
-                    var environment = window.location.host.indexOf('staging') > -1 ? '?websitesextension_functionsstaged=true' : '';
+                    var environment = '';
+                    if (window.location.host.indexOf('staging') !== -1) {
+                        environment = '?websitesextension_functionsstaged=true';
+                    } else if (window.location.host.indexOf('next') !== -1) {
+                        environment = '?websitesextension_functionsnext=true';
+                    }
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);
                 });
             return true;
