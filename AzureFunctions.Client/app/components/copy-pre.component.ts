@@ -1,4 +1,5 @@
-import { Component, Input, Inject, ElementRef } from 'angular2/core';
+import {Component, Input, Inject, ElementRef} from 'angular2/core';
+import {UtilitiesService} from '../services/utilities.service';
 
 @Component({
     selector: 'copy-pre',
@@ -9,31 +10,17 @@ export class CopyPreComponent {
     @Input() selectOnClick: boolean = true;
     @Input() content: string;
 
-    constructor(@Inject(ElementRef) private elementRef: ElementRef) { }
+    constructor(
+        @Inject(ElementRef) private elementRef: ElementRef,
+        private _utilities: UtilitiesService) { }
 
-    //http://stackoverflow.com/q/8019534/3234163
     highlightText(event: Event) {
         if (this.selectOnClick) {
-            this.internalHighlightText(<Element>event.target);
+            this._utilities.highlightText(<Element>event.target);
         }
-    }
-
-    private internalHighlightText(e: Element) {
-        var range = document.createRange();
-        range.selectNodeContents(e);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
     }
 
     copyToClipboard() {
-        var pre = this.elementRef.nativeElement.querySelector('pre');
-        this.internalHighlightText(<Element> pre);
-        // http://stackoverflow.com/a/30810322/3234163
-        try {
-            var result = document.execCommand('copy');
-        } catch (e) {
-
-        }
+        this._utilities.copyContentToClipboard(this.elementRef.nativeElement.querySelector('pre'));
     }
 }

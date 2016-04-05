@@ -15,6 +15,7 @@ import {FunctionsExceptionHandler} from './handlers/functions.exception-handler'
 import {ArmService} from './services/arm.service';
 import {MonitoringService} from './services/appMonitoring.service';
 import {TelemetryService} from './services/telemetry.service';
+import {UtilitiesService} from './services/utilities.service';
 
 declare var mixpanel: any;
 
@@ -31,7 +32,8 @@ if (window.location.protocol === 'http:') {
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
             provide(ArmService, { useClass: ArmService }),
             provide(MonitoringService, { useClass: MonitoringService }),
-            TelemetryService
+            TelemetryService,
+            UtilitiesService
         ]);
 } else {
     if (window.location.hostname.indexOf('localhost') === -1) {
@@ -49,7 +51,8 @@ if (window.location.protocol === 'http:') {
             provide(ExceptionHandler, { useClass: FunctionsExceptionHandler }),
             provide(ArmService, { useClass: ArmService }),
             provide(MonitoringService, { useClass: MonitoringService }),
-            TelemetryService
+            TelemetryService,
+            UtilitiesService
         ]);
 }
 
@@ -63,7 +66,7 @@ if (typeof mixpanel !==  'undefined') {
 // http://stackoverflow.com/a/901144
 function getParameterByName(name: string): string {
     var url = window.location.href;
-    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
+    url = url.toLowerCase(); // This is just to avoid case sensitiveness
     name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);

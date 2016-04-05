@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnChanges, Input} from 'angular2/core';
+import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef} from 'angular2/core';
 import {FunctionInfo} from '../models/function-info';
 import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 import {ErrorEvent} from '../models/error-event';
+import {UtilitiesService} from '../services/utilities.service';
 
 @Component({
     selector: 'log-streaming',
@@ -19,7 +20,12 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     private timerId: number;
     @Input() functionInfo: FunctionInfo;
 
-    constructor(private _userService: UserService, private _functionsService: FunctionsService, private _broadcastService: IBroadcastService) {
+    constructor(
+        @Inject(ElementRef) private _elementRef: ElementRef,
+        private _userService: UserService,
+        private _functionsService: FunctionsService,
+        private _broadcastService: IBroadcastService,
+        private _utilities: UtilitiesService) {
         this.hostErrors = '';
     }
 
@@ -45,6 +51,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     clearLogs(){
         this.initLogs();
+    }
+
+    copyLogs() {
+        this._utilities.copyContentToClipboard(this._elementRef.nativeElement.querySelector('pre'));
     }
 
     private initLogs() {
