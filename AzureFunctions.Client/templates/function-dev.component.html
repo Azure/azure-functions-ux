@@ -1,9 +1,9 @@
 ﻿<div style="width: 90%" *ngIf="scriptFile">
     <div class="gutter-container">
         <div *ngIf="showFunctionInvokeUrl"><label>Function Url:</label></div>
-        <div *ngIf="showFunctionInvokeUrl"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
+        <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
         <div *ngIf="webHookType === 'github'"><label>Github Secret:</label></div>
-        <div *ngIf="webHookType === 'github'"><pre (click)="highlightText($event)">{{secrets?.key}}</pre></div>
+        <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key"></copy-pre></div>
     </div>
 
     <div>

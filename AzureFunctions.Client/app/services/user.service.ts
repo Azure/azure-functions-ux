@@ -10,7 +10,7 @@ import {PortalService} from './portal.service';
 export class UserService implements IUserService {
     public inIFrame: boolean;
     private currentToken: string;
-    constructor(private _http: Http, private _portalService: PortalService) { 
+    constructor(private _http: Http, private _portalService: PortalService) {
         this.inIFrame = window.parent !== window;
         this.getToken().subscribe(t => this.currentToken = t);
     }

@@ -11,6 +11,7 @@ import {FunctionSecrets} from '../models/function-secrets';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
 import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
+import {CopyPreComponent} from './copy-pre.component';
 
 @Component({
     selector: 'function-dev',
@@ -19,7 +20,8 @@ import {BindingType} from '../models/binding';
     directives: [
         AceEditorDirective,
         FunctionDesignerComponent,
-        LogStreamingComponent
+        LogStreamingComponent,
+        CopyPreComponent
     ]
 })
 export class FunctionDevComponent implements OnChanges {
@@ -157,16 +159,6 @@ export class FunctionDevComponent implements OnChanges {
             this._portalService.setDirtyState(true);
         }
         this.updatedContent = content;
-    }
-
-    //http://stackoverflow.com/q/8019534/3234163
-    highlightText(event: Event) {
-        var el: any = event.target;
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
     }
 
     testContentChanged(content: string) {
