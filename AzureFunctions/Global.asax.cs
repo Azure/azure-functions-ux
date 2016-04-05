@@ -65,17 +65,17 @@ namespace AzureFunctions
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
                 }
+                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
+                    context.Response.Flush();
+                    context.Response.End();
+                }
                 else if (!isFile)
                 {
                     
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
-                    context.Response.End();
-                }
-                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
-                    context.Response.Flush();
                     context.Response.End();
                 }
             }
