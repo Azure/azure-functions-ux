@@ -8,6 +8,9 @@
 </div>
 
 <div class="container">
+    <div *ngIf="tryItNow" style="text-align: center">
+        You need an Azure subscription in order to use this service. <a href="https://azure.microsoft.com/en-us/free/">Click here</a> to create a free trial subscription
+    </div>
     <div *ngIf="!tryItNow">
         <div *ngIf="subscriptions">
             
