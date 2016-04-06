@@ -53,31 +53,37 @@ export class IntroComponent {
             } 
  
             if (selectedTemplate) {
-                this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id });
+                try{ 
+                    this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id });
 
-                var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
+                    var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                    this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
 
-                selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
+                    selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
 
-                this._broadcastService.setBusyState();
-                this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
-                    .subscribe(res => {
-                        this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id });
-                        this._broadcastService.broadcast<TutorialEvent>(
-                            BroadcastEvent.TutorialStep,
-                            {
-                                functionInfo: res,
-                                step: TutorialStep.Waiting
-                            });
-                        this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                        this._broadcastService.clearBusyState();
-                    },
-                    e => {
-                        this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
-                        this._broadcastService.clearBusyState();
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
-                    });
+                    this._broadcastService.setBusyState();
+                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
+                        .subscribe(res => {
+                            this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id });
+                            this._broadcastService.broadcast<TutorialEvent>(
+                                BroadcastEvent.TutorialStep,
+                                {
+                                    functionInfo: res,
+                                    step: TutorialStep.Waiting
+                                });
+                            this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                            this._broadcastService.clearBusyState();
+                        },
+                        e => {
+                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
+                            this._broadcastService.clearBusyState();
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                        });
+                }
+                catch(e){
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                    throw e;
+                }
             }
 
         });
