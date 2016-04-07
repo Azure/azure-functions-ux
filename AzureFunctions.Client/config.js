@@ -24,6 +24,7 @@ System.config({
   },
 
   map: {
+    "ahmelsayed/Ace.Tern": "github:ahmelsayed/Ace.Tern@master",
     "ahmelsayed/ng2-nvd3": "github:ahmelsayed/ng2-nvd3@1.0.7",
     "angular2": "npm:angular2@2.0.0-beta.13",
     "angular2-highcharts": "npm:angular2-highcharts@0.0.5",
