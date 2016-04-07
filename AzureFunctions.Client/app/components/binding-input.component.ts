@@ -101,7 +101,7 @@ export class BindingInputComponent {
                 this._input.errorText = this._input.isValid ? "" : "This field is required"
             }
 
-            if (this._input.isValid) {
+            if (this._input.isValid && this._input.validators) {
                 this._input.validators.forEach((v) => {
                     var regex = new RegExp(v.expression);
                     if (!regex.test(value)) {

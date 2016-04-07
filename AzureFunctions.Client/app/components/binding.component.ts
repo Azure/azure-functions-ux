@@ -34,7 +34,6 @@ export class BindingComponent {
     public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
-    
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
@@ -81,7 +80,6 @@ export class BindingComponent {
             }
 
             this.setLabel();
-            
             if (bindingSchema) {
                 bindingSchema.settings.forEach((setting) => {
 
@@ -120,6 +118,7 @@ export class BindingComponent {
                                     input.required = setting.required;
                                     input.value = functionSettingV.value || setting.defaultValue;
                                     input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                    input.validators = setting.validators;
                                     this.model.inputs.push(input);
                                 }
                                 break;

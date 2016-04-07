@@ -43,6 +43,12 @@ export interface Setting {
     defaultValue?: any;
     help?: string;
     enum?: EnumOption[];
+    validators?: Validator[];
+}
+
+export interface Validator {
+    expression: string;
+    errorText: string;
 }
 
 export interface EnumOption {
