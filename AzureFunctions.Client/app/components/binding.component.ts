@@ -69,6 +69,7 @@ export class BindingComponent {
         var that = this;
         this._functionsService.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
+            this.setDirtyIfNewBinding();
             // Convert settings to input conotrls
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
@@ -188,6 +189,7 @@ export class BindingComponent {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.isDirty = false;
+        this.setDirtyIfNewBinding();
     }
 
     saveClicked() {
@@ -198,6 +200,7 @@ export class BindingComponent {
                 direction: this.bindingValue.direction
             });
 
+        this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
         this.bindingValue.settings.forEach((s) => {
 
@@ -219,6 +222,10 @@ export class BindingComponent {
     onValidChanged(input: BindingInputBase<any>) {
         this.areInputsValid = this.model.isValid();
         this.validChange.emit(this);
+    }
+
+    private setDirtyIfNewBinding() {
+        this.isDirty = this.bindingValue.newBinding === true ? true : false;
     }
 
     private replaceVariables(value: string, variables: any): string {

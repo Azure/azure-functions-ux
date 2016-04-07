@@ -8,6 +8,7 @@ import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {TemplatePickerType} from '../models/template-picker';
 import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {PortalService} from '../services/portal.service';
 
 declare var jQuery: any;
 
@@ -57,7 +58,8 @@ export class FunctionIntegrateV2Component {
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: IBroadcastService,
+        private _portalService: PortalService) {
         this._elementRef = elementRef;
     }
 
@@ -87,16 +89,17 @@ export class FunctionIntegrateV2Component {
 
     onBindingCreateComplete(behavior: DirectionType, templateName: string) {
         this._functionsService.getBindingConfig().subscribe((bindings) => {
-            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
+            this._broadcastService.setDirtyState("function_integrate");
+            this._portalService.setDirtyState(true);
 
-            this.model.config.bindings.push(
-                this.currentBinding
-            );
+
+            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
+            this.currentBinding.newBinding = true;
+
             this.currentBindingId = this.currentBinding.id;
             this.model.setBindings();
             this.pickerType = TemplatePickerType.none;
 
-            this.updateFunction();
         });
     }
 
@@ -149,7 +152,7 @@ export class FunctionIntegrateV2Component {
         });
     }
 
-    private checkDirty() : boolean {
+    private checkDirty(): boolean {
         var switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
             switchBinding = confirm(`Changes made will be lost. Are you sure you want to continue?`);
