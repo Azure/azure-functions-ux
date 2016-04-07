@@ -97,21 +97,24 @@ export class TemplatePickerComponent {
 
                             if(initCategories){
                                 template.metadata.category.forEach((c) => {
-                                    var index = this.categories.findIndex((category) => {
-                                        return category.value === c;
-                                    });
+                                    if ((this._language === "All") || (template.metadata.language === this._language)) {
 
-                                    if (index === -1) {
-                                        var dropDownElement:any = {
-                                            displayLabel: c,
-                                            value: c
-                                        };
+                                        var index = this.categories.findIndex((category) => {
+                                            return category.value === c;
+                                        });
 
-                                        if (c === "Core") {
-                                            dropDownElement.default = true;
+                                        if (index === -1) {
+                                            var dropDownElement: any = {
+                                                displayLabel: c,
+                                                value: c
+                                            };
+
+                                            if (c === "Core") {
+                                                dropDownElement.default = true;
+                                            }
+
+                                            this.categories.push(dropDownElement);
                                         }
-
-                                        this.categories.push(dropDownElement);
                                     }
                                 });
                             }
@@ -136,9 +139,6 @@ export class TemplatePickerComponent {
                             }
                         });
 
-                        if (this.templates.length === 0) {
-                            this.onScenarioChanged("All");
-                        }
 
                         break;
                 }
@@ -166,8 +166,11 @@ export class TemplatePickerComponent {
     }
 
     onLanguageChanged(language: string) {
-        this._language = language;
-        this.type = this._type;
+        if (this._language !== language) {
+            this._language = language;
+            this.categories = [];
+            this.type = this._type;
+        }
     }
 
     onScenarioChanged(category: string) {
