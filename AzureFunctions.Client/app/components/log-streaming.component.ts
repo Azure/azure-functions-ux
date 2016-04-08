@@ -72,6 +72,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     private initLogs() {
+        const maxCharactersInLog = 500000;
+        const intervalIncreaseThreshold = 500;
+        const defaultInterval = 1000;
+        const maxInterval = 10000;
+
         if (this.xhReq) {
             this.timeouts.forEach(window.clearTimeout);
             this.timeouts = [];
@@ -98,11 +103,12 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         var callBack = () => {
             var diff = this.xhReq.responseText.length -  this.oldLength;
             if (!this.stopped && diff > 0) {
-                if (this.xhReq.responseText.length > 500000) {
-                    this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - 500000);
+                if (this.xhReq.responseText.length > maxCharactersInLog) {
+                    this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
                 } else {
                     this.log = this.hostErrors + this.xhReq.responseText;
                 }
+
                 this.oldLength = this.xhReq.responseText.length;
                 window.setTimeout(() => {
                     var el = document.getElementById('log-stream');
@@ -110,17 +116,16 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                         el.scrollTop = el.scrollHeight;
                     }
                 });
-                var nextInterval = diff > 500 ? this.timerInterval + 1000 : this.timerInterval - 1000;
-                if (nextInterval < 1000) {
-                    this.timerInterval = 1000;
-                } else if (nextInterval > 10000) {
-                    this.timerInterval = 10000;
+                var nextInterval = diff > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
+                if (nextInterval < defaultInterval) {
+                    this.timerInterval = defaultInterval;
+                } else if (nextInterval > maxInterval) {
+                    this.timerInterval = defaultInterval;
                 } else {
                     this.timerInterval = nextInterval;
                 }
-                this.timerInterval = nextInterval < 1000 ? 1000 : nextInterval;
             } else if (diff == 0) {
-                this.timerInterval = 1000;
+                this.timerInterval = defaultInterval;
             }
             this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
         };
