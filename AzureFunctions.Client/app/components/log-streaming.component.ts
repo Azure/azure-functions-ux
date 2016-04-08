@@ -19,7 +19,9 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     public stopped: boolean;
     private hostErrors: string;
     private xhReq: XMLHttpRequest;
-    private timerId: number;
+    private timeouts: number[];
+    public timerInterval: number = 1000;
+    private oldLength: number = 0;
     @Input() functionInfo: FunctionInfo;
 
     constructor(
@@ -29,6 +31,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         private _broadcastService: IBroadcastService,
         private _utilities: UtilitiesService) {
         this.hostErrors = '';
+        this.log = '';
+        this.timeouts = [];
     }
 
     ngOnChanges() {
@@ -38,7 +42,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     ngOnDestroy() {
         if (this.xhReq){
-            window.clearInterval(this.timerId);
+            this.timeouts.forEach(window.clearTimeout);
+            this.timeouts = [];
             this.xhReq.abort();
         }
     }
@@ -68,9 +73,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     private initLogs() {
         if (this.xhReq) {
-            window.clearInterval(this.timerId);
+            this.timeouts.forEach(window.clearTimeout);
+            this.timeouts = [];
             this.log = '';
             this.xhReq.abort();
+            this.oldLength = 0;
         }
 
         this._functionsService.getFunctionErrors(this.functionInfo)
@@ -87,17 +94,36 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
 
-        this.timerId = window.setInterval(() => {
-            if (!this.stopped) {
-                this.log = this.hostErrors + this.xhReq.responseText;
+
+        var callBack = () => {
+            var diff = this.xhReq.responseText.length -  this.oldLength;
+            if (!this.stopped && diff > 0) {
+                if (this.xhReq.responseText.length > 500000) {
+                    this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - 500000);
+                } else {
+                    this.log = this.hostErrors + this.xhReq.responseText;
+                }
+                this.oldLength = this.xhReq.responseText.length;
                 window.setTimeout(() => {
                     var el = document.getElementById('log-stream');
                     if (el) {
                         el.scrollTop = el.scrollHeight;
                     }
                 });
+                var nextInterval = diff > 500 ? this.timerInterval + 1000 : this.timerInterval - 1000;
+                if (nextInterval < 1000) {
+                    this.timerInterval = 1000;
+                } else if (nextInterval > 10000) {
+                    this.timerInterval = 10000;
+                } else {
+                    this.timerInterval = nextInterval;
+                }
+                this.timerInterval = nextInterval < 1000 ? 1000 : nextInterval;
+            } else if (diff == 0) {
+                this.timerInterval = 1000;
             }
-
-        }, 1000);
+            this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+        };
+        callBack();
     }
 }

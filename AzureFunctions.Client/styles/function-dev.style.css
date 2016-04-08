@@ -73,3 +73,8 @@ div.inline-no-float {
 .run-orange {
     color: darkorange;
 }
+
+
+.flex-inline{
+    display: inline-flex;
+}
