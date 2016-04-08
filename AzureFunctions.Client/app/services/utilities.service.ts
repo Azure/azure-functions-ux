@@ -12,6 +12,11 @@ export class UtilitiesService {
         sel.addRange(range);
     }
 
+    unHighlightText() {
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+    }
+
     copyContentToClipboard(e: Element) {
         this.highlightText(e);
         try {
@@ -20,6 +25,7 @@ export class UtilitiesService {
         } catch (e) {
             console.log(e);
         }
+        this.unHighlightText();
     }
 
 }

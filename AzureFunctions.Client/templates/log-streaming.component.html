@@ -1,26 +1,28 @@
 <h2 class="dev-block-header">Logs</h2>
 <div class="dev-block-header inline-no-float" style="margin-top: 5px">
     <span>
-        <span class="clickable" *ngIf="stopped" (click)="startLogs()">
+        <span class="clickable link-action" *ngIf="stopped" (click)="startLogs()">
             <i class="fa fa-play"></i>
             Start
         </span>
-        <span class="clickable" *ngIf="!stopped" (click)="stopLogs()">
+        <span class="clickable link-action" *ngIf="!stopped" (click)="stopLogs()">
             <i class="fa fa-pause"></i>
             Pause
         </span>
     </span>
     <span>
-        <span class="clickable" (click)="clearLogs()">
+        <span class="clickable link-action" (click)="clearLogs()">
             <i class="fa fa-book"></i>
             Clear
         </span>
     </span>
     <span>
-        <span class="clickable" (click)="copyLogs()">
-            <i class="fa fa-clone"></i>
-            Copy Logs
-        </span>
+        <pop-over message="Copied!" (clicked)="copyLogs()" hideAfter="300">
+            <span class="clickable link-action">
+                <i class="fa fa-clone"></i>
+                Copy Logs
+            </span>
+        </pop-over>
     </span>
 </div>
 

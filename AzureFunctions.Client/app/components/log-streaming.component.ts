@@ -6,11 +6,13 @@ import {FunctionsService} from '../services/functions.service';
 import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
 import {ErrorEvent} from '../models/error-event';
 import {UtilitiesService} from '../services/utilities.service';
+import {PopOverComponent} from './pop-over.component';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: 'templates/log-streaming.component.html',
-    styleUrls: ['styles/function-dev.style.css']
+    styleUrls: ['styles/function-dev.style.css'],
+    directives: [PopOverComponent]
 })
 export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;

@@ -1,10 +1,12 @@
 import {Component, Input, Inject, ElementRef} from 'angular2/core';
+import {PopOverComponent} from './pop-over.component';
 import {UtilitiesService} from '../services/utilities.service';
 
 @Component({
     selector: 'copy-pre',
     templateUrl: 'templates/copy-pre.component.html',
-    styleUrls: ['styles/copy-pre.style.css']
+    styleUrls: ['styles/copy-pre.style.css'],
+    directives: [PopOverComponent]
 })
 export class CopyPreComponent {
     @Input() selectOnClick: boolean = true;

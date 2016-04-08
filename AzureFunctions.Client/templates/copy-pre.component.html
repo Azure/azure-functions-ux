@@ -2,7 +2,9 @@
     <div>
         <pre (click)="highlightText($event)">{{content}}</pre>
     </div>
-    <div title="Copy to clipboard" (click)="copyToClipboard()">
-        <i class="fa fa-clone clickable"></i>
+    <div title="Copy to clipboard" >
+        <pop-over message="Copied!" (clicked)="copyToClipboard()" hideAfter="300">
+            <i class="fa fa-clone clickable"></i>
+        </pop-over>
     </div>
 </div>
