@@ -12,6 +12,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
+import {RunFunctionResult} from '../models/run-function-result';
 
 @Component({
     selector: 'function-dev',
@@ -40,7 +41,7 @@ export class FunctionDevComponent implements OnChanges {
     public isCode: boolean;
     public isHttpFunction: boolean;
 
-    public runResult: string;
+    public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
@@ -181,10 +182,7 @@ export class FunctionDevComponent implements OnChanges {
             this._broadcastService.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(
-                    r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; },
-                    e => { this.runResult = e._body; this._broadcastService.clearBusyState(); delete this.running; }
-                );
+                .subscribe(r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; });
         }
     }
 

@@ -12,6 +12,7 @@ import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
 import {FunctionContainer} from '../models/function-container';
+import {RunFunctionResult} from '../models/run-function-result';
 
 @Injectable()
 export class MockFunctionsService implements IFunctionsService {
@@ -21,7 +22,7 @@ export class MockFunctionsService implements IFunctionsService {
     constructor(private _http: Http) { }
 
     setFunctionContainer(fc: FunctionContainer) {
-        
+
     }
 
     isInitialized() {
@@ -136,7 +137,7 @@ export class MockFunctionsService implements IFunctionsService {
     runFunction(functionInfo: FunctionInfo, content: string) {
         console.log(functionInfo);
         console.log(content);
-        return Observable.of("ran");
+        return Observable.of({content: 'body', statusCode: 200, statusText: 'OK'});
     }
 
     deleteFunction(functionInfo: FunctionInfo) {
@@ -231,7 +232,7 @@ export class MockFunctionsService implements IFunctionsService {
     }
 
     createTrialFunctionsContainer() {
-        return Observable.of('done'); 
+        return Observable.of('done');
     }
 
     updateFunction(fi: FunctionInfo) {

@@ -10,6 +10,7 @@ import {Subscription} from '../models/subscription';
 import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
 import {FunctionContainer} from '../models/function-container';
+import {RunFunctionResult} from '../models/run-function-result';
 
 export interface IFunctionsService {
     setFunctionContainer(functionContainer: FunctionContainer): void;
@@ -21,7 +22,7 @@ export interface IFunctionsService {
     createFunctionV2(functionName: string, files: any): Observable<FunctionInfo>;
     getNewFunctionNode(): FunctionInfo;
     getSettingsNode(): FunctionInfo;
-    runFunction(functionInfo: FunctionInfo, content: string): Observable<string>;
+    runFunction(functionInfo: FunctionInfo, content: string): Observable<RunFunctionResult>;
     deleteFunction(functionInfo: FunctionInfo): Observable<string>;
     getDesignerSchema(): Observable<DesignerSchema>;
     warmupMainSite();

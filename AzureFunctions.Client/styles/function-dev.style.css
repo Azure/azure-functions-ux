@@ -61,3 +61,15 @@ div.inline-no-float {
     font-size: 14px;
     font-weight: normal;
 }
+
+.run-red {
+    color: #d43f3a;
+}
+
+.run-green {
+    color: green;
+}
+
+.run-orange {
+    color: darkorange;
+}
