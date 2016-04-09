@@ -133,7 +133,8 @@ export class TemplatePickerComponent {
                                     this.templates.push({
                                         name: template.metadata.name,
                                         value: template.id,
-                                        keys: template.metadata.category || ["Experimental"]
+                                        keys: template.metadata.category || ["Experimental"],
+                                        description: template.metadata.description
                                     });
                                 }
                             }

@@ -37,7 +37,6 @@ export class FunctionNewComponent {
     areInputsValid: boolean = false;
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
-    functionDescription: string;
     hasInputsToShow: boolean;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
@@ -61,8 +60,6 @@ export class FunctionNewComponent {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
             
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-            this.functionDescription = this.selectedTemplate.metadata.description;
-
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this._broadcastService.clearBusyState();
                 this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());

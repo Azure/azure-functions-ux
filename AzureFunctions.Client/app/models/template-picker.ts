@@ -11,4 +11,5 @@ export interface Template {
     value: string;
     image?: string;
     keys?: string[];
+    description?: string;
 }

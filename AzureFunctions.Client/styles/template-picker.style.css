@@ -23,7 +23,7 @@
 }
 
 .tp-template-selected{
-    border: 3px solid #419BF3;
+    border: 3px solid #419BF3 !important;
 }
 
 .tp-template-selected:hover{
@@ -40,6 +40,33 @@
     position: absolute;
     left: 0;
     right: 0;
+}
+
+.tp-template-func{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    border: 3px solid transparent;
+    margin: 5px;
+    border: 1px solid #C2C5C9;
+    vertical-align: top;
+}
+
+.tp-template-func:hover{
+    border: 3px solid #C2C5C9;
+    cursor: default;
+}
+
+.tp-template-func-title{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #E6E7E8;
+    text-align: center;
+}
+
+.tp-template-func-description{
+    margin: 5px;
+    text-align: left;
 }
 
 .tp-template-content > svg{
