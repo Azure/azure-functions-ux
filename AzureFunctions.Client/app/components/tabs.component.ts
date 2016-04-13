@@ -1,6 +1,7 @@
 ﻿import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter } from 'angular2/core';
 import { TabComponent } from './tab.component';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TabNames} from '../constants';
@@ -15,10 +16,10 @@ export class TabsComponent implements AfterContentInit {
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
     @Output() tabSelected = new EventEmitter<TabComponent>();
 
-    constructor(private _broadcastService: IBroadcastService, private _portalService : PortalService){
+    constructor(private _broadcastService: BroadcastService, private _portalService : PortalService){
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            
+
             let selectedTab: TabComponent;
             switch(event.step){
                 case TutorialStep.Develop:

@@ -1,6 +1,7 @@
 ﻿import {Component, Input} from 'angular2/core';
 import {FunctionsService} from '../services/functions.service';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import  {BroadcastEvent} from '../models/broadcast-event'
 import {BindingType} from '../models/binding';
 import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';
@@ -12,7 +13,7 @@ import {ErrorEvent} from '../models/error-event';
 @Component({
     selector: 'intro',
     templateUrl: './templates/intro.component.html',
-    styleUrls: ['styles/intro.style.css'] 
+    styleUrls: ['styles/intro.style.css']
 })
 
 export class IntroComponent {
@@ -21,7 +22,7 @@ export class IntroComponent {
     bc: BindingManager = new BindingManager();
 
     constructor( private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService: PortalService) {
 
         this.selectedFunction = "timer";
@@ -50,10 +51,10 @@ export class IntroComponent {
                 //case 'iot':
                 //    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
                 //    break;
-            } 
- 
+            }
+
             if (selectedTemplate) {
-                try{ 
+                try{
                     this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id });
 
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);

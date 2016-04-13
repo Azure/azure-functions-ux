@@ -1,7 +1,8 @@
 ﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from 'angular2/core';
 import {UserService} from '../services/user.service';
 import {FunctionsService} from '../services/functions.service';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {User} from '../models/user';
 import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
@@ -41,7 +42,7 @@ export class GettingStartedComponent implements OnInit {
     constructor(
         private _userService: UserService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _telemetryService: TelemetryService
     ) {

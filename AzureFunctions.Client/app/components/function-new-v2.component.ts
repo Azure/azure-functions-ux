@@ -4,7 +4,8 @@ import {FunctionTemplate} from '../models/function-template';
 import {NewFunctionModel} from '../models/new-function-model';
 import {FunctionInfo} from '../models/function-info';
 import {Observable} from 'rxjs/Rx';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 
 @Component({
     selector: 'function-new-v2',
@@ -18,7 +19,7 @@ export class FunctionNewV2Component implements OnInit {
     public model: NewFunctionModel;
 
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: IBroadcastService) {
+                private _broadcastService: BroadcastService) {
         this.model = {};
         this.triggers = {};
         this.contentSources = ['Empty', 'From Template', 'From Zip'];

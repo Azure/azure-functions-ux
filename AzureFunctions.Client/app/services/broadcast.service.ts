@@ -1,12 +1,12 @@
 ﻿import {Injectable, EventEmitter} from 'angular2/core';
-import {IBroadcastService, BroadcastEvent} from './ibroadcast.service';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {ErrorEvent} from '../models/error-event';
+import {BroadcastEvent} from '../models/broadcast-event';
 
 @Injectable()
-export class BroadcastService implements IBroadcastService {
+export class BroadcastService {
     private functionDeletedEvent: EventEmitter<FunctionInfo>;
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
@@ -58,7 +58,7 @@ export class BroadcastService implements IBroadcastService {
         reason = reason || this.defaultDirtyReason;
 
         if (!this.dirtyStateMap[reason]) return;
-        
+
         if (all) {
             delete this.dirtyStateMap[reason];
         } else {

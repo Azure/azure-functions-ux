@@ -5,7 +5,8 @@ import {DirectionType, Binding} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../models/template';
 import {FunctionsService} from '../services/functions.service';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
 
@@ -37,7 +38,7 @@ export class TemplatePickerComponent {
     @Output() cancel: EventEmitter<string> = new EventEmitter();
 
     constructor(private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService) {
     }
 
     set type(type: TemplatePickerType) {
@@ -63,8 +64,8 @@ export class TemplatePickerComponent {
                         this.templates = this.getBindingTemplates(DirectionType.trigger);
                         break;
                     case TemplatePickerType.template:
-                        this.title = "Choose a template"; 
-                        
+                        this.title = "Choose a template";
+
                         let initLanguages = false, initCategories = false;
                         if(this.languages.length === 0){
                             this.languages = [{ displayLabel: "All", value: "All" }];
@@ -156,7 +157,7 @@ export class TemplatePickerComponent {
     }
 
     onCancelClicked() {
-        this.cancel.emit(""); // this fires an eventClicked 
+        this.cancel.emit(""); // this fires an eventClicked
     }
 
     onTemplateCliked(template: string) {

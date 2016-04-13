@@ -5,7 +5,8 @@ import {Http, Headers } from 'angular2/http';
 import {MonitoringService} from '../services/appMonitoring.service';
 import {Observable} from 'rxjs/Rx';
 import {MonitoringConsumption} from '../models/appMonitoring-consumption';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {nvD3} from 'ng2-nvd3';
 declare let d3: any;
 
@@ -22,7 +23,7 @@ export class AppMonitoringComponent implements OnInit {
     public data: Object;
     private consumptionChartData: Array<Object>;
 
-    constructor(private _monitoringService: MonitoringService, private _portalService: PortalService, private _broadcastService: IBroadcastService) { }
+    constructor(private _monitoringService: MonitoringService, private _portalService: PortalService, private _broadcastService: BroadcastService) { }
 
     ngOnInit() {
         this._broadcastService.setBusyState();

@@ -3,7 +3,8 @@ import {DashboardComponent} from './dashboard.component';
 import {GettingStartedComponent} from './getting-started.component';
 import {PortalService} from '../services/portal.service';
 import {FunctionsService} from '../services/functions.service';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {BusyStateComponent} from './busy-state.component';
 import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
     constructor(
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _userService: UserService,
         private _monitoringService: MonitoringService

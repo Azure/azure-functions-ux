@@ -2,7 +2,8 @@
 import {BindingInputBase} from '../models/binding-input';
 import {PortalService} from '../services/portal.service';
 import {PickerInput} from '../models/binding-input';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {SettingType} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
@@ -24,7 +25,7 @@ export class BindingInputComponent {
     private _input: BindingInputBase<any>;
 
     constructor(private _portalService: PortalService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService) {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }

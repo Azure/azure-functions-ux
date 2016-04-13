@@ -5,7 +5,8 @@ import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
 import {BindingInputList} from '../models/binding-input-list';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 declare var jQuery: any;
 
@@ -37,7 +38,7 @@ export class BindingComponent {
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService: PortalService) {
         this._elementRef = elementRef;
 
@@ -45,7 +46,7 @@ export class BindingComponent {
 
         this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
             this.isDirty = this.model.isDirty();
-            
+
                 if (this.canDelete) {
                     if (this.isDirty) {
                         this._broadcastService.setDirtyState("function_integrate");
@@ -56,7 +57,7 @@ export class BindingComponent {
                     }
                 }
             });
-    }    
+    }
 
     set clickSave(value: boolean) {
         if (value) {
@@ -75,7 +76,7 @@ export class BindingComponent {
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             var newFunction = false;
             this.model.inputs = [];
-            
+
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 newFunction = true;
             }

@@ -7,7 +7,8 @@ import {TemplatePickerComponent} from './template-picker.component';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {TemplatePickerType} from '../models/template-picker';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 
 declare var jQuery: any;
@@ -34,7 +35,7 @@ export class FunctionIntegrateV2Component {
     private _elementRef: ElementRef;
     private  _functionInfo: FunctionInfo;
     private _bindingManager: BindingManager = new BindingManager();
-    
+
     set selectedFunction(fi: FunctionInfo) {
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
 
@@ -58,7 +59,7 @@ export class FunctionIntegrateV2Component {
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService: PortalService) {
         this._elementRef = elementRef;
     }

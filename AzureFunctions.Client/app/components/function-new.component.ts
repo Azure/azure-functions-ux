@@ -9,7 +9,8 @@ import {BindingList} from '../models/binding-list';
 import {FunctionInfo} from '../models/function-info';
 import {BindingManager} from '../models/binding-manager';
 import {FunctionTemplate} from '../models/function-template';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {ErrorEvent} from '../models/error-event';
 
@@ -43,9 +44,10 @@ export class FunctionNewComponent {
     private _bindingComponents: BindingComponent[] = [];
 
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef,
+    constructor(
+        @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService : PortalService)
     {
         this.elementRef = elementRef;
@@ -58,7 +60,7 @@ export class FunctionNewComponent {
         this._broadcastService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
-            
+
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this._broadcastService.clearBusyState();
@@ -81,7 +83,7 @@ export class FunctionNewComponent {
         });
     }
 
-    onCreate() {  
+    onCreate() {
         if (!this.functionName) {
             return;
         }
@@ -135,14 +137,14 @@ export class FunctionNewComponent {
         this.functionNameError = this.areInputsValid ? '' : 'A function name is required';
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
-        });      
+        });
     }
 
     private createFunction() {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id });
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
-        
+
         this._broadcastService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {

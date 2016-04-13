@@ -3,7 +3,8 @@ import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
 
 @Component({
@@ -25,7 +26,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     constructor(
         private _functionsService: FunctionsService,
         private _portalService: PortalService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService) {
         this.isDirty = false;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -77,8 +78,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
     ngOnDestroy() {
         this._broadcastService.clearDirtyState('function');
         this._portalService.setDirtyState(false);
-    }    
-    
+    }
+
     onEditorChange(editorType: string) {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);

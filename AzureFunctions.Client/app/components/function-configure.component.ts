@@ -3,7 +3,8 @@ import {Subject} from 'rxjs/Rx';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {SelectOption} from '../models/select-option';
 import {RadioSelectorComponent} from './radio-selector.component';
 
@@ -20,7 +21,7 @@ export class FunctionConfigureComponent {
     private valueChange: Subject<boolean>;
 
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: IBroadcastService) {
+                private _broadcastService: BroadcastService) {
         this.functionStatusOptions = [
             {
                 displayLabel: 'Enabled',

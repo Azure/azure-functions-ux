@@ -16,12 +16,13 @@ import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
 import {FunctionConfigureComponent} from './function-configure.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {TabNames} from '../constants';
 import {FunctionMonitorComponent} from './function-monitor.component'
 
 @Component({
-    selector: 'function-edit', 
+    selector: 'function-edit',
     templateUrl: 'templates/function-edit.component.html',
     styleUrls: ['styles/function-edit.style.css'],
     inputs: ['selectedFunction'],
@@ -43,7 +44,7 @@ export class FunctionEditComponent {
     public inIFrame: boolean;
     public selectedTabTitle: string = "";
     public editorType: string = "standard";
-    public disabled: boolean;   
+    public disabled: boolean;
 
     public DevelopTab = TabNames.develop;
     public IntegrateTab = TabNames.integrate;
@@ -52,11 +53,11 @@ export class FunctionEditComponent {
     constructor(
         private _functionsService: FunctionsService,
         private _userService: UserService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService : PortalService) {
 
         this.inIFrame = this._userService.inIFrame;
-        
+
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 

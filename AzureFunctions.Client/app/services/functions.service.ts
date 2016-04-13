@@ -5,7 +5,6 @@ import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
 import {CreateFunctionInfo, CreateFunctionInfoV2} from '../models/create-function-info';
-import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
@@ -22,7 +21,7 @@ import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 
 @Injectable()
-export class FunctionsService implements IFunctionsService {
+export class FunctionsService {
     private hostSecrets: HostSecrets;
     private token: string;
     private scmUrl: string;

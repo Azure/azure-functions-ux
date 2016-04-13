@@ -3,7 +3,8 @@ import {FunctionInfo} from '../models/function-info';
 import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';
 import {FunctionsService} from '../services/functions.service';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
 import {UtilitiesService} from '../services/utilities.service';
 import {PopOverComponent} from './pop-over.component';
@@ -28,7 +29,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _utilities: UtilitiesService) {
         this.hostErrors = '';
         this.log = '';

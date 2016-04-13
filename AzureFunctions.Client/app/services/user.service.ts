@@ -3,11 +3,10 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
-import {IUserService} from './iuser.service';
 import {PortalService} from './portal.service';
 
 @Injectable()
-export class UserService implements IUserService {
+export class UserService {
     public inIFrame: boolean;
     private currentToken: string;
     constructor(private _http: Http, private _portalService: PortalService) {

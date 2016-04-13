@@ -1,11 +1,12 @@
 import {ExceptionHandler, Inject} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
 
 export class FunctionsExceptionHandler extends ExceptionHandler {
 
-    constructor(@Inject(Http) private _http: Http, @Inject(IBroadcastService) private _broadcastService: IBroadcastService) {
+    constructor(@Inject(Http) private _http: Http, @Inject(BroadcastService) private _broadcastService: BroadcastService) {
         super(console, true);
     }
 

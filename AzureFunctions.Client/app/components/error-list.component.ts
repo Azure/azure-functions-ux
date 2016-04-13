@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
 import {ErrorItem} from '../models/error-item';
@@ -53,7 +54,7 @@ import {ErrorEvent} from '../models/error-event';
 export class ErrorListComponent {
     public errorList: ErrorItem[];
     // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
-    constructor(private _broadcastService: IBroadcastService, public _portalService: PortalService)
+    constructor(private _broadcastService: BroadcastService, public _portalService: PortalService)
     {
         this.errorList = [];
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (e) => {

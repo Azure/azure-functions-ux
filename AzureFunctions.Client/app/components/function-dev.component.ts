@@ -8,7 +8,8 @@ import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
 import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
@@ -50,7 +51,7 @@ export class FunctionDevComponent implements OnChanges {
     private functionSelectStream: Subject<FunctionInfo>;
 
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: IBroadcastService,
+                private _broadcastService: BroadcastService,
                 private _portalService: PortalService) {
 
         this.isCode = true;
