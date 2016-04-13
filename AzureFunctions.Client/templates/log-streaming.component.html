@@ -19,8 +19,8 @@
                 Clear
             </span>
         </span>
-        <span>
-            <pop-over message="Copied!" (clicked)="copyLogs()" hideAfter="300">
+        <span (click)="copyLogs($event)">
+            <pop-over message="Copied!" hideAfter="300">
                 <span class="clickable link-action">
                     <i class="fa fa-clone"></i>
                     Copy Logs

@@ -61,7 +61,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.initLogs();
     }
 
-    copyLogs() {
+    copyLogs(event) {
         this._utilities.copyContentToClipboard(this._elementRef.nativeElement.querySelector('pre'));
     }
 

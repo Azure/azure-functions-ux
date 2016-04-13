@@ -27,5 +27,4 @@ export class UtilitiesService {
         }
         this.unHighlightText();
     }
-
 }

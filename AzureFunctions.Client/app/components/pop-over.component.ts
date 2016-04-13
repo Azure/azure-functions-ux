@@ -11,11 +11,8 @@ export class PopOverComponent{
     @Input() public message : string;
     @Input() hideAfter: number;
     public show : boolean;
-    @Output() public clicked: EventEmitter<any>;
 
-    constructor() {
-        this.clicked = new EventEmitter<any>();
-    }
+    constructor() { }
 
     onBlur(event: any) {
         this.show = false;
@@ -24,6 +21,16 @@ export class PopOverComponent{
                 event.relatedTarget.toString(),
                 '_blank' // <- This is what makes it open in a new window.
             );
+        }
+    }
+
+    onFocus(event: Event) {
+        this.show = true;
+
+        if (this.hideAfter) {
+            setTimeout(() => {
+                this.show = false;
+            }, this.hideAfter)
         }
     }
 
@@ -40,16 +47,6 @@ export class PopOverComponent{
             return false;
         } else {
             return true;
-		}
-	}
-
-    handleClick() {
-        this.clicked.emit(0);
-        if (this.hideAfter) {
-            setTimeout(() => {
-                this.show = false;
-            }, this.hideAfter);
         }
     }
-
 }

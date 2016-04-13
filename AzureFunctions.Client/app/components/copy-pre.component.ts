@@ -22,7 +22,7 @@ export class CopyPreComponent {
         }
     }
 
-    copyToClipboard() {
+    copyToClipboard(event) {
         this._utilities.copyContentToClipboard(this.elementRef.nativeElement.querySelector('pre'));
     }
 }
