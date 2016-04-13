@@ -1,5 +1,6 @@
 ﻿import {Component} from 'angular2/core';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 
 @Component({
     selector: 'busy-state',
@@ -8,7 +9,7 @@ import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service'
 })
 export class BusyStateComponent {
     public busy: boolean = false;
-    constructor(private _broadcastService: IBroadcastService) {
+    constructor(private _broadcastService: BroadcastService) {
         this._broadcastService.subscribe<boolean>(BroadcastEvent.BusyState, state => this.busy = state);
     }
 }

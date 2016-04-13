@@ -1,0 +1,6 @@
+﻿<span class="pop-over-container">
+    <span class="pop-over" [class.pop-over-visible]="show" [innerHtml]="message"></span>
+    <button class="pop-over-button" (focus)="onFocus($event)" (blur)="onBlur($event)">
+        <ng-content></ng-content>
+    </button>
+</span>

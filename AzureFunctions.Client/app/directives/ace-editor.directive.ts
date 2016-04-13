@@ -23,6 +23,40 @@ export class AceEditorDirective {
         el.classList.add('editor');
         el.style.width = '100%';
         ace.config.set('themePath', '/ace/themes');
+        ace.require('ace/ext/language_tools');
+
+        // https://github.com/sevin7676/Ace.Tern
+        ace.config.loadModule('ace/ext/tern', () => {
+            this.editor.setOptions({
+                /**
+                 * Either `true` or `false` or to enable with custom options pass object that
+                 * has options for tern server: http://ternjs.net/doc/manual.html#server_api
+                 * If `true`, then default options will be used
+                 */
+                enableTern: {
+                    /* http://ternjs.net/doc/manual.html#option_defs */
+                    defs: ['browser', 'ecma5'],
+                    /* http://ternjs.net/doc/manual.html#plugins */
+                    plugins: {
+                        doc_comment: {
+                            fullDocs: true
+                        }
+                    },
+                },
+                /**
+                 * when using tern, it takes over Ace's built in snippets support.
+                 * this setting affects all modes when using tern, not just javascript.
+                 */
+                enableSnippets: true,
+                /**
+                 * when using tern, Ace's basic text auto completion is enabled still by deafult.
+                 * This settings affects all modes when using tern, not just javascript.
+                 * For javascript mode the basic auto completion will be added to completion results if tern fails to find completions or if you double tab the hotkey for get completion (default is ctrl+space, so hit ctrl+space twice rapidly to include basic text completions in the result)
+                 */
+                enableBasicAutocompletion: true,
+            });
+        });
+
         this.editor = ace.edit(el);
         this.editor.setTheme('ace/theme/visualstudio');
         this.editor.getSession().setTabSize(4);
@@ -30,7 +64,8 @@ export class AceEditorDirective {
         this.editor.$blockScrolling = Infinity;
         this.editor.setOptions({
             'showPrintMargin': false,
-            'fontSize': 14
+            'fontSize': 14,
+            'enableBasicAutocompletion': true
         });
 
         this.editor.on('change', (e) => {
@@ -38,8 +73,10 @@ export class AceEditorDirective {
             // https://github.com/ajaxorg/ace/issues/503
             if (this.editor.curOp && this.editor.curOp.command.name) {
                 this.onContentChanged.emit(this.editor.getValue());
-            }            
+            }
         });
+
+
 
         this.editor.commands.addCommand({
             name: 'saveItem',
@@ -75,7 +112,7 @@ export class AceEditorDirective {
         this.editor.session.setMode(this.getMode(fileName));
     }
 
-    set readOnly(value: boolean) {       
+    set readOnly(value: boolean) {
         this.editor.setReadOnly(value);
     }
 

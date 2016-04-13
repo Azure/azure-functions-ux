@@ -5,7 +5,8 @@ import {DirectionType, Binding} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../models/template';
 import {FunctionsService} from '../services/functions.service';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
 
@@ -27,7 +28,7 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
-    private _category: string = "Core";
+    private category: string = "Core";
     private _language: string = "All";
     private _type: TemplatePickerType;
     private _initialized = false;
@@ -37,7 +38,7 @@ export class TemplatePickerComponent {
     @Output() cancel: EventEmitter<string> = new EventEmitter();
 
     constructor(private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService) {
     }
 
     set type(type: TemplatePickerType) {
@@ -63,8 +64,8 @@ export class TemplatePickerComponent {
                         this.templates = this.getBindingTemplates(DirectionType.trigger);
                         break;
                     case TemplatePickerType.template:
-                        this.title = "Choose a template"; 
-                        
+                        this.title = "Choose a template";
+
                         let initLanguages = false, initCategories = false;
                         if(this.languages.length === 0){
                             this.languages = [{ displayLabel: "All", value: "All" }];
@@ -78,6 +79,10 @@ export class TemplatePickerComponent {
                         }
 
                         templates.forEach((template) => {
+
+                            if (template.metadata.visible === false) {
+                                return;
+                            }
 
                             if(initLanguages){
                                 var lang = this.languages.find((l) => {
@@ -93,27 +98,30 @@ export class TemplatePickerComponent {
 
                             if(initCategories){
                                 template.metadata.category.forEach((c) => {
-                                    var index = this.categories.findIndex((category) => {
-                                        return category.value === c;
-                                    });
+                                    if ((this._language === "All") || (template.metadata.language === this._language)) {
 
-                                    if (index === -1) {
-                                        var dropDownElement:any = {
-                                            displayLabel: c,
-                                            value: c
-                                        };
+                                        var index = this.categories.findIndex((category) => {
+                                            return category.value === c;
+                                        });
 
-                                        if (c === "Core") {
-                                            dropDownElement.default = true;
+                                        if (index === -1) {
+                                            var dropDownElement: any = {
+                                                displayLabel: c,
+                                                value: c
+                                            };
+
+                                            if (c === "Core") {
+                                                dropDownElement.default = true;
+                                            }
+
+                                            this.categories.push(dropDownElement);
                                         }
-
-                                        this.categories.push(dropDownElement);
                                     }
                                 });
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this._category || this._category === "All";
+                                return c === this.category || this.category === "All";
                             });
 
                             if (matchIndex !== -1) {
@@ -126,11 +134,14 @@ export class TemplatePickerComponent {
                                     this.templates.push({
                                         name: template.metadata.name,
                                         value: template.id,
-                                        keys: template.metadata.category || ["Experimental"]
+                                        keys: template.metadata.category || ["Experimental"],
+                                        description: template.metadata.description
                                     });
                                 }
                             }
                         });
+
+
                         break;
                 }
             });
@@ -157,12 +168,15 @@ export class TemplatePickerComponent {
     }
 
     onLanguageChanged(language: string) {
-        this._language = language;
-        this.type = this._type;
+        if (this._language !== language) {
+            this._language = language;
+            this.categories = [];
+            this.type = this._type;
+        }
     }
 
     onScenarioChanged(category: string) {
-        this._category = category;
+        this.category = category;
         this.type = this._type;
     }
 

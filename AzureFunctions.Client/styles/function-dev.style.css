@@ -56,3 +56,25 @@ div.inline-no-float {
 .log-stream {
     margin-top: 5px;
 }
+
+.link-action {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.run-red {
+    color: #d43f3a;
+}
+
+.run-green {
+    color: green;
+}
+
+.run-orange {
+    color: darkorange;
+}
+
+
+.flex-inline{
+    display: inline-flex;
+}

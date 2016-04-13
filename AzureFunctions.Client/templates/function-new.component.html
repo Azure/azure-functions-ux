@@ -10,7 +10,6 @@
 <div *ngIf="!disabled">
     <h3>Choose a template</h3>
     <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
-    <p *ngIf="functionDescription">{{functionDescription}}</p>
 </div>
 
 <div *ngIf="selectedTemplate">

@@ -1,16 +1,15 @@
 ﻿import {Injectable, EventEmitter} from 'angular2/core';
-import {IBroadcastService, BroadcastEvent} from './ibroadcast.service';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {ErrorEvent} from '../models/error-event';
+import {BroadcastEvent} from '../models/broadcast-event';
 
 @Injectable()
-export class BroadcastService implements IBroadcastService {
+export class BroadcastService {
     private functionDeletedEvent: EventEmitter<FunctionInfo>;
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
-    private functionUpdatedEvent: EventEmitter<FunctionInfo>;
     private busyStateEvent: EventEmitter<boolean>;
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
@@ -22,7 +21,6 @@ export class BroadcastService implements IBroadcastService {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
-        this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.busyStateEvent = new EventEmitter<boolean>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
@@ -60,7 +58,7 @@ export class BroadcastService implements IBroadcastService {
         reason = reason || this.defaultDirtyReason;
 
         if (!this.dirtyStateMap[reason]) return;
-        
+
         if (all) {
             delete this.dirtyStateMap[reason];
         } else {
@@ -100,9 +98,6 @@ export class BroadcastService implements IBroadcastService {
 
             case BroadcastEvent.FunctionSelected:
                 return this.functionSelectedEvent;
-
-            case BroadcastEvent.FunctionUpdated:
-                return this.functionUpdatedEvent;
 
             case BroadcastEvent.BusyState:
                 return this.busyStateEvent;

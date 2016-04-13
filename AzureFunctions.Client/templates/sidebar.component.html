@@ -9,13 +9,11 @@
            (click)="selectFunction(functionInfo)"
             class="function-item">
             <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
-            <i *ngIf="!functionInfo.clientOnly" class="fa fa-bolt"></i>
+            <img *ngIf="!functionInfo.clientOnly" src="/images/functions.svg" class="function-icon" />
             <i *ngIf="functionInfo.clientOnly" class="fa fa-plus"></i>
                 {{functionInfo.name}}
             </span>
         </li>
     </ul>
-    
     <div id="refresh" (click)="refresh()" class="link clickable"><i class="fa fa-refresh"></i> Refresh</div>
-    
 </div>

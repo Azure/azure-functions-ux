@@ -2,7 +2,8 @@
 import {ArmService} from '../services/arm.service';
 import {PortalService} from '../services/portal.service';
 import {FunctionContainer} from '../models/function-container';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 
 @Component({
     selector: 'app-settings',
@@ -16,7 +17,7 @@ export class AppSettingsComponent implements OnInit {
 
     constructor(private _armService : ArmService,
                 private _portalService : PortalService,
-                private _broadcastService: IBroadcastService) {
+                private _broadcastService: BroadcastService) {
     }
 
     onChange(value: string | number, event?: any) {

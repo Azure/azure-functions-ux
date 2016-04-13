@@ -1,13 +1,12 @@
 ﻿import {Http, Headers} from 'angular2/http';
 import {Injectable} from 'angular2/core';
 import {PortalService} from './portal.service';
-import {IMonitoringService} from './iappMonitoring.service';
 import {UserService} from './user.service';
 import {FunctionsService} from '../services/functions.service';
 import {MonitoringConsumption} from '../models/appMonitoring-consumption';
 
 @Injectable()
-export class MonitoringService implements IMonitoringService {
+export class MonitoringService {
     private token: string;
 
     constructor(

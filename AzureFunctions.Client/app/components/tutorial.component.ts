@@ -1,5 +1,6 @@
 ﻿import { Component } from 'angular2/core';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {FunctionInfo} from '../models/function-info';
 
@@ -13,7 +14,7 @@ export class TutorialComponent {
     public currentStep = TutorialStep.Off;
     private initialFunction: FunctionInfo;
 
-    constructor(private _broadcastService: IBroadcastService){
+    constructor(private _broadcastService: BroadcastService){
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             // Gets called only from intro after a template has been selected
             if (event.step === TutorialStep.Waiting){
@@ -27,7 +28,7 @@ export class TutorialComponent {
                 this.broadCastCurrentStep();
             }
         });
-    } 
+    }
 
     nextStep(){
 

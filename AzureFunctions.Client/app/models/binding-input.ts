@@ -1,4 +1,4 @@
-﻿import {SettingType, EnumOption, ResourceType} from './binding';
+﻿import {SettingType, EnumOption, ResourceType, Validator} from './binding';
 
 export class BindingInputBase<T>
 {
@@ -15,12 +15,7 @@ export class BindingInputBase<T>
     isValid: boolean = true;
     isHidden: boolean = false;
     errorText: string;
-    validators: RegexValidator[] = [];
-}
-
-export class RegexValidator {
-    expression: string;
-    errorText: string;
+    validators: Validator[] = [];
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{

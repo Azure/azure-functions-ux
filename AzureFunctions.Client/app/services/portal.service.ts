@@ -1,12 +1,12 @@
 ﻿import {Injectable} from 'angular2/core';
-import {IPortalService} from './iportal.service.ts';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
-import {BroadcastEvent, IBroadcastService} from './ibroadcast.service';
 import {ErrorEvent} from '../models/error-event';
+import {BroadcastService} from './broadcast.service';
+import  {BroadcastEvent} from '../models/broadcast-event'
 
 @Injectable()
-export class PortalService implements IPortalService {
+export class PortalService {
     public sessionId = "";
     private portalSignature: string = "FxAppBlade";
     private resourceIdObservable: ReplaySubject<string>;
@@ -14,7 +14,7 @@ export class PortalService implements IPortalService {
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
-    constructor(private _broadcastService : IBroadcastService) {
+    constructor(private _broadcastService : BroadcastService) {
         this.tokenObservable = new ReplaySubject<string>(1);
         this.resourceIdObservable = new ReplaySubject<string>(1);
         if (this.inIFrame()){
@@ -41,7 +41,9 @@ export class PortalService implements IPortalService {
         this.postMessage(Verbs.getAuthToken, null);
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
-            this.logMessage(LogEntryLevel.Error, error.details);
+            if (error.details) {
+                this.logMessage(LogEntryLevel.Error, error.details);
+            }
         });
     }
 
@@ -65,11 +67,11 @@ export class PortalService implements IPortalService {
 
         this.postMessage(Verbs.logAction, actionStr);
     }
-    
+
     setDirtyState(dirty : boolean) : void{
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
     }
-    
+
     logMessage(level : LogEntryLevel, message : string, ...restArgs: any[]){
         let messageStr = JSON.stringify(<Message>{
             level : level,
@@ -81,7 +83,7 @@ export class PortalService implements IPortalService {
     }
 
     private iframeReceivedMsg(event: Event): void {
-        
+
         if (event && event.data && event.data.signature !== this.portalSignature) {
             return;
         }

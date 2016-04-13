@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper > div:first-child {
+    flex-grow: 1;
+}
+
+i {
+    line-height: 1.5;
+    display: inline;
+    font-size: 20px;
+    padding-left: 5px;
+}

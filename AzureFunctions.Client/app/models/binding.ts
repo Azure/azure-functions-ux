@@ -43,6 +43,12 @@ export interface Setting {
     defaultValue?: any;
     help?: string;
     enum?: EnumOption[];
+    validators?: Validator[];
+}
+
+export interface Validator {
+    expression: string;
+    errorText: string;
 }
 
 export interface EnumOption {
@@ -96,4 +102,5 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     settings: FunctionSetting[];
     hiddenList?: string[];
     displayName: string;
+    newBinding?: boolean;
 }

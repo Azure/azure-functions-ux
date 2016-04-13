@@ -3,6 +3,7 @@
     <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
              (appSettingsClicked)='onAppSettingsClicked($event)'
              (quickstartClicked)='onQuickstartClicked($event)'
+             (sourceControlClicked)='onSourceControlClicked($event)'
              [isFunctionSelected]="!!selectedFunction"></top-bar>
 
     <div class="content">
@@ -20,7 +21,10 @@
                 </div>
             </div>
 
-            <div *ngIf="openAppMonitoring"><app-monitoring></app-monitoring></div>
+            <div *ngIf="openAppMonitoring">
+                <app-monitoring></app-monitoring>
+            </div>
+
             <div *ngIf="openAppSettings">
                 <app-settings [functionContainer]="functionContainer"></app-settings>
             </div>
@@ -28,6 +32,10 @@
             <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
             <div *ngIf="openIntro">
                 <intro [functionsInfo]="functionsInfo"></intro>
+            </div>
+
+            <div *ngIf="openSourceControl">
+                <source-control></source-control>
             </div>
         </div>
     </div>

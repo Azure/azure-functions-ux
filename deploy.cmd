@@ -127,25 +127,6 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  IF NOT EXIST "D:\home\npm_tools" (
-    mkdir "D:\home\npm_tools"
-  ) ELSE (
-    echo Folder "D:\home\npm_tools" exists
-  )
-
-  IF NOT EXIST "D:\home\npm_tools\jspm.cmd" (
-    call :ExecuteCmd npm config set prefix "D:\home\npm_tools"
-    IF !ERRORLEVEL! NEQ 0 goto error
-
-    call :ExecuteCmd npm install -g jspm
-    IF !ERRORLEVEL! NEQ 0 (
-      call :ExecuteCmd npm install -g jspm
-      IF !ERRORLEVEL! NEQ 0 goto error
-    )
-  ) ELSE (
-    echo jspm.cmd exists, skipping npm install -g jspm
-  )
-
   SET res=F
   IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "node_modules" SET res=T
@@ -160,7 +141,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
   IF NOT EXIST "jspm_packages" SET res=T
   IF "%res%"=="T" (
-    call :ExecuteCmd "D:\home\npm_tools\jspm.cmd" install
+    call :ExecuteCmd npm run jspm:i
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
     echo skipping jspm install
@@ -182,7 +163,10 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   call :ExecuteCmd npm run tsc
   IF !ERRORLEVEL! NEQ 0 goto error
 
-  call :ExecuteCmd "D:\home\npm_tools\jspm.cmd" bundle-sfx app sfx/app.js
+  call :ExecuteCmd npm run jspm:bundle
+  IF !ERRORLEVEL! NEQ 0 goto error
+  
+  call :ExecuteCmd npm run uglifyjs
   IF !ERRORLEVEL! NEQ 0 goto error
 
   popd

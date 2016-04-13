@@ -16,13 +16,15 @@ import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {ErrorEvent} from '../models/error-event';
+import {SourceControlComponent} from './source-control.component';
 
 @Component({
     selector: 'functions-dashboard',
@@ -38,7 +40,8 @@ import {ErrorEvent} from '../models/error-event';
         AppSettingsComponent,
         FunctionNewComponent,
         IntroComponent,
-        TutorialComponent
+        TutorialComponent,
+        SourceControlComponent
     ]
 })
 export class DashboardComponent implements OnChanges {
@@ -49,6 +52,7 @@ export class DashboardComponent implements OnChanges {
     public selectedFunction: FunctionInfo;
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
+    public openSourceControl: boolean;
     public openIntro: boolean = true;
 
     private checkHostSubscription: RxSubscription;
@@ -56,7 +60,7 @@ export class DashboardComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService) {
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
@@ -71,7 +75,7 @@ export class DashboardComponent implements OnChanges {
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
             this.resetView();
             this.sideBar.selectedFunction = fi;
-            
+
             this._broadcastService.setBusyState();
             this._functionsService.getConfig().subscribe((config) => {
                 this.setDisabled(config);
@@ -89,17 +93,9 @@ export class DashboardComponent implements OnChanges {
             });
         });
 
-        this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionUpdated, fi => {
-            var index = this.functionsInfo.findIndex((f) => {
-                return f.name === fi.name;
-            });
-            if (index !== -1) {
-                this.functionsInfo[index] = fi;
-            }
-        });
 
         // TODO: What's the right way of doing something like this?
-        
+
     }
 
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
@@ -108,7 +104,7 @@ export class DashboardComponent implements OnChanges {
         this.initFunctions();
     }
 
-    initFunctions() {
+    initFunctions(selectedFunctionName? : string) {
         this._broadcastService.setBusyState();
 
         this._functionsService.getFunctions()
@@ -118,6 +114,17 @@ export class DashboardComponent implements OnChanges {
                 this._broadcastService.clearBusyState();
                 this.resetView();
                 this.openIntro = true;
+
+                if (selectedFunctionName) {
+                    var findSelected = this.functionsInfo.find((f) => {
+                        return f.name === selectedFunctionName;
+                    });
+                    if (findSelected) {
+                        this.openIntro = false;
+                        this.selectedFunction = findSelected;
+                        this.sideBar.selectedFunction = findSelected;
+                    }
+                }
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets()
@@ -132,7 +139,7 @@ export class DashboardComponent implements OnChanges {
     }
 
     onRefreshClicked() {
-        this.initFunctions();
+        this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
     }
 
     onAppMonitoringClicked() {
@@ -150,10 +157,16 @@ export class DashboardComponent implements OnChanges {
         this.openIntro = true;
     }
 
+    onSourceControlClicked() {
+        this.resetView();
+        this.openSourceControl = true;
+    }
+
     private resetView() {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = false;
+        this.openSourceControl = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;
     }

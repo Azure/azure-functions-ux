@@ -5,14 +5,14 @@ export interface FunctionTemplate {
     id: string;
     function: FunctionTemplateBindings;
     metadata: FunctionTemplateMetadata;
-    files: any;    
+    files: any;
 }
 
 export interface FunctionTemplateBindings {
     bindings: FunctionBinding[];
 }
 
-export interface FunctionTemplateMetadata {    
+export interface FunctionTemplateMetadata {
     name: string;
     trigger: string;
     language: string;
@@ -20,4 +20,5 @@ export interface FunctionTemplateMetadata {
     userPrompt?: string[];
     defaultFunctionName?: string;
     description?: string;
+    visible?: boolean;
 }

@@ -58,6 +58,10 @@ export class BindingList {
             return binding.id === b.id;
         });
 
-        this.config.bindings[index] = binding;
+        if (index === -1) {
+            this.config.bindings.push(binding);
+        } else {
+            this.config.bindings[index] = binding;
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿<div style="width: 90%" *ngIf="scriptFile">
     <div class="gutter-container">
         <div *ngIf="showFunctionInvokeUrl"><label>Function Url:</label></div>
-        <div *ngIf="showFunctionInvokeUrl"><pre (click)="highlightText($event)">{{functionInvokeUrl}}</pre></div>
+        <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
         <div *ngIf="webHookType === 'github'"><label>Github Secret:</label></div>
-        <div *ngIf="webHookType === 'github'"><pre (click)="highlightText($event)">{{secrets?.key}}</pre></div>
+        <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key"></copy-pre></div>
     </div>
 
     <div>
@@ -54,8 +54,11 @@
         </div>
 
         <div class="dev-run-block">
-            <div>Output</div>
-            <pre class="log-stream">{{runResult}}</pre>
+            <div class="dev-run-container">
+                <div class="dev-run-block">Output</div>
+                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">Status: {{runResult.statusCode}} {{runResult.statusText}}</div>
+            </div>
+            <pre class="log-stream">{{runResult?.content}}</pre>
         </div>
     </div>
 

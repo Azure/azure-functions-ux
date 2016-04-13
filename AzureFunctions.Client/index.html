@@ -13,8 +13,9 @@
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
     <script src="node_modules/angular2/bundles/http.js"></script>
-    <script src="node_modules/ace-builds/src-min/ace.js"></script>
-    <script src="node_modules/ace-builds/src-min/ext-modelist.js"></script>
+    <script src="jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ace.js"></script>
+    <script src="jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-modelist.js"></script>
+    <script src="jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-language_tools.js"></script>
     <script src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/d3/d3.min.js" charset="utf-8"></script>
@@ -27,7 +28,7 @@
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="node_modules/nvd3/build/nv.d3.min.css"/>
     <link rel="stylesheet" type="text/css" href="styles/main.css">
-
+    <link rel="stylesheet" type="text/css" href="styles/nvd3Charts.css">
 
     <!-- 2. Configure SystemJS -->
     <script>
@@ -42,10 +43,10 @@
                 },
                 'ng2-nvd3': {
                     main: 'build/lib/ng2-nvd3',
-                    
+
                     defaultExtension: 'js'
                 },
-                 
+
             },
             map: {
                 'ng2-nvd3': 'npm:ng2-nvd3'

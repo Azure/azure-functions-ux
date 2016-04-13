@@ -5,7 +5,6 @@ import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
 import {CreateFunctionInfo, CreateFunctionInfoV2} from '../models/create-function-info';
-import {IFunctionsService} from './ifunctions.service';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
@@ -19,9 +18,10 @@ import {PortalService} from './portal.service';
 import {UserService} from './user.service';
 import {FunctionContainer} from '../models/function-container';
 import {ArmService} from './arm.service';
+import {RunFunctionResult} from '../models/run-function-result';
 
 @Injectable()
-export class FunctionsService implements IFunctionsService {
+export class FunctionsService {
     private hostSecrets: HostSecrets;
     private token: string;
     private scmUrl: string;
@@ -29,6 +29,60 @@ export class FunctionsService implements IFunctionsService {
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
     private fc: FunctionContainer;
+
+    // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+    private statusCodeMap = {
+        100: 'Continue',
+        101: 'Switching Protocols',
+        102: 'Processing',
+        200: 'OK',
+        201: 'Created',
+        202: 'Accepted',
+        203: 'Non-Authoritative Information',
+        204: 'No Content',
+        205: 'Reset Content',
+        206: 'Partial Content',
+        300: 'Multiple Choices',
+        301: 'Moved Permanently',
+        302: 'Found',
+        303: 'See Other',
+        304: 'Not Modified',
+        305: 'Use Proxy',
+        306: '(Unused)',
+        307: 'Temporary Redirect',
+        400: 'Bad Request',
+        401: 'Unauthorized ',
+        402: 'Payment Required',
+        403: 'Forbidden',
+        404: 'Not Found',
+        405: 'Method Not Allowed',
+        406: 'Not Acceptable',
+        407: 'Proxy Authentication Required',
+        408: 'Request Timeout',
+        409: 'Conflict',
+        410: 'Gone',
+        411: 'Length Required',
+        412: 'Precondition Failed',
+        413: 'Request Entity Too Large',
+        414: 'Request-URI Too Long',
+        415: 'Unsupported Media Type',
+        416: 'Requested Range Not Satisfiable',
+        417: 'Expectation Failed',
+        500: 'Internal Server Error',
+        501: 'Not Implemented',
+        502: 'Bad Gateway',
+        503: 'Service Unavailable',
+        504: 'Gateway Timeout',
+        505: 'HTTP Version Not Supported'
+    };
+
+    private genericStatusCodeMap = {
+        100: 'Informational',
+        200: 'Success',
+        300: 'Redirection',
+        400: 'Client Error',
+        500: 'Server Error'
+    }
 
     constructor(
         private _http: Http,
@@ -102,7 +156,6 @@ export class FunctionsService implements IFunctionsService {
             config: null,
             script_href: null,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
@@ -117,7 +170,6 @@ export class FunctionsService implements IFunctionsService {
             config: null,
             script_href: `${this.scmUrl}/api/vfs/site/wwwroot/host.json`,
             template_id: null,
-            test_data_href: null,
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
@@ -125,12 +177,9 @@ export class FunctionsService implements IFunctionsService {
         };
     }
 
-    getTestData(functionInfo: FunctionInfo) {
-        return this._http.get(functionInfo.test_data_href, { headers: this.getHeaders() })
-            .catch(e => Observable.of({
-                text: () => ''
-            }))
-            .map<string>(r => r.text());
+    private statusCodeToText(code: number) {
+        var statusClass = Math.floor(code/100) * 100;
+        return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
@@ -159,7 +208,8 @@ export class FunctionsService implements IFunctionsService {
         }
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
-            .map<string>(r => r.text());
+            .catch(e => Observable.of({ status: e.status, statusText: this.statusCodeToText(e.status), text: () => e._body }))
+            .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
     deleteFunction(functionInfo: FunctionInfo) {
@@ -214,7 +264,7 @@ export class FunctionsService implements IFunctionsService {
     getScmUrl() {
         return this.scmUrl;
     }
-    
+
     getSiteName(){
         return this.siteName;
     }

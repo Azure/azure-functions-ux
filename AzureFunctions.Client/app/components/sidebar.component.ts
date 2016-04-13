@@ -5,7 +5,8 @@ import {FunctionConfig} from '../models/function-config';
 import {VfsObject} from '../models/vfs-object';
 import {Observable, Subscription, Subject} from 'rxjs/Rx';
 import {UserService} from '../services/user.service';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
@@ -25,7 +26,7 @@ export class SideBarComponent implements OnDestroy {
 
     constructor(private _functionsService: FunctionsService,
                 private _userService: UserService,
-                private _broadcastService: IBroadcastService) {
+                private _broadcastService: BroadcastService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
@@ -40,10 +41,10 @@ export class SideBarComponent implements OnDestroy {
             }
         }));
 
-        this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {            
+        this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
             this.functionsInfo.push(fi);
-            this.functionsInfo.sort((f1, f2) => {                
-                if (f1.name === "New Function") {                    
+            this.functionsInfo.sort((f1, f2) => {
+                if (f1.name === "New Function") {
                     return -1;
                 }
                 if (f2.name === "New Function") {
@@ -51,7 +52,7 @@ export class SideBarComponent implements OnDestroy {
                 }
 
                 return f1.name > f2.name ? 1 : -1;
-            });            
+            });
             this.selectFunction(fi);
         }));
 

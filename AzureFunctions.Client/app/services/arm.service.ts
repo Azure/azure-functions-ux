@@ -1,6 +1,5 @@
 import {Http, Headers, Response} from 'angular2/http';
 import {Injectable, EventEmitter} from 'angular2/core';
-import {IArmService} from './iarm.service';
 import {Subscription} from '../models/subscription';
 import {FunctionContainer} from '../models/function-container';
 import {Observable, Subscription as RxSubscription, Subject} from 'rxjs/Rx';
@@ -10,7 +9,7 @@ import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
 
 @Injectable()
-export class ArmService implements IArmService {
+export class ArmService {
     private token: string;
     private armUrl = 'https://management.azure.com';
     private armApiVersion = '2014-04-01'
@@ -86,6 +85,14 @@ export class ArmService implements IArmService {
             .map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties));
     }
 
+    warmUpFunctionApp(armId: string) {
+        var siteName = armId.split('/').pop();
+        this._http.get(`https://${siteName}.azurewebsites.net`)
+            .subscribe(r => console.log(r), e => console.log(e));
+        this._http.get(`https://${siteName}.scm.azurewebsites.net`, { headers: this.getHeaders() })
+            .subscribe(r => console.log(r), e => console.log(e));
+    }
+
     private registerProviders(subscription: string, geoRegion: string, name: string, result: Subject<FunctionContainer>) {
         var providersUrl = `${this.armUrl}/subscriptions/${subscription}/providers?api-version=${this.armApiVersion}`;
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
@@ -146,7 +153,8 @@ export class ArmService implements IArmService {
                         { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' },
                         { name: 'WEBSITE_NODE_DEFAULT_VERSION', value: '4.1.2' }
                     ]
-                }
+                },
+                sku: 'Dynamic'
             },
             location: geoRegion,
             kind: 'functionapp'

@@ -14,7 +14,7 @@
     </span>
 </div>
 
-<div class="tp-templates">
+<div class="tp-templates" *ngIf="showFooter">
     <div *ngFor="#template of templates"
         class="tp-template"
         (click)="onTemplateCliked(template.value)"
@@ -30,6 +30,17 @@
                 <div>{{template.name}}</div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="tp-templates" *ngIf="!showFooter">
+    <div *ngFor="#template of templates"
+            class="tp-template-func"
+            (click)="onTemplateCliked(template.value)"
+            [class.tp-template-selected]="selectedTemplate == template.value">
+
+            <div class="tp-template-func-title" [class.tp-template-icon-selected]="selectedTemplate === template.value">{{template.name}}</div>
+            <div class="tp-template-func-description">{{template.description}}</div>
     </div>
 </div>
 

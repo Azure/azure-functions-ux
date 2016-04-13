@@ -3,7 +3,7 @@
         <option selected disabled hidden style='display: none' value=''></option>
         <option *ngFor="#option of _options" [value]="option.id">{{option.displayLabel}}</option>
     </select>
-    <span *ngIf="!selectedValue" class="drop-down-selected-value">{{placeholder}}</span>
-    <span *ngIf="selectedValue" class="drop-down-selected-value">{{selectedValue.displayLabel}}</span>
+    <span *ngIf="!selectedElement" class="drop-down-selected-value">{{placeholder}}</span>
+    <span *ngIf="selectedElement" class="drop-down-selected-value">{{selectedElement.displayLabel}}</span>
     <span class="drop-down-selected-arrow"></span>
 </div>

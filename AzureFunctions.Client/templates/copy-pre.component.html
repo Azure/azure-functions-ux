@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <div>
+        <pre (click)="highlightText($event)">{{content}}</pre>
+    </div>
+    <div title="Copy to clipboard"  (click)="copyToClipboard($event)">
+        <pop-over message="Copied!" hideAfter="300">
+            <i class="fa fa-clone clickable"></i>
+        </pop-over>
+    </div>
+</div>

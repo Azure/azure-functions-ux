@@ -1,8 +1,9 @@
-import {Component, OnInit, EventEmitter, Input} from 'angular2/core';
+import {Component, OnInit, EventEmitter, Input, Output} from 'angular2/core';
 import {UserService} from '../services/user.service';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
@@ -10,8 +11,7 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
     selector: 'top-bar',
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
-    inputs: ['isFunctionSelected'],
-    outputs: ['appSettingsClicked', 'appMonitoringClicked', 'quickstartClicked']
+    inputs: ['isFunctionSelected']
 })
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
@@ -22,18 +22,21 @@ export class TopBarComponent implements OnInit {
     public isAppMonitoringSelected: boolean;
     public isAppSettingSelected: boolean;
     public isQuickstartSelected: boolean;
+    public isSourceControlSelected: boolean;
     private _isFunctionSelected: boolean;
-    private appMonitoringClicked: EventEmitter<any>;
-    private appSettingsClicked: EventEmitter<any>;
-    private quickstartClicked: EventEmitter<any>;
+    @Output() private appMonitoringClicked: EventEmitter<any>;
+    @Output() private appSettingsClicked: EventEmitter<any>;
+    @Output() private quickstartClicked: EventEmitter<any>;
+    @Output() private sourceControlClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
-                private _broadcastService: IBroadcastService,
+                private _broadcastService: BroadcastService,
                 private _portalService: PortalService) {
 
         this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
         this.quickstartClicked = new EventEmitter<any>();
+        this.sourceControlClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
@@ -96,16 +99,27 @@ export class TopBarComponent implements OnInit {
         this.isAppSettingSelected = selected ? false : this.isAppSettingSelected;
         this.isAppMonitoringSelected = selected ? false : this.isAppMonitoringSelected;
         this.isQuickstartSelected = selected ? false : this.isQuickstartSelected;
+        this.isSourceControlSelected = selected ? false : this.isSourceControlSelected;
     }
 
     get isFunctionSelected() {
         return this._isFunctionSelected;
     }
-    
+
     private resetView(){
         this.isAppMonitoringSelected = false;
         this.isAppSettingSelected = false;
         this.isQuickstartSelected = false;
+        this.isSourceControlSelected = false;
+    }
+
+    onSourceControlClicked() {
+        if (this.canLeaveFunction()) {
+            this._portalService.logAction('top-bar-source-control-link', 'click');
+            this.resetView();
+            this.sourceControlClicked.emit(null);
+            this.isSourceControlSelected = true;
+        }
     }
 
     // TODO: Remove duplicated code between here and SitebarComponent

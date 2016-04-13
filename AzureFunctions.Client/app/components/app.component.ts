@@ -3,7 +3,8 @@ import {DashboardComponent} from './dashboard.component';
 import {GettingStartedComponent} from './getting-started.component';
 import {PortalService} from '../services/portal.service';
 import {FunctionsService} from '../services/functions.service';
-import {BroadcastEvent, IBroadcastService} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {BusyStateComponent} from './busy-state.component';
 import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
     constructor(
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService,
+        private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _userService: UserService,
         private _monitoringService: MonitoringService
@@ -104,11 +105,19 @@ export class AppComponent implements OnInit {
             window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
+            this._armService.warmUpFunctionApp(armId);
+            this._broadcastService.setBusyState();
             this._userService.getTenants()
+                .retry(10)
                 .subscribe(tenants => {
                     var currentTenant = tenants.find(t => t.Current);
                     var portalHostName = 'https://portal.azure.com';
-                    var environment = window.location.host.indexOf('staging') > -1 ? '?websitesextension_functionsstaged=true' : '';
+                    var environment = '';
+                    if (window.location.host.indexOf('staging') !== -1) {
+                        environment = '?websitesextension_functionsstaged=true';
+                    } else if (window.location.host.indexOf('next') !== -1) {
+                        environment = '?websitesextension_functionsnext=true';
+                    }
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);
                 });
             return true;

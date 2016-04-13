@@ -7,7 +7,9 @@ import {TemplatePickerComponent} from './template-picker.component';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {TemplatePickerType} from '../models/template-picker';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
+import {PortalService} from '../services/portal.service';
 
 declare var jQuery: any;
 
@@ -27,20 +29,20 @@ export class FunctionIntegrateV2Component {
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
-    public currentBinding: UIFunctionBinding;
+    public currentBinding: UIFunctionBinding = null;
     public currentBindingId: string = "";
 
     private _elementRef: ElementRef;
     private  _functionInfo: FunctionInfo;
     private _bindingManager: BindingManager = new BindingManager();
-    
+
     set selectedFunction(fi: FunctionInfo) {
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
-        
+
         if (!this._functionInfo || this._functionInfo.name !== fi.name) {
             this.currentBinding = null;
             this.currentBindingId = "";
-            this._functionInfo = JSON.parse(JSON.stringify(fi));  //clone functionInfo
+            this._functionInfo = fi;
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
                 if (this.model.config.bindings.length > 0) {
@@ -52,13 +54,13 @@ export class FunctionIntegrateV2Component {
                 jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
             });
         }
-        
     }
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
-        private _broadcastService: IBroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService) {
         this._elementRef = elementRef;
     }
 
@@ -88,16 +90,17 @@ export class FunctionIntegrateV2Component {
 
     onBindingCreateComplete(behavior: DirectionType, templateName: string) {
         this._functionsService.getBindingConfig().subscribe((bindings) => {
-            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
+            this._broadcastService.setDirtyState("function_integrate");
+            this._portalService.setDirtyState(true);
 
-            this.model.config.bindings.push(
-                this.currentBinding
-            );
+
+            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
+            this.currentBinding.newBinding = true;
+
             this.currentBindingId = this.currentBinding.id;
             this.model.setBindings();
             this.pickerType = TemplatePickerType.none;
 
-            this.updateFunction();
         });
     }
 
@@ -146,11 +149,11 @@ export class FunctionIntegrateV2Component {
         }
 
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-            this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
+            //this.selectedFunction = this._functionInfo;
         });
     }
 
-    private checkDirty() : boolean {
+    private checkDirty(): boolean {
         var switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
             switchBinding = confirm(`Changes made will be lost. Are you sure you want to continue?`);

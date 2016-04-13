@@ -8,9 +8,12 @@ import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
 import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
-import {IBroadcastService, BroadcastEvent} from '../services/ibroadcast.service';
+import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
+import {CopyPreComponent} from './copy-pre.component';
+import {RunFunctionResult} from '../models/run-function-result';
 
 @Component({
     selector: 'function-dev',
@@ -19,7 +22,8 @@ import {BindingType} from '../models/binding';
     directives: [
         AceEditorDirective,
         FunctionDesignerComponent,
-        LogStreamingComponent
+        LogStreamingComponent,
+        CopyPreComponent
     ]
 })
 export class FunctionDevComponent implements OnChanges {
@@ -38,7 +42,7 @@ export class FunctionDevComponent implements OnChanges {
     public isCode: boolean;
     public isHttpFunction: boolean;
 
-    public runResult: string;
+    public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
@@ -47,7 +51,7 @@ export class FunctionDevComponent implements OnChanges {
     private functionSelectStream: Subject<FunctionInfo>;
 
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: IBroadcastService,
+                private _broadcastService: BroadcastService,
                 private _portalService: PortalService) {
 
         this.isCode = true;
@@ -159,16 +163,6 @@ export class FunctionDevComponent implements OnChanges {
         this.updatedContent = content;
     }
 
-    //http://stackoverflow.com/q/8019534/3234163
-    highlightText(event: Event) {
-        var el: any = event.target;
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-
     testContentChanged(content: string) {
         this.updatedTestContent = content;
     }
@@ -189,10 +183,7 @@ export class FunctionDevComponent implements OnChanges {
             this._broadcastService.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(
-                    r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; },
-                    e => { this.runResult = e._body; this._broadcastService.clearBusyState(); delete this.running; }
-                );
+                .subscribe(r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; });
         }
     }
 

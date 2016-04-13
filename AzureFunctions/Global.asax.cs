@@ -72,8 +72,8 @@ namespace AzureFunctions
                     context.Response.End();
                 }
                 else if (!isFile)
-                {
-                    context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE");
+                {        
+                    context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
