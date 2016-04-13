@@ -13,8 +13,10 @@ export class AceEditorDirective {
     public onContentChanged: EventEmitter<string>;
     public onSave: EventEmitter<string>;
     private initialHeight: number;
+    private silent: boolean;
 
     constructor(private elementRef: ElementRef) {
+        this.silent = false;
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
         this.initialHeight = window.innerHeight;
@@ -70,8 +72,8 @@ export class AceEditorDirective {
 
         this.editor.on('change', (e) => {
             // (Attempt to) separate user change from programatical
-            // https://github.com/ajaxorg/ace/issues/503
-            if (this.editor.curOp && this.editor.curOp.command.name) {
+            // https://github.com/ajaxorg/ace/issues/1547
+            if (!this.silent) {
                 this.onContentChanged.emit(this.editor.getValue());
             }
         });
@@ -102,7 +104,9 @@ export class AceEditorDirective {
     set content(str: string) {
         str = str || '';
         if (str === this.editor.getValue()) return;
+        this.silent = true;
         this.editor.session.setValue(str);
+        this.silent = false;
         this.editor.clearSelection();
         this.editor.moveCursorTo(0, 0);
         this.editor.focus();
