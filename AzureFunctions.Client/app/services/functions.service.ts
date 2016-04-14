@@ -208,7 +208,21 @@ export class FunctionsService {
         }
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
-            .catch(e => Observable.of({ status: e.status, statusText: this.statusCodeToText(e.status), text: () => e._body }))
+            .catch(e => {
+                if (e.status === 200 && e._body.type === 'error') {
+                    return Observable.of({
+                        status: 502,
+                        statusText: this.statusCodeToText(502),
+                        text: () => `There was an error running function (${functionInfo.name}). Check logs output for the full error.`
+                    });
+                } else {
+                    return Observable.of({
+                        status: e.status,
+                        statusText: this.statusCodeToText(e.status),
+                        text: () => e._body
+                    });
+                }
+            })
             .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
