@@ -32,6 +32,7 @@ export interface Binding {
     defaultParameterName?: string;
     parameterNamePrompt?: string;
     settings: Setting[];
+    rules: Rule[];
 }
 
 export interface Setting {
@@ -44,6 +45,20 @@ export interface Setting {
     help?: string;
     enum?: EnumOption[];
     validators?: Validator[];
+}
+
+export interface Rule {
+    type: string,
+    values: RuleValue[];
+    label: string;
+    help: string;
+}
+
+export interface RuleValue {
+    value: string;
+    display: string;
+    hiddenSettings: string[];
+    shownSettings: string[];
 }
 
 export interface Validator {
@@ -88,6 +103,7 @@ export interface UIFunctionConfig {
 export interface FunctionSetting {
     name: string;
     value: any;
+    noSave?: boolean;
 }
 
 export interface FunctionBindingBase {

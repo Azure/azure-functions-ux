@@ -19,7 +19,7 @@ import {PopOverComponent} from './pop-over.component';
 })
 
 export class BindingInputComponent {
-    @Output() validChange = new EventEmitter<BindingInputBase<any>>();
+    @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     private _input: BindingInputBase<any>;
@@ -82,6 +82,9 @@ export class BindingInputComponent {
     }
 
     inputChanged(value: any) {
+        if (this._input.changeValue) {
+            this._input.changeValue();
+        }
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
     }

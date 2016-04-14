@@ -12,6 +12,10 @@ export class BindingInputList {
     saveOriginInputs() {
         this.originInputs = JSON.parse(JSON.stringify(this.inputs));
 
+        this.orderInputs();
+    }
+
+    orderInputs() {
 
         this.rightInputs = [];
         this.leftInputs = [];
@@ -28,7 +32,7 @@ export class BindingInputList {
         });
     }
 
-    isDirty() : boolean {        
+    isDirty(): boolean {
         var result = false;
         for (var i = 0; i < this.inputs.length; i++) {
             if (this.inputs[i].value !== this.originInputs[i].value) {
@@ -40,7 +44,7 @@ export class BindingInputList {
 
     isValid() {
         var result = true;
-        this.inputs.forEach((input) => {            
+        this.inputs.forEach((input) => {
             if (!input.isValid) {
                 result = false;
             }

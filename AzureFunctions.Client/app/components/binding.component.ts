@@ -1,6 +1,6 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -45,7 +45,7 @@ export class BindingComponent {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
-            this.isDirty = this.model.isDirty();
+            this.isDirty = this.model.isDirty() || this.bindingValue.newBinding;
 
                 if (this.canDelete) {
                     if (this.isDirty) {
@@ -83,6 +83,67 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
+                if (bindingSchema.rules) {
+                    bindingSchema.rules.forEach((rule) => {
+                        if (rule.type === "exclusivity") {
+                            var ddValue = rule.values[0].value;
+                            var temp = this.bindingValue.settings;
+                            name = this._bindingManager.guid();
+                            rule.values.forEach((value) => {
+                                var findResult = this.bindingValue.settings.find((s) => {
+                                    return s.name === value.value && s.value;
+                                });
+                                if (findResult) {
+                                    ddValue = value.value;
+                                }
+                            });
+
+                            this.bindingValue.settings.push({
+                                name: name,
+                                value: ddValue,
+                                noSave: true
+                            });
+
+                            let ddInput = new SelectInput();
+                            ddInput.id = name;
+                            ddInput.isHidden = false;
+                            ddInput.label = rule.label;
+                            ddInput.help = rule.help;
+                            ddInput.value = ddValue;
+                            ddInput.enum = rule.values;
+                            ddInput.changeValue = () => {
+                                var rules = <Rule[]><any>ddInput.enum;
+                                rule.values.forEach((v) => {
+                                    if (ddInput.value == v.value) {
+                                        v.hiddenSettings.forEach((s) => {
+                                            v.shownSettings.forEach((s) => {
+                                                var setting = this.model.inputs.find((input) => {
+                                                    return input.id === s;
+                                                });
+                                                if (setting) {
+                                                    setting.isHidden = false;
+                                                    setting.noSave = false;
+                                                }
+                                            });
+                                            v.hiddenSettings.forEach((s) => {
+                                                var setting = this.model.inputs.find((input) => {
+                                                    return input.id === s;
+                                                });
+                                                if (setting) {
+                                                    setting.isHidden = true;
+                                                    setting.noSave = true;
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+                                this.model.orderInputs();
+                            };
+                            this.model.inputs.push(ddInput);
+                        }
+                    });
+                }
+
                 bindingSchema.settings.forEach((setting) => {
 
                     var functionSettingV = this.bindingValue.settings.find((s) => {
@@ -208,6 +269,9 @@ export class BindingComponent {
             var input: BindingInputBase<any> = this.model.getInput(s.name);
             if (input) {
                 s.value = input.value;
+                if (input.noSave) {
+                    s.noSave = input.noSave;
+                }
             }
         });
 
