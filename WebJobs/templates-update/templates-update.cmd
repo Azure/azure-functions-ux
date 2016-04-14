@@ -10,5 +10,12 @@ IF NOT EXIST "%TEMPLATES_PATH%" (
 )
 
 pushd "%TEMPLATES_PATH%"
-git pull
+git fetch
+
+IF "%FUNCTIONS_SLOT_NAME%" == "next" (
+    git reset --hard origin/dev
+) ELSE (
+    git reset --hard origin/master
+)
+
 popd
