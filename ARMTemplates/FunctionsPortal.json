@@ -60,9 +60,25 @@
                   {
                      "name":"WEBSITE_HTTPLOGGING_CONTAINER_URL",
                      "value":"[parameters('sasUrl')]"
+                  },
+                  {
+                     "name":"WEBSITE_WEBDEPLOY_USE_SCM",
+                     "value":"true"
                   }
-               ]
-            },
+               ],
+               "virtualApplications":[
+                  {
+                     "virtualPath": "/",
+                     "physicalPath": "site\\wwwroot",
+                     "preloadEnabled": true
+                  },
+                  {
+                     "virtualPath": "/docs",
+                     "physicalPath": "site\\docs",
+                     "preloadEnabled": true
+                  }
+                ]
+            }
             //"hostNames":[
                //"functions.trafficmanager.net",
                //"functions.azure.com",
@@ -118,8 +134,24 @@
                         {
                            "name":"WEBSITE_HTTPLOGGING_CONTAINER_URL",
                            "value":"[parameters('sasUrl')]"
+                        },
+                        {
+                           "name":"WEBSITE_WEBDEPLOY_USE_SCM",
+                           "value":"true"
                         }
-                     ]
+                     ],
+                     "virtualApplications":[
+                        {
+                           "virtualPath": "/",
+                           "physicalPath": "site\\wwwroot",
+                           "preloadEnabled": true
+                        },
+                        {
+                           "virtualPath": "/docs",
+                           "physicalPath": "site\\docs",
+                           "preloadEnabled": true
+                        }
+                    ]
                   }
                },
                "resources":[
