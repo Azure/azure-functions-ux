@@ -226,14 +226,7 @@ export class BindingComponent {
                 ];
                 this.model.inputs.splice(0, 0, inputTb);
 
-                let inputLabel = new LabelInput();
-                inputLabel.id = "Behavior";
-                inputLabel.isHidden = newFunction;
-                inputLabel.label = "Behavior";
-                inputLabel.value = this.bindingValue.direction.toString();// || setting.defaultValue;
-                inputLabel.help = "Behavior";
 
-                this.model.inputs.splice(1, 0, inputLabel);
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
@@ -304,7 +297,17 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        var displayString = " (" + this.bindingValue.displayName + ")";
-        this.model.label = this.bindingValue.name ? this.bindingValue.name + displayString : displayString;
+        debugger;
+        var bindingTypeString = this.bindingValue.direction.toString();
+        switch (bindingTypeString) {
+             case "in":
+                bindingTypeString = "input";
+                break;
+             case "out":
+                 bindingTypeString = "output";
+                 break;
+        }
+
+        this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
     }
 }
