@@ -297,7 +297,6 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        debugger;
         var bindingTypeString = this.bindingValue.direction.toString();
         switch (bindingTypeString) {
              case "in":

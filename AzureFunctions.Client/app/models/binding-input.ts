@@ -64,12 +64,4 @@ export class PickerInput extends BindingInputBase<string>{
         this.noErrorClass = 'input-group';
         this.errorClass = 'input-group has-error';
     }
-
-    setButtonNoActive() {
-        this.inProcess = false;
-    }
-
-    setButtonActive() {
-        this.inProcess = true;
-    }
 }

@@ -70,14 +70,14 @@ export class BindingInputComponent {
         }
 
         var picker = <PickerInput>this.input;
-        picker.setButtonActive();
+        picker.inProcess = true;
         this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
             if (appSettingName) {
                 this.input.value = appSettingName;
                 this.inputChanged(name);
                 this.setClass(appSettingName);
             }
-            picker.setButtonNoActive();
+            picker.inProcess = false;
         });
     }
 
