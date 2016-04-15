@@ -97,60 +97,25 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 
-:: 5. Create lastCommit, packageJsonLastCommit, bowerLastCommit, typingsLastCommit vars
-  pushd "%DEPLOYMENT_SOURCE%"
-
-  call :ExecuteCmd git log -n 1 --oneline > lastCommit.txt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  SET /p lastCommit=<lastCommit.txt
-  DEL lastCommit.txt
-
-
-  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\package.json > packageJsonLastCommit.txt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  SET /p packageJsonLastCommit=<packageJsonLastCommit.txt
-  DEL packageJsonLastCommit.txt
-
-  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\bower.json > bowerLastCommit.txt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  SET /p bowerLastCommit=<bowerLastCommit.txt
-  DEL bowerLastCommit.txt
-
-  call :ExecuteCmd git log -n 1 --oneline -- AzureFunctions.Client\typings.json > typingsLastCommit.txt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  SET /p typingsLastCommit=<typingsLastCommit.txt
-  DEL typingsLastCommit.txt
-
-  popd
-
-:: 6. Install npm packages
+:: 5. Install npm packages
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  SET res=F
-  IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
-  IF NOT EXIST "node_modules" SET res=T
-  IF "%res%"=="T" (
+  IF NOT EXIST "node_modules" (
     call :ExecuteCmd npm install
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
     echo skipping npm install
   )
 
-  SET res=F
-  IF "%packageJsonLastCommit%"=="%lastCommit%" SET res=T
-  IF NOT EXIST "jspm_packages" SET res=T
-  IF "%res%"=="T" (
+  IF NOT EXIST "jspm_packages" (
     call :ExecuteCmd npm run jspm:i
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
     echo skipping jspm install
   )
 
-  SET res=F
-  IF "%typingsLastCommit%"=="%lastCommit%" SET res=T
-  IF NOT EXIST "typings" SET res=T
-  IF "%res%"=="T" (
+  IF NOT EXIST "typings" (
     call :ExecuteCmd npm run typings install
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
@@ -166,8 +131,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   call :ExecuteCmd npm run jspm:bundle
   IF !ERRORLEVEL! NEQ 0 goto error
   
-  call :ExecuteCmd npm run uglifyjs
-  IF !ERRORLEVEL! NEQ 0 goto error
+  ::call :ExecuteCmd npm run uglifyjs
+  ::IF !ERRORLEVEL! NEQ 0 goto error
 
   popd
 )
@@ -176,10 +141,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  SET res=F
-  IF NOT "%bowerLastCommit%"=="%lastCommit%" SET res=T
-  IF NOT EXIST "bower_components" SET res=T
-  IF "%res%"=="T" (
+  IF NOT EXIST "bower_components" (
     call :ExecuteCmd bower install
     IF !ERRORLEVEL! NEQ 0 goto error
   ) ELSE (
