@@ -84,7 +84,7 @@ export class PortalService {
 
     private iframeReceivedMsg(event: Event): void {
 
-        if (event && event.data && event.data.signature !== this.portalSignature) {
+        if (!event || !event.data || event.data.signature !== this.portalSignature){
             return;
         }
 

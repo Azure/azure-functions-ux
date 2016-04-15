@@ -121,7 +121,6 @@
     <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
-    <TypeScriptCompile Include="app\components\top-bar-button.component.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
     <TypeScriptCompile Include="app\components\tutorial.component.ts" />
     <TypeScriptCompile Include="app\constants.ts" />
