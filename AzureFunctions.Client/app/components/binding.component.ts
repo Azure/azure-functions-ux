@@ -269,8 +269,8 @@ export class BindingComponent {
             var input: BindingInputBase<any> = this.model.getInput(s.name);
             if (input) {
                 s.value = input.value;
-                if (input.noSave) {
-                    s.noSave = input.noSave;
+                if (input.noSave || (!input.required && !input.value && input.value !== false)) {
+                    s.noSave = true;
                 }
             }
         });
