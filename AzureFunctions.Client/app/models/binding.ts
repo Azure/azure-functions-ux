@@ -6,6 +6,8 @@
     queueTrigger = <any>"queueTrigger",
     blob = <any>"blob",
     blobTrigger = <any>"blobTrigger",
+    apiHubFile = <any>"apiHubFile",
+    apiHubFileTrigger = <any>"apiHubFileTrigger",
     httpTrigger = <any>"httpTrigger",
     http = <any>"http",
     table = <any>"table",
@@ -46,6 +48,7 @@ export interface Setting {
     enum?: EnumOption[];
     validators?: Validator[];
     placeholder?: string;
+    metadata?: any;
 }
 
 export interface Rule {
@@ -82,7 +85,8 @@ export enum ResourceType {
     Storage = <any>"Storage",
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
-    DocumentDB = <any>"DocumentDB"       
+    DocumentDB = <any>"DocumentDB",
+    ApiHub = <any>"ApiHub"
 }
 
 export enum SettingType {

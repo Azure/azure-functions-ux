@@ -173,6 +173,7 @@ export class BindingComponent {
                                     input.value = functionSettingV.value || setting.defaultValue;
                                     input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                     input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
+                                    input.metadata = setting.metadata;
                                     this.model.inputs.push(input);
                                 } else {
                                     let input = new TextboxInput();

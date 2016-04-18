@@ -28,6 +28,7 @@ export class Verbs{
     // Requests from iframe
     public static getAuthToken = "get-auth-token";
     public static openBlade = "open-blade";
+    public static openBladeWithInputs = "open-blade-inputs";
     public static logAction = "log-action";
     public static logMessage = "log-message";
     public static setDirtyState = "set-dirtystate";
@@ -40,24 +41,9 @@ export class Verbs{
 }
 
 export enum LogEntryLevel {
-    /**
-     * Custom events.
-     */
     Custom = -2,
-    /**
-     * Debug level.
-     */
     Debug = -1,
-    /**
-     * Verbose level.
-     */
     Verbose = 0,
-    /**
-     * Warning level.
-     */
     Warning = 1,
-    /**
-     * Error level.
-     */
     Error = 2,
 }
