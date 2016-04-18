@@ -58,6 +58,15 @@ export class PortalService {
         this.postMessage(Verbs.openBlade, name);
     }
 
+    openCollectorBladeWithInputs(obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.logAction(source, "open-blade-input" + obj.bladeName, null);
+        this.getAppSettingCallback = getAppSettingCallback;
+
+        let inputStr = JSON.stringify(obj);
+
+        this.postMessage(Verbs.openBladeWithInputs, inputStr);
+    }
+
     logAction(subcomponent: string, action: string, data?: any): void{
         let actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,

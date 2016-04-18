@@ -22,7 +22,7 @@
                [(ngModel)]="input.value" type="text"
                placeholder="{{input.placeholder}}"
                disabled>
-        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input.resource, input.id)"> select</i>
+        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input)"> select</i>
         <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
