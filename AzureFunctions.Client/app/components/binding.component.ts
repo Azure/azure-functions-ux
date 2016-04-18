@@ -1,6 +1,6 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -172,6 +172,7 @@ export class BindingComponent {
                                     input.required = setting.required;
                                     input.value = functionSettingV.value || setting.defaultValue;
                                     input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                    input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                     this.model.inputs.push(input);
                                 } else {
                                     let input = new TextboxInput();
@@ -182,6 +183,7 @@ export class BindingComponent {
                                     input.value = functionSettingV.value || setting.defaultValue;
                                     input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                     input.validators = setting.validators;
+                                    input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
                                     this.model.inputs.push(input);
                                 }
                                 break;
@@ -288,12 +290,14 @@ export class BindingComponent {
 
     private replaceVariables(value: string, variables: any): string {
         var result = value;
-        for (var key in variables) {
-            if (variables.hasOwnProperty(key)) {
-                result = result.replace("[variables('" + key + "')]", variables[key]);
+        if (value) {
+            for (var key in variables) {
+                if (variables.hasOwnProperty(key)) {
+                    result = result.replace("[variables('" + key + "')]", variables[key]);
+                }
             }
+            return result;
         }
-        return result;
     }
 
     private setLabel() {

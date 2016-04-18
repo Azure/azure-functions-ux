@@ -18,6 +18,7 @@ export class BindingInputBase<T>
     validators: Validator[] = [];
     noSave: boolean = false;
     changeValue: () => void;
+    placeholder: string;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{

@@ -45,6 +45,7 @@ export interface Setting {
     help?: string;
     enum?: EnumOption[];
     validators?: Validator[];
+    placeholder?: string;
 }
 
 export interface Rule {
