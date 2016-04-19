@@ -86,8 +86,7 @@ export class BindingComponent {
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
                         if (rule.type === "exclusivity") {
-                            var ddValue = rule.values[0].value;
-                            var temp = this.bindingValue.settings;
+                            var ddValue = rule.values[0].value;                            
                             name = this._bindingManager.guid();
                             rule.values.forEach((value) => {
                                 var findResult = this.bindingValue.settings.find((s) => {
@@ -98,11 +97,6 @@ export class BindingComponent {
                                 }
                             });
 
-                            this.bindingValue.settings.push({
-                                name: name,
-                                value: ddValue,
-                                noSave: true
-                            });
 
                             let ddInput = new SelectInput();
                             ddInput.id = name;
@@ -266,6 +260,8 @@ export class BindingComponent {
                 s.value = input.value;
                 if (input.noSave || (!input.required && !input.value && input.value !== false)) {
                     s.noSave = true;
+                } else {
+                    delete s.noSave;
                 }
             }
         });
