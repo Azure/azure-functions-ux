@@ -7,22 +7,28 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
+enum TopbarButton {
+    None = <any>"None",
+    AppMonitoring = <any>"AppMonitoring",
+    AppSettings = <any>"AppSettings",
+    Quickstart = <any>"Quickstart",
+    SourceControl = <any>"SourceControl"
+}
+
 @Component({
     selector: 'top-bar',
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
-    inputs: ['isFunctionSelected']
+    inputs: ['isFunctionSelected', 'quickStartSelected']
 })
+
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
     public user: User;
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
-    public isAppMonitoringSelected: boolean;
-    public isAppSettingSelected: boolean;
-    public isQuickstartSelected: boolean;
-    public isSourceControlSelected: boolean;
+    public ActiveButton: TopbarButton;
     private _isFunctionSelected: boolean;
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private appSettingsClicked: EventEmitter<any>;
@@ -47,7 +53,7 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isQuickstartSelected = true;
+        this.ActiveButton = TopbarButton.Quickstart;
 
         // nothing to do if we're running in an iframe
         if (this.inIFrame) return;
@@ -73,7 +79,7 @@ export class TopBarComponent implements OnInit {
         if (this.canLeaveFunction()) {
             this.resetView();
             this.appMonitoringClicked.emit(null);
-            this.isAppMonitoringSelected = true;
+            this.ActiveButton = TopbarButton.AppMonitoring;
         }
     }
 
@@ -81,7 +87,7 @@ export class TopBarComponent implements OnInit {
         if (this.canLeaveFunction()) {
             this.resetView();
             this.appSettingsClicked.emit(null);
-            this.isAppSettingSelected = true;
+            this.ActiveButton = TopbarButton.AppSettings;
         }
     }
 
@@ -90,16 +96,19 @@ export class TopBarComponent implements OnInit {
             this._portalService.logAction('top-bar-azure-functions-link', 'click');
             this.resetView();
             this.quickstartClicked.emit(null);
-            this.isQuickstartSelected = true;
+            this.ActiveButton = TopbarButton.Quickstart;
         }
     }
 
     set isFunctionSelected(selected: boolean) {
-        this._isFunctionSelected = selected;
-        this.isAppSettingSelected = selected ? false : this.isAppSettingSelected;
-        this.isAppMonitoringSelected = selected ? false : this.isAppMonitoringSelected;
-        this.isQuickstartSelected = selected ? false : this.isQuickstartSelected;
-        this.isSourceControlSelected = selected ? false : this.isSourceControlSelected;
+        this.ActiveButton = TopbarButton.None;
+        this._isFunctionSelected = true;
+    }
+
+    set quickStartSelected(selected: boolean) {
+        if (selected) {
+            this.ActiveButton = TopbarButton.Quickstart;
+        }
     }
 
     get isFunctionSelected() {
@@ -107,10 +116,7 @@ export class TopBarComponent implements OnInit {
     }
 
     private resetView(){
-        this.isAppMonitoringSelected = false;
-        this.isAppSettingSelected = false;
-        this.isQuickstartSelected = false;
-        this.isSourceControlSelected = false;
+        this.ActiveButton = TopbarButton.None;
     }
 
     onSourceControlClicked() {
@@ -118,7 +124,7 @@ export class TopBarComponent implements OnInit {
             this._portalService.logAction('top-bar-source-control-link', 'click');
             this.resetView();
             this.sourceControlClicked.emit(null);
-            this.isSourceControlSelected = true;
+            this.ActiveButton = TopbarButton.SourceControl;
         }
     }
 
