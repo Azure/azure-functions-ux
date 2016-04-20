@@ -35,6 +35,7 @@ export interface Binding {
     parameterNamePrompt?: string;
     settings: Setting[];
     rules: Rule[];
+    filters?: string[];
 }
 
 export interface Setting {
