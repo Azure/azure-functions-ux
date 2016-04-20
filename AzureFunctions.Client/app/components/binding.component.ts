@@ -83,61 +83,6 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
-                if (bindingSchema.rules) {
-                    bindingSchema.rules.forEach((rule) => {
-                        if (rule.type === "exclusivity") {
-                            var ddValue = rule.values[0].value;                            
-                            name = this._bindingManager.guid();
-                            rule.values.forEach((value) => {
-                                var findResult = this.bindingValue.settings.find((s) => {
-                                    return s.name === value.value && s.value;
-                                });
-                                if (findResult) {
-                                    ddValue = value.value;
-                                }
-                            });
-
-
-                            let ddInput = new SelectInput();
-                            ddInput.id = name;
-                            ddInput.isHidden = false;
-                            ddInput.label = rule.label;
-                            ddInput.help = rule.help;
-                            ddInput.value = ddValue;
-                            ddInput.enum = rule.values;
-                            ddInput.changeValue = () => {
-                                var rules = <Rule[]><any>ddInput.enum;
-                                rule.values.forEach((v) => {
-                                    if (ddInput.value == v.value) {
-                                        v.hiddenSettings.forEach((s) => {
-                                            v.shownSettings.forEach((s) => {
-                                                var setting = this.model.inputs.find((input) => {
-                                                    return input.id === s;
-                                                });
-                                                if (setting) {
-                                                    setting.isHidden = false;
-                                                    setting.noSave = false;
-                                                }
-                                            });
-                                            v.hiddenSettings.forEach((s) => {
-                                                var setting = this.model.inputs.find((input) => {
-                                                    return input.id === s;
-                                                });
-                                                if (setting) {
-                                                    setting.isHidden = true;
-                                                    setting.noSave = true;
-                                                }
-                                            });
-                                        });
-                                    }
-                                });
-                                this.model.orderInputs();
-                            };
-                            this.model.inputs.push(ddInput);
-                        }
-                    });
-                }
-
                 bindingSchema.settings.forEach((setting) => {
 
                     var functionSettingV = this.bindingValue.settings.find((s) => {
@@ -145,14 +90,8 @@ export class BindingComponent {
                     });
 
                     if (functionSettingV) {
-                        var isHidden = false;
-                        if (newFunction) {
-                            isHidden = true;
-                            var match = this.bindingValue.hiddenList.find((h) => {
-                                return h === setting.name;
-                            });
-                            isHidden = match ? false : true;
-                        }
+
+                        var isHidden = this.isHidden(newFunction, setting.name);
 
                         switch (setting.value) {
                             case SettingType.string:
@@ -208,6 +147,78 @@ export class BindingComponent {
                     }
                 });
 
+                if (bindingSchema.rules) {
+                    bindingSchema.rules.forEach((rule) => {
+
+                        var isHidden = this.isHidden(newFunction, rule.name);
+
+                        if (rule.type === "exclusivity") {
+                            var ddValue = rule.values[0].value;
+
+                            rule.values.forEach((value) => {
+                                var findResult = this.bindingValue.settings.find((s) => {
+                                    return s.name === value.value && s.value;
+                                });
+                                if (findResult) {
+                                    ddValue = value.value;
+                                }
+                            });
+
+                            let ddInput = new SelectInput();
+                            ddInput.id = rule.name;
+                            ddInput.isHidden = isHidden;
+                            ddInput.label = rule.label;
+                            ddInput.help = rule.help;
+                            ddInput.value = ddValue;
+                            ddInput.enum = rule.values;
+                            ddInput.changeValue = () => {
+                                var rules = <Rule[]><any>ddInput.enum;
+                                rule.values.forEach((v) => {
+                                    if (ddInput.value == v.value) {
+                                        v.shownSettings.forEach((s) => {
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
+                                            });
+                                            if (input) {
+                                                input.isHidden = isHidden ? true : false;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
+                                            });
+                                            if (s1) {
+                                                s1.noSave = isHidden ? true : false;
+                                            }
+                                        });
+                                        v.hiddenSettings.forEach((s) => {
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
+                                            });
+                                            if (input) {
+                                                input.isHidden = true;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
+                                            });
+                                            if (s1) {
+                                                s1.noSave = true;
+                                            }
+                                        });
+                                    }
+                                });
+                                //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
+                                setTimeout(() => this.model.orderInputs(), 0);
+                                
+
+                            };
+                            if (isHidden) {
+                                ddInput.changeValue();
+                            }
+
+                            this.model.inputs.splice(0, 0, ddInput);
+                        }
+                    });
+                }
+
                 let inputTb = new TextboxInput();
                 inputTb.id = "name";
                 inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
@@ -222,8 +233,6 @@ export class BindingComponent {
                     }
                 ];
                 this.model.inputs.splice(0, 0, inputTb);
-
-
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
@@ -259,7 +268,7 @@ export class BindingComponent {
             var input: BindingInputBase<any> = this.model.getInput(s.name);
             if (input) {
                 s.value = input.value;
-                if (input.noSave || (!input.required && !input.value && input.value !== false)) {
+                if (s.noSave || (!input.required && !input.value && input.value !== false)) {
                     s.noSave = true;
                 } else {
                     delete s.noSave;
@@ -309,5 +318,17 @@ export class BindingComponent {
         }
 
         this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
+    }
+
+    private isHidden(newFunction: boolean, name: string) {
+        var isHidden = false;
+        if (newFunction) {
+            isHidden = true;
+            var match = this.bindingValue.hiddenList.find((h) => {
+                return h === name;
+            });
+            isHidden = match ? false : true;
+        }
+        return isHidden;
     }
 }

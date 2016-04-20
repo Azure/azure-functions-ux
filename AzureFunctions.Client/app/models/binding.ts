@@ -56,6 +56,7 @@ export interface Rule {
     values: RuleValue[];
     label: string;
     help: string;
+    name: string;
 }
 
 export interface RuleValue {
