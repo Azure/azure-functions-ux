@@ -55,9 +55,9 @@ export class IntroComponent {
 
             if (selectedTemplate) {
                 try{
-                    this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id });
-
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                    this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name : functionName });
+
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
 
                     selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
@@ -65,7 +65,7 @@ export class IntroComponent {
                     this._broadcastService.setBusyState();
                     this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                         .subscribe(res => {
-                            this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id });
+                            this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name : functionName });
                             this._broadcastService.broadcast<TutorialEvent>(
                                 BroadcastEvent.TutorialStep,
                                 {
@@ -76,7 +76,7 @@ export class IntroComponent {
                             this._broadcastService.clearBusyState();
                         },
                         e => {
-                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id });
+                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
                             this._broadcastService.clearBusyState();
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
                         });
