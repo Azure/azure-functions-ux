@@ -62,6 +62,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
                     this._originalContent = this.configContent;
                     this.clearDirty();
                     this._broadcastService.clearBusyState();
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                 });
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` })

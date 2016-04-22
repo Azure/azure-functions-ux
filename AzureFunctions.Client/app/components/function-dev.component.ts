@@ -30,6 +30,7 @@ export class FunctionDevComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
+    public functionUpdate: Subscription;
     public scriptFile: VfsObject;
     public content: string;
     public fileName: string;
@@ -100,6 +101,14 @@ export class FunctionDevComponent implements OnChanges {
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
             });
 
+        this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
+            this.functionInfo.config = newFunctionInfo.config;
+         });
+
+    }
+
+    ngOnDestroy() {
+        this.functionUpdate.unsubscribe();
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
