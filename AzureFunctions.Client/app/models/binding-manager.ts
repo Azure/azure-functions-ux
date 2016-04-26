@@ -54,16 +54,6 @@ export class BindingManager {
                 displayName: bindingConfig ? bindingConfig.displayName : ""
             };
 
-            if (bindingConfig) {
-                bindingConfig.settings.forEach((s) => {
-                    fb.settings.push({
-                        name: s.name,
-                        value: b[s.name]
-                    });
-                    
-                });
-            }
-
             // Copy binding level settings
             for (var key in b) {
                 var findIndex = fb.settings.findIndex((setting) => {
@@ -85,6 +75,7 @@ export class BindingManager {
     }
 
     UIToFunctionConfig(config: UIFunctionConfig): FunctionConfig {
+        debugger;
         var result = {
             bindings: []
         };
