@@ -75,7 +75,6 @@ export class BindingManager {
     }
 
     UIToFunctionConfig(config: UIFunctionConfig): FunctionConfig {
-        debugger;
         var result = {
             bindings: []
         };

@@ -178,7 +178,6 @@ export class BindingComponent {
                             ddInput.value = ddValue;
                             ddInput.enum = rule.values;
                             ddInput.changeValue = () => {
-                                debugger;
                                 var rules = <Rule[]><any>ddInput.enum;
                                 rule.values.forEach((v) => {
                                     if (ddInput.value == v.value) {
@@ -226,20 +225,26 @@ export class BindingComponent {
                     });
                 }
 
-                let inputTb = new TextboxInput();
-                inputTb.id = "name";
-                inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
-                inputTb.isHidden = newFunction;
-                inputTb.required = true;
-                inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
-                inputTb.help = bindingSchema.parameterNamePrompt || "Parameter name";
-                inputTb.validators = [
-                    {
-                        expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
-                        errorText: "Not valid value"
-                    }
-                ];
-                this.model.inputs.splice(0, 0, inputTb);
+                // if no parameter name input add it
+                var nameInput = this.model.inputs.find((input) => {
+                    return input.id === "name";
+                });
+                if (!nameInput) {
+                    let inputTb = new TextboxInput();
+                    inputTb.id = "name";
+                    inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
+                    inputTb.isHidden = newFunction;
+                    inputTb.required = true;
+                    inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
+                    inputTb.help = bindingSchema.parameterNamePrompt || "Parameter name";
+                    inputTb.validators = [
+                        {
+                            expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
+                            errorText: "Not valid value"
+                        }
+                    ];
+                    this.model.inputs.splice(0, 0, inputTb);
+                }
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
