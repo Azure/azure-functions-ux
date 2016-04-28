@@ -232,11 +232,11 @@ export class BindingComponent {
                 if (!nameInput) {
                     let inputTb = new TextboxInput();
                     inputTb.id = "name";
-                    inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
+                    inputTb.label = "Parameter name";
                     inputTb.isHidden = newFunction;
                     inputTb.required = true;
-                    inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
-                    inputTb.help = bindingSchema.parameterNamePrompt || "Parameter name";
+                    inputTb.value = this.bindingValue.name;
+                    inputTb.help = "Parameter name";
                     inputTb.validators = [
                         {
                             expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",

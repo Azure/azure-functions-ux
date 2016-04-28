@@ -31,8 +31,6 @@ export interface Binding {
     type: BindingType;
     displayName: string;
     direction: DirectionType;
-    defaultParameterName?: string;
-    parameterNamePrompt?: string;
     settings: Setting[];
     rules: Rule[];
     filters?: string[];
