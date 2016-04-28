@@ -15,6 +15,7 @@ export class BroadcastService {
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
+    private versionUpdated: EventEmitter<void>;;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -27,6 +28,7 @@ export class BroadcastService {
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<ErrorEvent>();
+        this.versionUpdated = new EventEmitter<void>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -115,6 +117,9 @@ export class BroadcastService {
 
             case BroadcastEvent.Error:
                 return this.errorEvent;
+
+            case BroadcastEvent.VesrionUpdated:
+                return this.versionUpdated;
         }
     }
 }

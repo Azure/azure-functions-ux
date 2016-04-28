@@ -19,6 +19,7 @@ import {UserService} from './user.service';
 import {FunctionContainer} from '../models/function-container';
 import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
+import {Constants} from '../models/constants';
 
 @Injectable()
 export class FunctionsService {
@@ -98,8 +99,10 @@ export class FunctionsService {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
         this.siteName = fc.name;
-        this._armService.getFunctionContainerAppSettings(fc).subscribe(a => this.appSettings = a);
         this.fc = fc;
+        var sub = this._armService.getFunctionContainerAppSettings(fc);
+        sub.subscribe(a => this.appSettings = a);
+        return sub;
     }
 
     getFunctions() {
@@ -291,6 +294,20 @@ export class FunctionsService {
         }
 
         return "";
+    }
+
+    get extensionVersion() : string {
+        for (var key in this.appSettings) {
+            if (key.toString() === Constants.extensionVersionAppSettingName) {
+                return this.appSettings[key];
+            }
+        }
+
+        return "";
+    }
+
+    set extensionVersion(value: string) {
+        this.appSettings[Constants.extensionVersionAppSettingName] = value;
     }
 
     getConfig() {

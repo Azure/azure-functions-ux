@@ -84,7 +84,9 @@ export class AppComponent implements OnInit {
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
 
-                this._functionsService.setFunctionContainer(functionContainer);
+                this._functionsService.setFunctionContainer(functionContainer).subscribe(() => {
+                    this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
+                });
                 this.gettingStarted = false;
                 this._broadcastService.clearBusyState();
                 this.ready = true;

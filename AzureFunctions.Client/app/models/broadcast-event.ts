@@ -6,5 +6,6 @@ export enum BroadcastEvent {
     BusyState,
     TutorialStep,
     IntegrateChanged,
-    Error
+    Error,
+    VesrionUpdated
 }

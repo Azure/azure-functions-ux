@@ -7,9 +7,11 @@ import {StorageAccount} from '../models/storage-account';
 import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
+import {Constants} from '../models/constants';
 
 @Injectable()
 export class ArmService {
+    public latestExtensionVersion = "~0.2";
     private token: string;
     private armUrl = 'https://management.azure.com';
     private armApiVersion = '2014-04-01'
@@ -57,6 +59,12 @@ export class ArmService {
         var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
+    updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
+        appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
+        var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
+        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() });
     }
 
     getConfig(functionContainer: FunctionContainer) {

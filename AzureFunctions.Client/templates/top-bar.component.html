@@ -3,6 +3,12 @@
         <div class="vertical-align-center logo">Azure Functions</div>
     </div>
 
+    <div class="top-bar-info left vertical-align-center">
+        <span *ngIf="needUpdateExtensionVersion" class="left">
+            <i class="fa fa-info"></i> A new version of Azure Functions is available.Visit Function App Settings to upgrade.
+        </span>
+    </div>
+
     <div class="top-bar-tools right vertical-align-center">
         <!--<span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"

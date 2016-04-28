@@ -6,6 +6,8 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {FunctionsService} from '../services/functions.service';
+import {Constants} from '../models/constants';
 
 enum TopbarButton {
     None = <any>"None",
@@ -29,6 +31,7 @@ export class TopBarComponent implements OnInit {
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
     public ActiveButton: TopbarButton;
+    public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private appSettingsClicked: EventEmitter<any>;
@@ -37,7 +40,9 @@ export class TopBarComponent implements OnInit {
 
     constructor(private _userService: UserService,
                 private _broadcastService: BroadcastService,
-                private _portalService: PortalService) {
+                private _portalService: PortalService,
+                private _functionsService: FunctionsService
+    ) {
 
         this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
@@ -49,6 +54,10 @@ export class TopBarComponent implements OnInit {
             if (event && event.step === TutorialStep.AppSettings) {
                 this.onAppSettingsClicked();
             }
+        });
+
+        this._broadcastService.subscribe(BroadcastEvent.VesrionUpdated, event => {
+            this.setInfo();
         });
     }
 
@@ -117,6 +126,10 @@ export class TopBarComponent implements OnInit {
 
     private resetView(){
         this.ActiveButton = TopbarButton.None;
+    }
+
+    private setInfo() {
+        this.needUpdateExtensionVersion = this._functionsService.extensionVersion ? Constants.latestExtensionVersion !== this._functionsService.extensionVersion : false;
     }
 
     onSourceControlClicked() {

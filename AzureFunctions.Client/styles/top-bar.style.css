@@ -54,6 +54,11 @@
     margin-left: 2px;
 }
 
+.top-bar-info {
+    color: black;
+    margin-left: 120px;
+}
+
 .top-bar svg{
     fill: #2E80AB;
 }
