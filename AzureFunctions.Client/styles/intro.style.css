@@ -38,11 +38,11 @@
     font-size: 16px;
 }
 
-.intro-template:hover{
+.intro-template:hover, .intro-template-lang:hover{
     border: 3px solid #C2C5C9;
 }
 
-.intro-template-selected, .intro-template-selected:hover{
+.intro-template-selected, .intro-template-selected:hover, .intro-template-lang-selected, .intro-template-lang-selected:hover{
     border: 3px solid #419BF3;
 }
 
@@ -52,8 +52,20 @@
     padding: 30px;
 }
 
-.intro-template div:nth-of-type(2){
+
+.intro-template div:nth-of-type(2){ 
     margin-top: 15px;
+}
+
+.intro-template-lang{
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    width: 156px;
+}
+
+.intro-lang-container{
+    padding-top:10px;
 }
 
 .intro-body img{

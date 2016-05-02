@@ -1,63 +1,84 @@
 ﻿<div class="intro-container">
-<div class="intro-banner">
-    <div>
-        <h1>The faster way to functions</h1>
-        <p>
-            <img src="/images/function-io.svg" width="210px"/>
-            Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.
-        </p>
-    </div>
-
-</div>
-
-<div class="intro-body">
-    <h2>Get started with a premade function:</h2>
-    <div class="intro-templates">
-        <div class="intro-template"
-             (click)="onFunctionCliked('timer')"
-             [class.intro-template-selected]="selectedFunction === 'timer'">
-
-            <div><img src="/images/timer-template.svg" /></div>
-            <div>Timer</div>
+    <div class="intro-banner">
+        <div>
+            <h1>The faster way to functions</h1>
+            <p>
+                <img src="/images/function-io.svg" width="210px"/>
+                Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.
+            </p>
         </div>
 
-        <div class="intro-template"
-             (click)="onFunctionCliked('data')"
-             [class.intro-template-selected]="selectedFunction === 'data'">
+    </div>
 
-            <div><img src="/images/data-process-template.svg"  /></div>
-            <div>Data processing</div>
+    <div class="intro-body">
+        <h2>Get started with a premade function:</h2>
+        <div>
+            <div class="intro-template"
+                 (click)="onFunctionCliked('TimerTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
+
+                <div><img src="/images/timer-template.svg" /></div>
+                <div>Timer</div>
+            </div>
+
+            <div class="intro-template"
+                 (click)="onFunctionCliked('QueueTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'QueueTrigger'">
+
+                <div><img src="/images/data-process-template.svg" /></div>
+                <div>Data processing</div>
+            </div>
+
+            <div class="intro-template"
+                 (click)="onFunctionCliked('HttpTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
+
+                <div><img src="/images/webhook-api-template.svg" /></div>
+                <div>Webhook + API</div>
+            </div>
         </div>
+        <h2>Choose a language:</h2>
+        If you want to use other supported language, use "the new function from scratch" option below)
+        <div class class="intro-lang-container">
+            <div class="intro-template-lang"
+                 (click)="onLanguageCliked('CSharp')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'CSharp'">
 
-        <div class="intro-template"
-             (click)="onFunctionCliked('webhook')"
-             [class.intro-template-selected]="selectedFunction === 'webhook'">
+                <div>C#</div>
+            </div>
+            <div class="intro-template-lang"
+                 (click)="onLanguageCliked('NodeJS')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'NodeJS'">
 
-            <div><img src="/images/webhook-api-template.svg" /></div>
-            <div>Webhook + API</div>
+                <div>JavaScript</div>
+            </div>
+            <!--<div class="intro-template-lang"
+                 (click)="onLanguageCliked('Powershell')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'Powershell'">
+
+                <div>PowerShell</div>-->
+            </div>
+        <div>
+            <button class="custom-button"
+                    (click)="onCreateNewFunction()"
+                    [disabled]="!selectedFunction">
+                Create a function
+            </button>
+
         </div>
     </div>
-    <div>
-        <button class="custom-button"
-                (click)="onCreateNewFunction()"
-                [disabled]="!selectedFunction">
-            Create a function
-        </button>
 
-    </div>
-</div>
+            <div class="intro-footer">
+                <h3>Or get started on your own</h3>
+                <div>
+                    <span class="link" (click)='createFromScratch()'>
+                        Create a new function from scratch
+                    </span>
+                    or
+                    <span class="link" (click)='startFromSC()'>
+                        start from source control
+                    </span>
+                </div>
+            </div>
 
-<div class="intro-footer">
-    <h3>Or get started on your own</h3>
-    <div>
-        <span class="link" (click)='createFromScratch()'>
-            Create a new function from scratch 
-        </span>
-        or
-        <span class="link" (click)='startFromSC()'>
-            start from source control
-        </span>
-    </div>
-</div>
-
-</div> <!-- /intro-container -->
+        </div> <!-- /intro-container -->
