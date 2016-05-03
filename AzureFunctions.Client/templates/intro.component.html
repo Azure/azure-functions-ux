@@ -11,7 +11,8 @@
     </div>
 
     <div class="intro-body">
-        <h2>Get started with a premade function:</h2>
+        <h2>Get started quickly with a premade function</h2>
+        <h3>1) Choose a scenario:</h3>
         <div>
             <div class="intro-template"
                  (click)="onFunctionCliked('TimerTrigger')"
@@ -37,8 +38,8 @@
                 <div>Webhook + API</div>
             </div>
         </div>
-        <h2>Choose a language:</h2>
-        If you want to use other supported languages, use the "new function from scratch" option below)
+        <h3>2) Choose a language:</h3>
+        If you'd prefer another supported language, choose "Create a function from scratch".
         <div class class="intro-lang-container">
             <div class="intro-template-lang"
                  (click)="onLanguageCliked('CSharp')"
@@ -62,7 +63,7 @@
             <button class="custom-button"
                     (click)="onCreateNewFunction()"
                     [disabled]="!selectedFunction">
-                Create a function
+                Create this function
             </button>
 
         </div>
@@ -72,11 +73,11 @@
                 <h3>Or get started on your own</h3>
                 <div>
                     <span class="link" (click)='createFromScratch()'>
-                        Create a new function from scratch
+                        Or create your own custom function
                     </span>
                     or
                     <span class="link" (click)='startFromSC()'>
-                        start from source control
+                        start from source control.
                     </span>
                 </div>
             </div>
