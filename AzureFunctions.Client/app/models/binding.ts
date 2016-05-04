@@ -6,6 +6,8 @@
     queueTrigger = <any>"queueTrigger",
     blob = <any>"blob",
     blobTrigger = <any>"blobTrigger",
+    apiHubFile = <any>"apiHubFile",
+    apiHubFileTrigger = <any>"apiHubFileTrigger",
     httpTrigger = <any>"httpTrigger",
     http = <any>"http",
     table = <any>"table",
@@ -29,10 +31,9 @@ export interface Binding {
     type: BindingType;
     displayName: string;
     direction: DirectionType;
-    defaultParameterName?: string;
-    parameterNamePrompt?: string;
     settings: Setting[];
     rules: Rule[];
+    filters?: string[];
 }
 
 export interface Setting {
@@ -45,6 +46,8 @@ export interface Setting {
     help?: string;
     enum?: EnumOption[];
     validators?: Validator[];
+    placeholder?: string;
+    metadata?: any;
 }
 
 export interface Rule {
@@ -52,6 +55,7 @@ export interface Rule {
     values: RuleValue[];
     label: string;
     help: string;
+    name: string;
 }
 
 export interface RuleValue {
@@ -81,7 +85,8 @@ export enum ResourceType {
     Storage = <any>"Storage",
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
-    DocumentDB = <any>"DocumentDB"       
+    DocumentDB = <any>"DocumentDB",
+    ApiHub = <any>"ApiHub"
 }
 
 export enum SettingType {

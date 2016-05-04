@@ -16,8 +16,8 @@ export class BindingInputBase<T>
     isHidden: boolean = false;
     errorText: string;
     validators: Validator[] = [];
-    noSave: boolean = false;
     changeValue: () => void;
+    placeholder: string;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -57,19 +57,12 @@ export class SelectInput extends BindingInputBase<string>{
 export class PickerInput extends BindingInputBase<string>{
     resource: ResourceType;
     inProcess: boolean = false;
+    metadata: any;
 
     constructor() {
         super();
         this.type = SettingType.picker;
         this.noErrorClass = 'input-group';
         this.errorClass = 'input-group has-error';
-    }
-
-    setButtonNoActive() {
-        this.inProcess = false;
-    }
-
-    setButtonActive() {
-        this.inProcess = true;
     }
 }

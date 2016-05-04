@@ -3,6 +3,23 @@
         Function App Settings
     </div>
 
+    <div class="setting-wrapper">
+        <div class="features-wrapper">
+            <div>
+                <div *ngIf="needUpdateExtensionVersion">
+                    <h2>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</h2>                    
+                </div>
+                <div *ngIf="!needUpdateExtensionVersion">
+                    <h2>Runtime version: Latest ({{latestExtensionVersion}})</h2>
+                </div>
+                <div *ngIf="needUpdateExtensionVersion">
+                    <button class="custom-button" (click)="updateVersion()">Update</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper features-wrapper">
         <label>Memory Size</label>
         <!-- TODO: move css -->

@@ -30,6 +30,7 @@ export class FunctionDevComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
+    public functionUpdate: Subscription;
     public scriptFile: VfsObject;
     public content: string;
     public fileName: string;
@@ -61,11 +62,6 @@ export class FunctionDevComponent implements OnChanges {
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._broadcastService.setBusyState();
-                var index = fi.config.bindings.findIndex((b) => {
-                    return b.type === BindingType.httpTrigger.toString();
-                });
-                this.showFunctionInvokeUrl = index === -1 ? false : true;
-
                 return Observable.zip(
                     this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
@@ -75,6 +71,7 @@ export class FunctionDevComponent implements OnChanges {
             .subscribe((res: any) => {
                 this._broadcastService.clearBusyState();
                 this.functionInfo = res.functionInfo;
+                this.setInvokeUrlVisibility();
                 var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.fileName = fileName;
                 this.scriptFile = { href: this.functionInfo.script_href, name: fileName };
@@ -100,6 +97,15 @@ export class FunctionDevComponent implements OnChanges {
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
             });
 
+        this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
+            this.functionInfo.config = newFunctionInfo.config;
+            this.setInvokeUrlVisibility();
+         });
+
+    }
+
+    ngOnDestroy() {
+        this.functionUpdate.unsubscribe();
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
@@ -115,6 +121,14 @@ export class FunctionDevComponent implements OnChanges {
         } else {
             this.secrets = secrets;
         }
+    }
+
+    private setInvokeUrlVisibility() 
+    {
+        var b = this.functionInfo.config.bindings.find((b) => {
+            return b.type === BindingType.httpTrigger.toString();
+        });
+        this.showFunctionInvokeUrl = b ? true : false;
     }
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {

@@ -21,4 +21,5 @@ export interface FunctionTemplateMetadata {
     defaultFunctionName?: string;
     description?: string;
     visible?: boolean;
+    filters?: string[];
 }

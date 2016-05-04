@@ -19,13 +19,15 @@ import {ErrorEvent} from '../models/error-event';
 export class IntroComponent {
     @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
+    selectedLanguage: string;
     bc: BindingManager = new BindingManager();
 
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService) {
 
-        this.selectedFunction = "timer";
+        this.selectedFunction = "TimerTrigger";
+        this.selectedLanguage = "CSharp";
     }
 
     onFunctionCliked(selectedFunction: string) {
@@ -34,24 +36,17 @@ export class IntroComponent {
         }
     }
 
+    onLanguageCliked(selectedLanguage: string) {
+        if (!this._broadcastService.getDirtyState("function_disabled")) {
+            this.selectedLanguage = selectedLanguage;
+        }
+}
+
     onCreateNewFunction() {
         this._functionsService.getTemplates().subscribe((templates) => {
-            var selectedTemplate: FunctionTemplate;
-
-            switch (this.selectedFunction) {
-                case 'timer':
-                    selectedTemplate = templates.find((t) => (t.id === "TimerTrigger-NodeJS"));
-                    break;
-                case 'data':
-                    selectedTemplate = templates.find((t) => (t.id === "QueueTrigger-NodeJS"));
-                    break;
-                case 'webhook':
-                    selectedTemplate = templates.find((t) => (t.id === "HttpTrigger-NodeJS"));
-                    break;
-                //case 'iot':
-                //    selectedTemplate = templates.find((t) => (t.id === "EventHubTrigger"));
-                //    break;
-            }
+            var selectedTemplate: FunctionTemplate = templates.find((t) => {
+                return t.id === this.selectedFunction + "-" + this.selectedLanguage;
+            });
 
             if (selectedTemplate) {
                 try{

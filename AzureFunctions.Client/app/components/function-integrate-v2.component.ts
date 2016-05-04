@@ -148,8 +148,10 @@ export class FunctionIntegrateV2Component {
             delete this._functionInfo.test_data;
         }
 
+        this._broadcastService.setBusyState();
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-            //this.selectedFunction = this._functionInfo;
+            this._broadcastService.clearBusyState();
+            this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
     }
 

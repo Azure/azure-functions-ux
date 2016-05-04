@@ -3,6 +3,12 @@
         <div class="vertical-align-center logo">Azure Functions</div>
     </div>
 
+    <div class="top-bar-info left vertical-align-center">
+        <span *ngIf="needUpdateExtensionVersion" class="left">
+            <i class="fa fa-info"></i> A new version of Azure Functions is available.Visit Function App Settings to upgrade.
+        </span>
+    </div>
+
     <div class="top-bar-tools right vertical-align-center">
         <!--<span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"
@@ -15,7 +21,7 @@
         <span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"
               (click)='onAppSettingsClicked()'
-              [class.top-bar-settings-selected]="isAppSettingSelected">
+              [class.top-bar-settings-selected]="ActiveButton === 'AppSettings'">
 
             <i class="fa fa-wrench"></i> Function app settings
         </span>
@@ -23,7 +29,7 @@
         <span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"
               (click)="onAppMonitoringClicked()"
-              [class.top-bar-settings-selected]="isAppMonitoringSelected">
+              [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
 
             <i class="fa fa-clock-o"></i> Monitoring
         </span>
@@ -31,7 +37,7 @@
         <span *ngIf="!gettingStarted"
               class="top-bar-tool clickable"
               (click)="onQuickstartClicked()"
-              [class.top-bar-settings-selected]="isQuickstartSelected">
+              [class.top-bar-settings-selected]="ActiveButton.toString() === 'Quickstart'">
 
             <!-- This SVG matches the Ibiza quickstart, but I couldn't get the alignment to work properly on IE' -->
             <!--<svg viewBox="-0.5 -13.5 50 50" style="width: 16px">

@@ -7,6 +7,7 @@ import {StorageAccount} from '../models/storage-account';
 import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
+import {Constants} from '../models/constants';
 
 @Injectable()
 export class ArmService {
@@ -57,6 +58,12 @@ export class ArmService {
         var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
+    updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
+        appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
+        var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
+        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() });
     }
 
     getConfig(functionContainer: FunctionContainer) {
@@ -146,7 +153,7 @@ export class ArmService {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~0.1' },
+                        { name: Constants.extensionVersionAppSettingName, value: Constants.latestExtensionVersion },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },

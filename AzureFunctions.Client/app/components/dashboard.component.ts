@@ -53,7 +53,7 @@ export class DashboardComponent implements OnChanges {
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
-    public openIntro: boolean = true;
+    public openIntro: any;
 
     private checkHostSubscription: RxSubscription;
 
@@ -165,7 +165,7 @@ export class DashboardComponent implements OnChanges {
     private resetView() {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
-        this.openIntro = false;
+        this.openIntro = null;
         this.openSourceControl = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;

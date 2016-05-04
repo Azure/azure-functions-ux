@@ -54,16 +54,6 @@ export class BindingManager {
                 displayName: bindingConfig ? bindingConfig.displayName : ""
             };
 
-            if (bindingConfig) {
-                bindingConfig.settings.forEach((s) => {
-                    fb.settings.push({
-                        name: s.name,
-                        value: b[s.name]
-                    });
-                    
-                });
-            }
-
             // Copy binding level settings
             for (var key in b) {
                 var findIndex = fb.settings.findIndex((setting) => {
@@ -128,26 +118,27 @@ export class BindingManager {
     getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[], defaultStorageAccount): UIFunctionBinding {
         
         var schema = this.getBindingSchema(type, direction, bindings);
+
+        var parameterNameSetting = schema.settings.find((s) => {
+            return s.name === "name";
+        });
+
         var result = {
             id: this.guid(),
-            name: schema.defaultParameterName,
+            name: parameterNameSetting.defaultValue,
             type: type,
             direction: direction,
             settings: [],
             displayName: schema.displayName
         };
 
-        result.settings.push({
-            value: schema.defaultParameterName,
-            name: "name"
-        });
 
         result.settings.push({
             value: type,
             name: "type"
         });
 
-        schema.settings.forEach((s) => {            
+        schema.settings.forEach((s) => {
             result.settings.push({
                 value: s.name === "storageAccount" ? defaultStorageAccount : s.defaultValue,
                 name: s.name

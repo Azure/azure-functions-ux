@@ -1,6 +1,6 @@
-﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
+﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -8,6 +8,7 @@ import {BindingInputList} from '../models/binding-input-list';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
+import {Subscription} from 'rxjs/Rx';
 declare var jQuery: any;
 
 @Component({
@@ -35,6 +36,7 @@ export class BindingComponent {
     public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
+    private _subscription: Subscription
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
@@ -44,8 +46,8 @@ export class BindingComponent {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
-        this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
-            this.isDirty = this.model.isDirty() || this.bindingValue.newBinding;
+        this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
+            this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
 
                 if (this.canDelete) {
                     if (this.isDirty) {
@@ -57,6 +59,10 @@ export class BindingComponent {
                     }
                 }
             });
+    }
+
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
     }
 
     set clickSave(value: boolean) {
@@ -83,12 +89,84 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
+                bindingSchema.settings.forEach((setting) => {
+
+                    var functionSettingV = this.bindingValue.settings.find((s) => {
+                        return s.name === setting.name;
+                    });
+
+                    var settigValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
+
+                    var isHidden = this.isHidden(newFunction, setting.name);
+                    if (isHidden) {
+                        return;
+                    }
+
+                    switch (setting.value) {
+                        case SettingType.string:
+                        case SettingType.int:
+                            if (setting.value === SettingType.string && setting.resource) {
+                                let input = new PickerInput();
+                                input.resource = setting.resource;
+                                input.id = setting.name;
+                                input.isHidden = isHidden;
+                                input.label = this.replaceVariables(setting.label, bindings.variables);
+                                input.required = setting.required;
+                                input.value = settigValue;
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
+                                input.metadata = setting.metadata;
+                                this.model.inputs.push(input);
+                            } else {
+                                let input = new TextboxInput();
+                                input.id = setting.name;
+                                input.isHidden = isHidden;
+                                input.label = this.replaceVariables(setting.label, bindings.variables);
+                                input.required = setting.required;
+                                input.value = settigValue;
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                input.validators = setting.validators;
+                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
+                                this.model.inputs.push(input);
+                            }
+                            break;
+                        case SettingType.enum:
+                            let ddInput = new SelectInput();
+                            ddInput.id = setting.name;
+                            ddInput.isHidden = isHidden;
+                            ddInput.label = setting.label;
+                            ddInput.enum = setting.enum;
+                            ddInput.value = settigValue || setting.enum[0].value;
+                            ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(ddInput);
+                            break;
+                        case SettingType.boolean:
+                            let chInput = new CheckboxInput();
+                            chInput.id = setting.name;
+                            chInput.isHidden = isHidden;
+                            chInput.type = setting.value;
+                            chInput.label = this.replaceVariables(setting.label, bindings.variables);
+                            chInput.required = false;
+                            chInput.value = settigValue;
+                            chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(chInput);
+                            break;
+                    }
+                    order++;
+
+                });
+
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
+
+                        var isHidden = this.isHidden(newFunction, rule.name);
+                        if (isHidden) {
+                            return;
+                        }
+
                         if (rule.type === "exclusivity") {
                             var ddValue = rule.values[0].value;
-                            var temp = this.bindingValue.settings;
-                            name = this._bindingManager.guid();
+
                             rule.values.forEach((value) => {
                                 var findResult = this.bindingValue.settings.find((s) => {
                                     return s.name === value.value && s.value;
@@ -98,15 +176,9 @@ export class BindingComponent {
                                 }
                             });
 
-                            this.bindingValue.settings.push({
-                                name: name,
-                                value: ddValue,
-                                noSave: true
-                            });
-
                             let ddInput = new SelectInput();
-                            ddInput.id = name;
-                            ddInput.isHidden = false;
+                            ddInput.id = rule.name;
+                            ddInput.isHidden = isHidden;
                             ddInput.label = rule.label;
                             ddInput.help = rule.help;
                             ddInput.value = ddValue;
@@ -115,125 +187,70 @@ export class BindingComponent {
                                 var rules = <Rule[]><any>ddInput.enum;
                                 rule.values.forEach((v) => {
                                     if (ddInput.value == v.value) {
+                                        v.shownSettings.forEach((s) => {
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
+                                            });
+                                            if (input) {
+                                                input.isHidden = isHidden ? true : false;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
+                                            });
+                                            if (s1) {
+                                                s1.noSave = isHidden ? true : false;
+                                            }
+                                        });
                                         v.hiddenSettings.forEach((s) => {
-                                            v.shownSettings.forEach((s) => {
-                                                var setting = this.model.inputs.find((input) => {
-                                                    return input.id === s;
-                                                });
-                                                if (setting) {
-                                                    setting.isHidden = false;
-                                                    setting.noSave = false;
-                                                }
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
                                             });
-                                            v.hiddenSettings.forEach((s) => {
-                                                var setting = this.model.inputs.find((input) => {
-                                                    return input.id === s;
-                                                });
-                                                if (setting) {
-                                                    setting.isHidden = true;
-                                                    setting.noSave = true;
-                                                }
+                                            if (input) {
+                                                input.isHidden = true;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
                                             });
+                                            if (s1) {
+                                                s1.noSave = true;
+                                            }
                                         });
                                     }
                                 });
-                                this.model.orderInputs();
+                                //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
+                                setTimeout(() => this.model.orderInputs(), 0);
+                                
+
                             };
-                            this.model.inputs.push(ddInput);
+                            if (isHidden) {
+                                ddInput.changeValue();
+                            }
+
+                            this.model.inputs.splice(0, 0, ddInput);
                         }
                     });
                 }
 
-                bindingSchema.settings.forEach((setting) => {
-
-                    var functionSettingV = this.bindingValue.settings.find((s) => {
-                        return s.name === setting.name;
-                    });
-
-                    if (functionSettingV) {
-                        var isHidden = false;
-                        if (newFunction) {
-                            isHidden = true;
-                            var match = this.bindingValue.hiddenList.find((h) => {
-                                return h === setting.name;
-                            });
-                            isHidden = match ? false : true;
-                        }
-
-                        switch (setting.value) {
-                            case SettingType.string:
-                            case SettingType.int:
-                                if (setting.value === SettingType.string && setting.resource) {
-                                    let input = new PickerInput();
-                                    input.resource = setting.resource;
-                                    input.id = setting.name;
-                                    input.isHidden = isHidden;
-                                    input.label = this.replaceVariables(setting.label, bindings.variables);
-                                    input.required = setting.required;
-                                    input.value = functionSettingV.value || setting.defaultValue;
-                                    input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                    this.model.inputs.push(input);
-                                } else {
-                                    let input = new TextboxInput();
-                                    input.id = setting.name;
-                                    input.isHidden = isHidden;
-                                    input.label = this.replaceVariables(setting.label, bindings.variables);
-                                    input.required = setting.required;
-                                    input.value = functionSettingV.value || setting.defaultValue;
-                                    input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                    input.validators = setting.validators;
-                                    this.model.inputs.push(input);
-                                }
-                                break;
-                            case SettingType.enum:
-                                let ddInput = new SelectInput();
-                                ddInput.id = setting.name;
-                                ddInput.isHidden = isHidden;
-                                ddInput.label = setting.label;
-                                ddInput.enum = setting.enum;
-                                ddInput.value = functionSettingV.value || setting.defaultValue || setting.enum[0].value;
-                                ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                this.model.inputs.push(ddInput);
-                                break;
-                            case SettingType.boolean:
-                                let chInput = new CheckboxInput();
-                                chInput.id = setting.name;
-                                chInput.isHidden = isHidden;
-                                chInput.type = setting.value;
-                                chInput.label = this.replaceVariables(setting.label, bindings.variables);
-                                chInput.required = false;
-                                chInput.value = functionSettingV.value || setting.defaultValue;
-                                chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                this.model.inputs.push(chInput);
-                                break;
-                        }
-                        order++;
-                    }
+                // if no parameter name input add it
+                var nameInput = this.model.inputs.find((input) => {
+                    return input.id === "name";
                 });
-
-                let inputTb = new TextboxInput();
-                inputTb.id = "name";
-                inputTb.label = bindingSchema.parameterNamePrompt || "Parameter name";
-                inputTb.isHidden = newFunction;
-                inputTb.required = true;
-                inputTb.value = this.bindingValue.name || bindingSchema.defaultParameterName;
-                inputTb.help = bindingSchema.parameterNamePrompt || "Parameter name";
-                inputTb.validators = [
-                    {
-                        expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
-                        errorText: "Not valid value"
-                    }
-                ];
-                this.model.inputs.splice(0, 0, inputTb);
-
-                let inputLabel = new LabelInput();
-                inputLabel.id = "Behavior";
-                inputLabel.isHidden = newFunction;
-                inputLabel.label = "Behavior";
-                inputLabel.value = this.bindingValue.direction.toString();// || setting.defaultValue;
-                inputLabel.help = "Behavior";
-
-                this.model.inputs.splice(1, 0, inputLabel);
+                if (!nameInput) {
+                    let inputTb = new TextboxInput();
+                    inputTb.id = "name";
+                    inputTb.label = "Parameter name";
+                    inputTb.isHidden = newFunction;
+                    inputTb.required = true;
+                    inputTb.value = this.bindingValue.name;
+                    inputTb.help = "Parameter name";
+                    inputTb.validators = [
+                        {
+                            expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
+                            errorText: "Not valid value"
+                        }
+                    ];
+                    this.model.inputs.splice(0, 0, inputTb);
+                }
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
@@ -264,13 +281,25 @@ export class BindingComponent {
 
         this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
-        this.bindingValue.settings.forEach((s) => {
 
-            var input: BindingInputBase<any> = this.model.getInput(s.name);
-            if (input) {
-                s.value = input.value;
-                if (input.noSave) {
-                    s.noSave = input.noSave;
+        this.model.inputs.forEach((input) => {
+            var setting = this.bindingValue.settings.find((s) => {
+                return s.name == input.id;
+            });
+
+            if (setting) {
+                setting.value = input.value;
+                if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
+                    setting.noSave = true;
+                } else {
+                    delete setting.noSave;
+                }
+            } else {
+                if (!input.changeValue && !input.isHidden) {
+                    this.bindingValue.settings.push({
+                        name: input.id,
+                        value: input.value
+                    });
                 }
             }
         });
@@ -295,16 +324,39 @@ export class BindingComponent {
 
     private replaceVariables(value: string, variables: any): string {
         var result = value;
-        for (var key in variables) {
-            if (variables.hasOwnProperty(key)) {
-                result = result.replace("[variables('" + key + "')]", variables[key]);
+        if (value) {
+            for (var key in variables) {
+                if (variables.hasOwnProperty(key)) {
+                    result = result.replace("[variables('" + key + "')]", variables[key]);
+                }
             }
+            return result;
         }
-        return result;
     }
 
     private setLabel() {
-        var displayString = " (" + this.bindingValue.displayName + ")";
-        this.model.label = this.bindingValue.name ? this.bindingValue.name + displayString : displayString;
+        var bindingTypeString = this.bindingValue.direction.toString();
+        switch (bindingTypeString) {
+             case "in":
+                bindingTypeString = "input";
+                break;
+             case "out":
+                 bindingTypeString = "output";
+                 break;
+        }
+
+        this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
+    }
+
+    private isHidden(newFunction: boolean, name: string) {
+        var isHidden = false;
+        if (newFunction) {
+            isHidden = true;
+            var match = this.bindingValue.hiddenList.find((h) => {
+                return h === name;
+            });
+            isHidden = match ? false : true;
+        }
+        return isHidden;
     }
 }

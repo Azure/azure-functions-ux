@@ -11,7 +11,7 @@
                (ngModelChange)="inputChanged($event)"
                [(ngModel)]="input.value"
                type="text"
-               placeholder="{{input.label}}" [disabled]="disabled">
+               placeholder="{{input.placeholder}}" [disabled]="disabled">
                
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
@@ -20,10 +20,9 @@
         <input id="{{input.id}}"
                (ngModelChange)="inputChanged($event)"
                [(ngModel)]="input.value" type="text"
-               placeholder="{{input.label}}"
+               placeholder="{{input.placeholder}}"
                disabled>
-               
-        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input.resource, input.id)">+ new</i>
+        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input)"> select</i>
         <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>

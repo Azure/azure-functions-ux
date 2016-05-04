@@ -1,10 +1,11 @@
 ﻿import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'angular2/core';
 import {BindingInputBase} from '../models/binding-input';
 import {PortalService} from '../services/portal.service';
+import {UserService} from '../services/user.service';
 import {PickerInput} from '../models/binding-input';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
-import {SettingType} from '../models/binding';
+import {SettingType, ResourceType} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
@@ -24,8 +25,10 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     private _input: BindingInputBase<any>;
 
-    constructor(private _portalService: PortalService,
-        private _broadcastService: BroadcastService) {
+    constructor(
+        private _portalService: PortalService,
+        private _broadcastService: BroadcastService,
+        private _userService: UserService) {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -44,25 +47,31 @@ export class BindingInputComponent {
         return this._input;
     }
 
-    openCollectorBlade(resource: string, id: string) {
+    openCollectorBlade(input : PickerInput){
         let name = "";
-        switch(resource){
-            case "Storage":
+        let bladeInput = null;
+
+        switch(input.resource){
+            case ResourceType.Storage:
                 name = "StorageAccountPickerBlade";
                 break;
-            case "EventHub":
+            case ResourceType.EventHub:
                 name = "CustomConnectionPickerBlade";
                 break;
-            case "DocumentDB":
+            case ResourceType.DocumentDB:
                 name = "DocDbPickerBlade";
                 break;
-            case "ServiceBus":
+            case ResourceType.ServiceBus:
                 name = "NotificationHubPickerBlade";
+                break;
+            case ResourceType.ApiHub:
+                bladeInput = input.metadata;
+                bladeInput.bladeName = "CreateDataConnectionBlade";
                 break;
         }
 
         // for tests
-        if (window.location.hostname === "localhost") {
+        if (window.location.hostname === "localhost" && !this._userService.inIFrame) {
             this.input.value = name;
             this.inputChanged(name);
             this.setClass(name);
@@ -70,15 +79,28 @@ export class BindingInputComponent {
         }
 
         var picker = <PickerInput>this.input;
-        picker.setButtonActive();
-        this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
-            if (appSettingName) {
-                this.input.value = appSettingName;
-                this.inputChanged(name);
-                this.setClass(appSettingName);
-            }
-            picker.setButtonNoActive();
-        });
+        picker.inProcess = true;
+
+        if(bladeInput){
+            this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {
+                if (appSettingName) {
+                    this.input.value = appSettingName;
+                    this.inputChanged(name);
+                    this.setClass(appSettingName);
+                }
+                picker.inProcess = false;
+            });
+        }
+        else{
+            this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
+                if (appSettingName) {
+                    this.input.value = appSettingName;
+                    this.inputChanged(name);
+                    this.setClass(appSettingName);
+                }
+                picker.inProcess = false;
+            });
+        }
     }
 
     inputChanged(value: any) {

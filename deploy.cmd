@@ -101,27 +101,21 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  IF NOT EXIST "node_modules" (
+  call :ExecuteCmd npm install
+  IF !ERRORLEVEL! NEQ 0 (
     call :ExecuteCmd npm install
     IF !ERRORLEVEL! NEQ 0 goto error
-  ) ELSE (
-    echo skipping npm install
   )
 
-  IF NOT EXIST "jspm_packages" (
+  call :ExecuteCmd npm run jspm:i
+  IF !ERRORLEVEL! NEQ 0 (
     call :ExecuteCmd npm run jspm:i
     IF !ERRORLEVEL! NEQ 0 goto error
-  ) ELSE (
-    echo skipping jspm install
   )
 
-  IF NOT EXIST "typings" (
-    call :ExecuteCmd npm run typings install
-    IF !ERRORLEVEL! NEQ 0 goto error
-  ) ELSE (
-    echo skipping typings install
-  )
-  
+  call :ExecuteCmd npm run typings install
+  IF !ERRORLEVEL! NEQ 0 goto error
+
   call :ExecuteCmd gulp
   IF !ERRORLEVEL! NEQ 0 goto error
 
@@ -130,7 +124,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 
   call :ExecuteCmd npm run jspm:bundle
   IF !ERRORLEVEL! NEQ 0 goto error
-  
+
   ::call :ExecuteCmd npm run uglifyjs
   ::IF !ERRORLEVEL! NEQ 0 goto error
 
@@ -141,12 +135,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
   pushd "%DEPLOYMENT_TARGET%"
 
-  IF NOT EXIST "bower_components" (
-    call :ExecuteCmd bower install
-    IF !ERRORLEVEL! NEQ 0 goto error
-  ) ELSE (
-    echo skipping bower install
-  )
+  call :ExecuteCmd bower install
+  IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
 

@@ -84,6 +84,10 @@ export class TemplatePickerComponent {
                                 return;
                             }
 
+                            if (!this.getFilterMatach(template.metadata.filters)) {
+                                return;
+                            }
+
                             if(initLanguages){
                                 var lang = this.languages.find((l) => {
                                     return l.value === template.metadata.language;
@@ -188,16 +192,37 @@ export class TemplatePickerComponent {
 
         filtered.forEach((binding) => {
 
-            var trigger = this.bindings.find((b) => {
-                return b.direction === DirectionType.trigger;
-            });
+            if (this.getFilterMatach(binding.filters)) {
 
-            result.push({
-                name: binding.displayName.toString(),
-                value: binding.type.toString()
-            });
+                result.push({
+                    name: binding.displayName.toString(),
+                    value: binding.type.toString()
+                });
+
+            }
         });
 
         return result;
     }
+
+    private getFilterMatach(filters: string[]) : boolean {
+        var isFilterMatch = true;
+        if (filters && filters.length > 0) {
+            isFilterMatch = false;
+            for (var i = 0; i < filters.length; i++) {
+                var value = this.getQueryStringValue(filters[i]);
+                if (value) {
+                    isFilterMatch = true;
+                    break;
+                }
+            }
+        }
+        return isFilterMatch;
+    }
+
+    private getQueryStringValue(key) {
+        //http://stackoverflow.com/questions/9870512/how-to-obtaining-the-querystring-from-the-current-url-with-javascript
+        return window.location.search.replace(new RegExp("^(?:.*[&\\?]" + key.replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1");
+    }
+
 }

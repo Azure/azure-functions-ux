@@ -22,6 +22,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     public configContent: string;
     public isDirty: boolean;
     private _originalContent: string;
+    private _currentConent: string;
 
     constructor(
         private _functionsService: FunctionsService,
@@ -44,24 +45,29 @@ export class FunctionIntegrateComponent implements OnDestroy {
             this._portalService.setDirtyState(true);
         }
 
-        this.configContent = content;
+        this._currentConent = content;
     }
 
     cancelConfig() {
-        this.configContent = this._originalContent;
-        this.clearDirty();
+        this.configContent = this._currentConent;
+        setTimeout(() => {
+            this.configContent = this._originalContent;
+            this.clearDirty();
+        }, 0);
     }
 
     saveConfig() {
         if (this.isDirty) {
             try {
-            this._selectedFunction.config = JSON.parse(this.configContent);
-            this._broadcastService.setBusyState();
-            this._functionsService.updateFunction(this._selectedFunction)
+                this.configContent = this._currentConent;
+                this._selectedFunction.config = JSON.parse(this.configContent);
+                this._broadcastService.setBusyState();
+                this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {
                     this._originalContent = this.configContent;
                     this.clearDirty();
                     this._broadcastService.clearBusyState();
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                 });
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` })

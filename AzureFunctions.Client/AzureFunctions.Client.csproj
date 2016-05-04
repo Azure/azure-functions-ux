@@ -126,6 +126,7 @@
     <TypeScriptCompile Include="app\constants.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
+    <TypeScriptCompile Include="app\models\constants.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
     <TypeScriptCompile Include="app\models\appMonitoring-consumption.ts" />
     <TypeScriptCompile Include="app\models\binding-input-list.ts" />
