@@ -1,4 +1,4 @@
-﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
+﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
@@ -8,6 +8,7 @@ import {BindingInputList} from '../models/binding-input-list';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
+import {Subscription} from 'rxjs/Rx';
 declare var jQuery: any;
 
 @Component({
@@ -35,6 +36,7 @@ export class BindingComponent {
     public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
+    private _subscription: Subscription
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
@@ -44,8 +46,8 @@ export class BindingComponent {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
-        this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
-            this.isDirty = this.model.isDirty() || this.bindingValue.newBinding;
+        this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
+            this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
 
                 if (this.canDelete) {
                     if (this.isDirty) {
@@ -57,6 +59,10 @@ export class BindingComponent {
                     }
                 }
             });
+    }
+
+    ngOnDestroy() {
+        this._subscription.unsubscribe();
     }
 
     set clickSave(value: boolean) {
