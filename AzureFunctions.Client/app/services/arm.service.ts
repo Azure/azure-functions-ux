@@ -11,7 +11,6 @@ import {Constants} from '../models/constants';
 
 @Injectable()
 export class ArmService {
-    public latestExtensionVersion = "~0.2";
     private token: string;
     private armUrl = 'https://management.azure.com';
     private armApiVersion = '2014-04-01'
@@ -154,7 +153,7 @@ export class ArmService {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~0.1' },
+                        { name: Constants.extensionVersionAppSettingName, value: Constants.latestExtensionVersion },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
