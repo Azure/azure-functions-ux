@@ -107,7 +107,6 @@ export class AppComponent implements OnInit {
             window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
-            this._armService.warmUpFunctionApp(armId);
             this._broadcastService.setBusyState();
             this._userService.getTenants()
                 .retry(10)
