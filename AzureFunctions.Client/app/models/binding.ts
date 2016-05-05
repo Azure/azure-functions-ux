@@ -15,7 +15,7 @@
     serviceBusTrigger = <any>"serviceBusTrigger",
     manualTrigger = <any>"manualTrigger",
     documentdb = <any>"documentdb",
-    easyTable = <any>"easyTable",
+    mobileTable = <any>"mobileTable",
     notificationHub = <any>"notificationHub"
 }
 
