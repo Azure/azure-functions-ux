@@ -39,6 +39,7 @@ export class FunctionDevComponent implements OnChanges {
     public scriptContent: string;
     public configContent: string;
     public webHookType: string;
+    public authLevel: string;
     public secrets: FunctionSecrets;
     public isCode: boolean;
     public isHttpFunction: boolean;
@@ -86,6 +87,16 @@ export class FunctionDevComponent implements OnChanges {
                 } else {
                     delete this.webHookType;
                 }
+
+                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                    ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
+                    : null);
+                if (inputBinding) {
+                    this.authLevel = inputBinding.authLevel;
+                } else {
+                    delete this.authLevel;
+                }
+
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
                     : null);
@@ -142,7 +153,7 @@ export class FunctionDevComponent implements OnChanges {
     //TODO: change to field;
     get functionInvokeUrl(): string {
         var code = '';
-        if (this.webHookType === 'github') {
+        if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
             code = '';
         } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
             code = `?code=${this.secrets.key}`;
