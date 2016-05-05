@@ -14,7 +14,7 @@ import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {TabsComponent} from './tabs.component';
 import {TabComponent} from './tab.component';
-import {FunctionConfigureComponent} from './function-configure.component';
+import {FunctionManageComponent} from './function-manage.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
@@ -34,7 +34,7 @@ import {FunctionMonitorComponent} from './function-monitor.component'
         LogStreamingComponent,
         TabsComponent,
         TabComponent,
-        FunctionConfigureComponent,
+        FunctionManageComponent,
         FunctionIntegrateV2Component,
         FunctionMonitorComponent
     ]
@@ -49,6 +49,7 @@ export class FunctionEditComponent {
     public DevelopTab = TabNames.develop;
     public IntegrateTab = TabNames.integrate;
     public MonitorTab = TabNames.monitor;
+    public ManageTab = TabNames.manage;
 
     constructor(
         private _functionsService: FunctionsService,
@@ -63,19 +64,6 @@ export class FunctionEditComponent {
 
     onTabSelected(selectedTab: TabComponent) {
         this.selectedTabTitle = selectedTab.title;
-    }
-
-    deleteFunction() {
-        var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
-        if (result) {
-            this._broadcastService.setBusyState();
-            this._portalService.logAction("edit-component", "delete");
-            this._functionsService.deleteFunction(this.selectedFunction)
-                .subscribe(r => {
-                    this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
-                    this._broadcastService.clearBusyState();
-                });
-        }
     }
 
     onEditorChange(editorType: string) {

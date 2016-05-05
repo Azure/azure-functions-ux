@@ -1,13 +1,3 @@
-﻿<div class="switch">
-    <input type="radio" class="switch-input" name="view" id="readOnly">
-    <label for="readOnly" class="switch-label switch-label-off"></label>
-    <input type="radio" class="switch-input" name="view" id="readWrite" ng-checked="!readOnlyMode" ng-click="setReadOnlyMode(false)" checked="checked">
-    <label for="readWrite" class="switch-label switch-label-on">Read/Write</label>
-﻿<!--<div class="switch">
-    <input type="radio" class="switch-input" name="view" id="readOnly">
-    <label for="readOnly" class="switch-label switch-label-off"></label>
-    <input type="radio" class="switch-input" name="view" id="readWrite" ng-checked="!readOnlyMode" ng-click="setReadOnlyMode(false)" checked="checked">
-    <label for="readWrite" class="switch-label switch-label-on">Read/Write</label>
 ﻿<div class="switch" *ngIf="_options && _options.length === 2">
     <input type="radio"
            class="switch-input"
@@ -32,4 +22,4 @@
     </label>
 
     <span class="switch-selection"></span>
-</div>-->
+</div>

@@ -7,21 +7,23 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {SelectOption} from '../models/select-option';
 import {RadioSelectorComponent} from './radio-selector.component';
+import {PortalService} from '../services/portal.service';
 
 @Component({
-    selector: 'function-configure',
-    templateUrl: 'templates/function-configure.component.html',
-    styleUrls: ['styles/function-configure.style.css'],
+    selector: 'function-manage',
+    templateUrl: 'templates/function-manage.component.html',
+    styleUrls: ['styles/function-manage.style.css'],
     inputs: ['selectedFunction'],
     directives: [RadioSelectorComponent]
 })
-export class FunctionConfigureComponent {
+export class FunctionManageComponent {
     public selectedFunction: FunctionInfo;
     public functionStatusOptions: SelectOption<boolean>[];
     private valueChange: Subject<boolean>;
 
     constructor(private _functionsService: FunctionsService,
-                private _broadcastService: BroadcastService) {
+                private _broadcastService: BroadcastService,
+                private _portalService: PortalService) {
         this.functionStatusOptions = [
             {
                 displayLabel: 'Enabled',
@@ -44,9 +46,12 @@ export class FunctionConfigureComponent {
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
         if (result) {
+            this._broadcastService.setBusyState();
+            this._portalService.logAction("edit-component", "delete");
             this._functionsService.deleteFunction(this.selectedFunction)
                 .subscribe(r => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
+                    this._broadcastService.clearBusyState();
                 });
         }
     }
