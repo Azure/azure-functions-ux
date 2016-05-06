@@ -70,8 +70,11 @@ AADClientSecret = <string>
 ## Code layout
 
 #### AzureFunctions.sln
+
 **Language**: C#
+
 **Framework**: ASP.NET WebAPI
+
 The API surface is very limited:
 
 ``` bash
@@ -89,13 +92,19 @@ api/health
 ```
 
 #### Authentication
+
 This is a bit of a complicated subject:
+
 **For external sites** (i.e: https://functions.azure.com, https://functions-staging.azure.com, https://functions-next.azure.com) authentication is done on the frontEnd and we get the token passed to us. Logic to handle that is in \Authentication\FrontEndAuthProvider.cs
+
 **For local development** (i.e: https://localhost:44300) authentication is handled by the app itself, code in \Authentication\LocalhostAuthProvider.cs
 
 **When in Azure Portal** authentication is always handled by Azure Portal itself and we just get the token.
 
 #### AzureFunctions.Client
+
 **Language**: TypeScript
+
 **Framework**: angular2
+
 Check out https://angular.io
