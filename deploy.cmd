@@ -149,6 +149,13 @@ IF NOT EXIST "%WEBJOB_PATH%" (
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd" "%WEBJOB_PATH%"
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.job" "%WEBJOB_PATH%"
 
+:: 9. update build.txt
+call :ExecuteCmd echo %SCM_COMMIT_ID% > %DEPLOYMENT_TARGET%\build.txt
+IF !ERRORLEVEL! NEQ 0 (
+  call :ExecuteCmd echo %SCM_COMMIT_ID% > %DEPLOYMENT_TARGET%\build.txt
+  IF !ERRORLEVEL! NEQ 0 goto error
+)
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 
