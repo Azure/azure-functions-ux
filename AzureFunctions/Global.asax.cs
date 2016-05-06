@@ -29,7 +29,6 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
-            InitIndexHtml();
             var container = InitAutofacContainer();
             
             var config = GlobalConfiguration.Configuration;
@@ -200,40 +199,6 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-        }
-
-        private void InitIndexHtml()
-        {
-            try
-            {
-                var slotName = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME");
-                // localhost
-                if (string.IsNullOrEmpty(slotName)) return;
-
-                var indexHtml = File.ReadAllText(HostingEnvironment.MapPath("~/index.html"));
-
-                if (slotName.Equals("production", StringComparison.OrdinalIgnoreCase))
-                {
-                    var prodHtml = File.ReadAllText(HostingEnvironment.MapPath("~/prod.html"));
-                    // prod
-                    if (!indexHtml.Equals(prodHtml))
-                    {
-                        // copy
-                        File.Copy(HostingEnvironment.MapPath("~/prod.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
-                    }
-                }
-                else
-                {
-                    var stageHtml = File.ReadAllText(HostingEnvironment.MapPath("~/stage.html"));
-                    // stage
-                    if (!indexHtml.Equals(stageHtml))
-                    {
-                        // copy
-                        File.Copy(HostingEnvironment.MapPath("~/stage.html"), HostingEnvironment.MapPath("~/index.html"), overwrite: true);
-                    }
-                }
-            }
-            catch { }
         }
     }
 }

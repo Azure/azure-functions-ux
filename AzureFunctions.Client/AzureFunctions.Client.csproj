@@ -27,8 +27,6 @@
     <Content Include="images\bolt.svg" />
     <Content Include="images\generic-template.svg" />
     <Content Include="images\stack.svg" />
-    <Content Include="prod.html" />
-    <Content Include="stage.html" />
     <Content Include="images\data-process-template.svg" />
     <Content Include="images\function-io.svg" />
     <Content Include="images\Functions.svg" />
@@ -183,7 +181,6 @@
     <Content Include="templates\pop-over.component.html" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.html" />
     <Content Include="mocks\BlobTrigger.vfs.json" />
     <Content Include="mocks\BlobTrigger\function.json" />
     <Content Include="mocks\function-json-schema.json" />
