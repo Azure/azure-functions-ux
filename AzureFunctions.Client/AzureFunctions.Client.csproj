@@ -76,13 +76,11 @@
     <Content Include="templates\app-settings.component.html" />
     <Content Include="templates\binding-designer.component.html" />
     <Content Include="templates\drop-down.component.html" />
-    <Content Include="templates\function-configure.component.html" />
     <Content Include="templates\function-dev.component.html" />
     <Content Include="templates\function-designer.component.html" />
     <Content Include="templates\function-edit.component.html" />
     <Content Include="templates\function-integrate.component.html" />
     <Content Include="templates\log-streaming.component.html" />
-    <Content Include="templates\function-new-v2.component.html" />
     <Content Include="templates\radio-selector.component.html" />
     <Content Include="templates\sidebar.component.html" />
     <Content Include="templates\tab.component.html" />
@@ -112,7 +110,6 @@
     <TypeScriptCompile Include="app\components\getting-started.component.ts" />
     <TypeScriptCompile Include="app\components\log-streaming.component.ts" />
     <TypeScriptCompile Include="app\components\function-new.component.ts" />
-    <TypeScriptCompile Include="app\components\function-new-v2.component.ts" />
     <TypeScriptCompile Include="app\components\pop-over.component.ts" />
     <TypeScriptCompile Include="app\components\radio-selector.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
