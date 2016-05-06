@@ -13,6 +13,6 @@
     </div>
 
     <div id="submit-delete">
-        <button id="submit-button" (click)="deleteFunction()">Delete</button>
+        <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
     </div>
 </div>

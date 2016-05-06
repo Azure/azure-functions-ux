@@ -55,6 +55,15 @@ pre {
     background-color: #ff1525;
 }
 
-    #submit-button:hover {
-        background-color: #d9000f;
-    }
+#submit-button:disabled {
+    background-color: #BFC9D0 !important;
+    cursor: default !important;
+}
+
+#submit-button:disabled {
+    background-color: #f2f2f2;
+}
+
+#submit-button:hover {
+    background-color: #d9000f;
+}

@@ -36,10 +36,12 @@
     <Content Include="images\timer-template.svg" />
     <Content Include="images\webhook-api-template.svg" />
     <Content Include="styles\binding.style.css" />
+    <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />
     <Content Include="styles\intro.style.css" />
     <Content Include="styles\pop-over.style.css" />
     <Content Include="templates\app-monitoring.component.html" />
+    <Content Include="templates\function-manage.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
     <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
@@ -55,7 +57,6 @@
     <Content Include="styles\integrate.style.css" />
     <Content Include="styles\template-picker.style.css" />
     <Content Include="styles\drop-down.style.css" />
-    <Content Include="styles\function-configure.style.css" />
     <Content Include="styles\function-dev.style.css" />
     <Content Include="styles\function-edit.style.css" />
     <Content Include="styles\function-integrate.style.css" />
@@ -96,6 +97,7 @@
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
     <TypeScriptCompile Include="app\components\error-list.component.ts" />
+    <TypeScriptCompile Include="app\components\function-manage.component.ts" />
     <TypeScriptCompile Include="app\components\function-monitor.component.ts" />
     <TypeScriptCompile Include="app\components\intro.component.ts" />
     <TypeScriptCompile Include="app\components\busy-state.component.ts" />
@@ -103,7 +105,6 @@
     <TypeScriptCompile Include="app\components\function-integrate-v2.component.ts" />
     <TypeScriptCompile Include="app\components\binding.component.ts" />
     <TypeScriptCompile Include="app\components\drop-down.component.ts" />
-    <TypeScriptCompile Include="app\components\function-configure.component.ts" />
     <TypeScriptCompile Include="app\components\function-dev.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

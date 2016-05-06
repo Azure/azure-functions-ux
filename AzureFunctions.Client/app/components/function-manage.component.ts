@@ -19,11 +19,13 @@ import {PortalService} from '../services/portal.service';
 export class FunctionManageComponent {
     public selectedFunction: FunctionInfo;
     public functionStatusOptions: SelectOption<boolean>[];
+    public disabled: boolean;
     private valueChange: Subject<boolean>;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService) {
+        this.disabled = _broadcastService.getDirtyState("function_disabled");
         this.functionStatusOptions = [
             {
                 displayLabel: 'Enabled',
