@@ -147,6 +147,7 @@ export class GettingStartedComponent implements OnInit {
     }
 
     openSelectedContainer() {
+        this._armService.warmUpFunctionApp(this.functionContainer.id);
         this.userReady.emit(this.functionContainer);
     }
 
