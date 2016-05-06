@@ -39,7 +39,7 @@ namespace AzureFunctions.Common
                         if (string.IsNullOrEmpty(_currentCommitId))
                         {
                             _currentCommitId = File.Exists(buildFile)
-                                ? File.ReadAllText(buildFile)
+                                ? File.ReadAllText(buildFile).Substring(0, 8)
                                 : new Random().Next().ToString();
                         }
                     }
