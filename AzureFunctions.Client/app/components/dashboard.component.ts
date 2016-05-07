@@ -79,6 +79,7 @@ export class DashboardComponent implements OnChanges {
             this._broadcastService.setBusyState();
             this._functionsService.getConfig().subscribe((config) => {
                 this.setDisabled(config);
+                this._functionsService.setEasyAuth(config);
 
                 if(fi.name !== "New Function") {
                     this._functionsService.getFunction(fi).subscribe((fi) => {

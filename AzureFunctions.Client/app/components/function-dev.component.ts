@@ -134,7 +134,7 @@ export class FunctionDevComponent implements OnChanges {
         }
     }
 
-    private setInvokeUrlVisibility() 
+    private setInvokeUrlVisibility()
     {
         var b = this.functionInfo.config.bindings.find((b) => {
             return b.type === BindingType.httpTrigger.toString();

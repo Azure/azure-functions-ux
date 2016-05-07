@@ -30,6 +30,7 @@ export class FunctionsService {
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
     private fc: FunctionContainer;
+    private isEasyAuthEnabled: boolean;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -212,7 +213,13 @@ export class FunctionsService {
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
             .catch(e => {
-                if (e.status === 200 && e._body.type === 'error') {
+                if (this.isEasyAuthEnabled) {
+                    return Observable.of({
+                        status: 401,
+                        statusText: this.statusCodeToText(401),
+                        text: () => 'Authentication is enabled for the function app. Disable authentication before running the function.'
+                    });
+                } else if (e.status === 200 && e._body.type === 'error') {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
@@ -341,13 +348,21 @@ export class FunctionsService {
     }
 
     getFunctionErrors(fi: FunctionInfo) {
-        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+        return this.isEasyAuthEnabled
+            ? Observable.of([])
+            : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
     }
 
     getHostErrors() {
-        return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+        return this.isEasyAuthEnabled
+            ? Observable.of([])
+            : this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
+    }
+
+    setEasyAuth(config: {[key: string]: string}) {
+        this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
     }
 
     private getHeaders(contentType?: string): Headers {
