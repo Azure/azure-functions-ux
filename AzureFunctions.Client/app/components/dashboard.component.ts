@@ -1,7 +1,6 @@
 ﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
-import {FunctionNewV2Component} from './function-new-v2.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {AppMonitoringComponent} from './app-monitoring.component';
@@ -33,7 +32,6 @@ import {SourceControlComponent} from './source-control.component';
     directives: [
         SideBarComponent,
         TopBarComponent,
-        FunctionNewV2Component,
         FunctionEditComponent,
         DropDownComponent,
         AppMonitoringComponent,
