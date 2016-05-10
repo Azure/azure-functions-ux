@@ -13,6 +13,7 @@ import {ArmService} from './services/arm.service';
 import {MonitoringService} from './services/appMonitoring.service';
 import {TelemetryService} from './services/telemetry.service';
 import {UtilitiesService} from './services/utilities.service';
+import {BackgroundTasksService} from './services/background-tasks.service';
 
 declare var mixpanel: any;
 
@@ -32,7 +33,8 @@ bootstrap(
         ArmService,
         MonitoringService,
         TelemetryService,
-        UtilitiesService
+        UtilitiesService,
+        BackgroundTasksService
     ]);
 
 if (typeof mixpanel !==  'undefined') {

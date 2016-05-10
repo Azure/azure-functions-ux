@@ -12,13 +12,11 @@ import {UserService} from '../services/user.service';
 import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list.component';
 import {MonitoringService} from '../services/appMonitoring.service';
+import {BackgroundTasksService} from '../services/background-tasks.service';
 
 @Component({
     selector: 'azure-functions-app',
-    template: `<busy-state></busy-state>
-<error-list></error-list>
-<functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
-<getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>`,
+    templateUrl: 'templates/app.component.html',
     directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
 })
 export class AppComponent implements OnInit {
@@ -33,47 +31,30 @@ export class AppComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _userService: UserService,
-        private _monitoringService: MonitoringService
+        private _monitoringService: MonitoringService,
+        private _backgroundTasksService: BackgroundTasksService
     ) {
         this.ready = false;
-        if (_userService.inIFrame ||
-            window.location.protocol === 'http:') {
-            this.gettingStarted = false;
-            return;
-        } else {
-            this.gettingStarted = true;
-        }
+        this.gettingStarted = !_userService.inIFrame;
     }
 
     ngOnInit() {
         this._broadcastService.setBusyState();
 
         if (!this.gettingStarted) {
-            if (this._userService.inIFrame) {
-                this._userService.getToken().subscribe((token : string) =>{
-                    this._portalService.getResourceId()
-                        .distinctUntilChanged()
-                        .debounceTime(500)
-                        .subscribe((resourceId: string) => {
-                            // Not sure why distinctUntilChanged() isn't taking care of this.
-                            if (!this.currentResourceId || this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
-                                this.currentResourceId = resourceId;
-                                this.initializeDashboard(resourceId);
-                            }
-                        });
+            this._portalService.getResourceId()
+                .distinctUntilChanged()
+                .debounceTime(500)
+                .subscribe((resourceId: string) => {
+                    // Not sure why distinctUntilChanged() isn't taking care of this.
+                    if (!this.currentResourceId || this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
+                        this.currentResourceId = resourceId;
+                        this.initializeDashboard(resourceId);
+                    }
                 });
-            } else {
-                // Initialize for mocked data
-                this._broadcastService.clearBusyState();
-                this.ready = true;
-            }
         } else {
-            this._userService.getToken()
-                .subscribe(t => {
-                    this.ready = true;
-                    // TODO: Initialize token for all services.
-                    this._broadcastService.clearBusyState();
-                });
+            this.ready = true;
+            this._broadcastService.clearBusyState();
         }
     }
 
@@ -83,10 +64,10 @@ export class AppComponent implements OnInit {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
-
-                this._functionsService.setFunctionContainer(functionContainer).subscribe(() => {
-                    this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
-                });
+                this._userService.setFunctionContainer(functionContainer);
+                // this._functionsService.setFunctionContainer(functionContainer).subscribe(() => {
+                //     this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
+                // });
                 this.gettingStarted = false;
                 this._broadcastService.clearBusyState();
                 this.ready = true;

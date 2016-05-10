@@ -3,27 +3,22 @@ import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
-import  {BroadcastEvent} from '../models/broadcast-event'
+import {BroadcastEvent} from '../models/broadcast-event'
+import {UserService} from './user.service';
 
 @Injectable()
 export class PortalService {
     public sessionId = "";
     private portalSignature: string = "FxAppBlade";
     private resourceIdObservable: ReplaySubject<string>;
-    private tokenObservable: ReplaySubject<string>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
-    constructor(private _broadcastService : BroadcastService) {
-        this.tokenObservable = new ReplaySubject<string>(1);
+    constructor(private _broadcastService : BroadcastService, private _userService: UserService) {
         this.resourceIdObservable = new ReplaySubject<string>(1);
         if (this.inIFrame()){
             this.initializeIframe();
         }
-    }
-
-    getToken() {
-        return this.tokenObservable;
     }
 
     getResourceId() {
@@ -104,16 +99,12 @@ export class PortalService {
 
         if (methodName === Verbs.sendResourceId) {
             this.resourceIdObservable.next(data);
-        }
-        else if(methodName === Verbs.sendSessionId){
+        } else if(methodName === Verbs.sendSessionId){
             this.sessionId = data;
-        }
-        else if (methodName === Verbs.sendToken) {
-            this.tokenObservable.next(data);
-        }
-        else if (methodName === Verbs.sendAppSettingName) {
+        } else if (methodName === Verbs.sendToken) {
+            this._userService.setToken(data);
+        } else if (methodName === Verbs.sendAppSettingName) {
             if(this.getAppSettingCallback){
-
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }

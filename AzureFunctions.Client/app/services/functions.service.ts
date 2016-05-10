@@ -93,17 +93,13 @@ export class FunctionsService {
         private _armService: ArmService) {
 
         this._userService.getToken().subscribe(t => this.token = t);
+        this._userService.getFunctionContainer().subscribe(fc => {
+            this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+            this.siteName = fc.name;
+            this.fc = fc;
+        });
         this.appSettings = {};
-    }
-
-    setFunctionContainer(fc: FunctionContainer) {
-        this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
-        this.siteName = fc.name;
-        this.fc = fc;
-        var sub = this._armService.getFunctionContainerAppSettings(fc);
-        sub.subscribe(a => this.appSettings = a);
-        return sub;
     }
 
     getFunctions() {
