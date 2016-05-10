@@ -168,7 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="database.sql" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Default.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -187,6 +189,7 @@
     <Compile Include="Authentication\AADOAuth2AccessToken.cs" />
     <Compile Include="Authentication\AzureFunctionsIdentity.cs" />
     <Compile Include="Authentication\AzureFunctionsPrincipal.cs" />
+    <Compile Include="Authentication\ClaimTypes.cs" />
     <Compile Include="Authentication\FrontEndAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
     <Compile Include="Authentication\LocalhostAuthProvider.cs" />
