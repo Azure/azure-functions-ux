@@ -1,7 +1,7 @@
-﻿import {Component, OnInit} from 'angular2/core';
+﻿import {Component, OnInit} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
-import {Http, Headers } from 'angular2/http';
+import {Http, Headers } from '@angular/http';
 import {MonitoringService} from '../services/appMonitoring.service';
 import {Observable} from 'rxjs/Rx';
 import {MonitoringConsumption} from '../models/appMonitoring-consumption';

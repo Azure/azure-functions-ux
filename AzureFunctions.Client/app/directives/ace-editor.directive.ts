@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, ElementRef} from 'angular2/core';
+import {Directive, EventEmitter, ElementRef} from '@angular/core';
 import {AceEditor} from '../models/ace-editor';
 
 declare var ace: any;

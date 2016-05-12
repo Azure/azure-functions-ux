@@ -1,4 +1,4 @@
-import {Component, Input, Inject, ElementRef} from 'angular2/core';
+import {Component, Input, Inject, ElementRef} from '@angular/core';
 import {PopOverComponent} from './pop-over.component';
 import {UtilitiesService} from '../services/utilities.service';
 

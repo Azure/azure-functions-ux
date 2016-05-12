@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+﻿import {Component} from '@angular/core';
 import {Subject} from 'rxjs/Rx';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
@@ -37,8 +37,8 @@ export class FunctionManageComponent {
         this.valueChange = new Subject<boolean>();
         this.valueChange
             .distinctUntilChanged()
-            .debounceTime<boolean>(500)
-            .switchMap<FunctionInfo>(state => {
+            .debounceTime(500)
+            .switchMap<FunctionInfo>((state, index) => {
                 this.selectedFunction.config.disabled = state;
                 return this._functionsService.updateFunction(this.selectedFunction);
             })

@@ -1,5 +1,5 @@
-import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';

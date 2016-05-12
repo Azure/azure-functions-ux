@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange} from 'angular2/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';

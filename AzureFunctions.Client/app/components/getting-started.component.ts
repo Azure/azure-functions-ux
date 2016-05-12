@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from 'angular2/core';
+﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from '@angular/core';
 import {UserService} from '../services/user.service';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';

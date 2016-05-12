@@ -38,14 +38,12 @@
         else
         {
             <!-- 1. Load libraries -->
-            <script src="/node_modules/angular2/bundles/angular2-polyfills.js"></script>
-            <script src="/node_modules/es6-shim/es6-shim.min.js"></script>
-            <script stc="/node_modules/systemjs/dist/system-polyfills.js"></script>
-            <script src="/node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
-            <script src="/node_modules/systemjs/dist/system.src.js"></script>
+            <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+            <script src="node_modules/zone.js/dist/zone.js"></script>
+            <script src="node_modules/reflect-metadata/Reflect.js"></script>
+            <script src="node_modules/systemjs/dist/system.src.js"></script>
             <script src="/node_modules/rxjs/bundles/Rx.js"></script>
-            <script src="/node_modules/angular2/bundles/angular2.dev.js"></script>
-            <script src="/node_modules/angular2/bundles/http.js"></script>
+
             <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ace.js"></script>
             <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-modelist.js"></script>
             <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-language_tools.js"></script>
@@ -65,28 +63,50 @@
 
             <!-- 2. Configure SystemJS -->
             <script>
-            System.config({
-                paths: {
-                    "npm:*": "node_modules/*"
-                },
-                packages: {
-                    app: {
-                        format: 'register',
-                        defaultExtension: 'js'
-                    },
-                    'ng2-nvd3': {
-                        main: 'build/lib/ng2-nvd3',
+                var map = {
+                    'app': 'app', // 'dist',
+                    'rxjs': 'node_modules/rxjs',
+                    '@@angular': 'node_modules/@@angular',
+                    'ng2-nvd3': 'node_modules/ng2-nvd3/build/lib'
+                };
 
-                        defaultExtension: 'js'
-                    },
+                // packages tells the System loader how to load when no filename and/or no extension
+                var packages = {
+                    'app': { main: 'boot.js', defaultExtension: 'js' },
+                    'rxjs': { defaultExtension: 'js' },
+                    'angular2-in-memory-web-api': { defaultExtension: 'js' },
+                    'ng2-nvd3': { main: 'ng2-nvd3.js', defaultExtension: 'js' }
+                };
 
-                },
-                map: {
-                    'ng2-nvd3': 'npm:ng2-nvd3'
+                var packageNames = [
+                  '@@angular/common',
+                  '@@angular/compiler',
+                  '@@angular/core',
+                  '@@angular/http',
+                  '@@angular/platform-browser',
+                  '@@angular/platform-browser-dynamic',
+                  '@@angular/router',
+                  '@@angular/router-deprecated',
+                  '@@angular/testing',
+                  '@@angular/upgrade',
+                ];
+
+                // add package entries for angular packages in the form '@@angular/common': { main: 'index.js', defaultExtension: 'js' }
+                packageNames.forEach(function (pkgName) {
+                    packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+                });
+
+                var config = {
+                    map: map,
+                    packages: packages
                 }
-            });
-            System.import('app/boot')
-                .then(null, console.error.bind(console));
+
+                // filterSystemConfig - index.html's chance to modify config before we register it.
+                //if (global.filterSystemConfig) { global.filterSystemConfig(config); }
+
+                System.config(config);
+                System.import('app')
+                    .then(null, console.error.bind(console));
             </script>
         }
     }

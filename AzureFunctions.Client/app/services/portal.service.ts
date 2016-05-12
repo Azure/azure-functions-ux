@@ -1,4 +1,4 @@
-﻿import {Injectable} from 'angular2/core';
+﻿import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';

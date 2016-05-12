@@ -1,4 +1,4 @@
-﻿import {Component, Input} from 'angular2/core';
+﻿import {Component, Input} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import  {BroadcastEvent} from '../models/broadcast-event'

@@ -1,5 +1,5 @@
-import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
+import {NgClass} from '@angular/common';
 import {FunctionsService} from '../services/functions.service';
 import {BindingComponent} from './binding.component';
 import {TemplatePickerComponent} from './template-picker.component';

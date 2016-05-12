@@ -1,4 +1,4 @@
-﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
+﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
 import {FunctionEditComponent} from './function-edit.component';

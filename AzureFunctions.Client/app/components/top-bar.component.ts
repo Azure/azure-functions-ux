@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Input, Output} from 'angular2/core';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {UserService} from '../services/user.service';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';

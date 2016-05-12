@@ -1,5 +1,5 @@
-﻿import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+﻿import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {PortalService} from './portal.service';
 import {UserService} from './user.service';
 import {FunctionsService} from '../services/functions.service';

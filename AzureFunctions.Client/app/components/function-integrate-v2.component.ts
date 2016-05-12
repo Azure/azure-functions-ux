@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from 'angular2/core';
+﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {BindingList} from '../models/binding-list';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';

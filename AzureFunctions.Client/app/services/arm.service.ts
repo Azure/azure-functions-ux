@@ -1,5 +1,5 @@
-import {Http, Headers, Response} from 'angular2/http';
-import {Injectable, EventEmitter} from 'angular2/core';
+import {Http, Headers, Response} from '@angular/http';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Subscription} from '../models/subscription';
 import {FunctionContainer} from '../models/function-container';
 import {Observable, Subscription as RxSubscription, Subject} from 'rxjs/Rx';

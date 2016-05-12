@@ -1,4 +1,4 @@
-﻿import {Component, Input, EventEmitter, OnInit} from 'angular2/core';
+﻿import {Component, Input, EventEmitter, OnInit} from '@angular/core';
 import {ArmService} from '../services/arm.service';
 import {PortalService} from '../services/portal.service';
 import {FunctionContainer} from '../models/function-container';

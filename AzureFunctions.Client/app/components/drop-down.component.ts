@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter} from 'angular2/core';
+import {Component, OnInit, EventEmitter} from '@angular/core';
 import {DropDownElement} from '../models/drop-down-element';
 
 @Component({

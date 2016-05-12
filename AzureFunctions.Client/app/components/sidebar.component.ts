@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, OnDestroy, Output} from 'angular2/core';
+import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
 import {FunctionsService} from '.././services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';

@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter} from 'angular2/core';
+import {Component, OnInit, EventEmitter} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';

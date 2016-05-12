@@ -1,4 +1,4 @@
-﻿import {Injectable, EventEmitter} from 'angular2/core';
+﻿import {Injectable, EventEmitter} from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';

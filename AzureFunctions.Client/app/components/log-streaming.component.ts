@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef} from 'angular2/core';
+import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';

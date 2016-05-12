@@ -1,5 +1,5 @@
-import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
@@ -13,9 +13,9 @@ export class UserService {
     private tokenSubject: ReplaySubject<string>;
 
     constructor(private _http: Http) {
-        this.tokenSubject = new ReplaySubject(1);
+        this.tokenSubject = new ReplaySubject<string>(1);
         this.inIFrame = window.parent !== window;
-        this.functionContainerSubject = new ReplaySubject(1);
+        this.functionContainerSubject = new ReplaySubject<FunctionContainer>(1);
     }
 
     getTenants() {

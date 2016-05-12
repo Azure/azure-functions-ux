@@ -1,4 +1,4 @@
-﻿import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter } from 'angular2/core';
+﻿import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter } from '@angular/core';
 import { TabComponent } from './tab.component';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'

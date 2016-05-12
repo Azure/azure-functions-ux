@@ -1,4 +1,4 @@
-﻿import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from 'angular2/core';
+﻿import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import {TemplatePickerType, Template} from '../models/template-picker';
 import {BindingComponent} from './binding.component';
 import {DirectionType, Binding} from '../models/binding';
@@ -34,8 +34,8 @@ export class TemplatePickerComponent {
     private _initialized = false;
 
     @Input() showFooter: boolean;
-    @Output() complete: EventEmitter<string> = new EventEmitter();
-    @Output() cancel: EventEmitter<string> = new EventEmitter();
+    @Output() complete: EventEmitter<string> = new EventEmitter<string>();
+    @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {

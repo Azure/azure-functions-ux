@@ -1,9 +1,9 @@
 /// <reference path="..\typings\browser.d.ts" />
 
-import {bootstrap} from 'angular2/platform/browser';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {HTTP_PROVIDERS} from '@angular/http';
 import {AppComponent} from './components/app.component';
-import {provide, ExceptionHandler, enableProdMode, Injector} from 'angular2/core';
+import {provide, ExceptionHandler, enableProdMode, Injector} from '@angular/core';
 import {FunctionsService} from './services/functions.service';
 import {UserService} from './services/user.service';
 import {PortalService} from './services/portal.service';
