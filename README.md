@@ -67,6 +67,8 @@ AADClientSecret = <string>
 > git push origin dev
 ```
 
+[Angular 2 coding style](https://angular.io/styleguide)
+
 ## Code layout
 
 #### AzureFunctions.sln
