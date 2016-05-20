@@ -8,6 +8,7 @@ import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
+import {GlobalStateService} from '../services/global-state.service';
 
 enum TopbarButton {
     None = <any>"None",
@@ -41,7 +42,8 @@ export class TopBarComponent implements OnInit {
     constructor(private _userService: UserService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
-                private _functionsService: FunctionsService
+                private _functionsService: FunctionsService,
+                private _globalStateService: GlobalStateService
     ) {
 
         this.appMonitoringClicked = new EventEmitter<any>();
@@ -129,7 +131,7 @@ export class TopBarComponent implements OnInit {
     }
 
     private setInfo() {
-        this.needUpdateExtensionVersion = this._functionsService.extensionVersion ? Constants.latestExtensionVersion !== this._functionsService.extensionVersion : false;
+        this.needUpdateExtensionVersion = this._globalStateService.ExtensionVersion ? Constants.latestExtensionVersion !== this._globalStateService.ExtensionVersion : false;
     }
 
     onSourceControlClicked() {

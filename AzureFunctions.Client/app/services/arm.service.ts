@@ -63,7 +63,8 @@ export class ArmService {
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
         appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
-        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() });
+        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
+                .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
     getConfig(functionContainer: FunctionContainer) {

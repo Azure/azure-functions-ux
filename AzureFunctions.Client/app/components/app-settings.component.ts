@@ -6,6 +6,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'app-settings',
@@ -23,7 +24,8 @@ export class AppSettingsComponent implements OnInit {
     constructor(private _armService : ArmService,
                 private _portalService : PortalService,
                 private _broadcastService: BroadcastService,
-                private _functionsService: FunctionsService) {
+                private _functionsService: FunctionsService,
+                private _globalStateService: GlobalStateService) {
     }
 
     onChange(value: string | number, event?: any) {
@@ -36,8 +38,8 @@ export class AppSettingsComponent implements OnInit {
 
     ngOnInit() {
         this.memorySize = this.functionContainer.properties.containerSize;
-        this.needUpdateExtensionVersion = Constants.latestExtensionVersion !== this._functionsService.extensionVersion;
-        this.extensionVersion = this._functionsService.extensionVersion;
+        this.needUpdateExtensionVersion = Constants.latestExtensionVersion !== this._globalStateService.ExtensionVersion;
+        this.extensionVersion = this._globalStateService.ExtensionVersion;
         this.latestExtensionVersion = Constants.latestExtensionVersion;
     }
 
@@ -59,8 +61,8 @@ export class AppSettingsComponent implements OnInit {
         this._broadcastService.setBusyState();
         this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
             this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {
-                this.needUpdateExtensionVersion = false;              
-                this._functionsService.extensionVersion = Constants.latestExtensionVersion;
+                this.needUpdateExtensionVersion = false;
+                this._globalStateService.AppSettings = r;
                 this._broadcastService.clearBusyState();
                 this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
             });

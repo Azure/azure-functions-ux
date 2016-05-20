@@ -13,6 +13,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {ErrorEvent} from '../models/error-event';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var jQuery: any;
 
@@ -48,7 +49,8 @@ export class FunctionNewComponent {
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
-        private _portalService : PortalService)
+        private _portalService : PortalService,
+        private _globalStateService: GlobalStateService)
     {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -64,7 +66,7 @@ export class FunctionNewComponent {
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this._broadcastService.clearBusyState();
-                this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
+                this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                 this.model.config = this.bc.functionConfigToUI({
                     disabled: false,

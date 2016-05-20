@@ -29,7 +29,6 @@ export class FunctionsService {
     private siteName: string;
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
-    private fc: FunctionContainer;
     private isEasyAuthEnabled: boolean;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -88,16 +87,13 @@ export class FunctionsService {
 
     constructor(
         private _http: Http,
-        private _portalService: PortalService,
-        private _userService: UserService,
-        private _armService: ArmService) {
+        private _userService: UserService) {
 
         this._userService.getToken().subscribe(t => this.token = t);
         this._userService.getFunctionContainer().subscribe(fc => {
             this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
             this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
             this.siteName = fc.name;
-            this.fc = fc;
         });
         this.appSettings = {};
     }
@@ -287,34 +283,6 @@ export class FunctionsService {
 
     getSiteName(){
         return this.siteName;
-    }
-
-    getDefaultStorageAccount() {
-        for (var key in this.appSettings) {
-            if (key.toString().endsWith("_STORAGE")) {
-                return key;
-            }
-        }
-
-        return "";
-    }
-
-    get extensionVersion() : string {
-        for (var key in this.appSettings) {
-            if (key.toString() === Constants.extensionVersionAppSettingName) {
-                return this.appSettings[key];
-            }
-        }
-
-        return "";
-    }
-
-    set extensionVersion(value: string) {
-        this.appSettings[Constants.extensionVersionAppSettingName] = value;
-    }
-
-    getConfig() {
-        return this._armService.getConfig(this.fc);
     }
 
     getHostSecrets() {

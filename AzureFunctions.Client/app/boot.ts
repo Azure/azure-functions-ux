@@ -14,6 +14,7 @@ import {MonitoringService} from './services/appMonitoring.service';
 import {TelemetryService} from './services/telemetry.service';
 import {UtilitiesService} from './services/utilities.service';
 import {BackgroundTasksService} from './services/background-tasks.service';
+import {GlobalStateService} from './services/global-state.service';
 
 declare var mixpanel: any;
 
@@ -34,7 +35,8 @@ bootstrap(
         MonitoringService,
         TelemetryService,
         UtilitiesService,
-        BackgroundTasksService
+        BackgroundTasksService,
+        GlobalStateService
     ]);
 
 if (typeof mixpanel !==  'undefined') {

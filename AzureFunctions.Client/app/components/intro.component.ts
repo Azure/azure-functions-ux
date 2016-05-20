@@ -9,6 +9,7 @@ import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {BindingManager} from '../models/binding-manager';
 import {ErrorEvent} from '../models/error-event';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'intro',
@@ -24,7 +25,8 @@ export class IntroComponent {
 
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
-        private _portalService: PortalService) {
+        private _portalService: PortalService,
+        private _globalStateService: GlobalStateService) {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
@@ -53,7 +55,7 @@ export class IntroComponent {
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                     this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name : functionName });
 
-                    this.bc.setDefaultValues(selectedTemplate.function.bindings, this._functionsService.getDefaultStorageAccount());
+                    this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                     selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
 
