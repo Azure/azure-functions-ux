@@ -329,6 +329,28 @@ export class FunctionsService {
         this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
     }
 
+    getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
+        return this._http.get(`${this.scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getHeaders()})
+            .flatMap<string>(r => {
+                var files: any[] = r.json();
+                if (files.length > 0) {
+                    var headers = this.getHeaders();
+                    headers.append('Range', `bytes=-${range}`);
+                    files.map(e => {e.parsedTime = new Date(e.mtime); return e;}).sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime())
+                    return this._http.get(files.pop().href, { headers: headers })
+                        .map<string>(r => {
+                            var content = r.text();
+                            let index = content.indexOf('\n');
+                            return index !== -1
+                                ? content.substring(index + 1)
+                                : content;
+                        });
+                } else {
+                    return Observable.of('');
+                }
+            });
+    }
+
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();

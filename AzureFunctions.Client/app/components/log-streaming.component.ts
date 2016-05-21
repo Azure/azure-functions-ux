@@ -107,7 +107,9 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
+        var oldLogs = '';
 
+        this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
 
         var callBack = () => {
             var diff = this.xhReq.responseText.length -  this.oldLength;
@@ -115,7 +117,9 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 if (this.xhReq.responseText.length > maxCharactersInLog) {
                     this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
                 } else {
-                    this.log = this.hostErrors + this.xhReq.responseText;
+                    this.log = oldLogs
+                    ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
+                    : this.xhReq.responseText;
                 }
 
                 this.oldLength = this.xhReq.responseText.length;
