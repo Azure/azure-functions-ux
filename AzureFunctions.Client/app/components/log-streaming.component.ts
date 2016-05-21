@@ -82,7 +82,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     private initLogs() {
         const maxCharactersInLog = 500000;
-        const intervalIncreaseThreshold = 500;
+        const intervalIncreaseThreshold = 1000;
         const defaultInterval = 1000;
         const maxInterval = 10000;
 
