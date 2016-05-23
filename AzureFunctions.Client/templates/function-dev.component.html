@@ -8,6 +8,7 @@
 
     <div>
         <h2 class="dev-block-header">Code</h2>
+        <span>({{fileName}})</span>
         <div class="dev-block-header">
             <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">Save</button>
         </div>

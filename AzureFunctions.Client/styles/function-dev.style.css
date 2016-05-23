@@ -16,7 +16,7 @@ div.inline-no-float {
     margin-left: 10px;
 }
 
-.dev-block-header > span{
+.dev-block-header > span, .dev-block-header + span {
     margin-left: 10px;
 }
 
