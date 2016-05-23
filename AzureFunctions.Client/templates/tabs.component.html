@@ -2,7 +2,7 @@
     <tutorial></tutorial>
 
     <ul>
-      <li *ngFor="#tab of tabs" (click)="selectTab(tab)" [class.tab-active]="tab.active">
+      <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.tab-active]="tab.active">
         {{tab.title}}
       </li>
     </ul>

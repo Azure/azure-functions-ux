@@ -15,7 +15,7 @@
 </div>
 
 <div class="tp-templates" *ngIf="showFooter">
-    <div *ngFor="#template of templates"
+    <div *ngFor="let template of templates"
         class="tp-template"
         (click)="onTemplateCliked(template.value)"
         [class.tp-template-selected]="selectedTemplate == template.value">
@@ -34,7 +34,7 @@
 </div>
 
 <div class="tp-templates" *ngIf="!showFooter">
-    <div *ngFor="#template of templates"
+    <div *ngFor="let template of templates"
             class="tp-template-func"
             (click)="onTemplateCliked(template.value)"
             [class.tp-template-selected]="selectedTemplate == template.value">

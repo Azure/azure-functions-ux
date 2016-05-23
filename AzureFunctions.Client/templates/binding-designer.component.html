@@ -3,7 +3,7 @@
         <div class="left"><label>Binding Type:</label></div>
         <div class="functions-templates-select-container right">
             <select [(ngModel)]="selectedBindingType" class="function-templates-select">
-                <option *ngFor="#binding of bindings" [value]="binding.name">{{binding.name}}</option>
+                <option *ngFor="let binding of bindings" [value]="binding.name">{{binding.name}}</option>
             </select>
             <span *ngIf="!selectedBindingType" class="function-templates-selected-value">Select Binding</span>
             <span *ngIf="selectedBindingType" class="function-templates-selected-value">{{selectedBindingType}}</span>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row-group" *ngIf="bindingOptionsMeta">
-        <div class="row" *ngFor="#option of bindingOptionsMeta.options">
+        <div class="row" *ngFor="let option of bindingOptionsMeta.options">
             <div class="left"><label>{{option.name}}: </label></div>
             <div class="right">
                 <input class="new-function-name" [(ngModel)]="option.value" />

@@ -39,7 +39,7 @@
 <div class="container-fluid">
     <div class="col-md-3">
         <div class="list-group list-special">
-            <div>                
+            <div>
                 <span *ngIf="model.trigger && currentBindingId === model.trigger.id" class="list-group-item active" (click)="onBindingSelect(model.trigger.id)">{{model.trigger.title}}</span>
                 <span *ngIf="model.trigger && currentBindingId !== model.trigger.id" class="list-group-item" (click)="onBindingSelect(model.trigger.id )">{{model.trigger.title}}</span>
                 <span *ngIf="!disabled && !model.trigger && currentBindingId !== 'trigger'" class="list-group-item" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> New Trigger</span>
@@ -49,9 +49,9 @@
     </div>
     <div class="col-md-1">
     </div>
-    <div class="col-md-3">        
+    <div class="col-md-3">
         <div class="list-group list-special">
-            <div *ngFor="#input of model.inputs">
+            <div *ngFor="let input of model.inputs">
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>
@@ -61,9 +61,9 @@
     </div>
     <div class="col-md-1">
     </div>
-    <div class="col-md-3">        
+    <div class="col-md-3">
         <div class="list-group list-special">
-            <div *ngFor="#input of model.outputs">
+            <div *ngFor="let input of model.outputs">
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>

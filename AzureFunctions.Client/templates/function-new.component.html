@@ -19,7 +19,7 @@
            (ngModelChange)="functionNameChanged($event)"
            placeholder="Function name">
     <div *ngIf="!!functionNameError" class="error-output">{{functionNameError}}</div>
-    
+
     <h3 *ngIf="model.trigger && hasInputsToShow" style="margin-top: 40px">Configure</h3>
     <binding *ngIf="model.trigger"
              (validChange)="onValidChanged($event)"
@@ -30,8 +30,8 @@
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"
              (hasInputsToShowEvent)="onInputsToShowChanged($event)"></binding>
-             
-    <binding *ngFor="#binding of model.inputs"
+
+    <binding *ngFor="let binding of model.inputs"
              (validChange)="onValidChanged($event)"
              [binding]="binding"
              [canSave]="false"
@@ -39,8 +39,8 @@
              [clickSave]="clickSave"
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding>
-             
-    <binding *ngFor="#binding of model.outputs"
+
+    <binding *ngFor="let binding of model.outputs"
              (validChange)="onValidChanged($event)"
              [binding]="binding"
              [canSave]="false"
@@ -48,7 +48,7 @@
              [clickSave]="clickSave"
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding>
-    
+
     <button class="custom-button" style="display: block; margin-top: 40px" [disabled]="!areInputsValid" (click)="onCreate()">Create</button>
 </div>
 </div>

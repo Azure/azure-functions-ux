@@ -57,7 +57,7 @@
 
         <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
             <ul *ngIf="tenants" class="tenants-list">
-                <li *ngFor="#tenant of tenants" (click)="selectTenant(tenant)">
+                <li *ngFor="let tenant of tenants" (click)="selectTenant(tenant)">
                     <div>{{tenant.DisplayName}}</div>
                     <div>{{tenant.DomainName}}</div>
                 </li>
