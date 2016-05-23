@@ -15,6 +15,7 @@ import {TelemetryService} from './services/telemetry.service';
 import {UtilitiesService} from './services/utilities.service';
 import {BackgroundTasksService} from './services/background-tasks.service';
 import {GlobalStateService} from './services/global-state.service';
+import 'rxjs/Rx';
 
 declare var mixpanel: any;
 

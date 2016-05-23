@@ -12,14 +12,11 @@ System.config({
 
   packages: {
     "app": {
-      "main": "boot",
-      "format": "system",
-      "defaultExtension": "ts",
-      "meta": {
-        "*.ts": {
-          "loader": "ts"
-        }
-      }
+      "main": "boot.js",
+      "defaultExtension": "js"
+    },
+    "rxjs": {
+      "defaultExtension": "js"
     }
   },
 
@@ -70,12 +67,12 @@ System.config({
     },
     "npm:@angular/core@2.0.0-rc.1": {
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "rxjs": "npm:rxjs@5.0.0-beta.6",
+      "rxjs": "npm:rxjs@5.0.0-beta.7",
       "zone.js": "npm:zone.js@0.6.12"
     },
     "npm:@angular/http@2.0.0-rc.1": {
       "@angular/core": "npm:@angular/core@2.0.0-rc.1",
-      "rxjs": "npm:rxjs@5.0.0-beta.6"
+      "rxjs": "npm:rxjs@5.0.0-beta.7"
     },
     "npm:@angular/platform-browser-dynamic@2.0.0-rc.1": {
       "@angular/common": "npm:@angular/common@2.0.0-rc.1",
@@ -137,10 +134,6 @@ System.config({
     },
     "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
-    },
-    "npm:rxjs@5.0.0-beta.6": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:rxjs@5.0.0-beta.7": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
