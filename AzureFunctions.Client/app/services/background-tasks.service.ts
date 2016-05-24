@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ApplicationRef} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import {UserService} from './user.service';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
@@ -20,9 +20,14 @@ export class BackgroundTasksService {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _armService: ArmService) {
+        private _armService: ArmService,
+        private _applicationRef: ApplicationRef) {
             if (!this._userService.inIFrame) {
                 this.runPreIFrameTasks();
+            }
+            if (this.isIE()) {
+                console.log('Detected IE, running zone.js workaround');
+                setInterval(() => this._applicationRef.tick(), 1000)
             }
     }
 
@@ -63,5 +68,9 @@ export class BackgroundTasksService {
         } else {
             this._broadcastService.clearDirtyState("function_disabled", true);
         }
+    }
+
+    private isIE(): boolean {
+        return navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;
     }
 }
