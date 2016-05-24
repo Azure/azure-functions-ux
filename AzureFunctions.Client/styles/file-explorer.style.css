@@ -1,0 +1,15 @@
+.file {
+    font-family: Consolas, Courier New, Courier, monospace;
+    padding: 5px;
+    vertical-align: middle;
+    line-height: 1.8;
+}
+
+.file:hover, .selected {
+    background-color: #E6E7E8;
+}
+
+.selected {
+    border-top: 1px solid #C3C4C3;
+    border-bottom: 1px solid #C3C4C3;
+}

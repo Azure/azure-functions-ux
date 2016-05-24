@@ -155,7 +155,8 @@ export class FunctionsService {
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
-            test_data: null
+            test_data: null,
+            script_root_path_href: null
         };
     }
 
@@ -169,7 +170,8 @@ export class FunctionsService {
             clientOnly: true,
             isDeleted: false,
             secrets_file_href: null,
-            test_data: null
+            test_data: null,
+            script_root_path_href: null
         };
     }
 
@@ -349,6 +351,11 @@ export class FunctionsService {
                     return Observable.of('');
                 }
             });
+    }
+
+    getVfsObjects(fi: FunctionInfo) {
+        return this._http.get(fi.script_root_path_href, { headers: this.getHeaders() })
+            .map<VfsObject[]>(e => e.json());
     }
 
     private getHeaders(contentType?: string): Headers {

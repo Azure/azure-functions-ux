@@ -12,8 +12,13 @@
         <div class="dev-block-header">
             <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">Save</button>
         </div>
-        <div class="gutter-container" style="padding-top: 5px">
-            <div class="ace_editor" aceEditor id="editor"
+        <div class="dev-flex-container" style="padding-top: 5px">
+            <file-explorer class="dev-files-flex"
+                [functionFiles]="functionFiles"
+                [selectedFile]="scriptFile"
+                (selectedFileChange)="selectedFileStream.next($event)">
+            </file-explorer>
+            <div class="ace_editor dev-code-flex" aceEditor id="editor"
                 (onSave)="saveScript()"
                 (onContentChanged)="contentChanged($event)"
                 [content]="content"
@@ -29,7 +34,7 @@
     </div>
 
     <h2 class="dev-block-header">Run</h2>
-    <div class="dev-run-container" *ngIf="functionInfo">
+    <div class="dev-flex-container" *ngIf="functionInfo">
         <div class="dev-run-block" style="margin-right: 10px">
             <div style="padding-bottom: 6px">Request body</div>
             <div class="ace_editor" aceEditor
@@ -55,7 +60,7 @@
         </div>
 
         <div class="dev-run-block">
-            <div class="dev-run-container">
+            <div class="dev-flex-container">
                 <div class="dev-run-block">Output</div>
                 <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">Status: {{runResult.statusCode}} {{runResult.statusText}}</div>
             </div>

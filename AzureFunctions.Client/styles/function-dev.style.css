@@ -28,8 +28,16 @@ div.inline-no-float {
     margin-right: 5px;
 }
 
-.dev-run-container{
+.dev-flex-container{
     display: flex;
+}
+
+.dev-code-flex {
+    flex-grow: 3;
+}
+
+.dev-files-flex {
+    flex-grow: 1;
 }
 
 .dev-run-block{

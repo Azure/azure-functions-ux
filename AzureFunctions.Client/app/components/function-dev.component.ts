@@ -14,6 +14,7 @@ import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
 import {RunFunctionResult} from '../models/run-function-result';
+import {FileExplorerComponent} from './file-explorer.component';
 
 @Component({
     selector: 'function-dev',
@@ -23,7 +24,8 @@ import {RunFunctionResult} from '../models/run-function-result';
         AceEditorDirective,
         FunctionDesignerComponent,
         LogStreamingComponent,
-        CopyPreComponent
+        CopyPreComponent,
+        FileExplorerComponent
     ]
 })
 export class FunctionDevComponent implements OnChanges {
@@ -36,27 +38,37 @@ export class FunctionDevComponent implements OnChanges {
     public fileName: string;
     public inIFrame: boolean;
 
-    public scriptContent: string;
     public configContent: string;
     public webHookType: string;
     public authLevel: string;
     public secrets: FunctionSecrets;
-    public isCode: boolean;
     public isHttpFunction: boolean;
 
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
+    public functionFiles: VfsObject[];
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
+    private selectedFileStream: Subject<VfsObject>;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService) {
 
-        this.isCode = true;
+        this.selectedFileStream = new Subject<VfsObject>();
+        this.selectedFileStream
+            .distinctUntilChanged((x, y) => x.name === y.name)
+            .switchMap(file => Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f})))
+            .subscribe((res: {content: string, file: VfsObject}) => {
+                this.content = res.content;
+                this.scriptFile = res.file;
+                this.fileName = res.file.name;
+            });
+
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
@@ -64,21 +76,22 @@ export class FunctionDevComponent implements OnChanges {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._broadcastService.setBusyState();
                 return Observable.zip(
-                    this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    (c, s, f) => ({ content: c, secrets: s, functionInfo: f }))
+                    this._functionsService.getVfsObjects(fi),
+                    (s, f, vfs) => ({ secrets: s, functionInfo: f, files: vfs }))
             })
-            .subscribe((res: any) => {
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, files: VfsObject[]}) => {
                 this._broadcastService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
-                var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
-                this.fileName = fileName;
-                this.scriptFile = { href: this.functionInfo.script_href, name: fileName };
-                this.content = res.content;
+                this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
+                this.scriptFile = res.files.find(e => e.name === this.fileName);
+                this.selectedFileStream.next(this.scriptFile);
+                this.functionFiles = res.files;
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
+
                 var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
                     : null);
