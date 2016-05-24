@@ -66,7 +66,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     clearLogs(){
-        this.initLogs();
+        this.initLogs(true);
     }
 
     copyLogs(event) {
@@ -80,7 +80,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         }
     }
 
-    private initLogs() {
+    private initLogs(clear?: boolean) {
         const maxCharactersInLog = 500000;
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 1000;
@@ -108,8 +108,9 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
         var oldLogs = '';
-
-        this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
+        if (!clear) {
+            this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
+        }
 
         var callBack = () => {
             var diff = this.xhReq.responseText.length -  this.oldLength;
