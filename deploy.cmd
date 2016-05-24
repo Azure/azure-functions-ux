@@ -92,7 +92,7 @@ echo Handling frontend Angular2 project.
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.Client" -t "%DEPLOYMENT_TARGET%" /E /IS
+  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.Client" "%DEPLOYMENT_TARGET%" /E /IS
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
