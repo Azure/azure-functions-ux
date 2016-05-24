@@ -62,12 +62,16 @@ export class FunctionDevComponent implements OnChanges {
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .distinctUntilChanged((x, y) => x.name === y.name)
-            .switchMap(file => Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f})))
+            .switchMap(file => {
+                this._broadcastService.setBusyState();
+                return Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}))
+            })
             .subscribe((res: {content: string, file: VfsObject}) => {
                 this.content = res.content;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
-            });
+                this._broadcastService.clearBusyState();
+            }, e => this._broadcastService.clearBusyState());
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream

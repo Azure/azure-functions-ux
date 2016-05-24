@@ -8,8 +8,3 @@
 .file:hover, .selected {
     background-color: #E6E7E8;
 }
-
-.selected {
-    border-top: 1px solid #C3C4C3;
-    border-bottom: 1px solid #C3C4C3;
-}
