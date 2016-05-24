@@ -1,5 +1,5 @@
-import {Http, Headers, Response} from 'angular2/http';
-import {Injectable, EventEmitter} from 'angular2/core';
+import {Http, Headers, Response} from '@angular/http';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Subscription} from '../models/subscription';
 import {FunctionContainer} from '../models/function-container';
 import {Observable, Subscription as RxSubscription, Subject} from 'rxjs/Rx';
@@ -63,7 +63,8 @@ export class ArmService {
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
         appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
-        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() });
+        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
+                .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
     getConfig(functionContainer: FunctionContainer) {

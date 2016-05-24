@@ -1,3 +1,4 @@
 ﻿<busy-state></busy-state>
-<functions-dashboard *ngIf="!getStarted"></functions-dashboard>
-<getting-started [loggedIn]="loggedIn" (userReady)="onUserReady($event)"></getting-started>
+<error-list></error-list>
+<functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
+<getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>

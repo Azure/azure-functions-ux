@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {FunctionConfig} from '../models/function-config';
 import {FunctionsService} from '../services/functions.service';
 import {DesignerSchema, Binding, BindingOption} from '../models/designer-schema';

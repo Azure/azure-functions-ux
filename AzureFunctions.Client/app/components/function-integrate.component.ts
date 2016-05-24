@@ -1,4 +1,4 @@
-﻿import {Component, OnDestroy, Output, EventEmitter, Input} from 'angular2/core';
+﻿import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
 import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';

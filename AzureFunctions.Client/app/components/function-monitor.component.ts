@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 

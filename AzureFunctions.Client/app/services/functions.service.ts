@@ -1,5 +1,5 @@
-import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
@@ -29,7 +29,7 @@ export class FunctionsService {
     private siteName: string;
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
-    private fc: FunctionContainer;
+    private isEasyAuthEnabled: boolean;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -87,22 +87,15 @@ export class FunctionsService {
 
     constructor(
         private _http: Http,
-        private _portalService: PortalService,
-        private _userService: UserService,
-        private _armService: ArmService) {
+        private _userService: UserService) {
 
         this._userService.getToken().subscribe(t => this.token = t);
+        this._userService.getFunctionContainer().subscribe(fc => {
+            this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+            this.siteName = fc.name;
+        });
         this.appSettings = {};
-    }
-
-    setFunctionContainer(fc: FunctionContainer) {
-        this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
-        this.siteName = fc.name;
-        this.fc = fc;
-        var sub = this._armService.getFunctionContainerAppSettings(fc);
-        sub.subscribe(a => this.appSettings = a);
-        return sub;
     }
 
     getFunctions() {
@@ -212,7 +205,13 @@ export class FunctionsService {
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
             .catch(e => {
-                if (e.status === 200 && e._body.type === 'error') {
+                if (this.isEasyAuthEnabled) {
+                    return Observable.of({
+                        status: 401,
+                        statusText: this.statusCodeToText(401),
+                        text: () => 'Authentication is enabled for the function app. Disable authentication before running the function.'
+                    });
+                } else if (e.status === 200 && e._body.type === 'error') {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
@@ -286,34 +285,6 @@ export class FunctionsService {
         return this.siteName;
     }
 
-    getDefaultStorageAccount() {
-        for (var key in this.appSettings) {
-            if (key.toString().endsWith("_STORAGE")) {
-                return key;
-            }
-        }
-
-        return "";
-    }
-
-    get extensionVersion() : string {
-        for (var key in this.appSettings) {
-            if (key.toString() === Constants.extensionVersionAppSettingName) {
-                return this.appSettings[key];
-            }
-        }
-
-        return "";
-    }
-
-    set extensionVersion(value: string) {
-        this.appSettings[Constants.extensionVersionAppSettingName] = value;
-    }
-
-    getConfig() {
-        return this._armService.getConfig(this.fc);
-    }
-
     getHostSecrets() {
         return this._http.get(`${this.scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getHeaders() })
             .retryWhen(errors => errors.delay(100))
@@ -341,13 +312,43 @@ export class FunctionsService {
     }
 
     getFunctionErrors(fi: FunctionInfo) {
-        return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+        return this.isEasyAuthEnabled
+            ? Observable.of([])
+            : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
     }
 
     getHostErrors() {
-        return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+        return this.isEasyAuthEnabled
+            ? Observable.of([])
+            : this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
             .map<string[]>(r => r.json().errors || []);
+    }
+
+    setEasyAuth(config: {[key: string]: string}) {
+        this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
+    }
+
+    getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
+        return this._http.get(`${this.scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getHeaders()})
+            .flatMap<string>(r => {
+                var files: any[] = r.json();
+                if (files.length > 0) {
+                    var headers = this.getHeaders();
+                    headers.append('Range', `bytes=-${range}`);
+                    files.map(e => {e.parsedTime = new Date(e.mtime); return e;}).sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime())
+                    return this._http.get(files.pop().href, { headers: headers })
+                        .map<string>(r => {
+                            var content = r.text();
+                            let index = content.indexOf('\n');
+                            return index !== -1
+                                ? content.substring(index + 1)
+                                : content;
+                        });
+                } else {
+                    return Observable.of('');
+                }
+            });
     }
 
     private getHeaders(contentType?: string): Headers {

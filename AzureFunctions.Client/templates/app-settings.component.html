@@ -7,7 +7,7 @@
         <div class="features-wrapper">
             <div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <h2>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</h2>                    
+                    <h2>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</h2>
                 </div>
                 <div *ngIf="!needUpdateExtensionVersion">
                     <h2>Runtime version: Latest ({{latestExtensionVersion}})</h2>
@@ -43,7 +43,7 @@
             <div>
                 <div>
                     <h2>Continuous Integration</h2>
-                    You can also deploy your code from GitHub, Visual Studio Team Services, and more.
+                    Deploy your function code from GitHub, Visual Studio Team Services, and more.
                 </div>
                 <div>
                     <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>Configure Continuous Integration</div>
@@ -83,7 +83,7 @@
         <label>Advanced Settings</label>
         <div class="features-wrapper">
             <div>
-                <div>You can also manage your function app like any other App Service instance.</div>
+                <div>Manage your function app like any other App Service instance.</div>
                 <div>
                     <div class="clickable" (click)='openBlade("WebsiteBlade")'>Go to App Service Settings</div>
                 </div>

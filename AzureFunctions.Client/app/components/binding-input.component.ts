@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'angular2/core';
+﻿import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from '@angular/core';
 import {BindingInputBase} from '../models/binding-input';
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';

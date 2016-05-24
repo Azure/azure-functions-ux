@@ -1,20 +1,22 @@
 <tutorial></tutorial>
 <tabs (tabSelected) = 'onTabSelected($event)'>
     <tab [tabTitle]="DevelopTab">
-        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">            
+        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
             Read only - because you have started editing with source control, this view is read only.
         </div>
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab [tabTitle]="IntegrateTab">
-        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">            
+        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
             Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json
         </div>
         <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
-        <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>        
+        <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
     </tab>
     <tab [tabTitle]="MonitorTab">
         <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
     </tab>
+    <tab [tabTitle]="ManageTab">
+        <function-manage [selectedFunction]="selectedFunction"></function-manage>
+    </tab>
 </tabs>
-<div *ngIf="!disabled" id="delete-function" class="clickable" (click)="deleteFunction()"><i class="fa fa-trash"></i> Delete function</div>

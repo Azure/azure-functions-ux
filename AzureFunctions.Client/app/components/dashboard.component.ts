@@ -1,7 +1,6 @@
-﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from 'angular2/core';
+﻿import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
 import {SideBarComponent} from './sidebar.component';
 import {TopBarComponent} from './top-bar.component';
-import {FunctionNewV2Component} from './function-new-v2.component';
 import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {AppMonitoringComponent} from './app-monitoring.component';
@@ -22,7 +21,6 @@ import {FunctionNewComponent} from './function-new.component';
 import {IntroComponent} from './intro.component';
 import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {ErrorEvent} from '../models/error-event';
 import {SourceControlComponent} from './source-control.component';
 
@@ -33,7 +31,6 @@ import {SourceControlComponent} from './source-control.component';
     directives: [
         SideBarComponent,
         TopBarComponent,
-        FunctionNewV2Component,
         FunctionEditComponent,
         DropDownComponent,
         AppMonitoringComponent,
@@ -55,8 +52,6 @@ export class DashboardComponent implements OnChanges {
     public openSourceControl: boolean;
     public openIntro: any;
 
-    private checkHostSubscription: RxSubscription;
-
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
@@ -68,34 +63,23 @@ export class DashboardComponent implements OnChanges {
             }
         });
 
-        this._functionsService.getConfig().subscribe((config) => {
-            this.setDisabled(config);
-        });
-
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
             this.resetView();
             this.sideBar.selectedFunction = fi;
 
             this._broadcastService.setBusyState();
-            this._functionsService.getConfig().subscribe((config) => {
-                this.setDisabled(config);
 
-                if(fi.name !== "New Function") {
-                    this._functionsService.getFunction(fi).subscribe((fi) => {
-                        this.selectedFunction = fi;
-                        this._broadcastService.clearBusyState();
-                    });
-                } else {
+            if(fi.name !== "New Function") {
+                this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
                     this._broadcastService.clearBusyState();
-                }
+                });
+            } else {
+                this.selectedFunction = fi;
+                this._broadcastService.clearBusyState();
+            }
 
-            });
         });
-
-
-        // TODO: What's the right way of doing something like this?
-
     }
 
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
@@ -127,15 +111,7 @@ export class DashboardComponent implements OnChanges {
                 }
             });
         this._functionsService.warmupMainSite();
-        this._functionsService.getHostSecrets()
-            .add(() => {
-                if (this.checkHostSubscription && !this.checkHostSubscription.isUnsubscribed) {
-                    this.checkHostSubscription.unsubscribe();
-                }
-                this.checkHostSubscription = Observable.timer(1, 60000)
-                    .concatMap<string[]>(() => this._functionsService.getHostErrors().catch(e => Observable.of([])))
-                    .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` })));
-            });
+        this._functionsService.getHostSecrets();
     }
 
     onRefreshClicked() {
@@ -169,15 +145,5 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = false;
         this.selectedFunction = null;
         this.sideBar.selectedFunction = null;
-    }
-
-    private setDisabled(config: any) {
-        if (!config["scmType"] || config["scmType"] !== "None") {
-            this._broadcastService.setDirtyState("function_disabled");
-            this._portalService.setDirtyState(true);
-        } else {
-            this._broadcastService.clearDirtyState("function_disabled", true);
-            this._portalService.setDirtyState(false);
-        }
     }
 }

@@ -1,5 +1,5 @@
-import {ExceptionHandler, Inject} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {ExceptionHandler, Inject} from '@angular/core';
+import {Http, Headers} from '@angular/http';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';

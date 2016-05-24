@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from 'angular2/core';
+﻿import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from '@angular/core';
 import {UserService} from '../services/user.service';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
@@ -147,6 +147,7 @@ export class GettingStartedComponent implements OnInit {
     }
 
     openSelectedContainer() {
+        this._armService.warmUpFunctionApp(this.functionContainer.id);
         this.userReady.emit(this.functionContainer);
     }
 

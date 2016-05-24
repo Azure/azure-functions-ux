@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter} from 'angular2/core';
+import {Component, OnInit, EventEmitter} from '@angular/core';
 import {FunctionBinding} from '../models/function-config';
 import {Binding, BindingOption} from '../models/designer-schema';
 

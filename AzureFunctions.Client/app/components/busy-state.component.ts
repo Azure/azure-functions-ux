@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+﻿import {Component} from '@angular/core';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 

@@ -5,7 +5,7 @@
                 <input type="text" id="search-box" placeholder="Search my functions" [(ngModel)]="searchValue" />
             </span>
         </li>
-        <li *ngFor="#functionInfo of functionsInfo | sidebarFilter:searchValue"
+        <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue"
            (click)="selectFunction(functionInfo)"
             class="function-item">
             <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">

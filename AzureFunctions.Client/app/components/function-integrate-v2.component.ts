@@ -1,4 +1,4 @@
-﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from 'angular2/core';
+﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {BindingList} from '../models/binding-list';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
@@ -10,6 +10,7 @@ import {TemplatePickerType} from '../models/template-picker';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var jQuery: any;
 
@@ -60,7 +61,8 @@ export class FunctionIntegrateV2Component {
         @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
-        private _portalService: PortalService) {
+        private _portalService: PortalService,
+        private _globalStateService: GlobalStateService) {
         this._elementRef = elementRef;
     }
 
@@ -94,7 +96,7 @@ export class FunctionIntegrateV2Component {
             this._portalService.setDirtyState(true);
 
 
-            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._functionsService.getDefaultStorageAccount());
+            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._globalStateService.DefaultStorageAccount);
             this.currentBinding.newBinding = true;
 
             this.currentBindingId = this.currentBinding.id;

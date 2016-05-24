@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -9,6 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Web;
+using static AzureFunctions.Authentication.ClaimTypes;
 
 namespace AzureFunctions.Authentication
 {
@@ -18,7 +20,6 @@ namespace AzureFunctions.Authentication
         {
             IPrincipal principal = null;
             var request = context.Request;
-            var response = context.Response;
             var displayName = request.Headers[Constants.FrontEndDisplayNameHeader];
             var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
             var portalToken = request.Headers[Constants.PortalTokenHeader];
@@ -51,7 +52,7 @@ namespace AzureFunctions.Authentication
                 principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
             }
 
-            HttpContext.Current.User = principal;
+            context.User = principal;
             Thread.CurrentPrincipal = principal;
 
             return (principal.Identity as AzureFunctionsIdentity)?.IsAuthenticated == true;
@@ -80,18 +81,10 @@ namespace AzureFunctions.Authentication
                 throw new ArgumentException($"{nameof(portalToken)} cannot be null or empty.");
             }
 
-            var jwtString = portalToken.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault();
+            var jwt = new JwtSecurityToken(portalToken);
 
-            if (string.IsNullOrEmpty(jwtString))
-            {
-                throw new ArgumentException($"{nameof(portalToken)} is malformed.");
-            }
-
-            jwtString = Encoding.UTF8.GetString(Convert.FromBase64String(jwtString.PadBase64()));
-            var jwt = JsonConvert.DeserializeObject<JObject>(jwtString);
-
-            var principalName = jwt["email"]?.ToString() ?? jwt["unique_name"]?.ToString();
-            var displayName = jwt["name"]?.ToString() ?? jwt["given_name"]?.ToString();
+            var principalName = jwt.Claims.FirstOrDefault(c => c.Type == Email)?.Value ?? jwt.Claims.FirstOrDefault(c => c.Type == UniqueName)?.Value;
+            var displayName = jwt.Claims.FirstOrDefault(c => c.Type == Name)?.Value ?? jwt.Claims.FirstOrDefault(c => c.Type == GivenName)?.Value;
 
             return new AzureFunctionsPrincipal(new AzureFunctionsIdentity(principalName ?? displayName));
         }

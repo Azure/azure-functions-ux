@@ -1,4 +1,4 @@
-﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from 'angular2/core';
+﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';

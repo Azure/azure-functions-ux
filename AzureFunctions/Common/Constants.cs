@@ -1,4 +1,8 @@
-﻿namespace AzureFunctions.Common
+﻿using System;
+using System.IO;
+using System.Web.Hosting;
+
+namespace AzureFunctions.Common
 {
     public static class Constants
     {
@@ -20,5 +24,28 @@
         public const string MsPortalReferrer = "https://ms.portal.azure.com/";
         public const string RcPortalReferrer = "https://rc.portal.azure.com/";
         public const string PortalAnonymousUser = "Portal/1.0.0";
+
+        private static object _lock = new object();
+        private static string _currentCommitId;
+        public static string CurrentCommitId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_currentCommitId))
+                {
+                    lock (_lock)
+                    {
+                        var buildFile = HostingEnvironment.MapPath("~/build.txt");
+                        if (string.IsNullOrEmpty(_currentCommitId))
+                        {
+                            _currentCommitId = File.Exists(buildFile)
+                                ? File.ReadAllText(buildFile).Substring(0, 8)
+                                : new Random().Next().ToString();
+                        }
+                    }
+                }
+                return _currentCommitId;
+            }
+        }
     }
 }
