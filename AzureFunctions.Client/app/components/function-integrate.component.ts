@@ -6,6 +6,7 @@ import {PortalService} from '../services/portal.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'function-integrate',
@@ -27,7 +28,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
     constructor(
         private _functionsService: FunctionsService,
         private _portalService: PortalService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _globalStateService: GlobalStateService) {
         this.isDirty = false;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -61,12 +63,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
             try {
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
-                this._broadcastService.setBusyState();
+                this._globalStateService.setBusyState();
                 this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {
                     this._originalContent = this.configContent;
                     this.clearDirty();
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                 });
             } catch (e) {

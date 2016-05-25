@@ -1,7 +1,10 @@
-<div class="wrapper" style="height: 330px; border: 1px solid #ccc; margin-right: 3px;">
-    <div class="clickable file" *ngFor="let file of functionFiles"
-        (click)="selectedFileChange.emit(file)"
-        [class.selected]="file.name === selectedFile.name">
-        {{file.name}}
+<div class="wrapper">
+    <busy-state></busy-state>
+    <div class="file-container">
+        <div class="clickable file" *ngFor="let file of functionFiles"
+            (click)="selectedFileChange.emit(file)"
+            [class.selected]="file.name === selectedFile.name">
+            {{file.name}}
+        </div>
     </div>
 </div>

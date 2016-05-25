@@ -3,11 +3,15 @@ import {FunctionContainer} from '../models/function-container';
 import {UserService} from './user.service';
 import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
+import {BusyStateComponent} from '../components/busy-state.component';
 
 @Injectable()
 export class GlobalStateService {
     private _functionContainer: FunctionContainer;
     private _appSettings: {[key: string]: string};
+    private _globalBusyStateComponent: BusyStateComponent;
+    private _shouldBeBusy: boolean;
+
 
     constructor(private _userService: UserService, private _armService: ArmService) {
         this._appSettings = {};
@@ -37,6 +41,31 @@ export class GlobalStateService {
     set AppSettings(value: {[key: string]: string}) {
         if (value) {
             this._appSettings = value;
+        }
+    }
+
+    set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {
+        this._globalBusyStateComponent = busyStateComponent;
+        setTimeout(() => {
+            if (this._shouldBeBusy) {
+                this._globalBusyStateComponent.setBusy();
+            }
+        });
+    }
+
+    setBusyState() {
+        if (this._globalBusyStateComponent) {
+            this._globalBusyStateComponent.setBusy();
+        } else {
+            this._shouldBeBusy = true;
+        }
+    }
+
+    clearBusyState() {
+        if (this._globalBusyStateComponent) {
+            this._globalBusyStateComponent.clearBusy();
+        } else {
+            this._shouldBeBusy = false;
         }
     }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {DashboardComponent} from './dashboard.component';
 import {GettingStartedComponent} from './getting-started.component';
 import {PortalService} from '../services/portal.service';
@@ -13,13 +13,15 @@ import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list.component';
 import {MonitoringService} from '../services/appMonitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
     directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
     public ready: boolean;
     public functionContainer: FunctionContainer;
@@ -32,15 +34,15 @@ export class AppComponent implements OnInit {
         private _armService: ArmService,
         private _userService: UserService,
         private _monitoringService: MonitoringService,
-        private _backgroundTasksService: BackgroundTasksService
+        private _backgroundTasksService: BackgroundTasksService,
+        private _globalStateService: GlobalStateService
     ) {
         this.ready = false;
         this.gettingStarted = !_userService.inIFrame;
     }
 
     ngOnInit() {
-        this._broadcastService.setBusyState();
-
+        this._globalStateService.setBusyState();
         if (!this.gettingStarted) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
@@ -54,11 +56,18 @@ export class AppComponent implements OnInit {
                 });
         } else {
             this.ready = true;
-            this._broadcastService.clearBusyState();
+            this._globalStateService.clearBusyState();
         }
     }
 
+    ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent  = this.busyState;
+    }
+
+
+
     initializeDashboard(functionContainer: FunctionContainer | string) {
+        this._globalStateService.setBusyState();
         if (this.redirectToIbizaIfNeeded(functionContainer)) return;
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
@@ -66,16 +75,16 @@ export class AppComponent implements OnInit {
                 functionContainer.properties.hostNameSslStates) {
                 this._userService.setFunctionContainer(functionContainer);
                 this.gettingStarted = false;
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.ready = true;
                 this.functionContainer = functionContainer;
                 this._backgroundTasksService.runTasks();
             } else {
-                this._broadcastService.setBusyState();
+                this._globalStateService.setBusyState();
                 this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc));
             }
         } else {
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
 
@@ -86,7 +95,7 @@ export class AppComponent implements OnInit {
             window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
             this._userService.getTenants()
                 .retry(10)
                 .subscribe(tenants => {

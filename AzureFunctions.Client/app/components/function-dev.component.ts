@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange} from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -15,6 +15,7 @@ import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
 import {RunFunctionResult} from '../models/run-function-result';
 import {FileExplorerComponent} from './file-explorer.component';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'function-dev',
@@ -29,6 +30,7 @@ import {FileExplorerComponent} from './file-explorer.component';
     ]
 })
 export class FunctionDevComponent implements OnChanges {
+    @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -57,28 +59,31 @@ export class FunctionDevComponent implements OnChanges {
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
-                private _portalService: PortalService) {
+                private _portalService: PortalService,
+                private _globalStateService: GlobalStateService) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .distinctUntilChanged((x, y) => x.name === y.name)
             .switchMap(file => {
-                this._broadcastService.setBusyState();
-                return Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}))
+                if (this.fileExplorer)
+                    this.fileExplorer.setBusyState();
+                return Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}));
             })
             .subscribe((res: {content: string, file: VfsObject}) => {
                 this.content = res.content;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
-                this._broadcastService.clearBusyState();
-            }, e => this._broadcastService.clearBusyState());
+                if (this.fileExplorer)
+                    this.fileExplorer.clearBusyState();
+            }, e => this._globalStateService.clearBusyState());
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
-                this._broadcastService.setBusyState();
+                this._globalStateService.setBusyState();
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
@@ -86,7 +91,7 @@ export class FunctionDevComponent implements OnChanges {
                     (s, f, vfs) => ({ secrets: s, functionInfo: f, files: vfs }))
             })
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo, files: VfsObject[]}) => {
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
                 this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
@@ -183,11 +188,11 @@ export class FunctionDevComponent implements OnChanges {
     saveScript(dontClearBusy?: boolean) {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         return this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
                 if (!dontClearBusy)
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                 if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
@@ -222,15 +227,15 @@ export class FunctionDevComponent implements OnChanges {
         if (this.scriptFile.isDirty) {
             this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; });
+                .subscribe(r => { this.runResult = r; this._globalStateService.clearBusyState(); delete this.running; });
         }
     }
 
     cancelCurrentRun() {
-        this._broadcastService.clearBusyState();
+        this._globalStateService.clearBusyState();
         if (this.running) {
             this.running.unsubscribe();
             delete this.running;

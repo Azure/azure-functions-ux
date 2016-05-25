@@ -5,7 +5,7 @@ import {DirectionType, Binding} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../models/template';
 import {FunctionsService} from '../services/functions.service';
-import {BroadcastService} from '../services/broadcast.service';
+import {GlobalStateService} from '../services/global-state.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
@@ -38,15 +38,15 @@ export class TemplatePickerComponent {
     @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService) {
+        private _globalStateService: GlobalStateService) {
     }
 
     set type(type: TemplatePickerType) {
         this._type = type;
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this._functionsService.getBindingConfig().subscribe((config) => {
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.bindings = config.bindings;
                 this.templates = [];
                 switch (type) {

@@ -59,13 +59,13 @@ export class FunctionNewComponent {
     onTemplatePickUpComplete(templateName: string) {
         var tht = this;
         this._bindingComponents = [];
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
 
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                 this.model.config = this.bc.functionConfigToUI({
@@ -147,16 +147,16 @@ export class FunctionNewComponent {
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
 
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
             },
             e => {
                 this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
             });
     }

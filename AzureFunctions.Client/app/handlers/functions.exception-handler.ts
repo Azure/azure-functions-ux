@@ -3,15 +3,19 @@ import {Http, Headers} from '@angular/http';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
+import {GlobalStateService} from '../services/global-state.service';
 
 export class FunctionsExceptionHandler extends ExceptionHandler {
 
-    constructor(@Inject(Http) private _http: Http, @Inject(BroadcastService) private _broadcastService: BroadcastService) {
+    constructor(
+        @Inject(Http) private _http: Http,
+        @Inject(BroadcastService) private _broadcastService: BroadcastService,
+        @Inject(GlobalStateService) private _globalStateService: GlobalStateService) {
         super(console, true);
     }
 
     call(error) {
-        this._broadcastService.clearBusyState();
+        this._globalStateService.clearBusyState();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this.getErrorMessage(error), details: this.getErrorDetails(error) });
     }
 

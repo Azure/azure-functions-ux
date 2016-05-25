@@ -1,8 +1,18 @@
+.wrapper {
+    position: relative;
+}
+
 .file {
     font-family: Consolas, Courier New, Courier, monospace;
     padding: 5px;
     vertical-align: middle;
     line-height: 1.8;
+}
+
+.file-container {
+    height: 330px;
+    border: 1px solid #ccc;
+    margin-right: 3px;
 }
 
 .file:hover, .selected {

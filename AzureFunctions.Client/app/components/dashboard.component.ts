@@ -23,6 +23,7 @@ import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
 import {ErrorEvent} from '../models/error-event';
 import {SourceControlComponent} from './source-control.component';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'functions-dashboard',
@@ -55,7 +56,8 @@ export class DashboardComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _globalStateService: GlobalStateService) {
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
@@ -67,16 +69,16 @@ export class DashboardComponent implements OnChanges {
             this.resetView();
             this.sideBar.selectedFunction = fi;
 
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
 
             if(fi.name !== "New Function") {
                 this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                 });
             } else {
                 this.selectedFunction = fi;
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
             }
 
         });
@@ -89,13 +91,13 @@ export class DashboardComponent implements OnChanges {
     }
 
     initFunctions(selectedFunctionName? : string) {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
 
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.resetView();
                 this.openIntro = true;
 

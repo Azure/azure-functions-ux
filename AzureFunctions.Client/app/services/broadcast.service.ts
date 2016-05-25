@@ -11,7 +11,6 @@ export class BroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private busyStateEvent: EventEmitter<boolean>;
     private integrateChnagedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
@@ -24,7 +23,6 @@ export class BroadcastService {
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
-        this.busyStateEvent = new EventEmitter<boolean>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChnagedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<ErrorEvent>();
@@ -39,14 +37,6 @@ export class BroadcastService {
     subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void): Subscription {
         var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
         return emitter.subscribe(callback, errorCallback, completedCallback);
-    }
-
-    setBusyState() {
-        this.busyStateEvent.emit(true);
-    }
-
-    clearBusyState() {
-        this.busyStateEvent.emit(false);
     }
 
     setDirtyState(reason?: string) {
@@ -105,9 +95,6 @@ export class BroadcastService {
 
             case BroadcastEvent.FunctionUpdated:
                 return this.functionUpdatedEvent;
-
-            case BroadcastEvent.BusyState:
-                return this.busyStateEvent;
 
             case BroadcastEvent.TutorialStep:
                 return this.tutorialStepEvent;
