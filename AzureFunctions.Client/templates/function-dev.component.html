@@ -14,6 +14,7 @@
         </div>
         <div class="dev-flex-container" style="padding-top: 5px">
             <file-explorer class="dev-files-flex"
+                [class.not-shown]="!showFileExplorer"
                 [functionFiles]="functionFiles"
                 [selectedFile]="scriptFile"
                 (selectedFileChange)="selectedFileStream.next($event)">
@@ -27,6 +28,14 @@
                 [readOnly]="disabled">
             </div>
         </div>
+        <span class="clickable link-action" *ngIf="!showFileExplorer" (click)="toggleShowHideFileExplorer()">
+                <i class="fa fa-folder"></i>
+                View files
+         </span>
+         <span class="clickable link-action" *ngIf="showFileExplorer" (click)="toggleShowHideFileExplorer()">
+                <i class="fa fa-folder-open"></i>
+                Hide files
+         </span>
     </div>
 
     <div *ngIf="functionInfo" class="gutter-container" style="margin-top:5px">

@@ -55,6 +55,8 @@ export class FunctionDevComponent implements OnChanges {
 
     public functionFiles: VfsObject[];
 
+    public showFileExplorer: boolean;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -244,5 +246,9 @@ export class FunctionDevComponent implements OnChanges {
             this.running.unsubscribe();
             delete this.running;
         }
+    }
+
+    toggleShowHideFileExplorer() {
+        this.showFileExplorer = !this.showFileExplorer;
     }
 }

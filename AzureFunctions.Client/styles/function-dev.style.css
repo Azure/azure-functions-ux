@@ -70,6 +70,7 @@ div.inline-no-float {
     font-size: 14px;
     font-weight: normal;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    color: #539CF6;
 }
 
 .run-red {
@@ -87,4 +88,8 @@ div.inline-no-float {
 
 .flex-inline{
     display: inline-flex;
+}
+
+.not-shown {
+    display: none;
 }
