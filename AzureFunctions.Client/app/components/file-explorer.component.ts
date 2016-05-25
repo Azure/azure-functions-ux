@@ -28,12 +28,12 @@ export class FileExplorerComponent implements OnInit, OnChanges {
 
     setBusyState() {
         if (this.busyState)
-            this.busyState.setBusy();
+            this.busyState.setBusyState();
     }
 
     clearBusyState() {
         if (this.busyState)
-            this.busyState.clearBusy();
+            this.busyState.clearBusyState();
     }
 
 }

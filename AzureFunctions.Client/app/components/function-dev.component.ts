@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild} from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -16,6 +16,7 @@ import {CopyPreComponent} from './copy-pre.component';
 import {RunFunctionResult} from '../models/run-function-result';
 import {FileExplorerComponent} from './file-explorer.component';
 import {GlobalStateService} from '../services/global-state.service';
+import {BusyStateComponent} from './busy-state.component';
 
 @Component({
     selector: 'function-dev',
@@ -26,11 +27,13 @@ import {GlobalStateService} from '../services/global-state.service';
         FunctionDesignerComponent,
         LogStreamingComponent,
         CopyPreComponent,
-        FileExplorerComponent
+        FileExplorerComponent,
+        BusyStateComponent
     ]
 })
 export class FunctionDevComponent implements OnChanges {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
+    @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -227,15 +230,16 @@ export class FunctionDevComponent implements OnChanges {
         if (this.scriptFile.isDirty) {
             this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
-            this._globalStateService.setBusyState();
+            var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
+            busyComponent.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => { this.runResult = r; this._globalStateService.clearBusyState(); delete this.running; });
+                .subscribe(r => { this.runResult = r; busyComponent.clearBusyState(); delete this.running; });
         }
     }
 
     cancelCurrentRun() {
-        this._globalStateService.clearBusyState();
+        this.BusyStates.toArray().find(e => e.name === 'busy-run').clearBusyState();
         if (this.running) {
             this.running.unsubscribe();
             delete this.running;

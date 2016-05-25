@@ -1,4 +1,4 @@
-﻿import {Component} from '@angular/core';
+﻿import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'busy-state',
@@ -7,12 +7,13 @@
 })
 export class BusyStateComponent {
     private busy: boolean = false;
+    @Input() name: string;
 
-    setBusy() {
+    setBusyState() {
         this.busy = true;
     }
 
-    clearBusy() {
+    clearBusyState() {
         this.busy = false;
     }
 }

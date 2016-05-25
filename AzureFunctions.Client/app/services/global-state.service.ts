@@ -48,14 +48,14 @@ export class GlobalStateService {
         this._globalBusyStateComponent = busyStateComponent;
         setTimeout(() => {
             if (this._shouldBeBusy) {
-                this._globalBusyStateComponent.setBusy();
+                this._globalBusyStateComponent.setBusyState();
             }
         });
     }
 
     setBusyState() {
         if (this._globalBusyStateComponent) {
-            this._globalBusyStateComponent.setBusy();
+            this._globalBusyStateComponent.setBusyState();
         } else {
             this._shouldBeBusy = true;
         }
@@ -63,7 +63,7 @@ export class GlobalStateService {
 
     clearBusyState() {
         if (this._globalBusyStateComponent) {
-            this._globalBusyStateComponent.clearBusy();
+            this._globalBusyStateComponent.clearBusyState();
         } else {
             this._shouldBeBusy = false;
         }

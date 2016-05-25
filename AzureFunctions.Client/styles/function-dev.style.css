@@ -30,6 +30,7 @@ div.inline-no-float {
 
 .dev-flex-container{
     display: flex;
+    position: relative;
 }
 
 .dev-code-flex {
