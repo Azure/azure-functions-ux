@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.file {
+.file, .folder {
     font-family: Consolas, Courier New, Courier, monospace;
     padding: 5px;
     vertical-align: middle;
@@ -10,12 +10,16 @@
     white-space: nowrap;
 }
 
+.folder {
+    color: #539CF6;
+}
+
 .shifted {
     padding-left: 30px;
 }
 
 .file-container {
-    height: 330px;
+    height: 300px;
     border: 1px solid #ccc;
     /*margin-right: 3px;*/
     overflow-y: auto;
@@ -36,8 +40,9 @@
 }
 
 #lower-panel {
-    border-top: 1px solid #ccc;
-    position: absolute;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    position: relative;
     bottom: 0;
     width: 100%;
     display: flex;
@@ -51,4 +56,8 @@
 
 #lower-panel > div:first-child {
     border-right: 1px solid #ccc;
+}
+
+.hidden {
+    display: none;
 }

@@ -296,7 +296,7 @@ export class FunctionsService {
 
     getBindingConfig(): Observable<BindingConfig> {
         return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
-            .map<BindingConfig>(r => r.json());;
+            .map<BindingConfig>(r => r.json());
     }
 
     get HostSecrets() {
@@ -305,6 +305,7 @@ export class FunctionsService {
 
     createTrialFunctionsContainer() {
         return this._http.post('api/createtrial', '', { headers: this.getPassthroughHeaders() })
+        .cache()
             .map<string>(r => r.statusText);
     }
 

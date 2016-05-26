@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {BusyStateComponent} from './busy-state.component';
@@ -19,8 +19,10 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     folders: VfsObject[];
     files: VfsObject[];
     currentTitle: string;
-    parent: VfsObject;
+    currentVfsObject: VfsObject;
     history: VfsObject[];
+    creatingNewFile: boolean;
+    newFileName: string;
 
 
     constructor(private _functionsService: FunctionsService) {
@@ -56,8 +58,8 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         if (typeof vfsObject === 'string' || (typeof vfsObject !== 'string' && vfsObject.mime === 'inode/directory')) {
             this.setBusyState();
             if (typeof vfsObject !== 'string' && !skipHistory) {
-                if (this.parent) this.history.push(this.parent);
-                this.parent = vfsObject;
+                if (this.currentVfsObject) this.history.push(this.currentVfsObject);
+                this.currentVfsObject = vfsObject;
             }
 
             this._functionsService.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
@@ -77,11 +79,50 @@ export class FileExplorerComponent implements OnInit, OnChanges {
 
     headingClick() {
         if (this.history.length === 0) {
-            delete this.parent;
+            delete this.currentVfsObject;
             this.selectVfsObject(this.functionInfo.script_root_path_href, true, this.functionInfo.name);
         } else {
-            this.parent = this.history.pop();
-            this.selectVfsObject(this.parent, true);
+            this.currentVfsObject = this.history.pop();
+            this.selectVfsObject(this.currentVfsObject, true);
         }
+    }
+
+    addnewInput(event: Event, element: any) {
+        this.creatingNewFile = true;
+        setTimeout(() => element.focus(), 50);
+    }
+
+    addFile() {
+        let href = this.currentVfsObject
+            ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
+            : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
+        this.setBusyState();
+        this._functionsService.saveFile(href, '')
+            .subscribe(r => {
+                let o = typeof r === 'string'
+                    ? {name: this.newFileName, href: href, mime: 'file'}
+                    : r;
+                this.files.push(o);
+                this.selectVfsObject(o);
+                this.creatingNewFile = false;
+                delete this.newFileName;
+            }, () => this.clearBusyState());
+    }
+
+    handleKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === 13) {
+            // Enter
+            this.addFile();
+        } else if (event.keyCode === 27) {
+            // ESC
+            delete this.newFileName;
+            this.creatingNewFile = false;
+        }
+    }
+
+    trim(str: string): string {
+        return str.charAt(str.length - 1) === '/'
+            ? str.substring(0, str.length - 1)
+            : str;
     }
 }

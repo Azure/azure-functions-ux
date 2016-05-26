@@ -5,7 +5,7 @@
             <i class="fa fa-folder-open"></i>
             {{currentTitle}}
         </div>
-        <div class="clickable file shifted" *ngFor="let folder of folders"
+        <div class="clickable folder shifted" *ngFor="let folder of folders"
             (click)="selectVfsObject(folder)">
             <i class="fa fa-folder"></i>
             {{folder.name}}
@@ -17,13 +17,20 @@
             {{file.name}}
         </div>
 
-        <div id="lower-panel">
-            <div class="clickable">
+        <input class="folder shifted"
+               type="text"
+               [(ngModel)]="newFileName"
+               (keypress)="handleKeyPress($event)"
+               placeholdefur="File name"
+               [class.hidden]="!creatingNewFile"
+               #focusable />
+    </div>
+    <div id="lower-panel">
+            <div class="clickable" (click)="addnewInput($event, focusable)">
                 <i class="fa fa-plus"></i>
             </div>
             <div class="clickable">
                 <i class="fa fa-upload"></i>
             </div>
         </div>
-    </div>
 </div>
