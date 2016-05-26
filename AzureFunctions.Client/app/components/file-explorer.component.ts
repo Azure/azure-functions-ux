@@ -13,13 +13,16 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() functionFiles: VfsObject[];
     @Input() selectedFile: VfsObject;
+    @Input() functionInfo: FunctionInfo;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
+    currentTitle: string;
 
     constructor() {
         this.selectedFileChange = new EventEmitter<VfsObject>();
     }
 
     ngOnInit() {
+        this.currentTitle = this.functionInfo.name;
     }
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
@@ -35,5 +38,7 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         if (this.busyState)
             this.busyState.clearBusyState();
     }
+
+
 
 }

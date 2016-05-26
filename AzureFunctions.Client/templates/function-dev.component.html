@@ -15,6 +15,7 @@
         <div class="dev-flex-container" style="padding-top: 5px">
             <file-explorer class="dev-files-flex"
                 [class.not-shown]="!showFileExplorer"
+                [functionInfo]="functionInfo"
                 [functionFiles]="functionFiles"
                 [selectedFile]="scriptFile"
                 (selectedFileChange)="selectedFileStream.next($event)">

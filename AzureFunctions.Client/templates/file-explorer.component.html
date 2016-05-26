@@ -1,9 +1,14 @@
 <div class="wrapper">
     <busy-state></busy-state>
     <div class="file-container">
-        <div class="clickable file" *ngFor="let file of functionFiles"
+        <div class="heading">
+            <i class="fa fa-folder-open"></i>
+            {{currentTitle}}
+        </div>
+        <div class="clickable file shifted" *ngFor="let file of functionFiles"
             (click)="selectedFileChange.emit(file)"
             [class.selected]="file.name === selectedFile.name">
+            <i class="fa fa-file"></i>
             {{file.name}}
         </div>
     </div>

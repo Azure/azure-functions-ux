@@ -7,14 +7,29 @@
     padding: 5px;
     vertical-align: middle;
     line-height: 1.8;
+    white-space: nowrap;
+}
+
+.shifted {
+    padding-left: 30px;
 }
 
 .file-container {
     height: 330px;
     border: 1px solid #ccc;
     margin-right: 3px;
+    overflow-y: auto;
 }
 
 .file:hover, .selected {
     background-color: #E6E7E8;
+}
+
+.heading {
+    font-weight: 800;
+    font-family: Consolas, Courier New, Courier, monospace;
+    padding: 5px;
+    vertical-align: middle;
+    line-height: 1.8;
+    white-space: nowrap;
 }
