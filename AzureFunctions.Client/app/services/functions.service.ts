@@ -331,6 +331,7 @@ export class FunctionsService {
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getHeaders()})
+            .catch(e => Observable.of({json: () => []}))
             .flatMap<string>(r => {
                 var files: any[] = r.json();
                 if (files.length > 0) {
