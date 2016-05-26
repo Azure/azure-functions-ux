@@ -16,7 +16,6 @@
             <file-explorer class="dev-files-flex"
                 [class.not-shown]="!showFileExplorer"
                 [functionInfo]="functionInfo"
-                [functionFiles]="functionFiles"
                 [selectedFile]="scriptFile"
                 (selectedFileChange)="selectedFileStream.next($event)">
             </file-explorer>

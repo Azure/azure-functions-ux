@@ -353,8 +353,8 @@ export class FunctionsService {
             });
     }
 
-    getVfsObjects(fi: FunctionInfo) {
-        return this._http.get(fi.script_root_path_href, { headers: this.getHeaders() })
+    getVfsObjects(fi: FunctionInfo | string) {
+        return this._http.get(typeof fi === 'string' ? fi : fi.script_root_path_href, { headers: this.getHeaders() })
             .map<VfsObject[]>(e => e.json());
     }
 

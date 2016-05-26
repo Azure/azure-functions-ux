@@ -39,6 +39,8 @@ div.inline-no-float {
 
 .dev-files-flex {
     flex-grow: 1;
+    max-width: 200px;
+    min-width: 200px;
 }
 
 .dev-run-block{

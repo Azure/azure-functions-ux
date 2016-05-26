@@ -17,8 +17,9 @@
 .file-container {
     height: 330px;
     border: 1px solid #ccc;
-    margin-right: 3px;
+    /*margin-right: 3px;*/
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .file:hover, .selected {
@@ -32,4 +33,22 @@
     vertical-align: middle;
     line-height: 1.8;
     white-space: nowrap;
+}
+
+#lower-panel {
+    border-top: 1px solid #ccc;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+}
+
+#lower-panel > div {
+    width: 49%;
+    text-align: center;
+    padding: 5px;
+}
+
+#lower-panel > div:first-child {
+    border-right: 1px solid #ccc;
 }

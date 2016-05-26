@@ -53,8 +53,6 @@ export class FunctionDevComponent implements OnChanges {
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
-    public functionFiles: VfsObject[];
-
     public showFileExplorer: boolean;
 
     private updatedContent: string;
@@ -92,17 +90,15 @@ export class FunctionDevComponent implements OnChanges {
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    this._functionsService.getVfsObjects(fi),
-                    (s, f, vfs) => ({ secrets: s, functionInfo: f, files: vfs }))
+                    (s, f) => ({ secrets: s, functionInfo: f}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, files: VfsObject[]}) => {
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
                 this._globalStateService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
                 this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
-                this.scriptFile = res.files.find(e => e.name === this.fileName);
+                this.scriptFile = {name: this.fileName, href: this.functionInfo.script_href, mime: 'file'}
                 this.selectedFileStream.next(this.scriptFile);
-                this.functionFiles = res.files;
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
