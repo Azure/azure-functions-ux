@@ -75,7 +75,11 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     }
 
     refresh() {
-        this.selectVfsObject(this.currentVfsObject, true);
+        if (this.currentVfsObject) {
+            this.selectVfsObject(this.currentVfsObject, true);
+        } else {
+            this.selectVfsObject(this.functionInfo.script_root_path_href, true, this.functionInfo.name);
+        }
     }
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
