@@ -238,7 +238,7 @@ export class FunctionDevComponent implements OnChanges {
     }
 
     cancelCurrentRun() {
-        this.BusyStates.toArray().find(e => e.name === 'busy-run').clearBusyState();
+        this.BusyStates.toArray().find(e => e.name === 'run-busy').clearBusyState();
         if (this.running) {
             this.running.unsubscribe();
             delete this.running;
