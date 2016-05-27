@@ -199,6 +199,7 @@ export class FunctionDevComponent implements OnChanges {
                     this._broadcastService.clearDirtyState('function');
                     this._portalService.setDirtyState(false);
                 }
+                this.content = this.updatedContent;
             });
     }
 
