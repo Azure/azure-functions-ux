@@ -5,6 +5,7 @@ import {BusyStateComponent} from './busy-state.component';
 import {FunctionsService} from '../services/functions.service';
 import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 import {GlobalStateService} from '../services/global-state.service';
+import {BroadcastService} from '../services/broadcast.service';
 
 @Component({
     selector: 'file-explorer',
@@ -28,7 +29,10 @@ export class FileExplorerComponent implements OnInit, OnChanges {
 
     public uploader: FileUploader;
 
-    constructor(private _functionsService: FunctionsService, private _globalStateService: GlobalStateService) {
+    constructor(
+        private _functionsService: FunctionsService,
+        private _globalStateService: GlobalStateService,
+        private _broadcastService: BroadcastService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
         this.history = [];
         this.uploader = new FileUploader({url: ''});
@@ -83,7 +87,7 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     }
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
-
+        if (!this.switchFiles()) return;
         if (typeof vfsObject === 'string' || (typeof vfsObject !== 'string' && vfsObject.mime === 'inode/directory')) {
             this.setBusyState();
             if (typeof vfsObject !== 'string' && !skipHistory) {
@@ -117,6 +121,7 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     }
 
     addnewInput(event: Event, element: any) {
+        if (!this.switchFiles()) return;
         this.creatingNewFile = true;
         setTimeout(() => element.focus(), 50);
     }
@@ -153,5 +158,17 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         return str.charAt(str.length - 1) === '/'
             ? str.substring(0, str.length - 1)
             : str;
+    }
+
+    private switchFiles() {
+        var switchFiles = true;
+        if (this._broadcastService.getDirtyState('function')) {
+            switchFiles = confirm(`Changes made to current file will be lost. Are you sure you want to continue?`);
+            if (switchFiles) {
+                this._broadcastService.clearDirtyState('function');
+                this.selectedFile.isDirty = false;
+            }
+        }
+        return switchFiles;
     }
 }
