@@ -3,4 +3,5 @@ export interface VfsObject {
     mime: string;
     href: string;
     isDirty?: boolean;
+    isBinary?: boolean;
 }

@@ -27,6 +27,8 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     creatingNewFile: boolean;
     newFileName: string;
 
+    private binaryExtensions = ['.zip', '.exe', '.dll', '.png', '.jpeg', '.jpg', '.gif', '.bmp', '.ico', '.pdf', '.so', '.ttf', '.bz2', '.gz', '.jar', '.cab', '.tar', '.iso', '.img', '.dmg'];
+
     public uploader: FileUploader;
 
     constructor(
@@ -60,7 +62,13 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         this._functionsService.getVfsObjects(this.functionInfo)
             .subscribe(r => {
                 this.folders = r.filter(e => e.mime === 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
-                this.files = r.filter(e => e.mime !== 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
+                this.files = r
+                    .filter(e => e.mime !== 'inode/directory')
+                    .map(e => {
+                        e.isBinary = this.binaryExtensions.some(t => e.name.endsWith(t));
+                        return e;
+                    })
+                    .sort((a, b) => a.name.localeCompare(b.name));
             });
     }
 
@@ -87,7 +95,7 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     }
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
-        if (!this.switchFiles()) return;
+        if (!this.switchFiles() || (typeof vfsObject !== 'string' && vfsObject.isBinary)) return;
         if (typeof vfsObject === 'string' || (typeof vfsObject !== 'string' && vfsObject.mime === 'inode/directory')) {
             this.setBusyState();
             if (typeof vfsObject !== 'string' && !skipHistory) {
