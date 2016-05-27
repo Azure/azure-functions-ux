@@ -14,7 +14,7 @@
             (click)="selectVfsObject(file)"
             [class.selected]="file.href.toLocaleLowerCase() === selectedFile.href.toLocaleLowerCase()"
             [class.disabled]="file.isBinary"
-            [title]="file.isBinary ? 'Editing binary files is not supported.' : ''">
+            [title]="file.isBinary ? 'Editing binary files is not supported.' : 'file.name'">
             <i class="fa fa-file"></i>
             {{file.name}}
         </div>
