@@ -32,7 +32,7 @@ System.config({
     "@angular/router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
     "@angular/upgrade": "npm:@angular/upgrade@2.0.0-rc.1",
     "ahmelsayed/Ace.Tern": "github:ahmelsayed/Ace.Tern@master",
-    "ng2-file-upload": "npm:ng2-file-upload@1.0.3",
+    "ng2-file-upload": "github:ahmelsayed/ng2-file-upload@1.0.4",
     "ng2-nvd3": "npm:ng2-nvd3@1.1.0",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.7",
@@ -123,10 +123,6 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
-    },
-    "npm:ng2-file-upload@1.0.3": {
-      "@angular/common": "npm:@angular/common@2.0.0-rc.1",
-      "@angular/core": "npm:@angular/core@2.0.0-rc.1"
     },
     "npm:ng2-nvd3@1.1.0": {
       "@angular/common": "npm:@angular/common@2.0.0-rc.1",
