@@ -61,14 +61,8 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         this.currentTitle = this.functionInfo.name;
         this._functionsService.getVfsObjects(this.functionInfo)
             .subscribe(r => {
-                this.folders = r.filter(e => e.mime === 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
-                this.files = r
-                    .filter(e => e.mime !== 'inode/directory')
-                    .map(e => {
-                        e.isBinary = this.binaryExtensions.some(t => e.name.endsWith(t));
-                        return e;
-                    })
-                    .sort((a, b) => a.name.localeCompare(b.name));
+                this.folders = this.getFolders(r);
+                this.files = this.getFiles(r);
             });
     }
 
@@ -105,8 +99,8 @@ export class FileExplorerComponent implements OnInit, OnChanges {
 
             this._functionsService.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
                 .subscribe(r => {
-                    this.folders = r.filter(e => e.mime === 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
-                    this.files = r.filter(e => e.mime !== 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
+                    this.folders = this.getFolders(r);
+                    this.files = this.getFiles(r)
                     this.currentTitle = name || '..';
                     this.clearBusyState();
                 }, () => this.clearBusyState());
@@ -166,6 +160,20 @@ export class FileExplorerComponent implements OnInit, OnChanges {
         return str.charAt(str.length - 1) === '/'
             ? str.substring(0, str.length - 1)
             : str;
+    }
+
+    private getFiles(arr: VfsObject[]) {
+        return arr
+            .filter(e => e.mime !== 'inode/directory')
+            .map(e => {
+                e.isBinary = this.binaryExtensions.some(t => e.name.endsWith(t));
+                return e;
+            })
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    private getFolders(arr: VfsObject[]) {
+        return arr.filter(e => e.mime === 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
     }
 
     private switchFiles() {
