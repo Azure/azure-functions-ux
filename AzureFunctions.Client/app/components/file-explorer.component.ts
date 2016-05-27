@@ -3,12 +3,14 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {BusyStateComponent} from './busy-state.component';
 import {FunctionsService} from '../services/functions.service';
+import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'file-explorer',
     templateUrl: 'templates/file-explorer.component.html',
     styleUrls: ['styles/file-explorer.style.css'],
-    directives: [BusyStateComponent]
+    directives: [BusyStateComponent, FileSelectDirective, FileDropDirective]
 })
 export class FileExplorerComponent implements OnInit, OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
@@ -24,10 +26,29 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     creatingNewFile: boolean;
     newFileName: string;
 
+    public uploader: FileUploader;
 
-    constructor(private _functionsService: FunctionsService) {
+    constructor(private _functionsService: FunctionsService, private _globalStateService: GlobalStateService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
         this.history = [];
+        this.uploader = new FileUploader({url: ''});
+        this.uploader.onAfterAddingAll = (files: any[]) => {
+            this.setBusyState();
+            let url = this.currentVfsObject ? this.currentVfsObject.href : this.functionInfo.script_root_path_href;
+            url = this.trim(url);
+            this.uploader.setOptions({authToken: `Bearer ${this._globalStateService.CurrentToken}`});
+            for (let i = 0; i < files.length; i++) {
+                files[i].method = 'PUT';
+                files[i].url = `${url}/${files[i].file.name}`;
+            }
+            this.uploader.uploadAll();
+        };
+
+        this.uploader.onCompleteAll = () => {
+            this.uploader.clearQueue();
+            this.refresh();
+        };
+
     }
 
     ngOnInit() {
@@ -51,6 +72,10 @@ export class FileExplorerComponent implements OnInit, OnChanges {
     clearBusyState() {
         if (this.busyState)
             this.busyState.clearBusyState();
+    }
+
+    refresh() {
+        this.selectVfsObject(this.currentVfsObject, true);
     }
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
@@ -103,13 +128,13 @@ export class FileExplorerComponent implements OnInit, OnChanges {
                     ? {name: this.newFileName, href: href, mime: 'file'}
                     : r;
                 this.files.push(o);
-                this.selectVfsObject(o);
+                this.selectVfsObject(o, true);
                 this.creatingNewFile = false;
                 delete this.newFileName;
             }, () => this.clearBusyState());
     }
 
-    handleKeyPress(event: KeyboardEvent) {
+    handleKeyUp(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             // Enter
             this.addFile();

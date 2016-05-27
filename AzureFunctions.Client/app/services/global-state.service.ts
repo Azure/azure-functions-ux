@@ -11,6 +11,7 @@ export class GlobalStateService {
     private _appSettings: {[key: string]: string};
     private _globalBusyStateComponent: BusyStateComponent;
     private _shouldBeBusy: boolean;
+    private _token: string;
 
 
     constructor(private _userService: UserService, private _armService: ArmService) {
@@ -19,6 +20,7 @@ export class GlobalStateService {
             .subscribe(fc => this._functionContainer = fc)
             .add(() => this._armService.getFunctionContainerAppSettings(this._functionContainer)
                         .subscribe(a => this._appSettings = a));
+        this._userService.getToken().subscribe(t => this._token = t);
     }
 
     get FunctionContainer(): FunctionContainer {
@@ -67,5 +69,9 @@ export class GlobalStateService {
         } else {
             this._shouldBeBusy = false;
         }
+    }
+
+    get CurrentToken(): string {
+        return this._token;
     }
 }

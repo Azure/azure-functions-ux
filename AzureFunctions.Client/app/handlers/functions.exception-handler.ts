@@ -15,6 +15,7 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
     }
 
     call(error) {
+        console.log(error);
         this._globalStateService.clearBusyState();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this.getErrorMessage(error), details: this.getErrorDetails(error) });
     }

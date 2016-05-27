@@ -1,6 +1,6 @@
 <div class="wrapper">
     <busy-state></busy-state>
-    <div class="file-container">
+    <div ng2FileDrop [uploader]="uploader" class="file-container">
         <div class="clickable heading" (click)="headingClick()">
             <i class="fa fa-folder-open"></i>
             {{currentTitle}}
@@ -20,17 +20,20 @@
         <input class="folder shifted"
                type="text"
                [(ngModel)]="newFileName"
-               (keypress)="handleKeyPress($event)"
+               (keyup)="handleKeyUp($event)"
                placeholdefur="File name"
                [class.hidden]="!creatingNewFile"
                #focusable />
     </div>
     <div id="lower-panel">
-            <div class="clickable" (click)="addnewInput($event, focusable)">
-                <i class="fa fa-plus"></i>
-            </div>
-            <div class="clickable">
-                <i class="fa fa-upload"></i>
-            </div>
+        <div class="clickable" (click)="addnewInput($event, focusable)">
+            <i class="fa fa-plus"></i>
         </div>
+        <div>
+            <label class="clickable" for="file-upload">
+                <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple />
+                <i class="fa fa-upload"></i>
+            </label>
+        </div>
+    </div>
 </div>
