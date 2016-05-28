@@ -41,6 +41,15 @@ export class ArmService {
         return this._http.get(url, { headers: this.getHeaders() }).map<FunctionContainer>(r => r.json());
     }
 
+    getTryFunctionContainer(subscription: string) {
+        var url = `${this.armUrl}/subscriptions/${subscription}/resources?api-version=${this.armApiVersion}&$filter=resourceType eq 'Microsoft.Web/sites'`;
+        return this._http.get(url, { headers: this.getHeaders() })
+            .map<FunctionContainer>(r => {
+                var sites: FunctionContainer[] = r.json().value;
+                return sites.filter(e => e.name.startsWith('Functions'))[0];
+            });
+    }
+
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
         geoRegion = geoRegion.replace(' ', '');

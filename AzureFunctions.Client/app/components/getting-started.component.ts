@@ -13,6 +13,7 @@ import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
 import {GlobalStateService} from '../services/global-state.service';
+import Tenantinfo = require("../models/tenant-info");
 
 @Component({
     selector: 'getting-started',
@@ -21,7 +22,8 @@ import {GlobalStateService} from '../services/global-state.service';
     directives: [DropDownComponent, TopBarComponent]
 })
 export class GettingStartedComponent implements OnInit {
-    @Output() userReady: EventEmitter<FunctionContainer>;
+    @Output()
+    userReady: EventEmitter<FunctionContainer>;
 
     public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
@@ -37,7 +39,7 @@ export class GettingStartedComponent implements OnInit {
 
     public user: User;
 
-    private functionContainer : FunctionContainer;
+    private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
     constructor(
@@ -57,7 +59,7 @@ export class GettingStartedComponent implements OnInit {
         this.geoRegions = [];
         this.functionContainerNameEvent = new EventEmitter<string>();
         this.functionContainerNameEvent
-            .switchMap<{ isValid: boolean; reason: string}>(() => this.validateContainerName(this.functionContainerName))
+            .switchMap<{ isValid: boolean; reason: string }>(() => this.validateContainerName(this.functionContainerName))
             .subscribe(v => {
                 this.isValidContainerName = v.isValid;
                 this.validationError = v.reason;
@@ -68,13 +70,32 @@ export class GettingStartedComponent implements OnInit {
         this._globalStateService.setBusyState();
 
         this._userService.getUser()
-            .subscribe(u => this.user = u);
+            .subscribe(u => {
+                this.user = u;
+                this.createTrialAndThenLogin();
+                this._globalStateService.clearBusyState();
+            });
+    }
 
+    createTrialAndThenLogin() {
         this._userService.getTenants()
             .subscribe(tenants => {
-                this._globalStateService.clearBusyState();
-                if (tenants.filter(e => e.TenantId.toLocaleLowerCase() !== this.tryAppServiceTenantId).length === 0) {
+                this._globalStateService.setBusyState();
+                if (tenants.filter(e => e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId).length === 0) {
                     this.tryItNow = true;
+                    this._functionsService.createTrialFunctionsContainer().subscribe
+                        (() => {
+                            this.switchToTenant(this.tryAppServiceTenantId);
+                        });
+                }
+                else if (tenants.filter(e => e.Current === true)[0].TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId) {
+                    this._armService.getSubscriptions().subscribe((sub) => {
+                        this._armService.getTryFunctionContainer(sub[0].subscriptionId).subscribe
+                            ((container) => {
+                                this.userReady.emit(container);
+                                this._globalStateService.clearBusyState();
+                            });
+                    });
                 } else {
                     this.tryItNow = false;
                     this._globalStateService.setBusyState();
@@ -89,14 +110,8 @@ export class GettingStartedComponent implements OnInit {
             });
     }
 
-    createTrialFunctionsContainer() {
-        this._globalStateService.setBusyState();
-        this._functionsService.createTrialFunctionsContainer()
-            .subscribe(r => this.switchToTryAppServiceTenant(), undefined, () => this._globalStateService.clearBusyState());
-    }
-
-    switchToTryAppServiceTenant() {
-        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}${window.location.search}`;
+    switchToTenant(tenantId: string) {
+        window.location.href = `api/switchtenants/${tenantId}${window.location.search}`;
     }
 
     createFunctionsContainer() {
@@ -107,7 +122,7 @@ export class GettingStartedComponent implements OnInit {
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this.userReady.emit(r);
-                this._globalStateService.clearBusyState()
+                this._globalStateService.clearBusyState();
             });
     }
 
