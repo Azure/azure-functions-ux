@@ -13,7 +13,7 @@ import {BroadcastService} from '../services/broadcast.service';
     styleUrls: ['styles/file-explorer.style.css'],
     directives: [BusyStateComponent, FileSelectDirective, FileDropDirective]
 })
-export class FileExplorerComponent implements OnInit, OnChanges {
+export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
     @Input() functionInfo: FunctionInfo;
@@ -57,17 +57,13 @@ export class FileExplorerComponent implements OnInit, OnChanges {
 
     }
 
-    ngOnInit() {
+    ngOnChanges(changes: {[key: string]: SimpleChange}) {
         this.currentTitle = this.functionInfo.name;
         this._functionsService.getVfsObjects(this.functionInfo)
             .subscribe(r => {
                 this.folders = this.getFolders(r);
                 this.files = this.getFiles(r);
             });
-    }
-
-    ngOnChanges(changes: {[key: string]: SimpleChange}) {
-
     }
 
     setBusyState() {

@@ -21,6 +21,65 @@ import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 
+
+let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?: any}} = {};
+
+function getCacheKey(functionName: string, propertyName: string, args: any[]): string {
+    let key: string = `${functionName}+`;
+    if (propertyName && args && args.length > 0 && args[0][propertyName]) {
+        key += args[0][propertyName];
+    } else if (args && args.length > 0 && typeof args[0] === 'string') {
+        key += args[0];
+    } else if (args && args.length > 1) {
+        key += JSON.stringify(args);
+    }
+    return key;
+}
+
+function Cache (propertyKey?: string) {
+    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        let originalMethod = descriptor.value;
+        descriptor.value = function(...args: any[]) {
+
+            let key = getCacheKey(functionName, propertyKey, args);
+            let cache = cachedData[key];
+            if (cache && cache.data) {
+                return Observable.of(cache.data);
+            } else if (cache && cache.observable){
+                return cache.observable;
+            } else {
+                cache = {
+                    observable: originalMethod.apply(this, args)
+                    .map(r => {
+                        delete cache.observable;
+                        cache.data = r;
+                        return cache.data;
+                    }).share()
+                };
+                cachedData[key] = cache;
+                return cache.observable;
+            }
+        };
+        return descriptor;
+    };
+}
+
+function ClearCache(functionName: string, propertyKey?: string) {
+    return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        let originalMethod = descriptor.value;
+        descriptor.value = function(...args: any[]) {
+            if (functionName === 'clearAllCachedData') {
+                cachedData = {};
+            } else {
+                let key = getCacheKey(functionName, propertyKey, args);
+                delete cachedData[key];
+            }
+            return originalMethod.apply(this, args);
+        };
+        return descriptor;
+    };
+}
+
 @Injectable()
 export class FunctionsService {
     private hostSecrets: HostSecrets;
@@ -98,17 +157,20 @@ export class FunctionsService {
         this.appSettings = {};
     }
 
+    @Cache()
     getFunctions() {
         return this._http.get(`${this.scmUrl}/api/functions`, { headers: this.getHeaders() })
             .retry(3)
             .map<FunctionInfo[]>(r => r.json());
     }
 
+    @Cache('href')
     getFileContent(file: VfsObject | string) {
         return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getHeaders() })
             .map<string>(r => r.text());
     }
 
+    @ClearCache('getFileContent', 'href')
     saveFile(file: VfsObject | string, updatedContent: string) {
         var headers = this.getHeaders('plain/text');
         headers.append('If-Match', '*');
@@ -117,11 +179,13 @@ export class FunctionsService {
             .map<VfsObject|string>(r => file);
     }
 
+    @Cache()
     getTemplates() {
         return this._http.get('api/templates', { headers: this.getPassthroughHeaders() })
             .map<FunctionTemplate[]>(r => r.json());
     }
 
+    @ClearCache('getFunctions')
     createFunction(functionName: string, templateId: string) {
         if (templateId) {
             var body: CreateFunctionInfo = {
@@ -137,6 +201,7 @@ export class FunctionsService {
         }
     }
 
+    @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any) {
         var sampleData = files["sample.dat"];
         delete files["sample.dat"];
@@ -230,11 +295,13 @@ export class FunctionsService {
             .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
+    @ClearCache('getFunctions')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getHeaders() })
             .map<string>(r => r.statusText);
     }
 
+    @Cache()
     getDesignerSchema() {
         return this._http.get('mocks/function-json-schema.json')
             .map<DesignerSchema>(r => r.json());
@@ -252,6 +319,7 @@ export class FunctionsService {
         return observable;
     }
 
+    @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getHeaders() })
             .catch(_ => Observable.of({
@@ -260,6 +328,7 @@ export class FunctionsService {
             .map<FunctionSecrets>(r => r.json());
     }
 
+    @ClearCache('getSecrets', 'secrets_file_href')
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
             .map<FunctionSecrets>(e => secrets);
@@ -269,11 +338,13 @@ export class FunctionsService {
         return `${this.scmUrl.replace('.scm.', '.')}/api/${fi.name}`;
     }
 
+    @ClearCache('getFunction', 'href')
     saveFunction(fi: FunctionInfo, config: any) {
         return this._http.put(fi.href, JSON.stringify({config: config}), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
+    @Cache('href')
     getFunction(fi: FunctionInfo) {
         return this._http.get(fi.href, { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
@@ -294,6 +365,7 @@ export class FunctionsService {
             .subscribe(h => this.hostSecrets = h, e => console.log(e));
     }
 
+    @Cache()
     getBindingConfig(): Observable<BindingConfig> {
         return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
             .map<BindingConfig>(r => r.json());
@@ -355,10 +427,14 @@ export class FunctionsService {
             });
     }
 
+    @Cache('href')
     getVfsObjects(fi: FunctionInfo | string) {
         return this._http.get(typeof fi === 'string' ? fi : fi.script_root_path_href, { headers: this.getHeaders() })
             .map<VfsObject[]>(e => e.json());
     }
+
+    @ClearCache('clearAllCachedData')
+    clearAllCachedData() { }
 
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

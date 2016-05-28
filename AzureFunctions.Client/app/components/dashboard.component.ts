@@ -66,7 +66,7 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
-            this.resetView();
+            this.resetView(false);
             this.sideBar.selectedFunction = fi;
 
             this._globalStateService.setBusyState();
@@ -92,13 +92,14 @@ export class DashboardComponent implements OnChanges {
 
     initFunctions(selectedFunctionName? : string) {
         this._globalStateService.setBusyState();
+        this._functionsService.clearAllCachedData();
 
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._globalStateService.clearBusyState();
-                this.resetView();
+                this.resetView(true);
                 this.openIntro = true;
 
                 if (selectedFunctionName) {
@@ -121,31 +122,33 @@ export class DashboardComponent implements OnChanges {
     }
 
     onAppMonitoringClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openAppMonitoring = true;
     }
 
     onAppSettingsClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openAppSettings = true;
     }
 
     onQuickstartClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openIntro = true;
     }
 
     onSourceControlClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openSourceControl = true;
     }
 
-    private resetView() {
+    private resetView(clearFunction: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
-        this.selectedFunction = null;
-        this.sideBar.selectedFunction = null;
+        if (clearFunction) {
+            this.selectedFunction = null;
+            this.sideBar.selectedFunction = null;
+        }
     }
 }

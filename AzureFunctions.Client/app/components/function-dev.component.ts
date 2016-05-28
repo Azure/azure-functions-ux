@@ -67,7 +67,7 @@ export class FunctionDevComponent implements OnChanges {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
-            .distinctUntilChanged((x, y) => x.name === y.name)
+            .distinctUntilChanged((x, y) => x.href === y.href)
             .switchMap(file => {
                 if (this.fileExplorer)
                     this.fileExplorer.setBusyState();
@@ -140,6 +140,8 @@ export class FunctionDevComponent implements OnChanges {
 
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
+        this.selectedFileStream.unsubscribe();
+        this.functionSelectStream.unsubscribe();
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
