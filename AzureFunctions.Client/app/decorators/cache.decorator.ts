@@ -58,6 +58,30 @@ export function ClearCache(functionName: string, propertyKey?: string) {
     };
 }
 
+export function ClearAllFunctionCache(functionName: string | string[]) {
+    return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        let originalMethod = descriptor.value;
+        descriptor.value = function(...args: any[]) {
+            let clearAll = (name: string) => {
+                for (let e in cachedData) {
+                    if (e.startsWith(`${name}+`)) {
+                        delete cachedData[e];
+                    }
+                }
+            };
+
+            if (Array.isArray(functionName)) {
+                functionName.forEach(name => clearAll(name));
+            } else {
+                clearAll(functionName);
+            }
+
+            return originalMethod.apply(this, args);
+        };
+        return descriptor;
+    };
+}
+
 function getCacheKey(functionName: string, propertyName: string, args: any[]): string {
     let key: string = `${functionName}+`;
     if (propertyName && args && args.length > 0 && args[0][propertyName]) {
