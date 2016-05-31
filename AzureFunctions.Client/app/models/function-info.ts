@@ -3,6 +3,7 @@ import {VfsObject} from '../models/vfs-object';
 
 export interface FunctionInfo {
     name: string;
+    script_root_path_href: string;
     script_href: string;
     secrets_file_href: string;
     href: string;

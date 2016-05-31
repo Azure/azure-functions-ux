@@ -32,6 +32,7 @@ System.config({
     "@angular/router-deprecated": "npm:@angular/router-deprecated@2.0.0-rc.1",
     "@angular/upgrade": "npm:@angular/upgrade@2.0.0-rc.1",
     "ahmelsayed/Ace.Tern": "github:ahmelsayed/Ace.Tern@master",
+    "ng2-file-upload": "github:ahmelsayed/ng2-file-upload@1.0.4",
     "ng2-nvd3": "npm:ng2-nvd3@1.1.0",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.7",
@@ -43,7 +44,7 @@ System.config({
       "typescript": "npm:typescript@1.8.10"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
-      "assert": "npm:assert@1.3.0"
+      "assert": "npm:assert@1.4.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
@@ -102,8 +103,15 @@ System.config({
       "@angular/core": "npm:@angular/core@2.0.0-rc.1",
       "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.1"
     },
-    "npm:assert@1.3.0": {
+    "npm:assert@1.4.0": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "buffer-shims": "npm:buffer-shims@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "npm:util@0.10.3"
+    },
+    "npm:buffer-shims@1.0.0": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",

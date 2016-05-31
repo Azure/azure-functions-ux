@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <busy-state></busy-state>
+    <div ng2FileDrop [uploader]="uploader" class="file-container">
+        <div class="clickable heading" (click)="headingClick()">
+            <i class="fa fa-folder-open"></i>
+            {{currentTitle}}
+        </div>
+        <div class="clickable folder shifted" *ngFor="let folder of folders"
+            (click)="selectVfsObject(folder)">
+            <i class="fa fa-folder"></i>
+            {{folder.name}}
+        </div>
+        <div class="clickable file shifted" *ngFor="let file of files"
+            (click)="selectVfsObject(file)"
+            [class.selected]="file.href.toLocaleLowerCase() === selectedFile.href.toLocaleLowerCase()"
+            [class.disabled]="file.isBinary"
+            [title]="file.isBinary ? 'Editing binary files is not supported.' : 'file.name'">
+            <i class="fa fa-file"></i>
+            {{file.name}}
+        </div>
+
+        <input class="folder shifted"
+               type="text"
+               [(ngModel)]="newFileName"
+               (keyup)="handleKeyUp($event)"
+               placeholdefur="File name"
+               [class.hidden]="!creatingNewFile"
+               #focusable />
+    </div>
+    <div id="lower-panel">
+        <div class="clickable" (click)="addnewInput($event, focusable)">
+            <i class="fa fa-plus"></i>
+        </div>
+        <div>
+            <label class="clickable" for="file-upload">
+                <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple />
+                <i class="fa fa-upload"></i>
+            </label>
+        </div>
+    </div>
+</div>

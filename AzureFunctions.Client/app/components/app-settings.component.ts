@@ -48,9 +48,9 @@ export class AppSettingsComponent implements OnInit {
     }
 
     saveMemorySize(value: string | number) {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._armService.updateMemorySize(this.functionContainer, value)
-            .subscribe(r => { this._broadcastService.clearBusyState(); Object.assign(this.functionContainer, r); this.dirty = false; });
+            .subscribe(r => { this._globalStateService.clearBusyState(); Object.assign(this.functionContainer, r); this.dirty = false; });
     }
 
     isIE(): boolean {
@@ -58,12 +58,12 @@ export class AppSettingsComponent implements OnInit {
     }
 
     updateVersion() {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
             this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
             });
         });

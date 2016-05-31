@@ -16,7 +16,7 @@ div.inline-no-float {
     margin-left: 10px;
 }
 
-.dev-block-header > span{
+.dev-block-header > span, .dev-block-header + span {
     margin-left: 10px;
 }
 
@@ -28,8 +28,19 @@ div.inline-no-float {
     margin-right: 5px;
 }
 
-.dev-run-container{
+.dev-flex-container{
     display: flex;
+    position: relative;
+}
+
+.dev-code-flex {
+    flex-grow: 3;
+}
+
+.dev-files-flex {
+    flex-grow: 1;
+    max-width: 200px;
+    min-width: 200px;
 }
 
 .dev-run-block{
@@ -61,6 +72,7 @@ div.inline-no-float {
     font-size: 14px;
     font-weight: normal;
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    color: #539CF6;
 }
 
 .run-red {
@@ -78,4 +90,8 @@ div.inline-no-float {
 
 .flex-inline{
     display: inline-flex;
+}
+
+.not-shown {
+    display: none;
 }

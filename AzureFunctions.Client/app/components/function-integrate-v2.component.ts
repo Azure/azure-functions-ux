@@ -150,9 +150,9 @@ export class FunctionIntegrateV2Component {
             delete this._functionInfo.test_data;
         }
 
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
-            this._broadcastService.clearBusyState();
+            this._globalStateService.clearBusyState();
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
     }

@@ -8,6 +8,7 @@
     blobTrigger = <any>"blobTrigger",
     apiHubFile = <any>"apiHubFile",
     apiHubFileTrigger = <any>"apiHubFileTrigger",
+    apiHubTable = <any>"apiHubTable",
     httpTrigger = <any>"httpTrigger",
     http = <any>"http",
     table = <any>"table",

@@ -1,6 +1,4 @@
-﻿import {Component} from '@angular/core';
-import {BroadcastService} from '../services/broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
+﻿import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'busy-state',
@@ -8,8 +6,14 @@ import {BroadcastEvent} from '../models/broadcast-event'
     styleUrls: ['styles/busy-state.style.css']
 })
 export class BusyStateComponent {
-    public busy: boolean = false;
-    constructor(private _broadcastService: BroadcastService) {
-        this._broadcastService.subscribe<boolean>(BroadcastEvent.BusyState, state => this.busy = state);
+    private busy: boolean = false;
+    @Input() name: string;
+
+    setBusyState() {
+        this.busy = true;
+    }
+
+    clearBusyState() {
+        this.busy = false;
     }
 }

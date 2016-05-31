@@ -23,6 +23,7 @@ import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../models/function-container';
 import {ErrorEvent} from '../models/error-event';
 import {SourceControlComponent} from './source-control.component';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'functions-dashboard',
@@ -55,7 +56,8 @@ export class DashboardComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _globalStateService: GlobalStateService) {
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
@@ -64,19 +66,19 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
-            this.resetView();
+            this.resetView(false);
             this.sideBar.selectedFunction = fi;
 
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
 
             if(fi.name !== "New Function") {
                 this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                 });
             } else {
                 this.selectedFunction = fi;
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
             }
 
         });
@@ -89,14 +91,15 @@ export class DashboardComponent implements OnChanges {
     }
 
     initFunctions(selectedFunctionName? : string) {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
+        this._functionsService.clearAllCachedData();
 
         this._functionsService.getFunctions()
             .subscribe(res => {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
-                this._broadcastService.clearBusyState();
-                this.resetView();
+                this._globalStateService.clearBusyState();
+                this.resetView(true);
                 this.openIntro = true;
 
                 if (selectedFunctionName) {
@@ -119,31 +122,33 @@ export class DashboardComponent implements OnChanges {
     }
 
     onAppMonitoringClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openAppMonitoring = true;
     }
 
     onAppSettingsClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openAppSettings = true;
     }
 
     onQuickstartClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openIntro = true;
     }
 
     onSourceControlClicked() {
-        this.resetView();
+        this.resetView(true);
         this.openSourceControl = true;
     }
 
-    private resetView() {
+    private resetView(clearFunction: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
-        this.selectedFunction = null;
-        this.sideBar.selectedFunction = null;
+        if (clearFunction) {
+            this.selectedFunction = null;
+            this.sideBar.selectedFunction = null;
+        }
     }
 }

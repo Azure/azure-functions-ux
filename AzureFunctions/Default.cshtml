@@ -74,14 +74,16 @@
                     'app': 'app', // 'dist',
                     'rxjs': 'node_modules/rxjs',
                     '@@angular': 'node_modules/@@angular',
-                    'ng2-nvd3': 'node_modules/ng2-nvd3/build/lib'
+                    'ng2-nvd3': 'node_modules/ng2-nvd3/build/lib',
+                    'ng2-file-upload': 'node_modules/ng2-file-upload'
                 };
 
                 // packages tells the System loader how to load when no filename and/or no extension
                 var packages = {
                     'app': { main: 'boot.js', defaultExtension: 'js' },
                     'rxjs': { defaultExtension: 'js' },
-                    'ng2-nvd3': { main: 'ng2-nvd3.js', defaultExtension: 'js' }
+                    'ng2-nvd3': { main: 'ng2-nvd3.js', defaultExtension: 'js' },
+                    'ng2-file-upload': { defaultExtension: 'js' }
                 };
 
                 var packageNames = [

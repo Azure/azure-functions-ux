@@ -12,6 +12,7 @@ import {ArmService} from '../services/arm.service';
 import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'getting-started',
@@ -44,7 +45,8 @@ export class GettingStartedComponent implements OnInit {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
-        private _telemetryService: TelemetryService
+        private _telemetryService: TelemetryService,
+        private _globalStateService: GlobalStateService
     ) {
         this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163
@@ -63,34 +65,34 @@ export class GettingStartedComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
 
         this._userService.getUser()
             .subscribe(u => this.user = u);
 
         this._userService.getTenants()
             .subscribe(tenants => {
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 if (tenants.filter(e => e.TenantId.toLocaleLowerCase() !== this.tryAppServiceTenantId).length === 0) {
                     this.tryItNow = true;
                 } else {
                     this.tryItNow = false;
-                    this._broadcastService.setBusyState();
+                    this._globalStateService.setBusyState();
                     this._armService.getSubscriptions()
                         .subscribe(subs => {
                             this.subscriptions = subs
                                 .map(e => ({ displayLabel: e.displayName, value: e }))
                                 .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-                            this._broadcastService.clearBusyState();
+                            this._globalStateService.clearBusyState();
                         });
                 }
             });
     }
 
     createTrialFunctionsContainer() {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._functionsService.createTrialFunctionsContainer()
-            .subscribe(r => this.switchToTryAppServiceTenant(), undefined, () => this._broadcastService.clearBusyState());
+            .subscribe(r => this.switchToTryAppServiceTenant(), undefined, () => this._globalStateService.clearBusyState());
     }
 
     switchToTryAppServiceTenant() {
@@ -99,18 +101,18 @@ export class GettingStartedComponent implements OnInit {
 
     createFunctionsContainer() {
         delete this.createError;
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         this._telemetryService.track('gettingstarted-create-functionapp');
 
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this.userReady.emit(r);
-                this._broadcastService.clearBusyState()
+                this._globalStateService.clearBusyState()
             });
     }
 
     onSubscriptionSelect(value: Subscription) {
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         delete this.selectedGeoRegion;
         this._armService.getFunctionContainers(value.subscriptionId)
             .subscribe(fc => {
@@ -122,7 +124,7 @@ export class GettingStartedComponent implements OnInit {
                     }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
 
-                this._broadcastService.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this.functionContainerNameEvent.emit(this.functionContainerName);
             });
         this._armService.getDynamicStampLocations(value.subscriptionId)

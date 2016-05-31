@@ -8,6 +8,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {SelectOption} from '../models/select-option';
 import {RadioSelectorComponent} from './radio-selector.component';
 import {PortalService} from '../services/portal.service';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'function-manage',
@@ -24,7 +25,8 @@ export class FunctionManageComponent {
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
-                private _portalService: PortalService) {
+                private _portalService: PortalService,
+                private _globalStateService: GlobalStateService) {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
         this.functionStatusOptions = [
             {
@@ -48,12 +50,12 @@ export class FunctionManageComponent {
     deleteFunction() {
         var result = confirm(`Are you sure you want to delete Function: ${this.selectedFunction.name}?`);
         if (result) {
-            this._broadcastService.setBusyState();
+            this._globalStateService.setBusyState();
             this._portalService.logAction("edit-component", "delete");
             this._functionsService.deleteFunction(this.selectedFunction)
                 .subscribe(r => {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.selectedFunction);
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                 });
         }
     }

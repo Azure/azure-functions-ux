@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange} from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -14,6 +14,9 @@ import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
 import {RunFunctionResult} from '../models/run-function-result';
+import {FileExplorerComponent} from './file-explorer.component';
+import {GlobalStateService} from '../services/global-state.service';
+import {BusyStateComponent} from './busy-state.component';
 
 @Component({
     selector: 'function-dev',
@@ -23,10 +26,14 @@ import {RunFunctionResult} from '../models/run-function-result';
         AceEditorDirective,
         FunctionDesignerComponent,
         LogStreamingComponent,
-        CopyPreComponent
+        CopyPreComponent,
+        FileExplorerComponent,
+        BusyStateComponent
     ]
 })
 export class FunctionDevComponent implements OnChanges {
+    @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
+    @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -36,49 +43,65 @@ export class FunctionDevComponent implements OnChanges {
     public fileName: string;
     public inIFrame: boolean;
 
-    public scriptContent: string;
     public configContent: string;
     public webHookType: string;
     public authLevel: string;
     public secrets: FunctionSecrets;
-    public isCode: boolean;
     public isHttpFunction: boolean;
 
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
+    public showFileExplorer: boolean;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
+    private selectedFileStream: Subject<VfsObject>;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
-                private _portalService: PortalService) {
+                private _portalService: PortalService,
+                private _globalStateService: GlobalStateService) {
 
-        this.isCode = true;
+        this.selectedFileStream = new Subject<VfsObject>();
+        this.selectedFileStream
+            .distinctUntilChanged((x, y) => x.href === y.href)
+            .switchMap(file => {
+                if (this.fileExplorer)
+                    this.fileExplorer.setBusyState();
+                return Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}));
+            })
+            .subscribe((res: {content: string, file: VfsObject}) => {
+                this.content = res.content;
+                this.scriptFile = res.file;
+                this.fileName = res.file.name;
+                if (this.fileExplorer)
+                    this.fileExplorer.clearBusyState();
+            }, e => this._globalStateService.clearBusyState());
+
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .distinctUntilChanged()
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
-                this._broadcastService.setBusyState();
+                this._globalStateService.setBusyState();
                 return Observable.zip(
-                    this._functionsService.getFileContent(fi.script_href),
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    (c, s, f) => ({ content: c, secrets: s, functionInfo: f }))
+                    (s, f) => ({ secrets: s, functionInfo: f}))
             })
-            .subscribe((res: any) => {
-                this._broadcastService.clearBusyState();
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
+                this._globalStateService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
-                var fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
-                this.fileName = fileName;
-                this.scriptFile = { href: this.functionInfo.script_href, name: fileName };
-                this.content = res.content;
+                this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
+                this.scriptFile = {name: this.fileName, href: this.functionInfo.script_href, mime: 'file'}
+                this.selectedFileStream.next(this.scriptFile);
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
+
                 var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
                     : null);
@@ -117,6 +140,8 @@ export class FunctionDevComponent implements OnChanges {
 
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
+        this.selectedFileStream.unsubscribe();
+        this.functionSelectStream.unsubscribe();
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
@@ -166,16 +191,17 @@ export class FunctionDevComponent implements OnChanges {
     saveScript(dontClearBusy?: boolean) {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
-        this._broadcastService.setBusyState();
+        this._globalStateService.setBusyState();
         return this._functionsService.saveFile(this.scriptFile, this.updatedContent)
             .subscribe(r => {
                 if (!dontClearBusy)
-                    this._broadcastService.clearBusyState();
+                    this._globalStateService.clearBusyState();
                 if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
                     this._portalService.setDirtyState(false);
                 }
+                this.content = this.updatedContent;
             });
     }
 
@@ -205,18 +231,23 @@ export class FunctionDevComponent implements OnChanges {
         if (this.scriptFile.isDirty) {
             this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
         } else {
-            this._broadcastService.setBusyState();
+            var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
+            busyComponent.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => { this.runResult = r; this._broadcastService.clearBusyState(); delete this.running; });
+                .subscribe(r => { this.runResult = r; busyComponent.clearBusyState(); delete this.running; });
         }
     }
 
     cancelCurrentRun() {
-        this._broadcastService.clearBusyState();
+        this.BusyStates.toArray().find(e => e.name === 'run-busy').clearBusyState();
         if (this.running) {
             this.running.unsubscribe();
             delete this.running;
         }
+    }
+
+    toggleShowHideFileExplorer() {
+        this.showFileExplorer = !this.showFileExplorer;
     }
 }

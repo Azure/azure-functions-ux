@@ -59,7 +59,7 @@ export class IntroComponent {
 
                     selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
 
-                    this._broadcastService.setBusyState();
+                    this._globalStateService.setBusyState();
                     this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name : functionName });
@@ -70,11 +70,11 @@ export class IntroComponent {
                                     step: TutorialStep.Waiting
                                 });
                             this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                            this._broadcastService.clearBusyState();
+                            this._globalStateService.clearBusyState();
                         },
                         e => {
                             this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
-                            this._broadcastService.clearBusyState();
+                            this._globalStateService.clearBusyState();
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
                         });
                 }
