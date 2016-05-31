@@ -192,7 +192,7 @@ export class FunctionDevComponent implements OnChanges {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
         this._globalStateService.setBusyState();
-        return this._functionsService.saveFile(this.scriptFile, this.updatedContent)
+        return this._functionsService.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
                 if (!dontClearBusy)
                     this._globalStateService.clearBusyState();

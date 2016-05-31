@@ -17,6 +17,7 @@ export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
     @Input() functionInfo: FunctionInfo;
+    @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
 
     folders: VfsObject[];
@@ -36,6 +37,14 @@ export class FileExplorerComponent implements OnChanges {
         private _globalStateService: GlobalStateService,
         private _broadcastService: BroadcastService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
+        this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
+        this.selectedFunctionChange
+            .switchMap(e =>  this._functionsService.getVfsObjects(e))
+            .subscribe(r => {
+                    this.folders = this.getFolders(r);
+                    this.files = this.getFiles(r);
+            });
+
         this.history = [];
         this.uploader = new FileUploader({url: ''});
         this.uploader.onAfterAddingAll = (files: any[]) => {
@@ -52,6 +61,7 @@ export class FileExplorerComponent implements OnChanges {
 
         this.uploader.onCompleteAll = () => {
             this.uploader.clearQueue();
+            this._functionsService.ClearAllFunctionCache(this.functionInfo);
             this.refresh();
         };
 
@@ -60,11 +70,7 @@ export class FileExplorerComponent implements OnChanges {
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
         if (changes['functionInfo']) {
             this.currentTitle = this.functionInfo.name;
-            this._functionsService.getVfsObjects(this.functionInfo)
-                .subscribe(r => {
-                    this.folders = this.getFolders(r);
-                    this.files = this.getFiles(r);
-                });
+            this.selectedFunctionChange.emit(this.functionInfo);
         }
     }
 
@@ -131,7 +137,7 @@ export class FileExplorerComponent implements OnChanges {
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        this._functionsService.saveFile(href, '')
+        this._functionsService.saveFile(href, '', this.functionInfo)
             .subscribe(r => {
                 let o = typeof r === 'string'
                     ? {name: this.newFileName, href: href, mime: 'file'}
