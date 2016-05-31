@@ -113,13 +113,20 @@ export class FunctionsService {
     }
 
     @ClearCache('getFileContent', 'href')
-    @ClearAllFunctionCache(['getVfsObjects', 'getFunction'])
-    saveFile(file: VfsObject | string, updatedContent: string) {
+    saveFile(file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo) {
         var headers = this.getHeaders('plain/text');
         headers.append('If-Match', '*');
 
+        if (functionInfo) {
+            ClearAllFunctionCache(functionInfo);
+        }
+
         return this._http.put(typeof file === 'string' ? file : file.href, updatedContent, { headers: headers })
             .map<VfsObject|string>(r => file);
+    }
+
+    ClearAllFunctionCache(functionInfo: FunctionInfo) {
+        ClearAllFunctionCache(functionInfo);
     }
 
     @Cache()
