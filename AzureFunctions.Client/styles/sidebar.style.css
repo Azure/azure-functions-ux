@@ -26,7 +26,7 @@
 }
 
 .functions-list {
-    height:96%;
+    height:82%;
     overflow-y:auto;
 }
 
@@ -143,4 +143,25 @@
 
 .function-icon {
     height: 15px;
+}
+w
+.tryinfo-box {
+    background-color: whitesmoke;
+    height: 120px;
+    width: 100%;
+    border: blue;
+    border-width: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+
+.tryinfo-box-timer {
+    background-color: whitesmoke;
+    color: red;
+    font-size: large;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-weight: bold;
 }

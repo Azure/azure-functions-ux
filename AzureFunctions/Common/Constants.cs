@@ -16,6 +16,8 @@ namespace AzureFunctions.Common
         public const string TryAppServiceResourceGroupPrefix = "TRY_RG_";
         public const string TryAppServiceTenantId = "6224bcc1-1690-4d04-b905-92265f948dad";
         public const string TryAppServiceCreateUrl = "https://tryappservice.azure.com/api/resource?x-ms-routing-name=next";
+        public const string TryAppServiceTrialStatus = "https://tryappservice.azure.com/api/resource/status?x-ms-routing-name=next";
+        public const string TryAppServiceExtendTrial = "https://tryappservice.azure.com/api/resource/extend?x-ms-routing-name=next";
         public const string MetadataJson = "metadata.json";
         public const string FrontEndDisplayNameHeader = "X-MS-CLIENT-DISPLAY-NAME";
         public const string FrontEndPrincipalNameHeader = "X-MS-CLIENT-PRINCIPAL-NAME";

@@ -331,6 +331,18 @@ export class FunctionsService {
             .map<string>(r => r.statusText);
     }
 
+    extendTrialTime() {
+        return this._http.post('api/extendtrialtime', '', { headers: this.getPassthroughHeaders() })
+            .cache()
+            .map<string>(r => r.statusText);
+    }
+
+    getTrialTime() {
+        return this._http.get('api/gettrialtime', { headers: this.getPassthroughHeaders() })
+            .cache()
+            .map<string>(r => r.statusText);
+    }
+
     updateFunction(fi: FunctionInfo) {
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());

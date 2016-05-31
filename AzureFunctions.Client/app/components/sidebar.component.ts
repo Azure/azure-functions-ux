@@ -21,6 +21,10 @@ export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
+    public tryItNowTenant: boolean;
+    public pullForStatus = false;
+    public running: boolean;
+    public dots = "";
     @Output() refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
 
@@ -30,7 +34,7 @@ export class SideBarComponent implements OnDestroy {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
-
+        this.tryItNowTenant = true;
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
             for (var i = 0; i < this.functionsInfo.length; i++) {
@@ -64,6 +68,43 @@ export class SideBarComponent implements OnDestroy {
         });
     }
 
+    timerCallback(){
+      // this.$apply(() => siteExpired = true);
+    }
+
+    redirecttoazurefreetrial() {
+        window.location.replace(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`);
+    }
+
+    extendResourceLifeTime (){
+        this.running = true;
+/*        $http({
+            url: "api/resource/extend",
+            method: "POST"
+        }).success((data: any) => {
+            this.resource = data;
+            startCountDown(data.timeLeft);
+        }).error((e) => {
+            this.ngModels.errorMessage = e.Message;
+        }).finally(() => this.running = false);
+    */
+    }
+
+
+startStatusPull() {
+/*    if (this.pullForStatus) {
+        $http
+            .get("/api/resource/status")
+            .success(d => {
+                this.dots = (this.dots.length > 4 || this.ngModels.statusMessage !== d) ? "." : this.dots + ".";
+                this.ngModels.statusMessage = d + this.dots;
+                $timeout(this.startStatusPull, 5000);
+            });
+    } else {
+        delete this.ngModels.statusMessage;
+    }
+    */
+}
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
     }

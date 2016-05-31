@@ -6,8 +6,8 @@
             </span>
         </li>
         <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue"
-           (click)="selectFunction(functionInfo)"
-            class="function-item">
+             (click)="selectFunction(functionInfo)"
+             class="function-item">
             <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
             <img *ngIf="!functionInfo.clientOnly" src="/images/functions.svg" class="function-icon" />
             <i *ngIf="functionInfo.clientOnly" class="fa fa-plus"></i>
@@ -15,5 +15,16 @@
             </span>
         </li>
     </ul>
-    <div id="refresh" (click)="refresh()" class="link clickable"><i class="fa fa-refresh"></i> Refresh</div>
+    <div *ngIf="tryItNowTenant" class="tryinfo-box">
+        <div>Trial time remaining</div>
+        <div class="tryinfo-box-timer">10:45</div>
+        <div id="extendTrial" (click)="extendResourceLifeTime()" class="link clickable">Extend Trial</div>
+
+        <div *ngIf="tryItNowTenant" (click)="redirecttoazurefreetrial()" class="link clickable">
+            Signup for an Azure 30-day trial
+        </div>
+    </div>
+    <div id="refresh" (click)="refresh()" class="link clickable"><i class="fa fa-refresh"></i> Refresh
+    </div>
+
 </div>

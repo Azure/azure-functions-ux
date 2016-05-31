@@ -28,5 +28,21 @@ namespace AzureFunctions.Code
                 await response.EnsureSuccessStatusCodeWithFullError();
             }
         }
+        public async Task GetTrialTime()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                var response = await _client.GetAsync(Constants.TryAppServiceTrialStatus);
+                await response.EnsureSuccessStatusCodeWithFullError();
+            }
+        }
+        public async Task ExtendTrialTime()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                var response = await _client.PostAsJsonAsync(Constants.TryAppServiceExtendTrial, new { });
+                await response.EnsureSuccessStatusCodeWithFullError();
+            }
+        }
     }
 }

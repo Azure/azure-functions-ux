@@ -46,6 +46,47 @@ namespace AzureFunctions.Controllers
                 }
             }
         }
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> ExtendTrialTime()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    await this._armManager.ExtendTrialTime();
+                    perf.AddProperties("Created");
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetTrialTime()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    await this._armManager.GetTrialTime();
+                    perf.AddProperties("Created");
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
 
         [Authorize]
         [HttpGet]
