@@ -20,7 +20,7 @@ import {FunctionContainer} from '../models/function-container';
 import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
-import {Cache, ClearCache} from '../decorators/cache.decorator';
+import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 
 @Injectable()
 export class FunctionsService {
@@ -113,6 +113,7 @@ export class FunctionsService {
     }
 
     @ClearCache('getFileContent', 'href')
+    @ClearAllFunctionCache(['getVfsObjects', 'getFunction'])
     saveFile(file: VfsObject | string, updatedContent: string) {
         var headers = this.getHeaders('plain/text');
         headers.append('If-Match', '*');

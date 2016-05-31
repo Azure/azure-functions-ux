@@ -58,12 +58,14 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
-        this.currentTitle = this.functionInfo.name;
-        this._functionsService.getVfsObjects(this.functionInfo)
-            .subscribe(r => {
-                this.folders = this.getFolders(r);
-                this.files = this.getFiles(r);
-            });
+        if (changes['functionInfo']) {
+            this.currentTitle = this.functionInfo.name;
+            this._functionsService.getVfsObjects(this.functionInfo)
+                .subscribe(r => {
+                    this.folders = this.getFolders(r);
+                    this.files = this.getFiles(r);
+                });
+        }
     }
 
     setBusyState() {
