@@ -51,7 +51,10 @@ export class FileExplorerComponent implements OnChanges {
             this.setBusyState();
             let url = this.currentVfsObject ? this.currentVfsObject.href : this.functionInfo.script_root_path_href;
             url = this.trim(url);
-            this.uploader.setOptions({authToken: `Bearer ${this._globalStateService.CurrentToken}`});
+            this.uploader.setOptions({
+                authToken: `Bearer ${this._globalStateService.CurrentToken}`,
+                headers: [{name: 'If-Match', value: '*'}]
+            });
             for (let i = 0; i < files.length; i++) {
                 files[i].method = 'PUT';
                 files[i].url = `${url}/${files[i].file.name}`;
