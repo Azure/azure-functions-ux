@@ -46,7 +46,7 @@ export class ArmService {
         return this._http.get(url, { headers: this.getHeaders() })
             .map<FunctionContainer>(r => {
                 var sites: FunctionContainer[] = r.json().value;
-                return sites.filter(e => e.name.startsWith('Functions'))[0];
+                return sites.find(e => e.name.startsWith('Functions'));
             });
     }
 

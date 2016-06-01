@@ -13,7 +13,7 @@ import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
 import {GlobalStateService} from '../services/global-state.service';
-import Tenantinfo = require("../models/tenant-info");
+import {Tenantinfo} from "../models/tenant-info";
 
 @Component({
     selector: 'getting-started',
@@ -22,8 +22,7 @@ import Tenantinfo = require("../models/tenant-info");
     directives: [DropDownComponent, TopBarComponent]
 })
 export class GettingStartedComponent implements OnInit {
-    @Output()
-    userReady: EventEmitter<FunctionContainer>;
+    @Output() userReady: EventEmitter<FunctionContainer>;
 
     public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
@@ -81,14 +80,12 @@ export class GettingStartedComponent implements OnInit {
         this._userService.getTenants()
             .subscribe(tenants => {
                 this._globalStateService.setBusyState();
-                if (tenants.filter(e => e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId).length === 0) {
+                if (!tenants.some(e => e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
                     this.tryItNow = true;
-                    this._functionsService.createTrialFunctionsContainer().subscribe
-                        (() => {
-                            this.switchToTenant(this.tryAppServiceTenantId);
-                        });
+                    this._functionsService.createTrialFunctionsContainer().
+                        subscribe(() => this.switchToTenant(this.tryAppServiceTenantId));
                 }
-                else if (tenants.filter(e => e.Current === true)[0].TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId) {
+                else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
                     this._armService.getSubscriptions().subscribe((sub) => {
                         this._armService.getTryFunctionContainer(sub[0].subscriptionId).subscribe
                             ((container) => {
