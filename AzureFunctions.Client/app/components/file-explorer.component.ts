@@ -6,6 +6,7 @@ import {FunctionsService} from '../services/functions.service';
 import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 import {GlobalStateService} from '../services/global-state.service';
 import {BroadcastService} from '../services/broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event';
 
 @Component({
     selector: 'file-explorer',
@@ -66,6 +67,10 @@ export class FileExplorerComponent implements OnChanges {
             this.uploader.clearQueue();
             this._functionsService.ClearAllFunctionCache(this.functionInfo);
             this.refresh();
+        };
+
+        this.uploader.onErrorItem = (item, response, status, headers) => {
+            this._broadcastService.broadcast(BroadcastEvent.Error, {message: '', details: ''});
         };
 
     }
@@ -154,7 +159,13 @@ export class FileExplorerComponent implements OnChanges {
                 }
                 this.creatingNewFile = false;
                 delete this.newFileName;
-            }, () => this.clearBusyState());
+            }, e => {
+                if (e) {
+                    let body = e.json();
+                    this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || `Error creating file: ${this.newFileName}`});
+                }
+                this.clearBusyState();
+            });
     }
 
     handleKeyUp(event: KeyboardEvent) {
