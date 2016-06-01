@@ -229,7 +229,7 @@ export class FunctionDevComponent implements OnChanges {
     runFunction() {
         this.saveTestData();
         if (this.scriptFile.isDirty) {
-            this.saveScript(true).add(() => setTimeout(() => this.runFunction(), 200));
+            this.saveScript().add(() => setTimeout(() => this.runFunction(), 200));
         } else {
             var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
             busyComponent.setBusyState();
