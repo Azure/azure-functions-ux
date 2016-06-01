@@ -142,11 +142,16 @@ export class FileExplorerComponent implements OnChanges {
         this.setBusyState();
         this._functionsService.saveFile(href, '', this.functionInfo)
             .subscribe(r => {
-                let o = typeof r === 'string'
-                    ? {name: this.newFileName, href: href, mime: 'file'}
-                    : r;
-                this.files.push(o);
-                this.selectVfsObject(o, true);
+                if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
+                    this._functionsService.ClearAllFunctionCache(this.functionInfo);
+                    this.refresh();
+                } else {
+                    let o = typeof r === 'string'
+                        ? {name: this.newFileName, href: href, mime: 'file'}
+                        : r;
+                    this.files.push(o);
+                    this.selectVfsObject(o, true);
+                }
                 this.creatingNewFile = false;
                 delete this.newFileName;
             }, () => this.clearBusyState());
