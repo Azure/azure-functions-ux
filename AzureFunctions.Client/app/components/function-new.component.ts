@@ -14,6 +14,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
+import {PopOverComponent} from './pop-over.component';
 
 declare var jQuery: any;
 
@@ -21,7 +22,7 @@ declare var jQuery: any;
     selector: 'function-new',
     templateUrl: './templates/function-new.component.html',
     styleUrls: ['styles/function-new.style.css'],
-    directives: [TemplatePickerComponent, BindingComponent, NgClass],
+    directives: [TemplatePickerComponent, BindingComponent, NgClass, PopOverComponent],
     outputs: ['functionAdded']
 })
 

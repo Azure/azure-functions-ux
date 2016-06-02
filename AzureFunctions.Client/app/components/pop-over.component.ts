@@ -10,6 +10,7 @@ import {DropDownElement} from '../models/drop-down-element';
 export class PopOverComponent{
     @Input() public message : string;
     @Input() hideAfter: number;
+    @Input() isInputError: boolean;
     public show : boolean;
 
     constructor() { }

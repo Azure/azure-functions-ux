@@ -13,9 +13,14 @@
 input{
     background: #fff;
     border: 2px solid #dedede;
-    padding-right: 30px;
     position: relative;
     vertical-align: middle;
     height: 29px;
     width: 300px;
+    padding-left: 10px;
+    margin-right: 10px;
+}
+
+input.input-error {
+    padding-right:25px;
 }
