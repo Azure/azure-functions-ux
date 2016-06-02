@@ -45,7 +45,7 @@ div.inline-no-float {
 
 .dev-run-block{
     flex-grow: 1;
-    min-width: 50%;
+    min-width: 49.5%;
 }
 
 .dev-run-block button{
