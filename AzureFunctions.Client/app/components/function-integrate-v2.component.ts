@@ -138,8 +138,10 @@ export class FunctionIntegrateV2Component {
     }
 
     onEditorChange(editorType: string) {
-        this._broadcastService.clearDirtyState('function_integrate', true);
-        this.changeEditor.emit(editorType);
+        if (this.switchIntegrate()) {
+            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.changeEditor.emit(editorType);
+        }
     }
 
     private updateFunction() {
@@ -167,5 +169,13 @@ export class FunctionIntegrateV2Component {
             this._broadcastService.clearDirtyState('function_integrate', true);
         }
         return switchBinding;
+    }
+
+    private switchIntegrate() {
+        var result = true;
+        if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
+            result = confirm(`Changes made to function ${this._functionInfo.name} will be lost. Are you sure you want to continue?`);
+        }
+        return result;
     }
 }

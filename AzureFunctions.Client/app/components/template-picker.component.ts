@@ -28,7 +28,7 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
-    private category: string = "Core";
+    private category: string = "";
     private _language: string = "All";
     private _type: TemplatePickerType;
     private _initialized = false;
@@ -114,7 +114,9 @@ export class TemplatePickerComponent {
                                                 value: c
                                             };
 
-                                            if (c === "Core") {
+                                            if (this.category === c) {
+                                                dropDownElement.default = true;
+                                            } else if (!this.category && c === "Core") {
                                                 dropDownElement.default = true;
                                             }
 

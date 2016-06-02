@@ -17,8 +17,13 @@
     <input type="text"
            [(ngModel)]="functionName"
            (ngModelChange)="functionNameChanged($event)"
-           placeholder="Function name">
-    <div *ngIf="!!functionNameError" class="error-output">{{functionNameError}}</div>
+           placeholder="Function name"
+           [ngClass]="{'input-error':!!functionNameError}">
+
+    <pop-over *ngIf="!!functionNameError" [message]="functionNameError" [isInputError]="true">
+    </pop-over>
+
+    <!--<div *ngIf="!!functionNameError" class="error-output">{{functionNameError}}</div>-->
 
     <h3 *ngIf="model.trigger && hasInputsToShow" style="margin-top: 40px">Configure</h3>
     <binding *ngIf="model.trigger"
