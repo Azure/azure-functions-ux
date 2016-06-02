@@ -1,4 +1,4 @@
-﻿<div class="container" *ngIf="busy">
+﻿<div class="container" [class.global]="isGlobal" *ngIf="busy">
     <!--https://github.com/tobiasahlin/SpinKit-->
     <div class="fxs-progress">
         <div class="fxs-progress-dots">

@@ -6,6 +6,10 @@
     z-index: 10;
 }
 
+.global {
+    position: fixed;
+}
+
 @-webkit-keyframes fxs-progress-animatedEllipses {
   0% {
     opacity: 1;

@@ -9,7 +9,6 @@ label {
 
 .container {
     display: block;
-    height: 100%;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;

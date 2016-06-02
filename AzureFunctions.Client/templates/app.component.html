@@ -1,4 +1,4 @@
-﻿<busy-state></busy-state>
+﻿<busy-state name='global'></busy-state>
 <error-list></error-list>
 <functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
 <getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>
