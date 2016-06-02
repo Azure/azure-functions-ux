@@ -107,13 +107,13 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
-        var oldLogs = '';
+        let oldLogs = '';
         if (!clear) {
             this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
         }
 
         var callBack = () => {
-            var diff = this.xhReq.responseText.length -  this.oldLength;
+            var diff = this.xhReq.responseText.length + oldLogs.length - this.oldLength;
             if (!this.stopped && diff > 0) {
                 if (this.xhReq.responseText.length > maxCharactersInLog) {
                     this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
@@ -123,14 +123,14 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                     : this.xhReq.responseText;
                 }
 
-                this.oldLength = this.xhReq.responseText.length;
+                this.oldLength = this.xhReq.responseText.length + oldLogs.length;
                 window.setTimeout(() => {
                     var el = document.getElementById('log-stream');
                     if (el) {
                         el.scrollTop = el.scrollHeight;
                     }
                 });
-                var nextInterval = diff > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
+                var nextInterval = diff - oldLogs.length > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
                 if (nextInterval < defaultInterval) {
                     this.timerInterval = defaultInterval;
                 } else if (nextInterval > maxInterval) {
