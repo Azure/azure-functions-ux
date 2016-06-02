@@ -44,7 +44,10 @@ export class FunctionNewComponent {
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
-
+    private _exclutionFileList = [
+        "test.json",
+        "readme.md"
+    ];
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
@@ -147,6 +150,11 @@ export class FunctionNewComponent {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id, name: this.functionName });
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
+        this._exclutionFileList.forEach((file) => {
+            if (this.selectedTemplate.files[file]) {
+                delete this.selectedTemplate.files[file];
+            }
+        });
 
         this._globalStateService.setBusyState();
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
