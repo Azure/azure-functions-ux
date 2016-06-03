@@ -46,7 +46,8 @@ export class FunctionNewComponent {
     private _bindingComponents: BindingComponent[] = [];
     private _exclutionFileList = [
         "test.json",
-        "readme.md"
+        "readme.md",
+        "metadata.json"
     ];
 
     constructor(
@@ -151,8 +152,10 @@ export class FunctionNewComponent {
         this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
         this._exclutionFileList.forEach((file) => {
-            if (this.selectedTemplate.files[file]) {
-                delete this.selectedTemplate.files[file];
+            for (var p in this.selectedTemplate.files) {
+                if (this.selectedTemplate.files.hasOwnProperty(p) && file == (p + "").toLowerCase()) {
+                    delete this.selectedTemplate.files[p];
+                }
             }
         });
 
