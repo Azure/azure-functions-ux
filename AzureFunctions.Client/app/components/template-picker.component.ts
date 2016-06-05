@@ -32,6 +32,14 @@ export class TemplatePickerComponent {
     private _language: string = "All";
     private _type: TemplatePickerType;
     private _initialized = false;
+    private _orderedCategoties = [
+        "Core",
+        "API & Webhooks",
+        "Data Processing",
+        "Samples",
+        "Experimental",
+        "All"
+    ];
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter<string>();
@@ -42,10 +50,12 @@ export class TemplatePickerComponent {
     }
 
     set type(type: TemplatePickerType) {
+        var that = this;
         this._type = type;
         this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this._functionsService.getBindingConfig().subscribe((config) => {
+                var that = this;
                 this._globalStateService.clearBusyState();
                 this.bindings = config.bindings;
                 this.templates = [];
@@ -67,7 +77,7 @@ export class TemplatePickerComponent {
                         this.title = "Choose a template";
 
                         let initLanguages = false, initCategories = false;
-                        if(this.languages.length === 0){
+                        if (this.languages.length === 0) {
                             this.languages = [{ displayLabel: "All", value: "All" }];
                             initLanguages = true;
                         }
@@ -88,7 +98,7 @@ export class TemplatePickerComponent {
                                 return;
                             }
 
-                            if(initLanguages){
+                            if (initLanguages) {
                                 var lang = this.languages.find((l) => {
                                     return l.value === template.metadata.language;
                                 });
@@ -100,7 +110,7 @@ export class TemplatePickerComponent {
                                 }
                             }
 
-                            if(initCategories){
+                            if (initCategories) {
                                 template.metadata.category.forEach((c) => {
                                     if ((this._language === "All") || (template.metadata.language === this._language)) {
 
@@ -132,7 +142,7 @@ export class TemplatePickerComponent {
 
                             if (matchIndex !== -1) {
                                 if ((this._language === "All") || (template.metadata.language === this._language)) {
-                                    var keys = template.metadata.category || ["Experimental"];
+                                    var keys = template.metadata.category.slice(0) || ["Experimental"];
                                     keys.push(
                                         template.metadata.language
                                     );
@@ -140,15 +150,28 @@ export class TemplatePickerComponent {
                                     this.templates.push({
                                         name: template.metadata.name,
                                         value: template.id,
-                                        keys: template.metadata.category || ["Experimental"],
+                                        keys: keys,
                                         description: template.metadata.description
                                     });
                                 }
                             }
                         });
 
+                        var counter = 0;
+                        var that = this;
+                        this._orderedCategoties.forEach((c) => {
+                            var temp = this.categories;
+                            var index = this.categories.findIndex((item) => {
+                                return c === item.displayLabel;
+                            });
+                            if (index > 0) {
+                                var save = this.categories[index];
+                                this.categories.splice(index, 1);
+                                this.categories.splice(counter, 0, save);
+                                counter++;
+                            }
+                        });
 
-                        break;
                 }
             });
         });
@@ -182,8 +205,10 @@ export class TemplatePickerComponent {
     }
 
     onScenarioChanged(category: string) {
-        this.category = category;
-        this.type = this._type;
+        if (this.category !== category) {
+            this.category = category;
+            this.type = this._type;
+        }
     }
 
     private getBindingTemplates(direction: DirectionType): Template[] {
