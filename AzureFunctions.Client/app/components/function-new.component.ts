@@ -149,7 +149,6 @@ export class FunctionNewComponent {
 
     private createFunction() {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id, name: this.functionName });
-        this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
         this._exclutionFileList.forEach((file) => {
             for (var p in this.selectedTemplate.files) {
@@ -160,7 +159,7 @@ export class FunctionNewComponent {
         });
 
         this._globalStateService.setBusyState();
-        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
+        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

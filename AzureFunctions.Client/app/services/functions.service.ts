@@ -152,11 +152,11 @@ export class FunctionsService {
     }
 
     @ClearCache('getFunctions')
-    createFunctionV2(functionName: string, files: any) {
+    createFunctionV2(functionName: string, files: any, config: any) {
         var sampleData = files["sample.dat"];
         delete files["sample.dat"];
 
-        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData }), { headers: this.getHeaders() })
+        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData, config: config}), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 

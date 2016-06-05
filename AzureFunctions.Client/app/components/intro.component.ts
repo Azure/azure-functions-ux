@@ -57,10 +57,8 @@ export class IntroComponent {
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                    selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
-
                     this._globalStateService.setBusyState();
-                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
+                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name : functionName });
                             this._broadcastService.broadcast<TutorialEvent>(
