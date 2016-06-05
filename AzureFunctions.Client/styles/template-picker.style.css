@@ -64,9 +64,14 @@
     text-align: center;
 }
 
+/*http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/*/
 .tp-template-func-description{
     margin: 5px;
     text-align: left;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
 }
 
 .tp-template-content > svg{
