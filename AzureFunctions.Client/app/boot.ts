@@ -10,7 +10,7 @@ import {PortalService} from './services/portal.service';
 import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {ArmService} from './services/arm.service';
-import {MonitoringService} from './services/appMonitoring.service';
+import {MonitoringService} from './services/app-monitoring.service';
 import {TelemetryService} from './services/telemetry.service';
 import {UtilitiesService} from './services/utilities.service';
 import {BackgroundTasksService} from './services/background-tasks.service';

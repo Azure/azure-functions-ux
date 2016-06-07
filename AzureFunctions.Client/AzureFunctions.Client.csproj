@@ -130,7 +130,7 @@
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
     <TypeScriptCompile Include="app\models\constants.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
-    <TypeScriptCompile Include="app\models\appMonitoring-consumption.ts" />
+     <TypeScriptCompile Include="app\models\app-monitoring-usage.ts" />
     <TypeScriptCompile Include="app\models\binding-input-list.ts" />
     <TypeScriptCompile Include="app\models\binding-input.ts" />
     <TypeScriptCompile Include="app\models\binding-list.ts" />
@@ -171,7 +171,7 @@
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
-    <TypeScriptCompile Include="app\services\appMonitoring.service.ts" />
+    <TypeScriptCompile Include="app\services\app-monitoring.service.ts" />
     <TypeScriptCompile Include="app\services\arm.service.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
