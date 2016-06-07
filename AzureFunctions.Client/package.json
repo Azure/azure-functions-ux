@@ -27,6 +27,7 @@
     "d3": "^3.5.15",
     "es6-shim": "^0.35.0",
     "font-awesome": "^4.5.0",
+    "moment": "^2.13.0",
     "ng2-file-upload": "git+https://github.com/ahmelsayed/ng2-file-upload.git",
     "ng2-nvd3": "^1.1.0",
     "nvd3": "^1.8.2",
