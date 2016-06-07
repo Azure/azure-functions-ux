@@ -1,8 +1,7 @@
-﻿
-<div class="wrapper">
-    <div id="heading">Function App Monitoring</div>
-    <h2 class="title">Consumption Units</h2>
+﻿<div class="wrapper">
+    <div id="heading">Function App Usage</div>
     <div>
-        <nvd3 [options]="options" [data]="data"></nvd3>
+        <nvd3 [options]="usageChartOptions" [data]="usageChartData"></nvd3>
+        <nvd3 [options]="instancesChartOptions" [data]="instancesChartData"></nvd3>
     </div>
 </div>
