@@ -10,6 +10,8 @@ import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
 
+declare var prettyCron: any;
+
 @Component({
     selector: 'binding-input',
     templateUrl: './templates/binding-input.component.html',
@@ -23,6 +25,7 @@ export class BindingInputComponent {
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
+    public description: string;
     private _input: BindingInputBase<any>;
 
     constructor(
@@ -35,6 +38,8 @@ export class BindingInputComponent {
 
     set input(input: BindingInputBase<any>) {
         this._input = input;
+        this.setBottomDescription(this._input.id, this._input.value);
+
         this.setClass(input.value);
         if (this._input.type === SettingType.enum) {
             var enums: { display: string; value: any }[] = (<any>this._input).enum;
@@ -104,6 +109,8 @@ export class BindingInputComponent {
     }
 
     inputChanged(value: any) {
+        this.setBottomDescription(this._input.id, value);
+
         if (this._input.changeValue) {
             this._input.changeValue();
         }
@@ -142,6 +149,13 @@ export class BindingInputComponent {
                 this.validChange.emit(this._input);
             }
 
+        }
+    }
+
+    setBottomDescription(id: string, value: any) {
+        switch (id) {
+        case "schedule":
+            this.description = prettyCron.toString(value);
         }
     }
 }
