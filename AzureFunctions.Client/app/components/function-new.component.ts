@@ -41,6 +41,7 @@ export class FunctionNewComponent {
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
     hasInputsToShow: boolean;
+    templateWarning: string;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -62,11 +63,15 @@ export class FunctionNewComponent {
     }
 
     onTemplatePickUpComplete(templateName: string) {
-        var tht = this;
         this._bindingComponents = [];
         this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
+
+            var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
+                return c === "Experimental";
+            });
+            this.templateWarning = experimentalCategory === undefined ? '' : 'This template is experimental and does not yet have full support. If you run into issues, please file a bug on our <a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank">GitHub repository.</a>';
 
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
