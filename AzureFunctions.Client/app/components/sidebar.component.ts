@@ -28,7 +28,9 @@ export class SideBarComponent implements OnDestroy {
     public running: boolean;
     public timeRemaining: string;
     public dots = "";
-    public  uiResource: UIResource;
+    public uiResource: UIResource;
+    //TODO: move to constants since it is being used in other compenents as well
+    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
     @Output()
     refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
@@ -39,7 +41,7 @@ export class SideBarComponent implements OnDestroy {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
-        this.tryItNowTenant = true;
+        this.tryItNowTenant = false;
         this.timeRemaining = "00:00:00";
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
@@ -72,13 +74,19 @@ export class SideBarComponent implements OnDestroy {
                 this.selectFunction(selectedFi);
             }
         });
+        this._userService.getTenants()
+            .subscribe(tenants =>
+                this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId));
 
+        if (this.tryItNowTenant)
         this._functionsService.getTrialResource()
             .subscribe((resource) => {
                     this.uiResource = resource;
                     this.startCountDown(resource.timeLeft);
                 } )
             ;
+
+
     }
     
     timerCallback() {
@@ -108,6 +116,7 @@ export class SideBarComponent implements OnDestroy {
 
     }
 
+    //http://jsfiddle.net/mrwilk/qVuHW/
     countdown(elementName, minutes, seconds) {
         var element, endTime; 
                element = document.getElementById(elementName);
@@ -115,9 +124,6 @@ export class SideBarComponent implements OnDestroy {
             this.updateTimer(endTime, element);
         }
 
-    twoDigits(n) {
-    return (n <= 9 ? "0" + n : n);
-}
     updateTimer(endTime, element) {
         var hours, mins, msLeft, time;
           msLeft = endTime - (+new Date);
@@ -127,7 +133,7 @@ export class SideBarComponent implements OnDestroy {
             time = new Date(msLeft);
             hours = time.getUTCHours();
             mins = time.getUTCMinutes();
-            element.innerHTML = (hours ? hours + ':' + this.twoDigits(mins) : mins) + ':' + this.twoDigits(time.getUTCSeconds());
+            element.innerHTML = (hours ? hours + ':' + mins : mins) + ':' + time.getUTCSeconds();
             setTimeout(this.updateTimer, time.getUTCMilliseconds() + 500);
         }
     }
