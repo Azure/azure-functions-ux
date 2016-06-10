@@ -39,6 +39,10 @@
             <div *ngIf="openSourceControl">
                 <source-control></source-control>
             </div>
+            <div *ngIf="trialExpired">
+                <trial-expired> Your trial has expired </trial-expired>
+            </div>
+
         </div>
     </div>
 

@@ -58,7 +58,7 @@ export class BackgroundTasksService {
             this.setDisabled(result.config);
             this._functionsService.setEasyAuth(result.config);
             this._globalStateService.AppSettings = result.appSettings;
-            this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
+            this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
         });
     }
 

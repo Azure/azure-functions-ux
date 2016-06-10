@@ -7,5 +7,8 @@ export enum BroadcastEvent {
     TutorialStep,
     IntegrateChanged,
     Error,
-    VesrionUpdated
+    VersionUpdated,
+    TimerStarted,
+    TimerExtended,
+    TrialExpired
 }

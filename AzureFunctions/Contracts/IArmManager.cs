@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AzureFunctions.Contracts
 {
     public interface IArmManager
     {
-        Task CreateTrialFunctionContainer();
-        Task GetTrialTime();
-        Task ExtendTrialTime();
+        Task<HttpResponseMessage> CreateTrialFunctionsResource();
+        Task<HttpResponseMessage> GetTrialFunctionsResource();
+        Task<HttpResponseMessage> ExtendTrialFunctionsResource();
     }
 }

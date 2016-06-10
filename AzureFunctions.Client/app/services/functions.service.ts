@@ -21,6 +21,7 @@ import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
+import {UIResource} from '../models/ui-resource';
 
 @Injectable()
 export class FunctionsService {
@@ -325,22 +326,22 @@ export class FunctionsService {
         return this.hostSecrets;
     }
 
-    createTrialFunctionsContainer() {
-        return this._http.post('api/createtrial', '', { headers: this.getPassthroughHeaders() })
+    createTrialResource(): Observable<UIResource> {
+        return this._http.post('api/createtrialresource', '', { headers: this.getPassthroughHeaders() })
         .cache()
-            .map<string>(r => r.statusText);
+            .map<UIResource>(r => r.json());
     }
 
-    extendTrialTime() {
-        return this._http.post('api/extendtrialtime', '', { headers: this.getPassthroughHeaders() })
+    extendTrialResource() {
+        return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
             .cache()
-            .map<string>(r => r.statusText);
+            .map<UIResource>(r => r.json());
     }
 
-    getTrialTime() {
-        return this._http.get('api/gettrialtime', { headers: this.getPassthroughHeaders() })
+    getTrialResource(): Observable<UIResource>{
+        return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
             .cache()
-            .map<string>(r => r.statusText);
+            .map<UIResource>(r => r.json());
     }
 
     updateFunction(fi: FunctionInfo) {

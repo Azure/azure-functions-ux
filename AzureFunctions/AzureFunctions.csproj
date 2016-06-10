@@ -215,9 +215,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppService.cs" />
     <Compile Include="Models\ClientError.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Authentication\Extensions.cs" />
+    <Compile Include="Models\UIResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />

@@ -52,6 +52,7 @@ export class DashboardComponent implements OnChanges {
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
+    public trialExpired: boolean;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -81,6 +82,11 @@ export class DashboardComponent implements OnChanges {
                 this._globalStateService.clearBusyState();
             }
 
+        });
+        this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
+            {
+                this.trialExpired = true;
+            }
         });
     }
 

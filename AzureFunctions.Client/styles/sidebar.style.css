@@ -137,27 +137,29 @@
 }
 
 #refresh {
-    padding: 2px 10px 5px 15px;
+    padding: 10px 10px 5px 15px;
     height: 4%;
 }
 
 .function-icon {
     height: 15px;
 }
-w
+
 .tryinfo-box {
-    background-color: whitesmoke;
+    background-color: white;
     height: 120px;
     width: 100%;
-    border: blue;
-    border-width: 5px;
-    border-radius: 5px;
+    border: 5px blue;
     padding-left: 10px;
+    color: red;
+    font-size: medium;
+    text-align: center;
+
 }
 
 
 .tryinfo-box-timer {
-    background-color: whitesmoke;
+    background-color: white;
     color: red;
     font-size: large;
     text-align: center;
@@ -165,3 +167,39 @@ w
     outline: none;
     font-weight: bold;
 }
+.tryinfo-box {
+    background-color: white;
+    height: 120px;
+    width: 100%;
+    border: 5px blue;
+    padding-left: 10px;
+}
+.signup-button {
+    margin-right: 10px;
+    display: inline;
+    padding: 5px 5px 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: #539CF6;
+}
+
+.signup-button :disabled {
+    cursor: not-allowed;
+    background-color: #ECEFF1;
+}
+
+.extend-trial-button {
+    margin-right: 10px;
+    display: inline;
+    padding: 5px 5px 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: #539CF6;
+}
+

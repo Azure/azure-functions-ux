@@ -38,6 +38,7 @@
     <Content Include="styles\function-new.style.css" />
     <Content Include="styles\intro.style.css" />
     <Content Include="styles\pop-over.style.css" />
+    <Content Include="styles\trial-expired.styles.css" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\function-manage.component.html" />
     <Content Include="templates\tutorial.component.html" />
@@ -117,7 +118,9 @@
     <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
+    <TypeScriptCompile Include="app\components\timer.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
+    <TypeScriptCompile Include="app\components\trial-expired.ts" />
     <TypeScriptCompile Include="app\components\tutorial.component.ts" />
     <TypeScriptCompile Include="app\constants.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
@@ -159,8 +162,10 @@
     <TypeScriptCompile Include="app\models\subscription.ts" />
     <TypeScriptCompile Include="app\models\template-input.ts" />
     <TypeScriptCompile Include="app\models\tenant-info.ts" />
+    <TypeScriptCompile Include="app\models\timer-event.ts" />
     <TypeScriptCompile Include="app\models\tutorial.ts" />
     <TypeScriptCompile Include="app\models\tutorialInfo.ts" />
+    <TypeScriptCompile Include="app\models\ui-resource.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />

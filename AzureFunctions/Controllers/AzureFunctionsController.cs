@@ -28,15 +28,17 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
+        public async Task<HttpResponseMessage> CreateTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 try
                 {
-                    await this._armManager.CreateTrialFunctionContainer();
+                    var functionsResourceResponse = await this._armManager.CreateTrialFunctionsResource();
+                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
                     perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.Created);
+                    return Request.CreateResponse(HttpStatusCode.Created, functionsResource);
+
                 }
                 catch (Exception e)
                 {
@@ -48,15 +50,17 @@ namespace AzureFunctions.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> ExtendTrialTime()
+        public async Task<HttpResponseMessage> ExtendTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 try
                 {
-                    await this._armManager.ExtendTrialTime();
-                    perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.Created);
+                    var functionsResourceResponse = await this._armManager.ExtendTrialFunctionsResource();
+                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
+                    perf.AddProperties("Extended");
+                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
+
                 }
                 catch (Exception e)
                 {
@@ -69,15 +73,16 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<HttpResponseMessage> GetTrialTime()
+        public async Task<HttpResponseMessage> GetTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 try
                 {
-                    await this._armManager.GetTrialTime();
+                    var functionsResourceResponse = await this._armManager.GetTrialFunctionsResource();
+                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
                     perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.Created);
+                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
                 }
                 catch (Exception e)
                 {
