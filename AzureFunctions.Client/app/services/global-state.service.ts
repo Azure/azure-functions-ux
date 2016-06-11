@@ -40,6 +40,10 @@ export class GlobalStateService {
         return this._appSettings[Constants.extensionVersionAppSettingName];
     }
 
+    get IsLatest(): boolean {
+        return this.ExtensionVersion ? Constants.latestExtensionVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false;
+    }
+
     set AppSettings(value: {[key: string]: string}) {
         if (value) {
             this._appSettings = value;

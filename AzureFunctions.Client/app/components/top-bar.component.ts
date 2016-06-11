@@ -131,7 +131,7 @@ export class TopBarComponent implements OnInit {
     }
 
     private setInfo() {
-        this.needUpdateExtensionVersion = this._globalStateService.ExtensionVersion ? Constants.latestExtensionVersion !== this._globalStateService.ExtensionVersion : false;
+        this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
     }
 
     onSourceControlClicked() {
