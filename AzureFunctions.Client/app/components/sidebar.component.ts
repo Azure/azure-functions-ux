@@ -1,5 +1,4 @@
 import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
-import { TimerAppComponent } from "./timer";
 import {FunctionsService} from '.././services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionConfig} from '../models/function-config';
@@ -26,9 +25,10 @@ export class SideBarComponent implements OnDestroy {
     public tryItNowTenant: boolean;
     public pullForStatus = false;
     public running: boolean;
-    public timeRemaining: string;
+    public endTime: Date;
     public dots = "";
     public uiResource: UIResource;
+    public isExtended: boolean;
     //TODO: move to constants since it is being used in other compenents as well
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
     @Output()
@@ -42,7 +42,6 @@ export class SideBarComponent implements OnDestroy {
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
         this.tryItNowTenant = false;
-        this.timeRemaining = "00:00:00";
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
             for (var i = 0; i < this.functionsInfo.length; i++) {
@@ -74,24 +73,59 @@ export class SideBarComponent implements OnDestroy {
                 this.selectFunction(selectedFi);
             }
         });
-        this._userService.getTenants()
-            .subscribe(tenants =>
-                this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId));
+        var callBack = () => {
+            window.setTimeout(() => {
 
-        if (this.tryItNowTenant)
-        this._functionsService.getTrialResource()
-            .subscribe((resource) => {
-                    this.uiResource = resource;
-                    this.startCountDown(resource.timeLeft);
-                } )
-            ;
+                     var element, hours, mins;
+                     element = document.getElementById('countdownTimer');
+                     //var now= new Date;
+                     var now_utc = this.getUTCDate();
 
+                     var msLeft = this.endTime.getTime() - now_utc.getTime() ;
+
+                     if (this.endTime >= now_utc) {
+
+                         var time = new Date(msLeft);
+                         hours = time.getUTCHours();
+                         mins = time.getUTCMinutes();
+                         element.innerHTML = (hours ? this.pad(hours, 2) + ':' + this.pad(mins, 2) : mins) + ':' + this.pad(time.getUTCSeconds(),2);
+                         window.setTimeout(callBack, 500);
+                     } else {
+                         element.innerHTML = "Trial expired";
+                         //TODO: Show Treial expired splash screen
+                     }
+                });
+
+
+        };
+        ;
+         this._userService.getTenants()
+            .subscribe(tenants => {
+                this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId);
+                if (this.tryItNowTenant)
+                    this._functionsService.getTrialResource()
+                        .subscribe((resource) => {
+                            this.uiResource = resource;
+                            this.isExtended = resource.isExtended;
+                            this.endTime = this.getUTCDate();
+                            this.endTime.setUTCSeconds(this.endTime.getUTCSeconds() + resource.timeLeft);
+                            callBack();
+                        });
+            });
+    }
+
+    getUTCDate() {
+        var now = new Date;
+        return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 
     }
-    
-    timerCallback() {
-        // this.$apply(() => siteExpired = true);
-    }
+
+    //http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+    pad(n, width) {
+    var z = '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
 
     redirecttoazurefreetrial() {
         window.location.replace(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`);
@@ -100,57 +134,16 @@ export class SideBarComponent implements OnDestroy {
     extendResourceLifeTime() {
         this.running = true;
         this._functionsService.extendTrialResource().
-            subscribe((r) => {
-                this.uiResource = r;
-                this.startCountDown(r.timeLeft);
+            subscribe((resource) => {
+                this.uiResource = resource;
+                this.isExtended = resource.isExtended;
+                this.endTime = this.getUTCDate();
+                this.endTime.setUTCSeconds(this.endTime.getUTCSeconds() + resource.timeLeft);
             });
 
     }
 
-    startCountDown(timeLeft) {
-        this.timeRemaining = timeLeft.toString();
-        this.countdown("countdownTimer", 59, 0);
-        //$scope.$broadcast("timer-set-c"ountdown-seconds", timeLeft);
-        //$scope.$broadcast("timer-set-countdown", timeLeft);
-        //$scope.$broadcast("timer-start");
 
-    }
-
-    //http://jsfiddle.net/mrwilk/qVuHW/
-    countdown(elementName, minutes, seconds) {
-        var element, endTime; 
-               element = document.getElementById(elementName);
-            endTime = (+new Date) + 1000 * (60 * minutes + seconds) + 500;
-            this.updateTimer(endTime, element);
-        }
-
-    updateTimer(endTime, element) {
-        var hours, mins, msLeft, time;
-          msLeft = endTime - (+new Date);
-        if (msLeft < 1000) {
-            element.innerHTML = "countdown's over!";
-        } else {
-            time = new Date(msLeft);
-            hours = time.getUTCHours();
-            mins = time.getUTCMinutes();
-            element.innerHTML = (hours ? hours + ':' + mins : mins) + ':' + time.getUTCSeconds();
-            setTimeout(this.updateTimer, time.getUTCMilliseconds() + 500);
-        }
-    }
-    startStatusPull() {
-/*    if (this.pullForStatus) {
-        $http
-            .get("/api/resource/status")
-            .success(d => {
-                this.dots = (this.dots.length > 4 || this.ngModels.statusMessage !== d) ? "." : this.dots + ".";
-                this.ngModels.statusMessage = d + this.dots;
-                $timeout(this.startStatusPull, 5000);
-            });
-    } else {
-        delete this.ngModels.statusMessage;
-    }
-    */
-    }
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
     }
@@ -177,4 +170,5 @@ export class SideBarComponent implements OnDestroy {
         }
         return switchFunction;
     }
+
 }
