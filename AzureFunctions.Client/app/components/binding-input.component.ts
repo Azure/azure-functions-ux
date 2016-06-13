@@ -154,8 +154,10 @@ export class BindingInputComponent {
 
     setBottomDescription(id: string, value: any) {
         switch (id) {
-        case "schedule":
-            this.description = prettyCron.toString(value);
+        // TODO: Temporarily hide cron expression string
+        //https://github.com/projectkudu/AzureFunctionsPortal/issues/398
+        //case "schedule":
+        //    this.description = prettyCron.toString(value);
         }
     }
 }
