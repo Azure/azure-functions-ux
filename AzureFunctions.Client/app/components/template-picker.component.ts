@@ -172,6 +172,9 @@ export class TemplatePickerComponent {
                             }
                         });
 
+                        this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            return a.displayLabel > b.displayLabel ? 1 : -1;
+                        });
                 }
             });
         });
