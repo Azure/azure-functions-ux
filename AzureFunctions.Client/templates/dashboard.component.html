@@ -5,42 +5,41 @@
              (quickstartClicked)='onQuickstartClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
-             [quickStartSelected]="openIntro"
-             ></top-bar>
+             [quickStartSelected]="openIntro"></top-bar>
 
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)'></sidebar>
         <div class="work-space">
             <tutorial></tutorial>
-
-            <div *ngIf="selectedFunction">
-                <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
-                    <function-edit [selectedFunction]="selectedFunction">
-                    </function-edit>
+            <div *ngIf="!trialExpired">
+                <div *ngIf="selectedFunction">
+                    <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
+                        <function-edit [selectedFunction]="selectedFunction">
+                        </function-edit>
+                    </div>
+                    <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
+                        <function-new [functionsInfo]="functionsInfo"></function-new>
+                    </div>
                 </div>
-                <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
-                    <function-new [functionsInfo]="functionsInfo"></function-new>
+                <div *ngIf="openAppMonitoring">
+                    <app-monitoring></app-monitoring>
                 </div>
-            </div>
 
-            <div *ngIf="openAppMonitoring">
-                <app-monitoring></app-monitoring>
-            </div>
+                <div *ngIf="openAppSettings">
+                    <app-settings [functionContainer]="functionContainer"></app-settings>
+                </div>
 
-            <div *ngIf="openAppSettings">
-                <app-settings [functionContainer]="functionContainer"></app-settings>
-            </div>
+                <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
+                <div *ngIf="openIntro">
+                    <intro [functionsInfo]="functionsInfo"></intro>
+                </div>
 
-            <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
-            <div *ngIf="openIntro">
-                <intro [functionsInfo]="functionsInfo"></intro>
-            </div>
-
-            <div *ngIf="openSourceControl">
-                <source-control></source-control>
+                <div *ngIf="openSourceControl">
+                    <source-control></source-control>
+                </div>
             </div>
             <div *ngIf="trialExpired">
-                <trial-expired> Your trial has expired </trial-expired>
+                <span> Your trial has expired </span>
             </div>
 
         </div>

@@ -29,6 +29,7 @@ export class SideBarComponent implements OnDestroy {
     public dots = "";
     public uiResource: UIResource;
     public isExtended: boolean;
+    public trialExpired: boolean;
     //TODO: move to constants since it is being used in other compenents as well
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
     @Output()
@@ -42,6 +43,7 @@ export class SideBarComponent implements OnDestroy {
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
         this.tryItNowTenant = false;
+        this.trialExpired = false;
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
             for (var i = 0; i < this.functionsInfo.length; i++) {
@@ -78,7 +80,6 @@ export class SideBarComponent implements OnDestroy {
 
                      var element, hours, mins;
                      element = document.getElementById('countdownTimer');
-                     //var now= new Date;
                      var now_utc = this.getUTCDate();
 
                      var msLeft = this.endTime.getTime() - now_utc.getTime() ;
@@ -92,13 +93,13 @@ export class SideBarComponent implements OnDestroy {
                          window.setTimeout(callBack, 500);
                      } else {
                          element.innerHTML = "Trial expired";
-                         //TODO: Show Treial expired splash screen
+                         this.trialExpired = true;
+                         this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
                      }
                 });
 
 
         };
-        ;
          this._userService.getTenants()
             .subscribe(tenants => {
                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId);
