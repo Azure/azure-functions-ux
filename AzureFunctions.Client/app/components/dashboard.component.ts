@@ -85,6 +85,7 @@ export class DashboardComponent implements OnChanges {
             }
 
         });
+
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
                this.trialExpired = true;
         });

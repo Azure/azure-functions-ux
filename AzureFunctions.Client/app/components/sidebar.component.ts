@@ -73,6 +73,7 @@ export class SideBarComponent implements OnDestroy {
                 this.selectFunction(selectedFi);
             }
         });
+
          this._userService.getTenants()
             .subscribe(tenants => {
                  this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
