@@ -164,12 +164,24 @@ export class BindingManager {
         return result;
     }
 
-    setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {        
+    setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {
         bindings.forEach((b) => {
             for (var key in b) {
                 if (key === "storageAccount") {
                     b[key] = defaultStorageAccount;
                 }
+            }
+        });
+    }
+
+    validateConfig(config: FunctionConfig) {
+        config.bindings.forEach((b) => {
+            var duplicate = config.bindings.find((binding) => {
+                return b !== binding &&  binding.name === b.name;
+            });
+            if (duplicate) {
+                var e = b.name;
+                throw `parameter name must be unique: '${e}'.`;
             }
         });
     }

@@ -11,6 +11,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {ErrorEvent} from '../models/error-event';
 
 declare var jQuery: any;
 
@@ -146,6 +147,13 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
+
+        try {
+            this._bindingManager.validateConfig(this._functionInfo.config);
+        } catch (e) {
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` });
+            return;
+        }
 
         // Update test_data only from develop tab
         if (this._functionInfo.test_data) {
