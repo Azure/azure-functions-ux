@@ -86,8 +86,7 @@ export class GettingStartedComponent implements OnInit {
         this._userService.getTenants()
             .subscribe(tenants => {
                 this._globalStateService.setBusyState();
-                if (!tenants.some(e => (e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId))) {
-
+                if (!tenants.some(()=>true)) {
                     this.checkOutTrialSubscription();
                 }
                 else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
