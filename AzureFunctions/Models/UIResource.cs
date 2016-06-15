@@ -33,6 +33,7 @@ namespace AzureFunctions.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public AppService AppService { get; set; }
 
+        [JsonProperty(PropertyName = "isRbacEnabled")]
         public bool IsRbacEnabled { get; set; }
 
         [JsonProperty(PropertyName = "templateName")]
@@ -42,6 +43,6 @@ namespace AzureFunctions.Models
         public bool IsExtended { get; set; }
 
         [JsonProperty(PropertyName = "csmId")]
-        public string csmId{ get; set; }
+        public string CsmId{ get; set; }
     }
 }

@@ -34,8 +34,7 @@ namespace AzureFunctions.Controllers
             {
                 try
                 {
-                    var functionsResourceResponse = await this._armManager.CreateTrialFunctionsResource();
-                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
+                    var functionsResource = await this._armManager.CreateTrialFunctionsResource();
                     perf.AddProperties("Created");
                     return Request.CreateResponse(HttpStatusCode.Created, functionsResource);
 
@@ -56,8 +55,7 @@ namespace AzureFunctions.Controllers
             {
                 try
                 {
-                    var functionsResourceResponse = await this._armManager.ExtendTrialFunctionsResource();
-                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
+                    var functionsResource = await this._armManager.ExtendTrialFunctionsResource();
                     perf.AddProperties("Extended");
                     return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
 
@@ -79,8 +77,7 @@ namespace AzureFunctions.Controllers
             {
                 try
                 {
-                    var functionsResourceResponse = await this._armManager.GetTrialFunctionsResource();
-                    UIResource functionsResource = await functionsResourceResponse.Content.ReadAsAsync<UIResource>();
+                    var functionsResource = await this._armManager.GetTrialFunctionsResource();
                     perf.AddProperties("Created");
                     return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
                 }

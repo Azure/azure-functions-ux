@@ -39,8 +39,6 @@ export class GettingStartedComponent implements OnInit {
 
     private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
-    private testTenantId1: string = "33da3efe-64bf-4020-803e-4705c00181b2";
-    private testTenantId2: string = "a4a2d41a-a5e3-4d2d-9e78-d8744e098581";
 
     constructor(
         private _userService: UserService,
@@ -81,14 +79,12 @@ export class GettingStartedComponent implements OnInit {
         this.tryItNow = true;
 
         this._functionsService.createTrialResource().
-            subscribe(() => { this.switchToTenant(this.tryAppServiceTenantId); });
+            subscribe(() => { this.switchToTryAppServiceTenant(); });
     }
 
     createTrialAndThenLogin() {
         this._userService.getTenants()
             .subscribe(tenants => {
-                tenants = tenants.filter(e => e.TenantId.toLocaleLowerCase() !== this.testTenantId1
-                    && e.TenantId.toLocaleLowerCase() !== this.testTenantId2);
                 this._globalStateService.setBusyState();
                 if (!tenants.some(e => (e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId))) {
 
@@ -124,8 +120,8 @@ export class GettingStartedComponent implements OnInit {
             });
     }
 
-    switchToTenant(tenantId: string) {
-        window.location.href = `api/switchtenants/${tenantId}${window.location.search}`;
+    switchToTryAppServiceTenant() {
+        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}${window.location.search}`;
     }
 
     createFunctionsContainer() {

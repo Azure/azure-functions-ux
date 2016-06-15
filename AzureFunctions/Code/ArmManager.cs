@@ -4,6 +4,7 @@ using AzureFunctions.Contracts;
 using AzureFunctions.Trace;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AzureFunctions.Models;
 
 namespace AzureFunctions.Code
 {
@@ -20,31 +21,31 @@ namespace AzureFunctions.Code
             this._client = client;
         }
 
-        public async Task<HttpResponseMessage> CreateTrialFunctionsResource()
+        public async Task<UIResource> CreateTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
                 perf.AddProperties("FunctionCreateResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
             }
         }
-        public async Task<HttpResponseMessage> GetTrialFunctionsResource()
+        public async Task<UIResource> GetTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 var response = await _client.GetAsync(Constants.TryAppServiceCreateUrl);
                 perf.AddProperties("FunctionGetResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
             }
         }
-        public async Task<HttpResponseMessage> ExtendTrialFunctionsResource()
+        public async Task<UIResource> ExtendTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceExtendTrial, new { });
                 perf.AddProperties("ExtendTrialResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
             }
         }
     }

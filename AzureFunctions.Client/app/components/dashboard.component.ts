@@ -5,6 +5,7 @@ import {FunctionEditComponent} from './function-edit.component';
 import {DropDownComponent} from './drop-down.component';
 import {AppMonitoringComponent} from './app-monitoring.component';
 import {AppSettingsComponent} from './app-settings.component';
+import {TrialExpiredComponent} from './trial-expired.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
 import {PortalService} from '../services/portal.service';
@@ -39,7 +40,8 @@ import {GlobalStateService} from '../services/global-state.service';
         FunctionNewComponent,
         IntroComponent,
         TutorialComponent,
-        SourceControlComponent
+        SourceControlComponent,
+        TrialExpiredComponent
     ]
 })
 export class DashboardComponent implements OnChanges {
@@ -84,9 +86,7 @@ export class DashboardComponent implements OnChanges {
 
         });
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
-            {
-                this.trialExpired = true;
-            }
+               this.trialExpired = true;
         });
     }
 

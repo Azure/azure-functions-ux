@@ -9,9 +9,9 @@
 
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)'></sidebar>
-        <div class="work-space">
+        <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
-            <div *ngIf="!trialExpired">
+            <div >
                 <div *ngIf="selectedFunction">
                     <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
                         <function-edit [selectedFunction]="selectedFunction">
@@ -38,11 +38,11 @@
                     <source-control></source-control>
                 </div>
             </div>
-            <div *ngIf="trialExpired">
-                <span> Your trial has expired </span>
-            </div>
-
         </div>
+        <div *ngIf="trialExpired">
+            <trial-expired> Your trial has expired </trial-expired>
+        </div>
+
     </div>
 
 </div>

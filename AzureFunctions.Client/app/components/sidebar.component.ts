@@ -9,14 +9,15 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {UIResource} from '../models/ui-resource';
+import {TryNowComponent} from './try-now.component';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: ['styles/sidebar.style.css'],
     inputs: ['functionsInfo'],
-    pipes: [SideBarFilterPipe]
+    pipes: [SideBarFilterPipe],
+    directives: [TryNowComponent]
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
@@ -25,11 +26,8 @@ export class SideBarComponent implements OnDestroy {
     public tryItNowTenant: boolean;
     public pullForStatus = false;
     public running: boolean;
-    public endTime: Date;
     public dots = "";
-    public uiResource: UIResource;
-    public isExtended: boolean;
-    public trialExpired: boolean;
+
     //TODO: move to constants since it is being used in other compenents as well
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
     @Output()
@@ -43,7 +41,7 @@ export class SideBarComponent implements OnDestroy {
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
         this.tryItNowTenant = false;
-        this.trialExpired = false;
+
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
             for (var i = 0; i < this.functionsInfo.length; i++) {
@@ -75,75 +73,12 @@ export class SideBarComponent implements OnDestroy {
                 this.selectFunction(selectedFi);
             }
         });
-        var callBack = () => {
-            window.setTimeout(() => {
-
-                     var element, hours, mins;
-                     element = document.getElementById('countdownTimer');
-                     var now_utc = this.getUTCDate();
-
-                     var msLeft = this.endTime.getTime() - now_utc.getTime() ;
-
-                     if (this.endTime >= now_utc) {
-
-                         var time = new Date(msLeft);
-                         hours = time.getUTCHours();
-                         mins = time.getUTCMinutes();
-                         element.innerHTML = (hours ? this.pad(hours, 2) + ':' + this.pad(mins, 2) : mins) + ':' + this.pad(time.getUTCSeconds(),2);
-                         window.setTimeout(callBack, 500);
-                     } else {
-                         element.innerHTML = "Trial expired";
-                         this.trialExpired = true;
-                         this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
-                     }
-                });
-
-
-        };
          this._userService.getTenants()
             .subscribe(tenants => {
-                this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId);
-                if (this.tryItNowTenant)
-                    this._functionsService.getTrialResource()
-                        .subscribe((resource) => {
-                            this.uiResource = resource;
-                            this.isExtended = resource.isExtended;
-                            this.endTime = this.getUTCDate();
-                            this.endTime.setUTCSeconds(this.endTime.getUTCSeconds() + resource.timeLeft);
-                            callBack();
-                        });
-            });
-    }
-
-    getUTCDate() {
-        var now = new Date;
-        return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
+             });
 
     }
-
-    //http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
-    pad(n, width) {
-    var z = '0';
-    n = n + '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-}
-
-    redirecttoazurefreetrial() {
-        window.location.replace(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`);
-    }
-
-    extendResourceLifeTime() {
-        this.running = true;
-        this._functionsService.extendTrialResource().
-            subscribe((resource) => {
-                this.uiResource = resource;
-                this.isExtended = resource.isExtended;
-                this.endTime = this.getUTCDate();
-                this.endTime.setUTCSeconds(this.endTime.getUTCSeconds() + resource.timeLeft);
-            });
-
-    }
-
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());

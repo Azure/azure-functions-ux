@@ -8,7 +8,5 @@ export enum BroadcastEvent {
     IntegrateChanged,
     Error,
     VersionUpdated,
-    TimerStarted,
-    TimerExtended,
     TrialExpired
 }

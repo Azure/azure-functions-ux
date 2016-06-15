@@ -1,5 +1,6 @@
 <div class="sidebar">
-    <ul class="functions-list">
+    
+    <ul class="functions-list" [style.height]="tryItNowTenant ? '82%' : '96%'">
         <li>
             <span class="function-item full-height">
                 <input type="text" id="search-box" placeholder="Search my functions" [(ngModel)]="searchValue" />
@@ -15,16 +16,10 @@
             </span>
         </li>
     </ul>
-    <div *ngIf="tryItNowTenant" class="tryinfo-box">
-        <div>Trial time remaining</div>
-        <div id ="countdownTimer" class="tryinfo-box-timer"></div>
-        <div id="extendTrial" (click)="extendResourceLifeTime()" class="extend-trial-button" *ngIf="!isExtended||trialExpired">Extend Trial</div>
-        <div style="margin-top:20px;"></div>
-        <div *ngIf="tryItNowTenant" (click)="redirecttoazurefreetrial()" class="signup-button ">
-            Signup for an Azure 30-day trial
-        </div>
+    <div *ngIf="tryItNowTenant">
+        <try-now></try-now>
     </div>
-    <div id="refresh" (click)="refresh()" class="link clickable"><i class="fa fa-refresh"></i> Refresh
+    <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> Refresh
     </div>
 
 </div>
