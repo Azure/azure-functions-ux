@@ -180,8 +180,7 @@ export class BindingManager {
                 return b !== binding &&  binding.name === b.name;
             });
             if (duplicate) {
-                var e = b.name;
-                throw `parameter name must be unique: '${e}'.`;
+                throw `parameter name must be unique in a function: '${b.name}'.`;
             }
         });
     }
