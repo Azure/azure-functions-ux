@@ -328,7 +328,6 @@ export class FunctionsService {
 
     createTrialResource(): Observable<UIResource> {
         return this._http.post('api/createtrialresource', '', { headers: this.getPassthroughHeaders() })
-            .cache()
             .map<UIResource>(r => r.json());
     }
 
@@ -339,7 +338,6 @@ export class FunctionsService {
 
     getTrialResource(): Observable<UIResource>{
         return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
-            .cache()
             .map<UIResource>(r => r.json());
     }
 

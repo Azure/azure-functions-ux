@@ -12,11 +12,11 @@ import {FunctionsService} from '.././services/functions.service';
 })
 
 export class TryNowComponent implements OnInit {
-    @ViewChild(TryNowComponent) timer: TryNowComponent;
     public uiResource: UIResource;
     public isExtended: boolean;
     public trialExpired: boolean;
     public endTime: Date;
+    public timerText: string;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
 
@@ -25,8 +25,8 @@ export class TryNowComponent implements OnInit {
         var callBack = () => {
             window.setTimeout(() => {
 
-                var element, hh, mm, ss;
-                element = document.getElementById('countdownTimer');
+                var hh, mm, ss;
+                //element = document.getElementById('countdownTimer');
                 var now = new Date();
 
                 var msLeft = this.endTime.getTime() - now.getTime();
@@ -40,10 +40,12 @@ export class TryNowComponent implements OnInit {
                     msLeft -= mm * 1000 * 60;
                     ss = Math.floor(msLeft / 1000);
 
-                    element.innerHTML = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
+                    //element.innerHTML = 
+                    this.timerText= (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
                     window.setTimeout(callBack, 500);
                 } else {
-                    element.innerHTML = "Trial expired";
+                    //element
+                    this.timerText = "Trial expired";
                     this.trialExpired = true;
                     this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
                 }

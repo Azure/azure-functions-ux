@@ -86,25 +86,21 @@ export class GettingStartedComponent implements OnInit {
         this._userService.getTenants()
             .subscribe(tenants => {
                 this._globalStateService.setBusyState();
-                if (!tenants.some(()=>true)) {
+                if (tenants.length === 0) {
                     this.checkOutTrialSubscription();
                 }
                 else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
-                    this._armService.getSubscriptions().subscribe((sub) => {
-                        if (sub === null || sub === undefined || sub.length === 0)
-                            this.checkOutTrialSubscription();
-                        else {
-
-                            this._functionsService.getTrialResource().subscribe
-                                ((resource) =>
-                                    this._armService.getFunctionContainer(resource.csmId).subscribe
-                                        ((container) => {
-                                            this.userReady.emit(container);
-                                            this._globalStateService.clearBusyState();
-                                        })
-                                );
-                        }
-                    });
+                    this._functionsService.getTrialResource().subscribe
+                        ((resource) => {
+                            if (resource === null || resource === undefined) {
+                                this.checkOutTrialSubscription();
+                            } else
+                                this._armService.getFunctionContainer(resource.csmId).subscribe
+                                    ((container) => {
+                                        this.userReady.emit(container);
+                                        this._globalStateService.clearBusyState();
+                                    });
+                        });
                 } else {
                     this.tryItNow = false;
                     this._globalStateService.setBusyState();

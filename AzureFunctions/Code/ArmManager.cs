@@ -27,7 +27,8 @@ namespace AzureFunctions.Code
             {
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
                 perf.AddProperties("FunctionCreateResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
+                await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
             }
         }
         public async Task<UIResource> GetTrialFunctionsResource()
@@ -36,7 +37,8 @@ namespace AzureFunctions.Code
             {
                 var response = await _client.GetAsync(Constants.TryAppServiceCreateUrl);
                 perf.AddProperties("FunctionGetResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
+                await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
             }
         }
         public async Task<UIResource> ExtendTrialFunctionsResource()
@@ -45,7 +47,8 @@ namespace AzureFunctions.Code
             {
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceExtendTrial, new { });
                 perf.AddProperties("ExtendTrialResponse");
-                return await response.EnsureSuccessStatusCodeWithFullError().Result.Content.ReadAsAsync<UIResource>();
+                await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
             }
         }
     }
