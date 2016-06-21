@@ -27,6 +27,7 @@ import {SourceControlComponent} from './source-control.component';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 
 @Component({
     selector: 'functions-dashboard',
@@ -112,7 +113,7 @@ export class DashboardComponent implements OnChanges {
                 this._globalStateService.clearBusyState();
                 this.resetView(true);
                 this.openIntro = true;
-
+                selectedFunctionName = selectedFunctionName || Cookie.get('functionName');;
                 if (selectedFunctionName) {
                     var findSelected = this.functionsInfo.find((f) => {
                         return f.name === selectedFunctionName;

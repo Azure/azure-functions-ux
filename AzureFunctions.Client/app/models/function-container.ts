@@ -12,4 +12,5 @@
         sku: string;
         containerSize: number;
     }
+    tryScmCred?: string;
 }

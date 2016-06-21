@@ -14,7 +14,6 @@
     <title>Azure Functions</title>
     @{
 
-
         if (isAzure)
         {
             <script src="@cdn/node_modules/es6-shim/es6-shim.min.js?v=@version"></script>
@@ -85,7 +84,8 @@
                     'ng2-file-upload': 'node_modules/ng2-file-upload',
                     'prettycron': 'node_modules/prettycron/prettycron.js',
                     'moment': 'node_modules/moment',
-                    'ng2-translate': 'node_modules/ng2-translate'
+                    'ng2-translate': 'node_modules/ng2-translate',
+                    'ng2-cookies': 'node_modules/ng2-cookies'
                 };
 
                 // packages tells the System loader how to load when no filename and/or no extension
@@ -95,7 +95,8 @@
                     'ng2-nvd3': { main: 'ng2-nvd3.js', defaultExtension: 'js' },
                     'ng2-file-upload': { defaultExtension: 'js' },
                     'prettycron': { defaultExtension: 'js' },
-                    'ng2-translate': { defaultExtension: 'js' }
+                    'ng2-translate': { defaultExtension: 'js' },
+                    'ng2-cookies': { defaultExtension: 'js' }
                 };
 
                 var packageNames = [

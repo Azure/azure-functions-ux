@@ -15,16 +15,18 @@ import {MonitoringService} from '../services/app-monitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
+import {TryLandingComponent} from './try-landing.component';
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
-    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
+    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent]
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
     public ready: boolean = false;
+    public showTryView:boolean;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
     private _readyFunction: boolean = false;
@@ -60,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _trnaslateService: TranslateService
     ) {
         this.gettingStarted = !_userService.inIFrame;
-
+        this.showTryView = this._globalStateService.showTryView; 
         this._functionsService.getResources().subscribe(() => {
             this.readyResources = true;
         });
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        if (!this.gettingStarted) {
+        if (!this.gettingStarted && !this.showTryView ) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
                 .debounceTime(500)
@@ -90,15 +92,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-
     initializeDashboard(functionContainer: FunctionContainer | string) {
         this._globalStateService.setBusyState();
-        if (this.redirectToIbizaIfNeeded(functionContainer)) return;
+        if (typeof functionContainer !== 'string')
+            //TODO: investigate this
+            this.showTryView = functionContainer.tryScmCred === null;
+
+        if (this.showTryView && this.redirectToIbizaIfNeeded(functionContainer)) return;
+
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
                 this._userService.setFunctionContainer(functionContainer);
+                this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
                 this._globalStateService.clearBusyState();
                 this.readyFunction = true;
@@ -112,13 +119,12 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._globalStateService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
-
     }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1) {
+            window.location.search.indexOf("ibiza=disabled") === -1 && !this.showTryView) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()

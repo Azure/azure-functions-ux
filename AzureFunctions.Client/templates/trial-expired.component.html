@@ -10,12 +10,12 @@
     </div>
 
     <div class="trial-expired-body">
-        <h1>We've enjoyed hosting your functions !</h1>
-        <h3>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well. </h3>
+        <h1>{{ 'trialExpired_enjoyedHostingFunctions' | translate }}</h1>
+        <h3>{{ 'trialExpired_signupForAzure' | translate }}</h3>
         <div style="height:50px;"></div>
         <div>
-            <div (click)="redirectToAzureFreeTrial()" class="trial-expired-signup-button">
-                Signup for an Azure 30-day trial
+            <div [attr.href]="freeTrialUri" target="_blank" class="trial-expired-signup-button">
+                {{ 'tryNow_createFreeAzureAccount' | translate }}
             </div>
         </div>
     </div>

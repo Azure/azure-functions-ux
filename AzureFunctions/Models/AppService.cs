@@ -8,9 +8,9 @@ namespace AzureFunctions.Models
     public enum AppService
     {
         Web = 0,
-        Mobile,
-        Api,
-        Logic,
-        Function
+        Mobile = 1,
+        Api = 2,
+        Logic = 3,
+        Function = 4
     }
 }

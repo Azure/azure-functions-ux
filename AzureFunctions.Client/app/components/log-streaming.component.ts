@@ -10,6 +10,7 @@ import {UtilitiesService} from '../services/utilities.service';
 import {PopOverComponent} from './pop-over.component';
 import {Subscription} from 'Rxjs/rx';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'log-streaming',
@@ -35,7 +36,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         private _userService: UserService,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
-        private _utilities: UtilitiesService) {
+        private _utilities: UtilitiesService,
+        private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getToken().subscribe(t => this.token = t);
         this.log = '';
         this.timeouts = [];
@@ -98,7 +100,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
         this.xhReq = new XMLHttpRequest();
         this.xhReq.open('GET', `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`, true);
-        this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
+        if (this._globalStateService.ScmCreds)
+            this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
+        else
+            this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
         let oldLogs = '';

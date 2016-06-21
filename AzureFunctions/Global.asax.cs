@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -30,7 +31,7 @@ namespace AzureFunctions
         protected void Application_Start()
         {
             var container = InitAutofacContainer();
-            
+
             var config = GlobalConfiguration.Configuration;
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
@@ -43,6 +44,7 @@ namespace AzureFunctions
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+            SecurityManager.HandleTryAppServiceResponse(context);
             SecurityManager.PutOnCorrectTenant(context);
         }
 
@@ -50,15 +52,20 @@ namespace AzureFunctions
         {
             var context = new HttpContextWrapper(HttpContext.Current);
 
-            if (!SecurityManager.TryAuthenticateRequest(context))
-            {
-                var route = RouteTable.Routes.GetRouteData(context);
-                // If the route is not registerd in the WebAPI RouteTable
-                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-                // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-                var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+            var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+            var route = RouteTable.Routes.GetRouteData(context);
+            // If the route is not registerd in the WebAPI RouteTable
+            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+            // If the route doesn't have authenticated value assume true
+            var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try");
+            var isOpenApiRoute = (context.Request.RawUrl.StartsWith("/api") && !isAuthenticated);
 
+            if (   !isFile              //skip auth for files
+                && !isTryPageRequested  //when requesting /try users can be unauthenticated
+                && !isOpenApiRoute      // some templateresource APIs dont need authentication
+                && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
+            {
                 if (isAuthenticated)
                 {
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
@@ -71,7 +78,7 @@ namespace AzureFunctions
                     context.Response.End();
                 }
                 else if (!isFile)
-                {        
+                {
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
                     context.Response.End();
@@ -179,10 +186,6 @@ namespace AzureFunctions
             .As<HttpClient>()
             .InstancePerRequest();
 
-            builder.RegisterType<ArmManager>()
-                .As<IArmManager>()
-                .InstancePerRequest();
-
             builder.RegisterType<TemplatesManager>()
                 .As<ITemplatesManager>()
                 .SingleInstance();
@@ -190,19 +193,15 @@ namespace AzureFunctions
 
         private void RegisterRoutes(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("create-trial-functions-resource", "api/createtrialresource", new { controller = "AzureFunctions", action = "CreateTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-            config.Routes.MapHttpRoute("get-trial-functions-resource", "api/gettrialresource", new { controller = "AzureFunctions", action = "GetTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("extend-trial-functions-resource", "api/extendtrialresource", new { controller = "AzureFunctions", action = "ExtendTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-            config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });            
+            config.Routes.MapHttpRoute("list-templates", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-
-            config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
         }
     }
 }

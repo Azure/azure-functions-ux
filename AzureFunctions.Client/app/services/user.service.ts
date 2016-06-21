@@ -1,4 +1,4 @@
-    import {Http, Headers} from '@angular/http';
+import {Http, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {User} from '../models/user';
@@ -8,7 +8,6 @@ import {FunctionContainer} from '../models/function-container';
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
-
     private functionContainerSubject: ReplaySubject<FunctionContainer>;
     private tokenSubject: ReplaySubject<string>;
     private languageSubject: ReplaySubject<string>;
