@@ -1,7 +1,7 @@
 ﻿import {Component, Input} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
-import  {BroadcastEvent} from '../models/broadcast-event'
+import {BroadcastEvent} from '../models/broadcast-event'
 import {BindingType} from '../models/binding';
 import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';

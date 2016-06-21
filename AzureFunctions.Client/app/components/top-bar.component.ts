@@ -58,7 +58,7 @@ export class TopBarComponent implements OnInit {
             }
         });
 
-        this._broadcastService.subscribe(BroadcastEvent.VesrionUpdated, event => {
+        this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
             this.setInfo();
         });
     }

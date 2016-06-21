@@ -28,15 +28,58 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<HttpResponseMessage> CreateTrialFunctionsContainer()
+        public async Task<HttpResponseMessage> CreateTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 try
                 {
-                    await this._armManager.CreateTrialFunctionContainer();
+                    var functionsResource = await this._armManager.CreateTrialFunctionsResource();
                     perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.Created);
+                    return Request.CreateResponse(HttpStatusCode.Created, functionsResource);
+
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> ExtendTrialFunctionsResource()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    var functionsResource = await this._armManager.ExtendTrialFunctionsResource();
+                    perf.AddProperties("Extended");
+                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
+
+                }
+                catch (Exception e)
+                {
+                    perf.AddProperties("Error");
+                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetTrialFunctionsResource()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                try
+                {
+                    var functionsResource = await this._armManager.GetTrialFunctionsResource();
+                    perf.AddProperties("Created");
+                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
                 }
                 catch (Exception e)
                 {

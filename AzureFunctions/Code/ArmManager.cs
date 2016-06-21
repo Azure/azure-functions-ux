@@ -4,6 +4,7 @@ using AzureFunctions.Contracts;
 using AzureFunctions.Trace;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AzureFunctions.Models;
 
 namespace AzureFunctions.Code
 {
@@ -20,12 +21,34 @@ namespace AzureFunctions.Code
             this._client = client;
         }
 
-        public async Task CreateTrialFunctionContainer()
+        public async Task<UIResource> CreateTrialFunctionsResource()
         {
             using (var perf = FunctionsTrace.BeginTimedOperation())
             {
                 var response = await _client.PostAsJsonAsync(Constants.TryAppServiceCreateUrl, new { name = "FunctionsContainer" });
+                perf.AddProperties("FunctionCreateResponse");
                 await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
+            }
+        }
+        public async Task<UIResource> GetTrialFunctionsResource()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                var response = await _client.GetAsync(Constants.TryAppServiceCreateUrl);
+                perf.AddProperties("FunctionGetResponse");
+                await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
+            }
+        }
+        public async Task<UIResource> ExtendTrialFunctionsResource()
+        {
+            using (var perf = FunctionsTrace.BeginTimedOperation())
+            {
+                var response = await _client.PostAsJsonAsync(Constants.TryAppServiceExtendTrial, new { });
+                perf.AddProperties("ExtendTrialResponse");
+                await response.EnsureSuccessStatusCodeWithFullError();
+                return await response.Content.ReadAsAsync<UIResource>();
             }
         }
     }

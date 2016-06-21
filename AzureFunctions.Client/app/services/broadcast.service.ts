@@ -11,10 +11,11 @@ export class BroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private integrateChnagedEvent: EventEmitter<void>;
+    private integrateChangedEvent : EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
     private versionUpdated: EventEmitter<void>;;
+    private trialExpired: EventEmitter<void>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -24,9 +25,10 @@ export class BroadcastService {
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
-        this.integrateChnagedEvent = new EventEmitter<void>();
+        this.integrateChangedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<ErrorEvent>();
         this.versionUpdated = new EventEmitter<void>();
+        this.trialExpired = new EventEmitter<void>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -100,13 +102,16 @@ export class BroadcastService {
                 return this.tutorialStepEvent;
 
             case BroadcastEvent.IntegrateChanged:
-                return this.integrateChnagedEvent;
+                return this.integrateChangedEvent;
 
             case BroadcastEvent.Error:
                 return this.errorEvent;
 
-            case BroadcastEvent.VesrionUpdated:
+            case BroadcastEvent.VersionUpdated:
                 return this.versionUpdated;
+
+            case BroadcastEvent.TrialExpired:
+                return this.trialExpired;
         }
     }
 }

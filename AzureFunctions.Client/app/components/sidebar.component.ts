@@ -9,27 +9,38 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {TryNowComponent} from './try-now.component';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
-    styleUrls: [ 'styles/sidebar.style.css' ],
+    styleUrls: ['styles/sidebar.style.css'],
     inputs: ['functionsInfo'],
-    pipes: [SideBarFilterPipe]
+    pipes: [SideBarFilterPipe],
+    directives: [TryNowComponent]
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    @Output() refreshClicked = new EventEmitter<void>();
+    public tryItNowTenant: boolean;
+    public pullForStatus = false;
+    public running: boolean;
+    public dots = "";
+
+    //TODO: move to constants since it is being used in other compenents as well
+    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
+    @Output()
+    refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
-                private _userService: UserService,
-                private _broadcastService: BroadcastService) {
+        private _userService: UserService,
+        private _broadcastService: BroadcastService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
+        this.tryItNowTenant = false;
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
@@ -57,11 +68,17 @@ export class SideBarComponent implements OnDestroy {
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
-            if(event && event.step === TutorialStep.NextSteps){
+            if (event && event.step === TutorialStep.NextSteps) {
                 let selectedFi = this.functionsInfo.find(fi => fi === event.functionInfo);
                 this.selectFunction(selectedFi);
             }
         });
+
+         this._userService.getTenants()
+            .subscribe(tenants => {
+                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
+             });
+
     }
 
     ngOnDestroy() {
@@ -90,4 +107,5 @@ export class SideBarComponent implements OnDestroy {
         }
         return switchFunction;
     }
+
 }

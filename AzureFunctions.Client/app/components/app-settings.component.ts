@@ -64,7 +64,7 @@ export class AppSettingsComponent implements OnInit {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast(BroadcastEvent.VesrionUpdated);
+                this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
             });
         });
     }
