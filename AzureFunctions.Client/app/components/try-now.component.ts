@@ -17,11 +17,13 @@ export class TryNowComponent implements OnInit {
     public trialExpired: boolean;
     public endTime: Date;
     public timerText: string;
+    public freeTrialUri: string;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
-
         this.trialExpired = false;
-
+        //TODO: Add cookie referer details like in try
+        var freeTrialExpireCachedQuery = `try_functionstimer`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${ freeTrialExpireCachedQuery }`;
         var callBack = () => {
             window.setTimeout(() => {
 
