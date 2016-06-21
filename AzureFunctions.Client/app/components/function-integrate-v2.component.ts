@@ -97,7 +97,7 @@ export class FunctionIntegrateV2Component {
             this._portalService.setDirtyState(true);
 
 
-            this.currentBinding = this._bindingManager.getDefaultBinding(BindingType[templateName], behavior, bindings.bindings, this._globalStateService.DefaultStorageAccount);
+            this.currentBinding = this._bindingManager.getDefaultBinding(BindingManager.getBindingType(templateName), behavior, bindings.bindings, this._globalStateService.DefaultStorageAccount);
             this.currentBinding.newBinding = true;
 
             this.currentBindingId = this.currentBinding.id;

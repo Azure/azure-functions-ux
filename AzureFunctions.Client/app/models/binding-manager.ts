@@ -31,7 +31,7 @@ export class BindingManager {
 
         config.bindings.forEach((b) => {
             var typeString: string = b.type;
-            var type: BindingType = BindingType[typeString];
+            var type: BindingType = BindingManager.getBindingType(typeString);
             var behaviorString: string = b.direction;
             var direction: DirectionType = DirectionType[behaviorString];
 
@@ -116,7 +116,6 @@ export class BindingManager {
     }
 
     getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[], defaultStorageAccount): UIFunctionBinding {
-        
         var schema = this.getBindingSchema(type, direction, bindings);
 
         var parameterNameSetting = schema.settings.find((s) => {
@@ -195,5 +194,14 @@ export class BindingManager {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
-     }
+    }
+
+    public static getBindingType(value: string): BindingType {
+        for (var type in BindingType) {
+            if (type.toString().toLowerCase() === value.toLowerCase()) {
+                return BindingType[type.toString()];
+            }
+        }
+        return null;
+    }
 }
