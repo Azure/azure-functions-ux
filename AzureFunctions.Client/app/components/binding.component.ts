@@ -9,6 +9,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {Subscription} from 'rxjs/Rx';
+import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Validator} from '../models/binding';
@@ -47,6 +48,7 @@ export class BindingComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this._elementRef = elementRef;
 
@@ -124,7 +126,11 @@ export class BindingComponent {
                                 input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
-                                input.value = settigValue;
+                                if (setting.resource.toString() === "Storage" && this._globalStateService.showTryView) {
+                                    input.value = "AzureWebJobsStorage";
+                                } else {
+                                    input.value = settigValue;
+                                }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                 input.metadata = setting.metadata;

@@ -31,7 +31,7 @@
         <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
         </pop-over>
 
-        <i *ngIf="!input.inProcess" class="link" [class.select]="input.errorText" (click)="openCollectorBlade(input)"> {{ 'bindingInput_select' | translate }}</i>        
+        <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openCollectorBlade(input)"> {{ 'bindingInput_select' | translate }}</i>
     </div>
 
     <div *ngIf="input.type === 'boolean'" class="checkbox">

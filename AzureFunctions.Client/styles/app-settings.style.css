@@ -36,6 +36,13 @@ h2 {
     flex-direction: column;
 }
 
+.setting-wrapper-disabled {
+    display: flex;
+    flex-direction: column;
+    pointer-events:none;
+    cursor: crosshair;
+}
+
 .setting-wrapper > label {
     font-size: 18px;
     font-weight: normal;
@@ -114,6 +121,14 @@ input[type=range]::-ms-thumb {
 }
 /* end range */
 
+
+.features-wrapper-disabled {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    pointer-events:none;
+    cursor: crosshair;
+}
 
 .features-wrapper {
     display: flex;

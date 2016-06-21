@@ -1,0 +1,73 @@
+﻿<top-bar gettingStarted="true" isTry="true"></top-bar>
+<div class="trylanding-container">
+    <div class="trylanding-banner">
+        <div>
+            <h1>{{ 'intro_fasterWay' | translate }}</h1>
+            <p>
+                <img src="/images/function-io.svg" width="210px" />
+                {{ 'intro_writeAny' | translate }}
+            </p>
+        </div>
+    </div>
+    <div class="trylanding-body">
+        <h2>{{ 'intro_getStarted' | translate }}</h2>
+        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
+        <div>
+            <div class="trylanding-template"
+                 (click)="onFunctionClicked('TimerTrigger')"
+                 [class.trylanding-template-selected]="selectedFunction === 'TimerTrigger'">
+
+                <div><img src="/images/timer-template.svg" /></div>
+                <div>{{ 'intro_timer' | translate }}</div>
+            </div>
+            <div class="trylanding-template"
+                 (click)="onFunctionClicked('QueueTrigger')"
+                 [class.trylanding-template-selected]="selectedFunction === 'QueueTrigger'">
+
+                <div><img src="/images/data-process-template.svg" /></div>
+                <div>{{ 'intro_dataProcessing' | translate}}</div>
+            </div>
+
+            <div class="trylanding-template"
+                 (click)="onFunctionClicked('HttpTrigger')"
+                 [class.trylanding-template-selected]="selectedFunction === 'HttpTrigger'">
+
+                <div><img src="/images/webhook-api-template.svg" /></div>
+                <div>{{ 'intro_webHook' | translate }}</div>
+            </div>
+        </div>
+        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
+        {{ 'intro_ifYou' | translate }}
+        <div class class="trylanding-lang-container">
+            <div class="trylanding-template-lang"
+                 (click)="onLanguageClicked('CSharp')"
+                 [class.trylanding-template-lang-selected]="selectedLanguage === 'CSharp'">
+                <div>C#</div>
+            </div>
+            <div class="trylanding-template-lang"
+                 (click)="onLanguageClicked('NodeJS')"
+                 [class.trylanding-template-lang-selected]="selectedLanguage === 'NodeJS'">
+                <div>JavaScript</div>
+            </div>
+        </div>
+        <div>
+            <button class="custom-button"
+                    (click)="handleLoginClick('')">
+                {{ 'intro_createThisFunction' | translate }}
+            </button>
+        </div>
+        <div  *ngIf="loginOptions" [class.login-box-ru]="currentCulture == 'ru'" [class.login-box]="currentCulture != 'ru'" >
+            <div style="display: block; margin-left: 30px">
+                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">{{ 'tryLanding_chooseAnAuthProvider' | translate }}</div>
+                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">{{ 'tryLanding_microsoftAcccount' | translate }}t</a></div>
+                <div class="login-option"><a (click) ="handleLoginClick('google')"  class="create-site-action" ><div class="google-login sprite-google"></div></a></div>
+                <div class="login-option"><a (click)="handleLoginClick('facebook')" class="create-site-action" ><div class="facebook-login"></div></a></div>
+                <div *ngIf="currentCulture == 'ru'" class="login-option">
+                    <a (click)="handleLoginClick('vk')" class="create-site-action" >
+                        <div class="vk-login"></div></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

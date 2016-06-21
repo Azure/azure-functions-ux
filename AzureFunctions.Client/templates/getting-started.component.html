@@ -1,4 +1,4 @@
-﻿<top-bar gettingStarted="true" ></top-bar>
+﻿<top-bar gettingStarted="true" tryModeView="isTry" ></top-bar>
 <div class="start-banner">
     <div class="start-banner-content">
         <img src="/images/functions.svg" height="60px"/>
@@ -8,47 +8,43 @@
 </div>
 
 <div class="container">
-    <div *ngIf="tryItNow" style="text-align: center" [innerHTML]="'gettingStarted_youNeed' | translate">
-    </div>
-    <div *ngIf="!tryItNow">
-        <div *ngIf="subscriptions">
-            
-            <div class="start-left start-half">
-                <h3>{{ 'gettingStarted_yourSubscription' | translate }}</h3>
-                <label>{{ 'subscription' | translate }}</label>
-                <drop-down [options]="subscriptions" placeholder="{{ 'gettingStarted_selectSubscription' | translate }}" (value)="onSubscriptionSelect($event)"></drop-down>
-            </div>
+    <div *ngIf="subscriptions">
 
-            <div *ngIf="functionContainers.length > 0" class="start-half start-right">
-                <h3>{{ 'gettingStarted_yourFunctionApps' | translate }}</h3>
-                <span>{{ 'gettingStarted_thisSub' | translate }}</span>
-                
-                <label class="start-below-description">{{ 'gettingStarted_functionApps' | translate }}</label>
-                <drop-down [options]="functionContainers" (value)="onContainerChange($event)"></drop-down>
-                <button [disabled]="!functionContainer" class="custom-button clear-both" (click)="openSelectedContainer()">{{ 'open' | translate }}</button>
-            </div>
+        <div class="start-left start-half">
+            <h3>{{ 'gettingStarted_yourSubscription' | translate }}</h3>
+            <label>{{ 'subscription' | translate }}</label>
+            <drop-down [options]="subscriptions" placeholder="{{ 'gettingStarted_selectSubscription' | translate }}" (value)="onSubscriptionSelect($event)"></drop-down>
+        </div>
 
-            <div class="start-half start-right start-row" [class.start-row]="functionContainers.length > 0">
-                <h3>{{ 'gettingStarted_newFunctionApp' | translate }}</h3>
-                <div *ngIf="functionContainers.length === 0">{{ 'gettingStarted_noFunApps' | translate }}</div>
-                <label [class.start-below-description]="functionContainers.length === 0">{{ '_name' | translate }}</label>
-                <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
-                <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
+        <div *ngIf="functionContainers.length > 0" class="start-half start-right">
+            <h3>{{ 'gettingStarted_yourFunctionApps' | translate }}</h3>
+            <span>{{ 'gettingStarted_thisSub' | translate }}</span>
 
-                <label style="margin-top: 25px">{{ 'region' | translate }}</label>
-                <drop-down [options]="geoRegions" placeholder="{{ 'gettingStarted_selectLocation' | translate }}" (value)="onGeoRegionChange($event)"></drop-down>
+            <label class="start-below-description">{{ 'gettingStarted_functionApps' | translate }}</label>
+            <drop-down [options]="functionContainers" (value)="onContainerChange($event)"></drop-down>
+            <button [disabled]="!functionContainer" class="custom-button clear-both" (click)="openSelectedContainer()">{{ 'open' | translate }}</button>
+        </div>
 
-                <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName || !isValidContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">{{ 'gettingStarted_createGetStarted' | translate }}</button>
+        <div class="start-half start-right start-row" [class.start-row]="functionContainers.length > 0">
+            <h3>{{ 'gettingStarted_newFunctionApp' | translate }}</h3>
+            <div *ngIf="functionContainers.length === 0">{{ 'gettingStarted_noFunApps' | translate }}</div>
+            <label [class.start-below-description]="functionContainers.length === 0">{{ '_name' | translate }}</label>
+            <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
+            <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
 
-            </div>
+            <label style="margin-top: 25px">{{ 'region' | translate }}</label>
+            <drop-down [options]="geoRegions" placeholder="{{ 'gettingStarted_selectLocation' | translate }}" (value)="onGeoRegionChange($event)"></drop-down>
 
-            <div class="start-row start-half start-right" style="padding-top: 10px" [innerHtml]="'gettingStarted_orCreate' | translate">
-                <!--create a function app from <a href="https://portal.azure.com/#create/Microsoft.FunctionApp">Azure Portal</a>.-->
-            </div>
-
-            <!--<div class="error-output" *ngIf="createError">{{createError}}</div>-->
+            <button [disabled]="!selectedSubscription || !selectedGeoRegion || !functionContainerName || !isValidContainerName" class="custom-button clear-both" (click)="createFunctionsContainer()">{{ 'gettingStarted_createGetStarted' | translate }}</button>
 
         </div>
+
+        <div class="start-row start-half start-right" style="padding-top: 10px" [innerHtml]="'gettingStarted_orCreate' | translate">
+            <!--create a function app from <a href="https://portal.azure.com/#create/Microsoft.FunctionApp">Azure Portal</a>.-->
+        </div>
+
+        <!--<div class="error-output" *ngIf="createError">{{createError}}</div>-->
+
     </div>
 </div>
 

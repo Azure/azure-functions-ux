@@ -35,7 +35,8 @@ export class BackgroundTasksService {
         if (this._preIFrameTasks && this._preIFrameTasks.isUnsubscribed) {
             this._preIFrameTasks.unsubscribe();
         }
-        this._preIFrameTasks = Observable.timer(0, 60000)
+        if (!this._globalStateService.showTryView)
+        this._preIFrameTasks = Observable.timer(1, 60000)
             .concatMap<string>(() => this._http.get('api/token?plaintext=true').retry(5).map<string>(r => r.text()))
             .subscribe(t => this._userService.setToken(t));
     }
@@ -44,23 +45,39 @@ export class BackgroundTasksService {
         if (this._tasks && this._tasks.isUnsubscribed) {
             this._tasks.unsubscribe();
         }
-        this._tasks = Observable.timer(1, 60000)
-        .concatMap<{errors: string[], config: {[key: string]: string}, appSettings: {[key: string]: string} }>(() =>
-            Observable.zip(
-                this._functionsService.getHostErrors().catch(e => Observable.of([])),
-                this._armService.getConfig(this._globalStateService.FunctionContainer),
-                this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
-                (e,  c, a) => ({errors: e, config: c, appSettings: a})
-            )
-        )
-        .subscribe(result => {
-            result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` }));
-            this.setDisabled(result.config);
-            this._functionsService.setEasyAuth(result.config);
-            this._globalStateService.AppSettings = result.appSettings;
-            this._functionsService.getResources();
-            this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
-        });
+
+        if (this._globalStateService.FunctionContainer.tryScmCred === null) {
+            this._tasks = Observable.timer(1, 60000)
+                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
+                    Observable.zip(
+                        this._functionsService.getHostErrors().catch(e => Observable.of([])),
+                        this._armService.getConfig(this._globalStateService.FunctionContainer),
+                        this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
+                        (e, c, a) => ({ errors: e, config: c, appSettings: a })
+                    )
+                )
+                .subscribe(result => {
+                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` }));
+                    this.setDisabled(result.config);
+                    this._functionsService.setEasyAuth(result.config);
+                    this._globalStateService.AppSettings = result.appSettings;
+                    this._functionsService.getResources();
+                    this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+                });
+        } else {
+            this._tasks = Observable.timer(1, 60000)
+                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
+                    Observable.zip(
+                        this._functionsService.getHostErrors().catch(e => Observable.of([])),
+                        (e) => ({ errors: e})
+                    )
+                )
+                .subscribe(result => {
+                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error,
+                        { message: e, details: `Host Error: ${e}` }));
+
+                });
+        }
     }
 
     private setDisabled(config: any) {

@@ -26,6 +26,10 @@
     <Content Include="images\arrow-right.svg" />
     <Content Include="images\bolt.svg" />
     <Content Include="images\generic-template.svg" />
+    <Content Include="images\Logins\facebook.png" />
+    <Content Include="images\Logins\google.png" />
+    <Content Include="images\Logins\microsoft-logo.png" />
+    <Content Include="images\Logins\vk.png" />
     <Content Include="images\stack.svg" />
     <Content Include="images\data-process-template.svg" />
     <Content Include="images\function-io.svg" />
@@ -36,12 +40,14 @@
     <Content Include="styles\binding.style.css" />
     <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />
+    <Content Include="styles\try-landing.style.css" />
     <Content Include="styles\intro.style.css" />
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\function-manage.component.html" />
+    <Content Include="templates\try-landing.component.html" />
     <Content Include="templates\try-now.component.html" />
     <Content Include="templates\trial-expired.component.html" />
     <Content Include="templates\tutorial.component.html" />
@@ -50,7 +56,6 @@
     <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
     <Content Include="images\monitoring-coming-soon.png" />
-    <Content Include="landing.html" />
     <Content Include="mocks\user.json" />
     <Content Include="styles\app-settings.style.css" />
     <Content Include="styles\busy-state.style.css" />
@@ -121,6 +126,7 @@
     <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
+    <TypeScriptCompile Include="app\components\try-landing.component.ts" />
     <TypeScriptCompile Include="app\components\try-now.component.ts" />
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
     <TypeScriptCompile Include="app\components\trial-expired.component.ts" />
@@ -173,6 +179,7 @@
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
     <TypeScriptCompile Include="app\services\app-monitoring.service.ts" />
     <TypeScriptCompile Include="app\services\arm.service.ts" />
+    <TypeScriptCompile Include="app\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\global-state.service.ts" />

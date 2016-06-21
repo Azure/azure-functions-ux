@@ -1,10 +1,12 @@
 ﻿<div class="tryinfo-box">
-    <div>Trial time remaining</div>
+    <div>{{ 'tryNow_trialTimeRemaining' | translate }}</div>
     <div id="countdownTimer" class="tryinfo-box-timer">{{timerText}}</div>
     <div style="margin-top:10px;"></div>
-    <div id="extendTrial" (click)="extendResourceLifeTime()" class="extend-trial-button" *ngIf="!(isExtended||trialExpired)">Extend Trial</div>
+    <div id="extendTrial" (click)="extendResourceLifeTime()" class="extend-trial-button" *ngIf="!(uiResource?.isExtended || trialExpired)">
+        {{ 'tryNow_extendTrial' | translate }}
+    </div>
     <div style="margin-top: 10px;"></div>
     <a [attr.href]="freeTrialUri" target="_blank" class="signup-button ">
-        Signup for an Azure 30-day trial
+        {{ 'tryNow_createFreeAzureAccount' | translate }}
     </a>
 </div>

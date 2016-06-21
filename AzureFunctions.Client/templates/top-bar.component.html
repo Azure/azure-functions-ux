@@ -4,8 +4,8 @@
     </div>
 
     <div class="top-bar-info left vertical-align-center">
-        <span *ngIf="needUpdateExtensionVersion" class="left">
-            <i class="fa fa-info"></i>{{ 'topBar_newVersion' | translate }}
+        <span *ngIf="needUpdateExtensionVersion && !tryModeView" class="left">
+          <i class="fa fa-info"></i>{{ 'topBar_newVersion' | translate }}
         </span>
     </div>
 
@@ -47,7 +47,7 @@
             <i class="fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
         </span>
 
-        <span *ngIf="user && currentTenant && !inIFrame"
+        <span *ngIf="!tryModeView && user && currentTenant && !inIFrame"
               class="top-bar-tool clickable"
               [class.top-bar-tool-selected]="showUserMenu"
               (click)="showUserMenu = !showUserMenu">
@@ -55,7 +55,7 @@
             {{user.given_name}} {{user.family_name}} ({{currentTenant.DisplayName}})
         </span>
 
-        <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
+        <div *ngIf="!tryModeView && showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
             <ul *ngIf="tenants" class="tenants-list">
                 <li *ngFor="let tenant of tenants" (click)="selectTenant(tenant)">
                     <div>{{tenant.DisplayName}}</div>
