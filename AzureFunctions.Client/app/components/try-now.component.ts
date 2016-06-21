@@ -70,7 +70,7 @@ export class TryNowComponent implements OnInit {
     }
 
     redirectToAzureFreeTrial() {
-        window.location.replace(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`);
+        window.open(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` , `_blank`);
     }
 
     extendResourceLifeTime() {
