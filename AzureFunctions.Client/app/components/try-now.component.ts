@@ -17,11 +17,13 @@ export class TryNowComponent implements OnInit {
     public trialExpired: boolean;
     public endTime: Date;
     public timerText: string;
+    public freeTrialUri: string;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
-
         this.trialExpired = false;
-
+        //TODO: Add cookie referer details like in try
+        var freeTrialExpireCachedQuery = `try_functionstimer`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${ freeTrialExpireCachedQuery }`;
         var callBack = () => {
             window.setTimeout(() => {
 
@@ -67,10 +69,6 @@ export class TryNowComponent implements OnInit {
         var z = '0';
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
-
-    redirectToAzureFreeTrial() {
-        window.location.replace(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`);
     }
 
     extendResourceLifeTime() {
