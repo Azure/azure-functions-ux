@@ -71,10 +71,6 @@ export class TryNowComponent implements OnInit {
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
-    redirectToAzureFreeTrial() {
-        window.open(`${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` , `_blank`);
-    }
-
     extendResourceLifeTime() {
         this._functionsService.extendTrialResource().
             subscribe((resource) => {
