@@ -59,6 +59,7 @@ export class FileExplorerComponent implements OnChanges {
             for (let i = 0; i < files.length; i++) {
                 files[i].method = 'PUT';
                 files[i].url = `${url}/${files[i].file.name}`;
+                files[i].withCredentials = false;
             }
             this.uploader.uploadAll();
         };
