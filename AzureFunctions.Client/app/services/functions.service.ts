@@ -340,7 +340,8 @@ export class FunctionsService {
         return this.isEasyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-            .map<string[]>(r => r.json().errors || []);
+            .map<string[]>(r => r.json().errors || [])
+            .catch<string[]>(e => Observable.of(null));
     }
 
     getHostErrors() {
