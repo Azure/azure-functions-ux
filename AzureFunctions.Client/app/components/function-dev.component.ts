@@ -17,6 +17,7 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {FileExplorerComponent} from './file-explorer.component';
 import {GlobalStateService} from '../services/global-state.service';
 import {BusyStateComponent} from './busy-state.component';
+import {ErrorEvent} from '../models/error-event';
 
 @Component({
     selector: 'function-dev',
@@ -90,9 +91,17 @@ export class FunctionDevComponent implements OnChanges {
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    (s, f) => ({ secrets: s, functionInfo: f}))
+                    this._functionsService.getFunctionErrors(fi),
+                    (s, f, e) => ({ secrets: s, functionInfo: f, errors: e}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
+                if (res.errors) {
+                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Function (${res.functionInfo.name}) Error: ${e}`, details: `Function Error: ${e}` }))
+                } else {
+                    this._functionsService.getHostErrors()
+                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {message: `Host Error: ${e}`, details: `Host Error: ${e}`})));
+                }
+
                 this._globalStateService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();

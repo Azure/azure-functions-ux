@@ -155,7 +155,9 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = false;
         if (clearFunction) {
             this.selectedFunction = null;
-            this.sideBar.selectedFunction = null;
+            if (this.sideBar) {
+                this.sideBar.selectedFunction = null;
+            }
         }
     }
 }
