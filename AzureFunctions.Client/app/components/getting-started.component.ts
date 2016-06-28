@@ -70,7 +70,6 @@ export class GettingStartedComponent implements OnInit {
         this._userService.getUser()
             .subscribe(u => {
                 this.user = u;
-                this.createTrialAndThenLogin();
                 this._globalStateService.clearBusyState();
             });
     }
