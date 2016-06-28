@@ -35,7 +35,7 @@ export class BackgroundTasksService {
         if (this._preIFrameTasks && this._preIFrameTasks.isUnsubscribed) {
             this._preIFrameTasks.unsubscribe();
         }
-        this._preIFrameTasks = Observable.timer(1, 60000)
+        this._preIFrameTasks = Observable.timer(0, 60000)
             .concatMap<string>(() => this._http.get('api/token?plaintext=true').retry(5).map<string>(r => r.text()))
             .subscribe(t => this._userService.setToken(t));
     }
