@@ -1,13 +1,14 @@
 <div class="sidebar">
-    <ul class="functions-list">
+    
+    <ul class="functions-list" [style.height]="tryItNowTenant ? '82%' : '96%'">
         <li>
             <span class="function-item full-height">
                 <input type="text" id="search-box" placeholder="Search my functions" [(ngModel)]="searchValue" />
             </span>
         </li>
         <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue"
-           (click)="selectFunction(functionInfo)"
-            class="function-item">
+             (click)="selectFunction(functionInfo)"
+             class="function-item">
             <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
             <img *ngIf="!functionInfo.clientOnly" src="/images/functions.svg" class="function-icon" />
             <i *ngIf="functionInfo.clientOnly" class="fa fa-plus"></i>
@@ -15,5 +16,10 @@
             </span>
         </li>
     </ul>
-    <div id="refresh" (click)="refresh()" class="link clickable"><i class="fa fa-refresh"></i> Refresh</div>
+    <div *ngIf="tryItNowTenant">
+        <try-now></try-now>
+    </div>
+    <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> Refresh
+    </div>
+
 </div>

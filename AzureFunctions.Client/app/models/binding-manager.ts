@@ -31,7 +31,7 @@ export class BindingManager {
 
         config.bindings.forEach((b) => {
             var typeString: string = b.type;
-            var type: BindingType = BindingType[typeString];
+            var type: BindingType = BindingManager.getBindingType(typeString);
             var behaviorString: string = b.direction;
             var direction: DirectionType = DirectionType[behaviorString];
 
@@ -116,7 +116,6 @@ export class BindingManager {
     }
 
     getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[], defaultStorageAccount): UIFunctionBinding {
-        
         var schema = this.getBindingSchema(type, direction, bindings);
 
         var parameterNameSetting = schema.settings.find((s) => {
@@ -164,12 +163,23 @@ export class BindingManager {
         return result;
     }
 
-    setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {        
+    setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {
         bindings.forEach((b) => {
             for (var key in b) {
                 if (key === "storageAccount") {
                     b[key] = defaultStorageAccount;
                 }
+            }
+        });
+    }
+
+    validateConfig(config: FunctionConfig) {
+        config.bindings.forEach((b) => {
+            var duplicate = config.bindings.find((binding) => {
+                return b !== binding &&  binding.name === b.name;
+            });
+            if (duplicate) {
+                throw `parameter name must be unique in a function: '${b.name}'.`;
             }
         });
     }
@@ -184,5 +194,14 @@ export class BindingManager {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
-     }
+    }
+
+    public static getBindingType(value: string): BindingType {
+        for (var type in BindingType) {
+            if (type.toString().toLowerCase() === value.toLowerCase()) {
+                return BindingType[type.toString()];
+            }
+        }
+        return null;
+    }
 }

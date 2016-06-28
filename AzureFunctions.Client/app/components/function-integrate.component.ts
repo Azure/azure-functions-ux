@@ -7,6 +7,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
+import {BindingManager} from '../models/binding-manager';
 
 @Component({
     selector: 'function-integrate',
@@ -24,6 +25,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     public isDirty: boolean;
     private _originalContent: string;
     private _currentConent: string;
+    private _bindingManager: BindingManager = new BindingManager();
 
     constructor(
         private _functionsService: FunctionsService,
@@ -63,6 +65,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
             try {
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
+                this._bindingManager.validateConfig(this._selectedFunction.config);
                 this._globalStateService.setBusyState();
                 this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {

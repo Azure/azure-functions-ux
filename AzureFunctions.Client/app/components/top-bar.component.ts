@@ -58,7 +58,7 @@ export class TopBarComponent implements OnInit {
             }
         });
 
-        this._broadcastService.subscribe(BroadcastEvent.VesrionUpdated, event => {
+        this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
             this.setInfo();
         });
     }
@@ -131,7 +131,7 @@ export class TopBarComponent implements OnInit {
     }
 
     private setInfo() {
-        this.needUpdateExtensionVersion = this._globalStateService.ExtensionVersion ? Constants.latestExtensionVersion !== this._globalStateService.ExtensionVersion : false;
+        this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
     }
 
     onSourceControlClicked() {

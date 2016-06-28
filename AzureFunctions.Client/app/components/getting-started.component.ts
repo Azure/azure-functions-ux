@@ -37,7 +37,7 @@ export class GettingStartedComponent implements OnInit {
 
     public user: User;
 
-    private functionContainer : FunctionContainer;
+    private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
 
     constructor(
@@ -57,7 +57,7 @@ export class GettingStartedComponent implements OnInit {
         this.geoRegions = [];
         this.functionContainerNameEvent = new EventEmitter<string>();
         this.functionContainerNameEvent
-            .switchMap<{ isValid: boolean; reason: string}>(() => this.validateContainerName(this.functionContainerName))
+            .switchMap<{ isValid: boolean; reason: string }>(() => this.validateContainerName(this.functionContainerName))
             .subscribe(v => {
                 this.isValidContainerName = v.isValid;
                 this.validationError = v.reason;
@@ -68,13 +68,38 @@ export class GettingStartedComponent implements OnInit {
         this._globalStateService.setBusyState();
 
         this._userService.getUser()
-            .subscribe(u => this.user = u);
+            .subscribe(u => {
+                this.user = u;
+                this._globalStateService.clearBusyState();
+            });
+    }
 
+    checkOutTrialSubscription() {
+        this.tryItNow = true;
+
+        this._functionsService.createTrialResource().
+            subscribe(() => { this.switchToTryAppServiceTenant(); });
+    }
+
+    createTrialAndThenLogin() {
         this._userService.getTenants()
             .subscribe(tenants => {
-                this._globalStateService.clearBusyState();
-                if (tenants.filter(e => e.TenantId.toLocaleLowerCase() !== this.tryAppServiceTenantId).length === 0) {
-                    this.tryItNow = true;
+                this._globalStateService.setBusyState();
+                if (tenants.length === 0) {
+                    this.checkOutTrialSubscription();
+                }
+                else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
+                    this._functionsService.getTrialResource().subscribe
+                        ((resource) => {
+                            if (resource === null || resource === undefined) {
+                                this.checkOutTrialSubscription();
+                            } else
+                                this._armService.getFunctionContainer(resource.csmId).subscribe
+                                    ((container) => {
+                                        this.userReady.emit(container);
+                                        this._globalStateService.clearBusyState();
+                                    });
+                        });
                 } else {
                     this.tryItNow = false;
                     this._globalStateService.setBusyState();
@@ -89,12 +114,6 @@ export class GettingStartedComponent implements OnInit {
             });
     }
 
-    createTrialFunctionsContainer() {
-        this._globalStateService.setBusyState();
-        this._functionsService.createTrialFunctionsContainer()
-            .subscribe(r => this.switchToTryAppServiceTenant(), undefined, () => this._globalStateService.clearBusyState());
-    }
-
     switchToTryAppServiceTenant() {
         window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}${window.location.search}`;
     }
@@ -107,7 +126,7 @@ export class GettingStartedComponent implements OnInit {
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this.userReady.emit(r);
-                this._globalStateService.clearBusyState()
+                this._globalStateService.clearBusyState();
             });
     }
 
@@ -118,7 +137,7 @@ export class GettingStartedComponent implements OnInit {
             .subscribe(fc => {
                 this.selectedSubscription = value;
                 this.functionContainers = fc
-                    .map(c =>({
+                    .map(c => ({
                         displayLabel: `${c.name} (${c.location})`,
                         value: c
                     }))
@@ -144,7 +163,7 @@ export class GettingStartedComponent implements OnInit {
         this.selectedGeoRegion = value;
     }
 
-    onContainerChange(value: FunctionContainer){
+    onContainerChange(value: FunctionContainer) {
         this.functionContainer = value;
     }
 
@@ -168,17 +187,17 @@ export class GettingStartedComponent implements OnInit {
         return text;
     }
 
-    validateContainerName(name: string): Observable<{ isValid: boolean; reason: string}>{
+    validateContainerName(name: string): Observable<{ isValid: boolean; reason: string }> {
         var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
         if (name.length < 2) {
             return Observable.of({ isValid: false, reason: 'The name must be at least 2 characters' });
         } else if (name.length > 60) {
             return Observable.of({ isValid: false, reason: 'The name must be at most 60 characters' });
         } else if (!name.match(regEx)) {
-            return Observable.of({ isValid: false, reason: 'The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)'});
+            return Observable.of({ isValid: false, reason: 'The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)' });
         } else {
             return this._armService.validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
-                .map<{ isValid: boolean; reason: string}>(v => ({ isValid: v, reason: `function app name ${name} isn't available`}));
+                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: `function app name ${name} isn't available` }));
         }
     }
 }

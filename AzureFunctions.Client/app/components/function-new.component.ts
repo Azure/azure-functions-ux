@@ -41,12 +41,14 @@ export class FunctionNewComponent {
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
     hasInputsToShow: boolean;
+    templateWarning: string;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
     private _exclutionFileList = [
         "test.json",
-        "readme.md"
+        "readme.md",
+        "metadata.json"
     ];
 
     constructor(
@@ -61,11 +63,15 @@ export class FunctionNewComponent {
     }
 
     onTemplatePickUpComplete(templateName: string) {
-        var tht = this;
         this._bindingComponents = [];
         this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             this.selectedTemplate = templates.find((t) => t.id === templateName);
+
+            var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
+                return c === "Experimental";
+            });
+            this.templateWarning = experimentalCategory === undefined ? '' : 'This template is experimental and does not yet have full support. If you run into issues, please file a bug on our <a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank">GitHub repository.</a>';
 
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
@@ -148,16 +154,17 @@ export class FunctionNewComponent {
 
     private createFunction() {
         this._portalService.logAction("new-function", "creating", { template: this.selectedTemplate.id, name: this.functionName });
-        this.selectedTemplate.files["function.json"] = JSON.stringify(this.bc.UIToFunctionConfig(this.model.config));
 
         this._exclutionFileList.forEach((file) => {
-            if (this.selectedTemplate.files[file]) {
-                delete this.selectedTemplate.files[file];
+            for (var p in this.selectedTemplate.files) {
+                if (this.selectedTemplate.files.hasOwnProperty(p) && file == (p + "").toLowerCase()) {
+                    delete this.selectedTemplate.files[p];
+                }
             }
         });
 
         this._globalStateService.setBusyState();
-        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files)
+        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

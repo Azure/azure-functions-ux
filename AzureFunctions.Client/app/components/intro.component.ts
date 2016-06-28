@@ -1,7 +1,7 @@
 ﻿import {Component, Input} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
-import  {BroadcastEvent} from '../models/broadcast-event'
+import {BroadcastEvent} from '../models/broadcast-event'
 import {BindingType} from '../models/binding';
 import {FunctionTemplate} from '../models/function-template';
 import {FunctionInfo} from '../models/function-info';
@@ -57,10 +57,8 @@ export class IntroComponent {
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                    selectedTemplate.files["function.json"] = JSON.stringify(selectedTemplate.function);
-
                     this._globalStateService.setBusyState();
-                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files)
+                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name : functionName });
                             this._broadcastService.broadcast<TutorialEvent>(

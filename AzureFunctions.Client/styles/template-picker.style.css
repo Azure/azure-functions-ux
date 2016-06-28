@@ -46,7 +46,6 @@
     display: inline-block;
     width: 175px;
     height: 175px;
-    border: 3px solid transparent;
     margin: 5px;
     border: 1px solid #C2C5C9;
     vertical-align: top;
@@ -57,6 +56,14 @@
     cursor: default;
 }
 
+.tp-template-func:hover > .tp-template-func-description{
+    margin: 3px;
+}
+
+.tp-template-selected > .tp-template-func-description{
+    margin: 3px;
+}
+
 .tp-template-func-title{
     padding-top: 10px;
     padding-bottom: 10px;
@@ -64,9 +71,14 @@
     text-align: center;
 }
 
+/*http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/*/
 .tp-template-func-description{
     margin: 5px;
     text-align: left;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
 }
 
 .tp-template-content > svg{

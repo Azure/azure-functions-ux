@@ -21,6 +21,7 @@ import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
+import {UIResource} from '../models/ui-resource';
 
 @Injectable()
 export class FunctionsService {
@@ -152,11 +153,11 @@ export class FunctionsService {
     }
 
     @ClearCache('getFunctions')
-    createFunctionV2(functionName: string, files: any) {
+    createFunctionV2(functionName: string, files: any, config: any) {
         var sampleData = files["sample.dat"];
         delete files["sample.dat"];
 
-        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData }), { headers: this.getHeaders() })
+        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData, config: config}), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -325,10 +326,19 @@ export class FunctionsService {
         return this.hostSecrets;
     }
 
-    createTrialFunctionsContainer() {
-        return this._http.post('api/createtrial', '', { headers: this.getPassthroughHeaders() })
-        .cache()
-            .map<string>(r => r.statusText);
+    createTrialResource(): Observable<UIResource> {
+        return this._http.post('api/createtrialresource', '', { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());
+    }
+
+    extendTrialResource() {
+        return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());
+    }
+
+    getTrialResource(): Observable<UIResource>{
+        return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());
     }
 
     updateFunction(fi: FunctionInfo) {

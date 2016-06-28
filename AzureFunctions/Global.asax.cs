@@ -190,7 +190,9 @@ namespace AzureFunctions
 
         private void RegisterRoutes(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute("create-trial-function-container", "api/createtrial", new { controller = "AzureFunctions", action = "CreateTrialFunctionsContainer", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("create-trial-functions-resource", "api/createtrialresource", new { controller = "AzureFunctions", action = "CreateTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("get-trial-functions-resource", "api/gettrialresource", new { controller = "AzureFunctions", action = "GetTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("extend-trial-functions-resource", "api/extendtrialresource", new { controller = "AzureFunctions", action = "ExtendTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 

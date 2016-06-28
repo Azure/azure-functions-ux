@@ -26,8 +26,9 @@
 }
 
 .functions-list {
-    height:96%;
+    height:82%;
     overflow-y:auto;
+    position: relative;
 }
 
 .functions-list li {
@@ -137,10 +138,15 @@
 }
 
 #refresh {
-    padding: 2px 10px 5px 15px;
+    padding: 10px 10px 5px 15px;
     height: 4%;
 }
 
 .function-icon {
     height: 15px;
+}
+
+.refresh-button {
+    position: absolute;
+    bottom: 0px;
 }
