@@ -31,13 +31,13 @@
             <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-modelist.js?v=@version"></script>
             <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-language_tools.js?v=@version"></script>
 
-            <script src="@cdn/node_modules/moment/min/moment.min.js?v=@version"></script>
             <script src="@cdn/node_modules/later/later.min.js?v=@version"></script>
             <script src="@cdn/node_modules/prettycron/prettycron.js?v=@version" type="text/javascript"></script>
 
             <script src="@cdn/bower_components/jquery/dist/jquery.min.js?v=@version"></script>
             <script src="@cdn/node_modules/d3/d3.min.js?v=@version" charset="utf-8"></script>
             <script src="@cdn/node_modules/nvd3/build/nv.d3.min.js?v=@version"></script>
+            <script src="@cdn/node_modules/moment/moment.js?v=@version"></script>
             <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js?v=@version"></script>
 
             <link href="/node_modules/font-awesome/css/font-awesome.css?v=@version" rel="stylesheet" type="text/css">
@@ -62,9 +62,10 @@
             <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
             <script src="/node_modules/d3/d3.min.js" charset="utf-8"></script>
             <script src="/node_modules/nvd3/build/nv.d3.min.js"></script>
-            <script src="/node_modules/moment/min/moment.min.js"></script>
             <script src="/node_modules/later/later.min.js"></script>
             <script src="/node_modules/prettycron/prettycron.js" type="text/javascript"></script>
+            <script src="/node_modules/moment/moment.js"></script>
+
             <link rel="stylesheet" type="text/css" href="/styles/pure-drawer.css">
             <link href="/node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
             <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -82,7 +83,8 @@
                     '@@angular': 'node_modules/@@angular',
                     'ng2-nvd3': 'node_modules/ng2-nvd3/build/lib',
                     'ng2-file-upload': 'node_modules/ng2-file-upload',
-                    'prettycron': 'node_modules/prettycron/prettycron.js'
+                    'prettycron': 'node_modules/prettycron/prettycron.js',
+                    'moment' : 'node_modules/moment'
                 };
 
                 // packages tells the System loader how to load when no filename and/or no extension
@@ -91,7 +93,7 @@
                     'rxjs': { defaultExtension: 'js' },
                     'ng2-nvd3': { main: 'ng2-nvd3.js', defaultExtension: 'js' },
                     'ng2-file-upload': { defaultExtension: 'js' },
-                    'prettycron': { defaultExtension: 'js' },
+                    'prettycron': { defaultExtension: 'js' }
                 };
 
                 var packageNames = [

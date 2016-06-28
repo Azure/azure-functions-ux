@@ -11,7 +11,7 @@ import {FunctionContainer} from '../models/function-container';
 import {UserService} from '../services/user.service';
 import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list.component';
-import {MonitoringService} from '../services/appMonitoring.service';
+import {MonitoringService} from '../services/app-monitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
 

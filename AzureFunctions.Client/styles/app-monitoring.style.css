@@ -18,15 +18,11 @@
 
 h2 {
     font-size: 15px;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 #heading {
     flex-grow: 1;
     border-bottom: none;
     font-size: 24px;
-}
-
-.title{
-    text-align: center;
 }
