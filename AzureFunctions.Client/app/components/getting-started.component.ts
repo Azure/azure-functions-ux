@@ -13,6 +13,7 @@ import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {TenantInfo} from '../models/tenant-info';
 
 @Component({
     selector: 'getting-started',
@@ -34,8 +35,6 @@ export class GettingStartedComponent implements OnInit {
     public functionContainerNameEvent: EventEmitter<string>;
     public isValidContainerName: boolean;
     public validationError: string;
-
-    public user: User;
 
     private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
@@ -66,12 +65,40 @@ export class GettingStartedComponent implements OnInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
+        this._userService.getToken().subscribe(() =>
+            this._userService.getTenants().subscribe(tenants => {
+                if (tenants.length === 0 || tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
+                    this.tryItNow = true;
+                    //this.handleTryFunctionsScenario(tenants);
+                } else {
+                    this.tryItNow = false;
+                    this._armService.getSubscriptions().subscribe(subs => {
+                        this.subscriptions = subs
+                            .map(e => ({ displayLabel: e.displayName, value: e }))
+                            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                        this._globalStateService.clearBusyState();
+                    });
+                }
+            })
+        );
+    }
 
-        this._userService.getUser()
-            .subscribe(u => {
-                this.user = u;
-                this._globalStateService.clearBusyState();
-            });
+    handleTryFunctionsScenario(tenants: TenantInfo[]) {
+        if (tenants.length === 0) {
+            this.checkOutTrialSubscription();
+        } else {
+            this._functionsService.getTrialResource()
+                .subscribe((resource) => {
+                    if (resource === null || resource === undefined) {
+                        this.checkOutTrialSubscription();
+                    } else
+                        this._armService.getFunctionContainer(resource.csmId).subscribe
+                            ((container) => {
+                                this.userReady.emit(container);
+                                this._globalStateService.clearBusyState();
+                            });
+                });
+        }
     }
 
     checkOutTrialSubscription() {
@@ -79,39 +106,6 @@ export class GettingStartedComponent implements OnInit {
 
         this._functionsService.createTrialResource().
             subscribe(() => { this.switchToTryAppServiceTenant(); });
-    }
-
-    createTrialAndThenLogin() {
-        this._userService.getTenants()
-            .subscribe(tenants => {
-                this._globalStateService.setBusyState();
-                if (tenants.length === 0) {
-                    this.checkOutTrialSubscription();
-                }
-                else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
-                    this._functionsService.getTrialResource().subscribe
-                        ((resource) => {
-                            if (resource === null || resource === undefined) {
-                                this.checkOutTrialSubscription();
-                            } else
-                                this._armService.getFunctionContainer(resource.csmId).subscribe
-                                    ((container) => {
-                                        this.userReady.emit(container);
-                                        this._globalStateService.clearBusyState();
-                                    });
-                        });
-                } else {
-                    this.tryItNow = false;
-                    this._globalStateService.setBusyState();
-                    this._armService.getSubscriptions()
-                        .subscribe(subs => {
-                            this.subscriptions = subs
-                                .map(e => ({ displayLabel: e.displayName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-                            this._globalStateService.clearBusyState();
-                        });
-                }
-            });
     }
 
     switchToTryAppServiceTenant() {
