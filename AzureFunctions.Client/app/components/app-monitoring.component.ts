@@ -19,7 +19,7 @@ declare let moment: any;
 })
 
 export class AppMonitoringComponent implements OnInit {
-    private numDataPointsForApi: number = 65; // the api for getting the usage data takes a numberBuckets which sets the # of datapoints to return in a date range
+    private numDataPointsForApi: number = 100; // the api for getting the usage data takes a numberBuckets which sets the # of datapoints to return in a date range
     public options: Object;
     public data: Object;
     private consumptionChartData: Array<Object>;
@@ -107,7 +107,7 @@ export class AppMonitoringComponent implements OnInit {
             key: 'App Usage(Gb Sec)',
             color: '#2ca02c',
             values: usageData,
-            strokeWidth: 2
+           // strokeWidth: 2
         }];
 
         this.instancesChartOptions = {
