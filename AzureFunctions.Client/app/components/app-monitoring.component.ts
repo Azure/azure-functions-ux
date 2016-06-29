@@ -58,17 +58,21 @@ export class AppMonitoringComponent implements OnInit {
 
         // create the x,y points object for the chart
         var usageData = [];
-        var appInstancesData = []
+        var appInstancesData = [];
+        var todayDateTime = new Date();
         for (var i = 0; i < xValuesForChart.length; i++) {
-            usageData.push({
-                x: new Date(xValuesForChart[i]),
-                y: yValuesForUsage[i].toFixed(3)
-            });
+            var currDateTime = new Date(xValuesForChart[i]);
+            if (currDateTime <= todayDateTime) { // workaround for another bug in API where it returns future dates with 0 values
+                usageData.push({
+                    x: new Date(xValuesForChart[i]),
+                    y: yValuesForUsage[i].toFixed(3)
+                });
 
-            appInstancesData.push({
-                x: new Date(xValuesForChart[i]),
-                y: yValuesForAppCounts[i]
-            })
+                appInstancesData.push({
+                    x: new Date(xValuesForChart[i]),
+                    y: yValuesForAppCounts[i]
+                })
+            }
         }
 
         this.usageChartOptions = {
