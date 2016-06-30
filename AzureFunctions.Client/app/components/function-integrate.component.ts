@@ -63,9 +63,9 @@ export class FunctionIntegrateComponent implements OnDestroy {
     saveConfig() {
         if (this.isDirty) {
             try {
+                this._bindingManager.validateConfig(JSON.parse(this._currentConent));
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
-                this._bindingManager.validateConfig(this._selectedFunction.config);
                 this._globalStateService.setBusyState();
                 this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {

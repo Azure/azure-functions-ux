@@ -122,7 +122,13 @@ export class FunctionIntegrateV2Component {
     onUpdateBinding(binding: UIFunctionBinding) {
         this.model.updateBinding(binding);
         this.model.setBindings();
-        this.updateFunction();
+
+        try {
+            this.updateFunction();
+        } catch (e) {
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` });
+            this.onRemoveBinding(binding);
+        }
     }
 
     onBindingSelect(id: string) {
@@ -147,13 +153,7 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
-
-        try {
-            this._bindingManager.validateConfig(this._functionInfo.config);
-        } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` });
-            return;
-        }
+        this._bindingManager.validateConfig(this._functionInfo.config);
 
         // Update test_data only from develop tab
         if (this._functionInfo.test_data) {
