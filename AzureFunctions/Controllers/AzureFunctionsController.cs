@@ -3,13 +3,18 @@ using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Trace;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace AzureFunctions.Controllers
 {
@@ -105,6 +110,20 @@ namespace AzureFunctions.Controllers
         public async Task<HttpResponseMessage> GetBindingConfig()
         {
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync());
+        }
+
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage GetResources([FromUri] string name)
+        {
+            ResourceSet resourceSet = Resources.ResourceManager.GetResourceSet(new CultureInfo(name), true, true);
+
+
+            var dic = resourceSet.Cast<DictionaryEntry>()
+                       .ToDictionary(x => x.Key.ToString(),
+                                     x => x.Value.ToString());            
+
+            return Request.CreateResponse(HttpStatusCode.OK, JObject.FromObject(dic));
         }
 
         [Authorize]
