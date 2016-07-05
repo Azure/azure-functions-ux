@@ -14,12 +14,15 @@ import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {TenantInfo} from '../models/tenant-info';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+
 
 @Component({
     selector: 'getting-started',
     templateUrl: 'templates/getting-started.component.html',
     styleUrls: ['styles/getting-started.style.css'],
-    directives: [DropDownComponent, TopBarComponent]
+    directives: [DropDownComponent, TopBarComponent],
+    pipes: [TranslatePipe]
 })
 export class GettingStartedComponent implements OnInit {
     @Output() userReady: EventEmitter<FunctionContainer>;
@@ -35,6 +38,7 @@ export class GettingStartedComponent implements OnInit {
     public functionContainerNameEvent: EventEmitter<string>;
     public isValidContainerName: boolean;
     public validationError: string;
+    public param: string = "world";
 
     private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
@@ -45,7 +49,8 @@ export class GettingStartedComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _telemetryService: TelemetryService,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService
     ) {
         this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163

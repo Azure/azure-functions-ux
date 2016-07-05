@@ -322,6 +322,12 @@ export class FunctionsService {
             .map<BindingConfig>(r => r.json());
     }
 
+
+    getResources(name: string): Observable<any> {
+        return this._http.get('api/resources?name=' + name, { headers: this.getPassthroughHeaders() })
+            .map<any>(r => r.json());
+    }
+
     get HostSecrets() {
         return this.hostSecrets;
     }

@@ -194,13 +194,15 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-trial-functions-resource", "api/gettrialresource", new { controller = "AzureFunctions", action = "GetTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("extend-trial-functions-resource", "api/extendtrialresource", new { controller = "AzureFunctions", action = "ExtendTrialFunctionsResource", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });            
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+
+            config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
         }
     }
 }

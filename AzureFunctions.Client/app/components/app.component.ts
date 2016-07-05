@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+﻿import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {DashboardComponent} from './dashboard.component';
 import {GettingStartedComponent} from './getting-started.component';
 import {PortalService} from '../services/portal.service';
@@ -14,6 +14,7 @@ import {ErrorListComponent} from './error-list.component';
 import {MonitoringService} from '../services/app-monitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'azure-functions-app',
@@ -23,9 +24,29 @@ import {GlobalStateService} from '../services/global-state.service';
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
-    public ready: boolean;
+    public ready: boolean = false;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
+    private _readyFunction: boolean = false;
+    private _readyResources: boolean = false;
+
+    get readyFunction(): boolean {
+        return this._readyFunction;
+    }
+
+    set readyFunction(value:boolean) {
+        this._readyFunction = value;
+        this.ready = this._readyFunction && this._readyResources;
+    }
+
+    get readyResources(): boolean {
+        return this._readyResources;
+    }
+
+    set readyResources(value: boolean) {
+        this._readyResources = value;
+        this.ready = this._readyFunction && this._readyResources;
+    }
 
     constructor(
         private _portalService: PortalService,
@@ -35,10 +56,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _userService: UserService,
         private _monitoringService: MonitoringService,
         private _backgroundTasksService: BackgroundTasksService,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _trnaslateService: TranslateService
     ) {
-        this.ready = false;
         this.gettingStarted = !_userService.inIFrame;
+
+        this._functionsService.getResources("ru-RU").subscribe((resources: any) => {
+            _trnaslateService.setDefaultLang('en');
+            _trnaslateService.setTranslation('ru', resources);
+            _trnaslateService.use('ru');
+            this.readyResources = true;
+        });
     }
 
     ngOnInit() {
@@ -55,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                     }
                 });
         } else {
-            this.ready = true;
+            this.readyFunction = true;
             this._globalStateService.clearBusyState();
         }
     }
@@ -76,7 +104,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this._userService.setFunctionContainer(functionContainer);
                 this.gettingStarted = false;
                 this._globalStateService.clearBusyState();
-                this.ready = true;
+                this.readyFunction = true;
                 this.functionContainer = functionContainer;
                 this._backgroundTasksService.runTasks();
             } else {
@@ -113,5 +141,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         } else {
             return false;
         }
+    }
+
+    private updateReady() {
+        this.ready = this._readyResources && this._readyFunction;
     }
 }

@@ -35,7 +35,8 @@
     "rxjs": "5.0.0-beta.6",
     "systemjs": "0.19.27",
     "zone.js": "^0.6.12",
-    "prettycron": "^0.10.0"
+    "prettycron": "^0.10.0",
+    "ng2-translate": "2.1.0"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",

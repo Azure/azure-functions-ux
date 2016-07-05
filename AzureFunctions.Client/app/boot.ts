@@ -15,6 +15,7 @@ import {TelemetryService} from './services/telemetry.service';
 import {UtilitiesService} from './services/utilities.service';
 import {BackgroundTasksService} from './services/background-tasks.service';
 import {GlobalStateService} from './services/global-state.service';
+import {TRANSLATE_PROVIDERS} from 'ng2-translate/ng2-translate';
 import 'rxjs/Rx';
 
 declare var mixpanel: any;
@@ -27,6 +28,7 @@ bootstrap(
     AppComponent,
     [
         HTTP_PROVIDERS,
+        TRANSLATE_PROVIDERS,
         BroadcastService,
         FunctionsService,
         UserService,
@@ -37,7 +39,7 @@ bootstrap(
         TelemetryService,
         UtilitiesService,
         BackgroundTasksService,
-        GlobalStateService
+        GlobalStateService        
     ]);
 
 if (typeof mixpanel !==  'undefined') {
