@@ -77,15 +77,15 @@ export class IntroComponent {
                             this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
                             this._globalStateService.clearBusyState();
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: <string>this._translateService.instant("functionCreateErrorMessage"),
-                                details: <string>this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                                message: this._translateService.instant("functionCreateErrorMessage"),
+                                details: this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
                             });
                         });
                 }
                 catch(e){
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: <string>this._translateService.instant("functionCreateErrorMessage"),
-                        details: <string>this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                        message: this._translateService.instant("functionCreateErrorMessage"),
+                        details: this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
                     });
                     throw e;
                 }

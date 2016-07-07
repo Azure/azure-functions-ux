@@ -150,7 +150,7 @@ export class GettingStartedComponent implements OnInit {
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                 if (this.geoRegions.length === 0) {
-                    this.createError = <string>this._translateService.instant("gettingStarted_subIsNotWhitelisted", {displayName: value.displayName, subscriptionId: value.subscriptionId });
+                    this.createError = this._translateService.instant("gettingStarted_subIsNotWhitelisted", {displayName: value.displayName, subscriptionId: value.subscriptionId });
                 } else {
                     delete this.createError;
                 }
@@ -189,14 +189,14 @@ export class GettingStartedComponent implements OnInit {
         var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
 
         if (name.length < 2) {
-            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer1") });
+            return Observable.of({ isValid: false, reason: this._translateService.instant("gettingStarted_validateContainer1") });
         } else if (name.length > 60) {
-            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer2") });
+            return Observable.of({ isValid: false, reason: this._translateService.instant("gettingStarted_validateContainer2") });
         } else if (!name.match(regEx)) {
-            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer3") });
+            return Observable.of({ isValid: false, reason: this._translateService.instant("gettingStarted_validateContainer3") });
         } else {
             return this._armService.validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
-                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: <string>this._translateService.instant("gettingStarted_validateContainer4", { name: name }) }));
+                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: this._translateService.instant("gettingStarted_validateContainer4", { name: name }) }));
         }
     }
 }
