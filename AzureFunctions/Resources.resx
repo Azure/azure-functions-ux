@@ -228,6 +228,18 @@
   <data name="region" xml:space="preserve">
     <value>Region</value>
   </data>
+  <data name="sideBar_changeMade" xml:space="preserve">
+    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="sideBar_newFunction" xml:space="preserve">
+    <value>New Function</value>
+  </data>
+  <data name="sideBar_refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="sideBar_searchMyFunction" xml:space="preserve">
+    <value>Search my functions</value>
+  </data>
   <data name="subscription" xml:space="preserve">
     <value>Subscription</value>
   </data>
