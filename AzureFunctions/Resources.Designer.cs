@@ -70,6 +70,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string cancel {
+            get {
+                return ResourceManager.GetString("cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure.
         /// </summary>
         internal static string configure {
@@ -93,6 +102,105 @@ namespace AzureFunctions {
         internal static string functionCreateErrorMessage {
             get {
                 return ResourceManager.GetString("functionCreateErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function Error: {{error}}.
+        /// </summary>
+        internal static string functionDev_functionErrorDetails {
+            get {
+                return ResourceManager.GetString("functionDev_functionErrorDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function (${{name}}) Error: {{error}}.
+        /// </summary>
+        internal static string functionDev_functionErrorMessage {
+            get {
+                return ResourceManager.GetString("functionDev_functionErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function Url:.
+        /// </summary>
+        internal static string functionDev_functionUrl {
+            get {
+                return ResourceManager.GetString("functionDev_functionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Github Secret:.
+        /// </summary>
+        internal static string functionDev_githubSelect {
+            get {
+                return ResourceManager.GetString("functionDev_githubSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide files.
+        /// </summary>
+        internal static string functionDev_hideFiles {
+            get {
+                return ResourceManager.GetString("functionDev_hideFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host Error: {{error}}.
+        /// </summary>
+        internal static string functionDev_hostErrorMessage {
+            get {
+                return ResourceManager.GetString("functionDev_hostErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        internal static string functionDev_Output {
+            get {
+                return ResourceManager.GetString("functionDev_Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request body.
+        /// </summary>
+        internal static string functionDev_requestBody {
+            get {
+                return ResourceManager.GetString("functionDev_requestBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save and run.
+        /// </summary>
+        internal static string functionDev_saveAndRun {
+            get {
+                return ResourceManager.GetString("functionDev_saveAndRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status:.
+        /// </summary>
+        internal static string functionDev_status {
+            get {
+                return ResourceManager.GetString("functionDev_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View files.
+        /// </summary>
+        internal static string functionDev_viewFiles {
+            get {
+                return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
             }
         }
         
@@ -453,6 +561,24 @@ namespace AzureFunctions {
         internal static string region {
             get {
                 return ResourceManager.GetString("region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run.
+        /// </summary>
+        internal static string run {
+            get {
+                return ResourceManager.GetString("run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string save {
+            get {
+                return ResourceManager.GetString("save", resourceCulture);
             }
         }
         

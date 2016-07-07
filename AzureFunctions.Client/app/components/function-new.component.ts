@@ -26,7 +26,6 @@ declare var jQuery: any;
     directives: [TemplatePickerComponent, BindingComponent, NgClass, PopOverComponent],
     outputs: ['functionAdded'],
     pipes: [TranslatePipe]
-
 })
 
 export class FunctionNewComponent {

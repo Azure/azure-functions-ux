@@ -1,8 +1,8 @@
 ﻿<div style="width: 90%" *ngIf="scriptFile">
     <div class="gutter-container">
-        <div *ngIf="showFunctionInvokeUrl"><label>Function Url:</label></div>
+        <div *ngIf="showFunctionInvokeUrl"><label>{{ 'functionDev_functionUrl' | translate }}</label></div>
         <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
-        <div *ngIf="webHookType === 'github'"><label>Github Secret:</label></div>
+        <div *ngIf="webHookType === 'github'"><label>{{ 'functionDev_githubSelect' | translate }}</label></div>
         <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key"></copy-pre></div>
     </div>
 
@@ -10,7 +10,7 @@
         <h2 class="dev-block-header">Code</h2>
         <span>({{fileName}})</span>
         <div class="dev-block-header">
-            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">Save</button>
+            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">>{{ 'save' | translate }}</button>
         </div>
         <div class="dev-flex-container" style="padding-top: 5px">
             <file-explorer class="dev-files-flex"
@@ -30,11 +30,11 @@
         </div>
         <span class="clickable link-action" *ngIf="!showFileExplorer" (click)="toggleShowHideFileExplorer()">
                 <i class="fa fa-folder"></i>
-                View files
+                {{ 'functionDev_viewFiles' | translate }}
          </span>
          <span class="clickable link-action" *ngIf="showFileExplorer" (click)="toggleShowHideFileExplorer()">
                 <i class="fa fa-folder-open"></i>
-                Hide files
+                {{ 'functionDev_hideFiles' | translate }}
          </span>
     </div>
 
@@ -46,7 +46,7 @@
     <div class="dev-flex-container" *ngIf="functionInfo">
         <busy-state name="run-busy"></busy-state>
         <div class="dev-run-block" style="margin-right: 10px">
-            <div style="padding-bottom: 6px">Request body</div>
+            <div style="padding-bottom: 6px">{{ 'functionDev_requestBody' | translate }}</div>
             <div class="ace_editor" aceEditor
                 [content]="functionInfo.test_data"
                 fileName="sample.dat"
@@ -55,24 +55,32 @@
                 [height]="500">
             </div>
 
-            <button
+            <button *ngIf="scriptFile.isDirty"
                 class="custom-button"
                 [class.dirty]="scriptFile.isDirty"
                 (click)="runFunction()">
-                {{scriptFile.isDirty ? 'Save and run' : 'Run'}}
+                {{ 'functionDev_saveAndRun' | translate }}
             </button>
+
+            <button *ngIf="!scriptFile.isDirty"
+                class="custom-button"
+                [class.dirty]="scriptFile.isDirty"
+                (click)="runFunction()">
+                {{ 'run' | translate }}
+            </button>
+
             <button
                 *ngIf="running"
                 class="custom-button cancel-button"
                 (click)="cancelCurrentRun()">
-                Cancel
+                {{ 'cancel' | translate }}
             </button>
         </div>
 
         <div class="dev-run-block">
             <div class="dev-flex-container">
-                <div class="dev-run-block">Output</div>
-                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">Status: {{runResult.statusCode}} {{runResult.statusText}}</div>
+                <div class="dev-run-block">{{ 'functionDev_Output' | translate }}</div>
+                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
             </div>
             <pre class="log-stream">{{runResult?.content}}</pre>
         </div>

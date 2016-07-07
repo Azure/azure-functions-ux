@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -128,6 +131,39 @@
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
     <value>Function creation error! Please try again.</value>
+  </data>
+  <data name="functionDev_functionErrorDetails" xml:space="preserve">
+    <value>Function Error: {{error}}</value>
+  </data>
+  <data name="functionDev_functionErrorMessage" xml:space="preserve">
+    <value>Function (${{name}}) Error: {{error}}</value>
+  </data>
+  <data name="functionDev_functionUrl" xml:space="preserve">
+    <value>Function Url:</value>
+  </data>
+  <data name="functionDev_githubSelect" xml:space="preserve">
+    <value>Github Secret:</value>
+  </data>
+  <data name="functionDev_hideFiles" xml:space="preserve">
+    <value>Hide files</value>
+  </data>
+  <data name="functionDev_hostErrorMessage" xml:space="preserve">
+    <value>Host Error: {{error}}</value>
+  </data>
+  <data name="functionDev_Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="functionDev_requestBody" xml:space="preserve">
+    <value>Request body</value>
+  </data>
+  <data name="functionDev_saveAndRun" xml:space="preserve">
+    <value>Save and run</value>
+  </data>
+  <data name="functionDev_status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="functionDev_viewFiles" xml:space="preserve">
+    <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template</value>
@@ -248,6 +284,12 @@
   </data>
   <data name="region" xml:space="preserve">
     <value>Region</value>
+  </data>
+  <data name="run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
