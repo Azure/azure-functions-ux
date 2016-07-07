@@ -221,11 +221,6 @@
     <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Models\UIResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.ru-RU.Designer.cs">
-      <DependentUpon>Resources.ru-RU.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -237,10 +232,6 @@
     <Compile Include="Trace\TracingEvents.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources.ru-RU.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.ru-RU.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

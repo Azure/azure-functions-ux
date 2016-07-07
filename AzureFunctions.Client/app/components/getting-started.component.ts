@@ -38,7 +38,6 @@ export class GettingStartedComponent implements OnInit {
     public functionContainerNameEvent: EventEmitter<string>;
     public isValidContainerName: boolean;
     public validationError: string;
-    public param: string = "world";
 
     private functionContainer: FunctionContainer;
     private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
@@ -151,7 +150,7 @@ export class GettingStartedComponent implements OnInit {
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                 if (this.geoRegions.length === 0) {
-                    this.createError = `Subscription ${value.displayName} (${value.subscriptionId}) is not white listed for running functions`;
+                    this.createError = <string>this._translateService.instant("gettingStarted_subIsNotWhitelisted", {displayName: value.displayName, subscriptionId: value.subscriptionId });
                 } else {
                     delete this.createError;
                 }
@@ -188,15 +187,16 @@ export class GettingStartedComponent implements OnInit {
 
     validateContainerName(name: string): Observable<{ isValid: boolean; reason: string }> {
         var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
+
         if (name.length < 2) {
-            return Observable.of({ isValid: false, reason: 'The name must be at least 2 characters' });
+            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer1") });
         } else if (name.length > 60) {
-            return Observable.of({ isValid: false, reason: 'The name must be at most 60 characters' });
+            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer2") });
         } else if (!name.match(regEx)) {
-            return Observable.of({ isValid: false, reason: 'The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)' });
+            return Observable.of({ isValid: false, reason: <string>this._translateService.instant("gettingStarted_validateContainer3") });
         } else {
             return this._armService.validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
-                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: `function app name ${name} isn't available` }));
+                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: <string>this._translateService.instant("gettingStarted_validateContainer4", { name: name }) }));
         }
     }
 }
