@@ -151,7 +151,7 @@ export class TopBarComponent implements OnInit {
         var leaveFunction = true;
         if (this.isFunctionSelected &&
             (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            leaveFunction = confirm(<string>this._translateService.instant("topBar_changeMade"));
+            leaveFunction = confirm(this._translateService.instant("topBar_changeMade"));
             if (leaveFunction) {
                 this._broadcastService.clearDirtyState('function', true);
                 this._broadcastService.clearDirtyState('function_integrate', true);

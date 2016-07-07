@@ -100,14 +100,14 @@ export class FunctionDevComponent implements OnChanges {
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
                 if (res.errors) {
                     res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: <string>this._translateService.instant("functionDev_functionErrorMessage", { name: res.functionInfo.name, error: e }),
-                        details: <string>this._translateService.instant("functionDev_functionErrorDetails", { error: e })
+                        message: this._translateService.instant("functionDev_functionErrorMessage", { name: res.functionInfo.name, error: e }),
+                        details: this._translateService.instant("functionDev_functionErrorDetails", { error: e })
                     }));
                 } else {
                     this._functionsService.getHostErrors()
                         .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: <string>this._translateService.instant("functionDev_hostErrorMessage", { error: e }),
-                            details: <string>this._translateService.instant("functionDev_hostErrorMessage", { error: e })
+                            message: this._translateService.instant("functionDev_hostErrorMessage", { error: e }),
+                            details: this._translateService.instant("functionDev_hostErrorMessage", { error: e })
                         })));
                 }
 
