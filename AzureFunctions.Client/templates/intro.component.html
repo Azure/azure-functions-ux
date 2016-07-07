@@ -1,25 +1,25 @@
 ﻿<div class="intro-container">
     <div class="intro-banner">
         <div>
-            <h1>The faster way to functions</h1>
+            <h1>{{ 'intro_fasterWay' | translate }}</h1>
             <p>
                 <img src="/images/function-io.svg" width="210px"/>
-                Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.
+                {{ 'intro_writeAny' | translate }}
             </p>
         </div>
 
     </div>
 
     <div class="intro-body">
-        <h2>Get started quickly with a premade function</h2>
-        <h3>1) Choose a scenario:</h3>
+        <h2>{{ 'intro_getStarted' | translate }}</h2>
+        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
         <div>
             <div class="intro-template"
                  (click)="onFunctionCliked('TimerTrigger')"
                  [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
 
                 <div><img src="/images/timer-template.svg" /></div>
-                <div>Timer</div>
+                <div>{{ 'intro_timer' | translate }}</div>
             </div>
 
             <div class="intro-template"
@@ -35,11 +35,11 @@
                  [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
 
                 <div><img src="/images/webhook-api-template.svg" /></div>
-                <div>Webhook + API</div>
+                <div>{{ 'intro_webHook' | translate }}</div>
             </div>
         </div>
-        <h3>2) Choose a language:</h3>
-        If you'd prefer another supported language, choose "Create a function from scratch".
+        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
+        {{ 'intro_ifYou' | translate }}
         <div class class="intro-lang-container">
             <div class="intro-template-lang"
                  (click)="onLanguageCliked('CSharp')"
@@ -63,21 +63,21 @@
             <button class="custom-button"
                     (click)="onCreateNewFunction()"
                     [disabled]="!selectedFunction">
-                Create this function
+                {{ 'intro_createThisFunction' | translate }}
             </button>
 
         </div>
     </div>
 
             <div class="intro-footer">
-                <h3>Or get started on your own</h3>
+                <h3>{{ 'intro_getStartedOn' | translate }}</h3>
                 <div>
                     <span class="link" (click)='createFromScratch()'>
-                        Or create your own custom function
+                        {{ 'intro_createYourOwn' | translate }}
                     </span>
-                    or
+                    {{ 'or' | translate }}
                     <span class="link" (click)='startFromSC()'>
-                        start from source control.
+                        {{ 'intro_startSC' | translate }}
                     </span>
                 </div>
             </div>

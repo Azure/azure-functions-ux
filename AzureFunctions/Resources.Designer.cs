@@ -61,6 +61,24 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Function Error: {{error}}.
+        /// </summary>
+        internal static string functionCreateErrorDetails {
+            get {
+                return ResourceManager.GetString("functionCreateErrorDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function creation error! Please try again..
+        /// </summary>
+        internal static string functionCreateErrorMessage {
+            get {
+                return ResourceManager.GetString("functionCreateErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create + get started.
         /// </summary>
         internal static string gettingStarted_createGetStarted {
@@ -214,6 +232,123 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2) Choose a language:.
+        /// </summary>
+        internal static string intro_chooseLanguage {
+            get {
+                return ResourceManager.GetString("intro_chooseLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1) Choose a scenario:.
+        /// </summary>
+        internal static string intro_chooseScenario {
+            get {
+                return ResourceManager.GetString("intro_chooseScenario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create this function.
+        /// </summary>
+        internal static string intro_createThisFunction {
+            get {
+                return ResourceManager.GetString("intro_createThisFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or create your own custom function.
+        /// </summary>
+        internal static string intro_createYourOwn {
+            get {
+                return ResourceManager.GetString("intro_createYourOwn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data processing.
+        /// </summary>
+        internal static string intro_dataProcessing {
+            get {
+                return ResourceManager.GetString("intro_dataProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The faster way to functions.
+        /// </summary>
+        internal static string intro_fasterWay {
+            get {
+                return ResourceManager.GetString("intro_fasterWay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get started quickly with a premade function.
+        /// </summary>
+        internal static string intro_getStarted {
+            get {
+                return ResourceManager.GetString("intro_getStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or get started on your own.
+        /// </summary>
+        internal static string intro_getStartedOn {
+            get {
+                return ResourceManager.GetString("intro_getStartedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you&apos;d prefer another supported language, choose &quot;Create a function from scratch&quot;..
+        /// </summary>
+        internal static string intro_ifYou {
+            get {
+                return ResourceManager.GetString("intro_ifYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to start from source control..
+        /// </summary>
+        internal static string intro_startSC {
+            get {
+                return ResourceManager.GetString("intro_startSC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timer.
+        /// </summary>
+        internal static string intro_timer {
+            get {
+                return ResourceManager.GetString("intro_timer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Webhook + API.
+        /// </summary>
+        internal static string intro_webHook {
+            get {
+                return ResourceManager.GetString("intro_webHook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required..
+        /// </summary>
+        internal static string intro_writeAny {
+            get {
+                return ResourceManager.GetString("intro_writeAny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string name {
@@ -228,6 +363,15 @@ namespace AzureFunctions {
         internal static string open {
             get {
                 return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to or.
+        /// </summary>
+        internal static string or {
+            get {
+                return ResourceManager.GetString("or", resourceCulture);
             }
         }
         

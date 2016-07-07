@@ -10,11 +10,13 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {BindingManager} from '../models/binding-manager';
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'intro',
     templateUrl: './templates/intro.component.html',
-    styleUrls: ['styles/intro.style.css']
+    styleUrls: ['styles/intro.style.css'],
+    pipes: [TranslatePipe]
 })
 
 export class IntroComponent {
@@ -26,7 +28,8 @@ export class IntroComponent {
     constructor( private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
@@ -73,11 +76,17 @@ export class IntroComponent {
                         e => {
                             this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
                             this._globalStateService.clearBusyState();
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: <string>this._translateService.instant("functionCreateErrorMessage"),
+                                details: <string>this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                            });
                         });
                 }
                 catch(e){
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: <string>this._translateService.instant("functionCreateErrorMessage"),
+                        details: <string>this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                    });
                     throw e;
                 }
             }
