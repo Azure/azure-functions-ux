@@ -18,6 +18,7 @@ import {FileExplorerComponent} from './file-explorer.component';
 import {GlobalStateService} from '../services/global-state.service';
 import {BusyStateComponent} from './busy-state.component';
 import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'function-dev',
@@ -30,7 +31,8 @@ import {ErrorEvent} from '../models/error-event';
         CopyPreComponent,
         FileExplorerComponent,
         BusyStateComponent
-    ]
+    ],
+    pipes: [TranslatePipe]
 })
 export class FunctionDevComponent implements OnChanges {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -64,7 +66,8 @@ export class FunctionDevComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
-                private _globalStateService: GlobalStateService) {
+                private _globalStateService: GlobalStateService,
+                private _translateService: TranslateService) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -96,10 +99,16 @@ export class FunctionDevComponent implements OnChanges {
             })
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
                 if (res.errors) {
-                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Function (${res.functionInfo.name}) Error: ${e}`, details: `Function Error: ${e}` }))
+                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: <string>this._translateService.instant("functionDev_functionErrorMessage", { name: res.functionInfo.name, error: e }),
+                        details: <string>this._translateService.instant("functionDev_functionErrorDetails", { error: e })
+                    }));
                 } else {
                     this._functionsService.getHostErrors()
-                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {message: `Host Error: ${e}`, details: `Host Error: ${e}`})));
+                        .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: <string>this._translateService.instant("functionDev_hostErrorMessage", { error: e }),
+                            details: <string>this._translateService.instant("functionDev_hostErrorMessage", { error: e })
+                        })));
                 }
 
                 this._globalStateService.clearBusyState();
