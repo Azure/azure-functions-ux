@@ -10,13 +10,14 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TryNowComponent} from './try-now.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: ['styles/sidebar.style.css'],
     inputs: ['functionsInfo'],
-    pipes: [SideBarFilterPipe],
+    pipes: [SideBarFilterPipe, TranslatePipe],
     directives: [TryNowComponent]
 })
 export class SideBarComponent implements OnDestroy {
@@ -36,7 +37,8 @@ export class SideBarComponent implements OnDestroy {
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
@@ -55,10 +57,10 @@ export class SideBarComponent implements OnDestroy {
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
             this.functionsInfo.push(fi);
             this.functionsInfo.sort((f1, f2) => {
-                if (f1.name === "New Function") {
+                if (f1.name === <string>this._translateService.instant("sideBar_newFunction") ) {
                     return -1;
                 }
-                if (f2.name === "New Function") {
+                if (f2.name === <string>this._translateService.instant("sideBar_newFunction") ) {
                     return 1;
                 }
 
@@ -103,7 +105,7 @@ export class SideBarComponent implements OnDestroy {
     private switchFunctions() {
         var switchFunction = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
-            switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
+            switchFunction = confirm(<string>this._translateService.instant("sideBar_changeMade", { name: this.selectedFunction.name}));
         }
         return switchFunction;
     }

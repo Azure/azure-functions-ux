@@ -3,7 +3,7 @@
     <ul class="functions-list" [style.height]="tryItNowTenant ? '82%' : '96%'">
         <li>
             <span class="function-item full-height">
-                <input type="text" id="search-box" placeholder="Search my functions" [(ngModel)]="searchValue" />
+                <input type="text" id="search-box" placeholder="{{ 'sideBar_searchMyFunction' | translate }}" [(ngModel)]="searchValue" />
             </span>
         </li>
         <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue"
@@ -19,7 +19,7 @@
     <div *ngIf="tryItNowTenant">
         <try-now></try-now>
     </div>
-    <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> Refresh
+    <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
     </div>
 
 </div>

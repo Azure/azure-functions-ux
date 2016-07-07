@@ -394,6 +394,42 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string sideBar_changeMade {
+            get {
+                return ResourceManager.GetString("sideBar_changeMade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Function.
+        /// </summary>
+        internal static string sideBar_newFunction {
+            get {
+                return ResourceManager.GetString("sideBar_newFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string sideBar_refresh {
+            get {
+                return ResourceManager.GetString("sideBar_refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search my functions.
+        /// </summary>
+        internal static string sideBar_searchMyFunction {
+            get {
+                return ResourceManager.GetString("sideBar_searchMyFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subscription.
         /// </summary>
         internal static string subscription {
