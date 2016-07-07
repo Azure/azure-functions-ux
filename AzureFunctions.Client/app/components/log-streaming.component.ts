@@ -9,12 +9,14 @@ import {ErrorEvent} from '../models/error-event';
 import {UtilitiesService} from '../services/utilities.service';
 import {PopOverComponent} from './pop-over.component';
 import {Subscription} from 'Rxjs/rx';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: 'templates/log-streaming.component.html',
     styleUrls: ['styles/function-dev.style.css'],
-    directives: [PopOverComponent]
+    directives: [PopOverComponent],
+    pipes: [TranslatePipe]
 })
 export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
