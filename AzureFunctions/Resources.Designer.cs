@@ -520,6 +520,60 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string logStreaming_clear {
+            get {
+                return ResourceManager.GetString("logStreaming_clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copied!.
+        /// </summary>
+        internal static string logStreaming_copied {
+            get {
+                return ResourceManager.GetString("logStreaming_copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Logs.
+        /// </summary>
+        internal static string logStreaming_copyLogs {
+            get {
+                return ResourceManager.GetString("logStreaming_copyLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause.
+        /// </summary>
+        internal static string logStreaming_pause {
+            get {
+                return ResourceManager.GetString("logStreaming_pause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string logStreaming_start {
+            get {
+                return ResourceManager.GetString("logStreaming_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many logs. Refresh rate: {{seconds}} seconds..
+        /// </summary>
+        internal static string logStreaming_tooManyLogs {
+            get {
+                return ResourceManager.GetString("logStreaming_tooManyLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string name {

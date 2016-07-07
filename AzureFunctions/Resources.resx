@@ -270,6 +270,24 @@
   <data name="intro_writeAny" xml:space="preserve">
     <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
   </data>
+  <data name="logStreaming_clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="logStreaming_copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="logStreaming_copyLogs" xml:space="preserve">
+    <value>Copy Logs</value>
+  </data>
+  <data name="logStreaming_pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="logStreaming_start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="logStreaming_tooManyLogs" xml:space="preserve">
+    <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>

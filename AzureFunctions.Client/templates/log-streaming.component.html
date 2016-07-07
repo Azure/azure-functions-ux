@@ -6,30 +6,30 @@
         <span>
             <span class="clickable link-action" *ngIf="stopped" (click)="startLogs()">
                 <i class="fa fa-play"></i>
-                Start
+                {{ 'logStreaming_start' | translate }}
             </span>
             <span class="clickable link-action" *ngIf="!stopped" (click)="stopLogs()">
                 <i class="fa fa-pause"></i>
-                Pause
+                {{ 'logStreaming_pause' | translate }}
             </span>
         </span>
         <span>
             <span class="clickable link-action" (click)="clearLogs()">
                 <i class="fa fa-book"></i>
-                Clear
+                {{ 'logStreaming_clear' | translate }}
             </span>
         </span>
         <span (click)="copyLogs($event)">
-            <pop-over message="Copied!" hideAfter="300">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
                 <span class="clickable link-action">
                     <i class="fa fa-clone"></i>
-                    Copy Logs
+                    {{ 'logStreaming_copyLogs' | translate }}
                 </span>
             </pop-over>
         </span>
     </div>
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
-        Too many logs. Refresh rate: {{timerInterval/1000}} seconds.
+        {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
     </div>
 </div>
 <pre id="log-stream" class="log-stream" tabindex="1" (keydown)="handleKeyPress($event)">{{log}}</pre>
