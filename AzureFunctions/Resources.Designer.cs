@@ -61,6 +61,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azure Functions.
+        /// </summary>
+        internal static string azureFunctions {
+            get {
+                return ResourceManager.GetString("azureFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Function Error: {{error}}.
         /// </summary>
         internal static string functionCreateErrorDetails {
@@ -390,6 +399,51 @@ namespace AzureFunctions {
         internal static string subscription {
             get {
                 return ResourceManager.GetString("subscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made to the current function will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string topBar_changeMade {
+            get {
+                return ResourceManager.GetString("topBar_changeMade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function app settings.
+        /// </summary>
+        internal static string topBar_functionAppSettings {
+            get {
+                return ResourceManager.GetString("topBar_functionAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version of Azure Functions is available.Visit Function App Settings to upgrade..
+        /// </summary>
+        internal static string topBar_newVersion {
+            get {
+                return ResourceManager.GetString("topBar_newVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quickstart.
+        /// </summary>
+        internal static string topBar_quickStart {
+            get {
+                return ResourceManager.GetString("topBar_quickStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usage.
+        /// </summary>
+        internal static string topBar_usage {
+            get {
+                return ResourceManager.GetString("topBar_usage", resourceCulture);
             }
         }
     }
