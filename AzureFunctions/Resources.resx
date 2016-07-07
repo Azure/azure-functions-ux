@@ -339,6 +339,9 @@
   <data name="topBar_usage" xml:space="preserve">
     <value>Usage</value>
   </data>
+  <data name="all" xml:space="preserve">
+    <value>All</value>
+  </data>
   <data name="config" xml:space="preserve">
     <value>Config</value>
   </data>
@@ -374,6 +377,27 @@
   </data>
   <data name="output" xml:space="preserve">
     <value>Output</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="templatePicker_chooseInput" xml:space="preserve">
+    <value>Choose an input binding</value>
+  </data>
+  <data name="templatePicker_chooseOutput" xml:space="preserve">
+    <value>Choose an output binding</value>
+  </data>
+  <data name="templatePicker_chooseTemplate" xml:space="preserve">
+    <value>Choose a template</value>
+  </data>
+  <data name="templatePicker_chooseTrigger" xml:space="preserve">
+    <value>Choose a trigger</value>
+  </data>
+  <data name="templatePicker_language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="templatePicker_scenario" xml:space="preserve">
+    <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
     <value>Trigger</value>

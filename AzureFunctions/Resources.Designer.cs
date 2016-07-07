@@ -61,6 +61,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        internal static string all {
+            get {
+                return ResourceManager.GetString("all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure Functions.
         /// </summary>
         internal static string azureFunctions {
@@ -745,6 +754,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        internal static string select {
+            get {
+                return ResourceManager.GetString("select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
         internal static string sideBar_changeMade {
@@ -786,6 +804,60 @@ namespace AzureFunctions {
         internal static string subscription {
             get {
                 return ResourceManager.GetString("subscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose an input binding.
+        /// </summary>
+        internal static string templatePicker_chooseInput {
+            get {
+                return ResourceManager.GetString("templatePicker_chooseInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose an output binding.
+        /// </summary>
+        internal static string templatePicker_chooseOutput {
+            get {
+                return ResourceManager.GetString("templatePicker_chooseOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a template.
+        /// </summary>
+        internal static string templatePicker_chooseTemplate {
+            get {
+                return ResourceManager.GetString("templatePicker_chooseTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a trigger.
+        /// </summary>
+        internal static string templatePicker_chooseTrigger {
+            get {
+                return ResourceManager.GetString("templatePicker_chooseTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language:.
+        /// </summary>
+        internal static string templatePicker_language {
+            get {
+                return ResourceManager.GetString("templatePicker_language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scenario:.
+        /// </summary>
+        internal static string templatePicker_scenario {
+            get {
+                return ResourceManager.GetString("templatePicker_scenario", resourceCulture);
             }
         }
         
