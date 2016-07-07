@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="functionCreateErrorDetails" xml:space="preserve">
+    <value>Create Function Error: {{error}}</value>
+  </data>
+  <data name="functionCreateErrorMessage" xml:space="preserve">
+    <value>Function creation error! Please try again.</value>
+  </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
     <value>Create + get started</value>
   </data>
@@ -168,11 +174,53 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Your subscription</value>
   </data>
+  <data name="intro_chooseLanguage" xml:space="preserve">
+    <value>2) Choose a language:</value>
+  </data>
+  <data name="intro_chooseScenario" xml:space="preserve">
+    <value>1) Choose a scenario:</value>
+  </data>
+  <data name="intro_createThisFunction" xml:space="preserve">
+    <value>Create this function</value>
+  </data>
+  <data name="intro_createYourOwn" xml:space="preserve">
+    <value>Or create your own custom function</value>
+  </data>
+  <data name="intro_dataProcessing" xml:space="preserve">
+    <value>Data processing</value>
+  </data>
+  <data name="intro_fasterWay" xml:space="preserve">
+    <value>The faster way to functions</value>
+  </data>
+  <data name="intro_getStarted" xml:space="preserve">
+    <value>Get started quickly with a premade function</value>
+  </data>
+  <data name="intro_getStartedOn" xml:space="preserve">
+    <value>Or get started on your own</value>
+  </data>
+  <data name="intro_ifYou" xml:space="preserve">
+    <value>If you'd prefer another supported language, choose "Create a function from scratch".</value>
+  </data>
+  <data name="intro_startSC" xml:space="preserve">
+    <value>start from source control.</value>
+  </data>
+  <data name="intro_timer" xml:space="preserve">
+    <value>Timer</value>
+  </data>
+  <data name="intro_webHook" xml:space="preserve">
+    <value>Webhook + API</value>
+  </data>
+  <data name="intro_writeAny" xml:space="preserve">
+    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="open" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>or</value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Region</value>
