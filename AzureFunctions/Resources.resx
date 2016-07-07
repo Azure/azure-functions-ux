@@ -117,52 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="gettingStarted0" xml:space="preserve">
-    <value>Get started with Azure Functions</value>
-  </data>
-  <data name="gettingStarted1" xml:space="preserve">
-    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
-  </data>
-  <data name="gettingStarted10" xml:space="preserve">
-    <value>Select Location</value>
-  </data>
-  <data name="gettingStarted11" xml:space="preserve">
-    <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
-  </data>
-  <data name="gettingStarted12" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="gettingStarted13" xml:space="preserve">
+  <data name="gettingStarted_createGetStarted" xml:space="preserve">
     <value>Create + get started</value>
   </data>
-  <data name="gettingStarted14" xml:space="preserve">
-    <value>Name</value>
+  <data name="gettingStarted_functionApps" xml:space="preserve">
+    <value>Function Apps</value>
   </data>
-  <data name="gettingStarted15" xml:space="preserve">
-    <value>Region</value>
+  <data name="gettingStarted_getStarted" xml:space="preserve">
+    <value>Get started with Azure Functions</value>
   </data>
-  <data name="gettingStarted2" xml:space="preserve">
-    <value>Your subscription</value>
-  </data>
-  <data name="gettingStarted3" xml:space="preserve">
-    <value>Subscription</value>
-  </data>
-  <data name="gettingStarted4" xml:space="preserve">
-    <value>Select Subscription</value>
-  </data>
-  <data name="gettingStarted5" xml:space="preserve">
-    <value>Your function apps</value>
-  </data>
-  <data name="gettingStarted6" xml:space="preserve">
-    <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
-  </data>
-  <data name="gettingStarted7" xml:space="preserve">
-    <value>Function apps</value>
-  </data>
-  <data name="gettingStarted8" xml:space="preserve">
+  <data name="gettingStarted_newFunctionApp" xml:space="preserve">
     <value>New function app</value>
   </data>
-  <data name="gettingStarted9" xml:space="preserve">
+  <data name="gettingStarted_noFunApps" xml:space="preserve">
     <value>Your subscription contains no function apps. These are containers where your functions are executed. Create one now.</value>
+  </data>
+  <data name="gettingStarted_orCreate" xml:space="preserve">
+    <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+  </data>
+  <data name="gettingStarted_selectLocation" xml:space="preserve">
+    <value>Select Location</value>
+  </data>
+  <data name="gettingStarted_selectSubscription" xml:space="preserve">
+    <value>Select Subscription</value>
+  </data>
+  <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
+    <value>Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions</value>
+  </data>
+  <data name="gettingStarted_thisSub" xml:space="preserve">
+    <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
+  </data>
+  <data name="gettingStarted_validateContainer1" xml:space="preserve">
+    <value>The name must be at least 2 characters</value>
+  </data>
+  <data name="gettingStarted_validateContainer2" xml:space="preserve">
+    <value>The name must be at most 60 characters</value>
+  </data>
+  <data name="gettingStarted_validateContainer3" xml:space="preserve">
+    <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
+  </data>
+  <data name="gettingStarted_validateContainer4" xml:space="preserve">
+    <value>function app name {{name}} isn't available</value>
+  </data>
+  <data name="gettingStarted_youNeed" xml:space="preserve">
+    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
+  </data>
+  <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
+    <value>Your function apps</value>
+  </data>
+  <data name="gettingStarted_yourSubscription" xml:space="preserve">
+    <value>Your subscription</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="subscription" xml:space="preserve">
+    <value>Subscription</value>
   </data>
 </root>

@@ -61,146 +61,191 @@ namespace AzureFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get started with Azure Functions.
-        /// </summary>
-        internal static string gettingStarted0 {
-            get {
-                return ResourceManager.GetString("gettingStarted0", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You need an Azure subscription in order to use this service. &lt;a href=&quot;https://azure.microsoft.com/en-us/free/&quot;&gt;Click here&lt;/a&gt; to create a free trial subscription.
-        /// </summary>
-        internal static string gettingStarted1 {
-            get {
-                return ResourceManager.GetString("gettingStarted1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select Location.
-        /// </summary>
-        internal static string gettingStarted10 {
-            get {
-                return ResourceManager.GetString("gettingStarted10", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Or create a function app from &lt;a href=&quot;https://portal.azure.com/#create/Microsoft.FunctionApp&quot;&gt;Azure Portal&lt;/a&gt;..
-        /// </summary>
-        internal static string gettingStarted11 {
-            get {
-                return ResourceManager.GetString("gettingStarted11", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open.
-        /// </summary>
-        internal static string gettingStarted12 {
-            get {
-                return ResourceManager.GetString("gettingStarted12", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create + get started.
         /// </summary>
-        internal static string gettingStarted13 {
+        internal static string gettingStarted_createGetStarted {
             get {
-                return ResourceManager.GetString("gettingStarted13", resourceCulture);
+                return ResourceManager.GetString("gettingStarted_createGetStarted", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Function Apps.
         /// </summary>
-        internal static string gettingStarted14 {
+        internal static string gettingStarted_functionApps {
             get {
-                return ResourceManager.GetString("gettingStarted14", resourceCulture);
+                return ResourceManager.GetString("gettingStarted_functionApps", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Region.
+        ///   Looks up a localized string similar to Get started with Azure Functions.
         /// </summary>
-        internal static string gettingStarted15 {
+        internal static string gettingStarted_getStarted {
             get {
-                return ResourceManager.GetString("gettingStarted15", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your subscription.
-        /// </summary>
-        internal static string gettingStarted2 {
-            get {
-                return ResourceManager.GetString("gettingStarted2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Subscription.
-        /// </summary>
-        internal static string gettingStarted3 {
-            get {
-                return ResourceManager.GetString("gettingStarted3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select Subscription.
-        /// </summary>
-        internal static string gettingStarted4 {
-            get {
-                return ResourceManager.GetString("gettingStarted4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your function apps.
-        /// </summary>
-        internal static string gettingStarted5 {
-            get {
-                return ResourceManager.GetString("gettingStarted5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below..
-        /// </summary>
-        internal static string gettingStarted6 {
-            get {
-                return ResourceManager.GetString("gettingStarted6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Function apps.
-        /// </summary>
-        internal static string gettingStarted7 {
-            get {
-                return ResourceManager.GetString("gettingStarted7", resourceCulture);
+                return ResourceManager.GetString("gettingStarted_getStarted", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to New function app.
         /// </summary>
-        internal static string gettingStarted8 {
+        internal static string gettingStarted_newFunctionApp {
             get {
-                return ResourceManager.GetString("gettingStarted8", resourceCulture);
+                return ResourceManager.GetString("gettingStarted_newFunctionApp", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Your subscription contains no function apps. These are containers where your functions are executed. Create one now..
         /// </summary>
-        internal static string gettingStarted9 {
+        internal static string gettingStarted_noFunApps {
             get {
-                return ResourceManager.GetString("gettingStarted9", resourceCulture);
+                return ResourceManager.GetString("gettingStarted_noFunApps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or create a function app from &lt;a href=&quot;https://portal.azure.com/#create/Microsoft.FunctionApp&quot;&gt;Azure Portal&lt;/a&gt;..
+        /// </summary>
+        internal static string gettingStarted_orCreate {
+            get {
+                return ResourceManager.GetString("gettingStarted_orCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Location.
+        /// </summary>
+        internal static string gettingStarted_selectLocation {
+            get {
+                return ResourceManager.GetString("gettingStarted_selectLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Subscription.
+        /// </summary>
+        internal static string gettingStarted_selectSubscription {
+            get {
+                return ResourceManager.GetString("gettingStarted_selectSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions.
+        /// </summary>
+        internal static string gettingStarted_subIsNotWhitelisted {
+            get {
+                return ResourceManager.GetString("gettingStarted_subIsNotWhitelisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below..
+        /// </summary>
+        internal static string gettingStarted_thisSub {
+            get {
+                return ResourceManager.GetString("gettingStarted_thisSub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name must be at least 2 characters.
+        /// </summary>
+        internal static string gettingStarted_validateContainer1 {
+            get {
+                return ResourceManager.GetString("gettingStarted_validateContainer1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name must be at most 60 characters.
+        /// </summary>
+        internal static string gettingStarted_validateContainer2 {
+            get {
+                return ResourceManager.GetString("gettingStarted_validateContainer2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number).
+        /// </summary>
+        internal static string gettingStarted_validateContainer3 {
+            get {
+                return ResourceManager.GetString("gettingStarted_validateContainer3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to function app name {{name}} isn&apos;t available.
+        /// </summary>
+        internal static string gettingStarted_validateContainer4 {
+            get {
+                return ResourceManager.GetString("gettingStarted_validateContainer4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need an Azure subscription in order to use this service. &lt;a href=&quot;https://azure.microsoft.com/en-us/free/&quot;&gt;Click here&lt;/a&gt; to create a free trial subscription.
+        /// </summary>
+        internal static string gettingStarted_youNeed {
+            get {
+                return ResourceManager.GetString("gettingStarted_youNeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your function apps.
+        /// </summary>
+        internal static string gettingStarted_yourFunctionApps {
+            get {
+                return ResourceManager.GetString("gettingStarted_yourFunctionApps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your subscription.
+        /// </summary>
+        internal static string gettingStarted_yourSubscription {
+            get {
+                return ResourceManager.GetString("gettingStarted_yourSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string open {
+            get {
+                return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Region.
+        /// </summary>
+        internal static string region {
+            get {
+                return ResourceManager.GetString("region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription.
+        /// </summary>
+        internal static string subscription {
+            get {
+                return ResourceManager.GetString("subscription", resourceCulture);
             }
         }
     }
