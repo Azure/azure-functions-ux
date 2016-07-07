@@ -15,6 +15,7 @@ import {PortalService} from '../services/portal.service';
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {PopOverComponent} from './pop-over.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 declare var jQuery: any;
 
@@ -23,7 +24,9 @@ declare var jQuery: any;
     templateUrl: './templates/function-new.component.html',
     styleUrls: ['styles/function-new.style.css'],
     directives: [TemplatePickerComponent, BindingComponent, NgClass, PopOverComponent],
-    outputs: ['functionAdded']
+    outputs: ['functionAdded'],
+    pipes: [TranslatePipe]
+
 })
 
 export class FunctionNewComponent {
@@ -56,7 +59,8 @@ export class FunctionNewComponent {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService : PortalService,
-        private _globalStateService: GlobalStateService)
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService)
     {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -71,7 +75,7 @@ export class FunctionNewComponent {
             var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                 return c === "Experimental";
             });
-            this.templateWarning = experimentalCategory === undefined ? '' : 'This template is experimental and does not yet have full support. If you run into issues, please file a bug on our <a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank">GitHub repository.</a>';
+            this.templateWarning = experimentalCategory === undefined ? '' : <string>this._translateService.instant("functionNew_experimentalTemplate");
 
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
@@ -146,7 +150,7 @@ export class FunctionNewComponent {
 
     private validate() {
         this.areInputsValid = this.functionName ? true : false;
-        this.functionNameError = this.areInputsValid ? '' : 'A function name is required';
+        this.functionNameError = this.areInputsValid ? '' : <string>this._translateService.instant("functionNew_functionNameRequired");
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
         });
@@ -173,7 +177,10 @@ export class FunctionNewComponent {
             e => {
                 this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: <string>this._translateService.instant("functionCreateErrorMessage"),
+                    details: <string>this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                });
             });
     }
 }

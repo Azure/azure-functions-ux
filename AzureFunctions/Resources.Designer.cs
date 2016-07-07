@@ -70,6 +70,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configure.
+        /// </summary>
+        internal static string configure {
+            get {
+                return ResourceManager.GetString("configure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Function Error: {{error}}.
         /// </summary>
         internal static string functionCreateErrorDetails {
@@ -84,6 +93,51 @@ namespace AzureFunctions {
         internal static string functionCreateErrorMessage {
             get {
                 return ResourceManager.GetString("functionCreateErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a template.
+        /// </summary>
+        internal static string functionNew_chooseTemplate {
+            get {
+                return ResourceManager.GetString("functionNew_chooseTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href=&quot;https://github.com/Azure/azure-webjobs-sdk-templates/issues&quot; target=&quot;_blank&quot;&gt;GitHub repository.&lt;/a&gt;.
+        /// </summary>
+        internal static string functionNew_experimentalTemplate {
+            get {
+                return ResourceManager.GetString("functionNew_experimentalTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function name.
+        /// </summary>
+        internal static string functionNew_functionName {
+            get {
+                return ResourceManager.GetString("functionNew_functionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A function name is required.
+        /// </summary>
+        internal static string functionNew_functionNameRequired {
+            get {
+                return ResourceManager.GetString("functionNew_functionNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name your function.
+        /// </summary>
+        internal static string functionNew_nameYourFunction {
+            get {
+                return ResourceManager.GetString("functionNew_nameYourFunction", resourceCulture);
             }
         }
         
@@ -381,6 +435,15 @@ namespace AzureFunctions {
         internal static string or {
             get {
                 return ResourceManager.GetString("or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only..
+        /// </summary>
+        internal static string readOnly {
+            get {
+                return ResourceManager.GetString("readOnly", resourceCulture);
             }
         }
         
