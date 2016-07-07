@@ -79,11 +79,29 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Config.
+        /// </summary>
+        internal static string config {
+            get {
+                return ResourceManager.GetString("config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure.
         /// </summary>
         internal static string configure {
             get {
                 return ResourceManager.GetString("configure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error parsing config: {{error}}.
+        /// </summary>
+        internal static string errorParsingConfig {
+            get {
+                return ResourceManager.GetString("errorParsingConfig", resourceCulture);
             }
         }
         
@@ -201,6 +219,51 @@ namespace AzureFunctions {
         internal static string functionDev_viewFiles {
             get {
                 return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced editor.
+        /// </summary>
+        internal static string functionIntegrate_advancedEditor {
+            get {
+                return ResourceManager.GetString("functionIntegrate_advancedEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string functionIntegrate_changesLost1 {
+            get {
+                return ResourceManager.GetString("functionIntegrate_changesLost1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string functionIntegrate_changesLost2 {
+            get {
+                return ResourceManager.GetString("functionIntegrate_changesLost2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting name:.
+        /// </summary>
+        internal static string functionIntegrate_settingName {
+            get {
+                return ResourceManager.GetString("functionIntegrate_settingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard editor.
+        /// </summary>
+        internal static string functionIntegrate_standardEditor {
+            get {
+                return ResourceManager.GetString("functionIntegrate_standardEditor", resourceCulture);
             }
         }
         
@@ -403,6 +466,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input.
+        /// </summary>
+        internal static string input {
+            get {
+                return ResourceManager.GetString("input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 2) Choose a language:.
         /// </summary>
         internal static string intro_chooseLanguage {
@@ -583,6 +655,33 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Input.
+        /// </summary>
+        internal static string newInput {
+            get {
+                return ResourceManager.GetString("newInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Output.
+        /// </summary>
+        internal static string newOutput {
+            get {
+                return ResourceManager.GetString("newOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Trigger.
+        /// </summary>
+        internal static string newTrigger {
+            get {
+                return ResourceManager.GetString("newTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         internal static string open {
@@ -597,6 +696,15 @@ namespace AzureFunctions {
         internal static string or {
             get {
                 return ResourceManager.GetString("or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        internal static string output {
+            get {
+                return ResourceManager.GetString("output", resourceCulture);
             }
         }
         
@@ -723,6 +831,15 @@ namespace AzureFunctions {
         internal static string topBar_usage {
             get {
                 return ResourceManager.GetString("topBar_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger.
+        /// </summary>
+        internal static string trigger {
+            get {
+                return ResourceManager.GetString("trigger", resourceCulture);
             }
         }
     }

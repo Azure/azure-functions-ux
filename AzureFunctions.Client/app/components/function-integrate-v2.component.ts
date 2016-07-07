@@ -12,6 +12,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 declare var jQuery: any;
 
@@ -20,7 +21,8 @@ declare var jQuery: any;
     templateUrl: './templates/function-integrate-v2.component.html',
     directives: [BindingComponent, TemplatePickerComponent],
     styleUrls: ['styles/integrate.style.css'],
-    inputs: ['selectedFunction']
+    inputs: ['selectedFunction'],
+    pipes: [TranslatePipe]
 })
 
 
@@ -63,7 +65,8 @@ export class FunctionIntegrateV2Component {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
         this._elementRef = elementRef;
     }
 
@@ -126,7 +129,7 @@ export class FunctionIntegrateV2Component {
         try {
             this.updateFunction();
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant("errorParsingConfig", {error: e}) });
             this.onRemoveBinding(binding);
         }
     }
@@ -170,7 +173,7 @@ export class FunctionIntegrateV2Component {
     private checkDirty(): boolean {
         var switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
-            switchBinding = confirm(`Changes made will be lost. Are you sure you want to continue?`);
+            switchBinding = confirm(this._translateService.instant("functionIntegrate_changesLost1"));
         }
 
         if (switchBinding) {
@@ -182,7 +185,7 @@ export class FunctionIntegrateV2Component {
     private switchIntegrate() {
         var result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            result = confirm(`Changes made to function ${this._functionInfo.name} will be lost. Are you sure you want to continue?`);
+            result = confirm(this._translateService.instant("functionIntegrate_changesLost2", {name: this._functionInfo.name}));
         }
         return result;
     }

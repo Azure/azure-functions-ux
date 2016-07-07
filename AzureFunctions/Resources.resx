@@ -339,4 +339,43 @@
   <data name="topBar_usage" xml:space="preserve">
     <value>Usage</value>
   </data>
+  <data name="config" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="errorParsingConfig" xml:space="preserve">
+    <value>Error parsing config: {{error}}</value>
+  </data>
+  <data name="functionIntegrate_advancedEditor" xml:space="preserve">
+    <value>Advanced editor</value>
+  </data>
+  <data name="functionIntegrate_changesLost1" xml:space="preserve">
+    <value>Changes made will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="functionIntegrate_changesLost2" xml:space="preserve">
+    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="functionIntegrate_settingName" xml:space="preserve">
+    <value>Setting name:</value>
+  </data>
+  <data name="functionIntegrate_standardEditor" xml:space="preserve">
+    <value>Standard editor</value>
+  </data>
+  <data name="input" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="newInput" xml:space="preserve">
+    <value>New Input</value>
+  </data>
+  <data name="newOutput" xml:space="preserve">
+    <value>New Output</value>
+  </data>
+  <data name="newTrigger" xml:space="preserve">
+    <value>New Trigger</value>
+  </data>
+  <data name="output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="trigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
 </root>
