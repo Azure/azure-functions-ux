@@ -9,6 +9,7 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 enum TopbarButton {
     None = <any>"None",
@@ -22,7 +23,8 @@ enum TopbarButton {
     selector: 'top-bar',
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
-    inputs: ['isFunctionSelected', 'quickStartSelected']
+    inputs: ['isFunctionSelected', 'quickStartSelected'],
+    pipes: [TranslatePipe]
 })
 
 export class TopBarComponent implements OnInit {
@@ -43,7 +45,8 @@ export class TopBarComponent implements OnInit {
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _functionsService: FunctionsService,
-                private _globalStateService: GlobalStateService
+                private _globalStateService: GlobalStateService,
+                private _translateService: TranslateService
     ) {
 
         this.appMonitoringClicked = new EventEmitter<any>();
@@ -148,7 +151,7 @@ export class TopBarComponent implements OnInit {
         var leaveFunction = true;
         if (this.isFunctionSelected &&
             (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            leaveFunction = confirm(`Changes made to the current function will be lost. Are you sure you want to continue?`);
+            leaveFunction = confirm(<string>this._translateService.instant("topBar_changeMade"));
             if (leaveFunction) {
                 this._broadcastService.clearDirtyState('function', true);
                 this._broadcastService.clearDirtyState('function_integrate', true);
