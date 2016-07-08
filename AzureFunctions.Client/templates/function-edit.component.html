@@ -2,13 +2,13 @@
 <tabs (tabSelected) = 'onTabSelected($event)'>
     <tab [tabTitle]="DevelopTab">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-            Read only - because you have started editing with source control, this view is read only.
+            {{ 'dashboard_noFunctionContainer' | translate }}
         </div>
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab [tabTitle]="IntegrateTab">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-            Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json
+            {{ 'functionEdit_readOnly' | translate }}
         </div>
         <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
         <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>

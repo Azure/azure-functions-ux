@@ -2,8 +2,8 @@
     <div class="col-md-10">    
         <h2 class="dev-block-header">{{ 'config' | translate }}</h2>
         <div *ngIf="isDirty" class="dev-block-header">
-            <button (click)="saveConfig()" class="custom-button">Save</button>
-            <button (click)="cancelConfig()" class="custom-button-invert">Cancel</button>
+            <button (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
+            <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
             <div class="ace_editor" aceEditor id="editor"

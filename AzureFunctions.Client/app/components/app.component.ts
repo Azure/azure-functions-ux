@@ -63,6 +63,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         this._functionsService.getResources("ru-RU").subscribe((resources: any) => {
             _trnaslateService.setDefaultLang('en');
+
+            for (var field in resources) {
+                resources[field] = "!" + resources[field];
+            }
+
             _trnaslateService.setTranslation('ru', resources);
             _trnaslateService.use('ru');
             this.readyResources = true;

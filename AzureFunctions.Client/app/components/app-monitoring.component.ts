@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Rx';
 import {UsageVolume} from '../models/app-monitoring-usage'
 import {nvD3} from 'ng2-nvd3';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 declare let d3: any;
 declare let moment: any;
 
@@ -15,7 +16,8 @@ declare let moment: any;
     selector: 'app-monitoring',
     templateUrl: 'templates/app-monitoring.component.html',
     styleUrls: ['styles/app-monitoring.style.css'],
-    directives: [nvD3]
+    directives: [nvD3],
+    pipes: [TranslatePipe]
 })
 
 export class AppMonitoringComponent implements OnInit {
@@ -35,7 +37,8 @@ export class AppMonitoringComponent implements OnInit {
     constructor(
         private _monitoringService: MonitoringService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) { }
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) { }
 
     ngOnInit() {
         this._globalStateService.setBusyState();
@@ -95,16 +98,16 @@ export class AppMonitoringComponent implements OnInit {
                     rotateLabels: -35
                 },
                 xScale: d3.time.scale(),
-                noData: "There is no Data",
+                noData: this._translateService.instant("appMonitoring_noData"),
                 yAxis: {
-                    axisLabel: 'App Usage(Gb Sec)',
+                    axisLabel: this._translateService.instant("appMonitoring_appUsage"),
                     tickFormat: (d3.format(".3f"))
                 }
             }
         };
 
         this.usageChartData = [{
-            key: 'App Usage(Gb Sec)',
+            key: this._translateService.instant("appMonitoring_appUsage"),
             color: '#2ca02c',
             values: usageData,
            // strokeWidth: 2
@@ -130,16 +133,16 @@ export class AppMonitoringComponent implements OnInit {
                     rotateLabels: -35
                 },
                 xScale: d3.time.scale(),
-                noData: "There is no Data",
+                noData: this._translateService.instant("appMonitoring_noData"),
                 yAxis: {
-                    axisLabel: '# of executions',
+                    axisLabel: this._translateService.instant("appMonitoring_ofExecutions"),
                     tickFormat: (d3.format('d'))
                 }
             }
         };
 
         this.instancesChartData = [{
-            key: '# App executions',
+            key: this._translateService.instant("appMonitoring_appExecutions"),
             color: '#7777ff',
             values: appInstancesData
         }];

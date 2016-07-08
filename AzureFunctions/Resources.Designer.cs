@@ -70,6 +70,213 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced Settings.
+        /// </summary>
+        internal static string appFunctionSettings_AdvancedSettings {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_AdvancedSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow clients to more easily consume your HTTP-triggered functions..
+        /// </summary>
+        internal static string appFunctionSettings_allowClients {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_allowClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow your HTTP-triggered functions to be called from within a web browser..
+        /// </summary>
+        internal static string appFunctionSettings_allowYour {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_allowYour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API definition.
+        /// </summary>
+        internal static string appFunctionSettings_apiDefiition {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_apiDefiition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication/Authorization.
+        /// </summary>
+        internal static string appFunctionSettings_auth {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_auth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continuous Integration.
+        /// </summary>
+        internal static string appFunctionSettings_CI {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_CI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure Authentication.
+        /// </summary>
+        internal static string appFunctionSettings_configAuth {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_configAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure API metadata.
+        /// </summary>
+        internal static string appFunctionSettings_configureAPI {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_configureAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure Continuous Integration.
+        /// </summary>
+        internal static string appFunctionSettings_configureCI {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_configureCI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure CORS.
+        /// </summary>
+        internal static string appFunctionSettings_configureCors {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_configureCors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deploy your function code from GitHub, Visual Studio Team Services, and more..
+        /// </summary>
+        internal static string appFunctionSettings_deploy {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_deploy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For functions that use the HTTP trigger, you can require calls to be authenticated..
+        /// </summary>
+        internal static string appFunctionSettings_forFunc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_forFunc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function App Settings.
+        /// </summary>
+        internal static string appFunctionSettings_functionAppSettings {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_functionAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to App Service Settings.
+        /// </summary>
+        internal static string appFunctionSettings_goToAppSettings {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_goToAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage your function app like any other App Service instance..
+        /// </summary>
+        internal static string appFunctionSettings_manageFunction {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_manageFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memory Size.
+        /// </summary>
+        internal static string appFunctionSettings_memory {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_memory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runtime version: Latest ({{latestExtensionVersion}}).
+        /// </summary>
+        internal static string appFunctionSettings_runtimeVersion1 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_runtimeVersion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
+        /// </summary>
+        internal static string appFunctionSettings_runtimeVersion2 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_runtimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App executions.
+        /// </summary>
+        internal static string appMonitoring_appExecutions {
+            get {
+                return ResourceManager.GetString("appMonitoring_appExecutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Usage(Gb Sec).
+        /// </summary>
+        internal static string appMonitoring_appUsage {
+            get {
+                return ResourceManager.GetString("appMonitoring_appUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function App Usage.
+        /// </summary>
+        internal static string appMonitoring_functionAppUsage {
+            get {
+                return ResourceManager.GetString("appMonitoring_functionAppUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no Data.
+        /// </summary>
+        internal static string appMonitoring_noData {
+            get {
+                return ResourceManager.GetString("appMonitoring_noData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of executions.
+        /// </summary>
+        internal static string appMonitoring_ofExecutions {
+            get {
+                return ResourceManager.GetString("appMonitoring_ofExecutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure Functions.
         /// </summary>
         internal static string azureFunctions {
@@ -79,11 +286,47 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        internal static string binding_delete {
+            get {
+                return ResourceManager.GetString("binding_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter name.
+        /// </summary>
+        internal static string binding_parameterName {
+            get {
+                return ResourceManager.GetString("binding_parameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to select.
+        /// </summary>
+        internal static string bindingInput_select {
+            get {
+                return ResourceManager.GetString("bindingInput_select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string cancel {
             get {
                 return ResourceManager.GetString("cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string close {
+            get {
+                return ResourceManager.GetString("close", resourceCulture);
             }
         }
         
@@ -106,11 +349,101 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CORS.
+        /// </summary>
+        internal static string cors {
+            get {
+                return ResourceManager.GetString("cors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        internal static string create {
+            get {
+                return ResourceManager.GetString("create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It looks like you don&apos;t have a functions container. Select a subscription to create one:.
+        /// </summary>
+        internal static string dashboard_noFunctionContainer {
+            get {
+                return ResourceManager.GetString("dashboard_noFunctionContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your trial has expired.
+        /// </summary>
+        internal static string dashboard_yourTrialExpiered {
+            get {
+                return ResourceManager.GetString("dashboard_yourTrialExpiered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        internal static string disabled {
+            get {
+                return ResourceManager.GetString("disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        internal static string enabled {
+            get {
+                return ResourceManager.GetString("enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to here.
+        /// </summary>
+        internal static string errorList_here {
+            get {
+                return ResourceManager.GetString("errorList_here", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may be experiencing an error. If you&apos;re having issues, please post them.
+        /// </summary>
+        internal static string errorList_youMay {
+            get {
+                return ResourceManager.GetString("errorList_youMay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error parsing config: {{error}}.
         /// </summary>
         internal static string errorParsingConfig {
             get {
                 return ResourceManager.GetString("errorParsingConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Features.
+        /// </summary>
+        internal static string features {
+            get {
+                return ResourceManager.GetString("features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        internal static string filedRequired {
+            get {
+                return ResourceManager.GetString("filedRequired", resourceCulture);
             }
         }
         
@@ -129,6 +462,15 @@ namespace AzureFunctions {
         internal static string functionCreateErrorMessage {
             get {
                 return ResourceManager.GetString("functionCreateErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        internal static string functionDev_code {
+            get {
+                return ResourceManager.GetString("functionDev_code", resourceCulture);
             }
         }
         
@@ -205,6 +547,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run.
+        /// </summary>
+        internal static string functionDev_run {
+            get {
+                return ResourceManager.GetString("functionDev_run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save and run.
         /// </summary>
         internal static string functionDev_saveAndRun {
@@ -228,6 +579,15 @@ namespace AzureFunctions {
         internal static string functionDev_viewFiles {
             get {
                 return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json.
+        /// </summary>
+        internal static string functionEdit_readOnly {
+            get {
+                return ResourceManager.GetString("functionEdit_readOnly", resourceCulture);
             }
         }
         
@@ -277,6 +637,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete Function {{name}}?.
+        /// </summary>
+        internal static string functionManage_areYouSure {
+            get {
+                return ResourceManager.GetString("functionManage_areYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a template.
         /// </summary>
         internal static string functionNew_chooseTemplate {
@@ -318,6 +687,24 @@ namespace AzureFunctions {
         internal static string functionNew_nameYourFunction {
             get {
                 return ResourceManager.GetString("functionNew_nameYourFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication is enabled for the function app. Disable authentication before running the function..
+        /// </summary>
+        internal static string functionService_authIsEnabled {
+            get {
+                return ResourceManager.GetString("functionService_authIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error running function ({{name}}). Check logs output for the full error..
+        /// </summary>
+        internal static string functionService_errorRunningFunc {
+            get {
+                return ResourceManager.GetString("functionService_errorRunningFunc", resourceCulture);
             }
         }
         
@@ -628,6 +1015,15 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        internal static string logStreaming_logs {
+            get {
+                return ResourceManager.GetString("logStreaming_logs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pause.
         /// </summary>
         internal static string logStreaming_pause {
@@ -687,6 +1083,24 @@ namespace AzureFunctions {
         internal static string newTrigger {
             get {
                 return ResourceManager.GetString("newTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string next {
+            get {
+                return ResourceManager.GetString("next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not valid value.
+        /// </summary>
+        internal static string notValidValue {
+            get {
+                return ResourceManager.GetString("notValidValue", resourceCulture);
             }
         }
         
@@ -808,6 +1222,42 @@ namespace AzureFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Develop.
+        /// </summary>
+        internal static string tabNames_develop {
+            get {
+                return ResourceManager.GetString("tabNames_develop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integrate.
+        /// </summary>
+        internal static string tabNames_integrate {
+            get {
+                return ResourceManager.GetString("tabNames_integrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        internal static string tabNames_manage {
+            get {
+                return ResourceManager.GetString("tabNames_manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitor.
+        /// </summary>
+        internal static string tabNames_monitor {
+            get {
+                return ResourceManager.GetString("tabNames_monitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose an input binding.
         /// </summary>
         internal static string templatePicker_chooseInput {
@@ -912,6 +1362,150 @@ namespace AzureFunctions {
         internal static string trigger {
             get {
                 return ResourceManager.GetString("trigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trial expired.
+        /// </summary>
+        internal static string tryNow_trialExpired {
+            get {
+                return ResourceManager.GetString("tryNow_trialExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made here will affect all of the functions within your function app..
+        /// </summary>
+        internal static string tutorial_changesMade {
+            get {
+                return ResourceManager.GetString("tutorial_changesMade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates.
+        /// </summary>
+        internal static string tutorial_createNew {
+            get {
+                return ResourceManager.GetString("tutorial_createNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Develop.
+        /// </summary>
+        internal static string tutorial_develop {
+            get {
+                return ResourceManager.GetString("tutorial_develop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target=&quot;_blank&quot; href=&quot;http://go.microsoft.com/fwlink/?LinkId=747839&quot;&gt;here&lt;/a&gt;.
+        /// </summary>
+        internal static string tutorial_diveIntoDocumentation {
+            get {
+                return ResourceManager.GetString("tutorial_diveIntoDocumentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function App Settings.
+        /// </summary>
+        internal static string tutorial_functionAppSettings {
+            get {
+                return ResourceManager.GetString("tutorial_functionAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integrate.
+        /// </summary>
+        internal static string tutorial_integrate {
+            get {
+                return ResourceManager.GetString("tutorial_integrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integrating your functions with other services and data sources is easy..
+        /// </summary>
+        internal static string tutorial_integrateYourFunction {
+            get {
+                return ResourceManager.GetString("tutorial_integrateYourFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next Steps.
+        /// </summary>
+        internal static string tutorial_nextSteps {
+            get {
+                return ResourceManager.GetString("tutorial_nextSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets..
+        /// </summary>
+        internal static string tutorial_setUpAutomated {
+            get {
+                return ResourceManager.GetString("tutorial_setUpAutomated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip the tour and start coding.
+        /// </summary>
+        internal static string tutorial_skip {
+            get {
+                return ResourceManager.GetString("tutorial_skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported..
+        /// </summary>
+        internal static string tutorial_theFastestWay {
+            get {
+                return ResourceManager.GetString("tutorial_theFastestWay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This page also includes a log stream and a test console for helping you debug your function..
+        /// </summary>
+        internal static string tutorial_thisPageInclude {
+            get {
+                return ResourceManager.GetString("tutorial_thisPageInclude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard.
+        /// </summary>
+        internal static string tutorial_tweakThisSample {
+            get {
+                return ResourceManager.GetString("tutorial_tweakThisSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app..
+        /// </summary>
+        internal static string tutorial_yourFunction {
+            get {
+                return ResourceManager.GetString("tutorial_yourFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        internal static string update {
+            get {
+                return ResourceManager.GetString("update", resourceCulture);
             }
         }
     }

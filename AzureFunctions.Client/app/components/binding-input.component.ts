@@ -9,6 +9,7 @@ import {SettingType, ResourceType} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 declare var prettyCron: any;
 
@@ -18,7 +19,8 @@ declare var prettyCron: any;
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"],
     styleUrls: ['styles/binding.style.css'],
-    directives: [DropDownComponent, PopOverComponent]
+    directives: [DropDownComponent, PopOverComponent],
+    pipes: [TranslatePipe]
 })
 
 export class BindingInputComponent {
@@ -31,7 +33,8 @@ export class BindingInputComponent {
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _userService: UserService) {
+        private _userService: UserService,
+        private _translateService: TranslateService) {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -131,7 +134,7 @@ export class BindingInputComponent {
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
-                this._input.errorText = this._input.isValid ? "" : "This field is required"
+                this._input.errorText = this._input.isValid ? "" : this._translateService.instant("filedRequired")
             }
 
             if (this._input.isValid && this._input.validators) {
