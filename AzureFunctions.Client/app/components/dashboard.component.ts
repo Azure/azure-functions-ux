@@ -25,6 +25,7 @@ import {FunctionContainer} from '../models/function-container';
 import {ErrorEvent} from '../models/error-event';
 import {SourceControlComponent} from './source-control.component';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'functions-dashboard',
@@ -42,7 +43,8 @@ import {GlobalStateService} from '../services/global-state.service';
         TutorialComponent,
         SourceControlComponent,
         TrialExpiredComponent
-    ]
+    ],
+    pipes: [TranslatePipe]
 })
 export class DashboardComponent implements OnChanges {
     @ViewChild(SideBarComponent) sideBar: SideBarComponent;
@@ -60,7 +62,8 @@ export class DashboardComponent implements OnChanges {
         private _userService: UserService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
@@ -74,7 +77,7 @@ export class DashboardComponent implements OnChanges {
 
             this._globalStateService.setBusyState();
 
-            if(fi.name !== "New Function") {
+            if (fi.name !== this._translateService.instant("sideBar_newFunction")) {
                 this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
                     this._globalStateService.clearBusyState();

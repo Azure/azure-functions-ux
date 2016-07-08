@@ -31,7 +31,7 @@
         <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
         </pop-over>
 
-        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input)"> select</i>
+        <i *ngIf="!input.inProcess" class="link" (click)="openCollectorBlade(input)"> {{ 'bindingInput_select' | translate }}</i>
         <i *ngIf="input.inProcess" class="fa fa-spinner fa-spin"></i>
     </div>
 

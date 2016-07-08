@@ -3,12 +3,13 @@ import {UIResource} from '../models/ui-resource';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionsService} from '.././services/functions.service';
-
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'try-now',
     templateUrl: 'templates/try-now.component.html',
-    styleUrls: ['styles/try-now.styles.css']
+    styleUrls: ['styles/try-now.styles.css'],
+    pipes: [TranslatePipe]
 })
 
 export class TryNowComponent implements OnInit {
@@ -19,7 +20,8 @@ export class TryNowComponent implements OnInit {
     public timerText: string;
     public freeTrialUri: string;
     constructor(private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
         var freeTrialExpireCachedQuery = `try_functionstimer`;
@@ -44,7 +46,7 @@ export class TryNowComponent implements OnInit {
                     this.timerText= (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
                     window.setTimeout(callBack, 500);
                 } else {
-                    this.timerText = "Trial expired";
+                    this.timerText = this._translateService.instant("tryNow_trialExpired");
                     this.trialExpired = true;
                     this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
                 }

@@ -4,7 +4,6 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {TabNames} from '../constants';
 
 @Component({
     selector: 'tabs',

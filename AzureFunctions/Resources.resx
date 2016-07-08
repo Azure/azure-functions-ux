@@ -342,11 +342,125 @@
   <data name="all" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="appFunctionSettings_allowClients" xml:space="preserve">
+    <value>Allow clients to more easily consume your HTTP-triggered functions.</value>
+  </data>
+  <data name="appFunctionSettings_allowYour" xml:space="preserve">
+    <value>Allow your HTTP-triggered functions to be called from within a web browser.</value>
+  </data>
+  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
+    <value>API definition</value>
+  </data>
+  <data name="appFunctionSettings_auth" xml:space="preserve">
+    <value>Authentication/Authorization</value>
+  </data>
+  <data name="appFunctionSettings_CI" xml:space="preserve">
+    <value>Continuous Integration</value>
+  </data>
+  <data name="appFunctionSettings_configAuth" xml:space="preserve">
+    <value>Configure Authentication</value>
+  </data>
+  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
+    <value>Configure API metadata</value>
+  </data>
+  <data name="appFunctionSettings_configureCI" xml:space="preserve">
+    <value>Configure Continuous Integration</value>
+  </data>
+  <data name="appFunctionSettings_configureCors" xml:space="preserve">
+    <value>Configure CORS</value>
+  </data>
+  <data name="appFunctionSettings_deploy" xml:space="preserve">
+    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more.</value>
+  </data>
+  <data name="appFunctionSettings_forFunc" xml:space="preserve">
+    <value>For functions that use the HTTP trigger, you can require calls to be authenticated.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Function App Settings</value>
+  </data>
+  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
+    <value>Go to App Service Settings</value>
+  </data>
+  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
+    <value>Manage your function app like any other App Service instance.</value>
+  </data>
+  <data name="appFunctionSettings_memory" xml:space="preserve">
+    <value>Memory Size</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
+    <value>Runtime version: Latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
+    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appMonitoring_appExecutions" xml:space="preserve">
+    <value>App executions</value>
+  </data>
+  <data name="appMonitoring_appUsage" xml:space="preserve">
+    <value>App Usage(Gb Sec)</value>
+  </data>
+  <data name="appMonitoring_functionAppUsage" xml:space="preserve">
+    <value>Function App Usage</value>
+  </data>
+  <data name="appMonitoring_noData" xml:space="preserve">
+    <value>There is no Data</value>
+  </data>
+  <data name="appMonitoring_ofExecutions" xml:space="preserve">
+    <value>of executions</value>
+  </data>
+  <data name="binding_parameterName" xml:space="preserve">
+    <value>Parameter name</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="config" xml:space="preserve">
     <value>Config</value>
   </data>
+  <data name="cors" xml:space="preserve">
+    <value>CORS</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="dashboard_noFunctionContainer" xml:space="preserve">
+    <value>It looks like you don't have a functions container. Select a subscription to create one:</value>
+  </data>
+  <data name="dashboard_yourTrialExpiered" xml:space="preserve">
+    <value>Your trial has expired</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="errorList_here" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="errorList_youMay" xml:space="preserve">
+    <value>You may be experiencing an error. If you're having issues, please post them</value>
+  </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Error parsing config: {{error}}</value>
+  </data>
+  <data name="features" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="filedRequired" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="functionDev_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="functionDev_run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="functionEdit_readOnly" xml:space="preserve">
+    <value>Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Advanced editor</value>
@@ -363,8 +477,20 @@
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Standard editor</value>
   </data>
+  <data name="functionManage_areYouSure" xml:space="preserve">
+    <value>Are you sure you want to delete Function {{name}}?</value>
+  </data>
+  <data name="functionService_authIsEnabled" xml:space="preserve">
+    <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
+  </data>
+  <data name="functionService_errorRunningFunc" xml:space="preserve">
+    <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
+  </data>
   <data name="input" xml:space="preserve">
     <value>Input</value>
+  </data>
+  <data name="logStreaming_logs" xml:space="preserve">
+    <value>Logs</value>
   </data>
   <data name="newInput" xml:space="preserve">
     <value>New Input</value>
@@ -375,11 +501,29 @@
   <data name="newTrigger" xml:space="preserve">
     <value>New Trigger</value>
   </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="notValidValue" xml:space="preserve">
+    <value>Not valid value</value>
+  </data>
   <data name="output" xml:space="preserve">
     <value>Output</value>
   </data>
   <data name="select" xml:space="preserve">
     <value>Select</value>
+  </data>
+  <data name="tabNames_develop" xml:space="preserve">
+    <value>Develop</value>
+  </data>
+  <data name="tabNames_integrate" xml:space="preserve">
+    <value>Integrate</value>
+  </data>
+  <data name="tabNames_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="tabNames_monitor" xml:space="preserve">
+    <value>Monitor</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
     <value>Choose an input binding</value>
@@ -401,5 +545,59 @@
   </data>
   <data name="trigger" xml:space="preserve">
     <value>Trigger</value>
+  </data>
+  <data name="tryNow_trialExpired" xml:space="preserve">
+    <value>Trial expired</value>
+  </data>
+  <data name="tutorial_changesMade" xml:space="preserve">
+    <value>Changes made here will affect all of the functions within your function app.</value>
+  </data>
+  <data name="tutorial_createNew" xml:space="preserve">
+    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates</value>
+  </data>
+  <data name="tutorial_develop" xml:space="preserve">
+    <value>Develop</value>
+  </data>
+  <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
+    <value>&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="tutorial_functionAppSettings" xml:space="preserve">
+    <value>Function App Settings</value>
+  </data>
+  <data name="tutorial_integrate" xml:space="preserve">
+    <value>Integrate</value>
+  </data>
+  <data name="tutorial_integrateYourFunction" xml:space="preserve">
+    <value>Integrating your functions with other services and data sources is easy.</value>
+  </data>
+  <data name="tutorial_nextSteps" xml:space="preserve">
+    <value>Next Steps</value>
+  </data>
+  <data name="tutorial_setUpAutomated" xml:space="preserve">
+    <value>Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets.</value>
+  </data>
+  <data name="tutorial_skip" xml:space="preserve">
+    <value>Skip the tour and start coding</value>
+  </data>
+  <data name="tutorial_theFastestWay" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
+  </data>
+  <data name="tutorial_thisPageInclude" xml:space="preserve">
+    <value>This page also includes a log stream and a test console for helping you debug your function.</value>
+  </data>
+  <data name="tutorial_tweakThisSample" xml:space="preserve">
+    <value>&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard</value>
+  </data>
+  <data name="tutorial_yourFunction" xml:space="preserve">
+    <value>Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app.</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="bindingInput_select" xml:space="preserve">
+    <value>select</value>
+  </data>
+  <data name="binding_delete" xml:space="preserve">
+    <value>delete</value>
   </data>
 </root>

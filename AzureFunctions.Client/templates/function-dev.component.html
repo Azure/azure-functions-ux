@@ -7,10 +7,10 @@
     </div>
 
     <div>
-        <h2 class="dev-block-header">Code</h2>
+        <h2 class="dev-block-header">{{ 'functionDev_code' | translate }}</h2>
         <span>({{fileName}})</span>
         <div class="dev-block-header">
-            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">>{{ 'save' | translate }}</button>
+            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
         </div>
         <div class="dev-flex-container" style="padding-top: 5px">
             <file-explorer class="dev-files-flex"
@@ -42,7 +42,7 @@
         <log-streaming [functionInfo]="functionInfo"></log-streaming>
     </div>
 
-    <h2 class="dev-block-header">Run</h2>
+    <h2 class="dev-block-header">{{ 'functionDev_run' | translate }}</h2>
     <div class="dev-flex-container" *ngIf="functionInfo">
         <busy-state name="run-busy"></busy-state>
         <div class="dev-run-block" style="margin-right: 10px">

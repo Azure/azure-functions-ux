@@ -22,6 +22,7 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 import {UIResource} from '../models/ui-resource';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Injectable()
 export class FunctionsService {
@@ -89,7 +90,9 @@ export class FunctionsService {
 
     constructor(
         private _http: Http,
-        private _userService: UserService) {
+        private _userService: UserService,
+        private _translateService: TranslateService
+        ) {
 
         this._userService.getToken().subscribe(t => this.token = t);
         this._userService.getFunctionContainer().subscribe(fc => {
@@ -163,7 +166,7 @@ export class FunctionsService {
 
     getNewFunctionNode(): FunctionInfo {
         return {
-            name: 'New Function',
+            name: this._translateService.instant("sideBar_newFunction"),
             href: null,
             config: null,
             script_href: null,
@@ -227,13 +230,13 @@ export class FunctionsService {
                     return Observable.of({
                         status: 401,
                         statusText: this.statusCodeToText(401),
-                        text: () => 'Authentication is enabled for the function app. Disable authentication before running the function.'
+                        text: () => this._translateService.instant("functionService_authIsEnabled")
                     });
                 } else if (e.status === 200 && e._body.type === 'error') {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
-                        text: () => `There was an error running function (${functionInfo.name}). Check logs output for the full error.`
+                        text: () => this._translateService.instant("functionService_authIsEnabled", { name: functionInfo.name})
                     });
                 } else {
                     return Observable.of({

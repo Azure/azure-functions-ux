@@ -5,6 +5,7 @@ import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
 import {ErrorItem} from '../models/error-item';
 import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'error-list',
@@ -14,7 +15,7 @@ import {ErrorEvent} from '../models/error-event';
 export class ErrorListComponent {
     public errorList: ErrorItem[];
     // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
-    constructor(private _broadcastService: BroadcastService, public _portalService: PortalService)
+    constructor(private _broadcastService: BroadcastService, public _portalService: PortalService, private _translateService: TranslateService)
     {
         this.errorList = [];
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (e) => {
@@ -27,9 +28,9 @@ export class ErrorListComponent {
 
     private getGenericError(): ErrorItem {
         return {
-            message: `You may be experiencing an error. If you're having issues, please post them`,
+            message: this._translateService.instant("errorList_youMay"),
             href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
-            hrefText: 'here',
+            hrefText: this._translateService.instant("here"),
             dateTime: new Date().toISOString()
         };
     }

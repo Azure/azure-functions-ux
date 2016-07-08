@@ -18,8 +18,8 @@ import {FunctionManageComponent} from './function-manage.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
-import {TabNames} from '../constants';
 import {FunctionMonitorComponent} from './function-monitor.component'
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'function-edit',
@@ -37,7 +37,8 @@ import {FunctionMonitorComponent} from './function-monitor.component'
         FunctionManageComponent,
         FunctionIntegrateV2Component,
         FunctionMonitorComponent
-    ]
+    ],
+    pipes: [TranslatePipe]
 })
 export class FunctionEditComponent {
     public selectedFunction: FunctionInfo;
@@ -46,20 +47,26 @@ export class FunctionEditComponent {
     public editorType: string = "standard";
     public disabled: boolean;
 
-    public DevelopTab = TabNames.develop;
-    public IntegrateTab = TabNames.integrate;
-    public MonitorTab = TabNames.monitor;
-    public ManageTab = TabNames.manage;
+    public DevelopTab: string;
+    public IntegrateTab: string;
+    public MonitorTab: string;
+    public ManageTab: string;
 
     constructor(
         private _functionsService: FunctionsService,
         private _userService: UserService,
         private _broadcastService: BroadcastService,
-        private _portalService : PortalService) {
+        private _portalService: PortalService,
+        private _translateService: TranslateService) {
 
         this.inIFrame = this._userService.inIFrame;
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
+
+        this.DevelopTab = _translateService.instant("tabNames_develop");
+        this.IntegrateTab = _translateService.instant("tabNames_integrate");
+        this.MonitorTab = _translateService.instant("tabNames_manage");
+        this.ManageTab = _translateService.instant("tabNames_monitor");
     }
 
     onTabSelected(selectedTab: TabComponent) {
