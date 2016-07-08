@@ -11,6 +11,7 @@ import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TryNowComponent} from './try-now.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'sidebar',
@@ -57,10 +58,10 @@ export class SideBarComponent implements OnDestroy {
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
             this.functionsInfo.push(fi);
             this.functionsInfo.sort((f1, f2) => {
-                if (f1.name === this._translateService.instant("sideBar_newFunction") ) {
+                if (f1.name === this._translateService.instant(PortalResources.sideBar_newFunction) ) {
                     return -1;
                 }
-                if (f2.name === this._translateService.instant("sideBar_newFunction") ) {
+                if (f2.name === this._translateService.instant(PortalResources.sideBar_newFunction) ) {
                     return 1;
                 }
 
@@ -105,7 +106,7 @@ export class SideBarComponent implements OnDestroy {
     private switchFunctions() {
         var switchFunction = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
-            switchFunction = confirm(this._translateService.instant("sideBar_changeMade", { name: this.selectedFunction.name}));
+            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name}));
         }
         return switchFunction;
     }

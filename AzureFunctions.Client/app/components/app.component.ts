@@ -61,15 +61,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
         this.gettingStarted = !_userService.inIFrame;
 
-        this._functionsService.getResources("ru-RU").subscribe((resources: any) => {
+        this._functionsService.getResources("en").subscribe((resources: any) => {
             _trnaslateService.setDefaultLang('en');
 
-            for (var field in resources) {
-                resources[field] = "!" + resources[field];
-            }
+            //for (var field in resources) {
+            //    resources[field] = "!" + resources[field];
+            //}
 
-            _trnaslateService.setTranslation('ru', resources);
-            _trnaslateService.use('ru');
+            _trnaslateService.setTranslation('en', resources);
+            _trnaslateService.use('en');
             this.readyResources = true;
         });
     }

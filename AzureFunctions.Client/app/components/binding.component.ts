@@ -10,6 +10,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {Subscription} from 'rxjs/Rx';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 declare var jQuery: any;
 
 @Component({
@@ -241,15 +242,15 @@ export class BindingComponent {
                 if (!nameInput) {
                     let inputTb = new TextboxInput();
                     inputTb.id = "name";
-                    inputTb.label = this._translateService.instant("binding_parameterName");
+                    inputTb.label = this._translateService.instant(PortalResources.binding_parameterName);
                     inputTb.isHidden = newFunction;
                     inputTb.required = true;
                     inputTb.value = this.bindingValue.name;
-                    inputTb.help = this._translateService.instant("binding_parameterName");
+                    inputTb.help = this._translateService.instant(PortalResources.binding_parameterName);
                     inputTb.validators = [
                         {
                             expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
-                            errorText: this._translateService.instant("notValidValue")
+                            errorText: this._translateService.instant(PortalResources.notValidValue)
                         }
                     ];
                     this.model.inputs.splice(0, 0, inputTb);

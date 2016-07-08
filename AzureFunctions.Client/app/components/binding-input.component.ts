@@ -10,6 +10,7 @@ import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 declare var prettyCron: any;
 
@@ -134,7 +135,7 @@ export class BindingInputComponent {
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
-                this._input.errorText = this._input.isValid ? "" : this._translateService.instant("filedRequired")
+                this._input.errorText = this._input.isValid ? "" : this._translateService.instant(PortalResources.filedRequired)
             }
 
             if (this._input.isValid && this._input.validators) {

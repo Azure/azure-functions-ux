@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AzureFunctions {
+namespace AzureFunctions.ResourcesPortal {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AzureFunctions {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AzureFunctions.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AzureFunctions.ResourcesPortal.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace AzureFunctions {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string _name {
+            get {
+                return ResourceManager.GetString("_name", resourceCulture);
             }
         }
         
@@ -826,7 +835,7 @@ namespace AzureFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function app name {{name}} isn&apos;t available.
+        ///   Looks up a localized string similar to function app name {{funcName}} isn&apos;t available.
         /// </summary>
         internal static string gettingStarted_validateContainer4 {
             get {
@@ -1047,15 +1056,6 @@ namespace AzureFunctions {
         internal static string logStreaming_tooManyLogs {
             get {
                 return ResourceManager.GetString("logStreaming_tooManyLogs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        internal static string name {
-            get {
-                return ResourceManager.GetString("name", resourceCulture);
             }
         }
         

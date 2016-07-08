@@ -6,6 +6,7 @@ import {UserService} from '../services/user.service';
 import {ErrorItem} from '../models/error-item';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'error-list',
@@ -28,9 +29,9 @@ export class ErrorListComponent {
 
     private getGenericError(): ErrorItem {
         return {
-            message: this._translateService.instant("errorList_youMay"),
+            message: this._translateService.instant(PortalResources.errorList_youMay),
             href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
-            hrefText: this._translateService.instant("here"),
+            hrefText: this._translateService.instant(PortalResources.errorList_here),
             dateTime: new Date().toISOString()
         };
     }

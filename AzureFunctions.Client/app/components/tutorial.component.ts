@@ -4,6 +4,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {FunctionInfo} from '../models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'tutorial',
@@ -69,6 +70,6 @@ export class TutorialComponent {
     }
 
     get buttonText(){
-        return this.currentStep < TutorialStep.NextSteps ? this._translateService.instant("next") : this._translateService.instant("close");
+        return this.currentStep < TutorialStep.NextSteps ? this._translateService.instant(PortalResources.next) : this._translateService.instant(PortalResources.close);
     }
 }

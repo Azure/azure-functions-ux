@@ -31,7 +31,7 @@
             <div class="start-half start-right start-row" [class.start-row]="functionContainers.length > 0">
                 <h3>{{ 'gettingStarted_newFunctionApp' | translate }}</h3>
                 <div *ngIf="functionContainers.length === 0">{{ 'gettingStarted_noFunApps' | translate }}</div>
-                <label [class.start-below-description]="functionContainers.length === 0">{{ 'name' | translate }}</label>
+                <label [class.start-below-description]="functionContainers.length === 0">{{ '_name' | translate }}</label>
                 <input type="text" [(ngModel)]="functionContainerName" (keyup)="functionContainerNameEvent.emit()" />
                 <div *ngIf="!isValidContainerName" class="error-output">{{validationError}}</div>
 

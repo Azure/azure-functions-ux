@@ -10,6 +10,7 @@ import {RadioSelectorComponent} from './radio-selector.component';
 import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'function-manage',
@@ -33,10 +34,10 @@ export class FunctionManageComponent {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
         this.functionStatusOptions = [
             {
-                displayLabel: this._translateService.instant("enabled"),
+                displayLabel: this._translateService.instant(PortalResources.enabled),
                 value: false
             }, {
-                displayLabel: this._translateService.instant("disabled"),
+                displayLabel: this._translateService.instant(PortalResources.disabled),
                 value: true
             }];
         this.valueChange = new Subject<boolean>();
@@ -51,7 +52,7 @@ export class FunctionManageComponent {
     }
 
     deleteFunction() {
-        var result = confirm(this._translateService.instant("functionManage_areYouSure", { name: this.selectedFunction.name }));
+        var result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.selectedFunction.name }));
         if (result) {
             this._globalStateService.setBusyState();
             this._portalService.logAction("edit-component", "delete");

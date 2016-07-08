@@ -13,6 +13,7 @@ import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 declare var jQuery: any;
 
@@ -129,7 +130,7 @@ export class FunctionIntegrateV2Component {
         try {
             this.updateFunction();
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant("errorParsingConfig", {error: e}) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, {error: e}) });
             this.onRemoveBinding(binding);
         }
     }
@@ -173,7 +174,7 @@ export class FunctionIntegrateV2Component {
     private checkDirty(): boolean {
         var switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
-            switchBinding = confirm(this._translateService.instant("functionIntegrate_changesLost1"));
+            switchBinding = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost1));
         }
 
         if (switchBinding) {
@@ -185,7 +186,7 @@ export class FunctionIntegrateV2Component {
     private switchIntegrate() {
         var result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            result = confirm(this._translateService.instant("functionIntegrate_changesLost2", {name: this._functionInfo.name}));
+            result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, {name: this._functionInfo.name}));
         }
         return result;
     }

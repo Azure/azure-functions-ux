@@ -4,6 +4,7 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionsService} from '.././services/functions.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'try-now',
@@ -46,7 +47,7 @@ export class TryNowComponent implements OnInit {
                     this.timerText= (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
                     window.setTimeout(callBack, 500);
                 } else {
-                    this.timerText = this._translateService.instant("tryNow_trialExpired");
+                    this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);
                     this.trialExpired = true;
                     this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
                 }
