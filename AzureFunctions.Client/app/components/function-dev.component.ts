@@ -19,6 +19,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {BusyStateComponent} from './busy-state.component';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'function-dev',
@@ -100,14 +101,14 @@ export class FunctionDevComponent implements OnChanges {
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
                 if (res.errors) {
                     res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant("functionDev_functionErrorMessage", { name: res.functionInfo.name, error: e }),
-                        details: this._translateService.instant("functionDev_functionErrorDetails", { error: e })
+                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: res.functionInfo.name, error: e }),
+                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
                     }));
                 } else {
                     this._functionsService.getHostErrors()
                         .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant("functionDev_hostErrorMessage", { error: e }),
-                            details: this._translateService.instant("functionDev_hostErrorMessage", { error: e })
+                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
                         })));
                 }
 

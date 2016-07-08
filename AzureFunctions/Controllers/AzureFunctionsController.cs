@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using System.Web;
 
 namespace AzureFunctions.Controllers
 {
@@ -116,14 +117,11 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name)
         {
-            ResourceSet resourceSet = Resources.ResourceManager.GetResourceSet(new CultureInfo(name), true, true);
+            string fileSuffix = (name == "en") ? "" : "." + name;
 
+            var resxFile = Path.Combine(HttpRuntime.AppDomainAppPath.Replace(".Client", ""), "ResourcesPortal\\Resources" + fileSuffix + ".resx");
 
-            var dic = resourceSet.Cast<DictionaryEntry>()
-                       .ToDictionary(x => x.Key.ToString(),
-                                     x => x.Value.ToString());            
-
-            return Request.CreateResponse(HttpStatusCode.OK, JObject.FromObject(dic));
+            return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFile));
         }
 
         [Authorize]
@@ -132,6 +130,25 @@ namespace AzureFunctions.Controllers
         {
             FunctionsTrace.Diagnostics.Error(new Exception(clientError.Message), TracingEvents.ClientError.Message, clientError.Message, clientError.StackTrace);
             return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
+
+        private JObject ConvertResxToJObject(string resxFilePath)
+        {
+            // Create a ResXResourceReader for the file items.resx.
+            ResXResourceReader rsxr = new ResXResourceReader(resxFilePath);
+
+            var jo = new JObject();
+
+            // Iterate through the resources and display the contents to the console.
+            foreach (DictionaryEntry d in rsxr)
+            {
+                jo[d.Key.ToString()] = d.Value.ToString();
+            }
+
+            //Close the reader.
+            rsxr.Close();
+
+            return jo;
         }
     }
 }

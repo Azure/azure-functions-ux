@@ -220,7 +220,7 @@
     <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>function app name {{name}} isn't available</value>
+    <value>function app name {{funcName}} isn't available</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
     <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
@@ -288,8 +288,9 @@
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
     <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
   </data>
-  <data name="name" xml:space="preserve">
+  <data name="_name" xml:space="preserve">
     <value>Name</value>
+    <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
     <value>Open</value>

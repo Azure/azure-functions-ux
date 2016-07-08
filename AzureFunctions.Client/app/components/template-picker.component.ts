@@ -10,6 +10,7 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'template-picker',
@@ -64,30 +65,30 @@ export class TemplatePickerComponent {
                 this.templates = [];
                 switch (type) {
                     case TemplatePickerType.in:
-                        this.title = this._translateService.instant("templatePicker_chooseInput");
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
                         this.templates = this.getBindingTemplates(DirectionType.in);
 
                         break;
                     case TemplatePickerType.out:
-                        this.title = this._translateService.instant("templatePicker_chooseOutput");
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
                         this.templates = this.getBindingTemplates(DirectionType.out);
                         break;
                     case TemplatePickerType.trigger:
-                        this.title = this._translateService.instant("templatePicker_chooseTrigger");
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTrigger);
                         this.templates = this.getBindingTemplates(DirectionType.trigger);
                         break;
                     case TemplatePickerType.template:
-                        this.title = this._translateService.instant("templatePicker_chooseTemplate");
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: this._translateService.instant("all"), value: "All" }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: "All" }];
                             initLanguages = true;
                         }
 
 
                         if (this.categories.length === 0) {
-                            this.categories = [{ displayLabel: this._translateService.instant("all"), value: "All" }];
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: "All" }];
                             initCategories = true;
                         }
 

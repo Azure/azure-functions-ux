@@ -23,6 +23,7 @@ import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 import {UIResource} from '../models/ui-resource';
 import {TranslateService} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Injectable()
 export class FunctionsService {
@@ -166,7 +167,7 @@ export class FunctionsService {
 
     getNewFunctionNode(): FunctionInfo {
         return {
-            name: this._translateService.instant("sideBar_newFunction"),
+            name: this._translateService.instant(PortalResources.sideBar_newFunction),
             href: null,
             config: null,
             script_href: null,
@@ -230,13 +231,13 @@ export class FunctionsService {
                     return Observable.of({
                         status: 401,
                         statusText: this.statusCodeToText(401),
-                        text: () => this._translateService.instant("functionService_authIsEnabled")
+                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
                     });
                 } else if (e.status === 200 && e._body.type === 'error') {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant("functionService_authIsEnabled", { name: functionInfo.name})
+                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled, { name: functionInfo.name})
                     });
                 } else {
                     return Observable.of({

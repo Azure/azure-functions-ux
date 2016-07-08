@@ -8,6 +8,8 @@ import {UsageVolume} from '../models/app-monitoring-usage'
 import {nvD3} from 'ng2-nvd3';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+
 declare let d3: any;
 declare let moment: any;
 
@@ -98,16 +100,16 @@ export class AppMonitoringComponent implements OnInit {
                     rotateLabels: -35
                 },
                 xScale: d3.time.scale(),
-                noData: this._translateService.instant("appMonitoring_noData"),
+                noData: this._translateService.instant(PortalResources.appMonitoring_noData),
                 yAxis: {
-                    axisLabel: this._translateService.instant("appMonitoring_appUsage"),
+                    axisLabel: this._translateService.instant(PortalResources.appMonitoring_appUsage),
                     tickFormat: (d3.format(".3f"))
                 }
             }
         };
 
         this.usageChartData = [{
-            key: this._translateService.instant("appMonitoring_appUsage"),
+            key: this._translateService.instant(PortalResources.appMonitoring_appUsage),
             color: '#2ca02c',
             values: usageData,
            // strokeWidth: 2
@@ -133,16 +135,16 @@ export class AppMonitoringComponent implements OnInit {
                     rotateLabels: -35
                 },
                 xScale: d3.time.scale(),
-                noData: this._translateService.instant("appMonitoring_noData"),
+                noData: this._translateService.instant(PortalResources.appMonitoring_noData),
                 yAxis: {
-                    axisLabel: this._translateService.instant("appMonitoring_ofExecutions"),
+                    axisLabel: this._translateService.instant(PortalResources.appMonitoring_ofExecutions),
                     tickFormat: (d3.format('d'))
                 }
             }
         };
 
         this.instancesChartData = [{
-            key: this._translateService.instant("appMonitoring_appExecutions"),
+            key: this._translateService.instant(PortalResources.appMonitoring_appExecutions),
             color: '#7777ff',
             values: appInstancesData
         }];

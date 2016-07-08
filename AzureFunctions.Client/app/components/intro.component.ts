@@ -11,6 +11,7 @@ import {BindingManager} from '../models/binding-manager';
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'intro',
@@ -77,15 +78,15 @@ export class IntroComponent {
                             this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
                             this._globalStateService.clearBusyState();
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant("functionCreateErrorMessage"),
-                                details: this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                                message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
+                                details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
                             });
                         });
                 }
                 catch(e){
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant("functionCreateErrorMessage"),
-                        details: this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                        message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
+                        details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
                     });
                     throw e;
                 }

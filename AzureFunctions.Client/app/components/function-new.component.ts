@@ -16,6 +16,7 @@ import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 declare var jQuery: any;
 
@@ -74,7 +75,7 @@ export class FunctionNewComponent {
             var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                 return c === "Experimental";
             });
-            this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant("functionNew_experimentalTemplate");
+            this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
 
             this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
             this._functionsService.getBindingConfig().subscribe((bindings) => {
@@ -149,7 +150,7 @@ export class FunctionNewComponent {
 
     private validate() {
         this.areInputsValid = this.functionName ? true : false;
-        this.functionNameError = this.areInputsValid ? '' : this._translateService.instant("functionNew_functionNameRequired");
+        this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.functionNew_functionNameRequired);
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
         });
@@ -177,8 +178,8 @@ export class FunctionNewComponent {
                 this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
                 this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant("functionCreateErrorMessage"),
-                    details: this._translateService.instant("functionCreateErrorDetails", { error: JSON.stringify(e) })
+                    message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
+                    details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
                 });
             });
     }
