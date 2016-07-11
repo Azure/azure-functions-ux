@@ -8,25 +8,6 @@ namespace AzureFunctions.ResxConvertor
 {
     public class ResxConvertor
     {
-        public JObject ConvertResxToJObject(string resxFilePath)
-        {
-            // Create a ResXResourceReader for the file items.resx.
-            ResXResourceReader rsxr = new ResXResourceReader(resxFilePath);
-
-            var jo = new JObject();
-
-            // Iterate through the resources and display the contents to the console.
-            foreach (DictionaryEntry d in rsxr)
-            {                
-                jo[d.Key.ToString()] = d.Value.ToString();
-            }
-
-            //Close the reader.
-            rsxr.Close();
-
-            return jo;
-        }
-
         public void SaveResxAsTypeScriptFile(string resxFilePath, string outputTSFilePAth)
         {
             var sb = new StringBuilder();
@@ -46,7 +27,10 @@ namespace AzureFunctions.ResxConvertor
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(outputTSFilePAth))
             {
                 file.WriteLine(sb.ToString());
-            }                
+            }
+
+            //Close the reader.
+            rsxr.Close();
         }
 
     }
