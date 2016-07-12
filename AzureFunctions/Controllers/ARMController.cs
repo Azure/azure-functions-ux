@@ -35,6 +35,7 @@ namespace AzureFunctions.Controllers
                 response.Content = new StringContent(GetClaims().ToString(), Encoding.UTF8, "application/json");
                 return response;
             }
+
         }
 
         [Authorize]

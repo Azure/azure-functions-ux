@@ -1,11 +1,7 @@
-﻿export interface CreateFunctionInfo {
-    templateId: string;
-    name: string;
-    containerScmUrl: string;
-}
+﻿import {FunctionConfig} from '../models/function-config';
 
-export interface CreateFunctionInfoV2 {
-    files : any;
+export interface CreateFunctionInfo {
+    templateId: string;
     name: string;
     containerScmUrl: string;
 }

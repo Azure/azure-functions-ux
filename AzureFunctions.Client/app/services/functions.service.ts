@@ -4,7 +4,7 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
-import {CreateFunctionInfo, CreateFunctionInfoV2} from '../models/create-function-info';
+import {CreateFunctionInfo} from '../models/create-function-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
@@ -17,21 +17,29 @@ import {BindingConfig} from '../models/binding';
 import {PortalService} from './portal.service';
 import {UserService} from './user.service';
 import {FunctionContainer} from '../models/function-container';
-import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
-import {UIResource} from '../models/ui-resource';
+import {UIResource, AppService, ITemplate} from '../models/ui-resource';
+
 
 @Injectable()
 export class FunctionsService {
     private hostSecrets: HostSecrets;
     private token: string;
     private scmUrl: string;
+    public scmCreds: string;
+    private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
     private appSettings: { [key: string]: string };
     private isEasyAuthEnabled: boolean;
+    public tryAppserviceToken: string;
+    public showTryView : boolean;
+    public selectedFunction: string;
+    public selectedLanguage: string;
+    public selectedProvider: string;
+    public selectedFunctionName: string;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -87,17 +95,48 @@ export class FunctionsService {
         500: 'Server Error'
     }
 
+    private tryAppServiceUrl = "https://tryappservice.azure.com";
+    private tryAppServiceUrlSlotFragment = "?x-ms-routing-name=next";
+
     constructor(
         private _http: Http,
         private _userService: UserService) {
+        this.showTryView = window.location.pathname.endsWith('/try');
+        if (!this.showTryView ) {
+            this._userService.getToken().subscribe(t => this.token = t);
 
-        this._userService.getToken().subscribe(t => this.token = t);
-        this._userService.getFunctionContainer().subscribe(fc => {
-            this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-            this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
-            this.siteName = fc.name;
-        });
+            this._userService.getFunctionContainer().subscribe(fc => {
+                this.setScmParams(fc);
+            });
+        }
+        if (this.getParameterByName(null,"cookie") != null) {
+            this.tryAppserviceToken = this.getParameterByName(null, "cookie");
+            var templateId = this.getParameterByName(this.getParameterByName(null, "state"), "templateId");
+            this.selectedFunction = templateId.split('-')[0].trim();
+            this.selectedLanguage = templateId.split('-')[1].trim();
+            this.selectedProvider = this.getParameterByName(this.getParameterByName(null,"state"), "provider");
+            this.selectedFunctionName = this.getParameterByName(this.getParameterByName(null, "state"), "functionName"); 
+        }
         this.appSettings = {};
+    }
+
+    getParameterByName(url,name) {
+        if (url ===null)
+        url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    setScmParams(fc: FunctionContainer) {
+        this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+        this.siteName = fc.name;
+        if (fc.tryScmCred != null)
+            this.scmCreds = fc.tryScmCred;
     }
 
     @Cache()
@@ -144,7 +183,7 @@ export class FunctionsService {
                 templateId: (templateId && templateId !== 'Empty' ? templateId : null),
                 containerScmUrl: this.scmUrl
             };
-            return this._http.post('api/createfunction', JSON.stringify(body), { headers: this.getPassthroughHeaders() })
+            return this._http.put(`${this.scmUrl}/api/functions/${functionName}`,  JSON.stringify(body), { headers: this.getPassthroughHeaders() })
                 .map<FunctionInfo>(r => r.json());
         } else {
             return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getPassthroughHeaders() })
@@ -326,19 +365,60 @@ export class FunctionsService {
         return this.hostSecrets;
     }
 
-    createTrialResource(): Observable<UIResource> {
-        return this._http.post('api/createtrialresource', '', { headers: this.getPassthroughHeaders() })
+    getTrialResource(provider: string): Observable<UIResource> {
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+            + "&appServiceName=" + encodeURIComponent("Function")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "");
+
+        return this._http.get(url, { headers: this.getPassthroughHeaders() })
             .map<UIResource>(r => r.json());
     }
 
+    createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+            + "&appServiceName=" + encodeURIComponent("Function")
+            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
+            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "")
+            + "&functionName=" + functionName
+            + "&templateId=" + encodeURIComponent(selectedTemplate.id);
+
+        var template = <ITemplate>{
+            name: selectedTemplate.metadata.name,
+            appService: "FunctionsContainer",
+            language: selectedTemplate.metadata.language,
+            githubRepo: ""
+        };
+
+        return this._http.post(url, JSON.stringify(template), { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());
+    }
+
+    redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+            + "&appServiceName=" + encodeURIComponent("Functions")
+            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
+            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "")
+            + "&templateId=" + encodeURIComponent(selectedTemplate.id);
+            window.location.href = url;
+
+    }
     extendTrialResource() {
-        return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
-            .map<UIResource>(r => r.json());
-    }
+        var url = this.tryAppServiceUrl + "/api/resource/extend" + this.tryAppServiceUrlSlotFragment 
+            + "&appServiceName=" + encodeURIComponent("Function")
+            + (this.selectedProvider ? "&provider=" + this.selectedProvider: "");
 
-    getTrialResource(): Observable<UIResource>{
-        return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
-            .map<UIResource>(r => r.json());
+        return this._http.post(url, '', { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());  
+        //return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
+        //    .map<UIResource>(r => r.json());
     }
 
     updateFunction(fi: FunctionInfo) {
@@ -396,16 +476,18 @@ export class FunctionsService {
     @ClearCache('clearAllCachedData')
     clearAllCachedData() { }
 
+    //to talk to scm site
     private getHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-
-        if (this.token) {
+        if (!this.scmCreds && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-
+        if (this.scmCreds) {
+            headers.append('Authorization', `Basic ${this.scmCreds}`);
+        }
         return headers;
     }
 
@@ -419,18 +501,23 @@ export class FunctionsService {
         }
         return headers;
     }
-
+    //to talk to TryAppservice or Portal
     private getPassthroughHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
+        if (this.tryAppserviceToken) {
+            headers.append('Authorization', `Bearer ${this.tryAppserviceToken}`);
+        } else {
+            headers.append('User-Agent2', 'Functions/');
+        }
         if (this.token) {
             headers.append('client-token', this.token);
             headers.append('portal-token', this.token);
         }
-
         return headers;
     }
+
 }

@@ -25,11 +25,12 @@ export class AppMonitoringComponent implements OnInit {
     constructor(
         private _monitoringService: MonitoringService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) { }
+        private _globalStateService: GlobalStateService,
+        private _functionsService: FunctionsService) { }
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        this._monitoringService.getFunctionAppConsumptionData().subscribe(res => {
+        this._monitoringService.getFunctionAppConsumptionData(this._functionsService.scmCreds).subscribe(res => {
             this._globalStateService.clearBusyState();
             this.convertToConsumptionChartDataAndDraw(res);
         });

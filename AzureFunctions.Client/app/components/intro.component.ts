@@ -16,7 +16,7 @@ import {GlobalStateService} from '../services/global-state.service';
     templateUrl: './templates/intro.component.html',
     styleUrls: ['styles/intro.style.css']
 })
-
+    
 export class IntroComponent {
     @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
@@ -30,6 +30,7 @@ export class IntroComponent {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
+
     }
 
     onFunctionCliked(selectedFunction: string) {
@@ -43,6 +44,7 @@ export class IntroComponent {
             this.selectedLanguage = selectedLanguage;
         }
 }
+
 
     onCreateNewFunction() {
         this._functionsService.getTemplates().subscribe((templates) => {

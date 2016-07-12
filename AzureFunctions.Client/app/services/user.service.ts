@@ -8,7 +8,7 @@ import {FunctionContainer} from '../models/function-container';
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
-
+    private _isTryAppServiceUser: boolean;
     private functionContainerSubject: ReplaySubject<FunctionContainer>;
     private tokenSubject: ReplaySubject<string>;
 
@@ -31,6 +31,13 @@ export class UserService {
             .map<User>(r => r.json());
     }
 
+    isTryAppServiceUser() {
+        return this._isTryAppServiceUser;
+    }
+
+    setTryAppServiceUser(isTryUser:boolean) {
+        this._isTryAppServiceUser = isTryUser;
+    }
     getToken() {
         return this.tokenSubject;
     }

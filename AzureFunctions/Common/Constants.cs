@@ -26,6 +26,15 @@ namespace AzureFunctions.Common
         public const string RcPortalReferrer = "https://rc.portal.azure.com/";
         public const string PortalAnonymousUser = "Portal/1.0.0";
 
+        // constants from Try AppService
+        public const string EncryptionReason = "ProtectCookie";
+        public const string LoginSessionCookie = "loginsession";
+        public static readonly TimeSpan SessionCookieValidTimeSpan = TimeSpan.FromHours(48);
+        public const string BearerHeader = "Bearer ";
+        public const string DefaultAuthProvider = "AAD";
+        public const string AnonymousUser = "aus";
+        public const string TiPCookie = "x-ms-routing-name";
+
         private static object _lock = new object();
         private static string _currentCommitId;
         public static string CurrentCommitId

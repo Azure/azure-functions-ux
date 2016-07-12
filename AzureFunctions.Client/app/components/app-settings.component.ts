@@ -20,12 +20,14 @@ export class AppSettingsComponent implements OnInit {
     public needUpdateExtensionVersion;
     public extensionVersion: string;
     public latestExtensionVersion: string;
+    public tryModeView: boolean;
 
     constructor(private _armService : ArmService,
                 private _portalService : PortalService,
                 private _broadcastService: BroadcastService,
                 private _functionsService: FunctionsService,
                 private _globalStateService: GlobalStateService) {
+        this.tryModeView = this._functionsService.showTryView;
     }
 
     onChange(value: string | number, event?: any) {

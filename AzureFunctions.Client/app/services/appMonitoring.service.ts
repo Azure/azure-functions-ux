@@ -14,24 +14,29 @@ export class MonitoringService {
         private _http: Http,
         private _functionsService: FunctionsService
     ) {
-        this._userService.getToken().subscribe(t => this.token = t);
+        if (!window.location.pathname.endsWith('/try')) {
+            this._userService.getToken().subscribe(t => this.token = t);
+        }
     }
 
-    private getHeaders(contentType?: string): Headers {
-        contentType = contentType || 'application/json';
+    private getHeaders(scmCreds?: string): Headers {
+        var contentType = 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
 
-        if (this.token) {
+        if (scmCreds) {
+            headers.append('Authorization', `Basic `+ scmCreds);
+        } else if (this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
+
         return headers;
     }
 
-    getFunctionAppConsumptionData() {
+    getFunctionAppConsumptionData(scmCreds?:string) {
         var utcDate = new Date().toJSON().slice(0, 10);
         var url = this._functionsService.getScmUrl() + "/AZUREJOBS/api/containers/timeline?start=" + utcDate;
-        return this._http.get(url, { headers: this.getHeaders() })
+        return this._http.get(url, { headers: this.getHeaders(scmCreds) })
             .retry(3)
             .map<MonitoringConsumption[]>(r => r.json().results);
     }

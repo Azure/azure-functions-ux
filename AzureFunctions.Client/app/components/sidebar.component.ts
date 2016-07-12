@@ -74,10 +74,18 @@ export class SideBarComponent implements OnDestroy {
             }
         });
 
-         this._userService.getTenants()
-            .subscribe(tenants => {
-                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
-             });
+        this.tryItNowTenant = this._functionsService.showTryView;
+        if (this.tryItNowTenant && this.functionsInfo) {
+            let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);
+            this.selectFunction(selectedFi);
+        } 
+
+        if (!this.tryItNowTenant )
+           { this._userService.getTenants()
+           .subscribe(tenants => {
+                this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
+            });
+        }
 
     }
 

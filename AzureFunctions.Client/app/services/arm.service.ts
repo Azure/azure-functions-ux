@@ -18,7 +18,9 @@ export class ArmService {
     private websiteApiVersion = '2015-08-01';
 
     constructor(private _http: Http, private _userService: UserService) {
-        _userService.getToken().subscribe(t => this.token = t);
+        if (!window.location.pathname.endsWith('/try')) {
+            _userService.getToken().subscribe(t => this.token = t);
+        }
     }
 
     getSubscriptions() {

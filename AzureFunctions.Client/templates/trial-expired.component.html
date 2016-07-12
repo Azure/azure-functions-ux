@@ -14,7 +14,7 @@
         <h3>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well. </h3>
         <div style="height:50px;"></div>
         <div>
-            <div (click)="redirectToAzureFreeTrial()" class="trial-expired-signup-button">
+            <div [attr.href]="freeTrialUri" target="_blank" class="trial-expired-signup-button">
                 Signup for an Azure 30-day trial
             </div>
         </div>

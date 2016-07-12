@@ -51,7 +51,7 @@ export class TryNowComponent implements OnInit {
             });
         };
 
-        this._functionsService.getTrialResource()
+        this._functionsService.getTrialResource('')
             .subscribe((resource) => {
                 this.uiResource = resource;
                 this.isExtended = resource.isExtended;
@@ -72,13 +72,13 @@ export class TryNowComponent implements OnInit {
     }
 
     extendResourceLifeTime() {
-        this._functionsService.extendTrialResource().
+        this._functionsService.extendTrialResource( ).
             subscribe((resource) => {
                 this.uiResource = resource;
                 this.isExtended = resource.isExtended;
                 this.endTime = new Date();
                 this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
-            });
+            }); 
     }
 
 }

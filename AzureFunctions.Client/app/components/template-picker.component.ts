@@ -21,7 +21,7 @@ import {DropDownElement} from '../models/drop-down-element';
 export class TemplatePickerComponent {
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
-
+    private isTryMode: boolean;
     title: string;
     selectedTemplate: string;
     templates: Template[] = [];
@@ -47,6 +47,7 @@ export class TemplatePickerComponent {
 
     constructor(private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService) {
+        this.isTryMode = (this._functionsService.scmCreds != null);
     }
 
     set type(type: TemplatePickerType) {
@@ -151,7 +152,8 @@ export class TemplatePickerComponent {
                                         name: template.metadata.name,
                                         value: template.id,
                                         keys: keys,
-                                        description: template.metadata.description
+                                        description: template.metadata.description,
+                                        disabledInTryMode: template.metadata.disabledInTryMode
                                     });
                                 }
                             }
@@ -226,8 +228,9 @@ export class TemplatePickerComponent {
 
                 result.push({
                     name: binding.displayName.toString(),
-                    value: binding.type.toString()
-                });
+                    value: binding.type.toString(),
+                    disabledInTryMode: binding.disabledInTryMode 
+            });
 
             }
         });
@@ -254,5 +257,4 @@ export class TemplatePickerComponent {
         //http://stackoverflow.com/questions/9870512/how-to-obtaining-the-querystring-from-the-current-url-with-javascript
         return window.location.search.replace(new RegExp("^(?:.*[&\\?]" + key.replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1");
     }
-
 }

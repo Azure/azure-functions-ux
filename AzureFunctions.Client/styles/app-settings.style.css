@@ -115,6 +115,14 @@ input[type=range]::-ms-thumb {
 /* end range */
 
 
+.features-wrapper-disabled {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    pointer-events:none;
+    cursor: crosshair;
+}
+
 .features-wrapper {
     display: flex;
     flex-direction: column;

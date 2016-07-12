@@ -24,7 +24,7 @@ export interface BindingConfig {
     $shcema: string,
     contentVersion: string,
     variables: any,
-    bindings: Binding[];
+    bindings: Binding[]
 }
 
 
@@ -34,7 +34,8 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
-    filters?: string[];
+    filters?: string[],
+    disabledInTryMode?: boolean;
 }
 
 export interface Setting {

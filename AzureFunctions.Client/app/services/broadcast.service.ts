@@ -112,6 +112,7 @@ export class BroadcastService {
 
             case BroadcastEvent.TrialExpired:
                 return this.trialExpired;
+
         }
     }
 }

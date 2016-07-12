@@ -27,11 +27,12 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     public description: string;
     private _input: BindingInputBase<any>;
-
+    private _tryView: boolean;
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _userService: UserService) {
+        this._tryView = this._userService.isTryAppServiceUser();
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }

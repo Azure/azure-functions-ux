@@ -5,7 +5,8 @@
              (quickstartClicked)='onQuickstartClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
-             [quickStartSelected]="openIntro"></top-bar>
+             [quickStartSelected]="openIntro"
+             [tryModeView]="isTryMode"></top-bar>
 
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)'></sidebar>
