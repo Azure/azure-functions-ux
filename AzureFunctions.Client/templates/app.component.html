@@ -1,4 +1,5 @@
 ﻿<busy-state name='global'></busy-state>
 <error-list></error-list>
-<functions-dashboard *ngIf="!gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
-<getting-started *ngIf="gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>
+<functions-dashboard *ngIf="!isTry && !gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
+<getting-started *ngIf="!isTry && gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>
+<try-landing *ngIf="isTry"></try-landing>

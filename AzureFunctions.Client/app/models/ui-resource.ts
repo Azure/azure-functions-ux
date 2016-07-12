@@ -21,3 +21,13 @@ export enum AppService {
     Logic,
     Function
 }
+
+export interface ITemplate {
+    name: string;
+    sprite?: string;
+    appService: string;
+    language?: string;
+    fileName?: string;
+    githubRepo: string;
+    description?: string;
+}

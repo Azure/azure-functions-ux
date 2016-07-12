@@ -14,16 +14,18 @@ import {ErrorListComponent} from './error-list.component';
 import {MonitoringService} from '../services/appMonitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {TryLandingComponent} from './try-landing.component';
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
-    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
+    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent]
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
     public ready: boolean;
+    public isTry:boolean;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
 
@@ -39,11 +41,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
         this.ready = false;
         this.gettingStarted = !_userService.inIFrame;
+        this.isTry = window.location.pathname.endsWith('/try');
     }
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        if (!this.gettingStarted) {
+        if (!this.gettingStarted && !this.isTry ) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
                 .debounceTime(500)
@@ -93,7 +96,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1) {
+            window.location.search.indexOf("ibiza=disabled") === -1 && !this.isTry) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()

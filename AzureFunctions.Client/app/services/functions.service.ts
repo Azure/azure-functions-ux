@@ -4,7 +4,7 @@ import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
 import {PassthroughInfo} from '../models/passthrough-info';
-import {CreateFunctionInfo, CreateFunctionInfoV2} from '../models/create-function-info';
+import {CreateFunctionInfo, CreateFunctionInfoV2, CreateFunctionInfoV3} from '../models/create-function-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
 import {Observable} from 'rxjs/Rx';
@@ -21,7 +21,8 @@ import {ArmService} from './arm.service';
 import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
-import {UIResource} from '../models/ui-resource';
+import {UIResource, AppService, ITemplate} from '../models/ui-resource';
+
 
 @Injectable()
 export class FunctionsService {
@@ -115,7 +116,7 @@ export class FunctionsService {
 
     @ClearCache('getFileContent', 'href')
     saveFile(file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo) {
-        var headers = this.getHeaders('plain/text');
+        var headers = this.getHeaders(false,'','plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -159,6 +160,20 @@ export class FunctionsService {
 
         return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData, config: config}), { headers: this.getHeaders() })
             .map<FunctionInfo>(r => r.json());
+    }
+
+    @ClearCache('getFunctions')
+    createFunctionV3(functionName: string, containerScmUrl:string, files: any, config: any) {
+
+        var sampleData = files["sample.dat"];
+        delete files["sample.dat"];
+
+        var creds = containerScmUrl.substring(8, containerScmUrl.indexOf('@'));
+        return this._http.put(`${containerScmUrl}/api/functions/${functionName}`,
+            JSON.stringify({ files: files, test_data: sampleData, config: config }),
+            { headers: this.getHeaders(true, creds) })
+            .map<FunctionInfo>(r => r.json());
+
     }
 
     getNewFunctionNode(): FunctionInfo {
@@ -326,20 +341,59 @@ export class FunctionsService {
         return this.hostSecrets;
     }
 
-    createTrialResource(): Observable<UIResource> {
-        return this._http.post('api/createtrialresource', '', { headers: this.getPassthroughHeaders() })
+    getTrialResource(provider: string): Observable<UIResource> {
+        var url = "https://trywebsites.azurewebsites.net/api/resource?x-ms-routing-name=next"
+            + "&appServiceName=" + encodeURIComponent("Function")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "");
+
+
+
+        return this._http.get(url, { headers: this.getPassthroughHeaders() })
+            .map<UIResource>(r => r.json());
+    }
+    createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
+        var url = "https://trywebsites.azurewebsites.net/api/resource?x-ms-routing-name=next"
+            + "&appServiceName=" + encodeURIComponent("Function")
+            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
+            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "")
+            + "&functionName=" + functionName;
+
+        var template = <ITemplate>{
+            name: selectedTemplate.metadata.name,
+            appService: "FunctionsContainer",
+            language: selectedTemplate.metadata.language,
+            githubRepo: ""
+        };
+
+        return this._http.post(url, JSON.stringify(template), { headers: this.getPassthroughHeaders() })
             .map<UIResource>(r => r.json());
     }
 
+    redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
+        var url = "https://trywebsites.azurewebsites.net/api/resource?x-ms-routing-name=next"
+            + "&appServiceName=" + encodeURIComponent("Functions")
+            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
+            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
+            + ("&githubRepo=")
+            + "&autoCreate=true"
+            + (provider ? "&provider=" + provider : "");
+            window.location.href = url;
+
+    }
     extendTrialResource() {
         return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
             .map<UIResource>(r => r.json());
     }
 
-    getTrialResource(): Observable<UIResource>{
-        return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
-            .map<UIResource>(r => r.json());
-    }
+    //getTrialResource(): Observable<UIResource>{
+    //    return this._http.get('api/gettrialresource', { headers: this.getPassthroughHeaders() })
+    //        .map<UIResource>(r => r.json());
+    //}
 
     updateFunction(fi: FunctionInfo) {
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getHeaders() })
@@ -396,16 +450,18 @@ export class FunctionsService {
     @ClearCache('clearAllCachedData')
     clearAllCachedData() { }
 
-    private getHeaders(contentType?: string): Headers {
+    private getHeaders(basicAuth?:boolean, creds?:string, contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-
-        if (this.token) {
+        this._userService.getToken().subscribe(t => this.token = t);
+        if (!basicAuth && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-
+        if (basicAuth) {
+            headers.append('Authorization', `Basic ${btoa(creds)}`);
+        }
         return headers;
     }
 
@@ -430,7 +486,39 @@ export class FunctionsService {
             headers.append('client-token', this.token);
             headers.append('portal-token', this.token);
         }
-
+        var loginsessionCookie = this.getCookie('loginsession');
+        if (loginsessionCookie.length > 0) //we got the cookie from try
+        {
+            //headers.append('cookie', 'loginsession=' + loginsessionCookie);
+            //this.setCookie('loginsession',loginsessionCookie,2);
+            //this.token = loginsessionCookie;
+            headers.append('Authorization', 'Bearer ' + this.token);
+        }
+        else //this is first time
+            headers.append('User-Agent2', 'Functions/1.0');
         return headers;
     }
+
+    private setCookie(name: string, value: string, expireDays: number, path: string = "") {
+        let d: Date = new Date();
+        d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+        let expires: string = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + "; " + expires + (path.length > 0 ? "; path=" + path : "");
+    }
+
+    private getCookie(name: string) {
+        let ca: Array<string> = document.cookie.split(';');
+        let caLen: number = ca.length;
+        let cookieName = name + "=";
+        let c: string;
+
+        for (let i: number = 0; i < caLen; i += 1) {
+            c = ca[i].replace(/^\s\+/g, "");
+            if (c.indexOf(cookieName) == 0) {
+                return c.substring(cookieName.length, c.length);
+            }
+        }
+        return "";
+    }
+
 }
