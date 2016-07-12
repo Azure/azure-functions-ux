@@ -137,7 +137,11 @@ export class FunctionsService {
     @Cache()
     getTemplates() {
         return this._http.get('api/templates', { headers: this.getPassthroughHeaders() })
-            .map<FunctionTemplate[]>(r => r.json());
+            .map<FunctionTemplate[]>(r => {
+                var object = r.json();
+                this.locolize(object);
+                return object;
+            });
     }
 
     @ClearCache('getFunctions')
@@ -323,7 +327,11 @@ export class FunctionsService {
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
         return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
-            .map<BindingConfig>(r => r.json());
+            .map<BindingConfig>(r => {                
+                var object = r.json();
+                this.locolize(object);
+                return object;
+            });
     }
 
 
@@ -443,5 +451,28 @@ export class FunctionsService {
         }
 
         return headers;
+    }
+
+    private locolize(objectToLocolize: any) {
+        if ((typeof value === "string") && (value.startsWith("$"))) {
+            objectToLocolize[property] = this._translateService.instant(value.substring(1, value.length));
+        }
+
+        for (var property in objectToLocolize) {
+            if (objectToLocolize.hasOwnProperty(property)) {
+                var value = objectToLocolize[property];
+                if ((typeof value === "string") && (value.startsWith("$"))) {
+                    objectToLocolize[property] = this._translateService.instant(value.substring(1, value.length));
+                }
+                if (typeof value === "array") {
+                    for (var i = 0; i < value.length; i++) {
+                        this.locolize(value[i]);
+                    }
+                }
+                if (typeof value === "object") {
+                    this.locolize(value);
+                }
+            }
+        }
     }
 }

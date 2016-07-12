@@ -24,12 +24,14 @@ namespace AzureFunctions.Controllers
         private readonly IArmManager _armManager;
         private readonly ITemplatesManager _templatesManager;
         private readonly HttpClient _client;
+        private readonly ISettings _settings;
 
-        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager, HttpClient client)
+        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager, HttpClient client, ISettings settings)
         {
             this._armManager = armManager;
             this._templatesManager = templatesManager;
             this._client = client;
+            this._settings = settings;
         }
 
         [Authorize]
@@ -119,9 +121,11 @@ namespace AzureFunctions.Controllers
         {
             string fileSuffix = (name == "en") ? "" : "." + name;
 
-            var resxFile = Path.Combine(HttpRuntime.AppDomainAppPath.Replace(".Client", ""), "ResourcesPortal\\Resources" + fileSuffix + ".resx");
+            List<string> resxFiles = new List<string>();
+            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", "") + "\\Resources" + fileSuffix + ".resx"));
+            resxFiles.Add(Path.Combine(this._settings.ResourcesTemplatesPath + "\\Resources" + fileSuffix + ".resx"));
 
-            return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFile));
+            return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFiles));
         }
 
         [Authorize]
@@ -132,21 +136,24 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
-        private JObject ConvertResxToJObject(string resxFilePath)
+        private JObject ConvertResxToJObject(List<string> resxFiles)
         {
-            // Create a ResXResourceReader for the file items.resx.
-            ResXResourceReader rsxr = new ResXResourceReader(resxFilePath);
-
             var jo = new JObject();
 
-            // Iterate through the resources and display the contents to the console.
-            foreach (DictionaryEntry d in rsxr)
-            {
-                jo[d.Key.ToString()] = d.Value.ToString();
-            }
+            foreach (var file in resxFiles) {
 
-            //Close the reader.
-            rsxr.Close();
+                // Create a ResXResourceReader for the file items.resx.
+                ResXResourceReader rsxr = new ResXResourceReader(file);
+
+                // Iterate through the resources and display the contents to the console.
+                foreach (DictionaryEntry d in rsxr)
+                {
+                    jo[d.Key.ToString()] = d.Value.ToString();
+                }
+
+                //Close the reader.
+                rsxr.Close();
+            }
 
             return jo;
         }

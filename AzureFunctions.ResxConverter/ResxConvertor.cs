@@ -8,7 +8,7 @@ namespace AzureFunctions.ResxConvertor
 {
     public class ResxConvertor
     {
-        public void SaveResxAsTypeScriptFile(string resxFilePath, string outputTSFilePAth)
+        public void SaveResxAsTypeScriptFile(string[] resxFiles, string outputTSFilePAth)
         {
             var sb = new StringBuilder();
             sb.AppendLine("// This file is auto generated");
@@ -16,21 +16,23 @@ namespace AzureFunctions.ResxConvertor
             sb.AppendLine("export class PortalResources");
             sb.AppendLine("{");
 
-            ResXResourceReader rsxr = new ResXResourceReader(resxFilePath);
-            foreach (DictionaryEntry d in rsxr)
+            foreach (var resxFile in resxFiles)
             {
-                sb.AppendLine(string.Format("    public static {0}: string = \"{0}\";", d.Key.ToString()));
-            }
+                ResXResourceReader rsxr = new ResXResourceReader(resxFile);
+                foreach (DictionaryEntry d in rsxr)
+                {
+                    sb.AppendLine(string.Format("    public static {0}: string = \"{0}\";", d.Key.ToString()));
+                }                
 
+                //Close the reader.
+                rsxr.Close();
+            }
             sb.AppendLine("}");
 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(outputTSFilePAth))
             {
                 file.WriteLine(sb.ToString());
             }
-
-            //Close the reader.
-            rsxr.Close();
         }
 
     }
