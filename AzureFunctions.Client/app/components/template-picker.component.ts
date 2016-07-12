@@ -32,17 +32,10 @@ export class TemplatePickerComponent {
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
     private category: string = "";
-    private _language: string = "All";
+    private _language: string = "";
     private _type: TemplatePickerType;
     private _initialized = false;
-    private _orderedCategoties = [
-        "Core",
-        "API & Webhooks",
-        "Data Processing",
-        "Samples",
-        "Experimental",
-        "All"
-    ];
+    private _orderedCategoties = [];
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter<string>();
@@ -51,6 +44,17 @@ export class TemplatePickerComponent {
     constructor(private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
+
+        this._language = this._translateService.instant(PortalResources.temp_category_api);
+
+        this._orderedCategoties = [
+            this._translateService.instant(PortalResources.temp_category_core),
+            this._translateService.instant(PortalResources.temp_category_api),
+            this._translateService.instant(PortalResources.temp_category_dataProcessing),
+            this._translateService.instant(PortalResources.temp_category_all),
+            this._translateService.instant(PortalResources.temp_category_experimental),
+            this._translateService.instant(PortalResources.temp_category_all)
+        ];    
     }
 
     set type(type: TemplatePickerType) {
@@ -82,13 +86,13 @@ export class TemplatePickerComponent {
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: "All" }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
                             initLanguages = true;
                         }
 
 
                         if (this.categories.length === 0) {
-                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: "All" }];
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
                             initCategories = true;
                         }
 
@@ -116,7 +120,7 @@ export class TemplatePickerComponent {
 
                             if (initCategories) {
                                 template.metadata.category.forEach((c) => {
-                                    if ((this._language === "All") || (template.metadata.language === this._language)) {
+                                    if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
 
                                         var index = this.categories.findIndex((category) => {
                                             return category.value === c;
@@ -130,7 +134,7 @@ export class TemplatePickerComponent {
 
                                             if (this.category === c) {
                                                 dropDownElement.default = true;
-                                            } else if (!this.category && c === "Core") {
+                                            } else if (!this.category && c === this._translateService.instant(PortalResources.temp_category_core)) {
                                                 dropDownElement.default = true;
                                             }
 
@@ -141,12 +145,12 @@ export class TemplatePickerComponent {
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this.category || this.category === "All";
+                                return c === this.category || this.category === this._translateService.instant(PortalResources.temp_category_all);
                             });
 
                             if (matchIndex !== -1) {
-                                if ((this._language === "All") || (template.metadata.language === this._language)) {
-                                    var keys = template.metadata.category.slice(0) || ["Experimental"];
+                                if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
+                                    var keys = template.metadata.category.slice(0) || [this._translateService.instant(PortalResources.temp_category_experimental)];
                                     keys.push(
                                         template.metadata.language
                                     );

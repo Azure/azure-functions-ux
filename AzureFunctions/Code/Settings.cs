@@ -33,6 +33,8 @@ namespace AzureFunctions.Code
         public string AppDataPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");
         public string TemplatesPath => Path.Combine(AppDataPath, "Templates\\Templates");
         public string BindingsJsonPath => Path.Combine(AppDataPath, "Templates\\Bindings\\bindings.json");
+        public string ResourcesPortalPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "ResourcesPortal");
+        public string ResourcesTemplatesPath => Path.Combine(AppDataPath, "Templates\\Resources");
 
         public string LoggingSqlServerConnectionString => config();
 

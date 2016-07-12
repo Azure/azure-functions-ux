@@ -4,6 +4,9 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+
 
 @Component({
     selector: 'tabs',
@@ -15,7 +18,10 @@ export class TabsComponent implements AfterContentInit {
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
     @Output() tabSelected = new EventEmitter<TabComponent>();
 
-    constructor(private _broadcastService: BroadcastService, private _portalService : PortalService){
+    constructor(
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService,
+        private _translateSerivce: TranslateService) {
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
 
@@ -23,10 +29,10 @@ export class TabsComponent implements AfterContentInit {
             switch(event.step){
                 case TutorialStep.Develop:
                 case TutorialStep.NextSteps:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.develop);
+                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_develop);
                     break;
                 case TutorialStep.Integrate:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === TabNames.integrate);
+                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_integrate);
                     break;
                 default:
                     break;
