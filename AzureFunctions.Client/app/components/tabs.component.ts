@@ -29,10 +29,10 @@ export class TabsComponent implements AfterContentInit {
             switch(event.step){
                 case TutorialStep.Develop:
                 case TutorialStep.NextSteps:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_develop);
+                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_develop));
                     break;
                 case TutorialStep.Integrate:
-                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_integrate);
+                    selectedTab = this.tabs.toArray().find(tab => tab.title === this._translateSerivce.instant(PortalResources.tabNames_integrate));
                     break;
                 default:
                     break;
