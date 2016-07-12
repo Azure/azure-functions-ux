@@ -18,15 +18,13 @@ namespace AzureFunctions.Controllers
         private const char base64UrlCharacter62 = '-';
         private const char base64UrlCharacter63 = '_';
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public HttpResponseMessage GetToken(bool plainText = false)
         {
-            var jwtToken =
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSIsImtpZCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC82MjI0YmNjMS0xNjkwLTRkMDQtYjkwNS05MjI2NWY5NDhkYWQvIiwiaWF0IjoxNDY4MjYzMTI3LCJuYmYiOjE0NjgyNjMxMjcsImV4cCI6MTQ2ODI2NzAyNywiYWNyIjoiMSIsImFsdHNlY2lkIjoiMTpsaXZlLmNvbTowMDAzQkZGREZCOTA0QUUzIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6ImFiZmEwYTdjLWE2YjYtNDczNi04MzEwLTU4NTU1MDg3ODdjZCIsImFwcGlkYWNyIjoiMiIsImVtYWlsIjoiZmFpenNoYWlraDdAb3V0bG9vay5jb20iLCJmYW1pbHlfbmFtZSI6IlNoYWlraCIsImdpdmVuX25hbWUiOiJGYWl6IiwiaWRwIjoibGl2ZS5jb20iLCJpcGFkZHIiOiIxMzEuMTA3LjE3NC43NyIsIm5hbWUiOiJmYWl6c2hhaWtoN0BvdXRsb29rLmNvbSIsIm9pZCI6IjM1NjQxYzkxLTEyZmMtNDhmYS05YjJmLTI3YjI2NzU1ZWI4YiIsInB1aWQiOiIxMDAzN0ZGRTk4MkZCNjM5Iiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwic3ViIjoiVXBlc1g0MXZsOVJQVy12U1loNC1JRFdTQUJfendzbWd2LWRqN2hkVGNJRSIsInRpZCI6IjYyMjRiY2MxLTE2OTAtNGQwNC1iOTA1LTkyMjY1Zjk0OGRhZCIsInVuaXF1ZV9uYW1lIjoibGl2ZS5jb20jZmFpenNoYWlraDdAb3V0bG9vay5jb20iLCJ2ZXIiOiIxLjAifQ.iYWjMwFaoniClvvhXoiAdA3lilqkaIms0fBzlNZmvteIJxbZT80iCEGVCGFeGLSgC0t2Gp5YUXWhZ1-dN4k_1HjhOPOZi-KgIYChBjN319At_O3Sam3nVIvH5g2w1DeBlT6KgEQ1QabhbhIRwnXXj-5c6TirQjJ3lGinvoLqbgtL1b8KHXPWs37Va4470uJLX3GliFIhUp6-AYQPNuL1B8hycOUuy9Jga5QEKlDXVilJetJdptLQQxnTwuh9b3tpZFnxCsKPKIrMcxa6O003bqU1WBYVIqDYVVo2ouPkZdg8jQaagM6l176b_vKZ4aulIBD5d5AX_koNKF9dCcRgkA";
             if (plainText)
             {
-                //jwtToken = Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
+                var jwtToken = Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
                 var response = Request.CreateResponse(HttpStatusCode.OK);
                 response.Content = new StringContent(jwtToken, Encoding.UTF8, "text/plain");
                 return response;
@@ -34,10 +32,9 @@ namespace AzureFunctions.Controllers
             else
             {
                 var response = Request.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent(GetClaims(jwtToken).ToString(), Encoding.UTF8, "application/json");
+                response.Content = new StringContent(GetClaims().ToString(), Encoding.UTF8, "application/json");
                 return response;
             }
-
         }
 
         [Authorize]
@@ -134,10 +131,9 @@ namespace AzureFunctions.Controllers
             return client;
         }
 
-        private JObject GetClaims(string jwtToken= "")
+        private JObject GetClaims()
         {
-            if (String.IsNullOrEmpty(jwtToken))
-            jwtToken = Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
+            var jwtToken = Request.Headers.GetValues(Constants.X_MS_OAUTH_TOKEN).FirstOrDefault();
             var base64 = jwtToken.Split('.')[1];
 
             // fixup

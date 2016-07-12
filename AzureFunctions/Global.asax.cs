@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -28,12 +27,10 @@ namespace AzureFunctions
 {
     public class Global : System.Web.HttpApplication
     {
-        private string token =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSIsImtpZCI6Ik1uQ19WWmNBVGZNNXBPWWlKSE1iYTlnb0VLWSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8zM2RhM2VmZS02NGJmLTQwMjAtODAzZS00NzA1YzAwMTgxYjIvIiwiaWF0IjoxNDY4Mjc3MjkwLCJuYmYiOjE0NjgyNzcyOTAsImV4cCI6MTQ2ODI4MTE5MCwiYWNyIjoiMSIsImFsdHNlY2lkIjoiMTpsaXZlLmNvbTowMDAzQkZGREZCOTA0QUUzIiwiYW1yIjpbInB3ZCJdLCJhcHBpZCI6ImFiZmEwYTdjLWE2YjYtNDczNi04MzEwLTU4NTU1MDg3ODdjZCIsImFwcGlkYWNyIjoiMiIsImVtYWlsIjoiZmFpenNoYWlraDdAb3V0bG9vay5jb20iLCJmYW1pbHlfbmFtZSI6IlMiLCJnaXZlbl9uYW1lIjoiRmFpeiIsImlkcCI6ImxpdmUuY29tIiwiaXBhZGRyIjoiMTMxLjEwNy4xNTkuNzciLCJuYW1lIjoiRlMiLCJvaWQiOiI4NDllMDk5Mi0wYThiLTQyYTktOTM4OS1kMWM2NDg4ZTdmZDEiLCJwdWlkIjoiMTAwMzNGRkY5N0UwRkY2MCIsInNjcCI6InVzZXJfaW1wZXJzb25hdGlvbiIsInN1YiI6IlVwZXNYNDF2bDlSUFctdlNZaDQtSURXU0FCX3p3c21ndi1kajdoZFRjSUUiLCJ0aWQiOiIzM2RhM2VmZS02NGJmLTQwMjAtODAzZS00NzA1YzAwMTgxYjIiLCJ1bmlxdWVfbmFtZSI6ImxpdmUuY29tI2ZhaXpzaGFpa2g3QG91dGxvb2suY29tIiwidmVyIjoiMS4wIn0.gUnFXCd0p8QD_yv9fjLPIhSZmeVtIK6RBIMb31bHz1ctaFYk24NXJwPCOLDhhcp0xNvdzuzwS-L77gsNyRDI1K_9kXwuuN4B4cBrq9zUibNxSrFptWpXhxpDvr4bFqq1cg76q99mI_CnZ9dsz_Wp-VWWy4NjVKyCT-L0l-FP2XQRLUtH98mg5fwO6o5K9qfmjnM3BaN_B2jqbMfx41Ibrbx8MdLLipCq3kNBy9oml6DC3E8_tJ2Gqn6PKIC_GbQj83Oeq0SFOFzz7Tv6IiL-028UdnOW9S5GFLzsohzOyZECTqeGJjE9dfx3lULJ8Y33mIj9nRQpd1aYlrygsptnOA";
         protected void Application_Start()
         {
             var container = InitAutofacContainer();
-
+            
             var config = GlobalConfiguration.Configuration;
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
@@ -47,36 +44,13 @@ namespace AzureFunctions
         {
             var context = new HttpContextWrapper(HttpContext.Current);
             SecurityManager.PutOnCorrectTenant(context);
-            if (!context.Request.RawUrl.StartsWith("/try"))
-            {
-                context.Request.Headers.Add("Authorization", "Bearer " + token);
-                context.Response.Headers.Add("Authorization", "Bearer " + token);
-            }
-            if (context.Request.RawUrl.EndsWith(".css"))
-                context.Response.ContentType = "text/css";
-            else if (context.Request.RawUrl.EndsWith(".js"))
-                context.Response.ContentType = "text/javascript";
-            else
-                context.Response.ContentType = "text/html";
-
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            if (context.Request.RawUrl.StartsWith("/try"))
-            {
-                if (Request.QueryString["cookie"] != null)
-                {
-                    SetCookie(context, Request.QueryString["cookie"]);
-                }
-            }
-            else
-            {
-                context.Request.Headers.Add("Authorization", "Bearer " + token);
-            }
 
-            if (!context.Request.RawUrl.EndsWith(".png") && context.Request.UrlReferrer != null && !context.Request.UrlReferrer.AbsolutePath.EndsWith("/try") && !SecurityManager.TryAuthenticateRequest(context))
+            if (!SecurityManager.TryAuthenticateRequest(context))
             {
                 var route = RouteTable.Routes.GetRouteData(context);
                 // If the route is not registerd in the WebAPI RouteTable
@@ -97,35 +71,14 @@ namespace AzureFunctions
                     context.Response.End();
                 }
                 else if (!isFile)
-                {
+                {        
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
-
             }
-            if (context.Request.RawUrl.EndsWith(".css"))
-                context.Response.ContentType = "text/css";
-            else if (context.Request.RawUrl.EndsWith(".js"))
-                context.Response.ContentType = "text/javascript";
-            else
-                context.Response.ContentType = "text/html";
-
         }
 
-        private bool SetCookie(HttpContextBase context, string cookie)
-        {
-            try
-            {
-                context.Response.Cookies.Add(new HttpCookie(Constants.LoginSessionCookie, cookie));
-                //context.Response.End();
-                return true;
-            }
-            catch
-            {
-            }
-            return false;
-        }
         private IContainer InitAutofacContainer()
         {
             var builder = new ContainerBuilder();
@@ -152,7 +105,7 @@ namespace AzureFunctions
             FunctionsTrace.Analytics = CreateLogger(settings, "functions-analytics-{Date}.txt", "Analytics");
             FunctionsTrace.Performance = CreateLogger(settings, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
             {
-                new DataColumn {DataType = typeof(string), ColumnName = "OperationName"  },
+                new DataColumn {DataType = typeof(string), ColumnName = "OperationName" },
                 new DataColumn {DataType = typeof(int), ColumnName = "TimeTakenMsec" },
                 new DataColumn {DataType = typeof(string), ColumnName = "OperationResult" },
                 new DataColumn {DataType = typeof(DateTime), ColumnName = "StartedTime" }
@@ -218,8 +171,7 @@ namespace AzureFunctions
                 var userSettings = c.Resolve<IUserSettings>();
                 var client = new HttpClient();
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userSettings.BearerToken);
                 client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
                 client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
                 return client;
@@ -244,11 +196,9 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("list-templares", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("create-function-v3", "api/createfunctionv3", new { controller = "AzureFunctions", action = "CreateFunctionV3", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }

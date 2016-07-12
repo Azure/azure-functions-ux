@@ -217,7 +217,6 @@
     </Compile>
     <Compile Include="Models\AppService.cs" />
     <Compile Include="Models\ClientError.cs" />
-    <Compile Include="Models\CreateFunctionInfoV3.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Models\UIResource.cs" />

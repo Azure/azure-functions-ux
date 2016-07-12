@@ -310,8 +310,6 @@ namespace AzureFunctions.Authentication
 
             if (strb.Length == 0)
             {
-                if (request.Headers["Authorization"] != null)
-                    strb.Append(request.Headers["Authorization"].FirstOrDefault().ToString())
                 return null;
             }
 

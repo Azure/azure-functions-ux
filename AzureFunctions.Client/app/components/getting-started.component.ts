@@ -78,8 +78,8 @@ export class GettingStartedComponent implements OnInit {
     checkOutTrialSubscription() {
         this.tryItNow = true;
 
-        //this._functionsService.createTrialResource().
-        //    subscribe(() => { this.switchToTryAppServiceTenant(); });
+        this._functionsService.createTrialResource().
+            subscribe(() => { this.switchToTryAppServiceTenant(); });
     }
 
     createTrialAndThenLogin() {
@@ -90,7 +90,7 @@ export class GettingStartedComponent implements OnInit {
                     this.checkOutTrialSubscription();
                 }
                 else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
-                    this._functionsService.getTrialResource('').subscribe
+                    this._functionsService.getTrialResource().subscribe
                         ((resource) => {
                             if (resource === null || resource === undefined) {
                                 this.checkOutTrialSubscription();

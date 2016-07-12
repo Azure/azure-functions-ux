@@ -51,7 +51,7 @@ export class TryNowComponent implements OnInit {
             });
         };
 
-        this._functionsService.getTrialResource('')
+        this._functionsService.getTrialResource()
             .subscribe((resource) => {
                 this.uiResource = resource;
                 this.isExtended = resource.isExtended;
