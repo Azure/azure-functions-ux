@@ -65,8 +65,8 @@ export class FunctionEditComponent {
 
         this.DevelopTab = _translateService.instant("tabNames_develop");
         this.IntegrateTab = _translateService.instant("tabNames_integrate");
-        this.MonitorTab = _translateService.instant("tabNames_manage");
-        this.ManageTab = _translateService.instant("tabNames_monitor");
+        this.MonitorTab = _translateService.instant("tabNames_monitor");
+        this.ManageTab = _translateService.instant("tabNames_manage");
     }
 
     onTabSelected(selectedTab: TabComponent) {
