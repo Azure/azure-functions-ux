@@ -22,7 +22,7 @@ namespace AzureFunctions.Code
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
         private readonly ReaderWriterLockSlim _rwlock;
-        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
+        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();        
 
         public TemplatesManager(ISettings settings)
         {
@@ -58,11 +58,18 @@ namespace AzureFunctions.Code
 
         private async Task HandleFileSystemChange()
         {
-            IEnumerable<FunctionTemplate> templates = await Directory
-                .GetDirectories(_settings.TemplatesPath)
-                .Select(Path.GetFileName)
+            var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
+            var templateDirs = new List<string>();
+            foreach(var d in runtimeDirs)
+            {
+                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+            }
+
+            IEnumerable<FunctionTemplate> templates = await
+                templateDirs
                 .Select(GetFunctionTemplate)
                 .WhenAll();
+
             templates = templates.Where(e => e != null);
             _rwlock.EnterWriteLock();
             try { _templates = templates; }
@@ -84,6 +91,8 @@ namespace AzureFunctions.Code
                     };
                     template.Metadata = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(metadataPath));
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
+                    var splits = templateFolderName.Split('\\');
+                    template.Runtime = splits[splits.Length - 3];
                     template.Id = templateFolderName;
 
                     var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
@@ -108,10 +117,18 @@ namespace AzureFunctions.Code
             return null;
         }
 
-        public IEnumerable<FunctionTemplate> GetTemplates()
+        public IEnumerable<FunctionTemplate> GetTemplates(string runtime)
         {
             _rwlock.EnterReadLock();
-            try { return _templates; }
+            try
+            {
+                var result = _templates.Where(t => t.Runtime == runtime);
+                if (result.ToList().Count == 0)
+                {
+                    result = _templates.Where(t => t.Runtime == "default");
+                }
+                return result;
+            }
             finally { _rwlock.ExitReadLock(); }
         }
 
@@ -128,15 +145,16 @@ namespace AzureFunctions.Code
             return content.ToDictionary(k => k.FileName, v => v.Content);
         }
 
-        public async Task<JObject> GetBindingConfigAsync()
+        public async Task<JObject> GetBindingConfigAsync(string runtime)
         {
-            if (File.Exists(_settings.BindingsJsonPath))
+            var runtimeForlder = Path.Combine(_settings.TemplatesPath, runtime);
+            if (Directory.Exists(runtimeForlder))
             {
-                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(_settings.BindingsJsonPath));
+                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeForlder, "Bindings\\bindings.json")));
             }
             else
             {
-                throw new FileNotFoundException($"Can't find {_settings.BindingsJsonPath}");
+                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(_settings.TemplatesPath, "default\\Bindings\\bindings.json")));
             }
         }
 

@@ -22,6 +22,7 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 import {UIResource} from '../models/ui-resource';
+import {GlobalStateService} from './global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 
@@ -92,8 +93,8 @@ export class FunctionsService {
     constructor(
         private _http: Http,
         private _userService: UserService,
-        private _translateService: TranslateService
-        ) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
 
         this._userService.getToken().subscribe(t => this.token = t);
         this._userService.getFunctionContainer().subscribe(fc => {
@@ -136,7 +137,7 @@ export class FunctionsService {
 
     @Cache()
     getTemplates() {
-        return this._http.get('api/templates', { headers: this.getPassthroughHeaders() })
+        return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPassthroughHeaders() })
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
                 this.locolize(object);
@@ -326,7 +327,7 @@ export class FunctionsService {
 
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
-        return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
+        return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPassthroughHeaders() })
             .map<BindingConfig>(r => {                
                 var object = r.json();
                 this.locolize(object);

@@ -100,19 +100,19 @@ namespace AzureFunctions.Controllers
 
         [Authorize]
         [HttpGet]
-        public HttpResponseMessage ListTemplates()
+        public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
             using (FunctionsTrace.BeginTimedOperation())
             {
-                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates());
+                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
             }
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<HttpResponseMessage> GetBindingConfig()
+        public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync());
+            return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
         [Authorize]
