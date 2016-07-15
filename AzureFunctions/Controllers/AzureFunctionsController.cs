@@ -94,6 +94,8 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
+            runtime = runtime.Replace("~", "");
+
             using (FunctionsTrace.BeginTimedOperation())
             {
                 return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
@@ -104,6 +106,8 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
+            runtime = runtime.Replace("~", "");
+
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
