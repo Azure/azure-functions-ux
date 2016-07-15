@@ -17,5 +17,8 @@ namespace AzureFunctions.Models
 
         [JsonProperty(PropertyName = "files")]
         public Dictionary<string, string> Files { get; set; }
+
+        [JsonProperty(PropertyName = "runtime")]
+        public string Runtime { get; set; }
     }
 }

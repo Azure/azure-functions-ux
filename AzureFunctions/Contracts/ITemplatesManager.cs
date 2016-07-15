@@ -7,8 +7,8 @@ namespace AzureFunctions.Contracts
 {
     public interface ITemplatesManager
     {
-        IEnumerable<FunctionTemplate> GetTemplates();
-        Task<JObject> GetBindingConfigAsync();
+        IEnumerable<FunctionTemplate> GetTemplates(string runtime);
+        Task<JObject> GetBindingConfigAsync(string runtime);
         Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId);        
     }
 }
