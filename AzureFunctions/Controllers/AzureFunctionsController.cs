@@ -22,13 +22,12 @@ namespace AzureFunctions.Controllers
     public class AzureFunctionsController : ApiController
     {
         private readonly ITemplatesManager _templatesManager;
-        private readonly HttpClient _client;
+
         private readonly ISettings _settings;
 
-        public AzureFunctionsController(ITemplatesManager templatesManager, HttpClient client)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
         {
             this._templatesManager = templatesManager;
-            this._client = client;
             this._settings = settings;
         }
 
@@ -47,7 +46,6 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name)
         {

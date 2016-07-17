@@ -26,6 +26,8 @@ namespace AzureFunctions.Code
 
         public TemplatesManager(ISettings settings)
         {
+            System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Break();
             this._settings = settings;
             this._rwlock = new ReaderWriterLockSlim();
             this._fileSystemWatcher = new FileSystemWatcher
@@ -62,7 +64,7 @@ namespace AzureFunctions.Code
             var templateDirs = new List<string>();
             foreach(var d in runtimeDirs)
             {
-                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                templateDirs.Add(d);
             }
 
             IEnumerable<FunctionTemplate> templates = await
@@ -93,7 +95,7 @@ namespace AzureFunctions.Code
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
                     var splits = templateFolderName.Split('\\');
                     template.Runtime = splits[splits.Length - 3];
-                    template.Id = templateFolderName;
+                    template.Id = splits[splits.Length - 1];//splits[splits.Length ;//Temporariy moving things around till versioning work is complete
 
                     var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
                     {
@@ -125,7 +127,7 @@ namespace AzureFunctions.Code
                 var result = _templates.Where(t => t.Runtime == runtime);
                 if (result.ToList().Count == 0)
                 {
-                    result = _templates.Where(t => t.Runtime == "default");
+                    result = _templates; //.Where(t => t.Runtime == "App_data");
                 }
                 return result;
             }
