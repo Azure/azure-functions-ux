@@ -31,11 +31,9 @@
         <div class="clickable" (click)="addnewInput($event, focusable)">
             <i class="fa fa-plus"></i>
         </div>
-        <div>
-            <label class="clickable" for="file-upload">
-                <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple />
-                <i class="fa fa-upload"></i>
-            </label>
+        <div class="clickable" (click)="inputElement.click()">
+            <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement/>
+            <i class="fa fa-upload"></i>
         </div>
     </div>
 </div>

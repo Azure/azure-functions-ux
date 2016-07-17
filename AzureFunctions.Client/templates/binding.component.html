@@ -5,7 +5,7 @@
         <h3 class="panel-title pull-left">
             {{model.label}}
         </h3>
-        <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">delete</span>
+        <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">{{ 'binding_delete' | translate }}</span>
         <div class="clearfix"></div>
     </div>
 
@@ -26,8 +26,8 @@
 </div>
 
 <div *ngIf="canSave && isDirty">
-    <button (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">Save</button>
-    <button (click)="discardClicked()" class="custom-button-invert">Cancel</button>
+    <button (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
+    <button (click)="discardClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
 </div>
 
 </div>

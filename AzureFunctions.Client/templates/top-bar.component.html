@@ -1,11 +1,11 @@
 <div class="top-bar" [class.top-bar-getting-started]="gettingStarted">
     <div class="azure-logo left">
-        <div class="vertical-align-center logo">Azure Functions</div>
+        <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
     </div>
 
     <div class="top-bar-info left vertical-align-center">
         <span *ngIf="needUpdateExtensionVersion && !tryModeView" class="left">
-            <i class="fa fa-info"></i> A new version of Azure Functions is available.Visit Function App Settings to upgrade.
+            <i class="fa fa-info"></i>{{ 'topBar_newVersion' | translate }}
         </span>
     </div>
 
@@ -23,7 +23,7 @@
               (click)='onAppSettingsClicked()'
               [class.top-bar-settings-selected]="ActiveButton === 'AppSettings'">
 
-            <i class="fa fa-wrench"></i> Function app settings
+            <i class="fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
         </span>
 
         <span *ngIf="!gettingStarted"
@@ -31,7 +31,7 @@
               (click)="onAppMonitoringClicked()"
               [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
 
-            <i class="fa fa-clock-o"></i> Monitoring
+            <i class="fa fa-clock-o"></i> {{ 'topBar_usage' | translate }}
         </span>
 
         <span *ngIf="!gettingStarted"
@@ -44,7 +44,7 @@
                 <path d="M49.5,32.663c0-3.224-2.589-5.837-5.787-5.837c-0.241,0-0.476,0.019-0.707,0.049 c0.355-1.311,0.55-2.69,0.55-4.115c0-5.003-2.35-9.442-5.986-12.289l-5.652,7.279h6.682L24.459,32.718l4.662-10.773H23.06 l5.471-14.729c-0.136-0.004-0.269-0.021-0.406-0.021c-6.808,0-12.581,4.447-14.63,10.617c-1.082-0.377-2.238-0.592-3.447-0.592 C4.221,17.22-0.5,21.984-0.5,27.86c0,5.877,4.721,10.64,10.548,10.64c0.005,0,0.01-0.001,0.014-0.001V38.5h34.124l-0.007-0.026 C47.157,38.236,49.5,35.728,49.5,32.663z"/>
             </svg>-->
 
-            <i class="fa fa-bolt"></i> Quickstart
+            <i class="fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
         </span>
 
         <span *ngIf="!tryModeView && user && currentTenant && !inIFrame"

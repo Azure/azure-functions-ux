@@ -9,19 +9,20 @@ import {ErrorEvent} from '../models/error-event';
 import {UtilitiesService} from '../services/utilities.service';
 import {PopOverComponent} from './pop-over.component';
 import {Subscription} from 'Rxjs/rx';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: 'templates/log-streaming.component.html',
     styleUrls: ['styles/function-dev.style.css'],
-    directives: [PopOverComponent]
+    directives: [PopOverComponent],
+    pipes: [TranslatePipe]
 })
 export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
     public stopped: boolean;
     public timerInterval: number = 1000;
 
-    private hostErrors: string;
     private xhReq: XMLHttpRequest;
     private timeouts: number[];
     private oldLength: number = 0;
@@ -36,7 +37,6 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         private _broadcastService: BroadcastService,
         private _utilities: UtilitiesService) {
         this.tokenSubscription = this._userService.getToken().subscribe(t => this.token = t);
-        this.hostErrors = '';
         this.log = '';
         this.timeouts = [];
     }
@@ -93,12 +93,6 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             this.xhReq.abort();
             this.oldLength = 0;
         }
-
-        this._functionsService.getFunctionErrors(this.functionInfo)
-            .subscribe(
-                (r: string[]) => this.hostErrors = r.reduce((a, b) => a + b + '\n', ''),
-                error => this._functionsService.getHostErrors()
-                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {message: e, details: `Host Error: ${e}`}))));
 
         var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
 

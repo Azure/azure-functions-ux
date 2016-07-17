@@ -8,13 +8,16 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {BindingManager} from '../models/binding-manager';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'function-integrate',
     templateUrl: 'templates/function-integrate.component.html',
     styleUrls: ['styles/function-integrate.style.css'],
     inputs: ['selectedFunction'],
-    directives: [AceEditorDirective]
+    directives: [AceEditorDirective],
+    pipes: [TranslatePipe]
 })
 export class FunctionIntegrateComponent implements OnDestroy {
     @Output() changeEditor = new EventEmitter<string>();
@@ -31,7 +34,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
         private _functionsService: FunctionsService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
         this.isDirty = false;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -63,9 +67,9 @@ export class FunctionIntegrateComponent implements OnDestroy {
     saveConfig() {
         if (this.isDirty) {
             try {
+                this._bindingManager.validateConfig(JSON.parse(this._currentConent));
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
-                this._bindingManager.validateConfig(this._selectedFunction.config);
                 this._globalStateService.setBusyState();
                 this._functionsService.updateFunction(this._selectedFunction)
                 .subscribe(fi => {
@@ -75,14 +79,14 @@ export class FunctionIntegrateComponent implements OnDestroy {
                     this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                 });
             } catch (e) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` })
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
             }
         }
     }
 
     openCollectorBlade(name : string) {
         this._portalService.openCollectorBlade(name, "function-integrate", (appSettingName: string) => {
-            console.log("Setting name: " + appSettingName);
+            console.log(this._translateService.instant(PortalResources.functionIntegrate_settingName) + " " + appSettingName);
         });
     }
 
@@ -111,7 +115,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     private switchIntegrate() {
         var result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            result = confirm(`Changes made to function ${this._selectedFunction.name} will be lost. Are you sure you want to continue?`);
+            result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this._selectedFunction.name }));
         }
         return result;
     }

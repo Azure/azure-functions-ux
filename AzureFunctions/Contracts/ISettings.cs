@@ -7,7 +7,8 @@ namespace AzureFunctions.Contracts
         Task<string> GetCurrentSiteExtensionVersion();
         string AppDataPath { get; }
         string TemplatesPath { get; }
-        string BindingsJsonPath { get; }
+        string ResourcesPortalPath { get; }
+        string ResourcesTemplatesPath { get; }
         string LoggingSqlServerConnectionString { get; }
         bool LogToSql { get; }
         bool LogToFile { get; }

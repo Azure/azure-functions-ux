@@ -21,7 +21,9 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 import {UIResource, AppService, ITemplate} from '../models/ui-resource';
-
+import {GlobalStateService} from './global-state.service';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Injectable()
 export class FunctionsService {
@@ -100,7 +102,9 @@ export class FunctionsService {
 
     constructor(
         private _http: Http,
-        private _userService: UserService) {
+        private _userService: UserService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
         this.showTryView = window.location.pathname.endsWith('/try');
         if (!this.showTryView ) {
             this._userService.getToken().subscribe(t => this.token = t);
@@ -171,8 +175,12 @@ export class FunctionsService {
 
     @Cache()
     getTemplates() {
-        return this._http.get('api/templates', { headers: this.getPassthroughHeaders() })
-            .map<FunctionTemplate[]>(r => r.json());
+        return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPassthroughHeaders() })
+            .map<FunctionTemplate[]>(r => {
+                var object = r.json();
+                this.locolize(object);
+                return object;
+            });
     }
 
     @ClearCache('getFunctions')
@@ -202,7 +210,7 @@ export class FunctionsService {
 
     getNewFunctionNode(): FunctionInfo {
         return {
-            name: 'New Function',
+            name: this._translateService.instant(PortalResources.sideBar_newFunction),
             href: null,
             config: null,
             script_href: null,
@@ -266,13 +274,13 @@ export class FunctionsService {
                     return Observable.of({
                         status: 401,
                         statusText: this.statusCodeToText(401),
-                        text: () => 'Authentication is enabled for the function app. Disable authentication before running the function.'
+                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
                     });
                 } else if (e.status === 200 && e._body.type === 'error') {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
-                        text: () => `There was an error running function (${functionInfo.name}). Check logs output for the full error.`
+                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled, { name: functionInfo.name})
                     });
                 } else {
                     return Observable.of({
@@ -357,8 +365,18 @@ export class FunctionsService {
 
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
-        return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
-            .map<BindingConfig>(r => r.json());
+        return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPassthroughHeaders() })
+            .map<BindingConfig>(r => {                
+                var object = r.json();
+                this.locolize(object);
+                return object;
+            });
+    }
+
+
+    getResources(name: string): Observable<any> {
+        return this._http.get('api/resources?name=' + name, { headers: this.getPassthroughHeaders() })
+            .map<any>(r => r.json());
     }
 
     get HostSecrets() {
@@ -430,7 +448,8 @@ export class FunctionsService {
         return this.isEasyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-            .map<string[]>(r => r.json().errors || []);
+            .map<string[]>(r => r.json().errors || [])
+            .catch<string[]>(e => Observable.of(null));
     }
 
     getHostErrors() {
@@ -520,4 +539,26 @@ export class FunctionsService {
         return headers;
     }
 
+    private locolize(objectToLocolize: any) {
+        if ((typeof value === "string") && (value.startsWith("$"))) {
+            objectToLocolize[property] = this._translateService.instant(value.substring(1, value.length));
+        }
+
+        for (var property in objectToLocolize) {
+            if (objectToLocolize.hasOwnProperty(property)) {
+                var value = objectToLocolize[property];
+                if ((typeof value === "string") && (value.startsWith("$"))) {
+                    objectToLocolize[property] = this._translateService.instant(value.substring(1, value.length));
+                }
+                if (typeof value === "array") {
+                    for (var i = 0; i < value.length; i++) {
+                        this.locolize(value[i]);
+                    }
+                }
+                if (typeof value === "object") {
+                    this.locolize(value);
+                }
+            }
+        }
+    }
 }

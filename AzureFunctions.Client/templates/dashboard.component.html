@@ -14,11 +14,11 @@
             <tutorial></tutorial>
             <div >
                 <div *ngIf="selectedFunction">
-                    <div *ngIf="selectedFunction.name !== 'New Function' || !selectedFunction.clientOnly">
+                    <div *ngIf="selectedFunction.name !== ('sideBar_newFunction' | translate) || !selectedFunction.clientOnly">
                         <function-edit [selectedFunction]="selectedFunction">
                         </function-edit>
                     </div>
-                    <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === 'New Function'">
+                    <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === ('sideBar_newFunction' | translate )">
                         <function-new [functionsInfo]="functionsInfo"></function-new>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                     <app-settings [functionContainer]="functionContainer"></app-settings>
                 </div>
 
-                <div *ngIf="noContainerFound">It looks like you don't have a functions container. Select a subscription to create one:</div>
+                <div *ngIf="noContainerFound">{{ 'dashboard_noFunctionContainer' | translate }}</div>
                 <div *ngIf="openIntro">
                     <intro [functionsInfo]="functionsInfo"></intro>
                 </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div *ngIf="trialExpired">
-            <trial-expired> Your trial has expired </trial-expired>
+            <trial-expired> {{ 'dashboard_yourTrialExpiered' | translate }} </trial-expired>
         </div>
 
     </div>

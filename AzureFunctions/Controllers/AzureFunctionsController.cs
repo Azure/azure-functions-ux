@@ -3,13 +3,19 @@ using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Trace;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.Web;
 
 namespace AzureFunctions.Controllers
 {
@@ -17,26 +23,41 @@ namespace AzureFunctions.Controllers
     {
         private readonly ITemplatesManager _templatesManager;
         private readonly HttpClient _client;
+        private readonly ISettings _settings;
 
         public AzureFunctionsController(ITemplatesManager templatesManager, HttpClient client)
         {
             this._templatesManager = templatesManager;
             this._client = client;
+            this._settings = settings;
         }
 
         [HttpGet]
-        public HttpResponseMessage ListTemplates()
+        public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
             using (FunctionsTrace.BeginTimedOperation())
             {
-                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates());
+                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
             }
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> GetBindingConfig()
+        public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync());
+            return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage GetResources([FromUri] string name)
+        {
+            string fileSuffix = (name == "en") ? "" : "." + name;
+
+            List<string> resxFiles = new List<string>();
+            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", "") + "\\Resources" + fileSuffix + ".resx"));
+            resxFiles.Add(Path.Combine(this._settings.ResourcesTemplatesPath + "\\Resources" + fileSuffix + ".resx"));
+
+            return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFiles));
         }
 
         [HttpPost]
@@ -44,6 +65,28 @@ namespace AzureFunctions.Controllers
         {
             FunctionsTrace.Diagnostics.Error(new Exception(clientError.Message), TracingEvents.ClientError.Message, clientError.Message, clientError.StackTrace);
             return Request.CreateResponse(HttpStatusCode.Accepted);
+        }
+
+        private JObject ConvertResxToJObject(List<string> resxFiles)
+        {
+            var jo = new JObject();
+
+            foreach (var file in resxFiles) {
+
+                // Create a ResXResourceReader for the file items.resx.
+                ResXResourceReader rsxr = new ResXResourceReader(file);
+
+                // Iterate through the resources and display the contents to the console.
+                foreach (DictionaryEntry d in rsxr)
+                {
+                    jo[d.Key.ToString()] = d.Value.ToString();
+                }
+
+                //Close the reader.
+                rsxr.Close();
+            }
+
+            return jo;
         }
     }
 }

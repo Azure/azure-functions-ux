@@ -15,9 +15,10 @@
     serviceBus = <any>"serviceBus",
     serviceBusTrigger = <any>"serviceBusTrigger",
     manualTrigger = <any>"manualTrigger",
-    documentdb = <any>"documentdb",
+    documentDB = <any>"documentDB",
     mobileTable = <any>"mobileTable",
-    notificationHub = <any>"notificationHub"
+    notificationHub = <any>"notificationHub",
+    sendGrid = <any>"sendGrid"
 }
 
 export interface BindingConfig {

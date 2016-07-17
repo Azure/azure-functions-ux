@@ -5,56 +5,52 @@
         <div class="tutorial-modal-curposition">{{currentStep}} of 4</div>
 
         <div *ngIf="currentStep === 1">
-            <h2>Develop</h2>
+            <h2>{{ 'tutorial_develop' | translate }}</h2>
 
             <p>
-                The fastest way to edit code is with the code editor, but you can also use Git.
-                This example uses NodeJS, but many other languages are also supported.
+                {{ 'tutorial_theFastestWay' | translate }}
             </p>
             <p>
-                This page also includes a log stream and a test console for helping you debug your function.
+                {{ 'tutorial_thisPageInclude' | translate }}
             </p>
         </div>
 
         <div *ngIf="currentStep === 2">
-            <h2>Integrate</h2>
+            <h2>{{ 'tutorial_integrate' | translate }}</h2>
             <p>
-                Integrating your functions with other services and data sources is easy.
+                {{ 'tutorial_integrateYourFunction' | translate }}
             </p>
             <p>
-                Set up automated actions based on external triggers, include other 
-                input data sources, and send the output to multiple targets.
+                {{ 'tutorial_setUpAutomated' | translate }}
             </p>
         </div>
 
         <div *ngIf="currentStep === 3">
-            <h2>Function App Settings</h2>
+            <h2>{{ 'tutorial_functionAppSettings' | translate }}</h2>
             <p>
-                Your functions are designed to run within Azure App Service as 
-                a function app, and this is where you modify the features of that app. 
+                {{ 'tutorial_yourFunction' | translate }}
             </p>
             <p>
-                Changes made here will affect all of the functions within your function app.
+                {{ 'tutorial_changesMade' | translate }}
             </p>
         </div>
 
         <div *ngIf="currentStep === 4">
-            <h2>Next Steps</h2>
+            <h2>{{ 'tutorial_nextSteps' | translate }}</h2>
             <p>
                 Now that you've seen a bit of what Azure Functions can do, try it for yourself.
             </p>
             <ul>
-                <li><span>Tweak this sample function</span> - Make it yours on the easy-to-use dashboard</li>
-                <li><span>Create a brand-new function</span> - Get started with one of the prebuilt function templates</li>
-                <li><span>Dive into the documentation</span> - Explore all of the Azure Functions 
-                features <a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839">here</a></li>
+                <li [innerHTML] = "'tutorial_tweakThisSample' | translate">/li>
+                <li [innerHTML] = "'tutorial_createNew' | translate"></li>
+                <li [innerHTML] = "'tutorial_diveIntoDocumentation' | translate"></li>
             </ul>
         </div>
 
 
         <div class="tutorial-modal-nav">
             <button class="custom-button" (click)="nextStep()">{{buttonText}}</button>
-            <div class="link" (click)="currentStep = -1" *ngIf="currentStep < 4">Skip the tour and start coding</div>
+            <div class="link" (click)="currentStep = -1" *ngIf="currentStep < 4">{{ 'tutorial_skip' | translate }}</div>
         </div>
     </div>
 </div>

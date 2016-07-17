@@ -160,6 +160,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -218,10 +219,21 @@
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Authentication\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourcesPortal\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />
     <Compile Include="Trace\TracingEvent.cs" />
     <Compile Include="Trace\TracingEvents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ResourcesPortal\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -257,7 +269,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)web.config $(ProjectDir)..\AzureFunctions.Client\web.config &amp; copy $(ProjectDir)global.asax $(ProjectDir)..\AzureFunctions.Client\global.asax &amp; copy $(ProjectDir)Default.cshtml $(ProjectDir)..\AzureFunctions.Client\Default.cshtml</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)web.config $(ProjectDir)..\AzureFunctions.Client\web.config &amp; copy $(ProjectDir)global.asax $(ProjectDir)..\AzureFunctions.Client\global.asax &amp; copy $(ProjectDir)Default.cshtml $(ProjectDir)..\AzureFunctions.Client\Default.cshtml
+
+if $(ConfigurationName) == Debug call "$(ProjectDir)..\AzureFunctions.ResxConverter\bin\Debug\AzureFunctions.ResxConverter.exe" "$(ProjectDir)ResourcesPortal\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\App_Data\Templates\Resources\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\app\models\portal-resources.ts"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

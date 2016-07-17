@@ -17,6 +17,9 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {FileExplorerComponent} from './file-explorer.component';
 import {GlobalStateService} from '../services/global-state.service';
 import {BusyStateComponent} from './busy-state.component';
+import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'function-dev',
@@ -29,7 +32,8 @@ import {BusyStateComponent} from './busy-state.component';
         CopyPreComponent,
         FileExplorerComponent,
         BusyStateComponent
-    ]
+    ],
+    pipes: [TranslatePipe]
 })
 export class FunctionDevComponent implements OnChanges {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -63,7 +67,8 @@ export class FunctionDevComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
-                private _globalStateService: GlobalStateService) {
+                private _globalStateService: GlobalStateService,
+                private _translateService: TranslateService) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -90,9 +95,23 @@ export class FunctionDevComponent implements OnChanges {
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    (s, f) => ({ secrets: s, functionInfo: f}))
+                    this._functionsService.getFunctionErrors(fi),
+                    (s, f, e) => ({ secrets: s, functionInfo: f, errors: e}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
+                if (res.errors) {
+                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: res.functionInfo.name, error: e }),
+                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
+                    }));
+                } else {
+                    this._functionsService.getHostErrors()
+                        .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
+                        })));
+                }
+
                 this._globalStateService.clearBusyState();
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();

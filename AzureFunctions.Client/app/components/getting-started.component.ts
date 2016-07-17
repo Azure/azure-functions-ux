@@ -13,12 +13,17 @@ import {FunctionContainer} from '../models/function-container';
 import {Observable} from 'rxjs/Rx';
 import {TelemetryService} from '../services/telemetry.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {TenantInfo} from '../models/tenant-info';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+
 
 @Component({
     selector: 'getting-started',
     templateUrl: 'templates/getting-started.component.html',
     styleUrls: ['styles/getting-started.style.css'],
-    directives: [DropDownComponent, TopBarComponent]
+    directives: [DropDownComponent, TopBarComponent],
+    pipes: [TranslatePipe]
 })
 export class GettingStartedComponent implements OnInit {
     @Output() userReady: EventEmitter<FunctionContainer>;
@@ -46,7 +51,8 @@ export class GettingStartedComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _telemetryService: TelemetryService,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService
     ) {
         this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163
@@ -66,57 +72,25 @@ export class GettingStartedComponent implements OnInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
+        this._userService.getToken().subscribe(() =>
+            this._userService.getTenants().subscribe(tenants => {
+
+                    this._armService.getSubscriptions().subscribe(subs => {
+                        this.subscriptions = subs
+                            .map(e => ({ displayLabel: e.displayName, value: e }))
+                            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                        this._globalStateService.clearBusyState();
+                    });
+                
+            })
+        );
 
         this._userService.getUser()
             .subscribe(u => {
                 this.user = u;
-                //this.createTrialAndThenLogin();
                 this._globalStateService.clearBusyState();
             });
-    }
 
-    checkOutTrialSubscription() {
-        this.tryItNow = true;
-
-        //this._functionsService.createTrialResource().
-        //    subscribe(() => { this.switchToTryAppServiceTenant(); });
-    }
-
-    createTrialAndThenLogin() {
-        this._userService.getTenants()
-            .subscribe(tenants => {
-                this._globalStateService.setBusyState();
-                if (tenants.length === 0) {
-                    this.checkOutTrialSubscription();
-                }
-                else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
-                    this._functionsService.getTrialResource('').subscribe
-                        ((resource) => {
-                            if (resource === null || resource === undefined) {
-                                this.checkOutTrialSubscription();
-                            } else
-                                this._armService.getFunctionContainer(resource.csmId).subscribe
-                                    ((container) => {
-                                        this.userReady.emit(container);
-                                        this._globalStateService.clearBusyState();
-                                    });
-                        });
-                } else {
-                    this.tryItNow = false;
-                    this._globalStateService.setBusyState();
-                    this._armService.getSubscriptions()
-                        .subscribe(subs => {
-                            this.subscriptions = subs
-                                .map(e => ({ displayLabel: e.displayName, value: e }))
-                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-                            this._globalStateService.clearBusyState();
-                        });
-                }
-            });
-    }
-
-    switchToTryAppServiceTenant() {
-        window.location.href = `api/switchtenants/${this.tryAppServiceTenantId}${window.location.search}`;
     }
 
     createFunctionsContainer() {
@@ -153,7 +127,7 @@ export class GettingStartedComponent implements OnInit {
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                 if (this.geoRegions.length === 0) {
-                    this.createError = `Subscription ${value.displayName} (${value.subscriptionId}) is not white listed for running functions`;
+                    this.createError = this._translateService.instant(PortalResources.gettingStarted_subIsNotWhitelisted, {displayName: value.displayName, subscriptionId: value.subscriptionId });
                 } else {
                     delete this.createError;
                 }
@@ -190,15 +164,16 @@ export class GettingStartedComponent implements OnInit {
 
     validateContainerName(name: string): Observable<{ isValid: boolean; reason: string }> {
         var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
+
         if (name.length < 2) {
-            return Observable.of({ isValid: false, reason: 'The name must be at least 2 characters' });
+            return Observable.of({ isValid: false, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer1) });
         } else if (name.length > 60) {
-            return Observable.of({ isValid: false, reason: 'The name must be at most 60 characters' });
+            return Observable.of({ isValid: false, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer2) });
         } else if (!name.match(regEx)) {
-            return Observable.of({ isValid: false, reason: 'The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)' });
+            return Observable.of({ isValid: false, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer3) });
         } else {
             return this._armService.validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
-                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: `function app name ${name} isn't available` }));
+                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer4, { funcName: name }) }));
         }
     }
 }

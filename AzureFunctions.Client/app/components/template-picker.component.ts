@@ -9,13 +9,16 @@ import {GlobalStateService} from '../services/global-state.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'template-picker',
     templateUrl: './templates/template-picker.component.html',
     inputs: ['type'],
     styleUrls: ['styles/template-picker.style.css'],
-    directives: [DropDownComponent]
+    directives: [DropDownComponent],
+    pipes: [TranslatePipe]
 })
 
 export class TemplatePickerComponent {
@@ -29,25 +32,30 @@ export class TemplatePickerComponent {
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
     private category: string = "";
-    private _language: string = "All";
+    private _language: string = "";
     private _type: TemplatePickerType;
     private _initialized = false;
-    private _orderedCategoties = [
-        "Core",
-        "API & Webhooks",
-        "Data Processing",
-        "Samples",
-        "Experimental",
-        "All"
-    ];
+    private _orderedCategoties = [];
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter<string>();
     @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private _functionsService: FunctionsService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
+
         this.isTryMode = (this._functionsService.scmCreds != null);
+        this._language = this._translateService.instant(PortalResources.temp_category_api);
+
+        this._orderedCategoties = [
+            this._translateService.instant(PortalResources.temp_category_core),
+            this._translateService.instant(PortalResources.temp_category_api),
+            this._translateService.instant(PortalResources.temp_category_dataProcessing),
+            this._translateService.instant(PortalResources.temp_category_all),
+            this._translateService.instant(PortalResources.temp_category_experimental),
+            this._translateService.instant(PortalResources.temp_category_all)
+        ];    
     }
 
     set type(type: TemplatePickerType) {
@@ -62,30 +70,30 @@ export class TemplatePickerComponent {
                 this.templates = [];
                 switch (type) {
                     case TemplatePickerType.in:
-                        this.title = "Choose an input binding";
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
                         this.templates = this.getBindingTemplates(DirectionType.in);
 
                         break;
                     case TemplatePickerType.out:
-                        this.title = "Choose an output binding";
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
                         this.templates = this.getBindingTemplates(DirectionType.out);
                         break;
                     case TemplatePickerType.trigger:
-                        this.title = "Choose a trigger";
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTrigger);
                         this.templates = this.getBindingTemplates(DirectionType.trigger);
                         break;
                     case TemplatePickerType.template:
-                        this.title = "Choose a template";
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: "All", value: "All" }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
                             initLanguages = true;
                         }
 
 
                         if (this.categories.length === 0) {
-                            this.categories = [{ displayLabel: "All", value: "All" }];
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
                             initCategories = true;
                         }
 
@@ -113,7 +121,7 @@ export class TemplatePickerComponent {
 
                             if (initCategories) {
                                 template.metadata.category.forEach((c) => {
-                                    if ((this._language === "All") || (template.metadata.language === this._language)) {
+                                    if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
 
                                         var index = this.categories.findIndex((category) => {
                                             return category.value === c;
@@ -127,7 +135,7 @@ export class TemplatePickerComponent {
 
                                             if (this.category === c) {
                                                 dropDownElement.default = true;
-                                            } else if (!this.category && c === "Core") {
+                                            } else if (!this.category && c === this._translateService.instant(PortalResources.temp_category_core)) {
                                                 dropDownElement.default = true;
                                             }
 
@@ -138,12 +146,12 @@ export class TemplatePickerComponent {
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this.category || this.category === "All";
+                                return c === this.category || this.category === this._translateService.instant(PortalResources.temp_category_all);
                             });
 
                             if (matchIndex !== -1) {
-                                if ((this._language === "All") || (template.metadata.language === this._language)) {
-                                    var keys = template.metadata.category.slice(0) || ["Experimental"];
+                                if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
+                                    var keys = template.metadata.category.slice(0) || [this._translateService.instant(PortalResources.temp_category_experimental)];
                                     keys.push(
                                         template.metadata.language
                                     );

@@ -1,13 +1,13 @@
 ﻿<div>
 <div>
     <span *ngIf="languages.length > 0">
-        Language:
+        {{ 'templatePicker_language' | translate }}
         <drop-down [options]="languages"
                     class="tpicker-dropdown"
                     (value)="onLanguageChanged($event)"></drop-down>
     </span>
     <span *ngIf="categories.length > 0" style="margin-left:20px;">
-        Scenario:
+        {{ 'templatePicker_scenario' | translate }}
         <drop-down [options]="categories"
                     class="tpicker-dropdown"
                     (value)="onScenarioChanged($event)"></drop-down>
@@ -45,7 +45,7 @@
 </div>
 
 <div *ngIf="showFooter" class="tp-footer">
-    <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">Select</button>
-    <button class="custom-button-invert" (click)="onCancelClicked()">Cancel</button>
+    <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">{{ 'select' | translate }}</button>
+    <button class="custom-button-invert" (click)="onCancelClicked()">{{ 'cancel' | translate }}</button>
 </div>
 </div>
