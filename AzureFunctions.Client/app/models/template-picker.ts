@@ -12,5 +12,5 @@ export interface Template {
     image?: string;
     keys?: string[];
     description?: string;
-    disabledInTryMode?: boolean;
+    enabledInTryMode?: boolean;
 }

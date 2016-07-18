@@ -161,7 +161,7 @@ export class TemplatePickerComponent {
                                         value: template.id,
                                         keys: keys,
                                         description: template.metadata.description,
-                                        disabledInTryMode: template.metadata.disabledInTryMode
+                                        enabledInTryMode: template.metadata.enabledInTryMode
                                     });
                                 }
                             }
@@ -237,7 +237,7 @@ export class TemplatePickerComponent {
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
-                    disabledInTryMode: binding.disabledInTryMode 
+                    enabledInTryMode: binding.enabledInTryMode 
             });
 
             }

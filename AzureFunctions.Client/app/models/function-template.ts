@@ -22,5 +22,5 @@ export interface FunctionTemplateMetadata {
     description?: string;
     visible?: boolean;
     filters?: string[];
-    disabledInTryMode?: boolean;
+    enabledInTryMode?: boolean;
 }

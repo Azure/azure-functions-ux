@@ -16,7 +16,7 @@
 
 <div class="tp-templates" *ngIf="showFooter">
     <div *ngFor="let template of templates"
-        [ngClass]="isTryMode && template.disabledInTryMode ? 'tp-template-disabled' : 'tp-template'"
+        [ngClass]="isTryMode && !template.enabledInTryMode ? 'tp-template-disabled' : 'tp-template'"
         (click)="onTemplateCliked(template.value)"
         [class.tp-template-selected]="selectedTemplate == template.value">
 
@@ -35,7 +35,7 @@
 
 <div class="tp-templates" *ngIf="!showFooter">
     <div *ngFor="let template of templates"
-            [ngClass]="isTryMode && template.disabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
+            [ngClass]="isTryMode && !template.enabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
             (click)="onTemplateCliked(template.value)"
             [class.tp-template-selected]="selectedTemplate == template.value">
 

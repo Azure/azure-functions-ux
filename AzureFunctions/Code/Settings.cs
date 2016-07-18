@@ -42,5 +42,9 @@ namespace AzureFunctions.Code
         public bool LogToFile => bool.Parse(config(false.ToString()));
 
         public bool LogLoggingDebugInfo => bool.Parse(config(false.ToString()));
+
+        public static string DefaultEncryptReason => config();
+        public static string SessionCookieEncryptKey => config();
+
     }
 }

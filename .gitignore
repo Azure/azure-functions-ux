@@ -246,3 +246,13 @@ AzureFunctions.Client/bower_components/
 .DS_Store
 AzureFunctions.Client/Default.cshtml
 .vscode/
+/AzureFunctions.Client/ng2-translate/tsconfig.json
+/AzureFunctions.Client/ng2-translate/src/translate.service.d.ts
+/AzureFunctions.Client/ng2-translate/src/translate.pipe.d.ts
+/AzureFunctions.Client/ng2-translate/src/translate.parser.d.ts
+/AzureFunctions.Client/ng2-translate/src
+/AzureFunctions.Client/ng2-translate/README.md
+/AzureFunctions.Client/ng2-translate/package.json
+/AzureFunctions.Client/ng2-translate/ng2-translate.d.ts
+/AzureFunctions.Client/ng2-translate/.travis.yml
+/AzureFunctions.Client/ng2-translate/.npmignore

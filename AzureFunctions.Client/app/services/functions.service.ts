@@ -24,6 +24,7 @@ import {UIResource, AppService, ITemplate} from '../models/ui-resource';
 import {GlobalStateService} from './global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable()
 export class FunctionsService {
@@ -113,13 +114,13 @@ export class FunctionsService {
                 this.setScmParams(fc);
             });
         }
-        if (this.getParameterByName(null,"cookie") != null) {
-            this.tryAppserviceToken = this.getParameterByName(null, "cookie");
-            var templateId = this.getParameterByName(this.getParameterByName(null, "state"), "templateId");
+        if (Cookie.get('TryAppServiceToken')) {
+            this.tryAppserviceToken = Cookie.get('TryAppServiceToken');
+            var templateId = Cookie.get('templateId');
             this.selectedFunction = templateId.split('-')[0].trim();
             this.selectedLanguage = templateId.split('-')[1].trim();
-            this.selectedProvider = this.getParameterByName(this.getParameterByName(null,"state"), "provider");
-            this.selectedFunctionName = this.getParameterByName(this.getParameterByName(null, "state"), "functionName"); 
+            this.selectedProvider = Cookie.get('provider');
+            this.selectedFunctionName = Cookie.get('functionName'); 
         }
         this.appSettings = {};
     }
@@ -386,8 +387,6 @@ export class FunctionsService {
     getTrialResource(provider: string): Observable<UIResource> {
         var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
             + "&appServiceName=" + encodeURIComponent("Function")
-            + ("&githubRepo=")
-            + "&autoCreate=true"
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getPassthroughHeaders() })
@@ -397,13 +396,9 @@ export class FunctionsService {
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
         var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
             + "&appServiceName=" + encodeURIComponent("Function")
-            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
-            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
-            + ("&githubRepo=")
-            + "&autoCreate=true"
             + (provider ? "&provider=" + provider : "")
-            + "&functionName=" + functionName
-            + "&templateId=" + encodeURIComponent(selectedTemplate.id);
+            + "&templateId=" + encodeURIComponent(selectedTemplate.id)
+            + "&functionName=" + encodeURIComponent(functionName);
 
         var template = <ITemplate>{
             name: selectedTemplate.metadata.name,
@@ -419,10 +414,6 @@ export class FunctionsService {
     redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
         var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
             + "&appServiceName=" + encodeURIComponent("Functions")
-            + "&name=" + encodeURIComponent(selectedTemplate.metadata.name)
-            + (selectedTemplate.metadata.language ? "&language=" + encodeURIComponent(selectedTemplate.metadata.language) : "")
-            + ("&githubRepo=")
-            + "&autoCreate=true"
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id);
             window.location.href = url;

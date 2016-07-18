@@ -26,8 +26,6 @@ namespace AzureFunctions.Code
 
         public TemplatesManager(ISettings settings)
         {
-            System.Diagnostics.Debugger.Launch();
-            System.Diagnostics.Debugger.Break();
             this._settings = settings;
             this._rwlock = new ReaderWriterLockSlim();
             this._fileSystemWatcher = new FileSystemWatcher

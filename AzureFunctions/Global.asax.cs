@@ -44,8 +44,23 @@ namespace AzureFunctions
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            SecurityManager.PutOnCorrectTenant(context);
+            if (context.Request.RawUrl.StartsWith("/try") && context.Request.Params["cookie"] != null)
+            {
 
+                var encryptedCookie = context.Request.Params["cookie"];
+                 var decryptedcookie  = Uri.EscapeDataString(Uri.UnescapeDataString( encryptedCookie).Decrypt(Settings.SessionCookieEncryptKey));
+                var state = context.Request.Params["state"];
+                var uri = new Uri(state);
+                var querystring = uri.ParseQueryString();
+                context.Response.SetCookie(new HttpCookie("TryAppServiceToken", decryptedcookie));
+                context.Response.SetCookie(new HttpCookie("templateId", querystring["templateId"]));
+                context.Response.SetCookie(new HttpCookie("provider", querystring["provider"]));
+                context.Response.SetCookie(new HttpCookie("functionName", querystring["functionName"]));
+                context.Response.RedirectLocation = "/try";
+                context.Response.StatusCode = 302;
+                context.Response.End();
+            }
+            SecurityManager.PutOnCorrectTenant(context);
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

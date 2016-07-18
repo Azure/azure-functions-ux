@@ -36,7 +36,7 @@ export interface Binding {
     settings: Setting[];
     rules: Rule[];
     filters?: string[],
-    disabledInTryMode?: boolean;
+    enabledInTryMode?: boolean;
 }
 
 export interface Setting {

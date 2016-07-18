@@ -1,10 +1,11 @@
 ﻿import {Component, ViewChild, OnInit} from '@angular/core';
 import {UIResource} from '../models/ui-resource';
 import {BroadcastService} from '../services/broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
+import {BroadcastEvent} from '../models/broadcast-event';
 import {FunctionsService} from '.././services/functions.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'try-now',
@@ -22,11 +23,12 @@ export class TryNowComponent implements OnInit {
     public freeTrialUri: string;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
+        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
         var freeTrialExpireCachedQuery = `try_functionstimer`;
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${ freeTrialExpireCachedQuery }`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
         var callBack = () => {
             window.setTimeout(() => {
 
@@ -44,7 +46,7 @@ export class TryNowComponent implements OnInit {
                     msLeft -= mm * 1000 * 60;
                     ss = Math.floor(msLeft / 1000);
 
-                    this.timerText= (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
+                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
                     window.setTimeout(callBack, 500);
                 } else {
                     this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);
@@ -75,13 +77,18 @@ export class TryNowComponent implements OnInit {
     }
 
     extendResourceLifeTime() {
-        this._functionsService.extendTrialResource( ).
-            subscribe((resource) => {
-                this.uiResource = resource;
-                this.isExtended = resource.isExtended;
-                this.endTime = new Date();
-                this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
-            }); 
+        this._globalStateService.setBusyState();
+        try {
+            this._functionsService.extendTrialResource().
+                subscribe((resource) => {
+                    this.uiResource = resource;
+                    this.isExtended = resource.isExtended;
+                    this.endTime = new Date();
+                    this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
+                });
+        } finally {
+            this._globalStateService.clearBusyState();
+        }
     }
 
 }
