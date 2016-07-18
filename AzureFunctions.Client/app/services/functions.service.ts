@@ -99,7 +99,7 @@ export class FunctionsService {
     }
 
     private tryAppServiceUrl = "https://tryappservice.azure.com";
-    private tryAppServiceUrlSlotFragment = "?x-ms-routing-name=next";
+
 
     constructor(
         private _http: Http,
@@ -385,7 +385,7 @@ export class FunctionsService {
     }
 
     getTrialResource(provider: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+        var url = this.tryAppServiceUrl + "/api/resource" 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "");
 
@@ -394,7 +394,7 @@ export class FunctionsService {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+        var url = this.tryAppServiceUrl + "/api/resource" 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
@@ -412,7 +412,7 @@ export class FunctionsService {
     }
 
     redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
+        var url = this.tryAppServiceUrl + "/api/resource" 
             + "&appServiceName=" + encodeURIComponent("Functions")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id);
@@ -420,7 +420,7 @@ export class FunctionsService {
 
     }
     extendTrialResource() {
-        var url = this.tryAppServiceUrl + "/api/resource/extend" + this.tryAppServiceUrlSlotFragment 
+        var url = this.tryAppServiceUrl + "/api/resource/extend" 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (this.selectedProvider ? "&provider=" + this.selectedProvider: "");
 
