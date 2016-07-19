@@ -128,10 +128,13 @@ export class BindingInputComponent {
             this._input.class = this.input.noErrorClass;
             var saveValid = this._input.isValid;
 
+            debugger;
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
-                this._input.errorText = this._input.isValid ? "" : "This field is required"
+                this._input.errorText = this._input.isValid ? "" : "This field is required";
+            } else {
+                this._input.isValid = true;                
             }
 
             if (this._input.isValid && this._input.validators) {
