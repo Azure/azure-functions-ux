@@ -11,6 +11,8 @@ import {PortalService} from '../services/portal.service';
 import {Subscription} from 'rxjs/Rx';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {Validator} from '../models/binding';
+
 declare var jQuery: any;
 
 @Component({
@@ -106,6 +108,12 @@ export class BindingComponent {
                         return;
                     }
 
+                    if (setting.validators) {
+                        setting.validators.forEach((v: Validator) => {
+                            v.errorText = this.replaceVariables(v.errorText, bindings.variables);
+                        });
+                    }
+
                     switch (setting.value) {
                         case SettingType.string:
                         case SettingType.int:
@@ -128,7 +136,7 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
-                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);                                
                                 input.validators = setting.validators;
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
                                 this.model.inputs.push(input);
