@@ -99,7 +99,7 @@ export class FunctionsService {
     }
 
     private tryAppServiceUrl = "https://tryappservice.azure.com";
-
+    private tryAppServiceUrlSlotFragment = "?x-ms-routing-name=next";
 
     constructor(
         private _http: Http,
@@ -385,16 +385,22 @@ export class FunctionsService {
     }
 
     getTrialResource(provider: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" 
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getPassthroughHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err) => {
+                if (errorCount >= 2) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(300))
             .map<UIResource>(r => r.json());
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" 
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
@@ -408,11 +414,17 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getPassthroughHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err) => {
+                if (errorCount >= 2) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(300))
             .map<UIResource>(r => r.json());
     }
 
     redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
-        var url = this.tryAppServiceUrl + "/api/resource" 
+        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment 
             + "&appServiceName=" + encodeURIComponent("Functions")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id);
@@ -420,11 +432,17 @@ export class FunctionsService {
 
     }
     extendTrialResource() {
-        var url = this.tryAppServiceUrl + "/api/resource/extend" 
+        var url = this.tryAppServiceUrl + "/api/resource/extend" + this.tryAppServiceUrlSlotFragment 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (this.selectedProvider ? "&provider=" + this.selectedProvider: "");
 
         return this._http.post(url, '', { headers: this.getPassthroughHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err) => {
+                if (errorCount >= 2) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(300))
             .map<UIResource>(r => r.json());  
         //return this._http.post('api/extendtrialresource', '', { headers: this.getPassthroughHeaders() })
         //    .map<UIResource>(r => r.json());

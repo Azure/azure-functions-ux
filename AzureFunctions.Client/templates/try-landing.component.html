@@ -52,19 +52,19 @@
         </div>
         <div>
             <button class="custom-button"
-                    (click)="onCreateNewFunction()">
+                    (click)="handleLoginClick('')">
                 Create this function
             </button>
         </div>
-        <div class="login-box" *ngIf="loginOptions" ngClass="currentCulture == 'ru' ? 'login-box-ru' : ''">
+        <div  *ngIf="loginOptions" [class.login-box-ru]="currentCulture == 'ru'" [class.login-box]="currentCulture != 'ru'" >
             <div style="display: block; margin-left: 30px">
-                <div class="wa-heading5" style="position: relative; margin-right: 8px">Choose an Auth provider</div>
-                <div class="login-option"><button (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</button></div>
-                <div class="login-option"><button class="create-site-action" (click)="handleLoginClick('google')" ><div class="google-login sprite-google"></div></button></div>
-                <div class="login-option"><button class="create-site-action" (click)="handleLoginClick('facebook')" ><div class="facebook-login"></div></button></div>
+                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">Choose an Auth provider</div>
+                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                <div class="login-option"><a (click) ="handleLoginClick('google')"  class="create-site-action" ><div class="google-login sprite-google"></div></a></div>
+                <div class="login-option"><a (click)="handleLoginClick('facebook')" class="create-site-action" ><div class="facebook-login"></div></a></div>
                 <div *ngIf="currentCulture == 'ru'" class="login-option">
-                    <button class="create-site-action" (click)="handleLoginClick('vk')" >
-                        <div class="vk-login"></div></button>
+                    <a (click)="handleLoginClick('vk')" class="create-site-action" >
+                        <div class="vk-login"></div></a>
                 </div>
             </div>
 

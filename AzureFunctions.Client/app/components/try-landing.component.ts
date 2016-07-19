@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output ,EventEmitter} from '@angular/core';
+﻿import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {UserService} from '../services/user.service';
@@ -22,7 +22,7 @@ import {FunctionContainer} from '../models/function-container';
 export class TryLandingComponent {
     @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
     public functionsInfo: FunctionInfo[] = new Array();
-     bc: BindingManager = new BindingManager();
+    bc: BindingManager = new BindingManager();
     loginOptions: boolean = false;
     selectedFunction: string;
     selectedLanguage: string;
@@ -31,40 +31,40 @@ export class TryLandingComponent {
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService
-        ) {
+    ) {
 
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
         if (this._functionsService.tryAppserviceToken) {
             this.selectedFunction = this._functionsService.selectedFunction;
             this.selectedLanguage = this._functionsService.selectedLanguage;
 
-                    this._functionsService.getTemplates().subscribe((templates) => {
-                            var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                                return t.id === this._functionsService.selectedFunction + "-" + this._functionsService.selectedLanguage;
-                            });
+            this._functionsService.getTemplates().subscribe((templates) => {
+                var selectedTemplate: FunctionTemplate = templates.find((t) => {
+                    return t.id === this._functionsService.selectedFunction + "-" + this._functionsService.selectedLanguage;
+                });
 
-                            if (selectedTemplate) {
-                                this._functionsService.createTrialResource(selectedTemplate,
-                                    this._functionsService.selectedProvider, this._functionsService.selectedFunctionName)
+                if (selectedTemplate) {
+                    this._functionsService.createTrialResource(selectedTemplate,
+                        this._functionsService.selectedProvider, this._functionsService.selectedFunctionName)
+                        .subscribe((resource) => {
+                            this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
+                        },
+                        error => {
+                            if (error.status === 400) {
+                                // If there is already a free resource assigned ,
+                                // we'll get a HTTP 400 ..so lets get it.
+                                this._functionsService.getTrialResource(this._functionsService.selectedProvider)
                                     .subscribe((resource) => {
                                         this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
-                                    },
-                                            error => {
-                                                if (error.status === 400) {
-                                                    // If there is already a free resource assigned ,
-                                                    // we'll get a HTTP 400 ..so lets get it.
-                                                    this._functionsService.getTrialResource(this._functionsService.selectedProvider)
-                                                        .subscribe((resource) => {
-                                                            this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
-                                                            }
-                                                        );
-                                                }
-                                            }
-                                        )
-
-                                    ;
+                                    }
+                                    );
                             }
-});
+                        }
+                        )
+
+                        ;
+                }
+            });
         } else {
             this.selectedFunction = "TimerTrigger";
             this.selectedLanguage = "CSharp";
@@ -104,14 +104,14 @@ export class TryLandingComponent {
                     //get trial account
                     this._functionsService.createTrialResource(selectedTemplate, provider, functionName)
                         .subscribe((resource) => {
-                            this.createFunctioninResource(resource, selectedTemplate, functionName)
-                        
+                            this.createFunctioninResource(resource, selectedTemplate, functionName);
+
                         }, error => {
                             if (error.status === 401 || error.status === 403) {
                                 //show login options
                                 //var a = JSON.stringify(error.headers);
                                 var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
-                                if (headerObject && headerObject[0]) {
+                                if (provider!=="" && headerObject && headerObject[0]) {
                                     (<any>window).location = headerObject[0];
                                     return;
                                 } else {
@@ -124,8 +124,7 @@ export class TryLandingComponent {
                                         this.createFunctioninResource(resource, selectedTemplate, functionName);
                                     }
                                     );
-                            } else
-                            {
+                            } else {
                                 this._globalStateService.clearBusyState();
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(error)}` });
                                 throw error;
@@ -142,57 +141,6 @@ export class TryLandingComponent {
         });
     }
 
-    onCreateNewFunction1(method: string) {
-        this.loginOptions = true;
-    }
-
-    onCreateNewFunction(method: string) {
-        this._functionsService.getTemplates().subscribe((templates) => {
-            var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                return t.id === this.selectedFunction + "-" + this.selectedLanguage;
-            });
-
-            if (selectedTemplate) {
-                try {
-                    var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                    this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-
-                    this._globalStateService.setBusyState();
-                    //login 
-                    //get trial account
-                    this._functionsService.createTrialResource(selectedTemplate, '', functionName)
-                        .subscribe((resource) => {
-                            this.createFunctioninResource(resource, selectedTemplate, functionName);
-                        }, error => {
-                            if (error.status === 401 || error.status === 403) {
-                                //show login options
-                                if (error.headers["LoginUrl"]) {
-                                    (<any>window).location = error.headers["LoginUrl"];
-                                    return;
-                                } else {
-                                    this._globalStateService.clearBusyState();
-                                    this.loginOptions = true;
-                                }
-                            } else if (error.status === 400) {
-                                this._functionsService.getTrialResource('')
-                                    .subscribe((resource) => {
-                                        this.createFunctioninResource(resource, selectedTemplate, functionName);
-                                    }
-                                    );
-                            } else {
-                                this._globalStateService.clearBusyState();
-                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(error)}` });
-                                throw error;
-                            }
-                        });
-                }
-                catch (e) {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
-                    throw e;
-                }
-            }
-        });
-    }
 
     createFunctioninResource(resource: UIResource, selectedTemplate: FunctionTemplate, functionName: string) {
         //this.uiResource = resource;
@@ -223,7 +171,7 @@ export class TryLandingComponent {
         this._userService.setTryAppServiceUser(true);
         // add the conenction information for functions created by try.
         if (selectedTemplate.id.startsWith("QueueTrigger"))
-        selectedTemplate.function.bindings[0].connection = "AzureWebJobsDashboard";
+            selectedTemplate.function.bindings[0].connection = "AzureWebJobsDashboard";
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
