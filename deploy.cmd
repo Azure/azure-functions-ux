@@ -177,7 +177,11 @@ IF NOT EXIST "%WEBJOB_PATH%" (
   mkdir "%WEBJOB_PATH%"
 )
 
-copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd" "%WEBJOB_PATH%"
+IF EXIST %DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd (
+    del %DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.cmd
+)
+
+copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.ps1" "%WEBJOB_PATH%"
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.job" "%WEBJOB_PATH%"
 
 :: 9. update build.txt
