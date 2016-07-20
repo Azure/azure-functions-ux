@@ -47,12 +47,11 @@ namespace AzureFunctions
             if (context.Request.RawUrl.StartsWith("/try") && context.Request.Params["cookie"] != null)
             {
 
-                var encryptedCookie = context.Request.Params["cookie"];
-                 var decryptedcookie  = Uri.EscapeDataString(Uri.UnescapeDataString( encryptedCookie).Decrypt(Settings.SessionCookieEncryptKey));
+                var tryAppServiceToken= context.Request.Params["cookie"];
                 var state = context.Request.Params["state"];
                 var uri = new Uri(state);
                 var querystring = uri.ParseQueryString();
-                context.Response.SetCookie(new HttpCookie("TryAppServiceToken", decryptedcookie));
+                context.Response.SetCookie(new HttpCookie("TryAppServiceToken", tryAppServiceToken));
                 context.Response.SetCookie(new HttpCookie("templateId", querystring["templateId"]));
                 context.Response.SetCookie(new HttpCookie("provider", querystring["provider"]));
                 context.Response.SetCookie(new HttpCookie("functionName", querystring["functionName"]));
