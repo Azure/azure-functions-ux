@@ -32,8 +32,7 @@ export class FunctionsService {
     private token: string;
     private scmUrl: string;
     private siteName: string;
-    private mainSiteUrl: string;
-    private appSettings: { [key: string]: string };
+    private mainSiteUrl: string;    
     private isEasyAuthEnabled: boolean;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -101,8 +100,7 @@ export class FunctionsService {
             this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
             this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
             this.siteName = fc.name;
-        });
-        this.appSettings = {};
+        });        
     }
 
     @Cache()
@@ -336,9 +334,17 @@ export class FunctionsService {
     }
 
 
-    getResources(name: string): Observable<any> {
-        return this._http.get('api/resources?name=' + name, { headers: this.getPassthroughHeaders() })
-            .map<any>(r => r.json());
+    getResources(): Observable<any> {
+        var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
+
+        return this._http.get('api/resources?name=en' + '&runtime=' + runtime, { headers: this.getPassthroughHeaders() })
+            .map<any>(r => {
+                var resources = r.json();
+
+                this._translateService.setDefaultLang('en');
+                this._translateService.setTranslation('en', resources);  
+                this._translateService.use('en');
+            });
     }
 
     get HostSecrets() {

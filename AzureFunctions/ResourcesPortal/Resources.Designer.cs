@@ -322,6 +322,60 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;direction&apos; is missed..
+        /// </summary>
+        internal static string bindingsValidationDirectionMissed {
+            get {
+                return ResourceManager.GetString("bindingsValidationDirectionMissed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown direction: &apos;{{direction}}&apos;..
+        /// </summary>
+        internal static string bindingsValidationDirectionUnknown {
+            get {
+                return ResourceManager.GetString("bindingsValidationDirectionUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter name must be unique in a function: &apos;{{functionName}}&apos;.
+        /// </summary>
+        internal static string bindingsValidationNameDublicate {
+            get {
+                return ResourceManager.GetString("bindingsValidationNameDublicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;name&apos; is missed..
+        /// </summary>
+        internal static string bindingsValidationNameMissed {
+            get {
+                return ResourceManager.GetString("bindingsValidationNameMissed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;type&apos; is missed..
+        /// </summary>
+        internal static string bindingsValidationTypeMIssed {
+            get {
+                return ResourceManager.GetString("bindingsValidationTypeMIssed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown type: &apos;{{type}}&apos;..
+        /// </summary>
+        internal static string bindingsValidationTypeUnknown {
+            get {
+                return ResourceManager.GetString("bindingsValidationTypeUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string cancel {

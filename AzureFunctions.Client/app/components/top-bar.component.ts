@@ -10,6 +10,7 @@ import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 enum TopbarButton {
     None = <any>"None",

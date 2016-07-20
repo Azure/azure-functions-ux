@@ -601,4 +601,22 @@
   <data name="binding_delete" xml:space="preserve">
     <value>delete</value>
   </data>
+  <data name="bindingsValidationDirectionMissed" xml:space="preserve">
+    <value>Parameter 'direction' is missed.</value>
+  </data>
+  <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
+    <value>Unknown direction: '{{direction}}'.</value>
+  </data>
+  <data name="bindingsValidationNameDublicate" xml:space="preserve">
+    <value>Parameter name must be unique in a function: '{{functionName}}'</value>
+  </data>
+  <data name="bindingsValidationNameMissed" xml:space="preserve">
+    <value>Parameter 'name' is missed.</value>
+  </data>
+  <data name="bindingsValidationTypeMIssed" xml:space="preserve">
+    <value>Parameter 'type' is missed.</value>
+  </data>
+  <data name="bindingsValidationTypeUnknown" xml:space="preserve">
+    <value>Unknown type: '{{type}}'.</value>
+  </data>
 </root>
