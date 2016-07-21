@@ -11,7 +11,7 @@ if (!(Test-Path -Path $basePath -PathType Container))
 
 if (Test-Path -Path "$basePath\.git" -PathType Container)
 {        
-    Remove-Item -Recurse -Force ".\*"
+    Remove-Item -Recurse -Force "$basePath\*"
 }
 
 cd $basePath
@@ -20,13 +20,14 @@ foreach($tag in $response)
 {    
     $path = $basePath + "\" + $tag.name    
     if (!(Test-Path -Path $path -PathType Container))
-    {        
-        git clone $repoUrl $path
+    {   
+        Start-Process git -ArgumentList "clone $repoUrl $path" -NoNewWindow -Wait 
     }
         
     cd $path 
-    git fetch origin        
-    git reset --hard $tag.commit.sha
+    Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait        
+    $sha = $tag.commit.sha
+    Start-Process git -ArgumentList "reset --hard $sha" -NoNewWindow -Wait
     cd $basePath         
 }
 
@@ -42,9 +43,9 @@ else
 $branchPath = "$basePath\default"
 if (!(Test-Path -Path $branchPath -PathType Container))
 {        
-    git clone -b $branch $repoUrl $branchPath    
+    Start-Process git -ArgumentList "clone -b $branch $repoUrl $branchPath"  -NoNewWindow -Wait    
 }
         
 cd $branchPath
-git fetch origin        
-git reset --hard origin/$branch
+Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait        
+Start-Process git -ArgumentList "reset --hard origin/$branch" -NoNewWindow -Wait
