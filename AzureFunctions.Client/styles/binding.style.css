@@ -68,7 +68,3 @@ input[type=text], #enum-list {
 input.input-error {
     padding-right:25px;
 }
-
-pop-over {
-    position:absolute;
-}
