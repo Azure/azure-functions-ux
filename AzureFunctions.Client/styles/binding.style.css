@@ -68,3 +68,7 @@ input[type=text], #enum-list {
 input.input-error {
     padding-right:25px;
 }
+
+i.select {
+    padding-left: 30px;
+}
