@@ -163,6 +163,12 @@ export class PortalResources
     public static update: string = "update";
     public static bindingInput_select: string = "bindingInput_select";
     public static binding_delete: string = "binding_delete";
+    public static bindingsValidationDirectionMissed: string = "bindingsValidationDirectionMissed";
+    public static bindingsValidationDirectionUnknown: string = "bindingsValidationDirectionUnknown";
+    public static bindingsValidationNameDublicate: string = "bindingsValidationNameDublicate";
+    public static bindingsValidationNameMissed: string = "bindingsValidationNameMissed";
+    public static bindingsValidationTypeMIssed: string = "bindingsValidationTypeMIssed";
+    public static bindingsValidationTypeUnknown: string = "bindingsValidationTypeUnknown";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_connection_label1: string = "eventHubOut_connection_label1";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

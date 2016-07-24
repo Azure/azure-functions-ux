@@ -69,6 +69,6 @@ input.input-error {
     padding-right:25px;
 }
 
-pop-over {
-    position:absolute;
+i.select {
+    padding-left: 30px;
 }

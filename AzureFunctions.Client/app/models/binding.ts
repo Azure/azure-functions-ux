@@ -81,7 +81,8 @@ export interface EnumOption {
 export enum DirectionType {
     trigger = <any>"trigger",
     in = <any>"in",
-    out = <any>"out"
+    out = <any>"out",
+    inOut = <any>"inOut"
 }
 
 export enum ResourceType {

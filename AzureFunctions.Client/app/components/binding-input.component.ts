@@ -136,7 +136,9 @@ export class BindingInputComponent {
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
-                this._input.errorText = this._input.isValid ? "" : this._translateService.instant(PortalResources.filedRequired)
+                this._input.errorText = this._input.isValid ? "" : this._translateService.instant(PortalResources.filedRequired);
+            } else {
+                this._input.isValid = true;
             }
 
             if (this._input.isValid && this._input.validators) {

@@ -34,8 +34,7 @@ export class FunctionsService {
     public scmCreds: string;
     private storageConnectionString: string;
     private siteName: string;
-    private mainSiteUrl: string;
-    private appSettings: { [key: string]: string };
+    private mainSiteUrl: string;    
     private isEasyAuthEnabled: boolean;
     public tryAppserviceToken: string;
     public showTryView : boolean;
@@ -108,8 +107,12 @@ export class FunctionsService {
         private _translateService: TranslateService) {
         this.showTryView = window.location.pathname.endsWith('/try');
         if (!this.showTryView ) {
-            this._userService.getToken().subscribe(t => this.token = t);
-
+        this._userService.getToken().subscribe(t => this.token = t);
+        this._userService.getFunctionContainer().subscribe(fc => {
+            this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+            this.siteName = fc.name;
+        });        
             this._userService.getFunctionContainer().subscribe(fc => {
                 this.setScmParams(fc);
             });
@@ -121,8 +124,7 @@ export class FunctionsService {
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName'); 
-        }
-        this.appSettings = {};
+        }        
     }
 
     getParameterByName(url,name) {
@@ -375,9 +377,17 @@ export class FunctionsService {
     }
 
 
-    getResources(name: string): Observable<any> {
-        return this._http.get('api/resources?name=' + name, { headers: this.getPassthroughHeaders() })
-            .map<any>(r => r.json());
+    getResources(): Observable<any> {
+        var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
+
+        return this._http.get('api/resources?name=en' + '&runtime=' + runtime, { headers: this.getPassthroughHeaders() })
+            .map<any>(r => {
+                var resources = r.json();
+
+                this._translateService.setDefaultLang('en');
+                this._translateService.setTranslation('en', resources);  
+                this._translateService.use('en');
+            });
     }
 
     get HostSecrets() {

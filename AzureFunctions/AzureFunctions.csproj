@@ -223,6 +223,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />
@@ -230,10 +231,11 @@
     <Compile Include="Trace\TracingEvents.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ResourcesPortal\Resources.resx">
+    <Content Include="ResourcesPortal\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -271,7 +273,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)web.config $(ProjectDir)..\AzureFunctions.Client\web.config &amp; copy $(ProjectDir)global.asax $(ProjectDir)..\AzureFunctions.Client\global.asax &amp; copy $(ProjectDir)Default.cshtml $(ProjectDir)..\AzureFunctions.Client\Default.cshtml
 
-if $(ConfigurationName) == Debug call "$(ProjectDir)..\AzureFunctions.ResxConverter\bin\Debug\AzureFunctions.ResxConverter.exe" "$(ProjectDir)ResourcesPortal\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\App_Data\Templates\Resources\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\app\models\portal-resources.ts"</PostBuildEvent>
+if $(ConfigurationName) == Debug call "$(ProjectDir)..\AzureFunctions.ResxConverter\bin\Debug\AzureFunctions.ResxConverter.exe" "$(ProjectDir)ResourcesPortal\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\App_Data\Templates\default\Resources\Resources.resx" "$(ProjectDir)..\AzureFunctions.Client\app\models\portal-resources.ts"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

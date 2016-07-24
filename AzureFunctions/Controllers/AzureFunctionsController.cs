@@ -47,13 +47,13 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetResources([FromUri] string name)
+        public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             string fileSuffix = (name == "en") ? "" : "." + name;
 
             List<string> resxFiles = new List<string>();
-            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", "") + "\\Resources" + fileSuffix + ".resx"));
-            resxFiles.Add(Path.Combine(this._settings.ResourcesTemplatesPath + "\\Resources" + fileSuffix + ".resx"));
+            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources" + fileSuffix + ".resx"));
+            resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + fileSuffix + ".resx"));
 
             return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFiles));
         }

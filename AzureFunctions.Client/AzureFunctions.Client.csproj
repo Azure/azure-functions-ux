@@ -182,6 +182,7 @@
     <TypeScriptCompile Include="app\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
+    <TypeScriptCompile Include="app\services\global-state.service.ts" />
     <TypeScriptCompile Include="app\services\portal.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <Content Include="bower.json" />
