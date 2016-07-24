@@ -601,4 +601,10 @@
   <data name="binding_delete" xml:space="preserve">
     <value>delete</value>
   </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Update your runtime version</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Your runtime version is to upto-date</value>
+  </data>
 </root>

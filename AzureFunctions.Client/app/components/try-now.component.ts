@@ -78,17 +78,15 @@ export class TryNowComponent implements OnInit {
 
     extendResourceLifeTime() {
         this._globalStateService.setBusyState();
-        try {
-            this._functionsService.extendTrialResource().
+        this._functionsService.extendTrialResource().
                 subscribe((resource) => {
                     this.uiResource = resource;
                     this.isExtended = resource.isExtended;
                     this.endTime = new Date();
                     this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
+                    this._globalStateService.clearBusyState();
                 });
-        } finally {
-            this._globalStateService.clearBusyState();
-        }
+
     }
 
 }

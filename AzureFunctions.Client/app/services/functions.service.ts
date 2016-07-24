@@ -384,7 +384,7 @@ export class FunctionsService {
         return this.hostSecrets;
     }
 
-    getTrialResource(provider: string): Observable<UIResource> {
+    getTrialResource(provider?: string): Observable<UIResource> {
         var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment 
             + "&appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "");

@@ -170,8 +170,8 @@ export class TryLandingComponent {
         this._functionsService.setScmParams(tryfunctionContainer);
         this._userService.setTryAppServiceUser(true);
         // add the conenction information for functions created by try.
-        if (selectedTemplate.id.startsWith("QueueTrigger"))
-            selectedTemplate.function.bindings[0].connection = "AzureWebJobsDashboard";
+        //if (selectedTemplate.id.startsWith("QueueTrigger"))
+        //    selectedTemplate.function.bindings[0].connection = "AzureWebJobsDashboard";
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

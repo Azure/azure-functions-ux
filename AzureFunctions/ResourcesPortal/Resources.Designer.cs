@@ -196,6 +196,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update your runtime version.
+        /// </summary>
+        internal static string appFunctionSettings_functionAppSettings1 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_functionAppSettings1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your runtime version is to upto-date.
+        /// </summary>
+        internal static string appFunctionSettings_functionAppSettings2 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_functionAppSettings2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go to App Service Settings.
         /// </summary>
         internal static string appFunctionSettings_goToAppSettings {

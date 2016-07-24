@@ -62,7 +62,7 @@ namespace AzureFunctions.Code
             var templateDirs = new List<string>();
             foreach(var d in runtimeDirs)
             {
-                templateDirs.Add(d);
+                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
             }
 
             IEnumerable<FunctionTemplate> templates = await
@@ -93,7 +93,7 @@ namespace AzureFunctions.Code
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
                     var splits = templateFolderName.Split('\\');
                     template.Runtime = splits[splits.Length - 3];
-                    template.Id = splits[splits.Length - 1];//splits[splits.Length ;//Temporariy moving things around till versioning work is complete
+                    template.Id = templateFolderName;
 
                     var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
                     {
@@ -125,7 +125,7 @@ namespace AzureFunctions.Code
                 var result = _templates.Where(t => t.Runtime == runtime);
                 if (result.ToList().Count == 0)
                 {
-                    result = _templates; //.Where(t => t.Runtime == "App_data");
+                    result = _templates.Where(t => t.Runtime == "default");
                 }
                 return result;
             }
