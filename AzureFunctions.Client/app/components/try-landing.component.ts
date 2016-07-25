@@ -1,4 +1,4 @@
-﻿import {Component, Input, Output, EventEmitter} from '@angular/core';
+﻿import {Component, ViewChild, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {UserService} from '../services/user.service';
@@ -12,14 +12,20 @@ import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {UIResource} from '../models/ui-resource';
 import {FunctionContainer} from '../models/function-container';
+import {BusyStateComponent} from './busy-state.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'try-landing',
     templateUrl: 'templates/try-landing.component.html',
-    styleUrls: ['styles/try-landing.style.css']
+    styleUrls: ['styles/try-landing.style.css'],
+    directives: [BusyStateComponent],
+    pipes: [TranslatePipe]
 })
 
 export class TryLandingComponent {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
@@ -30,7 +36,8 @@ export class TryLandingComponent {
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _translateService: TranslateService
     ) {
 
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
@@ -57,13 +64,8 @@ export class TryLandingComponent {
                                 this._functionsService.getTrialResource(this._functionsService.selectedProvider)
                                     .subscribe((resource) => {
                                         this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
-                                    }
-                                    );
-                            }
-                        }
-                        )
-
-                        ;
+                                    });
+                            }});
                 }
             });
             this._globalStateService.clearBusyState();
@@ -73,10 +75,11 @@ export class TryLandingComponent {
         }
         var result = this._functionsService.getNewFunctionNode();
         this.functionsInfo.push(result);
-
     }
 
-
+    ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent = this.busyState;
+    }
 
     onFunctionClicked(selectedFunction: string) {
         if (!this._broadcastService.getDirtyState("function_disabled")) {
@@ -95,7 +98,11 @@ export class TryLandingComponent {
             var selectedTemplate: FunctionTemplate = templates.find((t) => {
                 return t.id === this.selectedFunction + "-" + this.selectedLanguage;
             });
-
+            if (provider === '') {
+                //clicked on "Create this Function" button
+                this.loginOptions = true;
+            }
+            else
             if (selectedTemplate) {
                 try {
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
@@ -111,7 +118,6 @@ export class TryLandingComponent {
                         }, error => {
                             if (error.status === 401 || error.status === 403) {
                                 //show login options
-                                //var a = JSON.stringify(error.headers);
                                 var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
                                 if (provider!=="" && headerObject && headerObject[0]) {
                                     (<any>window).location = headerObject[0];
@@ -138,14 +144,10 @@ export class TryLandingComponent {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
                     throw e;
                 }
-            }
-
-        });
+            }});
     }
 
-
     createFunctioninResource(resource: UIResource, selectedTemplate: FunctionTemplate, functionName: string) {
-        //this.uiResource = resource;
         var scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
         var encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
         var tryfunctionContainer = <FunctionContainer>{

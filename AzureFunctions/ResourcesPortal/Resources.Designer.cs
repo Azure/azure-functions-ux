@@ -1429,6 +1429,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We&apos;ve enjoyed hosting your functions !.
+        /// </summary>
+        internal static string trialExpired_enjoyedHostingFunctions {
+            get {
+                return ResourceManager.GetString("trialExpired_enjoyedHostingFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well..
+        /// </summary>
+        internal static string trialExpired_signupForAzure {
+            get {
+                return ResourceManager.GetString("trialExpired_signupForAzure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trigger.
         /// </summary>
         internal static string trigger {
@@ -1438,11 +1456,56 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose an auth provider.
+        /// </summary>
+        internal static string trylanding_chooseAnAuthProvider {
+            get {
+                return ResourceManager.GetString("trylanding_chooseAnAuthProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Account.
+        /// </summary>
+        internal static string trylanding_microsoftAcccount {
+            get {
+                return ResourceManager.GetString("trylanding_microsoftAcccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a free Azure account.
+        /// </summary>
+        internal static string tryNow_createFreeAzureAccount {
+            get {
+                return ResourceManager.GetString("tryNow_createFreeAzureAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extend Trial.
+        /// </summary>
+        internal static string tryNow_extendTrial {
+            get {
+                return ResourceManager.GetString("tryNow_extendTrial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trial expired.
         /// </summary>
         internal static string tryNow_trialExpired {
             get {
                 return ResourceManager.GetString("tryNow_trialExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trial time remaining.
+        /// </summary>
+        internal static string tryNow_trialTimeRemaining {
+            get {
+                return ResourceManager.GetString("tryNow_trialTimeRemaining", resourceCulture);
             }
         }
         

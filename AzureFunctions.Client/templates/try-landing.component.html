@@ -1,31 +1,32 @@
 ﻿<top-bar gettingStarted="true" isTry="true"></top-bar>
+<busy-state name='try-landing'></busy-state>
 <div class="trylanding-container">
     <div class="trylanding-banner">
         <div>
-            <h1>The faster way to functions</h1>
+            <h1>{{ 'intro_fasterWay' | translate }}</h1>
             <p>
                 <img src="/images/function-io.svg" width="210px" />
-                Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.
+                {{ 'intro_writeAny' | translate }}
             </p>
         </div>
     </div>
     <div class="trylanding-body">
-        <h2>Get started quickly with a premade function</h2>
-        <h3>1) Choose a scenario:</h3>
+        <h2>{{ 'intro_getStarted' | translate }}</h2>
+        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
         <div>
             <div class="trylanding-template"
                  (click)="onFunctionClicked('TimerTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'TimerTrigger'">
 
                 <div><img src="/images/timer-template.svg" /></div>
-                <div>Timer</div>
+                <div>{{ 'intro_timer' | translate }}</div>
             </div>
             <div class="trylanding-template"
                  (click)="onFunctionClicked('QueueTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'QueueTrigger'">
 
                 <div><img src="/images/data-process-template.svg" /></div>
-                <div>Data processing</div>
+                <div>{{ 'intro_dataProcessing' | translate}}</div>
             </div>
 
             <div class="trylanding-template"
@@ -33,11 +34,11 @@
                  [class.trylanding-template-selected]="selectedFunction === 'HttpTrigger'">
 
                 <div><img src="/images/webhook-api-template.svg" /></div>
-                <div>Webhook + API</div>
+                <div>{{ 'intro_webHook' | translate }}</div>
             </div>
         </div>
-        <h3>2) Choose a language:</h3>
-        If you'd prefer another supported language, choose "Create a function from scratch".
+        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
+        {{ 'intro_ifYou' | translate }}
         <div class class="trylanding-lang-container">
             <div class="trylanding-template-lang"
                  (click)="onLanguageClicked('CSharp')"
@@ -53,13 +54,13 @@
         <div>
             <button class="custom-button"
                     (click)="handleLoginClick('')">
-                Create this function
+                {{ 'intro_createThisFunction' | translate }}
             </button>
         </div>
         <div  *ngIf="loginOptions" [class.login-box-ru]="currentCulture == 'ru'" [class.login-box]="currentCulture != 'ru'" >
             <div style="display: block; margin-left: 30px">
-                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">Choose an Auth provider</div>
-                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">Microsoft Account</a></div>
+                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">{{ 'trylanding_chooseAnAuthProvider' | translate }}</div>
+                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">{{ 'trylanding_microsoftAcccount' | translate }}t</a></div>
                 <div class="login-option"><a (click) ="handleLoginClick('google')"  class="create-site-action" ><div class="google-login sprite-google"></div></a></div>
                 <div class="login-option"><a (click)="handleLoginClick('facebook')" class="create-site-action" ><div class="facebook-login"></div></a></div>
                 <div *ngIf="currentCulture == 'ru'" class="login-option">

@@ -39,7 +39,6 @@ export class BindingInputComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService) {
         this.showTryView = this._globalStateService.showTryView;
-
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 

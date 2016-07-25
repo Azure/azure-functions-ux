@@ -119,7 +119,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._globalStateService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
-
     }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {

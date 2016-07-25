@@ -171,6 +171,13 @@ export class PortalResources
     public static bindingsValidationNameMissed: string = "bindingsValidationNameMissed";
     public static bindingsValidationTypeMIssed: string = "bindingsValidationTypeMIssed";
     public static bindingsValidationTypeUnknown: string = "bindingsValidationTypeUnknown";
+    public static trialExpired_enjoyedHostingFunctions: string = "trialExpired_enjoyedHostingFunctions";
+    public static trialExpired_signupForAzure: string = "trialExpired_signupForAzure";
+    public static trylanding_chooseAnAuthProvider: string = "trylanding_chooseAnAuthProvider";
+    public static trylanding_microsoftAcccount: string = "trylanding_microsoftAcccount";
+    public static tryNow_createFreeAzureAccount: string = "tryNow_createFreeAzureAccount";
+    public static tryNow_extendTrial: string = "tryNow_extendTrial";
+    public static tryNow_trialTimeRemaining: string = "tryNow_trialTimeRemaining";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
