@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
+using System.IO;
 using System.Resources;
 using System.Text;
 
@@ -18,14 +19,18 @@ namespace AzureFunctions.ResxConvertor
 
             foreach (var resxFile in resxFiles)
             {
-                ResXResourceReader rsxr = new ResXResourceReader(resxFile);
-                foreach (DictionaryEntry d in rsxr)
+                if (File.Exists(resxFile))
                 {
-                    sb.AppendLine(string.Format("    public static {0}: string = \"{0}\";", d.Key.ToString()));
-                }                
 
-                //Close the reader.
-                rsxr.Close();
+                    ResXResourceReader rsxr = new ResXResourceReader(resxFile);
+                    foreach (DictionaryEntry d in rsxr)
+                    {
+                        sb.AppendLine(string.Format("    public static {0}: string = \"{0}\";", d.Key.ToString()));
+                    }
+
+                    //Close the reader.
+                    rsxr.Close();
+                }
             }
             sb.AppendLine("}");
 
