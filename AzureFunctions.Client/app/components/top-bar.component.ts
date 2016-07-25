@@ -30,7 +30,6 @@ enum TopbarButton {
 
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
-    @Input() tryModeView: boolean;
     public user: User;
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
@@ -38,6 +37,7 @@ export class TopBarComponent implements OnInit {
     public ActiveButton: TopbarButton;
     public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
+    private showTryView; boolean;
 
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private appSettingsClicked: EventEmitter<any>;
@@ -69,8 +69,8 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.tryModeView = this._functionsService.showTryView;
-        if (!this.tryModeView ) { 
+        this.showTryView = this._globalStateService.showTryView;
+        if (!this.showTryView) { 
             this.ActiveButton = TopbarButton.Quickstart;
 
             // nothing to do if we're running in an iframe

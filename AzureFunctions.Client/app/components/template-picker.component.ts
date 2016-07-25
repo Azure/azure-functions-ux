@@ -24,7 +24,7 @@ import {PortalResources} from '../models/portal-resources';
 export class TemplatePickerComponent {
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
-    private isTryMode: boolean;
+    private showTryView: boolean;
     title: string;
     selectedTemplate: string;
     templates: Template[] = [];
@@ -45,7 +45,7 @@ export class TemplatePickerComponent {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
-        this.isTryMode = (this._functionsService.scmCreds != null);
+        this.showTryView = this._globalStateService.showTryView;
         this._language = this._translateService.instant(PortalResources.temp_category_api);
 
         this._orderedCategoties = [

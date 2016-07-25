@@ -18,7 +18,8 @@ export class ArmService {
     private websiteApiVersion = '2015-08-01';
 
     constructor(private _http: Http, private _userService: UserService) {
-        if (!window.location.pathname.endsWith('/try')) {
+        //Cant Get Angular to accept GlobalStateService as input param
+        if ( !window.location.pathname.endsWith('/try')) {
             _userService.getToken().subscribe(t => this.token = t);
         }
     }

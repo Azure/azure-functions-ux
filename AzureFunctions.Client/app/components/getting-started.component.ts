@@ -28,7 +28,6 @@ import {PortalResources} from '../models/portal-resources';
 export class GettingStartedComponent implements OnInit {
     @Output() userReady: EventEmitter<FunctionContainer>;
 
-    public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
     public subscriptions: DropDownElement<Subscription>[];
     public functionContainers: DropDownElement<FunctionContainer>[];
@@ -43,8 +42,6 @@ export class GettingStartedComponent implements OnInit {
     public user: User;
 
     private functionContainer: FunctionContainer;
-    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
-
     constructor(
         private _userService: UserService,
         private _functionsService: FunctionsService,

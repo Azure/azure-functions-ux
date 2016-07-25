@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
     public ready: boolean = false;
-    public isTry:boolean;
+    public showTryView:boolean;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
     private _readyFunction: boolean = false;
@@ -62,8 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _trnaslateService: TranslateService
     ) {
         this.gettingStarted = !_userService.inIFrame;
-        this.isTry = this._functionsService.showTryView; //&& window.location.search.indexOf("cookie=") === -1;
-
+        this.showTryView = this._globalStateService.showTryView; 
         this._functionsService.getResources().subscribe(() => {
             this.readyResources = true;
         });
@@ -71,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        if (!this.gettingStarted && !this.isTry ) {
+        if (!this.gettingStarted && !this.showTryView ) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
                 .debounceTime(500)
@@ -96,9 +95,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     initializeDashboard(functionContainer: FunctionContainer | string) {
         this._globalStateService.setBusyState();
         if (typeof functionContainer !== 'string')
-        this.isTry = functionContainer.tryScmCred === null;
+            //TODO: investigate this
+            this.showTryView = functionContainer.tryScmCred === null;
 
-        if (this.isTry && this.redirectToIbizaIfNeeded(functionContainer)) return;
+        if (this.showTryView && this.redirectToIbizaIfNeeded(functionContainer)) return;
 
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
@@ -125,7 +125,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1 && !this.isTry) {
+            window.location.search.indexOf("ibiza=disabled") === -1 && !this.showTryView) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()

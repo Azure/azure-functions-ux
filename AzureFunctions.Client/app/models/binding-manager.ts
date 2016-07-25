@@ -52,6 +52,7 @@ export class BindingManager {
                 name: b.name,
                 type: type,
                 direction: direction,
+                enabledInTryMode: false,
                 settings: [],
                 displayName: bindingConfig ? bindingConfig.displayName : ""
             };
@@ -129,6 +130,7 @@ export class BindingManager {
             name: parameterNameSetting.defaultValue,
             type: type,
             direction: direction,
+            enabledInTryMode: false,
             settings: [],
             displayName: schema.displayName
         };

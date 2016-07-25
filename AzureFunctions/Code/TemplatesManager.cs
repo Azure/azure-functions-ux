@@ -93,7 +93,7 @@ namespace AzureFunctions.Code
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
                     var splits = templateFolderName.Split('\\');
                     template.Runtime = splits[splits.Length - 3];
-                    template.Id = templateFolderName;
+                    template.Id = splits[splits.Length-1];
 
                     var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
                     {

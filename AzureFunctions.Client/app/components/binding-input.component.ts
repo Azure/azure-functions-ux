@@ -11,6 +11,7 @@ import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var prettyCron: any;
 
@@ -30,13 +31,14 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     public description: string;
     private _input: BindingInputBase<any>;
-    private _tryView: boolean;
+    private showTryView: boolean;
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _userService: UserService,
-        private _translateService: TranslateService) {
-        this._tryView = this._userService.isTryAppServiceUser();
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService) {
+        this.showTryView = this._globalStateService.showTryView;
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }

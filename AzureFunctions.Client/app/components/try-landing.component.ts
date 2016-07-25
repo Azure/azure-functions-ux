@@ -34,7 +34,8 @@ export class TryLandingComponent {
     ) {
 
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
-        if (this._functionsService.tryAppserviceToken) {
+        if (this._globalStateService.TryAppServiceToken) {
+            this._globalStateService.setBusyState();
             this.selectedFunction = this._functionsService.selectedFunction;
             this.selectedLanguage = this._functionsService.selectedLanguage;
 
@@ -65,6 +66,7 @@ export class TryLandingComponent {
                         ;
                 }
             });
+            this._globalStateService.clearBusyState();
         } else {
             this.selectedFunction = "TimerTrigger";
             this.selectedLanguage = "CSharp";
@@ -168,10 +170,7 @@ export class TryLandingComponent {
             tryScmCred: encryptedCreds
         };
         this._functionsService.setScmParams(tryfunctionContainer);
-        this._userService.setTryAppServiceUser(true);
-        // add the conenction information for functions created by try.
-        //if (selectedTemplate.id.startsWith("QueueTrigger"))
-        //    selectedTemplate.function.bindings[0].connection = "AzureWebJobsDashboard";
+
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);

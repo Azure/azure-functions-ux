@@ -31,13 +31,10 @@ export class FunctionsService {
     private hostSecrets: HostSecrets;
     private token: string;
     private scmUrl: string;
-    public scmCreds: string;
     private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;    
     private isEasyAuthEnabled: boolean;
-    public tryAppserviceToken: string;
-    public showTryView : boolean;
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -105,8 +102,8 @@ export class FunctionsService {
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
-        this.showTryView = window.location.pathname.endsWith('/try');
-        if (!this.showTryView ) {
+
+        if (!_globalStateService.showTryView) {
         this._userService.getToken().subscribe(t => this.token = t);
         this._userService.getFunctionContainer().subscribe(fc => {
             this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
@@ -118,7 +115,7 @@ export class FunctionsService {
             });
         }
         if (Cookie.get('TryAppServiceToken')) {
-            this.tryAppserviceToken = Cookie.get('TryAppServiceToken');
+            this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
             var templateId = Cookie.get('templateId');
             this.selectedFunction = templateId.split('-')[0].trim();
             this.selectedLanguage = templateId.split('-')[1].trim();
@@ -143,7 +140,7 @@ export class FunctionsService {
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
         this.siteName = fc.name;
         if (fc.tryScmCred != null)
-            this.scmCreds = fc.tryScmCred;
+            this._globalStateService.ScmCreds = fc.tryScmCred;
     }
 
     @Cache()
@@ -520,11 +517,11 @@ export class FunctionsService {
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-        if (!this.scmCreds && this.token) {
+        if (!this._globalStateService.showTryView && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-        if (this.scmCreds) {
-            headers.append('Authorization', `Basic ${this.scmCreds}`);
+        if (this._globalStateService.ScmCreds) {
+            headers.append('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
         }
         return headers;
     }
@@ -546,8 +543,8 @@ export class FunctionsService {
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
-        if (this.tryAppserviceToken) {
-            headers.append('Authorization', `Bearer ${this.tryAppserviceToken}`);
+        if (this._globalStateService.TryAppServiceToken) {
+            headers.append('Authorization', `Bearer ${this._globalStateService.TryAppServiceToken}`);
         } else {
             headers.append('User-Agent2', 'Functions/');
         }

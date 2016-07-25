@@ -2,8 +2,7 @@
     <div id="heading">
         {{ 'appFunctionSettings_functionAppSettings' | translate }}
     </div>
-
-    <div class="setting-wrapper">
+    <div [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
         <div class="features-wrapper">
             <div>
                 <div *ngIf="needUpdateExtensionVersion">

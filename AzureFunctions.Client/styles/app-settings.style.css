@@ -36,6 +36,13 @@ h2 {
     flex-direction: column;
 }
 
+.setting-wrapper-disabled {
+    display: flex;
+    flex-direction: column;
+    pointer-events:none;
+    cursor: crosshair;
+}
+
 .setting-wrapper > label {
     font-size: 18px;
     font-weight: normal;

@@ -118,6 +118,7 @@ export interface FunctionSetting {
 export interface FunctionBindingBase {
     type: BindingType;
     direction: DirectionType;
+    enabledInTryMode: boolean;
 }
 
 export interface UIFunctionBinding extends FunctionBindingBase {

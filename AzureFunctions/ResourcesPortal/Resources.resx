@@ -606,6 +606,7 @@
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Your runtime version is to upto-date</value>
+  </data>	
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
     <value>Parameter 'direction' is missed.</value>
   </data>
