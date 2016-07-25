@@ -47,7 +47,7 @@ export class AppMonitoringComponent implements OnInit {
         this._globalStateService.setBusyState();
         var startDate = moment().utc().add(-60, 'days').calendar(); // default currently is today - 60 days
         var endDateTime = moment().utc().add(1, 'days').format(); // current datetime as UTC, current workaround is to pass future date to API to get most recent data
-        this._monitoringService.getAppConsumptionData(startDate, endDateTime, this.numDataPointsForApi, this._globalStateService.ScmCreds).subscribe(results => {
+        this._monitoringService.getAppConsumptionData(startDate, endDateTime, this.numDataPointsForApi).subscribe(results => {
             this._globalStateService.clearBusyState();
             this.convertToUsageInfoForChart(results);
         });

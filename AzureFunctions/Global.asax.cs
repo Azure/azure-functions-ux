@@ -44,21 +44,7 @@ namespace AzureFunctions
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
-            if (context.Request.RawUrl.StartsWith("/try") && context.Request.Params["cookie"] != null)
-            {
-
-                var tryAppServiceToken= context.Request.Params["cookie"];
-                var state = context.Request.Params["state"];
-                var uri = new Uri(state);
-                var querystring = uri.ParseQueryString();
-                context.Response.SetCookie(new HttpCookie("TryAppServiceToken", tryAppServiceToken));
-                context.Response.SetCookie(new HttpCookie("templateId", querystring["templateId"]));
-                context.Response.SetCookie(new HttpCookie("provider", querystring["provider"]));
-                context.Response.SetCookie(new HttpCookie("functionName", querystring["functionName"]));
-                context.Response.RedirectLocation = "/try";
-                context.Response.StatusCode = 302;
-                context.Response.End();
-            }
+            SecurityManager.HandleTryAppServiceResponse(context);
             SecurityManager.PutOnCorrectTenant(context);
         }
 
@@ -93,15 +79,7 @@ namespace AzureFunctions
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
-
             }
-            if (context.Request.RawUrl.EndsWith(".css"))
-                context.Response.ContentType = "text/css";
-            else if (context.Request.RawUrl.EndsWith(".js"))
-                context.Response.ContentType = "text/javascript";
-            else
-                context.Response.ContentType = "text/html";
-
         }
 
         private IContainer InitAutofacContainer()
@@ -130,7 +108,7 @@ namespace AzureFunctions
             FunctionsTrace.Analytics = CreateLogger(settings, "functions-analytics-{Date}.txt", "Analytics");
             FunctionsTrace.Performance = CreateLogger(settings, "functions-performance-{Date}.txt", "Performance", new Collection<DataColumn>
             {
-                new DataColumn {DataType = typeof(string), ColumnName = "OperationName"  },
+                new DataColumn {DataType = typeof(string), ColumnName = "OperationName" },
                 new DataColumn {DataType = typeof(int), ColumnName = "TimeTakenMsec" },
                 new DataColumn {DataType = typeof(string), ColumnName = "OperationResult" },
                 new DataColumn {DataType = typeof(DateTime), ColumnName = "StartedTime" }

@@ -1,6 +1,4 @@
-﻿import {FunctionConfig} from '../models/function-config';
-
-export interface CreateFunctionInfo {
+﻿export interface CreateFunctionInfo {
     templateId: string;
     name: string;
     containerScmUrl: string;

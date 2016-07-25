@@ -29,16 +29,13 @@ export class TryNowComponent implements OnInit {
         //TODO: Add cookie referer details like in try
         var freeTrialExpireCachedQuery = `try_functionstimer`;
         this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
+
         var callBack = () => {
             window.setTimeout(() => {
-
                 var hh, mm, ss;
                 var now = new Date();
-
                 var msLeft = this.endTime.getTime() - now.getTime();
-
                 if (this.endTime >= now) {
-
                     //http://stackoverflow.com/questions/1787939/check-time-difference-in-javascript
                     hh = Math.floor(msLeft / 1000 / 60 / 60);
                     msLeft -= hh * 1000 * 60 * 60;
@@ -56,7 +53,7 @@ export class TryNowComponent implements OnInit {
             });
         };
 
-        this._functionsService.getTrialResource('')
+        this._functionsService.getTrialResource()
             .subscribe((resource) => {
                 this.uiResource = resource;
                 this.isExtended = resource.isExtended;
@@ -64,7 +61,6 @@ export class TryNowComponent implements OnInit {
                 this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
                 callBack();
             });
-
     }
 
     ngOnInit() { }
@@ -86,7 +82,5 @@ export class TryNowComponent implements OnInit {
                     this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
                     this._globalStateService.clearBusyState();
                 });
-
     }
-
 }

@@ -11,7 +11,7 @@ export class BroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private integrateChangedEvent : EventEmitter<void>;
+    private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
     private versionUpdated: EventEmitter<void>;;
@@ -112,7 +112,6 @@ export class BroadcastService {
 
             case BroadcastEvent.TrialExpired:
                 return this.trialExpired;
-
         }
     }
 }

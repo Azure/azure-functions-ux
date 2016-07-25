@@ -22,7 +22,7 @@ export enum AppService {
     Function
 }
 
-export interface ITemplate {
+export interface ITryAppServiceTemplate {
     name: string;
     sprite?: string;
     appService: string;

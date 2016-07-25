@@ -45,11 +45,11 @@ export class TopBarComponent implements OnInit {
     @Output() private sourceControlClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
-                private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _functionsService: FunctionsService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService,
+        private _functionsService: FunctionsService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService
     ) {
         this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
@@ -70,7 +70,7 @@ export class TopBarComponent implements OnInit {
 
     ngOnInit() {
         this.showTryView = this._globalStateService.showTryView;
-        if (!this.showTryView) { 
+        if (!this.showTryView) {
             this.ActiveButton = TopbarButton.Quickstart;
 
             // nothing to do if we're running in an iframe
@@ -134,8 +134,7 @@ export class TopBarComponent implements OnInit {
         return this._isFunctionSelected;
     }
 
-
-    private resetView(){
+    private resetView() {
         this.ActiveButton = TopbarButton.None;
     }
 
