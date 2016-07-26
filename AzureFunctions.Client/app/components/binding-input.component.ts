@@ -11,6 +11,7 @@ import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var prettyCron: any;
 
@@ -35,7 +36,8 @@ export class BindingInputComponent {
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _userService: UserService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService ) {
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
@@ -89,6 +91,7 @@ export class BindingInputComponent {
 
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
+        this._globalStateService.setBusyState();
 
         if(bladeInput){
             this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {
@@ -98,6 +101,7 @@ export class BindingInputComponent {
                     this.setClass(appSettingName);
                 }
                 picker.inProcess = false;
+                this._globalStateService.clearBusyState();
             });
         }
         else{
@@ -108,6 +112,7 @@ export class BindingInputComponent {
                     this.setClass(appSettingName);
                 }
                 picker.inProcess = false;
+                this._globalStateService.clearBusyState();
             });
         }
     }
