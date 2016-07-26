@@ -25,7 +25,7 @@ export interface BindingConfig {
     $shcema: string,
     contentVersion: string,
     variables: any,
-    bindings: Binding[];
+    bindings: Binding[]
 }
 
 
@@ -35,7 +35,8 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
-    filters?: string[];
+    filters?: string[],
+    enabledInTryMode?: boolean;
 }
 
 export interface Setting {
@@ -117,6 +118,7 @@ export interface FunctionSetting {
 export interface FunctionBindingBase {
     type: BindingType;
     direction: DirectionType;
+    enabledInTryMode: boolean;
 }
 
 export interface UIFunctionBinding extends FunctionBindingBase {

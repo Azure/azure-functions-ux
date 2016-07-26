@@ -35,7 +35,8 @@ export class BackgroundTasksService {
         if (this._preIFrameTasks && this._preIFrameTasks.isUnsubscribed) {
             this._preIFrameTasks.unsubscribe();
         }
-        this._preIFrameTasks = Observable.timer(0, 60000)
+        if (!this._globalStateService.showTryView)
+        this._preIFrameTasks = Observable.timer(1, 60000)
             .concatMap<string>(() => this._http.get('api/token?plaintext=true').retry(5).map<string>(r => r.text()))
             .subscribe(t => this._userService.setToken(t));
     }
@@ -44,6 +45,8 @@ export class BackgroundTasksService {
         if (this._tasks && this._tasks.isUnsubscribed) {
             this._tasks.unsubscribe();
         }
+
+        if (this._globalStateService.FunctionContainer.tryScmCred === null) {
         this._tasks = Observable.timer(1, 60000)
         .concatMap<{errors: string[], config: {[key: string]: string}, appSettings: {[key: string]: string} }>(() =>
             Observable.zip(
@@ -61,6 +64,20 @@ export class BackgroundTasksService {
             this._functionsService.getResources();
             this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
         });
+        } else {
+            this._tasks = Observable.timer(1, 60000)
+                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
+                    Observable.zip(
+                        this._functionsService.getHostErrors().catch(e => Observable.of([])),
+                        (e) => ({ errors: e})
+                    )
+                )
+                .subscribe(result => {
+                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error,
+                        { message: e, details: `Host Error: ${e}` }));
+
+                });
+        }
     }
 
     private setDisabled(config: any) {

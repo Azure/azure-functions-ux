@@ -1,4 +1,4 @@
-﻿<top-bar gettingStarted="true" ></top-bar>
+﻿<top-bar gettingStarted="true" tryModeView="isTry" ></top-bar>
 <div class="start-banner">
     <div class="start-banner-content">
         <img src="/images/functions.svg" height="60px"/>
@@ -8,9 +8,6 @@
 </div>
 
 <div class="container">
-    <div *ngIf="tryItNow" style="text-align: center" [innerHTML]="'gettingStarted_youNeed' | translate">
-    </div>
-    <div *ngIf="!tryItNow">
         <div *ngIf="subscriptions">
             
             <div class="start-left start-half">
@@ -50,7 +47,3 @@
 
         </div>
     </div>
-</div>
-
-
-

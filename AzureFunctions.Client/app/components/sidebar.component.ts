@@ -12,6 +12,7 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TryNowComponent} from './try-now.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'sidebar',
@@ -25,13 +26,11 @@ export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    public tryItNowTenant: boolean;
+    private showTryView: boolean;
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
 
-    //TODO: move to constants since it is being used in other compenents as well
-    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
     @Output()
     refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
@@ -39,11 +38,12 @@ export class SideBarComponent implements OnDestroy {
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _broadcastService: BroadcastService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
-        this.tryItNowTenant = false;
+        this.showTryView = this._globalStateService.showTryView;
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
@@ -56,18 +56,20 @@ export class SideBarComponent implements OnDestroy {
         }));
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
-            this.functionsInfo.push(fi);
-            this.functionsInfo.sort((f1, f2) => {
-                if (f1.name === this._translateService.instant(PortalResources.sideBar_newFunction) ) {
-                    return -1;
-                }
-                if (f2.name === this._translateService.instant(PortalResources.sideBar_newFunction) ) {
-                    return 1;
-                }
+            if (this.functionsInfo) {
+                this.functionsInfo.push(fi);
+                this.functionsInfo.sort((f1, f2) => {
+                    if (f1.name === this._translateService.instant(PortalResources.sideBar_newFunction)) {
+                        return -1;
+                    }
+                    if (f2.name === this._translateService.instant(PortalResources.sideBar_newFunction)) {
+                        return 1;
+                    }
 
-                return f1.name > f2.name ? 1 : -1;
-            });
-            this.selectFunction(fi);
+                    return f1.name.localeCompare(f2.name);
+                });
+                this.selectFunction(fi);
+            }
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
@@ -77,11 +79,11 @@ export class SideBarComponent implements OnDestroy {
             }
         });
 
-         this._userService.getTenants()
-            .subscribe(tenants => {
-                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
-             });
-
+        this.showTryView = this._globalStateService.showTryView;
+        if (this.showTryView && this.functionsInfo) {
+            let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);
+            this.selectFunction(selectedFi);
+        }
     }
 
     ngOnDestroy() {
@@ -106,7 +108,7 @@ export class SideBarComponent implements OnDestroy {
     private switchFunctions() {
         var switchFunction = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
-            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name}));
+            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name }));
         }
         return switchFunction;
     }

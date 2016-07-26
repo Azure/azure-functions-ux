@@ -1,5 +1,4 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {Http, Headers } from '@angular/http';
 import {MonitoringService} from '../services/app-monitoring.service';

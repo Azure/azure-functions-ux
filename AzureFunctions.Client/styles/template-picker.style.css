@@ -9,6 +9,23 @@
     overflow-y: scroll;
 }
 
+.tp-template-disabled{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    border: 3px solid transparent;
+    text-align: center;
+    margin: 5px;
+    pointer-events:none;
+    background: silver;
+}
+
+.tp-template-disabled:hover{
+    border: 3px solid #C2C5C9;
+    cursor: crosshair;
+    background: plum;
+}
+
 .tp-template{
     display: inline-block;
     width: 175px;
@@ -40,6 +57,23 @@
     position: absolute;
     left: 0;
     right: 0;
+}
+
+.tp-template-func-disabled{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    margin: 5px;
+    border: 1px solid #C2C5C9;
+    vertical-align: top;
+    pointer-events:none;
+    background: silver;
+}
+
+.tp-template-func-disabled:hover{
+    border: 3px solid #C2C5C9;
+    cursor: crosshair;
+    background: plum;
 }
 
 .tp-template-func{

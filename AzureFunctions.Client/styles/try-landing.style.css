@@ -1,0 +1,342 @@
+﻿/*div {
+    text-align: center;
+}*/
+
+label {
+    display: block;
+    font-weight: 500;
+}
+
+.container {
+    display: block;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    width: 900px;
+    padding-top: 30px;
+}
+
+.container > div{
+    text-align: left;
+}
+
+.start-banner{
+    background-color: #1569B3;
+    height: 150px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.start-banner-content{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #FFF;
+}
+
+.start-banner-content *{
+    display: inline;
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: lighter;
+    font-size: 48px;
+}
+
+.start-banner-content img{
+    margin-top: -16px;
+    margin-right: 10px;
+}
+
+.start-right{
+    float: right;
+    padding-left: 20px;
+}
+
+.start-left{
+    float: left;
+    padding-right: 20px;
+}
+
+.start-row{
+    clear: both;
+    padding-top: 50px;
+}
+
+.start-half{
+    width: 50%
+}
+
+.start-below-description{
+    margin-top: 25px;
+}
+
+.custom-button {
+    margin-left: 0px;
+    padding: 6px 15px;
+}
+
+input{
+    background: #fff;
+    border: 2px solid #dedede;
+    padding-right: 30px;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+    height: 29px;
+}
+
+button {
+    margin-top: 20px;
+}
+
+.error-output {
+    border: 1px none;
+    color: red;
+}
+
+.trylanding-container{
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    text-align: center;
+}
+
+.trylanding-banner{
+    background-color: #0076DA;
+    color: #FFF;
+    margin-top: 20px;
+    padding: 10px 0px 40px 0px;
+
+}
+
+.trylanding-banner > div{
+    width: 800px;  /* Keeping small so that it fits for Mac Retina */
+    margin: auto;
+    text-align: left;
+}
+
+.trylanding-banner h1{
+    font-size: 60px;
+}
+
+.trylanding-banner p{
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+.trylanding-banner img{
+    float: right;
+    margin-left: 40px;
+}
+
+.trylanding-template{
+    padding: 10px;
+    display: inline-block;
+    border: 3px solid transparent;
+    font-size: 16px;
+}
+
+.trylanding-template:hover, .trylanding-template-lang:hover{
+    border: 3px solid #C2C5C9;
+}
+
+.trylanding-template-selected, .trylanding-template-selected:hover, .trylanding-template-lang-selected, .trylanding-template-lang-selected:hover{
+    border: 3px solid #419BF3;
+}
+
+
+.trylanding-template div:first-of-type{
+    background-color: #419BF3;
+    padding: 30px;
+}
+
+
+.trylanding-template div:nth-of-type(2){ 
+    margin-top: 15px;
+}
+
+.trylanding-template-lang{
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    width: 156px;
+}
+
+.trylanding-lang-container{
+    padding-top:10px;
+}
+
+.trylanding-body img{
+    width: 70px;
+    height: 70px;
+}
+
+.trylanding-footer{
+    padding: 10px 0 25px 0px;
+}
+
+.trylanding-footer span{
+    font-size: 16px;
+    color: #0076DA;
+}
+
+.custom-button{
+    margin: 30px 0px;
+}
+
+.wa-button {
+    font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.2em;
+    color: #fff;
+    display: inline-block;
+    line-height: 33px;
+    text-align: center;
+    vertical-align: bottom;
+    background-color: #89c402;
+    padding: 6px 20px 9px;
+}
+
+    .wa-button:hover {
+        background-color: #a5ce00;
+        color: #fff;
+        -webkit-transition: all .1s ease-in-out;
+        transition: all .1s ease-in-out;
+    }
+
+    .wa-button .wa-icon {
+        margin-left: 8px;
+    }
+
+
+div.google-login {
+    background: url(/images/Logins/google.png) no-repeat top left;
+    display: inline-block;
+}
+
+.sprite-google{ background-position: 0 0; width: 221px; height: 49px; } 
+.sprite-google:hover{ background-position: 0 -99px; width: 221px; height: 49px; } 
+.sprite-google:active{ background-position: 0 -198px; width: 221px; height: 49px; } 
+
+
+.microsoft-login:after {
+    background: url(/images/Logins/microsoft-logo.png) no-repeat;
+    background-size: 100%;
+    content: "";
+    display: inline-block;
+    height: 30px;
+    margin-top: -15px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 30px;
+    background-repeat: no-repeat;
+}
+
+.microsoft-login {
+    background-color: #004185;
+    font-size: 17px;
+    line-height: 25px;
+    display: inline-block;
+    top: -9px;
+    margin-left: 5px;
+    
+    font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: 400;
+    color: #fff;
+    padding: 6px 20px 9px;
+    text-align: center;
+    vertical-align: bottom;
+    padding: 6px 20px 9px 50px;
+    position: relative;
+    width: 211px;
+}
+
+.microsoft-login:hover {
+    background-color: #00356c;
+}
+
+div.facebook-login {
+    background: url(/images/Logins/facebook.png) no-repeat top left;
+    background-position: 0 0;
+    background-size: 80%;
+    width: 265px;
+    height: 49px;
+    display: inline-block;
+    top: 4px;
+    position: relative;
+    margin-left: 35px;
+    margin-bottom: 10px;
+    margin-right: -15px;
+}
+
+div.vk-login {
+    background: url(/images/Logins/vk.png) no-repeat top left;
+    background-position: 0 0;
+    background-size: 80%;
+    width: 265px;
+    height: 49px;
+    display: inline-block;
+    top: 4px;
+    position: relative;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    margin-right: -15px;
+}
+
+.login-box {
+    -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    -moz-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
+    display: inline-block;
+    margin-left: 90px;
+    position: absolute;
+    top: 600px;
+    z-index: 1001;
+}
+
+.login-box-ru {
+    top: -125px;
+}
+
+.login-box {
+    background: #ffffff;
+    border: 1px solid #7d7d7d;
+}
+
+/*.login-box:after, .login-box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.login-box:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 15px;
+    margin-top: -15px;
+}
+
+.login-box:before {
+    border-color: rgba(125, 125, 125, 0);
+    border-right-color: #7d7d7d;
+    border-width: 16px;
+    margin-top: -16px;
+}*/
+
+.login-option {
+    display: block;
+}
+
+h5, .wa-heading5 {
+    margin: 0 0 8px;
+    font-family: wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2em;
+    color: #505050;
+}
+
