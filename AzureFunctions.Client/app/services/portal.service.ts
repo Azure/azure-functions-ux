@@ -1,6 +1,6 @@
 ﻿import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
-import {Event, Data, Verbs, Action, LogEntryLevel, Message} from '../models/portal';
+import {Event, Data, Verbs, Action, LogEntryLevel, Message, StartupInfo} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
@@ -9,6 +9,7 @@ import {UserService} from './user.service';
 @Injectable()
 export class PortalService {
     public sessionId = "";
+
     private portalSignature: string = "FxAppBlade";
     private resourceIdObservable: ReplaySubject<string>;
     private getAppSettingCallback: (appSettingName: string) => void;
@@ -33,7 +34,7 @@ export class PortalService {
 
         // This is a required message. It tells the shell that your iframe is ready to receive messages.
         this.postMessage(Verbs.ready, null);
-        this.postMessage(Verbs.getAuthToken, null);
+        this.postMessage(Verbs.getStartupInfo, null);
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
             if (error.details) {
@@ -99,10 +100,16 @@ export class PortalService {
 
         if (methodName === Verbs.sendResourceId) {
             this.resourceIdObservable.next(data);
-        } else if(methodName === Verbs.sendSessionId){
-            this.sessionId = data;
-        } else if (methodName === Verbs.sendToken) {
-            this._userService.setToken(data);
+        }
+        else if(methodName === Verbs.sendStartupInfo){
+            let startupInfo = <StartupInfo>data;
+            this.sessionId = startupInfo.sessionId;
+            this._userService.setToken(startupInfo.token);
+
+            // Effective language has language and formatting information eg: "en.en-us"
+            let lang = startupInfo.effectiveLocale.split(".")[0];
+            this._userService.setLanguage(lang);
+
         } else if (methodName === Verbs.sendAppSettingName) {
             if(this.getAppSettingCallback){
                 this.getAppSettingCallback(data);

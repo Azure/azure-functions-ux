@@ -5,7 +5,13 @@
 export interface Data{
     signature: string;
     kind: string;
-    data: string;
+    data: any;
+}
+
+export interface StartupInfo{
+    sessionId : string,
+    token : string,
+    effectiveLocale : string
 }
 
 export interface Action {
@@ -26,7 +32,7 @@ export class Verbs{
     public static ready = "ready";
 
     // Requests from iframe
-    public static getAuthToken = "get-auth-token";
+    public static getStartupInfo = "get-startup-info";
     public static openBlade = "open-blade";
     public static openBladeWithInputs = "open-blade-inputs";
     public static logAction = "log-action";
@@ -34,8 +40,7 @@ export class Verbs{
     public static setDirtyState = "set-dirtystate";
 
     // Requests from Ibiza
-    public static sendSessionId = "send-sessionId";
-    public static sendToken = "send-token";
+    public static sendStartupInfo = "send-startup-info";
     public static sendResourceId = "send-resourceId";
     public static sendAppSettingName = "send-appSettingName";
 }

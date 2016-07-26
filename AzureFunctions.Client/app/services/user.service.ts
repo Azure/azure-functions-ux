@@ -11,9 +11,11 @@ export class UserService {
 
     private functionContainerSubject: ReplaySubject<FunctionContainer>;
     private tokenSubject: ReplaySubject<string>;
+    private languageSubject: ReplaySubject<string>;
 
     constructor(private _http: Http) {
         this.tokenSubject = new ReplaySubject<string>(1);
+        this.languageSubject = new ReplaySubject<string>(1);
         this.inIFrame = window.parent !== window;
         this.functionContainerSubject = new ReplaySubject<FunctionContainer>(1);
     }
@@ -37,6 +39,14 @@ export class UserService {
 
     setToken(token: string) {
         this.tokenSubject.next(token);
+    }
+
+    setLanguage(lang: string) {
+        this.languageSubject.next(lang);
+    }
+
+    getLanguage(){
+        return this.languageSubject;
     }
 
     getFunctionContainer() {
