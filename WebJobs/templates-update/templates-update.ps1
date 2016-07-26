@@ -1,3 +1,7 @@
+if ($Env:FUNCTIONS_SLOT_NAME -eq "Production")
+{    
+    exit(0)
+}
 $ProgressPreference = "SilentlyContinue"
 $basePath =  "$Env:Home\site\wwwroot\App_Data\Templates"
 $apiUrl = "https://api.github.com/repos/Azure/azure-webjobs-sdk-templates/tags"
