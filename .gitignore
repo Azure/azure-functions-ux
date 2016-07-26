@@ -245,3 +245,4 @@ jspm_packages/
 AzureFunctions.Client/bower_components/
 .DS_Store
 AzureFunctions.Client/Default.cshtml
+.vscode/

@@ -27,7 +27,7 @@ export class MonitoringService {
         headers.append('Content-Type', contentType);
 
         if (scmCreds) {
-            headers.append('Authorization', `Basic ` + scmCreds);
+            headers.append('Authorization', `Basic ${scmCreds}`);
         } else if (this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }

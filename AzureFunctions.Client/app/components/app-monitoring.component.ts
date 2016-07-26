@@ -1,5 +1,4 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {Http, Headers } from '@angular/http';
 import {MonitoringService} from '../services/app-monitoring.service';
@@ -40,7 +39,6 @@ export class AppMonitoringComponent implements OnInit {
         private _monitoringService: MonitoringService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
-        private _functionsService: FunctionsService,
         private _translateService: TranslateService) { }
 
     ngOnInit() {

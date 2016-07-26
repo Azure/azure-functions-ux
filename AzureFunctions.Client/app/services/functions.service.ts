@@ -24,7 +24,7 @@ import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resou
 import {GlobalStateService} from './global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {UsageVolume} from '../models/app-monitoring-usage'
 
 @Injectable()

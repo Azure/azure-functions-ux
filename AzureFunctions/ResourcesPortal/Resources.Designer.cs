@@ -1458,18 +1458,36 @@ namespace AzureFunctions.ResourcesPortal {
         /// <summary>
         ///   Looks up a localized string similar to Choose an auth provider.
         /// </summary>
-        internal static string trylanding_chooseAnAuthProvider {
+        internal static string tryLanding_chooseAnAuthProvider {
             get {
-                return ResourceManager.GetString("trylanding_chooseAnAuthProvider", resourceCulture);
+                return ResourceManager.GetString("tryLanding_chooseAnAuthProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function creation error! Please try again..
+        /// </summary>
+        internal static string tryLanding_functionError {
+            get {
+                return ResourceManager.GetString("tryLanding_functionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Function Error.
+        /// </summary>
+        internal static string tryLanding_functionErrorDetails {
+            get {
+                return ResourceManager.GetString("tryLanding_functionErrorDetails", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Account.
         /// </summary>
-        internal static string trylanding_microsoftAcccount {
+        internal static string tryLanding_microsoftAcccount {
             get {
-                return ResourceManager.GetString("trylanding_microsoftAcccount", resourceCulture);
+                return ResourceManager.GetString("tryLanding_microsoftAcccount", resourceCulture);
             }
         }
         

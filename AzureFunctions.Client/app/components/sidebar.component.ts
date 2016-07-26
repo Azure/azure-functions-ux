@@ -66,7 +66,7 @@ export class SideBarComponent implements OnDestroy {
                         return 1;
                     }
 
-                    return f1.name > f2.name ? 1 : -1;
+                    return f1.name.localeCompare(f2.name);
                 });
                 this.selectFunction(fi);
             }

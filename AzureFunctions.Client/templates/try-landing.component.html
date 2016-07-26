@@ -1,5 +1,4 @@
 ﻿<top-bar gettingStarted="true" isTry="true"></top-bar>
-<busy-state name='try-landing'></busy-state>
 <div class="trylanding-container">
     <div class="trylanding-banner">
         <div>
@@ -59,8 +58,8 @@
         </div>
         <div  *ngIf="loginOptions" [class.login-box-ru]="currentCulture == 'ru'" [class.login-box]="currentCulture != 'ru'" >
             <div style="display: block; margin-left: 30px">
-                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">{{ 'trylanding_chooseAnAuthProvider' | translate }}</div>
-                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">{{ 'trylanding_microsoftAcccount' | translate }}t</a></div>
+                <div class="wa-heading5" style="position: relative; margin-right: 8px; margin-bottom: 20px;margin-top: 20px;">{{ 'tryLanding_chooseAnAuthProvider' | translate }}</div>
+                <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action wa-button microsoft-login">{{ 'tryLanding_microsoftAcccount' | translate }}t</a></div>
                 <div class="login-option"><a (click) ="handleLoginClick('google')"  class="create-site-action" ><div class="google-login sprite-google"></div></a></div>
                 <div class="login-option"><a (click)="handleLoginClick('facebook')" class="create-site-action" ><div class="facebook-login"></div></a></div>
                 <div *ngIf="currentCulture == 'ru'" class="login-option">

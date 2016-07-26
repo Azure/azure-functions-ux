@@ -2,7 +2,7 @@
     <div>{{ 'tryNow_trialTimeRemaining' | translate }}</div>
     <div id="countdownTimer" class="tryinfo-box-timer">{{timerText}}</div>
     <div style="margin-top:10px;"></div>
-    <div id="extendTrial" (click)="extendResourceLifeTime()" class="extend-trial-button" *ngIf="!(isExtended || trialExpired)">
+    <div id="extendTrial" (click)="extendResourceLifeTime()" class="extend-trial-button" *ngIf="!(uiResource?.isExtended || trialExpired)">
         {{ 'tryNow_extendTrial' | translate }}
     </div>
     <div style="margin-top: 10px;"></div>

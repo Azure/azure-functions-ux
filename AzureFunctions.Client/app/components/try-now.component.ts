@@ -16,7 +16,7 @@ import {GlobalStateService} from '../services/global-state.service';
 
 export class TryNowComponent implements OnInit {
     public uiResource: UIResource;
-    public isExtended: boolean;
+//    public isExtended: boolean;
     public trialExpired: boolean;
     public endTime: Date;
     public timerText: string;
@@ -56,7 +56,6 @@ export class TryNowComponent implements OnInit {
         this._functionsService.getTrialResource()
             .subscribe((resource) => {
                 this.uiResource = resource;
-                this.isExtended = resource.isExtended;
                 this.endTime = new Date();
                 this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
                 callBack();
@@ -77,7 +76,6 @@ export class TryNowComponent implements OnInit {
         this._functionsService.extendTrialResource().
                 subscribe((resource) => {
                     this.uiResource = resource;
-                    this.isExtended = resource.isExtended;
                     this.endTime = new Date();
                     this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
                     this._globalStateService.clearBusyState();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Text;
-using System.Web.Security;
-using AzureFunctions.Code;
+﻿using System.Net;
 
 namespace AzureFunctions.Authentication
 {
