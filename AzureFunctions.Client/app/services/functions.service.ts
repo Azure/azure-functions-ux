@@ -337,15 +337,24 @@ export class FunctionsService {
     getResources(): Observable<any> {
         var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
 
-        return this._http.get('api/resources?name=en' + '&runtime=' + runtime, { headers: this.getPassthroughHeaders() })
+        var lang = "";
+        return this._userService.getLanguage()
+            .flatMap((language: string) => {
+                lang = language;
+                return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPassthroughHeaders() });
+            })
             .map<any>(r => {
                 var resources = r.json();
 
-                this._translateService.setDefaultLang('en');
-                this._translateService.setTranslation('en', resources);  
-                this._translateService.use('en');
+                this._translateService.setDefaultLang("en");
+                this._translateService.setTranslation("en", resources.en);
+                if (resources.lang) {
+                    this._translateService.setTranslation(lang, resources.lang);
+                }
+                this._translateService.use(lang);
             });
     }
+
 
     get HostSecrets() {
         return this.hostSecrets;

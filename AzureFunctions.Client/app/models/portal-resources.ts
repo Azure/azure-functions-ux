@@ -169,8 +169,8 @@ export class PortalResources
     public static bindingsValidationNameMissed: string = "bindingsValidationNameMissed";
     public static bindingsValidationTypeMIssed: string = "bindingsValidationTypeMIssed";
     public static bindingsValidationTypeUnknown: string = "bindingsValidationTypeUnknown";
+    public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
-    public static eventHubOut_connection_label1: string = "eventHubOut_connection_label1";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
     public static eventHubOut_name_help: string = "eventHubOut_name_help";
     public static eventHubOut_name_label: string = "eventHubOut_name_label";
@@ -190,9 +190,9 @@ export class PortalResources
     public static queueOut_displayName: string = "queueOut_displayName";
     public static queueOut_name_help: string = "queueOut_name_help";
     public static queueOut_name_label: string = "queueOut_name_label";
-    public static queueOut_queueName_erroText: string = "queueOut_queueName_erroText";
+    public static queueOut_queueName_errorText: string = "queueOut_queueName_errorText";
     public static queueOut_queueName_label: string = "queueOut_queueName_label";
-    public static queueOut_queueName_name: string = "queueOut_queueName_name";
+    public static queueOut_queueName_help: string = "queueOut_queueName_help";
     public static temp_category_core: string = "temp_category_core";
     public static temp_category_dataProcessing: string = "temp_category_dataProcessing";
     public static temp_timerTrigger_CSharp_desc: string = "temp_timerTrigger_CSharp_desc";
@@ -216,10 +216,13 @@ export class PortalResources
     public static variables_paramNameOutputHelp: string = "variables_paramNameOutputHelp";
     public static variables_selectConnection: string = "variables_selectConnection";
     public static variables_storageConnStringLabel: string = "variables_storageConnStringLabel";
-    public static variable_paramNameLabel: string = "variable_paramNameLabel";
+    public static variables_paramNameLabel: string = "variables_paramNameLabel";
     public static temp_category_all: string = "temp_category_all";
     public static temp_category_api: string = "temp_category_api";
     public static temp_category_experimental: string = "temp_category_experimental";
     public static temp_category_samples: string = "temp_category_samples";
+    public static blob_name_help: string = "blob_name_help";
+    public static blob_name_label: string = "blob_name_label";
+    public static queueTrigger_queueName_help: string = "queueTrigger_queueName_help";
 }
 

@@ -122,10 +122,19 @@ namespace AzureFunctions.Controllers
             string fileSuffix = (name == "en") ? "" : "." + name;
 
             List<string> resxFiles = new List<string>();
-            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources" + fileSuffix + ".resx"));
-            resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + fileSuffix + ".resx"));
+            var result = new JObject();
+            if (!string.IsNullOrEmpty(fileSuffix))
+            {
+                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources" + fileSuffix + ".resx"));
+                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + fileSuffix + ".resx"));
+                result["lang"] = ConvertResxToJObject(resxFiles);
+                resxFiles.Clear();
+            }
+            resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources.resx"));
+            resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources.resx"));
+            result["en"] = ConvertResxToJObject(resxFiles);
 
-            return Request.CreateResponse(HttpStatusCode.OK, ConvertResxToJObject(resxFiles));
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [Authorize]
@@ -142,17 +151,20 @@ namespace AzureFunctions.Controllers
 
             foreach (var file in resxFiles) {
 
-                // Create a ResXResourceReader for the file items.resx.
-                ResXResourceReader rsxr = new ResXResourceReader(file);
+                if (File.Exists(file))
+                { 
+                    // Create a ResXResourceReader for the file items.resx.
+                    ResXResourceReader rsxr = new ResXResourceReader(file);
 
-                // Iterate through the resources and display the contents to the console.
-                foreach (DictionaryEntry d in rsxr)
-                {
-                    jo[d.Key.ToString()] = d.Value.ToString();
+                    // Iterate through the resources and display the contents to the console.
+                    foreach (DictionaryEntry d in rsxr)
+                    {
+                        jo[d.Key.ToString()] = d.Value.ToString();
+                    }
+
+                    //Close the reader.
+                    rsxr.Close();
                 }
-
-                //Close the reader.
-                rsxr.Close();
             }
 
             return jo;
