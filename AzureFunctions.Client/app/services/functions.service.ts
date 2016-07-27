@@ -337,22 +337,15 @@ export class FunctionsService {
     getResources(): Observable<any> {
         var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
 
-        var lang = "";
-        return this._userService.getLanguage()
-            .flatMap((language: string) => {
-                lang = language;
-                return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPassthroughHeaders() });
-            })
-            .map<any>(r => {
-                var resources = r.json();
-
-                this._translateService.setDefaultLang("en");
-                this._translateService.setTranslation("en", resources.en);
-                if (resources.lang) {
-                    this._translateService.setTranslation(lang, resources.lang);
-                }
-                this._translateService.use(lang);
-            });
+        if (this._userService.inIFrame) {
+            return this._userService.getLanguage()
+                .flatMap((language: string) => {
+                    return this.getLocolizedResources(language, runtime);
+                });
+                
+        } else {
+            return this.getLocolizedResources("en", runtime);
+        }
     }
 
 
@@ -490,5 +483,20 @@ export class FunctionsService {
                 }
             }
         }
+    }
+
+    private getLocolizedResources(lang: string, runtime: string): Observable<any> {
+        return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPassthroughHeaders() })
+            .map<any>(r => {
+                var resources = r.json();
+
+                this._translateService.setDefaultLang("en");
+                this._translateService.setTranslation("en", resources.en);
+                if (resources.lang) {
+                    this._translateService.setTranslation(lang, resources.lang);
+                }
+                this._translateService.use(lang);
+            });
+
     }
 }
