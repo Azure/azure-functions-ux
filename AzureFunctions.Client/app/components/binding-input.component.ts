@@ -31,14 +31,14 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     public description: string;
     private _input: BindingInputBase<any>;
-
+    private showTryView: boolean;
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _userService: UserService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService ) {
-
+        private _globalStateService: GlobalStateService) {
+        this.showTryView = this._globalStateService.showTryView;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 

@@ -24,7 +24,7 @@ import {PortalResources} from '../models/portal-resources';
 export class TemplatePickerComponent {
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
-
+    private showTryView: boolean;
     title: string;
     selectedTemplate: string;
     templates: Template[] = [];
@@ -45,6 +45,7 @@ export class TemplatePickerComponent {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
+        this.showTryView = this._globalStateService.showTryView;
         this._language = this._translateService.instant(PortalResources.temp_category_api);
 
         this._orderedCategoties = [
@@ -54,7 +55,7 @@ export class TemplatePickerComponent {
             this._translateService.instant(PortalResources.temp_category_all),
             this._translateService.instant(PortalResources.temp_category_experimental),
             this._translateService.instant(PortalResources.temp_category_all)
-        ];    
+        ];
     }
 
     set type(type: TemplatePickerType) {
@@ -159,7 +160,8 @@ export class TemplatePickerComponent {
                                         name: template.metadata.name,
                                         value: template.id,
                                         keys: keys,
-                                        description: template.metadata.description
+                                        description: template.metadata.description,
+                                        enabledInTryMode: template.metadata.enabledInTryMode
                                     });
                                 }
                             }
@@ -234,8 +236,9 @@ export class TemplatePickerComponent {
 
                 result.push({
                     name: binding.displayName.toString(),
-                    value: binding.type.toString()
-                });
+                    value: binding.type.toString(),
+                    enabledInTryMode: binding.enabledInTryMode 
+            });
 
             }
         });
@@ -262,5 +265,4 @@ export class TemplatePickerComponent {
         //http://stackoverflow.com/questions/9870512/how-to-obtaining-the-querystring-from-the-current-url-with-javascript
         return window.location.search.replace(new RegExp("^(?:.*[&\\?]" + key.replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1");
     }
-
 }

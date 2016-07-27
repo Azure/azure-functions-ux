@@ -21,84 +21,16 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
-        private readonly IArmManager _armManager;
         private readonly ITemplatesManager _templatesManager;
-        private readonly HttpClient _client;
+
         private readonly ISettings _settings;
 
-        public AzureFunctionsController(IArmManager armManager, ITemplatesManager templatesManager, HttpClient client, ISettings settings)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
         {
-            this._armManager = armManager;
             this._templatesManager = templatesManager;
-            this._client = client;
             this._settings = settings;
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> CreateTrialFunctionsResource()
-        {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
-            {
-                try
-                {
-                    var functionsResource = await this._armManager.CreateTrialFunctionsResource();
-                    perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.Created, functionsResource);
-
-                }
-                catch (Exception e)
-                {
-                    perf.AddProperties("Error");
-                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
-                }
-            }
-        }
-        [Authorize]
-        [HttpPost]
-        public async Task<HttpResponseMessage> ExtendTrialFunctionsResource()
-        {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
-            {
-                try
-                {
-                    var functionsResource = await this._armManager.ExtendTrialFunctionsResource();
-                    perf.AddProperties("Extended");
-                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
-
-                }
-                catch (Exception e)
-                {
-                    perf.AddProperties("Error");
-                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
-                }
-            }
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<HttpResponseMessage> GetTrialFunctionsResource()
-        {
-            using (var perf = FunctionsTrace.BeginTimedOperation())
-            {
-                try
-                {
-                    var functionsResource = await this._armManager.GetTrialFunctionsResource();
-                    perf.AddProperties("Created");
-                    return Request.CreateResponse(HttpStatusCode.OK, functionsResource);
-                }
-                catch (Exception e)
-                {
-                    perf.AddProperties("Error");
-                    FunctionsTrace.Diagnostics.Event(TracingEvents.ErrorInCreateTrialFunctionContainer, e.Message);
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
-                }
-            }
-        }
-
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
@@ -108,14 +40,12 @@ namespace AzureFunctions.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
@@ -137,7 +67,6 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        [Authorize]
         [HttpPost]
         public HttpResponseMessage ReportClientError([FromBody] ClientError clientError)
         {

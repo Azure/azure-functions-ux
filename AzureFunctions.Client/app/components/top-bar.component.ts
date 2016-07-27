@@ -37,19 +37,20 @@ export class TopBarComponent implements OnInit {
     public ActiveButton: TopbarButton;
     public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
+    private showTryView; boolean;
+
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private appSettingsClicked: EventEmitter<any>;
     @Output() private quickstartClicked: EventEmitter<any>;
     @Output() private sourceControlClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
-                private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _functionsService: FunctionsService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService,
+        private _functionsService: FunctionsService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService
     ) {
-
         this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
         this.quickstartClicked = new EventEmitter<any>();
@@ -68,22 +69,25 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.ActiveButton = TopbarButton.Quickstart;
+        this.showTryView = this._globalStateService.showTryView;
+        if (!this.showTryView) {
+            this.ActiveButton = TopbarButton.Quickstart;
 
-        // nothing to do if we're running in an iframe
-        if (this.inIFrame) return;
+            // nothing to do if we're running in an iframe
+            if (this.inIFrame) return;
 
-        this._userService.getUser()
-            .subscribe((u) => {
-                this.user = u
-            });
+            this._userService.getUser()
+                .subscribe((u) => {
+                    this.user = u;
+                });
 
-        this._userService.getTenants()
-            .subscribe(t => {
-                this.tenants = t;
-                this.currentTenant = this.tenants.find(e => e.Current);
-            });
-
+            this._userService.getTenants()
+                .subscribe(t => {
+                    this.tenants = t;
+                    this.currentTenant = this.tenants.find(e => e.Current);
+                });
+        } else
+            this.ActiveButton = TopbarButton.None;
     }
 
     selectTenant(tenant: TenantInfo) {
@@ -130,7 +134,7 @@ export class TopBarComponent implements OnInit {
         return this._isFunctionSelected;
     }
 
-    private resetView(){
+    private resetView() {
         this.ActiveButton = TopbarButton.None;
     }
 

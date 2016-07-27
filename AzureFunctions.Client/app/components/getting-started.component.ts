@@ -28,7 +28,6 @@ import {PortalResources} from '../models/portal-resources';
 export class GettingStartedComponent implements OnInit {
     @Output() userReady: EventEmitter<FunctionContainer>;
 
-    public tryItNow: boolean;
     public geoRegions: DropDownElement<string>[];
     public subscriptions: DropDownElement<Subscription>[];
     public functionContainers: DropDownElement<FunctionContainer>[];
@@ -41,8 +40,6 @@ export class GettingStartedComponent implements OnInit {
     public validationError: string;
 
     private functionContainer: FunctionContainer;
-    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
-
     constructor(
         private _userService: UserService,
         private _functionsService: FunctionsService,
@@ -109,8 +106,41 @@ export class GettingStartedComponent implements OnInit {
     checkOutTrialSubscription() {
         this.tryItNow = true;
 
-        this._functionsService.createTrialResource().
-            subscribe(() => { this.switchToTryAppServiceTenant(); });
+        //this._functionsService.createTrialResource().
+        //    subscribe(() => { this.switchToTryAppServiceTenant(); });
+    }
+
+    createTrialAndThenLogin() {
+        this._userService.getTenants()
+            .subscribe(tenants => {
+                this._globalStateService.setBusyState();
+                if (tenants.length === 0) {
+                    this.checkOutTrialSubscription();
+                }
+                else if (tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)) {
+                    this._functionsService.getTrialResource('').subscribe
+                        ((resource) => {
+                            if (resource === null || resource === undefined) {
+                                this.checkOutTrialSubscription();
+                            } else
+                                this._armService.getFunctionContainer(resource.csmId).subscribe
+                                    ((container) => {
+                                        this.userReady.emit(container);
+                                        this._globalStateService.clearBusyState();
+                                    });
+                        });
+                } else {
+                    this.tryItNow = false;
+                    this._globalStateService.setBusyState();
+                    this._armService.getSubscriptions()
+                        .subscribe(subs => {
+                            this.subscriptions = subs
+                                .map(e => ({ displayLabel: e.displayName, value: e }))
+                                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+                            this._globalStateService.clearBusyState();
+                        });
+                }
+            });
     }
 
     switchToTryAppServiceTenant() {

@@ -1,6 +1,6 @@
 <div class="sidebar">
     
-    <ul class="functions-list" [style.height]="tryItNowTenant ? '82%' : '96%'">
+    <ul class="functions-list" [style.height]="_showTryView ? '82%' : '96%'">
         <li>
             <span class="function-item full-height">
                 <input type="text" id="search-box" placeholder="{{ 'sideBar_searchMyFunction' | translate }}" [(ngModel)]="searchValue" />
@@ -16,7 +16,7 @@
             </span>
         </li>
     </ul>
-    <div *ngIf="tryItNowTenant">
+    <div *ngIf="showTryView">
         <try-now></try-now>
     </div>
     <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}

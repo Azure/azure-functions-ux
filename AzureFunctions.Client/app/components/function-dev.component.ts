@@ -154,7 +154,6 @@ export class FunctionDevComponent implements OnChanges {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
-
     }
 
     ngOnDestroy() {

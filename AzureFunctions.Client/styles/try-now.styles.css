@@ -1,5 +1,5 @@
 ﻿.tryinfo-box {
-    background-color: white;
+    background-color: linen;
     height: 120px;
     width: 100%;
     border: 5px blue;
@@ -12,21 +12,13 @@
 }
 
 .tryinfo-box-timer {
-    background-color: white;
+    background-color: linen;
     color: red;
     font-size: large;
     text-align: center;
     border: none;
     outline: none;
     font-weight: bold;
-}
-
-.tryinfo-box {
-    background-color: white;
-    height: 120px;
-    width: 100%;
-    border: 5px blue;
-    padding-left: 10px;
 }
 
 .signup-button {

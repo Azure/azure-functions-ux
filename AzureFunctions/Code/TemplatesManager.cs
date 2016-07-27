@@ -22,7 +22,7 @@ namespace AzureFunctions.Code
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
         private readonly ReaderWriterLockSlim _rwlock;
-        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();        
+        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
 
         public TemplatesManager(ISettings settings)
         {

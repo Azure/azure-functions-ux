@@ -1,4 +1,4 @@
-﻿<div>
+﻿    <div>
 <div>
     <span *ngIf="languages.length > 0">
         {{ 'templatePicker_language' | translate }}
@@ -16,7 +16,7 @@
 
 <div class="tp-templates" *ngIf="showFooter">
     <div *ngFor="let template of templates"
-        class="tp-template"
+        [ngClass]="showTryView && !template.enabledInTryMode ? 'tp-template-disabled' : 'tp-template'"
         (click)="onTemplateCliked(template.value)"
         [class.tp-template-selected]="selectedTemplate == template.value">
 
@@ -35,7 +35,7 @@
 
 <div class="tp-templates" *ngIf="!showFooter">
     <div *ngFor="let template of templates"
-            class="tp-template-func"
+            [ngClass]="showTryView && !template.enabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
             (click)="onTemplateCliked(template.value)"
             [class.tp-template-selected]="selectedTemplate == template.value">
 
