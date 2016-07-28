@@ -98,7 +98,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             //TODO: investigate this
             this.showTryView = functionContainer.tryScmCred === null;
 
-        if (this.showTryView && this.redirectToIbizaIfNeeded(functionContainer)) return;
+        if (this.redirectToIbizaIfNeeded(functionContainer)) return;
 
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
