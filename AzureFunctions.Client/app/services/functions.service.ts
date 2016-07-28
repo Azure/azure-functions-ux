@@ -23,7 +23,7 @@ import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.deco
 import {GlobalStateService} from './global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
-import {UIResource, AppService, ITemplate} from '../models/ui-resource';
+import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resource';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {UsageVolume} from '../models/app-monitoring-usage'
 
@@ -588,7 +588,7 @@ export class FunctionsService {
     }
 
     private getLocolizedResources(lang: string, runtime: string): Observable<any> {
-        return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPassthroughHeaders() })
+        return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
             .map<any>(r => {
                 var resources = r.json();
 
