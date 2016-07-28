@@ -41,7 +41,6 @@ namespace AzureFunctions.Authentication
         {
             if (context.Request.RawUrl.StartsWith("/try") && context.Request.Params["cookie"] != null)
             {
-
                 var tryAppServiceToken = context.Request.Params["cookie"];
                 var state = context.Request.Params["state"];
                 var uri = new Uri(state);

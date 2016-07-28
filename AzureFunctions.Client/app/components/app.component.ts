@@ -124,7 +124,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1 && !this.showTryView) {
+            window.location.search.indexOf("ibiza=disabled") === -1 && this._globalStateService.ScmCreds === null) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()
