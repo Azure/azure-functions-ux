@@ -24,8 +24,7 @@ import {PortalResources} from '../models/portal-resources';
     pipes: [TranslatePipe]
 })
 
-export class TryLandingComponent implements OnInit, AfterViewInit {
-    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
+export class TryLandingComponent implements OnInit {
     @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
@@ -43,9 +42,11 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        this._globalStateService.setBusyState();
+
         this._functionsService.getTemplates().subscribe((templates) => {
+            this._globalStateService.clearBusyState();
             if (this._globalStateService.TryAppServiceToken) {
-                this._globalStateService.setBusyState();
                 this.selectedFunction = this._functionsService.selectedFunction;
                 this.selectedLanguage = this._functionsService.selectedLanguage;
 
@@ -54,12 +55,15 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
                 });
 
                 if (selectedTemplate) {
+                    this._globalStateService.setBusyState();
                     this._functionsService.createTrialResource(selectedTemplate,
                             this._functionsService.selectedProvider, this._functionsService.selectedFunctionName)
                         .subscribe((resource) => {
+                                this._globalStateService.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
                             },
                             error => {
+                                this._globalStateService.clearBusyState();
                                 if (error.status === 400) {
                                     // If there is already a free resource assigned ,
                                     // we'll get a HTTP 400 ..so lets get it.
@@ -74,14 +78,10 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
                 this.selectedFunction = "TimerTrigger";
                 this.selectedLanguage = "CSharp";
             }
-            this._globalStateService.clearBusyState();
         });
+
         var result = this._functionsService.getNewFunctionNode();
         this.functionsInfo.push(result);
-    }
-
-    ngAfterViewInit() {
-        this._globalStateService.GlobalBusyStateComponent = this.busyState;
     }
 
     onFunctionClicked(selectedFunction: string) {
@@ -116,9 +116,10 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
                     //get trial account
                     this._functionsService.createTrialResource(selectedTemplate, provider, functionName)
                         .subscribe((resource) => {
+                            this._globalStateService.clearBusyState();
                             this.createFunctioninResource(resource, selectedTemplate, functionName);
-
                         }, error => {
+                            this._globalStateService.clearBusyState();
                             if (error.status === 401 || error.status === 403) {
                                 //show login options
                                 var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
@@ -126,7 +127,6 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
                                     (<any>window).location = headerObject[0];
                                     return;
                                 } else {
-                                    this._globalStateService.clearBusyState();
                                     this.loginOptions = true;
                                 }
                             } else if (error.status === 400) {
@@ -136,12 +136,10 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
                                     }
                                     );
                             } else {
-                                this._globalStateService.clearBusyState();
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}` });
                                 throw error;
                             }
                         });
-                    this._globalStateService.clearBusyState();
                 }
                 catch (e) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}` });
@@ -176,11 +174,12 @@ export class TryLandingComponent implements OnInit, AfterViewInit {
         };
         this._functionsService.setScmParams(tryfunctionContainer);
 
+        this._globalStateService.setBusyState();
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
+                this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 this.tryFunctionsContainer.emit(tryfunctionContainer);
-                this._globalStateService.clearBusyState();
             },
             e => {
                 this._globalStateService.clearBusyState();
