@@ -60,8 +60,9 @@ export class GlobalStateService {
         });
     }
 
-    setBusyState() {
+    setBusyState(message?: string) {
         if (this._globalBusyStateComponent) {
+            this._globalBusyStateComponent.message = message;
             this._globalBusyStateComponent.setBusyState();
         } else {
             this._shouldBeBusy = true;

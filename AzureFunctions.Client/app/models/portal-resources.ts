@@ -171,6 +171,7 @@ export class PortalResources
     public static bindingsValidationNameMissed: string = "bindingsValidationNameMissed";
     public static bindingsValidationTypeMIssed: string = "bindingsValidationTypeMIssed";
     public static bindingsValidationTypeUnknown: string = "bindingsValidationTypeUnknown";
+    public static resourceSelect: string = "resourceSelect";
     public static trialExpired_enjoyedHostingFunctions: string = "trialExpired_enjoyedHostingFunctions";
     public static trialExpired_signupForAzure: string = "trialExpired_signupForAzure";
     public static tryLanding_chooseAnAuthProvider: string = "tryLanding_chooseAnAuthProvider";

@@ -89,9 +89,13 @@ export class BindingInputComponent {
             return;
         }
 
+        if (!this._userService.inIFrame) {
+            return;
+        }
+
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
-        this._globalStateService.setBusyState();
+        this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
         if(bladeInput){
             this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {

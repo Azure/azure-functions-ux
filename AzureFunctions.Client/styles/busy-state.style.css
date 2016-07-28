@@ -70,3 +70,9 @@
   -webkit-animation-delay: 0.4s;
   animation-delay: 0.4s;
 }
+
+.fxs-progress-dots > div:nth-child(4) {
+    padding-top: 20px;
+    width: 100%;
+    background: white;
+}

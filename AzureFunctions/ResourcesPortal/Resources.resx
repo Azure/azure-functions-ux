@@ -619,6 +619,9 @@
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
     <value>Unknown type: '{{type}}'.</value>
   </data>
+  <data name="resourceSelect" xml:space="preserve">
+    <value>Please create or select resource</value>
+  </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>Update your runtime version</value>
   </data>

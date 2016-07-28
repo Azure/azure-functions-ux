@@ -196,24 +196,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update your runtime version.
-        /// </summary>
-        internal static string appFunctionSettings_functionAppSettings1 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_functionAppSettings1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your runtime version is to upto-date.
-        /// </summary>
-        internal static string appFunctionSettings_functionAppSettings2 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_functionAppSettings2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Go to App Service Settings.
         /// </summary>
         internal static string appFunctionSettings_goToAppSettings {
@@ -1222,6 +1204,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please create or select resource.
+        /// </summary>
+        internal static string resourceSelect {
+            get {
+                return ResourceManager.GetString("resourceSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Run.
         /// </summary>
         internal static string run {
@@ -1429,24 +1420,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We&apos;ve enjoyed hosting your functions !.
-        /// </summary>
-        internal static string trialExpired_enjoyedHostingFunctions {
-            get {
-                return ResourceManager.GetString("trialExpired_enjoyedHostingFunctions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well..
-        /// </summary>
-        internal static string trialExpired_signupForAzure {
-            get {
-                return ResourceManager.GetString("trialExpired_signupForAzure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Trigger.
         /// </summary>
         internal static string trigger {
@@ -1456,74 +1429,11 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose an auth provider.
-        /// </summary>
-        internal static string tryLanding_chooseAnAuthProvider {
-            get {
-                return ResourceManager.GetString("tryLanding_chooseAnAuthProvider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Function creation error! Please try again..
-        /// </summary>
-        internal static string tryLanding_functionError {
-            get {
-                return ResourceManager.GetString("tryLanding_functionError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Function Error.
-        /// </summary>
-        internal static string tryLanding_functionErrorDetails {
-            get {
-                return ResourceManager.GetString("tryLanding_functionErrorDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Microsoft Account.
-        /// </summary>
-        internal static string tryLanding_microsoftAcccount {
-            get {
-                return ResourceManager.GetString("tryLanding_microsoftAcccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create a free Azure account.
-        /// </summary>
-        internal static string tryNow_createFreeAzureAccount {
-            get {
-                return ResourceManager.GetString("tryNow_createFreeAzureAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Extend Trial.
-        /// </summary>
-        internal static string tryNow_extendTrial {
-            get {
-                return ResourceManager.GetString("tryNow_extendTrial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Trial expired.
         /// </summary>
         internal static string tryNow_trialExpired {
             get {
                 return ResourceManager.GetString("tryNow_trialExpired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trial time remaining.
-        /// </summary>
-        internal static string tryNow_trialTimeRemaining {
-            get {
-                return ResourceManager.GetString("tryNow_trialTimeRemaining", resourceCulture);
             }
         }
         
