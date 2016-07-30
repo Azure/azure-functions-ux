@@ -1528,6 +1528,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to minutes.
+        /// </summary>
+        internal static string tryNow_minutes {
+            get {
+                return ResourceManager.GetString("tryNow_minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trial expired.
         /// </summary>
         internal static string tryNow_trialExpired {
