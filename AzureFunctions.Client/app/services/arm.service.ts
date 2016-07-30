@@ -233,7 +233,7 @@ export class ArmService {
 
         if (storageAccount &&
             typeof storageAccount !== 'string' &&
-            (storageAccount.properties.provisioningState === 'Succeeded' || storageAccount.properties.provisioningState === 'ResolvingDNS')) {
+            storageAccount.properties.provisioningState === 'Succeeded') {
             this.getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
         } else  {
             this._http.get(url, { headers: this.getHeaders() })
