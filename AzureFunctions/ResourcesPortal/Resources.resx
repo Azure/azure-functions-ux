@@ -655,4 +655,7 @@
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
     <value>Create Function Error</value>
   </data>
+  <data name="tryLanding_ifYou" xml:space="preserve">
+    <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
+  </data>
 </root>

@@ -32,7 +32,7 @@ export class TryNowComponent implements OnInit {
 
         var callBack = () => {
             window.setTimeout(() => {
-                var hh, mm, ss;
+                var hh, mm;
                 var now = new Date();
                 var msLeft = this.endTime.getTime() - now.getTime();
                 if (this.endTime >= now) {
@@ -40,11 +40,9 @@ export class TryNowComponent implements OnInit {
                     hh = Math.floor(msLeft / 1000 / 60 / 60);
                     msLeft -= hh * 1000 * 60 * 60;
                     mm = Math.floor(msLeft / 1000 / 60);
-                    msLeft -= mm * 1000 * 60;
-                    ss = Math.floor(msLeft / 1000);
 
-                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ':' + this.pad(ss, 2);
-                    window.setTimeout(callBack, 500);
+                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) ;
+                    window.setTimeout(callBack, 1000);
                 } else {
                     this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);
                     this.trialExpired = true;

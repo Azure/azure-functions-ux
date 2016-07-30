@@ -28,7 +28,7 @@
     <Content Include="images\generic-template.svg" />
     <Content Include="images\Logins\facebook.png" />
     <Content Include="images\Logins\google.png" />
-    <Content Include="images\Logins\microsoft-logo.png" />
+    <Content Include="images\Logins\microsoftaccount.png" />
     <Content Include="images\Logins\vk.png" />
     <Content Include="images\stack.svg" />
     <Content Include="images\data-process-template.svg" />
