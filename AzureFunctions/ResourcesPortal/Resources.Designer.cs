@@ -1528,7 +1528,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to minutes.
+        ///   Looks up a localized string similar to  minutes.
         /// </summary>
         internal static string tryNow_minutes {
             get {
