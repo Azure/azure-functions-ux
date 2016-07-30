@@ -659,6 +659,6 @@
     <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value>minutes</value>
+    <value> minutes</value>
   </data>
 </root>
