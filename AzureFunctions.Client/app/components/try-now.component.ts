@@ -41,7 +41,7 @@ export class TryNowComponent implements OnInit {
                     msLeft -= hh * 1000 * 60 * 60;
                     mm = Math.floor(msLeft / 1000 / 60);
 
-                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) ;
+                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + this._translateService.instant(PortalResources.tryNow_minutes) ;
                     window.setTimeout(callBack, 1000);
                 } else {
                     this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);

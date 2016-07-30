@@ -182,6 +182,7 @@ export class PortalResources
     public static tryLanding_functionError: string = "tryLanding_functionError";
     public static tryLanding_functionErrorDetails: string = "tryLanding_functionErrorDetails";
     public static tryLanding_ifYou: string = "tryLanding_ifYou";
+    public static tryNow_minutes: string = "tryNow_minutes";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
