@@ -1,8 +1,4 @@
-﻿/*div {
-    text-align: center;
-}*/
-
-label {
+﻿label {
     display: block;
     font-weight: 500;
 }
@@ -101,9 +97,7 @@ button {
 .trylanding-banner{
     background-color: #0076DA;
     color: #FFF;
-    margin-top: 20px;
-    padding: 10px 0px 40px 0px;
-
+    padding: 1px 0px 10px 0px;
 }
 
 .trylanding-banner > div{
@@ -179,6 +173,8 @@ button {
 
 .custom-button{
     margin: 30px 0px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .wa-button {
@@ -206,54 +202,52 @@ button {
         margin-left: 8px;
     }
 
-
 div.google-login {
     background: url(/images/Logins/google.png) no-repeat top left;
     display: inline-block;
 }
-
+div.google-login:hover {
+	opacity: 1;
+	-webkit-animation: flash 1.5s;
+	animation: flash 1.5s;
+}
 .sprite-google{ background-position: 0 0; width: 221px; height: 49px; } 
-.sprite-google:hover{ background-position: 0 -99px; width: 221px; height: 49px; } 
-.sprite-google:active{ background-position: 0 -198px; width: 221px; height: 49px; } 
 
-
-.microsoft-login:after {
-    background: url(/images/Logins/microsoft-logo.png) no-repeat;
-    background-size: 100%;
-    content: "";
-    display: inline-block;
-    height: 30px;
-    margin-top: -15px;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    width: 30px;
-    background-repeat: no-repeat;
+@-webkit-keyframes flash {
+	0% {
+		opacity: .4;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes flash {
+	0% {
+		opacity: .4;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
-.microsoft-login {
-    background-color: #004185;
-    font-size: 17px;
-    line-height: 25px;
+
+div.microsoft-login {
+    background: url(/images/Logins/microsoftaccount.png) no-repeat top left;
+    background-position: 0 0;
+    background-size: 80%;
+    width: 265px;
+    height: 49px;
     display: inline-block;
-    top: -9px;
-    margin-left: 5px;
-    
-    font-family: wf_segoe-ui_light,"Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
-    font-weight: 400;
-    color: #fff;
-    padding: 6px 20px 9px;
-    text-align: center;
-    vertical-align: bottom;
-    padding: 6px 20px 9px 50px;
+    top: 4px;
     position: relative;
-    width: 211px;
+    margin-left: 35px;
+    margin-right: -15px;
 }
-
-.microsoft-login:hover {
-    background-color: #00356c;
+div.microsoft-login:hover {
+	opacity: 1;
+	-webkit-animation: flash 1.5s;
+	animation: flash 1.5s;
 }
-
 div.facebook-login {
     background: url(/images/Logins/facebook.png) no-repeat top left;
     background-position: 0 0;
@@ -266,6 +260,11 @@ div.facebook-login {
     margin-left: 35px;
     margin-bottom: 10px;
     margin-right: -15px;
+}
+div.facebook-login:hover {
+	opacity: 1;
+	-webkit-animation: flash 1.5s;
+	animation: flash 1.5s;
 }
 
 div.vk-login {
@@ -281,16 +280,17 @@ div.vk-login {
     margin-bottom: 10px;
     margin-right: -15px;
 }
-
+div.vk-login:hover {
+	opacity: 1;
+	-webkit-animation: flash 1.5s;
+	animation: flash 1.5s;
+}
 .login-box {
     -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
     -moz-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
     box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);
     display: inline-block;
-    margin-left: 90px;
-    position: absolute;
-    top: 600px;
-    z-index: 1001;
+    vertical-align: top;
 }
 
 .login-box-ru {
@@ -300,43 +300,22 @@ div.vk-login {
 .login-box {
     background: #ffffff;
     border: 1px solid #7d7d7d;
+    position: absolute; 
+    margin-top: -95px;
 }
-
-/*.login-box:after, .login-box:before {
-    right: 100%;
-    top: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
-
-.login-box:after {
-    border-color: rgba(255, 255, 255, 0);
-    border-right-color: #ffffff;
-    border-width: 15px;
-    margin-top: -15px;
-}
-
-.login-box:before {
-    border-color: rgba(125, 125, 125, 0);
-    border-right-color: #7d7d7d;
-    border-width: 16px;
-    margin-top: -16px;
-}*/
 
 .login-option {
     display: block;
 }
 
 h5, .wa-heading5 {
-    margin: 0 0 8px;
     font-family: wf_segoe-ui_normal,"Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
     font-weight: 400;
     font-size: 18px;
     line-height: 1.2em;
     color: #505050;
+    position: relative; 
+    margin-right: 8px; 
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
-

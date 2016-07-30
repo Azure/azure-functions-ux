@@ -37,15 +37,18 @@ export class TryLandingComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService
+        
     ) {
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
     }
 
     ngOnInit() {
-        this._globalStateService.setBusyState();
-
+        //Disabling this temporarily. Comehow ngOnit gets called twice on refresh
+        // possibly related to https://github.com/angular/angular/issues/6782
+        //and sstrangely the clearbusystate doesnt get called.
+        //this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
-            this._globalStateService.clearBusyState();
+            //this._globalStateService.clearBusyState();
             if (this._globalStateService.TryAppServiceToken) {
                 this.selectedFunction = this._functionsService.selectedFunction;
                 this.selectedLanguage = this._functionsService.selectedLanguage;
