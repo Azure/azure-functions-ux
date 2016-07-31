@@ -1519,7 +1519,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extend Trial.
+        ///   Looks up a localized string similar to Extend trial to 24 hours.
         /// </summary>
         internal static string tryNow_extendTrial {
             get {
