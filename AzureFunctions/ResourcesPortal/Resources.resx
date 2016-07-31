@@ -644,7 +644,7 @@
     <value>Create a free Azure account</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Extend Trial</value>
+    <value>Extend trial to 24 hours</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
     <value>Trial time remaining</value>
