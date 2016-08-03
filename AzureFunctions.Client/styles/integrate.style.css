@@ -34,3 +34,7 @@
     padding: 7px;
     color: #419BF3;
 }
+
+.button-title {
+    font-size: 12px !important;
+}
