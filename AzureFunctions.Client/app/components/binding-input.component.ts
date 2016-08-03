@@ -43,6 +43,13 @@ export class BindingInputComponent {
     }
 
     set input(input: BindingInputBase<any>) {
+        if (input.type === SettingType.picker) {
+            var picker = <PickerInput>input;
+            if (!input.value && picker.items) {
+                input.value = picker.items[0];
+            }            
+        }
+
         this._input = input;
         this.setBottomDescription(this._input.id, this._input.value);
 
@@ -99,24 +106,11 @@ export class BindingInputComponent {
 
         if(bladeInput){
             this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {
-                if (appSettingName) {
-                    this.input.value = appSettingName;
-                    this.inputChanged(name);
-                    this.setClass(appSettingName);
-                }
-                picker.inProcess = false;
-                this._globalStateService.clearBusyState();
+                this.finishResourcePickup(appSettingName, picker);
             });
-        }
-        else{
+        } else {
             this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
-                if (appSettingName) {
-                    this.input.value = appSettingName;
-                    this.inputChanged(name);
-                    this.setClass(appSettingName);
-                }
-                picker.inProcess = false;
-                this._globalStateService.clearBusyState();
+                this.finishResourcePickup(appSettingName, picker);
             });
         }
     }
@@ -166,6 +160,17 @@ export class BindingInputComponent {
             }
 
         }
+    }
+
+    private finishResourcePickup(appSettingName: string, picker: PickerInput) {
+        if (appSettingName) {
+            this.input.value = appSettingName;
+            picker.items.splice(0, 0, this.input.value);
+            this.inputChanged(name);
+            this.setClass(appSettingName);
+        }
+        picker.inProcess = false;
+        this._globalStateService.clearBusyState();
     }
 
     setBottomDescription(id: string, value: any) {

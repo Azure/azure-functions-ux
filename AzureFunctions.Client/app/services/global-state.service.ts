@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FunctionContainer} from '../models/function-container';
+import {ResourceType} from '../models/binding';
 import {UserService} from './user.service';
 import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
@@ -99,5 +100,46 @@ export class GlobalStateService {
 
    set TryAppServiceToken(tryAppServiceToken : string) {
        this._tryAppServicetoken = tryAppServiceToken ;
+   }
+
+   getResourceAppSettings(type: ResourceType): string[] {
+       var result = [];
+       switch (type) {
+           case ResourceType.Storage:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1 ) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.EventHub:
+           case ResourceType.ServiceBus:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("sb://") > -1 && value.indexOf("SharedAccessKeyName") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.ApiHub:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+
+           case ResourceType.DocumentDB:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+       }
+       return result;
    }
 }

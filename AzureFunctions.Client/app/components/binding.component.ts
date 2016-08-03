@@ -122,6 +122,7 @@ export class BindingComponent {
                             if (setting.value === SettingType.string && setting.resource) {
                                 let input = new PickerInput();
                                 input.resource = setting.resource;
+                                input.items = this._globalStateService.getResourceAppSettings(setting.resource);
                                 input.id = setting.name;
                                 input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);

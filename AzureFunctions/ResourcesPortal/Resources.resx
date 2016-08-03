@@ -620,7 +620,7 @@
     <value>Unknown type: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Please create or select resource</value>
+    <value>Waiting for the resource</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>Update your runtime version</value>
@@ -660,5 +660,8 @@
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
     <value> minutes</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>new</value>
   </data>
 </root>

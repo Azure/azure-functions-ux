@@ -58,6 +58,7 @@ export class PickerInput extends BindingInputBase<string>{
     resource: ResourceType;
     inProcess: boolean = false;
     metadata: any;
+    items: string[];
 
     constructor() {
         super();

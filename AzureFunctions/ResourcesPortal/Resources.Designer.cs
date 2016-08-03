@@ -331,6 +331,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to new.
+        /// </summary>
+        internal static string bindingInput_new {
+            get {
+                return ResourceManager.GetString("bindingInput_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to select.
         /// </summary>
         internal static string bindingInput_select {
@@ -1222,7 +1231,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please create or select resource.
+        ///   Looks up a localized string similar to Waiting for the resource.
         /// </summary>
         internal static string resourceSelect {
             get {
