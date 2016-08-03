@@ -952,11 +952,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input.
+        ///   Looks up a localized string similar to Inputs.
         /// </summary>
         internal static string input {
             get {
                 return ResourceManager.GetString("input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inputs.
+        /// </summary>
+        internal static string integrate_inputsHelp {
+            get {
+                return ResourceManager.GetString("integrate_inputsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outputs.
+        /// </summary>
+        internal static string integrate_outputsHelp {
+            get {
+                return ResourceManager.GetString("integrate_outputsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigegers.
+        /// </summary>
+        internal static string integrate_triggersHelp {
+            get {
+                return ResourceManager.GetString("integrate_triggersHelp", resourceCulture);
             }
         }
         
@@ -1204,7 +1231,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output.
+        ///   Looks up a localized string similar to Outputs.
         /// </summary>
         internal static string output {
             get {
@@ -1465,7 +1492,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trigger.
+        ///   Looks up a localized string similar to Triggers.
         /// </summary>
         internal static string trigger {
             get {

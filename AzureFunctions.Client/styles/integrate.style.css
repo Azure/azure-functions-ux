@@ -1,8 +1,6 @@
 ﻿
 .list-group-item{
     border-radius: 0;
-    border-left: none;
-    border-right: none;
 }
 
 .list-group-item active{

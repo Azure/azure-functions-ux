@@ -184,6 +184,9 @@ export class PortalResources
     public static tryLanding_ifYou: string = "tryLanding_ifYou";
     public static tryNow_minutes: string = "tryNow_minutes";
     public static bindingInput_new: string = "bindingInput_new";
+    public static integrate_inputsHelp: string = "integrate_inputsHelp";
+    public static integrate_outputsHelp: string = "integrate_outputsHelp";
+    public static integrate_triggersHelp: string = "integrate_triggersHelp";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

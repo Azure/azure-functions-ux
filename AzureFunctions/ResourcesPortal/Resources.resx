@@ -488,7 +488,7 @@
     <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Input</value>
+    <value>Inputs</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
     <value>Logs</value>
@@ -509,7 +509,7 @@
     <value>Not valid value</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Output</value>
+    <value>Outputs</value>
   </data>
   <data name="select" xml:space="preserve">
     <value>Select</value>
@@ -545,7 +545,7 @@
     <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Trigger</value>
+    <value>Triggers</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Trial expired</value>
@@ -663,5 +663,14 @@
   </data>
   <data name="bindingInput_new" xml:space="preserve">
     <value>new</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Inputs</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Outputs</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>Trigegers</value>
   </data>
 </root>

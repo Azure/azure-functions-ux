@@ -14,13 +14,14 @@ import {GlobalStateService} from '../services/global-state.service';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {PopOverComponent} from './pop-over.component';
 
 declare var jQuery: any;
 
 @Component({
     selector: 'function-integrate-v2',
     templateUrl: './templates/function-integrate-v2.component.html',
-    directives: [BindingComponent, TemplatePickerComponent],
+    directives: [BindingComponent, TemplatePickerComponent, PopOverComponent],
     styleUrls: ['styles/integrate.style.css'],
     inputs: ['selectedFunction'],
     pipes: [TranslatePipe]

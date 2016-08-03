@@ -164,8 +164,18 @@ export class BindingInputComponent {
 
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
         if (appSettingName) {
+
+            var existedAppSetting;
+            if (picker.items) {
+                existedAppSetting = picker.items.find((item) => {
+                    return item === appSettingName;
+                });
+            }
+
             this.input.value = appSettingName;
-            picker.items.splice(0, 0, this.input.value);
+            if (!existedAppSetting) {
+                picker.items.splice(0, 0, this.input.value);
+            }
             this.inputChanged(name);
             this.setClass(appSettingName);
         }
