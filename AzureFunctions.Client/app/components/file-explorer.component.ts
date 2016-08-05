@@ -148,7 +148,8 @@ export class FileExplorerComponent implements OnChanges {
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        this._functionsService.saveFile(href, content || '', this.functionInfo)
+        var saveFileObservable = this._functionsService.saveFile(href, content || '', this.functionInfo);
+        saveFileObservable
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
                     this._functionsService.ClearAllFunctionCache(this.functionInfo);
@@ -170,6 +171,7 @@ export class FileExplorerComponent implements OnChanges {
                 }
                 this.clearBusyState();
             });
+        return saveFileObservable;
     }
 
     renameFile() {
@@ -177,7 +179,7 @@ export class FileExplorerComponent implements OnChanges {
         this._functionsService.getFileContent(this.selectedFile)
             .subscribe(content => {
                 var bypassConfirm = true;
-                this.deleteCurrentFile(bypassConfirm).add(() => this.addFile(content));
+                this.addFile(content).subscribe(s => this.deleteCurrentFile(bypassConfirm));
             }, e => this.clearBusyState());
     }
 
@@ -208,9 +210,9 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     deleteCurrentFile(bypassConfirm? : boolean) {
-        if (bypassConfirm !== true && !confirm(`Are you sure you want to delete ${this.selectedFile.name}?`)) return <RxSubscription> null;
+        if (bypassConfirm !== true && !confirm(`Are you sure you want to delete ${this.selectedFile.name}?`)) return;
         this.setBusyState();
-        return this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
+        this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
             .subscribe((deleted : VfsObject) => {
                 this._functionsService.ClearAllFunctionCache(this.functionInfo);
                 this.clearBusyState();
