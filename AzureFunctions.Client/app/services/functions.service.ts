@@ -167,6 +167,19 @@ export class FunctionsService {
             .map<VfsObject | string>(r => file);
     }
 
+    @ClearCache('getFileContent', 'href')
+    deleteFile(file: VfsObject | string, functionInfo?: FunctionInfo) {
+        var headers = this.getScmSiteHeaders('plain/text');
+        headers.append('If-Match', '*');
+
+        if (functionInfo) {
+            ClearAllFunctionCache(functionInfo);
+        }
+
+        return this._http.delete(typeof file === 'string' ? file : file.href, { headers: headers })
+            .map<VfsObject | string>(r => file);
+    }
+
     ClearAllFunctionCache(functionInfo: FunctionInfo) {
         ClearAllFunctionCache(functionInfo);
     }

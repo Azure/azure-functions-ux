@@ -7,6 +7,7 @@ import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upl
 import {GlobalStateService} from '../services/global-state.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event';
+import {Subscription as RxSubscription} from 'rxjs/Rx';
 
 @Component({
     selector: 'file-explorer',
@@ -27,6 +28,7 @@ export class FileExplorerComponent implements OnChanges {
     currentVfsObject: VfsObject;
     history: VfsObject[];
     creatingNewFile: boolean;
+    renamingFile: boolean;
     newFileName: string;
 
     private binaryExtensions = ['.zip', '.exe', '.dll', '.png', '.jpeg', '.jpg', '.gif', '.bmp', '.ico', '.pdf', '.so', '.ttf', '.bz2', '.gz', '.jar', '.cab', '.tar', '.iso', '.img', '.dmg'];
@@ -141,12 +143,12 @@ export class FileExplorerComponent implements OnChanges {
         setTimeout(() => element.focus(), 50);
     }
 
-    addFile() {
+    addFile(content? : string) {
         let href = this.currentVfsObject
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        this._functionsService.saveFile(href, '', this.functionInfo)
+        this._functionsService.saveFile(href, content || '', this.functionInfo)
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
                     this._functionsService.ClearAllFunctionCache(this.functionInfo);
@@ -159,6 +161,7 @@ export class FileExplorerComponent implements OnChanges {
                     this.selectVfsObject(o, true);
                 }
                 this.creatingNewFile = false;
+                this.renamingFile = false;
                 delete this.newFileName;
             }, e => {
                 if (e) {
@@ -169,14 +172,32 @@ export class FileExplorerComponent implements OnChanges {
             });
     }
 
+    renameFile() {
+        this.setBusyState();
+        this._functionsService.getFileContent(this.selectedFile)
+            .subscribe(content => {
+                var bypassConfirm = true;
+                this.deleteCurrentFile(bypassConfirm).add(() => this.addFile(content));
+            }, e => this.clearBusyState());
+    }
+
     handleKeyUp(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             // Enter
-            this.addFile();
+            if (this.creatingNewFile) {
+                this.addFile();
+            } else if (this.renamingFile) {
+                this.renameFile();
+            }
+
         } else if (event.keyCode === 27) {
             // ESC
             delete this.newFileName;
             this.creatingNewFile = false;
+            if (this.renamingFile) {
+                this.files.push(this.selectedFile);
+                this.renamingFile = false;
+            }
         }
     }
 
@@ -184,6 +205,40 @@ export class FileExplorerComponent implements OnChanges {
         return str.charAt(str.length - 1) === '/'
             ? str.substring(0, str.length - 1)
             : str;
+    }
+
+    deleteCurrentFile(bypassConfirm? : boolean) {
+        if (bypassConfirm !== true && !confirm(`Are you sure you want to delete ${this.selectedFile.name}?`)) return <RxSubscription> null;
+        this.setBusyState();
+        return this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
+            .subscribe((deleted : VfsObject) => {
+                this._functionsService.ClearAllFunctionCache(this.functionInfo);
+                this.clearBusyState();
+                var fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
+                if (fileIndex === -1 || this.files.length == 1) {
+                    this.refresh();
+                } else {
+                    this.files.splice(fileIndex, 1);
+                    this.selectVfsObject(this.files[0]);
+                }
+            }, e => {
+                if (e) {
+                    let body = e.json();
+                    this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || `Error deleting file: ${this.selectedFile.name}`});
+                }
+                this.clearBusyState();
+            });
+    }
+
+    renameCurrentFile(event: Event, element: any) {
+        if (!this.switchFiles()) return;
+        this.newFileName = this.selectedFile.name;
+        this.renamingFile = true;
+        var fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
+        if (fileIndex !== -1) {
+            this.files.splice(fileIndex, 1);
+        }
+        setTimeout(() => element.focus(), 50);
     }
 
     private getFiles(arr: VfsObject[]) {
@@ -200,7 +255,7 @@ export class FileExplorerComponent implements OnChanges {
         return arr.filter(e => e.mime === 'inode/directory').sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    private switchFiles() {
+    private switchFiles(): boolean {
         var switchFiles = true;
         if (this._broadcastService.getDirtyState('function')) {
             switchFiles = confirm(`Changes made to current file will be lost. Are you sure you want to continue?`);
