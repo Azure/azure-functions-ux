@@ -1,33 +1,47 @@
 ﻿<div *ngIf="hasInputsToShow">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <!--//TODO move to css -->
-        <h3 class="panel-title pull-left">
-            {{model.label}}
-        </h3>
-        <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">{{ 'binding_delete' | translate }}</span>
-        <div class="clearfix"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <!--//TODO move to css -->
+            <h3 class="panel-title pull-left">
+                {{model.label}}
+            </h3>
+            <span *ngIf="!disabled && canDelete" class="link" (click)="removeClicked()">{{ 'binding_delete' | translate }}</span>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="col-md-6">
+                    <form class="form-horizontal">
+                        <binding-input *ngFor="let input of model.leftInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-horizontal">
+                        <binding-input *ngFor="let input of model.rightInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
+                    </form>
+                </div>
+            </div>
+
+            <div *ngIf="canSave && isDirty">
+                <button (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
+                <button (click)="discardClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
+            </div>
+
+        </div>
+
+
     </div>
 
-    <div class="panel-body">
-        <div class="container-fluid">
-            <div class="col-md-6">
-                <form class="form-horizontal">
-                    <binding-input *ngFor="let input of model.leftInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form class="form-horizontal">
-                    <binding-input *ngFor="let input of model.rightInputs" (validChange)="onValidChanged($event)" [input]="input"></binding-input>
-                </form>
-            </div>
+
+    <div *ngIf="model.documentation" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title pull-left">
+                {{model.documentation}}
+            </h3>
+        </div>
+        <div class="panel-body">
+            {{model.documentation}}
         </div>
     </div>
-</div>
-
-<div *ngIf="canSave && isDirty">
-    <button (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
-    <button (click)="discardClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
-</div>
-
 </div>

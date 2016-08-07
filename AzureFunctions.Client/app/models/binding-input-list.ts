@@ -8,6 +8,7 @@ export class BindingInputList {
     rightInputs: BindingInputBase<any>[] = [];
     label: string;
     description: string;
+    documentation: string;
 
     saveOriginInputs() {
         this.originInputs = JSON.parse(JSON.stringify(this.inputs));

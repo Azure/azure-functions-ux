@@ -32,6 +32,7 @@ export interface BindingConfig {
 export interface Binding {
     type: BindingType;
     displayName: string;
+    documentation: string;
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];

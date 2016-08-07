@@ -15,6 +15,7 @@ import {PortalResources} from '../models/portal-resources';
 import {Validator} from '../models/binding';
 
 declare var jQuery: any;
+declare var marked: any;
 
 @Component({
     selector: 'binding',
@@ -50,6 +51,18 @@ export class BindingComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
+
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: true,
+            smartLists: true,
+            smartypants: false
+        });
+
         this._elementRef = elementRef;
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -90,6 +103,7 @@ export class BindingComponent {
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             var newFunction = false;
             this.model.inputs = [];
+            this.model.documentation = marked(bindingSchema.documentation);
 
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 newFunction = true;
