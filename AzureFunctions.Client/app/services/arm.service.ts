@@ -46,7 +46,7 @@ export class ArmService {
 
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
-        geoRegion = geoRegion.replace(' ', '');
+        geoRegion = geoRegion.replace(/ /g,'');
         this.registerProviders(subscription, geoRegion, name, result);
         return result;
     }
