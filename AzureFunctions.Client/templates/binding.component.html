@@ -37,11 +37,10 @@
     <div *ngIf="model.documentation" class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title pull-left">
-                {{model.documentation}}
+                Documentation
             </h3>
         </div>
-        <div class="panel-body">
-            {{model.documentation}}
+        <div class="panel-body" [innerHTML]="model.documentation">
         </div>
     </div>
 </div>
