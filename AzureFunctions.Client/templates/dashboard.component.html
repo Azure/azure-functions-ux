@@ -18,7 +18,7 @@
                         </function-edit>
                     </div>
                     <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === ('sideBar_newFunction' | translate )">
-                        <function-new [functionsInfo]="functionsInfo"></function-new>
+                        <function-new [functionsInfo]="functionsInfo" [action]="action"></function-new>
                     </div>
                 </div>
                 <div *ngIf="openAppMonitoring">

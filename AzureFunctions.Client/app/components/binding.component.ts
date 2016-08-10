@@ -1,6 +1,6 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -29,12 +29,17 @@ declare var marked: any;
 
 export class BindingComponent {
     @Input() canDelete: boolean = true;
-    @Input() canSave: boolean = true;
+    @Input() canSave: boolean = true;    
+    @Input() saveClick = new EventEmitter<void>();
+
     @Output() remove = new EventEmitter<UIFunctionBinding>();
     @Output() update = new EventEmitter<UIFunctionBinding>();
     @Output() validChange = new EventEmitter<BindingComponent>();
     @Output() hasInputsToShowEvent = new EventEmitter<boolean>();
-    @Input() saveClick = new EventEmitter<void>();
+    @Output() go = new EventEmitter<Action>();
+
+    
+    public newFunction: boolean = false;
     public disabled: boolean;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
@@ -43,7 +48,8 @@ export class BindingComponent {
     public isDirty: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
-    private _subscription: Subscription
+    private _subscription: Subscription;
+    private _newBinding;
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _functionsService: FunctionsService,
@@ -101,12 +107,17 @@ export class BindingComponent {
             // Convert settings to input conotrls
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
-            var newFunction = false;
             this.model.inputs = [];
-            this.model.documentation = marked(bindingSchema.documentation);
+            if (bindingSchema.documentation) {
+                this.model.documentation = marked(bindingSchema.documentation);
+            }
 
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
-                newFunction = true;
+                this.newFunction = true;
+            }
+
+            if (!this.newFunction) {
+                this.model.actions = bindingSchema.actions;
             }
 
             this.setLabel();
@@ -119,7 +130,7 @@ export class BindingComponent {
 
                     var settigValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
 
-                    var isHidden = this.isHidden(newFunction, setting.name);
+                    var isHidden = this.isHidden(setting.name);
                     if (isHidden) {
                         return;
                     }
@@ -192,7 +203,7 @@ export class BindingComponent {
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
 
-                        var isHidden = this.isHidden(newFunction, rule.name);
+                        var isHidden = this.isHidden(rule.name);
                         if (isHidden) {
                             return;
                         }
@@ -272,7 +283,7 @@ export class BindingComponent {
                     let inputTb = new TextboxInput();
                     inputTb.id = "name";
                     inputTb.label = this._translateService.instant(PortalResources.binding_parameterName);
-                    inputTb.isHidden = newFunction;
+                    inputTb.isHidden = this.newFunction;
                     inputTb.required = true;
                     inputTb.value = this.bindingValue.name;
                     inputTb.help = this._translateService.instant(PortalResources.binding_parameterName);
@@ -351,6 +362,19 @@ export class BindingComponent {
         this.validChange.emit(this);
     }
 
+    goClicked(action: Action) {
+
+        action.settingValues = [];
+        action.settings.forEach((s) => {
+            var setting = this.bindingValue.settings.find((v) => {
+                return v.name === s;
+            });
+            action.settingValues.push(setting.value);
+        });
+
+        this.go.emit(action);
+    }
+
     private setDirtyIfNewBinding() {
         this.isDirty = this.bindingValue.newBinding === true ? true : false;
     }
@@ -381,9 +405,9 @@ export class BindingComponent {
         this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
     }
 
-    private isHidden(newFunction: boolean, name: string) {
+    private isHidden(name: string) {
         var isHidden = false;
-        if (newFunction) {
+        if (this.newFunction) {
             isHidden = true;
             var match = this.bindingValue.hiddenList.find((h) => {
                 return h === name;

@@ -313,11 +313,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a new functoin triggered by this output.
+        /// </summary>
+        internal static string binding_createNewFunction {
+            get {
+                return ResourceManager.GetString("binding_createNewFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
         internal static string binding_delete {
             get {
                 return ResourceManager.GetString("binding_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        internal static string binding_documentation {
+            get {
+                return ResourceManager.GetString("binding_documentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go.
+        /// </summary>
+        internal static string binding_go {
+            get {
+                return ResourceManager.GetString("binding_go", resourceCulture);
             }
         }
         

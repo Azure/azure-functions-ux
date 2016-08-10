@@ -79,6 +79,15 @@ export class SideBarComponent implements OnDestroy {
             }
         });
 
+        this.subscriptions.push(this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, (action) => {
+            var newFunc = this.functionsInfo.find((fi) => {
+                return fi.name === this._translateService.instant('sideBar_newFunction');
+            });
+            if (newFunc) {
+                this.selectFunction(newFunc);
+            }
+        }));
+
         this.showTryView = this._globalStateService.showTryView;
         if (this.showTryView && this.functionsInfo) {
             let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);

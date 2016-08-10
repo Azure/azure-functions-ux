@@ -38,6 +38,7 @@ export interface Binding {
     rules: Rule[];
     filters?: string[],
     enabledInTryMode?: boolean;
+    actions: Action[]
 }
 
 export interface Setting {
@@ -130,4 +131,13 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     hiddenList?: string[];
     displayName: string;
     newBinding?: boolean;
+}
+
+export interface Action {
+    template: string;
+    binding: string;
+    settings: string[];
+
+    settingValues: string[];
+    templateId: string;
 }

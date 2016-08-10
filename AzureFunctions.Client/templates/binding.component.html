@@ -33,11 +33,25 @@
 
     </div>
 
+    <div *ngIf="model.actions" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title pull-left">
+                Actions
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div *ngFor="let action of model.actions">
+                {{ 'binding_createNewFunction' | translate }}                
+                <button *ngIf="bindingValue.newBinding" (click)="goClicked(action)" class="custom-button go" disabled>{{ 'binding_go' | translate }}</button>
+                <button *ngIf="!bindingValue.newBinding" (click)="goClicked(action)" class="custom-button go">{{ 'binding_go' | translate }}</button>
+            </div>
+        </div>
+    </div>
 
     <div *ngIf="model.documentation" class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title pull-left">
-                Documentation
+                {{ 'binding_documentation' | translate }}
             </h3>
         </div>
         <div class="panel-body" [innerHTML]="model.documentation">

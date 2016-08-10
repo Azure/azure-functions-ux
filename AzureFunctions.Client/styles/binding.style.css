@@ -72,3 +72,7 @@ input.input-error {
 i.select {
     padding-left: 30px;
 }
+
+button.go {
+    margin-left: 100px;
+}

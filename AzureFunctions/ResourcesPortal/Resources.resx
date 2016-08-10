@@ -673,4 +673,13 @@
   <data name="integrate_triggersHelp" xml:space="preserve">
     <value>Trigegers</value>
   </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Create a new functoin triggered by this output</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Go</value>
+  </data>
 </root>

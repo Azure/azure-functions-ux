@@ -1,6 +1,6 @@
 ﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {BindingList} from '../models/binding-list';
-import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
+import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingComponent} from './binding.component';
 import {TemplatePickerComponent} from './template-picker.component';
@@ -30,7 +30,8 @@ declare var jQuery: any;
 
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
-    @Output() changeEditor = new EventEmitter<string>();
+    @Output() changeEditor = new EventEmitter<string>();    
+
     public disabled: boolean;
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
@@ -122,6 +123,13 @@ export class FunctionIntegrateV2Component {
         this.currentBinding = null;
         this.model.setBindings();
         this.updateFunction();
+    }
+
+    onGo(action: Action) {
+        if (!this.checkDirty()) {
+            return;
+        }
+        this._broadcastService.broadcast(BroadcastEvent.FunctionNew, action);
     }
 
     onUpdateBinding(binding: UIFunctionBinding) {

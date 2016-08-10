@@ -14,6 +14,7 @@ import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
+import {Action} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastService} from '../services/broadcast.service';
@@ -59,6 +60,7 @@ export class DashboardComponent implements OnChanges {
     public openSourceControl: boolean;
     public openIntro: any;
     public trialExpired: boolean;
+    public action: Action;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -67,6 +69,47 @@ export class DashboardComponent implements OnChanges {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
+        this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
+            this.action = <Action>value;
+
+            var fileName = this.selectedFunction.script_href.substring(this.selectedFunction.script_href.lastIndexOf('/') + 1);
+            var fileExt = fileName.split(".")[1].toLowerCase();
+            var lang = "CSharp";
+
+            switch (fileExt) {
+                case "sh":
+                    lang = "Bash";
+                    break;
+                case "bat":
+                    lang = "Batch";
+                    break;
+                case "csx":
+                    lang = "CSharp";
+                    break;
+                case "fsx":
+                    lang = "FSharp";
+                    break;
+                case "js":
+                    lang = "NodeJS";
+                    break;
+                case "php":
+                    lang = "Php";
+                    break;
+                case "ps1":
+                    lang = "Powershell";
+                    break;
+                case "py":
+                    lang = "Python";
+                    break;
+            }
+
+            var newFunc = this.functionsInfo.find((fi) => {
+                return fi.name === this._translateService.instant('sideBar_newFunction');
+            });
+            this.selectedFunction = newFunc;
+            this.action.templateId =this.action.template + "-" + lang;
+        });
+
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
                 delete this.selectedFunction;
@@ -74,6 +117,7 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+            this.action = null;
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
 
