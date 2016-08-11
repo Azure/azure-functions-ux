@@ -46,7 +46,7 @@ export class BackgroundTasksService {
             this._tasks.unsubscribe();
         }
 
-        if (this._globalStateService.FunctionContainer.tryScmCred === null) {
+        if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
                     Observable.zip(
