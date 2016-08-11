@@ -34,6 +34,8 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
+            runtime = runtime.Replace("~", "");
+
             using (FunctionsTrace.BeginTimedOperation())
             {
                 return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
@@ -49,6 +51,8 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
+            runtime = runtime.Replace("~", "");
+
             string fileSuffix = (name == "en") ? "" : "." + name;
 
             List<string> resxFiles = new List<string>();
