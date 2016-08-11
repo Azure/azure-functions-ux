@@ -169,12 +169,11 @@ export class FunctionIntegrateV2Component {
         this._bindingManager.validateConfig(this._functionInfo.config, this._translateService);
 
         // Update test_data only from develop tab
-        if (this._functionInfo.test_data) {
-            delete this._functionInfo.test_data;
-        }
+        var functionInfoCopy: FunctionInfo = Object.assign({}, this._functionInfo);
+        delete functionInfoCopy.test_data;
 
         this._globalStateService.setBusyState();
-        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
+        this._functionsService.updateFunction(functionInfoCopy).subscribe((result) => {
             this._globalStateService.clearBusyState();
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });

@@ -212,10 +212,11 @@ export class FunctionsService {
 
     @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any, config: any) {
-        var sampleData = files["sample.dat"];
-        delete files["sample.dat"];
+        var filesCopy = Object.assign({}, files);
+        var sampleData = filesCopy["sample.dat"];
+        delete filesCopy["sample.dat"];
 
-        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: files, test_data: sampleData, config: config }), { headers: this.getScmSiteHeaders() })
+        return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: filesCopy, test_data: sampleData, config: config }), { headers: this.getScmSiteHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -305,6 +306,7 @@ export class FunctionsService {
     }
 
     @ClearCache('getFunctions')
+    @ClearCache('getFunction', 'href')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
             .map<string>(r => r.statusText);
@@ -392,7 +394,7 @@ export class FunctionsService {
                 .flatMap((language: string) => {
                     return this.getLocolizedResources(language, runtime);
                 });
-                
+
         } else {
             return this.getLocolizedResources("en", runtime);
         }
@@ -563,7 +565,7 @@ export class FunctionsService {
         return headers;
     }
 
-    //to talk to TryAppservice 
+    //to talk to TryAppservice
     private getTryAppServiceHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
