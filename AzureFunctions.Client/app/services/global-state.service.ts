@@ -116,8 +116,9 @@ export class GlobalStateService {
            case ResourceType.EventHub:
            case ResourceType.ServiceBus:
                for (var key in this._appSettings) {
+
                    var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("sb://") > -1 && value.indexOf("SharedAccessKeyName") > -1) {
+                   if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
                        result.push(key);
                    }
                }
