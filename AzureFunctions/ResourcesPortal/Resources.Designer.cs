@@ -466,6 +466,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copied!.
+        /// </summary>
+        internal static string copypre_copied {
+            get {
+                return ResourceManager.GetString("copypre_copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        internal static string copypre_copyClipboard {
+            get {
+                return ResourceManager.GetString("copypre_copyClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CORS.
         /// </summary>
         internal static string cors {
@@ -561,6 +579,51 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string filedRequired {
             get {
                 return ResourceManager.GetString("filedRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made to current file will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string fileExplorer_changesLost {
+            get {
+                return ResourceManager.GetString("fileExplorer_changesLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_deletePromt {
+            get {
+                return ResourceManager.GetString("fileExplorer_deletePromt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editing binary files is not supported..
+        /// </summary>
+        internal static string fileExplorer_editingBinary {
+            get {
+                return ResourceManager.GetString("fileExplorer_editingBinary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating file: {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_errorCreatingFile {
+            get {
+                return ResourceManager.GetString("fileExplorer_errorCreatingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error deleting file: {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_errorDeletingFile {
+            get {
+                return ResourceManager.GetString("fileExplorer_errorDeletingFile", resourceCulture);
             }
         }
         

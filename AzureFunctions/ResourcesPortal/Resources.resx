@@ -682,4 +682,25 @@
   <data name="binding_go" xml:space="preserve">
     <value>Go</value>
   </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Are you sure you want to delete {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Editing binary files is not supported.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Error creating file: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Error deleting file: {{fileName}}</value>
+  </data>
 </root>

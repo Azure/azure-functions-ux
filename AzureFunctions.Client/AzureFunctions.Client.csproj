@@ -46,7 +46,11 @@
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
     <Content Include="templates\app-monitoring.component.html" />
+    <Content Include="templates\copy-pre.component.html" />
+    <Content Include="templates\error-list.component.html" />
+    <Content Include="templates\file-explorer.component.html" />
     <Content Include="templates\function-manage.component.html" />
+    <Content Include="templates\source-control.component.html" />
     <Content Include="templates\try-landing.component.html" />
     <Content Include="templates\try-now.component.html" />
     <Content Include="templates\trial-expired.component.html" />
@@ -101,7 +105,9 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\copy-pre.component.ts" />
     <TypeScriptCompile Include="app\components\error-list.component.ts" />
+    <TypeScriptCompile Include="app\components\file-explorer.component.ts" />
     <TypeScriptCompile Include="app\components\function-manage.component.ts" />
     <TypeScriptCompile Include="app\components\function-monitor.component.ts" />
     <TypeScriptCompile Include="app\components\intro.component.ts" />

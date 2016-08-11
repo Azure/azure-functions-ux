@@ -190,6 +190,13 @@ export class PortalResources
     public static binding_createNewFunction: string = "binding_createNewFunction";
     public static binding_documentation: string = "binding_documentation";
     public static binding_go: string = "binding_go";
+    public static copypre_copied: string = "copypre_copied";
+    public static copypre_copyClipboard: string = "copypre_copyClipboard";
+    public static fileExplorer_changesLost: string = "fileExplorer_changesLost";
+    public static fileExplorer_deletePromt: string = "fileExplorer_deletePromt";
+    public static fileExplorer_editingBinary: string = "fileExplorer_editingBinary";
+    public static fileExplorer_errorCreatingFile: string = "fileExplorer_errorCreatingFile";
+    public static fileExplorer_errorDeletingFile: string = "fileExplorer_errorDeletingFile";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

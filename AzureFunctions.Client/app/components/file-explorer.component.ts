@@ -8,12 +8,15 @@ import {GlobalStateService} from '../services/global-state.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event';
 import {Subscription as RxSubscription} from 'rxjs/Rx';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'file-explorer',
     templateUrl: 'templates/file-explorer.component.html',
     styleUrls: ['styles/file-explorer.style.css'],
-    directives: [BusyStateComponent, FileSelectDirective, FileDropDirective]
+    directives: [BusyStateComponent, FileSelectDirective, FileDropDirective],
+    pipes: [TranslatePipe]
 })
 export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
@@ -38,7 +41,8 @@ export class FileExplorerComponent implements OnChanges {
     constructor(
         private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
         this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
         this.selectedFunctionChange
@@ -167,7 +171,9 @@ export class FileExplorerComponent implements OnChanges {
             }, e => {
                 if (e) {
                     let body = e.json();
-                    this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || `Error creating file: ${this.newFileName}`});
+                    this._broadcastService.broadcast(BroadcastEvent.Error, {
+                        message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorCreatingFile, { fileName: this.newFileName })
+                    });
                 }
                 this.clearBusyState();
             });
@@ -209,8 +215,8 @@ export class FileExplorerComponent implements OnChanges {
             : str;
     }
 
-    deleteCurrentFile(bypassConfirm? : boolean) {
-        if (bypassConfirm !== true && !confirm(`Are you sure you want to delete ${this.selectedFile.name}?`)) return;
+    deleteCurrentFile(bypassConfirm?: boolean) {
+        if (bypassConfirm !== true && !confirm(this._translateService.instant(PortalResources.fileExplorer_deletePromt, { fileName: this.selectedFile.name }) )) return;
         this.setBusyState();
         this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
             .subscribe((deleted : VfsObject) => {
@@ -226,7 +232,7 @@ export class FileExplorerComponent implements OnChanges {
             }, e => {
                 if (e) {
                     let body = e.json();
-                    this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || `Error deleting file: ${this.selectedFile.name}`});
+                    this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorDeletingFile, { fileName: this.selectedFile.name }) });
                 }
                 this.clearBusyState();
             });
@@ -241,6 +247,10 @@ export class FileExplorerComponent implements OnChanges {
             this.files.splice(fileIndex, 1);
         }
         setTimeout(() => element.focus(), 50);
+    }
+
+    getFileTitle(file: VfsObject) {
+        return (file.isBinary) ? this._translateService.instant(PortalResources.fileExplorer_editingBinary) : file.name;
     }
 
     private getFiles(arr: VfsObject[]) {
@@ -260,7 +270,7 @@ export class FileExplorerComponent implements OnChanges {
     private switchFiles(): boolean {
         var switchFiles = true;
         if (this._broadcastService.getDirtyState('function')) {
-            switchFiles = confirm(`Changes made to current file will be lost. Are you sure you want to continue?`);
+            switchFiles = confirm(this._translateService.instant(PortalResources.fileExplorer_changesLost));
             if (switchFiles) {
                 this._broadcastService.clearDirtyState('function');
                 this.selectedFile.isDirty = false;
