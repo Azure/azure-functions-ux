@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter} from '@angular/core';
+import {Component, OnInit, EventEmitter, ViewChild} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
@@ -41,6 +41,7 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
     pipes: [TranslatePipe]
 })
 export class FunctionEditComponent {
+    @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
     public selectedTabTitle: string = "";
@@ -71,6 +72,11 @@ export class FunctionEditComponent {
 
     onTabSelected(selectedTab: TabComponent) {
         this.selectedTabTitle = selectedTab.title;
+        setTimeout(() => {
+            if (this.functionDevComponent && this.functionDevComponent.aceEditors) {
+                this.functionDevComponent.aceEditors.forEach(e => e.resizeAce());
+            }
+        }, 0);
     }
 
     onEditorChange(editorType: string) {

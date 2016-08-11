@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren} from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy } from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -35,9 +35,10 @@ import {PortalResources} from '../models/portal-resources';
     ],
     pipes: [TranslatePipe]
 })
-export class FunctionDevComponent implements OnChanges {
+export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
+    @ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
