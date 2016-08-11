@@ -665,13 +665,13 @@
     <value>new</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Inputs</value>
+    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Outputs</value>
+    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Trigegers</value>
+    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
     <value>Create a new functoin triggered by this output</value>

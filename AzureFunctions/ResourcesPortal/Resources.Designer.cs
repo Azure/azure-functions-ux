@@ -988,7 +988,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inputs.
+        ///   Looks up a localized string similar to Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional..
         /// </summary>
         internal static string integrate_inputsHelp {
             get {
@@ -997,7 +997,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outputs.
+        ///   Looks up a localized string similar to Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional..
         /// </summary>
         internal static string integrate_outputsHelp {
             get {
@@ -1006,7 +1006,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trigegers.
+        ///   Looks up a localized string similar to Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger..
         /// </summary>
         internal static string integrate_triggersHelp {
             get {
