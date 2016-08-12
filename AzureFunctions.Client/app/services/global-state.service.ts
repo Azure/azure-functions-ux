@@ -20,12 +20,16 @@ export class GlobalStateService {
 
     constructor(private _userService: UserService, private _armService: ArmService) {
         this._appSettings = {};
-        this._userService.getFunctionContainer()
-            .subscribe(fc => this._functionContainer = fc)
-            .add(() => this._armService.getFunctionContainerAppSettings(this._functionContainer)
-                .subscribe(a => this._appSettings = a));
-        this._userService.getToken().subscribe(t => this._token = t);
         this.showTryView = window.location.pathname.endsWith('/try');
+        this._userService.getFunctionContainer()
+            .subscribe(fc => {
+              this._functionContainer = fc;
+              if (!this.showTryView) {
+                  this._armService.getFunctionContainerAppSettings(this._functionContainer)
+                      .subscribe(a => this._appSettings = a);
+              }
+            });
+        this._userService.getToken().subscribe(t => this._token = t);
     }
 
     get FunctionContainer(): FunctionContainer {

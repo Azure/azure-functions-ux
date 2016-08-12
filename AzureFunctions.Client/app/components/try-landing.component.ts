@@ -123,7 +123,6 @@ export class TryLandingComponent implements OnInit {
                             this.clearBusyState();
                             this.createFunctioninResource(resource, selectedTemplate, functionName);
                         }, error => {
-                            this.clearBusyState();
                             if (error.status === 401 || error.status === 403) {
                                 //show login options
                                 var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
@@ -133,6 +132,7 @@ export class TryLandingComponent implements OnInit {
                                 } else {
                                     this.loginOptions = true;
                                 }
+                                this.clearBusyState();
                             } else if (error.status === 400) {
                                 this._functionsService.getTrialResource(provider)
                                     .subscribe((resource) => {
@@ -141,8 +141,10 @@ export class TryLandingComponent implements OnInit {
                                     );
                             } else {
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}` });
+                                this.clearBusyState();
                                 throw error;
                             }
+                            this.clearBusyState();
                         });
                 }
                 catch (e) {

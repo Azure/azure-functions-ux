@@ -41,12 +41,12 @@ export class BackgroundTasksService {
             .subscribe(t => this._userService.setToken(t));
     }
 
-    runTasks() {        
+    runTasks() {
         if (this._tasks && this._tasks.isUnsubscribed) {
             this._tasks.unsubscribe();
         }
 
-        if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
+        if (!this._globalStateService.showTryView) {
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
                     Observable.zip(
@@ -59,12 +59,12 @@ export class BackgroundTasksService {
                 .subscribe(result => {
                     result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` }));
                     this.setDisabled(result.config);
-                    this._functionsService.setEasyAuth(result.config);                    
+                    this._functionsService.setEasyAuth(result.config);
                     this._globalStateService.AppSettings = result.appSettings;
                     this._functionsService.getResources();
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
-        } else {
+        } else if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
                     Observable.zip(
