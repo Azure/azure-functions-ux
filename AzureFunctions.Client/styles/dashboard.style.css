@@ -3,7 +3,7 @@
 }
 
 .content-iframe{
-    /* 
+    /*
        Header margins are offset beyond the top of the iframe
        unless you specify a non-zero padding on the container
     */
@@ -11,5 +11,9 @@
 }
 
 .container-full {
-    padding: 20px 0px 0px 20px;
+    margin: 20px 0px 0px 20px;
+}
+
+.try-container-full {
+    margin: 78px 0px 0px 20px;
 }

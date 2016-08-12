@@ -9,7 +9,6 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {TryNowComponent} from './try-now.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
@@ -20,7 +19,6 @@ import {GlobalStateService} from '../services/global-state.service';
     styleUrls: ['styles/sidebar.style.css'],
     inputs: ['functionsInfo'],
     pipes: [SideBarFilterPipe, TranslatePipe],
-    directives: [TryNowComponent]
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
@@ -31,8 +29,7 @@ export class SideBarComponent implements OnDestroy {
     public running: boolean;
     public dots = "";
 
-    @Output()
-    refreshClicked = new EventEmitter<void>();
+    @Output() refreshClicked = new EventEmitter<void>();
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,

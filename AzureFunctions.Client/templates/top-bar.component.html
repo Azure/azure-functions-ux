@@ -1,67 +1,70 @@
-<div class="top-bar" [class.top-bar-getting-started]="gettingStarted">
-    <div class="azure-logo left">
-        <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
-    </div>
+<dir class="top-bar-container">
+    <try-now *ngIf="_globalStateService?.showTryView && !gettingStarted"></try-now>
+    <div class="top-bar" [class.top-bar-getting-started]="gettingStarted">
+        <div class="azure-logo left">
+            <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+        </div>
 
-    <div class="top-bar-info left vertical-align-center">
-        <span *ngIf="needUpdateExtensionVersion && !tryModeView" class="left">
-          <i class="fa fa-info"></i>{{ 'topBar_newVersion' | translate }}
-        </span>
-    </div>
+        <div class="top-bar-info left vertical-align-center">
+            <span *ngIf="needUpdateExtensionVersion && !tryModeView" class="left">
+              <i class="fa fa-info"></i>{{ 'topBar_newVersion' | translate }}
+            </span>
+        </div>
 
-    <div class="top-bar-tools right vertical-align-center">
-        <!--<span *ngIf="!gettingStarted"
-              class="top-bar-tool clickable"
-              (click)='onSourceControlClicked()'
-              [class.top-bar-settings-selected]="isSourceControlSelected">
+        <div class="top-bar-tools right vertical-align-center">
+            <!--<span *ngIf="!gettingStarted"
+                  class="top-bar-tool clickable"
+                  (click)='onSourceControlClicked()'
+                  [class.top-bar-settings-selected]="isSourceControlSelected">
 
-            <i class="fa fa-git"></i> Start or Manage Source Control
-        </span>-->
+                <i class="fa fa-git"></i> Start or Manage Source Control
+            </span>-->
 
-        <span *ngIf="!gettingStarted"
-              class="top-bar-tool clickable"
-              (click)='onAppSettingsClicked()'
-              [class.top-bar-settings-selected]="ActiveButton === 'AppSettings'">
+            <span *ngIf="!gettingStarted"
+                  class="top-bar-tool clickable"
+                  (click)='onAppSettingsClicked()'
+                  [class.top-bar-settings-selected]="ActiveButton === 'AppSettings'">
 
-            <i class="fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
-        </span>
+                <i class="fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
+            </span>
 
-        <span *ngIf="!gettingStarted"
-              class="top-bar-tool clickable"
-              (click)="onAppMonitoringClicked()"
-              [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
+            <span *ngIf="!gettingStarted"
+                  class="top-bar-tool clickable"
+                  (click)="onAppMonitoringClicked()"
+                  [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
 
-            <i class="fa fa-clock-o"></i> {{ 'topBar_usage' | translate }}
-        </span>
+                <i class="fa fa-clock-o"></i> {{ 'topBar_usage' | translate }}
+            </span>
 
-        <span *ngIf="!gettingStarted"
-              class="top-bar-tool clickable"
-              (click)="onQuickstartClicked()"
-              [class.top-bar-settings-selected]="ActiveButton.toString() === 'Quickstart'">
+            <span *ngIf="!gettingStarted"
+                  class="top-bar-tool clickable"
+                  (click)="onQuickstartClicked()"
+                  [class.top-bar-settings-selected]="ActiveButton.toString() === 'Quickstart'">
 
-            <!-- This SVG matches the Ibiza quickstart, but I couldn't get the alignment to work properly on IE' -->
-            <!--<svg viewBox="-0.5 -13.5 50 50" style="width: 16px">
-                <path d="M49.5,32.663c0-3.224-2.589-5.837-5.787-5.837c-0.241,0-0.476,0.019-0.707,0.049 c0.355-1.311,0.55-2.69,0.55-4.115c0-5.003-2.35-9.442-5.986-12.289l-5.652,7.279h6.682L24.459,32.718l4.662-10.773H23.06 l5.471-14.729c-0.136-0.004-0.269-0.021-0.406-0.021c-6.808,0-12.581,4.447-14.63,10.617c-1.082-0.377-2.238-0.592-3.447-0.592 C4.221,17.22-0.5,21.984-0.5,27.86c0,5.877,4.721,10.64,10.548,10.64c0.005,0,0.01-0.001,0.014-0.001V38.5h34.124l-0.007-0.026 C47.157,38.236,49.5,35.728,49.5,32.663z"/>
-            </svg>-->
+                <!-- This SVG matches the Ibiza quickstart, but I couldn't get the alignment to work properly on IE' -->
+                <!--<svg viewBox="-0.5 -13.5 50 50" style="width: 16px">
+                    <path d="M49.5,32.663c0-3.224-2.589-5.837-5.787-5.837c-0.241,0-0.476,0.019-0.707,0.049 c0.355-1.311,0.55-2.69,0.55-4.115c0-5.003-2.35-9.442-5.986-12.289l-5.652,7.279h6.682L24.459,32.718l4.662-10.773H23.06 l5.471-14.729c-0.136-0.004-0.269-0.021-0.406-0.021c-6.808,0-12.581,4.447-14.63,10.617c-1.082-0.377-2.238-0.592-3.447-0.592 C4.221,17.22-0.5,21.984-0.5,27.86c0,5.877,4.721,10.64,10.548,10.64c0.005,0,0.01-0.001,0.014-0.001V38.5h34.124l-0.007-0.026 C47.157,38.236,49.5,35.728,49.5,32.663z"/>
+                </svg>-->
 
-            <i class="fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
-        </span>
+                <i class="fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
+            </span>
 
-        <span *ngIf="!tryModeView && user && currentTenant && !inIFrame"
-              class="top-bar-tool clickable"
-              [class.top-bar-tool-selected]="showUserMenu"
-              (click)="showUserMenu = !showUserMenu">
+            <span *ngIf="!tryModeView && user && currentTenant && !inIFrame"
+                  class="top-bar-tool clickable"
+                  [class.top-bar-tool-selected]="showUserMenu"
+                  (click)="showUserMenu = !showUserMenu">
 
-            {{user.given_name}} {{user.family_name}} ({{currentTenant.DisplayName}})
-        </span>
+                {{user.given_name}} {{user.family_name}} ({{currentTenant.DisplayName}})
+            </span>
 
-        <div *ngIf="!tryModeView && showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
-            <ul *ngIf="tenants" class="tenants-list">
-                <li *ngFor="let tenant of tenants" (click)="selectTenant(tenant)">
-                    <div>{{tenant.DisplayName}}</div>
-                    <div>{{tenant.DomainName}}</div>
-                </li>
-            </ul>
+            <div *ngIf="!tryModeView && showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
+                <ul *ngIf="tenants" class="tenants-list">
+                    <li *ngFor="let tenant of tenants" (click)="selectTenant(tenant)">
+                        <div>{{tenant.DisplayName}}</div>
+                        <div>{{tenant.DomainName}}</div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+</dir>

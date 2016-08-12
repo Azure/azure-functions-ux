@@ -29,6 +29,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {TryNowComponent} from './try-now.component';
 
 @Component({
     selector: 'functions-dashboard',
@@ -45,7 +46,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
         IntroComponent,
         TutorialComponent,
         SourceControlComponent,
-        TrialExpiredComponent
+        TrialExpiredComponent,
+        TryNowComponent
     ],
     pipes: [TranslatePipe]
 })

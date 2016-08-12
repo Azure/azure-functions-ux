@@ -647,7 +647,7 @@
     <value>Extend trial to 24 hours</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Trial time remaining</value>
+    <value>Free Trial - Time remaining:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
     <value>Function creation error! Please try again.</value>

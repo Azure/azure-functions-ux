@@ -25,6 +25,7 @@ import {PortalResources} from '../models/portal-resources';
 })
 
 export class TryLandingComponent implements OnInit {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
@@ -37,7 +38,7 @@ export class TryLandingComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService
-        
+
     ) {
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
     }
@@ -46,9 +47,8 @@ export class TryLandingComponent implements OnInit {
         //Disabling this temporarily. Comehow ngOnit gets called twice on refresh
         // possibly related to https://github.com/angular/angular/issues/6782
         //and sstrangely the clearbusystate doesnt get called.
-        //this._globalStateService.setBusyState();
+        //this.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
-            //this._globalStateService.clearBusyState();
             if (this._globalStateService.TryAppServiceToken) {
                 this.selectedFunction = this._functionsService.selectedFunction;
                 this.selectedLanguage = this._functionsService.selectedLanguage;
@@ -58,15 +58,14 @@ export class TryLandingComponent implements OnInit {
                 });
 
                 if (selectedTemplate) {
-                    this._globalStateService.setBusyState();
+                    this.setBusyState();
                     this._functionsService.createTrialResource(selectedTemplate,
                             this._functionsService.selectedProvider, this._functionsService.selectedFunctionName)
                         .subscribe((resource) => {
-                                this._globalStateService.clearBusyState();
+                                this.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
                             },
                             error => {
-                                this._globalStateService.clearBusyState();
                                 if (error.status === 400) {
                                     // If there is already a free resource assigned ,
                                     // we'll get a HTTP 400 ..so lets get it.
@@ -74,6 +73,8 @@ export class TryLandingComponent implements OnInit {
                                         .subscribe((resource) => {
                                             this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
                                         });
+                                } else {
+                                    this.clearBusyState();
                                 }
                             });
                 }
@@ -114,15 +115,15 @@ export class TryLandingComponent implements OnInit {
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                    this._globalStateService.setBusyState();
-                    //login 
+                    this.setBusyState();
+                    //login
                     //get trial account
                     this._functionsService.createTrialResource(selectedTemplate, provider, functionName)
                         .subscribe((resource) => {
-                            this._globalStateService.clearBusyState();
+                            this.clearBusyState();
                             this.createFunctioninResource(resource, selectedTemplate, functionName);
                         }, error => {
-                            this._globalStateService.clearBusyState();
+                            this.clearBusyState();
                             if (error.status === 401 || error.status === 403) {
                                 //show login options
                                 var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
@@ -177,16 +178,28 @@ export class TryLandingComponent implements OnInit {
         };
         this._functionsService.setScmParams(tryfunctionContainer);
 
-        this._globalStateService.setBusyState();
+        this.setBusyState();
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
-                this._globalStateService.clearBusyState();
+                this.clearBusyState();
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 this.tryFunctionsContainer.emit(tryfunctionContainer);
             },
             e => {
-                this._globalStateService.clearBusyState();
+                this.clearBusyState();
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}` });
             });
+    }
+
+    setBusyState() {
+        if (this.busyState) {
+            this.busyState.setBusyState();
+        }
+    }
+
+    clearBusyState() {
+        if (this.busyState) {
+            this.busyState.clearBusyState();
+        }
     }
 }

@@ -1,5 +1,5 @@
-<div class="sidebar">
-    
+<div class="sidebar" [class.try-sidebar]="_globalStateService?.showTryView">
+
     <ul class="functions-list" [style.height]="_showTryView ? '82%' : '96%'">
         <li>
             <span class="function-item full-height">
@@ -16,9 +16,6 @@
             </span>
         </li>
     </ul>
-    <div *ngIf="showTryView">
-        <try-now></try-now>
-    </div>
     <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
     </div>
 

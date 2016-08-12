@@ -16,6 +16,8 @@ export class GlobalStateService {
     private _tryAppServicetoken: string;
     private _scmCreds: string;
 
+    public showTryView: boolean;
+
     constructor(private _userService: UserService, private _armService: ArmService) {
         this._appSettings = {};
         this._userService.getFunctionContainer()
@@ -23,6 +25,7 @@ export class GlobalStateService {
             .add(() => this._armService.getFunctionContainerAppSettings(this._functionContainer)
                 .subscribe(a => this._appSettings = a));
         this._userService.getToken().subscribe(t => this._token = t);
+        this.showTryView = window.location.pathname.endsWith('/try');
     }
 
     get FunctionContainer(): FunctionContainer {
@@ -80,10 +83,6 @@ export class GlobalStateService {
 
     get CurrentToken(): string {
         return this._token;
-    }
-
-    get showTryView(): boolean {
-        return window.location.pathname.endsWith('/try');
     }
 
     get ScmCreds(): string {
