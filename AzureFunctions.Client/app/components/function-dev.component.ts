@@ -114,11 +114,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 this._globalStateService.clearBusyState();
+                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
+                this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
+                    ? this.scriptFile
+                    : {name: this.fileName, href: res.functionInfo.script_href, mime: 'file'};
+                this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
-                this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
-                this.scriptFile = {name: this.fileName, href: this.functionInfo.script_href, mime: 'file'}
-                this.selectedFileStream.next(this.scriptFile);
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
@@ -254,7 +256,28 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             busyComponent.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => { this.runResult = r; busyComponent.clearBusyState(); delete this.running; });
+                .subscribe(r => {
+                    this.runResult = r;
+                    busyComponent.clearBusyState();
+                    delete this.running;
+                    if (this.runResult.statusCode >= 400) {
+                        this._functionsService.getFunctionErrors(this.functionInfo)
+                            .subscribe(errors => {
+                                if (errors) {
+                                    errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: this.functionInfo.name, error: e }),
+                                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
+                                    }));
+                                } else {
+                                    this._functionsService.getHostErrors()
+                                        .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
+                                        })));
+                                }
+                        });
+                }
+            });
         }
     }
 
