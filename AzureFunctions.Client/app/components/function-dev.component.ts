@@ -93,26 +93,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._globalStateService.setBusyState();
+                this.checkErrors(fi);
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    this._functionsService.getFunctionErrors(fi),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, errors: e}))
+                    (s, f) => ({ secrets: s, functionInfo: f}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
-                if (res.errors) {
-                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: res.functionInfo.name, error: e }),
-                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
-                    }));
-                } else {
-                    this._functionsService.getHostErrors()
-                        .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
-                        })));
-                }
-
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
@@ -261,23 +248,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     busyComponent.clearBusyState();
                     delete this.running;
                     if (this.runResult.statusCode >= 400) {
-                        this._functionsService.getFunctionErrors(this.functionInfo)
-                            .subscribe(errors => {
-                                if (errors) {
-                                    errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: this.functionInfo.name, error: e }),
-                                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
-                                    }));
-                                } else {
-                                    this._functionsService.getHostErrors()
-                                        .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
-                                        })));
-                                }
-                        });
-                }
-            });
+                        this.checkErrors(this.functionInfo);
+                    }
+                });
         }
     }
 
@@ -291,5 +264,23 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     toggleShowHideFileExplorer() {
         this.showFileExplorer = !this.showFileExplorer;
+    }
+
+    checkErrors(functionInfo: FunctionInfo) {
+        this._functionsService.getFunctionErrors(functionInfo)
+        .subscribe(errors => {
+            if (errors) {
+                errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
+                    details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
+                }));
+            } else {
+                this._functionsService.getHostErrors()
+                .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                    details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
+                })));
+            }
+        });
     }
 }
