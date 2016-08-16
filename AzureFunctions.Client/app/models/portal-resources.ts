@@ -156,7 +156,7 @@ export class PortalResources
     public static tutorial_nextSteps: string = "tutorial_nextSteps";
     public static tutorial_setUpAutomated: string = "tutorial_setUpAutomated";
     public static tutorial_skip: string = "tutorial_skip";
-    public static tutorial_theFastestWay: string = "tutorial_theFastestWay";
+    public static tutorial_theFastestWayNode: string = "tutorial_theFastestWayNode";
     public static tutorial_thisPageInclude: string = "tutorial_thisPageInclude";
     public static tutorial_tweakThisSample: string = "tutorial_tweakThisSample";
     public static tutorial_yourFunction: string = "tutorial_yourFunction";
@@ -197,6 +197,16 @@ export class PortalResources
     public static fileExplorer_editingBinary: string = "fileExplorer_editingBinary";
     public static fileExplorer_errorCreatingFile: string = "fileExplorer_errorCreatingFile";
     public static fileExplorer_errorDeletingFile: string = "fileExplorer_errorDeletingFile";
+    public static appFunctionSettings_appSettings: string = "appFunctionSettings_appSettings";
+    public static appFunctionSettings_appSettingsDesc: string = "appFunctionSettings_appSettingsDesc";
+    public static appFunctionSettings_devConsole: string = "appFunctionSettings_devConsole";
+    public static appFunctionSettings_devConsoleDesc: string = "appFunctionSettings_devConsoleDesc";
+    public static appFunctionSettings_kudu: string = "appFunctionSettings_kudu";
+    public static appFunctionSettings_kuduDesc: string = "appFunctionSettings_kuduDesc";
+    public static appFunctionSettings_appSettingsButtonLabel: string = "appFunctionSettings_appSettingsButtonLabel";
+    public static appFunctionSettings_devConsoleButtonLabel: string = "appFunctionSettings_devConsoleButtonLabel";
+    public static appFunctionSettings_kuduButtonLabel: string = "appFunctionSettings_kuduButtonLabel";
+    public static tutorial_theFastestWayCSharp: string = "tutorial_theFastestWayCSharp";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

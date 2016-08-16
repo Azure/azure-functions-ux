@@ -13,16 +13,27 @@ import {TranslatePipe} from 'ng2-translate/ng2-translate';
     selector: 'app-settings',
     templateUrl: 'templates/app-settings.component.html',
     styleUrls: ['styles/app-settings.style.css'],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe],
+    inputs: ['functionContainer']
 })
 export class AppSettingsComponent implements OnInit {
-    @Input() functionContainer: FunctionContainer;
+    private _functionContainer: FunctionContainer;
     public memorySize: number | string;
     public dirty: boolean;
     public needUpdateExtensionVersion;
     public extensionVersion: string;
     public latestExtensionVersion: string;
+    public debugConsole: string;
     private showTryView: boolean;
+
+    set functionContainer(value: FunctionContainer) {
+        this.debugConsole  = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + "/DebugConsole";
+        this._functionContainer = value;
+    }
+
+    get functionContainer() {
+        return this._functionContainer;
+    }
 
     constructor(private _armService : ArmService,
                 private _portalService : PortalService,
@@ -49,6 +60,11 @@ export class AppSettingsComponent implements OnInit {
 
     openBlade(name : string) {
         this._portalService.openBlade(name, "app-settings");
+    }
+
+    openNewTab(url: string) {
+        var win = window.open(url, '_blank');
+        win.focus();
     }
 
     saveMemorySize(value: string | number) {

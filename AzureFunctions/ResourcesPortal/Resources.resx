@@ -362,13 +362,13 @@
     <value>Continuous Integration</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure Authentication</value>
+    <value>Configure authentication</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
     <value>Configure API metadata</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure Continuous Integration</value>
+    <value>Configure continuous integration</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
     <value>Configure CORS</value>
@@ -580,7 +580,7 @@
   <data name="tutorial_skip" xml:space="preserve">
     <value>Skip the tour and start coding</value>
   </data>
-  <data name="tutorial_theFastestWay" xml:space="preserve">
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
     <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
@@ -702,5 +702,35 @@
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>Error deleting file: {{fileName}}</value>
+  </data>
+  <data name="appFunctionSettings_appSettings" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
+    <value>Application settings description</value>
+  </data>
+  <data name="appFunctionSettings_devConsole" xml:space="preserve">
+    <value>Dev console</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
+    <value>Dev console description</value>
+  </data>
+  <data name="appFunctionSettings_kudu" xml:space="preserve">
+    <value>Kudu</value>
+  </data>
+  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
+    <value>Kudu description</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
+    <value>Configure app aettings</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
+    <value>Open dev console</value>
+  </data>
+  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
+    <value>Go to Kudu</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
   </data>
 </root>

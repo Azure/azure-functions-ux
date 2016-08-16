@@ -115,6 +115,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application settings.
+        /// </summary>
+        internal static string appFunctionSettings_appSettings {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure app aettings.
+        /// </summary>
+        internal static string appFunctionSettings_appSettingsButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettingsButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application settings description.
+        /// </summary>
+        internal static string appFunctionSettings_appSettingsDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication/Authorization.
         /// </summary>
         internal static string appFunctionSettings_auth {
@@ -133,7 +160,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Authentication.
+        ///   Looks up a localized string similar to Configure authentication.
         /// </summary>
         internal static string appFunctionSettings_configAuth {
             get {
@@ -151,7 +178,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Continuous Integration.
+        ///   Looks up a localized string similar to Configure continuous integration.
         /// </summary>
         internal static string appFunctionSettings_configureCI {
             get {
@@ -174,6 +201,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_deploy {
             get {
                 return ResourceManager.GetString("appFunctionSettings_deploy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dev console.
+        /// </summary>
+        internal static string appFunctionSettings_devConsole {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open dev console.
+        /// </summary>
+        internal static string appFunctionSettings_devConsoleButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsoleButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dev console description.
+        /// </summary>
+        internal static string appFunctionSettings_devConsoleDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsoleDesc", resourceCulture);
             }
         }
         
@@ -219,6 +273,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_goToAppSettings {
             get {
                 return ResourceManager.GetString("appFunctionSettings_goToAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kudu.
+        /// </summary>
+        internal static string appFunctionSettings_kudu {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to Kudu.
+        /// </summary>
+        internal static string appFunctionSettings_kuduButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kuduButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kudu description.
+        /// </summary>
+        internal static string appFunctionSettings_kuduDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kuduDesc", resourceCulture);
             }
         }
         
@@ -1771,11 +1852,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported..
+        /// </summary>
+        internal static string tutorial_theFastestWayCSharp {
+            get {
+                return ResourceManager.GetString("tutorial_theFastestWayCSharp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported..
         /// </summary>
-        internal static string tutorial_theFastestWay {
+        internal static string tutorial_theFastestWayNode {
             get {
-                return ResourceManager.GetString("tutorial_theFastestWay", resourceCulture);
+                return ResourceManager.GetString("tutorial_theFastestWayNode", resourceCulture);
             }
         }
         
