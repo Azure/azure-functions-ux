@@ -43,7 +43,6 @@ export class FunctionManageComponent {
         this.valueChange = new Subject<boolean>();
         this.valueChange
             .distinctUntilChanged()
-            .debounceTime(500)
             .switchMap<FunctionInfo>((state, index) => {
                 this.selectedFunction.config.disabled = state;
                 return this._functionsService.updateFunction(this.selectedFunction);
