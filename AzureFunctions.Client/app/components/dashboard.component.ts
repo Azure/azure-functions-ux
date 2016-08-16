@@ -9,7 +9,7 @@ import {TrialExpiredComponent} from './trial-expired.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
 import {PortalService} from '../services/portal.service';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
@@ -73,37 +73,7 @@ export class DashboardComponent implements OnChanges {
 
         this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
             this.action = <Action>value;
-
-            var fileName = this.selectedFunction.script_href.substring(this.selectedFunction.script_href.lastIndexOf('/') + 1);
-            var fileExt = fileName.split(".")[1].toLowerCase();
-            var lang = "CSharp";
-
-            switch (fileExt) {
-                case "sh":
-                    lang = "Bash";
-                    break;
-                case "bat":
-                    lang = "Batch";
-                    break;
-                case "csx":
-                    lang = "CSharp";
-                    break;
-                case "fsx":
-                    lang = "FSharp";
-                    break;
-                case "js":
-                    lang = "NodeJS";
-                    break;
-                case "php":
-                    lang = "Php";
-                    break;
-                case "ps1":
-                    lang = "Powershell";
-                    break;
-                case "py":
-                    lang = "Python";
-                    break;
-            }
+            var lang = FunctionInfoHelper.getLanguage(this.selectedFunction);
 
             var newFunc = this.functionsInfo.find((fi) => {
                 return fi.name === this._translateService.instant('sideBar_newFunction');

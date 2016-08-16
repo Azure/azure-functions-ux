@@ -2,7 +2,7 @@
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 
@@ -15,6 +15,7 @@ import {PortalResources} from '../models/portal-resources';
 
 export class TutorialComponent {
     public currentStep = TutorialStep.Off;
+    public lang: string;
     private initialFunction: FunctionInfo;
 
     constructor(
@@ -22,9 +23,11 @@ export class TutorialComponent {
         private _translateService: TranslateService) {
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             // Gets called only from intro after a template has been selected
-            if (event.step === TutorialStep.Waiting){
+            if (event.step === TutorialStep.Waiting) {
                 this.currentStep = event.step;
-                this.initialFunction = event.functionInfo;
+                this.initialFunction = event.functionInfo;                
+                var t = new FunctionInfoHelper();
+                this.lang = FunctionInfoHelper.getLanguage(event.functionInfo);
             }
 
             // Gets called after the tabs component has completed loading.
