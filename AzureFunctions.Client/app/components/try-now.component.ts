@@ -11,7 +11,7 @@ import {GlobalStateService} from '../services/global-state.service';
     selector: 'try-now',
     templateUrl: 'templates/try-now.component.html',
     styleUrls: ['styles/try-now.styles.css'],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe],
 })
 
 export class TryNowComponent implements OnInit {

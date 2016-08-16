@@ -7,8 +7,11 @@
         <div *ngIf="currentStep === 1">
             <h2>{{ 'tutorial_develop' | translate }}</h2>
 
-            <p>
-                {{ 'tutorial_theFastestWay' | translate }}
+            <p *ngIf="lang === 'NodeJS'">
+                {{ 'tutorial_theFastestWayNode' | translate }}
+            </p>
+            <p *ngIf="lang === 'CSharp'">
+                {{ 'tutorial_theFastestWayCSharp' | translate }}
             </p>
             <p>
                 {{ 'tutorial_thisPageInclude' | translate }}

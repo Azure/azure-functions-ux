@@ -1,9 +1,13 @@
-﻿<div class="container" [class.global]="isGlobal" *ngIf="busy">
-    <!--https://github.com/tobiasahlin/SpinKit-->
-    <div class="fxs-progress">
-        <div class="fxs-progress-dots">            
+﻿<div class="container" [class.try-functions-busy]="name === 'try-functions'" [class.global]="isGlobal" *ngIf="busy">
+    <div class="fxs-progress" *ngIf="name !== 'try-functions'">
+        <div class="fxs-progress-dots">
             <div></div><div></div><div></div>
             <div *ngIf="message">{{ message }}</div>
         </div>
+    </div>
+    <div class="try-functions" *ngIf="name == 'try-functions'">
+        <div>Hang on while we put the 'fun' in functions...</div>
+        <div><img src="/images/busy-image.png"></div>
+        <div>Just a few more seconds...</div>
     </div>
 </div>

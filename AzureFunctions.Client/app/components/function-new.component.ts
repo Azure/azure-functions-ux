@@ -6,6 +6,7 @@ import {TemplatePickerComponent} from './template-picker.component';
 import {TemplatePickerType} from '../models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
 import {BindingList} from '../models/binding-list';
+import {Action} from '../models/binding';
 import {FunctionInfo} from '../models/function-info';
 import {BindingManager} from '../models/binding-manager';
 import {FunctionTemplate} from '../models/function-template';
@@ -26,11 +27,29 @@ declare var jQuery: any;
     styleUrls: ['styles/function-new.style.css'],
     directives: [TemplatePickerComponent, BindingComponent, NgClass, PopOverComponent],
     outputs: ['functionAdded'],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe],
+    inputs: ['action', 'functionsInfo']
 })
 
 export class FunctionNewComponent {
-    @Input() functionsInfo: FunctionInfo[];
+    set functionsInfo(value: FunctionInfo[]) {
+        this._functionsInfo = value;
+        if (this._action && this._functionsInfo && !this.selectedTemplate) {            
+            this.selectedTemplateId = this._action.templateId;
+        }
+    }
+
+    get functionsInfo() {
+        return this._functionsInfo;
+    }
+
+    set action(action: Action) {
+        this._action = action;
+        if (this._action && this._functionsInfo && !this.selectedTemplate) {
+            //this.onTemplatePickUpComplete(this._action.templateId);
+            this.selectedTemplateId = this._action.templateId;
+        }
+    }    
 
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
@@ -43,6 +62,7 @@ export class FunctionNewComponent {
     areInputsValid: boolean = false;
     hasConfigUI :boolean = true;
     selectedTemplate: FunctionTemplate;
+    selectedTemplateId: string;
     hasInputsToShow: boolean;
     templateWarning: string;
     public disabled: boolean;
@@ -53,6 +73,8 @@ export class FunctionNewComponent {
         "readme.md",
         "metadata.json"
     ];
+    private _action: Action;
+    private _functionsInfo: FunctionInfo[];
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
@@ -95,6 +117,25 @@ export class FunctionNewComponent {
 
                 this.model.setBindings();
                 this.validate();
+
+                var that = this;
+                if (this._action) {
+
+                    var binding = this.model.config.bindings.find((b) => {
+                        return b.type.toString() === this._action.binding;
+                    });
+
+                    if (binding) {
+                        this._action.settings.forEach((s, index) => {
+                            var setting = binding.settings.find(bs => {
+                                return bs.name === s;
+                            });
+                            if (setting) {
+                                setting.value = this._action.settingValues[index];
+                            }
+                        });
+                    }
+                }
             });
         });
     }

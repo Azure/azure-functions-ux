@@ -362,13 +362,13 @@
     <value>Continuous Integration</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure Authentication</value>
+    <value>Configure authentication</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
     <value>Configure API metadata</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure Continuous Integration</value>
+    <value>Configure continuous integration</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
     <value>Configure CORS</value>
@@ -488,7 +488,7 @@
     <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Input</value>
+    <value>Inputs</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
     <value>Logs</value>
@@ -509,7 +509,7 @@
     <value>Not valid value</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Output</value>
+    <value>Outputs</value>
   </data>
   <data name="select" xml:space="preserve">
     <value>Select</value>
@@ -545,7 +545,7 @@
     <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Trigger</value>
+    <value>Triggers</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
     <value>Trial expired</value>
@@ -580,7 +580,7 @@
   <data name="tutorial_skip" xml:space="preserve">
     <value>Skip the tour and start coding</value>
   </data>
-  <data name="tutorial_theFastestWay" xml:space="preserve">
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
     <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
@@ -620,7 +620,7 @@
     <value>Unknown type: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Please create or select resource</value>
+    <value>Waiting for the resource</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
     <value>Update your runtime version</value>
@@ -647,7 +647,7 @@
     <value>Extend trial to 24 hours</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Trial time remaining</value>
+    <value>Free Trial - Time remaining:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
     <value>Function creation error! Please try again.</value>
@@ -660,5 +660,77 @@
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
     <value> minutes</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>new</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
+  </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Create a new functoin triggered by this output</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Copied!</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Are you sure you want to delete {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Editing binary files is not supported.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Error creating file: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Error deleting file: {{fileName}}</value>
+  </data>
+  <data name="appFunctionSettings_appSettings" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
+    <value>Application settings description</value>
+  </data>
+  <data name="appFunctionSettings_devConsole" xml:space="preserve">
+    <value>Dev console</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
+    <value>Dev console description</value>
+  </data>
+  <data name="appFunctionSettings_kudu" xml:space="preserve">
+    <value>Kudu</value>
+  </data>
+  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
+    <value>Kudu description</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
+    <value>Configure app aettings</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
+    <value>Open dev console</value>
+  </data>
+  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
+    <value>Go to Kudu</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
   </data>
 </root>

@@ -9,11 +9,12 @@ import {TrialExpiredComponent} from './trial-expired.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
 import {PortalService} from '../services/portal.service';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
+import {Action} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastService} from '../services/broadcast.service';
@@ -28,6 +29,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {TryNowComponent} from './try-now.component';
 
 @Component({
     selector: 'functions-dashboard',
@@ -44,7 +46,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
         IntroComponent,
         TutorialComponent,
         SourceControlComponent,
-        TrialExpiredComponent
+        TrialExpiredComponent,
+        TryNowComponent
     ],
     pipes: [TranslatePipe]
 })
@@ -59,6 +62,7 @@ export class DashboardComponent implements OnChanges {
     public openSourceControl: boolean;
     public openIntro: any;
     public trialExpired: boolean;
+    public action: Action;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -67,6 +71,17 @@ export class DashboardComponent implements OnChanges {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
+        this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
+            this.action = <Action>value;
+            var lang = FunctionInfoHelper.getLanguage(this.selectedFunction);
+
+            var newFunc = this.functionsInfo.find((fi) => {
+                return fi.name === this._translateService.instant('sideBar_newFunction');
+            });
+            this.selectedFunction = newFunc;
+            this.action.templateId =this.action.template + "-" + lang;
+        });
+
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
                 delete this.selectedFunction;
@@ -74,6 +89,7 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+            this.action = null;
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
 

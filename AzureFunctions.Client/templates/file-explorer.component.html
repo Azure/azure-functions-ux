@@ -14,7 +14,7 @@
             (click)="selectVfsObject(file)"
             [class.selected]="file.href.toLocaleLowerCase() === selectedFile.href.toLocaleLowerCase()"
             [class.disabled]="file.isBinary"
-            [title]="file.isBinary ? 'Editing binary files is not supported.' : 'file.name'">
+            [title]="getFileTitle(file)">
             <i class="fa fa-file"></i>
             {{file.name}}
         </div>
@@ -23,8 +23,8 @@
                type="text"
                [(ngModel)]="newFileName"
                (keyup)="handleKeyUp($event)"
-               placeholdefur="File name"
-               [class.hidden]="!creatingNewFile"
+               placeholder="File name"
+               [class.hidden]="!creatingNewFile && !renamingFile"
                #focusable />
     </div>
     <div id="lower-panel">
@@ -34,6 +34,12 @@
         <div class="clickable" (click)="inputElement.click()">
             <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement/>
             <i class="fa fa-upload"></i>
+        </div>
+        <div class="clickable" (click)="deleteCurrentFile()">
+            <i class="fa fa-trash"></i>
+        </div>
+        <div class="clickable" (click)="renameCurrentFile($event, focusable)">
+            <i class="fa fa-pencil"></i>
         </div>
     </div>
 </div>

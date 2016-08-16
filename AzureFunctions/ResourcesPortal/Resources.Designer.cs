@@ -115,6 +115,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application settings.
+        /// </summary>
+        internal static string appFunctionSettings_appSettings {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure app aettings.
+        /// </summary>
+        internal static string appFunctionSettings_appSettingsButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettingsButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application settings description.
+        /// </summary>
+        internal static string appFunctionSettings_appSettingsDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_appSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication/Authorization.
         /// </summary>
         internal static string appFunctionSettings_auth {
@@ -133,7 +160,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Authentication.
+        ///   Looks up a localized string similar to Configure authentication.
         /// </summary>
         internal static string appFunctionSettings_configAuth {
             get {
@@ -151,7 +178,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Continuous Integration.
+        ///   Looks up a localized string similar to Configure continuous integration.
         /// </summary>
         internal static string appFunctionSettings_configureCI {
             get {
@@ -174,6 +201,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_deploy {
             get {
                 return ResourceManager.GetString("appFunctionSettings_deploy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dev console.
+        /// </summary>
+        internal static string appFunctionSettings_devConsole {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open dev console.
+        /// </summary>
+        internal static string appFunctionSettings_devConsoleButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsoleButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dev console description.
+        /// </summary>
+        internal static string appFunctionSettings_devConsoleDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_devConsoleDesc", resourceCulture);
             }
         }
         
@@ -219,6 +273,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_goToAppSettings {
             get {
                 return ResourceManager.GetString("appFunctionSettings_goToAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kudu.
+        /// </summary>
+        internal static string appFunctionSettings_kudu {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to Kudu.
+        /// </summary>
+        internal static string appFunctionSettings_kuduButtonLabel {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kuduButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kudu description.
+        /// </summary>
+        internal static string appFunctionSettings_kuduDesc {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_kuduDesc", resourceCulture);
             }
         }
         
@@ -313,6 +394,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a new functoin triggered by this output.
+        /// </summary>
+        internal static string binding_createNewFunction {
+            get {
+                return ResourceManager.GetString("binding_createNewFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
         internal static string binding_delete {
@@ -322,11 +412,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        internal static string binding_documentation {
+            get {
+                return ResourceManager.GetString("binding_documentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go.
+        /// </summary>
+        internal static string binding_go {
+            get {
+                return ResourceManager.GetString("binding_go", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter name.
         /// </summary>
         internal static string binding_parameterName {
             get {
                 return ResourceManager.GetString("binding_parameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to new.
+        /// </summary>
+        internal static string bindingInput_new {
+            get {
+                return ResourceManager.GetString("bindingInput_new", resourceCulture);
             }
         }
         
@@ -430,6 +547,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copied!.
+        /// </summary>
+        internal static string copypre_copied {
+            get {
+                return ResourceManager.GetString("copypre_copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        internal static string copypre_copyClipboard {
+            get {
+                return ResourceManager.GetString("copypre_copyClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CORS.
         /// </summary>
         internal static string cors {
@@ -525,6 +660,51 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string filedRequired {
             get {
                 return ResourceManager.GetString("filedRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes made to current file will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string fileExplorer_changesLost {
+            get {
+                return ResourceManager.GetString("fileExplorer_changesLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_deletePromt {
+            get {
+                return ResourceManager.GetString("fileExplorer_deletePromt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Editing binary files is not supported..
+        /// </summary>
+        internal static string fileExplorer_editingBinary {
+            get {
+                return ResourceManager.GetString("fileExplorer_editingBinary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating file: {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_errorCreatingFile {
+            get {
+                return ResourceManager.GetString("fileExplorer_errorCreatingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error deleting file: {{fileName}}.
+        /// </summary>
+        internal static string fileExplorer_errorDeletingFile {
+            get {
+                return ResourceManager.GetString("fileExplorer_errorDeletingFile", resourceCulture);
             }
         }
         
@@ -943,11 +1123,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input.
+        ///   Looks up a localized string similar to Inputs.
         /// </summary>
         internal static string input {
             get {
                 return ResourceManager.GetString("input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional..
+        /// </summary>
+        internal static string integrate_inputsHelp {
+            get {
+                return ResourceManager.GetString("integrate_inputsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional..
+        /// </summary>
+        internal static string integrate_outputsHelp {
+            get {
+                return ResourceManager.GetString("integrate_outputsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger..
+        /// </summary>
+        internal static string integrate_triggersHelp {
+            get {
+                return ResourceManager.GetString("integrate_triggersHelp", resourceCulture);
             }
         }
         
@@ -1195,7 +1402,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output.
+        ///   Looks up a localized string similar to Outputs.
         /// </summary>
         internal static string output {
             get {
@@ -1222,7 +1429,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please create or select resource.
+        ///   Looks up a localized string similar to Waiting for the resource.
         /// </summary>
         internal static string resourceSelect {
             get {
@@ -1456,7 +1663,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trigger.
+        ///   Looks up a localized string similar to Triggers.
         /// </summary>
         internal static string trigger {
             get {
@@ -1645,11 +1852,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported..
+        /// </summary>
+        internal static string tutorial_theFastestWayCSharp {
+            get {
+                return ResourceManager.GetString("tutorial_theFastestWayCSharp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported..
         /// </summary>
-        internal static string tutorial_theFastestWay {
+        internal static string tutorial_theFastestWayNode {
             get {
-                return ResourceManager.GetString("tutorial_theFastestWay", resourceCulture);
+                return ResourceManager.GetString("tutorial_theFastestWayNode", resourceCulture);
             }
         }
         

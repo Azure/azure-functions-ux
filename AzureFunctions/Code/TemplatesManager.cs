@@ -60,7 +60,7 @@ namespace AzureFunctions.Code
         {
             var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
             var templateDirs = new List<string>();
-            foreach(var d in runtimeDirs)
+            foreach (var d in runtimeDirs)
             {
                 templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
             }
@@ -93,14 +93,14 @@ namespace AzureFunctions.Code
                     template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
                     var splits = templateFolderName.Split('\\');
                     template.Runtime = splits[splits.Length - 3];
-                    template.Id = splits[splits.Length-1];
+                    template.Id = splits[splits.Length - 1];
 
                     var files = Directory.EnumerateFiles(templateDir).Where((fileName) =>
                     {
                         return fileName != metadataPath && fileName != functionPath;
                     });
 
-                    foreach(var fileName in files)
+                    foreach (var fileName in files)
                     {
                         var fileContent = File.ReadAllText(fileName);
                         template.Files.Add(Path.GetFileName(fileName), fileContent);
@@ -150,11 +150,15 @@ namespace AzureFunctions.Code
             var runtimeForlder = Path.Combine(_settings.TemplatesPath, runtime);
             if (Directory.Exists(runtimeForlder))
             {
-                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeForlder, "Bindings\\bindings.json")));
+                var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeForlder, "Bindings\\bindings.json")));
+                AddReferencesContent(result);
+                return result;
             }
             else
             {
-                return JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(_settings.TemplatesPath, "default\\Bindings\\bindings.json")));
+                var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(_settings.TemplatesPath, "default\\Bindings\\bindings.json")));
+                result = AddReferencesContent(result);
+                return result;
             }
         }
 
@@ -170,6 +174,48 @@ namespace AzureFunctions.Code
             {
                 this._rwlock.Dispose();
             }
+        }
+
+        private JObject AddReferencesContent(JObject jo)
+        {
+            foreach (var x in jo)
+            {
+                string name = x.Key;
+
+                JToken value = x.Value;
+                var obj = value.ToObject<object>();
+
+                if (obj is String)
+                {
+                    string file = obj.ToString();
+                    if (file.StartsWith("$content="))
+                    {
+                        file = file.Replace("$content=", "");
+                        if (File.Exists(file))
+                        {
+                            var content = File.ReadAllText(file);
+                            jo[name] = content;
+                        }
+                    }
+                }
+                else if (obj is JObject)
+                {
+                    AddReferencesContent((JObject)obj);
+                }
+                else if (obj is JArray)
+                {
+                    foreach (var arrayItem in (JArray)obj)
+                    {
+                        if (arrayItem is JObject)
+                        {
+                            AddReferencesContent(arrayItem.Value<JObject>());
+                        }
+                    }
+                    jo[name] = (JArray)obj;
+                }
+            }
+
+            return jo;
         }
     }
 }

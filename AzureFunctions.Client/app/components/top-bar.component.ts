@@ -11,6 +11,7 @@ import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {TryNowComponent} from './try-now.component';
 
 enum TopbarButton {
     None = <any>"None",
@@ -25,7 +26,8 @@ enum TopbarButton {
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
     inputs: ['isFunctionSelected', 'quickStartSelected'],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe],
+    directives: [TryNowComponent]
 })
 
 export class TopBarComponent implements OnInit {

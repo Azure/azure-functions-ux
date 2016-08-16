@@ -46,7 +46,7 @@ export class ArmService {
 
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
-        geoRegion = geoRegion.replace(' ', '');
+        geoRegion = geoRegion.replace(/ /g,'');
         this.registerProviders(subscription, geoRegion, name, result);
         return result;
     }
@@ -240,7 +240,7 @@ export class ArmService {
                 .map<StorageAccount>(r => r.json())
                 .subscribe(
                 sa => {
-                    if (sa.properties.provisioningState === 'Succeeded' || sa.properties.provisioningState === 'ResolvingDNS') {
+                    if (sa.properties.provisioningState === 'Succeeded') {
                         this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
                     } else if (count < 10) {
                         setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 200)

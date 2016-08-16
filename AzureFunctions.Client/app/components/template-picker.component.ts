@@ -15,7 +15,7 @@ import {PortalResources} from '../models/portal-resources';
 @Component({
     selector: 'template-picker',
     templateUrl: './templates/template-picker.component.html',
-    inputs: ['type'],
+    inputs: ['type', 'template'],
     styleUrls: ['styles/template-picker.style.css'],
     directives: [DropDownComponent],
     pipes: [TranslatePipe]
@@ -36,6 +36,12 @@ export class TemplatePickerComponent {
     private _type: TemplatePickerType;
     private _initialized = false;
     private _orderedCategoties = [];
+
+    set template(value: string) {
+        if (value) {
+            this.onTemplateCliked(value);
+        }
+    }
 
     @Input() showFooter: boolean;
     @Output() complete: EventEmitter<string> = new EventEmitter<string>();

@@ -40,7 +40,7 @@
     margin-left: 0px;
 }
 
-input{
+input, select{
     background: #fff;
     border: 2px solid #dedede;
     position: relative;
@@ -61,7 +61,7 @@ input[type=checkbox]{
     margin: 0px;
 }
 
-input[type=text], #enum-list {
+input[type=text], #enum-list, select {
     width: 300px;
 }
 
@@ -71,4 +71,8 @@ input.input-error {
 
 i.select {
     padding-left: 30px;
+}
+
+button.go {
+    margin-left: 100px;
 }

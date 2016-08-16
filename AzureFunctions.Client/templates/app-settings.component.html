@@ -75,6 +75,37 @@
                     <div class="clickable" (click)='openBlade("ApiDefinition")'>{{ 'appFunctionSettings_configureAPI' | translate }}</div>
                 </div>
             </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_appSettings' | translate }}</h2>
+                    {{ 'appFunctionSettings_appSettingsDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openBlade("WebsiteConfigSiteSettings")'>{{ 'appFunctionSettings_appSettingsButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_devConsole' | translate }}</h2>
+                    {{ 'appFunctionSettings_devConsoleDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_kudu' | translate }}</h2>
+                    {{ 'appFunctionSettings_kuduDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
         </div>
     </div>
 

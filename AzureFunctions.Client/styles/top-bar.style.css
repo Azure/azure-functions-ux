@@ -5,11 +5,17 @@
     margin-left: 15px;
 }
 
-.top-bar {
+.top-bar-container {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+.top-bar {
     background-color: #E6E7E8;
     color: #419BF3;
     height: 40px;
@@ -18,7 +24,7 @@
 
 .top-bar-getting-started{
     background-color: #FFF;
-    color: #000 
+    color: #000
 }
 
 

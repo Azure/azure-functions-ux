@@ -13,6 +13,11 @@
     z-index: 100;
 }
 
+.try-sidebar {
+    height: 97%;
+    top: 40px;
+}
+
 .sidebar-iframe{
     padding-top: 0px;
 }

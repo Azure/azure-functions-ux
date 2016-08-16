@@ -9,7 +9,7 @@
 
 <div *ngIf="!disabled">
     <h3>{{ 'functionNew_chooseTemplate' | translate }}</h3>
-    <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)"></template-picker>
+    <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)" [template]="selectedTemplateId"></template-picker>
 </div>
 
 <div *ngIf="selectedTemplate">
