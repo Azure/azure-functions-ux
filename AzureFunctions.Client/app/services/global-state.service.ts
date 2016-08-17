@@ -46,11 +46,11 @@ export class GlobalStateService {
     }
 
     get ExtensionVersion(): string {
-        return this._appSettings[Constants.extensionVersionAppSettingName];
+        return this._appSettings[Constants.runtimeVersionAppSettingName];
     }
 
     get IsLatest(): boolean {
-        return this.ExtensionVersion ? Constants.latestExtensionVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false;
+        return this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false;
     }
 
     set AppSettings(value: { [key: string]: string }) {

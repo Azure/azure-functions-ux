@@ -66,7 +66,8 @@ export class ArmService {
 
     @ClearCache('clearAllCachedData')
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
-        appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
+        appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+        appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
         return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
                 .map<{ [key: string]: string }>(r => r.json().properties);
@@ -159,7 +160,7 @@ export class ArmService {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: Constants.extensionVersionAppSettingName, value: Constants.latestExtensionVersion },
+                        { name: Constants.runtimeVersionAppSettingName, value: Constants.runtimeVersion },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
