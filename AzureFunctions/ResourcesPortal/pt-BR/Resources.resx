@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="azureFunctions" xml:space="preserve">
+    <value>Azure Functions</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Configurar</value>
+  </data>
+  <data name="functionCreateErrorDetails" xml:space="preserve">
+    <value>Erro na Criação da Função: {{error}}</value>
+  </data>
+  <data name="functionCreateErrorMessage" xml:space="preserve">
+    <value>Erro na criação da função! Tente novamente.</value>
+  </data>
+  <data name="functionDev_functionErrorDetails" xml:space="preserve">
+    <value>Erro de Função: {{error}}</value>
+  </data>
+  <data name="functionDev_functionErrorMessage" xml:space="preserve">
+    <value>Função (${{name}}) Erro: {{error}}</value>
+  </data>
+  <data name="functionDev_functionUrl" xml:space="preserve">
+    <value>URL da função:</value>
+  </data>
+  <data name="functionDev_githubSelect" xml:space="preserve">
+    <value>Segredo do GitHub:</value>
+  </data>
+  <data name="functionDev_hideFiles" xml:space="preserve">
+    <value>Ocultar arquivos</value>
+  </data>
+  <data name="functionDev_hostErrorMessage" xml:space="preserve">
+    <value>Erro de Host: {{error}}</value>
+  </data>
+  <data name="functionDev_Output" xml:space="preserve">
+    <value>Saída</value>
+  </data>
+  <data name="functionDev_requestBody" xml:space="preserve">
+    <value>Solicitar corpo</value>
+  </data>
+  <data name="functionDev_saveAndRun" xml:space="preserve">
+    <value>Salvar e executar</value>
+  </data>
+  <data name="functionDev_status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="functionDev_viewFiles" xml:space="preserve">
+    <value>Exibir arquivos</value>
+  </data>
+  <data name="functionNew_chooseTemplate" xml:space="preserve">
+    <value>Escolha um modelo</value>
+  </data>
+  <data name="functionNew_experimentalTemplate" xml:space="preserve">
+    <value>Este modelo é experimental e ainda não tem suporte completo. Se tiver problemas, registre um bug no nosso &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositório GitHub.&lt;/a&gt;</value>
+  </data>
+  <data name="functionNew_functionName" xml:space="preserve">
+    <value>Nome da função</value>
+  </data>
+  <data name="functionNew_functionNameRequired" xml:space="preserve">
+    <value>Um nome de função é obrigatório</value>
+  </data>
+  <data name="functionNew_nameYourFunction" xml:space="preserve">
+    <value>Nomeie sua função</value>
+  </data>
+  <data name="gettingStarted_createGetStarted" xml:space="preserve">
+    <value>Criar + introdução</value>
+  </data>
+  <data name="gettingStarted_functionApps" xml:space="preserve">
+    <value>Aplicativos de Funções</value>
+  </data>
+  <data name="gettingStarted_getStarted" xml:space="preserve">
+    <value>Introdução ao Azure Functions</value>
+  </data>
+  <data name="gettingStarted_newFunctionApp" xml:space="preserve">
+    <value>Novo aplicativo de funções</value>
+  </data>
+  <data name="gettingStarted_noFunApps" xml:space="preserve">
+    <value>Sua assinatura não contém nenhum aplicativo de funções, que são contêineres nos quais suas funções são executadas. Crie um agora.</value>
+  </data>
+  <data name="gettingStarted_orCreate" xml:space="preserve">
+    <value>Ou crie um aplicativo de funções no &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Portal do Azure&lt;/a&gt;.</value>
+  </data>
+  <data name="gettingStarted_selectLocation" xml:space="preserve">
+    <value>Selecionar Localização</value>
+  </data>
+  <data name="gettingStarted_selectSubscription" xml:space="preserve">
+    <value>Selecionar Assinatura</value>
+  </data>
+  <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
+    <value>A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista branca para as funções em execução</value>
+  </data>
+  <data name="gettingStarted_thisSub" xml:space="preserve">
+    <value>Esta assinatura contém um ou mais aplicativos de funções, que são contêineres nos quais suas funções são executadas. Selecione um ou crie um novo abaixo.</value>
+  </data>
+  <data name="gettingStarted_validateContainer1" xml:space="preserve">
+    <value>O nome deve ter pelo menos 2 caracteres</value>
+  </data>
+  <data name="gettingStarted_validateContainer2" xml:space="preserve">
+    <value>O nome deve ter no máximo 60 caracteres</value>
+  </data>
+  <data name="gettingStarted_validateContainer3" xml:space="preserve">
+    <value>O nome pode conter letras, números e hífens (mas o primeiro e o último caracteres devem ser uma letra ou um número)</value>
+  </data>
+  <data name="gettingStarted_validateContainer4" xml:space="preserve">
+    <value>o nome do aplicativo de funções {{funcName}} não está disponível</value>
+  </data>
+  <data name="gettingStarted_youNeed" xml:space="preserve">
+    <value>Você precisa de uma assinatura do Azure para usar este serviço. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Clique aqui&lt;/a&gt; para criar uma assinatura de avaliação gratuita</value>
+  </data>
+  <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
+    <value>Seus aplicativos de funções</value>
+  </data>
+  <data name="gettingStarted_yourSubscription" xml:space="preserve">
+    <value>Sua assinatura</value>
+  </data>
+  <data name="intro_chooseLanguage" xml:space="preserve">
+    <value>2) Escolha uma linguagem:</value>
+  </data>
+  <data name="intro_chooseScenario" xml:space="preserve">
+    <value>1) Escolha um cenário:</value>
+  </data>
+  <data name="intro_createThisFunction" xml:space="preserve">
+    <value>Crie esta função</value>
+  </data>
+  <data name="intro_createYourOwn" xml:space="preserve">
+    <value>Ou crie sua própria função personalizada</value>
+  </data>
+  <data name="intro_dataProcessing" xml:space="preserve">
+    <value>Processamento de dados</value>
+  </data>
+  <data name="intro_fasterWay" xml:space="preserve">
+    <value>A maneira mais rápida para as funções</value>
+  </data>
+  <data name="intro_getStarted" xml:space="preserve">
+    <value>Comece rapidamente com uma função preexistente</value>
+  </data>
+  <data name="intro_getStartedOn" xml:space="preserve">
+    <value>Ou comece por conta própria</value>
+  </data>
+  <data name="intro_ifYou" xml:space="preserve">
+    <value>Se você preferir outra linguagem com suporte, escolha "Criar uma função do zero".</value>
+  </data>
+  <data name="intro_startSC" xml:space="preserve">
+    <value>iniciar do controle do código-fonte.</value>
+  </data>
+  <data name="intro_timer" xml:space="preserve">
+    <value>Temporizador</value>
+  </data>
+  <data name="intro_webHook" xml:space="preserve">
+    <value>Webhook + API</value>
+  </data>
+  <data name="intro_writeAny" xml:space="preserve">
+    <value>Grave qualquer função em minutos — seja para executar um trabalho simples para limpar um banco de dados, seja para compilar uma arquitetura mais complexa. Criar funções está mais fácil do que nunca, independentemente do sistema operacional, da plataforma ou do método de desenvolvimento escolhido. Nenhuma instalação é necessária.</value>
+  </data>
+  <data name="logStreaming_clear" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="logStreaming_copied" xml:space="preserve">
+    <value>Copiado!</value>
+  </data>
+  <data name="logStreaming_copyLogs" xml:space="preserve">
+    <value>Copiar Logs</value>
+  </data>
+  <data name="logStreaming_pause" xml:space="preserve">
+    <value>Pausar</value>
+  </data>
+  <data name="logStreaming_start" xml:space="preserve">
+    <value>Iniciar</value>
+  </data>
+  <data name="logStreaming_tooManyLogs" xml:space="preserve">
+    <value>Há muitos logs. Taxa de atualização: {{seconds}} segundos.</value>
+  </data>
+  <data name="_name" xml:space="preserve">
+    <value>Nome</value>
+    <comment>Can't use "name" as key because typescript has own name property for the object</comment>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>ou</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Somente leitura — uma vez que você iniciou a edição com o controle do código-fonte, este modo de exibição é somente leitura.</value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Região</value>
+  </data>
+  <data name="run" xml:space="preserve">
+    <value>Executar</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="sideBar_changeMade" xml:space="preserve">
+    <value>As alterações feitas na função {{name}} serão perdidas. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="sideBar_newFunction" xml:space="preserve">
+    <value>Nova Função</value>
+  </data>
+  <data name="sideBar_refresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="sideBar_searchMyFunction" xml:space="preserve">
+    <value>Pesquisar minhas funções</value>
+  </data>
+  <data name="subscription" xml:space="preserve">
+    <value>Assinatura</value>
+  </data>
+  <data name="topBar_changeMade" xml:space="preserve">
+    <value>As alterações feitas na função atual serão perdidas. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="topBar_functionAppSettings" xml:space="preserve">
+    <value>Configurações do aplicativo de funções</value>
+  </data>
+  <data name="topBar_newVersion" xml:space="preserve">
+    <value>Uma nova versão do Azure Functions está disponível. Visite as Configurações do Aplicativo de Funções para atualizar.</value>
+  </data>
+  <data name="topBar_quickStart" xml:space="preserve">
+    <value>Início rápido</value>
+  </data>
+  <data name="topBar_usage" xml:space="preserve">
+    <value>Uso</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
+    <value>Configurações Avançadas</value>
+  </data>
+  <data name="appFunctionSettings_allowClients" xml:space="preserve">
+    <value>Permita que os clientes consumam suas funções disparadas por HTTP mais facilmente.</value>
+  </data>
+  <data name="appFunctionSettings_allowYour" xml:space="preserve">
+    <value>Permita que suas funções disparadas por HTTP sejam chamadas de um navegador da Web.</value>
+  </data>
+  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
+    <value>Definição de API</value>
+  </data>
+  <data name="appFunctionSettings_auth" xml:space="preserve">
+    <value>Autenticação/Autorização</value>
+  </data>
+  <data name="appFunctionSettings_CI" xml:space="preserve">
+    <value>Integração Contínua</value>
+  </data>
+  <data name="appFunctionSettings_configAuth" xml:space="preserve">
+    <value>Configure authentication</value>
+  </data>
+  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
+    <value>Configurar metadados de API</value>
+  </data>
+  <data name="appFunctionSettings_configureCI" xml:space="preserve">
+    <value>Configure continuous integration</value>
+  </data>
+  <data name="appFunctionSettings_configureCors" xml:space="preserve">
+    <value>Configurar CORS</value>
+  </data>
+  <data name="appFunctionSettings_deploy" xml:space="preserve">
+    <value>Implante seu código de função do GitHub, do Visual Studio Team Services e muito mais.</value>
+  </data>
+  <data name="appFunctionSettings_forFunc" xml:space="preserve">
+    <value>Para funções que usam o gatilho HTTP, você pode exigir que as chamadas sejam autenticadas.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Configurações do Aplicativo de Funções</value>
+  </data>
+  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
+    <value>Acesse as Configurações do Serviço de Aplicativo</value>
+  </data>
+  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
+    <value>Gerencie seu aplicativo de funções como qualquer outra instância do Serviço de Aplicativo.</value>
+  </data>
+  <data name="appFunctionSettings_memory" xml:space="preserve">
+    <value>Tamanho da Memória</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
+    <value>Versão de tempo de execução: mais recente ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
+    <value>Versão de tempo de execução: {{extensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appMonitoring_appExecutions" xml:space="preserve">
+    <value>Execuções do aplicativo</value>
+  </data>
+  <data name="appMonitoring_appUsage" xml:space="preserve">
+    <value>Uso do Aplicativo (GB/s)</value>
+  </data>
+  <data name="appMonitoring_functionAppUsage" xml:space="preserve">
+    <value>Uso do Aplicativo de Funções</value>
+  </data>
+  <data name="appMonitoring_noData" xml:space="preserve">
+    <value>Não há Dados</value>
+  </data>
+  <data name="appMonitoring_ofExecutions" xml:space="preserve">
+    <value>das execuções</value>
+  </data>
+  <data name="binding_parameterName" xml:space="preserve">
+    <value>Nome do parâmetro</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="config" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="cors" xml:space="preserve">
+    <value>CORS</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="dashboard_noFunctionContainer" xml:space="preserve">
+    <value>Parece que você não tem um contêiner de funções. Selecione uma assinatura para criar um:</value>
+  </data>
+  <data name="dashboard_yourTrialExpiered" xml:space="preserve">
+    <value>Sua avaliação expirou</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>Desabilitado</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Habilitada</value>
+  </data>
+  <data name="errorList_here" xml:space="preserve">
+    <value>aqui</value>
+  </data>
+  <data name="errorList_youMay" xml:space="preserve">
+    <value>Possibilidade de erro. Se estiver com problemas, poste-os</value>
+  </data>
+  <data name="errorParsingConfig" xml:space="preserve">
+    <value>Erro de configuração de análise: {{error}}</value>
+  </data>
+  <data name="features" xml:space="preserve">
+    <value>Recursos</value>
+  </data>
+  <data name="filedRequired" xml:space="preserve">
+    <value>Este campo é obrigatório</value>
+  </data>
+  <data name="functionDev_code" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="functionDev_run" xml:space="preserve">
+    <value>Executar</value>
+  </data>
+  <data name="functionEdit_readOnly" xml:space="preserve">
+    <value>Somente leitura — uma vez que você iniciou a edição com o controle do código-fonte, este modo de exibição é somente leitura. Você pode editar estas configurações em function.json</value>
+  </data>
+  <data name="functionIntegrate_advancedEditor" xml:space="preserve">
+    <value>Editor avançado</value>
+  </data>
+  <data name="functionIntegrate_changesLost1" xml:space="preserve">
+    <value>As alterações feitas serão perdidas. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="functionIntegrate_changesLost2" xml:space="preserve">
+    <value>As alterações feitas na função {{name}} serão perdidas. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="functionIntegrate_settingName" xml:space="preserve">
+    <value>Nome da configuração:</value>
+  </data>
+  <data name="functionIntegrate_standardEditor" xml:space="preserve">
+    <value>Editor padrão</value>
+  </data>
+  <data name="functionManage_areYouSure" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir a Função {{name}}?</value>
+  </data>
+  <data name="functionService_authIsEnabled" xml:space="preserve">
+    <value>A autenticação está habilitada para o aplicativo de funções. Desabilite a autenticação antes de executar a função.</value>
+  </data>
+  <data name="functionService_errorRunningFunc" xml:space="preserve">
+    <value>Houve um erro ao executar a função ({{name}}). Verifique a saída dos logs para obter o erro completo.</value>
+  </data>
+  <data name="input" xml:space="preserve">
+    <value>Entradas</value>
+  </data>
+  <data name="logStreaming_logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="newInput" xml:space="preserve">
+    <value>Nova Entrada</value>
+  </data>
+  <data name="newOutput" xml:space="preserve">
+    <value>Nova Saída</value>
+  </data>
+  <data name="newTrigger" xml:space="preserve">
+    <value>Novo Gatilho</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Avançar</value>
+  </data>
+  <data name="notValidValue" xml:space="preserve">
+    <value>Valor inválido</value>
+  </data>
+  <data name="output" xml:space="preserve">
+    <value>Saídas</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Selecionar</value>
+  </data>
+  <data name="tabNames_develop" xml:space="preserve">
+    <value>Desenvolver</value>
+  </data>
+  <data name="tabNames_integrate" xml:space="preserve">
+    <value>Integrar</value>
+  </data>
+  <data name="tabNames_manage" xml:space="preserve">
+    <value>Gerenciar</value>
+  </data>
+  <data name="tabNames_monitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="templatePicker_chooseInput" xml:space="preserve">
+    <value>Escolher uma associação de entrada</value>
+  </data>
+  <data name="templatePicker_chooseOutput" xml:space="preserve">
+    <value>Escolher uma associação de saída</value>
+  </data>
+  <data name="templatePicker_chooseTemplate" xml:space="preserve">
+    <value>Escolha um modelo</value>
+  </data>
+  <data name="templatePicker_chooseTrigger" xml:space="preserve">
+    <value>Escolha um gatilho</value>
+  </data>
+  <data name="templatePicker_language" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="templatePicker_scenario" xml:space="preserve">
+    <value>Cenário:</value>
+  </data>
+  <data name="trigger" xml:space="preserve">
+    <value>Gatilhos</value>
+  </data>
+  <data name="tryNow_trialExpired" xml:space="preserve">
+    <value>Avaliação expirada</value>
+  </data>
+  <data name="tutorial_changesMade" xml:space="preserve">
+    <value>As alterações feitas aqui afetarão todas as funções no seu aplicativo de funções.</value>
+  </data>
+  <data name="tutorial_createNew" xml:space="preserve">
+    <value>&lt;span&gt;Crie uma função totalmente nova&lt;/span&gt; — comece com um dos modelos de função predefinidos</value>
+  </data>
+  <data name="tutorial_develop" xml:space="preserve">
+    <value>Desenvolver</value>
+  </data>
+  <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
+    <value>&lt;span&gt;Estude a documentação&lt;/span&gt; — explore todos os recursos do Azure Functions &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;aqui&lt;/a&gt;</value>
+  </data>
+  <data name="tutorial_functionAppSettings" xml:space="preserve">
+    <value>Configurações do Aplicativo de Funções</value>
+  </data>
+  <data name="tutorial_integrate" xml:space="preserve">
+    <value>Integrar</value>
+  </data>
+  <data name="tutorial_integrateYourFunction" xml:space="preserve">
+    <value>É fácil integrar suas funções a outros serviços e fontes de dados.</value>
+  </data>
+  <data name="tutorial_nextSteps" xml:space="preserve">
+    <value>Próximas Etapas</value>
+  </data>
+  <data name="tutorial_setUpAutomated" xml:space="preserve">
+    <value>Configurar ações automáticas com base em gatilhos externos, incluir outras fontes de dados de entrada e enviar a saída para vários destinos.</value>
+  </data>
+  <data name="tutorial_skip" xml:space="preserve">
+    <value>Ignorar o tour e iniciar a codificação</value>
+  </data>
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
+    <value>A maneira mais rápida de editar códigos com o editor de código, mas você também pode usar o Git. Este exemplo usa NodeJS, mas muitas outras linguagens também têm suporte.</value>
+  </data>
+  <data name="tutorial_thisPageInclude" xml:space="preserve">
+    <value>Esta página também inclui um fluxo de log e um console de testes para ajudar você a depurar a sua função.</value>
+  </data>
+  <data name="tutorial_tweakThisSample" xml:space="preserve">
+    <value>&lt;span&gt;Ajuste esta função de exemplo&lt;/span&gt; — personalize-a no painel fácil de usar</value>
+  </data>
+  <data name="tutorial_yourFunction" xml:space="preserve">
+    <value>As funções são projetadas para serem executadas em um Serviço de Aplicativo do Azure como um aplicativo de funções, no qual você pode modificar os recursos do aplicativo.</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="bindingInput_select" xml:space="preserve">
+    <value>selecionar</value>
+  </data>
+  <data name="binding_delete" xml:space="preserve">
+    <value>excluir</value>
+  </data>
+  <data name="bindingsValidationDirectionMissed" xml:space="preserve">
+    <value>A 'direção' do parâmetro está ausente.</value>
+  </data>
+  <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
+    <value>Direção desconhecida: '{{direction}}'.</value>
+  </data>
+  <data name="bindingsValidationNameDublicate" xml:space="preserve">
+    <value>O nome do parâmetro deve ser exclusivo em uma função: '{{functionName}}'</value>
+  </data>
+  <data name="bindingsValidationNameMissed" xml:space="preserve">
+    <value>O 'nome' do parâmetro está ausente.</value>
+  </data>
+  <data name="bindingsValidationTypeMIssed" xml:space="preserve">
+    <value>O 'tipo' de parâmetro está ausente.</value>
+  </data>
+  <data name="bindingsValidationTypeUnknown" xml:space="preserve">
+    <value>Tipo desconhecido: '{{type}}'.</value>
+  </data>
+  <data name="resourceSelect" xml:space="preserve">
+    <value>Crie ou selecione um recurso</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Atualize sua versão de tempo de execução</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Your runtime version is  up to-date</value>
+  </data>
+  <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
+    <value>Foi um prazer hospedar suas funções!</value>
+  </data>
+  <data name="trialExpired_signupForAzure" xml:space="preserve">
+    <value>A avaliação expirou, mas você pode se inscrever para obter uma avaliação estendida que também inclui o restante do Azure.</value>
+  </data>
+  <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
+    <value>Escolher um provedor de autenticação</value>
+  </data>
+  <data name="tryLanding_microsoftAcccount" xml:space="preserve">
+    <value>Conta da Microsoft</value>
+  </data>
+  <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
+    <value>Criar uma conta gratuita do Azure</value>
+  </data>
+  <data name="tryNow_extendTrial" xml:space="preserve">
+    <value>Estender avaliação por 24 horas</value>
+  </data>
+  <data name="tryNow_trialTimeRemaining" xml:space="preserve">
+    <value>Avaliação Gratuita - Tempo restante:</value>
+  </data>
+  <data name="tryLanding_functionError" xml:space="preserve">
+    <value>Erro na criação da função! Tente novamente.</value>
+  </data>
+  <data name="tryLanding_functionErrorDetails" xml:space="preserve">
+    <value>Erro na Criação da Função</value>
+  </data>
+  <data name="tryLanding_ifYou" xml:space="preserve">
+    <value>Se preferir outra linguagem com suporte, você poderá escolher uma mais tarde no portal de funções.</value>
+  </data>
+  <data name="tryNow_minutes" xml:space="preserve">
+    <value> minutos</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>novo</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Associações de entrada fornecem dados adicionais fornecidos à sua função quando acionada. Por exemplo, você pode obter dados no armazenamento de tabelas em uma nova mensagem de fila. Entradas são opcionais.</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Associações de saídas permitem que você transfira dados de sua função. Por exemplo, você pode adicionar um novo item a uma fila. Saídas são opcionais.</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>Gatilhos são o que iniciarão sua função. Por exemplo, você pode disparar em uma nova mensagem na fila. Você deve sempre ter um gatilho.</value>
+  </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Criar uma nova função disparada por essa saída</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Documentação</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Ir</value>
+  </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Copiado!</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Copiar para área de transferência</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Mudanças feitas ao arquivo atual serão perdidas. Tem certeza que deseja continuar?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Tem certeza que deseja excluir o {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Editar arquivos binários não tem suporte.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Erro ao criar o arquivo: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Erro ao excluir o arquivo: {{fileName}}</value>
+  </data>
+  <data name="appFunctionSettings_appSettings" xml:space="preserve">
+    <value>Configurações do aplicativo</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
+    <value>Application settings description</value>
+  </data>
+  <data name="appFunctionSettings_devConsole" xml:space="preserve">
+    <value>Dev console</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
+    <value>Dev console description</value>
+  </data>
+  <data name="appFunctionSettings_kudu" xml:space="preserve">
+    <value>Kudu</value>
+  </data>
+  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
+    <value>Kudu description</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
+    <value>Configure app aettings</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
+    <value>Open dev console</value>
+  </data>
+  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
+    <value>Go to Kudu</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+  </data>
+</root>

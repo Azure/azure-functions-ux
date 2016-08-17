@@ -25,6 +25,13 @@ namespace AzureFunctions.Controllers
 
         private readonly ISettings _settings;
 
+        private Dictionary<string, string> _languageMap = new Dictionary<string, string>()
+        {
+            { "ja", "ja-JP"},
+            { "ko", "ko-KR"},
+            { "sv", "sv-SE"}
+        };
+
         public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
         {
             this._templatesManager = templatesManager;
@@ -54,15 +61,26 @@ namespace AzureFunctions.Controllers
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             runtime = getClearRuntime(runtime);
-
-            string fileSuffix = (name == "en") ? "" : "." + name;
+            string folder = "";
+            if (name != "en")
+            {
+                if(name.Length == 2)
+                {
+                    if (!_languageMap.TryGetValue(name,out folder)) {
+                        folder = name + "-" + name;
+                    } 
+                } else
+                {
+                    folder = name;
+                }
+            }
 
             List<string> resxFiles = new List<string>();
             var result = new JObject();
-            if (!string.IsNullOrEmpty(fileSuffix))
+            if (!string.IsNullOrEmpty(folder))
             {
-                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources" + fileSuffix + ".resx"));
-                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + fileSuffix + ".resx"));
+                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), folder + "\\Resources.resx"));
+                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + folder + ".resx"));
                 result["lang"] = ConvertResxToJObject(resxFiles);
                 resxFiles.Clear();
             }

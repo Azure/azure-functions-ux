@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="azureFunctions" xml:space="preserve">
+    <value>Azure Functions</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Avbryt</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Konfigurera</value>
+  </data>
+  <data name="functionCreateErrorDetails" xml:space="preserve">
+    <value>Fel när funktion skapades: {{error}}</value>
+  </data>
+  <data name="functionCreateErrorMessage" xml:space="preserve">
+    <value>Fel när funktionen skapades! Försök igen.</value>
+  </data>
+  <data name="functionDev_functionErrorDetails" xml:space="preserve">
+    <value>Funktionsfel: {{error}}</value>
+  </data>
+  <data name="functionDev_functionErrorMessage" xml:space="preserve">
+    <value>Fel på funktion (${{name}}): {{error}}</value>
+  </data>
+  <data name="functionDev_functionUrl" xml:space="preserve">
+    <value>Funktionswebbadress:</value>
+  </data>
+  <data name="functionDev_githubSelect" xml:space="preserve">
+    <value>Github-hemlighet:</value>
+  </data>
+  <data name="functionDev_hideFiles" xml:space="preserve">
+    <value>Dölj filer</value>
+  </data>
+  <data name="functionDev_hostErrorMessage" xml:space="preserve">
+    <value>Värdfel: {{error}}</value>
+  </data>
+  <data name="functionDev_Output" xml:space="preserve">
+    <value>Utdata</value>
+  </data>
+  <data name="functionDev_requestBody" xml:space="preserve">
+    <value>Begärandetext</value>
+  </data>
+  <data name="functionDev_saveAndRun" xml:space="preserve">
+    <value>Spara och kör</value>
+  </data>
+  <data name="functionDev_status" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="functionDev_viewFiles" xml:space="preserve">
+    <value>Visa filer</value>
+  </data>
+  <data name="functionNew_chooseTemplate" xml:space="preserve">
+    <value>Välj en mall</value>
+  </data>
+  <data name="functionNew_experimentalTemplate" xml:space="preserve">
+    <value>Det här är en experimentell mall som ännu inte stöds fullt ut. Om du får problem kan du rapportera programfelet till vår &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-lagringsplats.&lt;/a&gt;</value>
+  </data>
+  <data name="functionNew_functionName" xml:space="preserve">
+    <value>Funktionsnamn</value>
+  </data>
+  <data name="functionNew_functionNameRequired" xml:space="preserve">
+    <value>Ett funktionsnamn måste anges</value>
+  </data>
+  <data name="functionNew_nameYourFunction" xml:space="preserve">
+    <value>Ge funktionen ett namn</value>
+  </data>
+  <data name="gettingStarted_createGetStarted" xml:space="preserve">
+    <value>Skapa + kom igång</value>
+  </data>
+  <data name="gettingStarted_functionApps" xml:space="preserve">
+    <value>Funktionsappar</value>
+  </data>
+  <data name="gettingStarted_getStarted" xml:space="preserve">
+    <value>Kom igång med Azure Functions</value>
+  </data>
+  <data name="gettingStarted_newFunctionApp" xml:space="preserve">
+    <value>Ny funktionsapp</value>
+  </data>
+  <data name="gettingStarted_noFunApps" xml:space="preserve">
+    <value>Din prenumeration innehåller inga funktionsappar. Det är de behållare där dina funktioner körs. Skapa en nu.</value>
+  </data>
+  <data name="gettingStarted_orCreate" xml:space="preserve">
+    <value>Eller skapa en funktionsapp från &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+  </data>
+  <data name="gettingStarted_selectLocation" xml:space="preserve">
+    <value>Välj plats</value>
+  </data>
+  <data name="gettingStarted_selectSubscription" xml:space="preserve">
+    <value>Välj prenumeration</value>
+  </data>
+  <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
+    <value>Prenumerationen {{displayName}} ({{ subscriptionId }}) är inte godkänd för att köra funktioner</value>
+  </data>
+  <data name="gettingStarted_thisSub" xml:space="preserve">
+    <value>Den här prenumerationen innehåller en eller flera funktionsappar. Det är de behållare där dina funktioner körs. Välj en eller skapa en ny nedan.</value>
+  </data>
+  <data name="gettingStarted_validateContainer1" xml:space="preserve">
+    <value>Namnet måste innehålla minst 2 tecken.</value>
+  </data>
+  <data name="gettingStarted_validateContainer2" xml:space="preserve">
+    <value>Namnet får innehålla högst 60 tecken</value>
+  </data>
+  <data name="gettingStarted_validateContainer3" xml:space="preserve">
+    <value>Namnet får innehålla bokstäver, siffror och bindestreck (första och sista tecknet måste vara en bokstav eller en siffra)</value>
+  </data>
+  <data name="gettingStarted_validateContainer4" xml:space="preserve">
+    <value>funktionsappnamnet {{funcName}} är inte tillgängligt</value>
+  </data>
+  <data name="gettingStarted_youNeed" xml:space="preserve">
+    <value>Du måste ha en Azure-prenumeration för att kunna använda den här tjänsten. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Klicka här&lt;/a&gt; om du vill skapa en kostnadsfri provprenumeration</value>
+  </data>
+  <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
+    <value>Dina funktionsappar</value>
+  </data>
+  <data name="gettingStarted_yourSubscription" xml:space="preserve">
+    <value>Din prenumeration</value>
+  </data>
+  <data name="intro_chooseLanguage" xml:space="preserve">
+    <value>2) Välj ett språk:</value>
+  </data>
+  <data name="intro_chooseScenario" xml:space="preserve">
+    <value>1) Välj ett scenario:</value>
+  </data>
+  <data name="intro_createThisFunction" xml:space="preserve">
+    <value>Skapa den här funktionen</value>
+  </data>
+  <data name="intro_createYourOwn" xml:space="preserve">
+    <value>Eller skapa en egen funktion</value>
+  </data>
+  <data name="intro_dataProcessing" xml:space="preserve">
+    <value>Databearbetning</value>
+  </data>
+  <data name="intro_fasterWay" xml:space="preserve">
+    <value>Den snabbare vägen till funktioner</value>
+  </data>
+  <data name="intro_getStarted" xml:space="preserve">
+    <value>Kom igång snabbt med en fördefinierad funktion</value>
+  </data>
+  <data name="intro_getStartedOn" xml:space="preserve">
+    <value>Eller sätt igång på egen hand</value>
+  </data>
+  <data name="intro_ifYou" xml:space="preserve">
+    <value>Om du föredrar något annat språk som stöds väljer du Skapa en funktion från scratch.</value>
+  </data>
+  <data name="intro_startSC" xml:space="preserve">
+    <value>starta från källkontroll.</value>
+  </data>
+  <data name="intro_timer" xml:space="preserve">
+    <value>Timer</value>
+  </data>
+  <data name="intro_webHook" xml:space="preserve">
+    <value>Webbhook + API</value>
+  </data>
+  <data name="intro_writeAny" xml:space="preserve">
+    <value>Skriv alla funktioner i minuter, oavsett om du ska köra ett enkelt jobb som rensar databasen eller bygga upp en mer avancerad arkitektur. Det är lättare än någonsin att skapa funktioner, oavsett ditt val av operativsystem, plattform eller utvecklingsmetod. Inga installationer krävs.</value>
+  </data>
+  <data name="logStreaming_clear" xml:space="preserve">
+    <value>Rensa</value>
+  </data>
+  <data name="logStreaming_copied" xml:space="preserve">
+    <value>Kopierat!</value>
+  </data>
+  <data name="logStreaming_copyLogs" xml:space="preserve">
+    <value>Kopiera loggar</value>
+  </data>
+  <data name="logStreaming_pause" xml:space="preserve">
+    <value>Pausa</value>
+  </data>
+  <data name="logStreaming_start" xml:space="preserve">
+    <value>Starta</value>
+  </data>
+  <data name="logStreaming_tooManyLogs" xml:space="preserve">
+    <value>För många loggar. Uppdatera frekvens: {{seconds}} sekunder.</value>
+  </data>
+  <data name="_name" xml:space="preserve">
+    <value>Namn</value>
+    <comment>Can't use "name" as key because typescript has own name property for the object</comment>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Öppna</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>eller</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Skrivskyddad – eftersom du började redigera med källkontroll är den här vyn skrivskyddad.</value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="run" xml:space="preserve">
+    <value>Kör</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Spara</value>
+  </data>
+  <data name="sideBar_changeMade" xml:space="preserve">
+    <value>Ändringar som gjorts i funktionen {{name}} försvinner. Vill du fortsätta?</value>
+  </data>
+  <data name="sideBar_newFunction" xml:space="preserve">
+    <value>Ny funktion</value>
+  </data>
+  <data name="sideBar_refresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="sideBar_searchMyFunction" xml:space="preserve">
+    <value>Sök mina funktioner</value>
+  </data>
+  <data name="subscription" xml:space="preserve">
+    <value>Prenumeration</value>
+  </data>
+  <data name="topBar_changeMade" xml:space="preserve">
+    <value>Ändringar som gjorts i den nuvarande funktionen försvinner. Vill du fortsätta?</value>
+  </data>
+  <data name="topBar_functionAppSettings" xml:space="preserve">
+    <value>Funktionsappinställningar</value>
+  </data>
+  <data name="topBar_newVersion" xml:space="preserve">
+    <value>En ny version av Azure Functions är tillgänglig. Gå till funktionsappinställningarna för att uppgradera.</value>
+  </data>
+  <data name="topBar_quickStart" xml:space="preserve">
+    <value>Snabbstart</value>
+  </data>
+  <data name="topBar_usage" xml:space="preserve">
+    <value>Användning</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Alla</value>
+  </data>
+  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
+    <value>Avancerade inställningar</value>
+  </data>
+  <data name="appFunctionSettings_allowClients" xml:space="preserve">
+    <value>Gör det lättare för klienter att använda HTTP-utlösta funktioner.</value>
+  </data>
+  <data name="appFunctionSettings_allowYour" xml:space="preserve">
+    <value>Tillåt dina HTTP-utlösta funktioner att anropas från en webbläsare.</value>
+  </data>
+  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
+    <value>API-definition</value>
+  </data>
+  <data name="appFunctionSettings_auth" xml:space="preserve">
+    <value>Autentisering/auktorisering</value>
+  </data>
+  <data name="appFunctionSettings_CI" xml:space="preserve">
+    <value>Kontinuerlig integrering</value>
+  </data>
+  <data name="appFunctionSettings_configAuth" xml:space="preserve">
+    <value>Konfigurera autentisering</value>
+  </data>
+  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
+    <value>Konfigurera API-metadata</value>
+  </data>
+  <data name="appFunctionSettings_configureCI" xml:space="preserve">
+    <value>Configure continuous integration</value>
+  </data>
+  <data name="appFunctionSettings_configureCors" xml:space="preserve">
+    <value>Konfigurera CORS</value>
+  </data>
+  <data name="appFunctionSettings_deploy" xml:space="preserve">
+    <value>Distribuera din funktionskod från bland annat GitHub eller Visual Studio Team Services.</value>
+  </data>
+  <data name="appFunctionSettings_forFunc" xml:space="preserve">
+    <value>För funktioner som använder HTTP-utlösaren kan du kräva att anrop ska autentiseras.</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Funktionsappinställningar</value>
+  </data>
+  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
+    <value>Gå till App Service-inställningar</value>
+  </data>
+  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
+    <value>Hantera din funktionsapp som en vanlig App Service-instans.</value>
+  </data>
+  <data name="appFunctionSettings_memory" xml:space="preserve">
+    <value>Minnesstorlek</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
+    <value>Körningsversion: Senaste ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
+    <value>Körningsversion: {{extensionVersion}}. En nyare version är tillgänglig ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appMonitoring_appExecutions" xml:space="preserve">
+    <value>Appkörningar</value>
+  </data>
+  <data name="appMonitoring_appUsage" xml:space="preserve">
+    <value>Appanvändning (Gb/sek)</value>
+  </data>
+  <data name="appMonitoring_functionAppUsage" xml:space="preserve">
+    <value>Funktionsappanvändning</value>
+  </data>
+  <data name="appMonitoring_noData" xml:space="preserve">
+    <value>Det finns ingen information</value>
+  </data>
+  <data name="appMonitoring_ofExecutions" xml:space="preserve">
+    <value>för körningar</value>
+  </data>
+  <data name="binding_parameterName" xml:space="preserve">
+    <value>Parameternamn</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="config" xml:space="preserve">
+    <value>Konfigurera</value>
+  </data>
+  <data name="cors" xml:space="preserve">
+    <value>CORS</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Skapa</value>
+  </data>
+  <data name="dashboard_noFunctionContainer" xml:space="preserve">
+    <value>Du har ingen funktionsbehållare. Välj en prenumeration eller skapa en här:</value>
+  </data>
+  <data name="dashboard_yourTrialExpiered" xml:space="preserve">
+    <value>Utvärderingsperioden har upphört</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>Inaktiverad</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Aktiverad</value>
+  </data>
+  <data name="errorList_here" xml:space="preserve">
+    <value>här</value>
+  </data>
+  <data name="errorList_youMay" xml:space="preserve">
+    <value>Ett fel kan uppstå. Om du har problem lägger du upp dem</value>
+  </data>
+  <data name="errorParsingConfig" xml:space="preserve">
+    <value>Fel vid parsning av konfiguration: {{error}}</value>
+  </data>
+  <data name="features" xml:space="preserve">
+    <value>Egenskaper</value>
+  </data>
+  <data name="filedRequired" xml:space="preserve">
+    <value>Det här fältet är obligatoriskt</value>
+  </data>
+  <data name="functionDev_code" xml:space="preserve">
+    <value>Kod</value>
+  </data>
+  <data name="functionDev_run" xml:space="preserve">
+    <value>Kör</value>
+  </data>
+  <data name="functionEdit_readOnly" xml:space="preserve">
+    <value>Skrivskyddad – eftersom du började redigera med källkontroll är den här vyn skrivskyddad. Du kan redigera de här inställningarna i function.json</value>
+  </data>
+  <data name="functionIntegrate_advancedEditor" xml:space="preserve">
+    <value>Avancerat redigeringsprogram</value>
+  </data>
+  <data name="functionIntegrate_changesLost1" xml:space="preserve">
+    <value>Ändringarna går förlorade. Vill du fortsätta?</value>
+  </data>
+  <data name="functionIntegrate_changesLost2" xml:space="preserve">
+    <value>Ändringar som gjorts i funktionen {{name}} försvinner. Vill du fortsätta?</value>
+  </data>
+  <data name="functionIntegrate_settingName" xml:space="preserve">
+    <value>Inställningsnamn:</value>
+  </data>
+  <data name="functionIntegrate_standardEditor" xml:space="preserve">
+    <value>Standardredigeringsprogram</value>
+  </data>
+  <data name="functionManage_areYouSure" xml:space="preserve">
+    <value>Vill du ta bort funktionen {{name}}?</value>
+  </data>
+  <data name="functionService_authIsEnabled" xml:space="preserve">
+    <value>Autentisering har aktiverats för funktionsappen. Inaktivera autentisering innan du kör funktionen.</value>
+  </data>
+  <data name="functionService_errorRunningFunc" xml:space="preserve">
+    <value>Ett fel uppstod när funktionen ({{name}}) kördes. Sök i loggarnas utdata efter det fullständiga felet.</value>
+  </data>
+  <data name="input" xml:space="preserve">
+    <value>Indata</value>
+  </data>
+  <data name="logStreaming_logs" xml:space="preserve">
+    <value>Loggar</value>
+  </data>
+  <data name="newInput" xml:space="preserve">
+    <value>Nya indata</value>
+  </data>
+  <data name="newOutput" xml:space="preserve">
+    <value>Nya indata</value>
+  </data>
+  <data name="newTrigger" xml:space="preserve">
+    <value>Ny utlösare</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Nästa</value>
+  </data>
+  <data name="notValidValue" xml:space="preserve">
+    <value>Inget giltigt värde</value>
+  </data>
+  <data name="output" xml:space="preserve">
+    <value>Utdata</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Välj</value>
+  </data>
+  <data name="tabNames_develop" xml:space="preserve">
+    <value>Utveckla</value>
+  </data>
+  <data name="tabNames_integrate" xml:space="preserve">
+    <value>Integrera</value>
+  </data>
+  <data name="tabNames_manage" xml:space="preserve">
+    <value>Hantera</value>
+  </data>
+  <data name="tabNames_monitor" xml:space="preserve">
+    <value>Övervaka</value>
+  </data>
+  <data name="templatePicker_chooseInput" xml:space="preserve">
+    <value>Välj en indatabindning</value>
+  </data>
+  <data name="templatePicker_chooseOutput" xml:space="preserve">
+    <value>Välj en utdatabindning</value>
+  </data>
+  <data name="templatePicker_chooseTemplate" xml:space="preserve">
+    <value>Välj en mall</value>
+  </data>
+  <data name="templatePicker_chooseTrigger" xml:space="preserve">
+    <value>Välj en utlösare</value>
+  </data>
+  <data name="templatePicker_language" xml:space="preserve">
+    <value>Språk:</value>
+  </data>
+  <data name="templatePicker_scenario" xml:space="preserve">
+    <value>Scenario:</value>
+  </data>
+  <data name="trigger" xml:space="preserve">
+    <value>Utlösare</value>
+  </data>
+  <data name="tryNow_trialExpired" xml:space="preserve">
+    <value>Utvärderingsversionen har upphört att gälla</value>
+  </data>
+  <data name="tutorial_changesMade" xml:space="preserve">
+    <value>Ändringar som görs här påverkar alla funktioner i funktionsappen.</value>
+  </data>
+  <data name="tutorial_createNew" xml:space="preserve">
+    <value>&lt;span&gt;Skapa en helt ny funktion&lt;/span&gt; – Kom igång med någon av de fördefinierade funktionsmallarna</value>
+  </data>
+  <data name="tutorial_develop" xml:space="preserve">
+    <value>Utveckla</value>
+  </data>
+  <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
+    <value>&lt;span&gt;Dyk ned i dokumentationen&lt;/span&gt; - Utforska alla funktioner i Azure Functions&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;här&lt;/a&gt;</value>
+  </data>
+  <data name="tutorial_functionAppSettings" xml:space="preserve">
+    <value>Funktionsappinställningar</value>
+  </data>
+  <data name="tutorial_integrate" xml:space="preserve">
+    <value>Integrera</value>
+  </data>
+  <data name="tutorial_integrateYourFunction" xml:space="preserve">
+    <value>Du kan lätt integrera dina funktioner med andra tjänster och datakällor.</value>
+  </data>
+  <data name="tutorial_nextSteps" xml:space="preserve">
+    <value>Nästa steg</value>
+  </data>
+  <data name="tutorial_setUpAutomated" xml:space="preserve">
+    <value>Ställ in automatiska åtgärder baserat på externa utlösare, använd andra indatakällor och skicka utdata till flera mål.</value>
+  </data>
+  <data name="tutorial_skip" xml:space="preserve">
+    <value>Hoppa över rundturen och börja koda</value>
+  </data>
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
+    <value>Det snabbaste sättet att redigera kod är med kodredigeraren men du kan också använda Git. I det här exemplet används NodeJS men många andra språk stöds också.</value>
+  </data>
+  <data name="tutorial_thisPageInclude" xml:space="preserve">
+    <value>På den här sidan finns också en loggström och en testkonsol som hjälper dig att felsöka funktionen.</value>
+  </data>
+  <data name="tutorial_tweakThisSample" xml:space="preserve">
+    <value>&lt;span&gt;Justera den här exempelfunktionen&lt;/span&gt; – Gör den till din egen med den användarvänliga instrumentpanelen</value>
+  </data>
+  <data name="tutorial_yourFunction" xml:space="preserve">
+    <value>Dina funktioner är avsedda att köras med Azure App Service som funktionsapp och det är där du ändrar funktionerna för den appen.</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="bindingInput_select" xml:space="preserve">
+    <value>välj</value>
+  </data>
+  <data name="binding_delete" xml:space="preserve">
+    <value>ta bort</value>
+  </data>
+  <data name="bindingsValidationDirectionMissed" xml:space="preserve">
+    <value>Parametern direction saknas.</value>
+  </data>
+  <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
+    <value>Okänd riktning: {{direction}}.</value>
+  </data>
+  <data name="bindingsValidationNameDublicate" xml:space="preserve">
+    <value>Parameternamnet måste vara unikt i en funktion: {{functionName}}</value>
+  </data>
+  <data name="bindingsValidationNameMissed" xml:space="preserve">
+    <value>Parametern name saknas.</value>
+  </data>
+  <data name="bindingsValidationTypeMIssed" xml:space="preserve">
+    <value>Parametern type saknas.</value>
+  </data>
+  <data name="bindingsValidationTypeUnknown" xml:space="preserve">
+    <value>Okänd typ: {{type}}.</value>
+  </data>
+  <data name="resourceSelect" xml:space="preserve">
+    <value>Väntar på resursen</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Uppdatera din körningsversion</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Your runtime version is  up to-date</value>
+  </data>
+  <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
+    <value>Vi har uppskattat att vara värd för dina funktioner!</value>
+  </data>
+  <data name="trialExpired_signupForAzure" xml:space="preserve">
+    <value>Din utvärderingsversion har nu gått ut men du kan registrera dig för en förlängd utvärderingsversion som även omfattar resten av Azure.</value>
+  </data>
+  <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
+    <value>Välj en autentiseringsleverantör</value>
+  </data>
+  <data name="tryLanding_microsoftAcccount" xml:space="preserve">
+    <value>Microsoft-konto</value>
+  </data>
+  <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
+    <value>Skapa ett kostnadsfritt Azure-konto</value>
+  </data>
+  <data name="tryNow_extendTrial" xml:space="preserve">
+    <value>Förläng utvärderingsperioden med 24 timmar</value>
+  </data>
+  <data name="tryNow_trialTimeRemaining" xml:space="preserve">
+    <value>Free Trial - Time remaining:</value>
+  </data>
+  <data name="tryLanding_functionError" xml:space="preserve">
+    <value>Fel när funktionen skapades! Försök igen.</value>
+  </data>
+  <data name="tryLanding_functionErrorDetails" xml:space="preserve">
+    <value>Fel när funktion skapades</value>
+  </data>
+  <data name="tryLanding_ifYou" xml:space="preserve">
+    <value>Om du föredrar ett annat språk som stöds kan du välja det senare i funktionsportalen.</value>
+  </data>
+  <data name="tryNow_minutes" xml:space="preserve">
+    <value> minuter</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>nytt</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Indatabindningar tillhandahåller ytterligare data som skickas till funktionen när den utlöses. Du kan till exempel hämta data från Table Storage i ett nytt kömeddelande. Indata är ej obligatoriska.</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Utdatabindningar tillåter dig att mata ut data från funktionen. Du kan till exempel lägga till ett nytt objekt i en kö. Utdata är inte obligatoriska.</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>En utlösare är det som startar funktionen. Du kan till exempel låta ett nytt kömeddelande fungera som utlösare. Du måste alltid ha en utlösare.</value>
+  </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Skapa en ny funktion som utlöses av dessa utdata</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Dokumentation</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Gå till</value>
+  </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Kopierat!</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Kopiera till Urklipp</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Ändringar som gjorts i den här filen kommer att gå förlorade. Vill du fortsätta?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Det finns inte stöd för redigering av binära filer.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Ett fel uppstod när filen skulle skapas: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Ett fel uppstod när filen skulle tas bort: {{fileName}}</value>
+  </data>
+  <data name="appFunctionSettings_appSettings" xml:space="preserve">
+    <value>Programinställningar</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
+    <value>Application settings description</value>
+  </data>
+  <data name="appFunctionSettings_devConsole" xml:space="preserve">
+    <value>Dev console</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
+    <value>Dev console description</value>
+  </data>
+  <data name="appFunctionSettings_kudu" xml:space="preserve">
+    <value>Kudu</value>
+  </data>
+  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
+    <value>Kudu description</value>
+  </data>
+  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
+    <value>Configure app aettings</value>
+  </data>
+  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
+    <value>Open dev console</value>
+  </data>
+  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
+    <value>Go to Kudu</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+  </data>
+</root>
