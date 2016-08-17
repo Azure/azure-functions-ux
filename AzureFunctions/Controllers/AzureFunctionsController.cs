@@ -34,7 +34,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
-            runtime = runtime.Replace("~", "");
+            runtime = getClearRuntime(runtime);
 
             using (FunctionsTrace.BeginTimedOperation())
             {
@@ -45,13 +45,15 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
+            runtime = getClearRuntime(runtime);
+
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
-            runtime = runtime.Replace("~", "");
+            runtime = getClearRuntime(runtime);
 
             string fileSuffix = (name == "en") ? "" : "." + name;
 
@@ -101,6 +103,11 @@ namespace AzureFunctions.Controllers
             }
 
             return jo;
+        }
+
+        private string getClearRuntime(string runtime)
+        {
+            return runtime.Replace("~", "");
         }
     }
 }

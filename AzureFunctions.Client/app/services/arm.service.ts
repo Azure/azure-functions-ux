@@ -8,6 +8,7 @@ import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
 import {Constants} from '../models/constants';
+import {ClearCache} from '../decorators/cache.decorator';
 
 @Injectable()
 export class ArmService {
@@ -63,6 +64,7 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
+    @ClearCache('clearAllCachedData')
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
         appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
