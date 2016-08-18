@@ -165,7 +165,7 @@ export class ArmService {
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
                         { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' },
-                        { name: 'WEBSITE_NODE_DEFAULT_VERSION', value: '4.1.2' }
+                        { name: Constants.nodeVersionAppSettingName, value: Constants.nodeVersion }
                     ]
                 },
                 sku: 'Dynamic'
