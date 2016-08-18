@@ -80,7 +80,7 @@ namespace AzureFunctions.Controllers
             if (!string.IsNullOrEmpty(folder))
             {
                 resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), folder + "\\Resources.resx"));
-                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources" + folder + ".resx"));
+                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources" + folder + "\\Resources.resx"));
                 result["lang"] = ConvertResxToJObject(resxFiles);
                 resxFiles.Clear();
             }
