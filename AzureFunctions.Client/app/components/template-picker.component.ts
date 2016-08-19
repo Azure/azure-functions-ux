@@ -93,7 +93,7 @@ export class TemplatePickerComponent {
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all), default: true }];
                             initLanguages = true;
                         }
 

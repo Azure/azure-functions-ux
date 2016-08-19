@@ -259,7 +259,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your runtime version is to upto-date.
+        ///   Looks up a localized string similar to Your runtime version is  up to-date.
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings2 {
             get {
@@ -1753,7 +1753,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trial time remaining.
+        ///   Looks up a localized string similar to Free Trial - Time remaining:.
         /// </summary>
         internal static string tryNow_trialTimeRemaining {
             get {

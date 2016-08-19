@@ -147,19 +147,14 @@ namespace AzureFunctions.Code
 
         public async Task<JObject> GetBindingConfigAsync(string runtime)
         {
-            var runtimeForlder = Path.Combine(_settings.TemplatesPath, runtime);
-            if (Directory.Exists(runtimeForlder))
+            string runtimeFolder = Path.Combine(_settings.TemplatesPath, runtime);
+            if (!Directory.Exists(runtimeFolder))
             {
-                var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeForlder, "Bindings\\bindings.json")));
-                AddReferencesContent(result);
-                return result;
+                runtimeFolder = Path.Combine(_settings.TemplatesPath, "default");
             }
-            else
-            {
-                var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(_settings.TemplatesPath, "default\\Bindings\\bindings.json")));
-                result = AddReferencesContent(result);
-                return result;
-            }
+            var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeFolder, "Bindings\\bindings.json")));
+            AddReferencesContent(result, runtimeFolder);
+            return result;
         }
 
         public void Dispose()
@@ -176,7 +171,7 @@ namespace AzureFunctions.Code
             }
         }
 
-        private JObject AddReferencesContent(JObject jo)
+        private JObject AddReferencesContent(JObject jo, string runtimeForlder)
         {
             foreach (var x in jo)
             {
@@ -190,7 +185,7 @@ namespace AzureFunctions.Code
                     string file = obj.ToString();
                     if (file.StartsWith("$content="))
                     {
-                        file = file.Replace("$content=", "");
+                        file = Path.Combine(runtimeForlder, file.Replace("$content=", ""));
                         if (File.Exists(file))
                         {
                             var content = File.ReadAllText(file);
@@ -200,7 +195,7 @@ namespace AzureFunctions.Code
                 }
                 else if (obj is JObject)
                 {
-                    AddReferencesContent((JObject)obj);
+                    AddReferencesContent((JObject)obj, runtimeForlder);
                 }
                 else if (obj is JArray)
                 {
@@ -208,7 +203,7 @@ namespace AzureFunctions.Code
                     {
                         if (arrayItem is JObject)
                         {
-                            AddReferencesContent(arrayItem.Value<JObject>());
+                            AddReferencesContent(arrayItem.Value<JObject>(), runtimeForlder);
                         }
                     }
                     jo[name] = (JArray)obj;

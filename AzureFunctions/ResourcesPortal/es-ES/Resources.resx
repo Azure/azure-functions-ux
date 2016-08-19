@@ -118,76 +118,76 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Azure Functions</value>
+    <value>Funciones de Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Configure</value>
+    <value>Configurar</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Create Function Error: {{error}}</value>
+    <value>Error al crear la función: {{error}}.</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>Error de creación de la función. Vuelva a intentarlo.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Function Error: {{error}}</value>
+    <value>Error de la función: {{error}}.</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>Función (${{name}}). Error: {{error}}.</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Function Url:</value>
+    <value>URL de función:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github Secret:</value>
+    <value>Secreto de GitHub:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Hide files</value>
+    <value>Ocultar archivos</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Host Error: {{error}}</value>
+    <value>Error del host: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Output</value>
+    <value>Salida</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Request body</value>
+    <value>Cuerpo de la solicitud</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Save and run</value>
+    <value>Guardar y ejecutar</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Status:</value>
+    <value>Estado:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>View files</value>
+    <value>Ver archivos</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>Elegir una plantilla</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>Esta plantilla es experimental y aún no es totalmente compatible. Si encuentra problemas, registre un error en el &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositorio de GitHub&lt;/a&gt;.</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Function name</value>
+    <value>Nombre de la función</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>A function name is required</value>
+    <value>Se requiere un nombre de función.</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Name your function</value>
+    <value>Asigne un nombre a la función.</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Create + get started</value>
+    <value>Crear y comenzar</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
     <value>Function Apps</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Get started with Azure Functions</value>
+    <value>Introducción a Funciones de Azure</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
     <value>New function app</value>
@@ -199,61 +199,61 @@
     <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Select Location</value>
+    <value>Seleccionar ubicación</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Select Subscription</value>
+    <value>Seleccionar una suscripción</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions</value>
+    <value>La suscripción {{displayName}} ({{ subscriptionId }}) no está en ninguna lista blanca para ejecutar funciones.</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
     <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>The name must be at least 2 characters</value>
+    <value>El nombre debe tener al menos 2 caracteres</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>The name must be at most 60 characters</value>
+    <value>El nombre debe tener un máximo de 60 caracteres.</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
+    <value>El nombre puede contener letras, números y guiones (pero el primer y último carácter deben ser letras o números)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
     <value>function app name {{funcName}} isn't available</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
+    <value>Para usar este servicio, necesita una suscripción de Azure. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Haga clic aquí&lt;/a&gt; para crear una suscripción de prueba gratis.</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
     <value>Your function apps</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Your subscription</value>
+    <value>Su suscripción</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2) Choose a language:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Choose a scenario:</value>
+    <value>1) Elija un escenario:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Create this function</value>
+    <value>Crear esta función</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Or create your own custom function</value>
+    <value>O crear una función propia personalizada</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Data processing</value>
+    <value>Procesamiento de datos</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>The faster way to functions</value>
+    <value>El camino más rápido a las funciones</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Get started quickly with a premade function</value>
+    <value>Empiece a trabajar rápidamente con una función predefinida</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Or get started on your own</value>
+    <value>O empiece a trabajar por su cuenta</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
     <value>If you'd prefer another supported language, choose "Create a function from scratch".</value>
@@ -262,71 +262,71 @@
     <value>start from source control.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Timer</value>
+    <value>Temporizador</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook + API</value>
+    <value>Webhook y API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
+    <value>Escriba cualquier función en cuestión de minutos, desde ejecutar un simple trabajo para limpiar una base de datos hasta compilar una arquitectura más compleja. Crear funciones es ahora más fácil que nunca, independientemente del método de desarrollo, plataforma o sistema operativo que haya elegido. No requiere instalación.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Borrar</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>Copiado.</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Copy Logs</value>
+    <value>Copiar registros</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Pausar</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Start</value>
+    <value>Iniciar</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
+    <value>Hay demasiados registros. Frecuencia de actualización: {{seconds}} segundos.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Name</value>
+    <value>Nombre</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Open</value>
+    <value>Abrir</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>or</value>
+    <value>o</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+    <value>Solo lectura: se empezó a editar con control de código fuente, por tanto esta vista es de solo lectura.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Region</value>
+    <value>Región</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Run</value>
+    <value>Ejecutar</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Los cambios realizados en la función {{name}} se perderán. ¿Seguro que quiere continuar?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>New Function</value>
+    <value>Nueva función</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Actualizar</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Search my functions</value>
+    <value>Buscar en mis funciones</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Subscription</value>
+    <value>Suscripción</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
+    <value>Los cambios realizados en la función actual se perderán. ¿Seguro que quiere continuar?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
     <value>Function app settings</value>
@@ -335,88 +335,88 @@
     <value>A new version of Azure Functions is available.Visit Function App Settings to upgrade.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Quickstart</value>
+    <value>Inicio rápido</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Usage</value>
+    <value>Uso</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>All</value>
+    <value>Todas</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Advanced Settings</value>
+    <value>Configuración avanzada</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions.</value>
+    <value>Permita que los clientes consuman las funciones desencadenadas por HTTP de forma más fácil.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser.</value>
+    <value>Permita usar un explorador web para llamar a las funciones desencadenadas por HTTP.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API definition</value>
+    <value>Definición de la API</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentication/Authorization</value>
+    <value>Autenticación o autorización</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continuous Integration</value>
+    <value>Integración continua</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
     <value>Configure authentication</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Configure API metadata</value>
+    <value>Configurar metadatos de API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
     <value>Configure continuous integration</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Configure CORS</value>
+    <value>Configurar CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more.</value>
+    <value>Implemente el código de función desde GitHub y Visual Studio Team Services, entre otros.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated.</value>
+    <value>Puede requerir que se autentiquen las llamadas para las funciones que usan el desencadenador HTTP.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Function App Settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Go to App Service Settings</value>
+    <value>Ir a Configuración del Servicio de aplicaciones</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
     <value>Manage your function app like any other App Service instance.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Memory Size</value>
+    <value>Tamaño de memoria</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtime version: Latest ({{latestExtensionVersion}})</value>
+    <value>Versión del runtime: última ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Versión del runtime: {{extensionVersion}}. Hay una nueva versión disponible ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>App executions</value>
+    <value>Ejecuciones de la aplicación</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>App Usage(Gb Sec)</value>
+    <value>Uso de la aplicación (GB/s)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
     <value>Function App Usage</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>There is no Data</value>
+    <value>No hay datos</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>of executions</value>
+    <value>de las ejecuciones</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Parameter name</value>
+    <value>Nombre de parámetro</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Close</value>
+    <value>Cerrar</value>
   </data>
   <data name="config" xml:space="preserve">
     <value>Config</value>
@@ -425,286 +425,286 @@
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Create</value>
+    <value>Crear</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>It looks like you don't have a functions container. Select a subscription to create one:</value>
+    <value>Parece que no tiene un contenedor de funciones. Seleccione una suscripción para crear uno:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Your trial has expired</value>
+    <value>El período de prueba expiró.</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Deshabilitado</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Habilitado</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>here</value>
+    <value>aquí</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>You may be experiencing an error. If you're having issues, please post them</value>
+    <value>Puede que se haya producido un error. Si tiene problemas, regístrelos.</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Error parsing config: {{error}}</value>
+    <value>Error al analizar la configuración: {{error}}.</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Features</value>
+    <value>Características</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>This field is required</value>
+    <value>Este campo es obligatorio</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Code</value>
+    <value>Código</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Run</value>
+    <value>Ejecutar</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json</value>
+    <value>Solo lectura: se empezó a editar con control de código fuente, por tanto esta vista es de solo lectura. Puede modificar esta configuración en function.json.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Advanced editor</value>
+    <value>Editor avanzado</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Changes made will be lost. Are you sure you want to continue?</value>
+    <value>Los cambios realizados se perderán. ¿Seguro que quiere continuar?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Los cambios realizados en la función {{name}} se perderán. ¿Seguro que quiere continuar?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Setting name:</value>
+    <value>Nombre de configuración:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Standard editor</value>
+    <value>Editor estándar</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Are you sure you want to delete Function {{name}}?</value>
+    <value>¿Seguro que quiere eliminar la función {{name}}?</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
     <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
+    <value>Error al ejecutar la función ({{name}}). Compruebe la salida del registro para ver el error completo.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Inputs</value>
+    <value>Entradas</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>Registros</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>New Input</value>
+    <value>Nueva entrada</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>New Output</value>
+    <value>Nueva salida</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>New Trigger</value>
+    <value>Nuevo desencadenador</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Next</value>
+    <value>Siguiente</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Not valid value</value>
+    <value>Valor no válido</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Outputs</value>
+    <value>Salidas</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Select</value>
+    <value>Seleccionar</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>Desarrollar</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>Integrar</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Manage</value>
+    <value>Administrar</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Supervisar</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Choose an input binding</value>
+    <value>Elegir un enlace de entrada</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Choose an output binding</value>
+    <value>Elegir un enlace de salida</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>Elegir una plantilla</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Choose a trigger</value>
+    <value>Elegir un desencadenador</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Language:</value>
+    <value>Idioma:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Scenario:</value>
+    <value>Escenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Desencadenadores</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Trial expired</value>
+    <value>La prueba ha expirado.</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
     <value>Changes made here will affect all of the functions within your function app.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates</value>
+    <value>&lt;span&gt;Crear una función nueva&lt;/span&gt;: empiece con una de las plantillas de función precompiladas.</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>Desarrollar</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt;</value>
+    <value>&lt;span&gt;Profundizar en la documentación&lt;/span&gt;: explore todas las características de Funciones de Azure &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;aquí&lt;/a&gt;.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
     <value>Function App Settings</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>Integrar</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Integrating your functions with other services and data sources is easy.</value>
+    <value>Integrar las funciones con otros orígenes de datos y servicios es fácil.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Next Steps</value>
+    <value>Pasos siguientes</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets.</value>
+    <value>Configure acciones automatizadas basadas en desencadenadores externos, incluya otros orígenes de datos de entrada y envíe la salida a varios destinos.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Skip the tour and start coding</value>
+    <value>Omitir el paseo y empezar a codificar</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
+    <value>El editor de código es la forma más rápida de editar el código, pero también se puede usar GIT. Este ejemplo usa NodeJS, aunque hay muchos más lenguajes compatibles.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>This page also includes a log stream and a test console for helping you debug your function.</value>
+    <value>La página también incluye una secuencia de registro y una consola de prueba para ayudarle a depurar la función.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard</value>
+    <value>&lt;span&gt;Retocar esta función de ejemplo&lt;/span&gt;: adáptela a su caso fácilmente en el panel.</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
     <value>Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Update</value>
+    <value>Actualizar</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>select</value>
+    <value>seleccionar</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>delete</value>
+    <value>eliminar</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Parameter 'direction' is missed.</value>
+    <value>Falta el parámetro "direction".</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Unknown direction: '{{direction}}'.</value>
+    <value>Dirección desconocida: '{{direction}}'.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Parameter name must be unique in a function: '{{functionName}}'</value>
+    <value>El nombre de parámetro debe ser único en una función: '{{functionName}}'.</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Parameter 'name' is missed.</value>
+    <value>Falta el parámetro "name".</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Parameter 'type' is missed.</value>
+    <value>Falta el parámetro "type".</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Unknown type: '{{type}}'.</value>
+    <value>Tipo desconocido: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Waiting for the resource</value>
+    <value>Esperando al recurso</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Update your runtime version</value>
+    <value>Actualice la versión del runtime.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Your runtime version is  up to-date</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>We've enjoyed hosting your functions !</value>
+    <value>Ha sido un placer hospedar sus funciones.</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
+    <value>La versión de prueba ha expirado, pero puede suscribirse para obtener una versión de prueba ampliada que incluye el resto de Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Choose an auth provider</value>
+    <value>Elegir un proveedor de autenticación</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft Account</value>
+    <value>Cuenta de Microsoft</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Create a free Azure account</value>
+    <value>Crear una cuenta de Azure gratis</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Extend trial to 24 hours</value>
+    <value>Ampliar prueba a 24 horas</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
     <value>Free Trial - Time remaining:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>Error de creación de la función. Vuelva a intentarlo.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Create Function Error</value>
+    <value>Error al crear la función</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
+    <value>Si prefiere usar otro lenguaje compatible, puede elegirlo más adelante en el portal de funciones.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> minutes</value>
+    <value> minutos</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>new</value>
+    <value>nuevo</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
+    <value>Los enlaces de entrada proporcionan datos adicionales a los proporcionados a su función cuando se desencadena. Por ejemplo, puede recuperar datos desde el almacenamiento de tablas en un mensaje en cola nuevo. Las entradas son opcionales.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
+    <value>Los enlaces de salida le permiten generar datos desde la función. Por ejemplo, puede agregar un elemento nuevo a una cola. Las salidas son opcionales.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
+    <value>Los desencadenadores iniciarán la función. Por ejemplo, puede desencadenar un mensaje en cola nuevo. Siempre debe tener un desencadenador.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Create a new functoin triggered by this output</value>
+    <value>Crear una función nueva desencadenada por esta salida</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Documentación</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Go</value>
+    <value>Ir</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>Copiado.</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Copy to clipboard</value>
+    <value>Copiar al Portapapeles</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+    <value>Se perderán los cambios realizados en el archivo actual. ¿Está seguro de que desea continuar?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Are you sure you want to delete {{fileName}}</value>
+    <value>¿Está seguro de que desea eliminar {{fileName}}?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Editing binary files is not supported.</value>
+    <value>No se admite la edición de archivos binarios.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Error creating file: {{fileName}}</value>
+    <value>Error al crear el archivo: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Error deleting file: {{fileName}}</value>
+    <value>Error al eliminar el archivo: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Application settings</value>
+    <value>Configuración de la aplicación</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
     <value>Application settings description</value>

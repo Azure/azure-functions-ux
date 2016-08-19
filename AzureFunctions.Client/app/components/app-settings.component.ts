@@ -55,7 +55,7 @@ export class AppSettingsComponent implements OnInit {
         this.memorySize = this.functionContainer.properties.containerSize;
         this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
         this.extensionVersion = this._globalStateService.ExtensionVersion;
-        this.latestExtensionVersion = Constants.latestExtensionVersion;
+        this.latestExtensionVersion = Constants.runtimeVersion;
     }
 
     openBlade(name : string) {

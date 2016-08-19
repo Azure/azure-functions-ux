@@ -118,619 +118,619 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Azure Functions</value>
+    <value>Функции Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Отмена</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Configure</value>
+    <value>Настроить</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Create Function Error: {{error}}</value>
+    <value>Ошибка при создании функции: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>Ошибка при создании функции. Повторите попытку.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Function Error: {{error}}</value>
+    <value>Ошибка функции: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>Ошибка функции (${{name}}): {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Function Url:</value>
+    <value>URL-адрес функции:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github Secret:</value>
+    <value>Секрет Github:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Hide files</value>
+    <value>Скрыть файлы</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Host Error: {{error}}</value>
+    <value>Ошибка узла: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Output</value>
+    <value>Вывод</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Request body</value>
+    <value>Текст запроса</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Save and run</value>
+    <value>Сохранить и запустить</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Status:</value>
+    <value>Состояние:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>View files</value>
+    <value>Просмотреть файлы</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>Выберите шаблон.</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>Этот шаблон является экспериментальным и пока не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Function name</value>
+    <value>Имя функции</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>A function name is required</value>
+    <value>Требуется указать имя функции.</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Name your function</value>
+    <value>Присвойте функции имя.</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Create + get started</value>
+    <value>Создать и начать работу</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function Apps</value>
+    <value>Приложения-функции</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Get started with Azure Functions</value>
+    <value>Начать работу с Функциями Azure</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>New function app</value>
+    <value>Новое приложение-функция</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Your subscription contains no function apps. These are containers where your functions are executed. Create one now.</value>
+    <value>Ваша подписка не содержит приложения-функции. Это контейнеры, где выполняются ваши функции. Создайте один сейчас.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+    <value>Либо создайте приложение-функцию на &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;портале Azure&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Select Location</value>
+    <value>Выбрать расположение</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Select Subscription</value>
+    <value>Выбрать подписку</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions</value>
+    <value>Подписка {{displayName}} ({{ subscriptionId }}) не включена в список разрешенных для запуска функций.</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
+    <value>Эта подписка содержит одно или несколько приложений-функций. Это контейнеры, где выполняются ваши функции. Выберите контейнер или создайте его ниже.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>The name must be at least 2 characters</value>
+    <value>Имя должно содержать не менее 2 символов.</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>The name must be at most 60 characters</value>
+    <value>Длина имени не должна превышать 60 символов.</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
+    <value>Имя может содержать буквы, цифры и дефисы (первый и последний символы должны быть цифрами или буквами)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>function app name {{funcName}} isn't available</value>
+    <value>имя приложения-функции {{funcName}} недоступно</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
+    <value>Для использования этой службы требуется подписка Azure. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Щелкните здесь&lt;/a&gt;, чтобы создать бесплатную пробную подписку.</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Your function apps</value>
+    <value>Ваши приложения-функции</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Your subscription</value>
+    <value>Ваша подписка</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Choose a language:</value>
+    <value>2) Выберите язык:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Choose a scenario:</value>
+    <value>1) Выберите сценарий:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Create this function</value>
+    <value>Создайте эту функцию</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Or create your own custom function</value>
+    <value>Или создайте настраиваемую функцию</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Data processing</value>
+    <value>Обработка данных</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>The faster way to functions</value>
+    <value>Быстрое освоение функций</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Get started quickly with a premade function</value>
+    <value>Быстрее приступайте к работе благодаря готовой функции</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Or get started on your own</value>
+    <value>Или создайте свою собственную</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, choose "Create a function from scratch".</value>
+    <value>Если вы хотите использовать другой поддерживаемый язык, выберите "Создать новую функцию".</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>start from source control.</value>
+    <value>начало с управления версиями.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Timer</value>
+    <value>Таймер</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
+    <value>Напишите любую функцию в считанные минуты как при запуске простого задания для очистки базы данных, так и при создании сложной архитектуры. Создание функций стало еще проще, чем раньше, при любом сочетании ОС, платформы или метода разработки. Установка не требуется.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Очистить</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>Скопировано.</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Copy Logs</value>
+    <value>Скопировать журналы</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Приостановить</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Start</value>
+    <value>Запустить</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
+    <value>Слишком много журналов. Частота обновления: {{seconds}} с.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Name</value>
+    <value>Имя</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Open</value>
+    <value>Открыть</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>or</value>
+    <value>или</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Region</value>
+    <value>Регион</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Run</value>
+    <value>Запуск</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>Сохранить</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>New Function</value>
+    <value>Новая функция</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Обновить</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Search my functions</value>
+    <value>Искать мои функции</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Subscription</value>
+    <value>Подписка</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
+    <value>Изменения, внесенные в текущую функцию, будут утеряны. Вы действительно хотите продолжить?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Function app settings</value>
+    <value>Параметры приложения-функции</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>A new version of Azure Functions is available.Visit Function App Settings to upgrade.</value>
+    <value>Доступна новая версия приложения-функции. Для обновления перейдите в параметры приложения-функции.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Quickstart</value>
+    <value>Быстрый старт</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Usage</value>
+    <value>Использование</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>All</value>
+    <value>Все</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Advanced Settings</value>
+    <value>Дополнительные параметры</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions.</value>
+    <value>Упростить использование функций, активируемых по HTTP, клиентами.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser.</value>
+    <value>Разрешить вызов функций, активируемых по HTTP, из веб-браузера.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API definition</value>
+    <value>Определение API</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentication/Authorization</value>
+    <value>Проверка подлинности/авторизация</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continuous Integration</value>
+    <value>Непрерывная интеграция</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>Настроить проверку подлинности</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Configure API metadata</value>
+    <value>Настроить метаданные API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>Настроить непрерывную интеграцию</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Configure CORS</value>
+    <value>Настроить CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more.</value>
+    <value>Разверните код функции из GitHub, Visual Studio Team Services и других источников.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated.</value>
+    <value>Для функций, использующих триггер HTTP, можно настроить проверку подлинности вызовов.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>Параметры приложения-функции</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Go to App Service Settings</value>
+    <value>Перейти к параметрам службы приложений</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Manage your function app like any other App Service instance.</value>
+    <value>Управляйте приложением-функцией как любым другим экземпляром службы приложений.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Memory Size</value>
+    <value>Размер памяти</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtime version: Latest ({{latestExtensionVersion}})</value>
+    <value>Версия среды выполнения: последняя ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Версия среды выполнения: {{extensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>App executions</value>
+    <value>Выполнения приложения</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>App Usage(Gb Sec)</value>
+    <value>Использование приложения (ГБ/с)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App Usage</value>
+    <value>Использование приложения-функции</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>There is no Data</value>
+    <value>Данные отсутствуют.</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>of executions</value>
+    <value>выполнений</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Parameter name</value>
+    <value>Имя параметра</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Close</value>
+    <value>Закрыть</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Config</value>
+    <value>Конфигурация</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Create</value>
+    <value>Создать</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>It looks like you don't have a functions container. Select a subscription to create one:</value>
+    <value>Похоже, у вас нет контейнера функций. Выберите подписку, чтобы создать его:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Your trial has expired</value>
+    <value>Срок действия пробной версии истек</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Отключено</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Включено</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>here</value>
+    <value>здесь</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>You may be experiencing an error. If you're having issues, please post them</value>
+    <value>Возможно, возникла ошибка. При наличии проблем сообщите о них.</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Error parsing config: {{error}}</value>
+    <value>Ошибка при анализе конфигурации: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Features</value>
+    <value>Функции</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>This field is required</value>
+    <value>Это обязательное поле</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Code</value>
+    <value>Код</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Run</value>
+    <value>Запуск</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json</value>
+    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения. Эти параметры можно изменить в файле function.json.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Advanced editor</value>
+    <value>Расширенный редактор</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Changes made will be lost. Are you sure you want to continue?</value>
+    <value>Внесенные изменения будут утеряны. Вы действительно хотите продолжить?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Setting name:</value>
+    <value>Имя параметра:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Standard editor</value>
+    <value>Обычный редактор</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Are you sure you want to delete Function {{name}}?</value>
+    <value>Вы действительно хотите удалить функцию {{name}}?</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
+    <value>Для приложения-функции включена проверка подлинности. Отключите ее перед запуском функции.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
+    <value>При выполнении функции ({{name}}) возникла ошибка. Полные сведения об ошибке см. в выходных данных журнала.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Inputs</value>
+    <value>Входные данные</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>Журналы</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>New Input</value>
+    <value>Новое входное значение</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>New Output</value>
+    <value>Новое выходное значение</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>New Trigger</value>
+    <value>Новый триггер</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Next</value>
+    <value>Далее</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Not valid value</value>
+    <value>Недопустимое значение</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Outputs</value>
+    <value>Выходные данные</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Select</value>
+    <value>Выбор</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>Разработка</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>Интегрировать</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Manage</value>
+    <value>Управление</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Монитор</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Choose an input binding</value>
+    <value>Выберите привязку для ввода.</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Choose an output binding</value>
+    <value>Выберите привязку для вывода.</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>Выберите шаблон.</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Choose a trigger</value>
+    <value>Выберите триггер</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Language:</value>
+    <value>Язык:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Scenario:</value>
+    <value>Сценарий:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Триггеры</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Trial expired</value>
+    <value>Истек срок действия пробной версии.</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Changes made here will affect all of the functions within your function app.</value>
+    <value>Внесенные здесь изменения затрагивают все функции в вашем приложении-функции.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates</value>
+    <value>&lt;span&gt;Создайте полностью новую функцию&lt;/span&gt; — начните работу с помощью одного из готовых шаблонов функций.</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>Разработка</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt;</value>
+    <value>&lt;span&gt;Обратитесь к документации&lt;/span&gt; — ознакомьтесь со всеми возможностями Функций Azure &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;здесь&lt;/a&gt;.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>Параметры приложения-функции</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>Интегрировать</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Integrating your functions with other services and data sources is easy.</value>
+    <value>Интеграция функций с другими службами и источниками данных не вызывает никаких сложностей.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Next Steps</value>
+    <value>Следующие шаги</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets.</value>
+    <value>Настройте автоматические действия на основе внешних триггеров, включите другие источники входных данных и отправьте выходные данные в несколько конечных расположений.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Skip the tour and start coding</value>
+    <value>Пропустить обзор и приступить к программированию</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
+    <value>Правки в код быстрее всего вносить в редакторе кода, но можно использовать и Git. В этом примере используется NodeJS, но поддерживается и множество других языков.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>This page also includes a log stream and a test console for helping you debug your function.</value>
+    <value>Этот пакет также включает поток журналов и тестовую консоль для отладки функции.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard</value>
+    <value>&lt;span&gt;Оптимизируйте этот пример функции&lt;/span&gt; — превратите его в нечто оригинальное с помощью удобной панели мониторинга.</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app.</value>
+    <value>Ваши функции предназначены для выполнения в качестве приложения-функции внутри службы приложений Azure, и именно там следует изменять возможности такого приложения.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Update</value>
+    <value>Обновить</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>select</value>
+    <value>выбрать </value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>delete</value>
+    <value>удалить</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Parameter 'direction' is missed.</value>
+    <value>Пропущено направление для параметра.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Unknown direction: '{{direction}}'.</value>
+    <value>Неизвестное направление: "{{direction}}".</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Parameter name must be unique in a function: '{{functionName}}'</value>
+    <value>Имя параметра должно быть уникальным в рамках функции: "{{functionName}}".</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Parameter 'name' is missed.</value>
+    <value>Пропущено имя для параметра.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Parameter 'type' is missed.</value>
+    <value>Пропущен тип для параметра.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Unknown type: '{{type}}'.</value>
+    <value>Неизвестный тип: "{{type}}".</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Waiting for the resource</value>
+    <value>Ожидается ресурс</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Update your runtime version</value>
+    <value>Обновить версию среды выполнения</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Your runtime version is  up to-date</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>We've enjoyed hosting your functions !</value>
+    <value>Нам очень понравилось размещать ваши функции.</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
+    <value>Срок действия вашей пробной версии истек, однако вы можете получить расширенную пробную версию, включающую в себя все остальные функции Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Choose an auth provider</value>
+    <value>Выберите поставщика проверки подлинности.</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft Account</value>
+    <value>Учетная запись Майкрософт</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Create a free Azure account</value>
+    <value>Создать бесплатную учетную запись Azure</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Extend trial to 24 hours</value>
+    <value>Продлить срок действия пробной версии на 24 часа</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Free Trial - Time remaining:</value>
+    <value>Оставшийся срок действия пробной версии:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>Ошибка при создании функции. Повторите попытку.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Create Function Error</value>
+    <value>Ошибка при создании функции</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
+    <value>Если вы хотите использовать другой поддерживаемый язык, позднее вы сможете выбрать его на портале функций.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> minutes</value>
+    <value> мин</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>new</value>
+    <value>новое</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
+    <value>Привязки входных данных предоставляют дополнительные данные функции при ее вызове. Например, можно извлечь данные из табличного хранилища в новом сообщении очереди. Входные данные необязательны.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
+    <value>Привязки выходных данных позволяют выводить данные из функции. Например, можно добавить элемент в очередь. Выходные данные необязательны.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
+    <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Create a new functoin triggered by this output</value>
+    <value>Создание новой функции, запускаемой этими выходными данными</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Документация</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Go</value>
+    <value>Перейти</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>Скопировано.</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Copy to clipboard</value>
+    <value>Копировать в буфер</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+    <value>Изменения, внесенные в текущий файл, будут потеряны. Вы действительно хотите продолжить?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Are you sure you want to delete {{fileName}}</value>
+    <value>Вы действительно хотите удалить {{fileName}}?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Editing binary files is not supported.</value>
+    <value>Редактирование двоичных файлов не поддерживается.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Error creating file: {{fileName}}</value>
+    <value>Ошибка при создании файла: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Error deleting file: {{fileName}}</value>
+    <value>Ошибка при удалении файла: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Application settings</value>
+    <value>Параметры приложения</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Описание параметров приложения</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>Консоль для разработчиков</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>Описание консоли для разработчиков</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Описание Kudu</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>Настроить параметры приложения</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>Открыть консоль для разработчиков</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>Перейти в Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>Быстрее всего редактировать код в редакторе, но можно использовать и Git. В этом примере используется C#, но поддерживаются и многие другие языки.</value>
   </data>
 </root>

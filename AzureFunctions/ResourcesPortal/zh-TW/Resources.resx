@@ -121,616 +121,616 @@
     <value>Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Configure</value>
+    <value>設定</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Create Function Error: {{error}}</value>
+    <value>建立函式發生錯誤: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>函式建立錯誤! 請再試一次。</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Function Error: {{error}}</value>
+    <value>函式錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Function (${{name}}) Error: {{error}}</value>
+    <value>函式 (${{name}}) 錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Function Url:</value>
+    <value>函式 URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github Secret:</value>
+    <value>Github 密碼:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Hide files</value>
+    <value>隱藏檔案</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Host Error: {{error}}</value>
+    <value>主機錯誤: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Output</value>
+    <value>輸出</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Request body</value>
+    <value>要求本文</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Save and run</value>
+    <value>儲存並執行</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Status:</value>
+    <value>狀態:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>View files</value>
+    <value>檢視檔案</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>選擇範本</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>此範本為實驗性質，且尚未具備完整支援。若您遇到問題，請於 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt; GitHub 存放庫&lt;/a&gt;提出 Bug。</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Function name</value>
+    <value>函數名稱</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>A function name is required</value>
+    <value>需要函式名稱</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Name your function</value>
+    <value>替您的函式命名</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Create + get started</value>
+    <value>建立 + 開始使用</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function Apps</value>
+    <value>函數應用程式</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Get started with Azure Functions</value>
+    <value>開始使用 Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>New function app</value>
+    <value>新函數應用程式</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Your subscription contains no function apps. These are containers where your functions are executed. Create one now.</value>
+    <value>您的訂用帳戶未包含任何函數應用程式。這些是您函式執行所在的容器。請立即建立一個。</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Or create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+    <value>或從 &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure 入口網站&lt;/a&gt;建立函數應用程式。</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Select Location</value>
+    <value>選取位置</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Select Subscription</value>
+    <value>選取訂用帳戶</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions</value>
+    <value>訂用帳戶 {{displayName}} ({{ subscriptionId }}) 對執行中的函式而言不在允許清單中</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below.</value>
+    <value>此訂用帳戶包含一或多個函數應用程式。這些是您函式執行所在的容器。請選取一個或於下方建立新的容器。</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>The name must be at least 2 characters</value>
+    <value>名稱至少必須包含 2 個字元</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>The name must be at most 60 characters</value>
+    <value>名稱最多只能 60 個字元</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number)</value>
+    <value>名稱可以包含字母、數字和連字號 (但第一個和最後一個字元必須是字母或數字)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>function app name {{funcName}} isn't available</value>
+    <value>無法使用函數應用程式名稱 {{funcName}}</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription</value>
+    <value>您需要 Azure 訂用帳戶才能使用此服務。&lt;a href="https://azure.microsoft.com/en-us/free/"&gt;請按一下這裡&lt;/a&gt;建立免費的試用版訂用帳戶</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Your function apps</value>
+    <value>您的函數應用程式</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Your subscription</value>
+    <value>您的訂用帳戶</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Choose a language:</value>
+    <value>2) 選擇語言:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Choose a scenario:</value>
+    <value>1) 選擇案例:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Create this function</value>
+    <value>建立此函式</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Or create your own custom function</value>
+    <value>或是建立您自己的自訂函式</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Data processing</value>
+    <value>資料處理</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>The faster way to functions</value>
+    <value>更快取得函式的方法</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Get started quickly with a premade function</value>
+    <value>搭配預先建立的函式快速開始使用</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Or get started on your own</value>
+    <value>或是自行開始使用</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, choose "Create a function from scratch".</value>
+    <value>若您偏好其他支援的語言，請選擇 [從頭建立函式]。</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>start from source control.</value>
+    <value>從原始檔控制開始。</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Timer</value>
+    <value>計時器</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
+    <value>無論是要執行清除資料庫的簡單作業，或者建置更複雜的架構，請皆以分鐘為單位寫入任何函式。建立函式比以往更加容易，無論您選擇何種 OS、平台或開發方法皆然。無須安裝。</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>清除</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>已複製!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Copy Logs</value>
+    <value>複製記錄</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>暫停</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Start</value>
+    <value>開始</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Too many logs. Refresh rate: {{seconds}} seconds.</value>
+    <value>太多記錄。重新整理的頻率: {{seconds}} 秒。</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Name</value>
+    <value>名稱</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Open</value>
+    <value>開啟</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>or</value>
+    <value>或</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Region</value>
+    <value>區域</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Run</value>
+    <value>執行</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>儲存</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>將遺失對函式 {{name}} 所做的變更。確定要繼續嗎?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>New Function</value>
+    <value>新函式</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>重新整理</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Search my functions</value>
+    <value>搜尋我的函式</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Subscription</value>
+    <value>訂用帳戶</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
+    <value>將遺失對目前函式所做的變更。確定要繼續嗎?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Function app settings</value>
+    <value>函數應用程式設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>A new version of Azure Functions is available.Visit Function App Settings to upgrade.</value>
+    <value>有可用的 Azure Functions 新版本。請造訪函數應用程式設定進行升級。</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Quickstart</value>
+    <value>快速入門</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Usage</value>
+    <value>使用方式</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>All</value>
+    <value>全部</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Advanced Settings</value>
+    <value>進階設定</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions.</value>
+    <value>讓用戶端能更輕鬆地使用您的 HTTP 觸發函式。</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser.</value>
+    <value>讓您的 HTTP 觸發函式可從網頁瀏覽器中呼叫。</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API definition</value>
+    <value>API 定義</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentication/Authorization</value>
+    <value>驗證/授權</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continuous Integration</value>
+    <value>持續整合</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>設定驗證</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Configure API metadata</value>
+    <value>設定 API 中繼資料</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>設定持續整合</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Configure CORS</value>
+    <value>設定 CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more.</value>
+    <value>從 GitHub、Visual Studio Team Services 等部署您的函式程式碼。</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated.</value>
+    <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>函數應用程式設定</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Go to App Service Settings</value>
+    <value>前往 App Service 設定</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Manage your function app like any other App Service instance.</value>
+    <value>以管理任何其他 App Service 執行個體的方式來管理您的函數應用程式。</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Memory Size</value>
+    <value>記憶體大小</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtime version: Latest ({{latestExtensionVersion}})</value>
+    <value>執行階段版本: 最新的 ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>App executions</value>
+    <value>應用程式執行</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>App Usage(Gb Sec)</value>
+    <value>應用程式使用量 (GB 秒)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App Usage</value>
+    <value>函數應用程式使用量</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>There is no Data</value>
+    <value>沒有任何資料</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>of executions</value>
+    <value>可執行</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Parameter name</value>
+    <value>參數名稱</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Close</value>
+    <value>關閉</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Config</value>
+    <value>設定</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Create</value>
+    <value>建立</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>It looks like you don't have a functions container. Select a subscription to create one:</value>
+    <value>您似乎沒有函式容器。請選取訂用帳戶建立一個:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Your trial has expired</value>
+    <value>您的試用版已到期</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>已停用</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>已啟用</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>here</value>
+    <value>這裡</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>You may be experiencing an error. If you're having issues, please post them</value>
+    <value>您可能遇到錯誤。若您遇到問題，請加以張貼</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Error parsing config: {{error}}</value>
+    <value>剖析設定時發生錯誤: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Features</value>
+    <value>功能</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>This field is required</value>
+    <value>這是必要欄位</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Code</value>
+    <value>程式碼</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Run</value>
+    <value>執行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json</value>
+    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。您可以在 function.json 中編輯這些設定。</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Advanced editor</value>
+    <value>進階編輯器</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Changes made will be lost. Are you sure you want to continue?</value>
+    <value>將遺失所做的變更。確定要繼續嗎?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>將遺失對函式 {{name}} 所做的變更。確定要繼續嗎?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Setting name:</value>
+    <value>設定名稱:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Standard editor</value>
+    <value>標準編輯器</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Are you sure you want to delete Function {{name}}?</value>
+    <value>確定要刪除函式 {{name}} 嗎?</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
+    <value>函數應用程式已啟用驗證。請先停用驗證再執行函式。</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>There was an error running function ({{name}}). Check logs output for the full error.</value>
+    <value>執行函式 ({{name}}) 時發生錯誤。請檢查記錄輸出取得完整錯誤。</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Inputs</value>
+    <value>輸入</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>記錄</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>New Input</value>
+    <value>新的輸入</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>New Output</value>
+    <value>新的輸出</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>New Trigger</value>
+    <value>新的觸發程序</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Next</value>
+    <value>下一步</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Not valid value</value>
+    <value>值無效</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Outputs</value>
+    <value>輸出</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Select</value>
+    <value>選取</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>開發</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>整合</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Manage</value>
+    <value>管理</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>監視</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Choose an input binding</value>
+    <value>選擇輸入繫結</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Choose an output binding</value>
+    <value>選擇輸出繫結</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>選擇範本</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Choose a trigger</value>
+    <value>選擇觸發程序</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Language:</value>
+    <value>語言:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Scenario:</value>
+    <value>案例:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>觸發程序</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Trial expired</value>
+    <value>試用版到期</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Changes made here will affect all of the functions within your function app.</value>
+    <value>此處所做的變更會影響您函數應用程式中的所有函式。</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates</value>
+    <value>&lt;span&gt;建立全新函式&lt;/span&gt; - 開始使用其中一項預先建立的函式範本</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Develop</value>
+    <value>開發</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt;</value>
+    <value>&lt;span&gt;深入了解文件&lt;/span&gt; - 在&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;此處&lt;/a&gt;探索所有 Azure Functions 功能</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>函數應用程式設定</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integrate</value>
+    <value>整合</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Integrating your functions with other services and data sources is easy.</value>
+    <value>輕易即可整合您的函式與其他服務及資料來源。</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Next Steps</value>
+    <value>後續步驟</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets.</value>
+    <value>根據外部的觸發程序設定自動化的動作、包含其他輸入資料來源，並將輸出傳送至多個目標。</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Skip the tour and start coding</value>
+    <value>跳過導覽並開始撰寫程式碼</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported.</value>
+    <value>使用程式碼編輯器是編輯程式碼最快的方法，但您也可以使用 GIT。此範例使用 NodeJS，但許多其他語言也受支援。</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>This page also includes a log stream and a test console for helping you debug your function.</value>
+    <value>此網頁也包含記錄資料流及測試主控台，可協助您為函式偵錯。</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard</value>
+    <value>&lt;span&gt;扭轉此範例函式&lt;/span&gt; - 在容易使用的儀表板上加入自己的風格</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app.</value>
+    <value>您的函式是設計用來在 Azure App Service 內作為函數應用程式執行，而此為讓您修改該應用程式的功能所在。</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Update</value>
+    <value>更新</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>select</value>
+    <value>選取</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>delete</value>
+    <value>刪除</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Parameter 'direction' is missed.</value>
+    <value>遺漏參數 'direction'。</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Unknown direction: '{{direction}}'.</value>
+    <value>未知的方向: '{{direction}}'。</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Parameter name must be unique in a function: '{{functionName}}'</value>
+    <value>參數名稱在函式中不得重複: '{{functionName}}'</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Parameter 'name' is missed.</value>
+    <value>遺漏參數 'name'。</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Parameter 'type' is missed.</value>
+    <value>遺漏參數 'type'。</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Unknown type: '{{type}}'.</value>
+    <value>未知的類型: '{{type}}'。</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Waiting for the resource</value>
+    <value>正在等候資源</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Update your runtime version</value>
+    <value>更新您的執行階段版本</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
     <value>Your runtime version is  up to-date</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>We've enjoyed hosting your functions !</value>
+    <value>我們很高興能主控您的函式!</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well.</value>
+    <value>您的試用版現已到期，但是您可以註冊延長的試用版，其也包含 Azure 的其餘部分。</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Choose an auth provider</value>
+    <value>選擇驗證提供者</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft Account</value>
+    <value>Microsoft 帳戶</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Create a free Azure account</value>
+    <value>建立免費的 Azure 帳戶</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Extend trial to 24 hours</value>
+    <value>將試用版延長至 24 小時</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Free Trial - Time remaining:</value>
+    <value>免費試用 - 剩餘的時間:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Function creation error! Please try again.</value>
+    <value>函式建立錯誤! 請再試一次。</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Create Function Error</value>
+    <value>建立函式發生錯誤</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, you can choose one later in the functions portal.</value>
+    <value>若您偏好其他支援的語言，可於稍後在函式入口網站中選擇。</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> minutes</value>
+    <value> 分鐘</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>new</value>
+    <value>新增</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional.</value>
+    <value>輸入繫結提供額外的資料，供您的函式在觸發時使用。例如，您可以在新佇列訊息上從表格儲存體擷取資料。輸入為選擇性。</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional.</value>
+    <value>輸出繫結可讓您從函式輸出資料。例如，您可以將新的項目加入佇列中。輸出為選擇性。</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.</value>
+    <value>觸發程序會啟動您的函式。例如，您可以在新的佇列訊息上進行觸發。您必須隨時具備觸發程序。</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Create a new functoin triggered by this output</value>
+    <value>建立由此輸出所觸發的新函式</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>文件</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Go</value>
+    <value>執行</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>已複製!</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Copy to clipboard</value>
+    <value>複製到剪貼簿</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
+    <value>將遺失對目前檔案所做的變更。確定要繼續嗎?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Are you sure you want to delete {{fileName}}</value>
+    <value>確定要刪除 {{fileName}} 嗎</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Editing binary files is not supported.</value>
+    <value>不支援編輯二進位檔案。</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Error creating file: {{fileName}}</value>
+    <value>建立檔案 {{fileName}} 時發生錯誤</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Error deleting file: {{fileName}}</value>
+    <value>刪除檔案 {{fileName}} 時發生錯誤</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Application settings</value>
+    <value>應用程式設定</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>應用程式設定描述</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>開發主控台</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>開發主控台描述</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Kudu 描述</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>設定應用程式設定</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>開啟開發主控台</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>前往 Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>編輯程式碼最快速的方法為使用程式碼編輯器，但您也可以使用 GIT。此範例使用 C#，但許多其他語言也受支援。</value>
   </data>
 </root>

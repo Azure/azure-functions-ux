@@ -137,6 +137,7 @@
     <TypeScriptCompile Include="app\components\top-bar.component.ts" />
     <TypeScriptCompile Include="app\components\trial-expired.component.ts" />
     <TypeScriptCompile Include="app\components\tutorial.component.ts" />
+    <TypeScriptCompile Include="app\decorators\cache.decorator.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
     <TypeScriptCompile Include="app\models\portal-resources.ts" />
