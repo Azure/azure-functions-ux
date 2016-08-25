@@ -394,6 +394,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        internal static string binding_actions {
+            get {
+                return ResourceManager.GetString("binding_actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create a new functoin triggered by this output.
         /// </summary>
         internal static string binding_createNewFunction {

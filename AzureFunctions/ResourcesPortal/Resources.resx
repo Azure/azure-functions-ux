@@ -733,4 +733,7 @@
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
   </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
 </root>

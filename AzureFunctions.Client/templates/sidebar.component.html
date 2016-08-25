@@ -17,8 +17,8 @@
             <div *ngIf="functionInfo === selectedFunction && (functionInfo.name !== ('sideBar_newFunction' | translate))">
                 <div class="tab-item" (click)="onTabClicked('Develop')" [class.tab-item-selected]="tabId === 'Develop'"><i class="fa fa-code"></i> {{ 'tabNames_develop' | translate }}<i *ngIf="tabId === 'Develop'" class="fa fa-chevron-right pull-right"></i></div>
                 <div class="tab-item" (click)="onTabClicked('Integrate')" [class.tab-item-selected]="tabId === 'Integrate'"><i class="fa fa-flash"></i> {{ 'tabNames_integrate' | translate }}<i *ngIf="tabId === 'Integrate'" class="fa fa-chevron-right pull-right"></i></div>
-                <div class="tab-item" (click)="onTabClicked('Monitor')" [class.tab-item-selected]="tabId === 'Monitor'"><i class="fa fa-search"></i> {{ 'tabNames_manage' | translate }}<i *ngIf="tabId === 'Monitor'" class="fa fa-chevron-right pull-right"></i></div>
-                <div class="tab-item" (click)="onTabClicked('Manage')" [class.tab-item-selected]="tabId === 'Manage'"><i class="fa fa-cog"></i> {{ 'tabNames_monitor' | translate }}<i *ngIf="tabId === 'Manage'" class="fa fa-chevron-right pull-right"></i></div>
+                <div class="tab-item" (click)="onTabClicked('Monitor')" [class.tab-item-selected]="tabId === 'Monitor'"><i class="fa fa-cog"></i> {{ 'tabNames_manage' | translate }}<i *ngIf="tabId === 'Monitor'" class="fa fa-chevron-right pull-right"></i></div>
+                <div class="tab-item" (click)="onTabClicked('Manage')" [class.tab-item-selected]="tabId === 'Manage'"><i class="fa fa-search"></i> {{ 'tabNames_monitor' | translate }}<i *ngIf="tabId === 'Manage'" class="fa fa-chevron-right pull-right"></i></div>
             </div>
         </li>
     </ul>
