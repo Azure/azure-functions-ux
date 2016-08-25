@@ -575,7 +575,7 @@ export class FunctionsService {
         if (this._globalStateService.TryAppServiceToken) {
             headers.append('Authorization', `Bearer ${this._globalStateService.TryAppServiceToken}`);
         } else {
-            headers.append('User-Agent2', 'Functions/');
+            headers.append('ms-x-user-agent', 'Functions/');
         }
         return headers;
     }
