@@ -8,13 +8,13 @@
              [quickStartSelected]="openIntro"></top-bar>
 
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)'></sidebar>
+        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)' (changedTab)='onChangeTab($event)' [tabId]="tabId"></sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
             <div >
                 <div *ngIf="selectedFunction">
                     <div *ngIf="selectedFunction.name !== ('sideBar_newFunction' | translate) || !selectedFunction.clientOnly">
-                        <function-edit [selectedFunction]="selectedFunction">
+                        <function-edit [selectedFunction]="selectedFunction" [tabId]="tabId">
                         </function-edit>
                     </div>
                     <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === ('sideBar_newFunction' | translate )">

@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, EventEmitter, ViewChild, Input} from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
 import {UserService} from '../services/user.service';
@@ -20,12 +20,13 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionMonitorComponent} from './function-monitor.component'
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'function-edit',
     templateUrl: 'templates/function-edit.component.html',
     styleUrls: ['styles/function-edit.style.css'],
-    inputs: ['selectedFunction'],
+    inputs: ['selectedFunction', 'tabId'],
     directives: [
         FunctionDevComponent,
         FunctionIntegrateComponent,
@@ -41,10 +42,11 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
     pipes: [TranslatePipe]
 })
 export class FunctionEditComponent {
+
+    private _tabId: string = "";
     @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    public selectedTabTitle: string = "";
     public editorType: string = "standard";
     public disabled: boolean;
 
@@ -53,13 +55,27 @@ export class FunctionEditComponent {
     public MonitorTab: string;
     public ManageTab: string;
 
+    set tabId(value: string) {
+        this._tabId = value;
+        setTimeout(() => {
+            if (this.functionDevComponent && this.functionDevComponent.aceEditors) {
+                this.functionDevComponent.aceEditors.forEach(e => e.resizeAce());
+            }
+        }, 0);
+
+    }
+
+    get tabId() {
+        return this._tabId;
+    }
+
+
     constructor(
         private _functionsService: FunctionsService,
         private _userService: UserService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _translateService: TranslateService) {
-
+        private _translateService: TranslateService) {        
         this.inIFrame = this._userService.inIFrame;
 
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -70,13 +86,14 @@ export class FunctionEditComponent {
         this.ManageTab = _translateService.instant("tabNames_manage");
     }
 
-    onTabSelected(selectedTab: TabComponent) {
-        this.selectedTabTitle = selectedTab.title;
-        setTimeout(() => {
-            if (this.functionDevComponent && this.functionDevComponent.aceEditors) {
-                this.functionDevComponent.aceEditors.forEach(e => e.resizeAce());
-            }
-        }, 0);
+
+    ngAfterContentInit() {
+        this._broadcastService.broadcast<TutorialEvent>(
+            BroadcastEvent.TutorialStep,
+            {
+                functionInfo: null,
+                step: TutorialStep.Develop
+            });
     }
 
     onEditorChange(editorType: string) {

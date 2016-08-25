@@ -22,4 +22,8 @@ export class BusyStateComponent implements OnInit {
     clearBusyState() {
         this.busy = false;
     }
+
+    get isBusy(): boolean {
+        return this.busy;
+    }
 }

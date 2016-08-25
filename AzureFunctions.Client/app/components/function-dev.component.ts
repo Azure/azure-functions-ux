@@ -20,6 +20,7 @@ import {BusyStateComponent} from './busy-state.component';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'function-dev',
@@ -150,6 +151,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         this.functionSelectStream.unsubscribe();
+    }
+
+    ngAfterContentInit() {        
+        this._broadcastService.broadcast<TutorialEvent>(
+            BroadcastEvent.TutorialStep,
+            {
+                functionInfo: null,
+                step: TutorialStep.Develop
+            });
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {

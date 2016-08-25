@@ -30,6 +30,7 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TryNowComponent} from './try-now.component';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'functions-dashboard',
@@ -63,6 +64,7 @@ export class DashboardComponent implements OnChanges {
     public openIntro: any;
     public trialExpired: boolean;
     public action: Action;
+    public tabId: string = "Develop";    
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -70,6 +72,26 @@ export class DashboardComponent implements OnChanges {
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
+
+        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
+            let selectedTabId: string;
+            switch (event.step) {
+                case TutorialStep.Develop:
+                case TutorialStep.NextSteps:
+                    selectedTabId = "Develop";
+                    break;
+                case TutorialStep.Integrate:
+                    selectedTabId = "Integrate"
+                    break;
+                default:
+                    break;
+            }
+
+            if (selectedTabId) {
+                this.tabId = selectedTabId;
+                this.onChangeTab(this.tabId);
+            }
+        });
 
         this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
             this.action = <Action>value;
@@ -147,6 +169,10 @@ export class DashboardComponent implements OnChanges {
 
     onRefreshClicked() {
         this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
+    }
+
+    onChangeTab(event: string) {
+        this.tabId = event;
     }
 
     onAppMonitoringClicked() {
