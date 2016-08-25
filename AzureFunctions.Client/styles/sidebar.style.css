@@ -13,6 +13,11 @@
     z-index: 100;
 }
 
+.try-sidebar {
+    height: 97%;
+    top: 40px;
+}
+
 .sidebar-iframe{
     padding-top: 0px;
 }
@@ -149,4 +154,25 @@
 .refresh-button {
     position: absolute;
     bottom: 0px;
+}
+
+.tab-item {
+    padding-left: 30px;
+    padding-right: 10px;
+    background-color: #E6E7E8;
+    line-height: 30px;
+}
+
+.tab-item:hover {
+    background-color: #D1D2D4;
+    cursor: pointer;
+}
+
+.tab-item-selected {
+    color: #0273D4 !important;
+    background-color: white;
+}
+
+.tab-item i {
+    line-height:30px;
 }

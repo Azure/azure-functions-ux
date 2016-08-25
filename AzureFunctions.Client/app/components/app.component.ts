@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+﻿import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {DashboardComponent} from './dashboard.component';
 import {GettingStartedComponent} from './getting-started.component';
 import {PortalService} from '../services/portal.service';
@@ -11,21 +11,44 @@ import {FunctionContainer} from '../models/function-container';
 import {UserService} from '../services/user.service';
 import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list.component';
-import {MonitoringService} from '../services/appMonitoring.service';
+import {MonitoringService} from '../services/app-monitoring.service';
 import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+import {TryLandingComponent} from './try-landing.component';
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
-    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent]
+    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent]
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public gettingStarted: boolean;
-    public ready: boolean;
+    public ready: boolean = false;
+    public showTryView:boolean;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
+    private _readyFunction: boolean = false;
+    private _readyResources: boolean = false;
+
+    get readyFunction(): boolean {
+        return this._readyFunction;
+    }
+
+    set readyFunction(value:boolean) {
+        this._readyFunction = value;
+        this.ready = this._readyFunction && this._readyResources;
+    }
+
+    get readyResources(): boolean {
+        return this._readyResources;
+    }
+
+    set readyResources(value: boolean) {
+        this._readyResources = value;
+        this.ready = this._readyFunction && this._readyResources;
+    }
 
     constructor(
         private _portalService: PortalService,
@@ -35,15 +58,19 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _userService: UserService,
         private _monitoringService: MonitoringService,
         private _backgroundTasksService: BackgroundTasksService,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _trnaslateService: TranslateService
     ) {
-        this.ready = false;
         this.gettingStarted = !_userService.inIFrame;
+        this.showTryView = this._globalStateService.showTryView; 
+        this._functionsService.getResources().subscribe(() => {
+            this.readyResources = true;
+        });
     }
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        if (!this.gettingStarted) {
+        if (!this.gettingStarted && !this.showTryView ) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
                 .debounceTime(500)
@@ -55,7 +82,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                     }
                 });
         } else {
-            this.ready = true;
+            this.readyFunction = true;
             this._globalStateService.clearBusyState();
         }
     }
@@ -65,18 +92,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-
     initializeDashboard(functionContainer: FunctionContainer | string) {
         this._globalStateService.setBusyState();
+        if (typeof functionContainer !== 'string')
+            //TODO: investigate this
+            this.showTryView = functionContainer.tryScmCred === null;
+
         if (this.redirectToIbizaIfNeeded(functionContainer)) return;
+
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
                 this._userService.setFunctionContainer(functionContainer);
+                this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
                 this._globalStateService.clearBusyState();
-                this.ready = true;
+                this.readyFunction = true;
                 this.functionContainer = functionContainer;
                 this._backgroundTasksService.runTasks();
             } else {
@@ -87,13 +119,13 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._globalStateService.setBusyState();
             this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc));
         }
-
     }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1) {
+            window.location.search.indexOf("ibiza=disabled") === -1
+            && (this._globalStateService.ScmCreds === undefined || this._globalStateService.ScmCreds === null)) {
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()
@@ -113,5 +145,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         } else {
             return false;
         }
+    }
+
+    private updateReady() {
+        this.ready = this._readyResources && this._readyFunction;
     }
 }

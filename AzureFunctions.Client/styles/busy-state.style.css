@@ -10,6 +10,12 @@
     position: fixed;
 }
 
+.try-functions-busy {
+    background-color: #539CF6;
+    color: white;
+    font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+}
+
 @-webkit-keyframes fxs-progress-animatedEllipses {
   0% {
     opacity: 1;
@@ -69,4 +75,25 @@
 .fxs-progress-dots > div:nth-child(3) {
   -webkit-animation-delay: 0.4s;
   animation-delay: 0.4s;
+}
+
+.fxs-progress-dots > div:nth-child(4) {
+    padding-top: 20px;
+    width: 100%;
+    background: white;
+}
+
+.try-functions {
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 47px;
+}
+
+.try-functions > div {
+    padding: 5px;
 }

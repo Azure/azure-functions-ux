@@ -1,19 +1,18 @@
 <div class="wrapper">
     <div id="heading">
-        Function App Settings
+        {{ 'appFunctionSettings_functionAppSettings' | translate }}
     </div>
-
-    <div class="setting-wrapper">
+    <div [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
         <div class="features-wrapper">
             <div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <h2>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</h2>
+                    <h2>{{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="!needUpdateExtensionVersion">
-                    <h2>Runtime version: Latest ({{latestExtensionVersion}})</h2>
+                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }})</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <button class="custom-button" (click)="updateVersion()">Update</button>
+                    <button class="custom-button" (click)="updateVersion()">{{ 'update' | translate }}</button>
                 </div>
             </div>
 
@@ -21,7 +20,7 @@
     </div>
 
     <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper features-wrapper">
-        <label>Memory Size</label>
+        <label>{{ 'appFunctionSettings_memory' | translate }}</label>
         <!-- TODO: move css -->
         <div style="height: 60px">
             <!-- TODO: move css -->
@@ -32,60 +31,91 @@
                 <span>{{memorySize}} MB</span>
             </div>
             <div style="flex-grow: 1">
-                <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">Save</button>
+                <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">{{ 'save' | translate }}</button>
             </div>
         </div>
     </div>
 
     <div class="setting-wrapper">
-        <label>Features</label>
+        <label>{{ 'features' | translate }}</label>
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2>Continuous Integration</h2>
-                    Deploy your function code from GitHub, Visual Studio Team Services, and more.
+                    <h2>{{ 'appFunctionSettings_CI' | translate }}</h2>
+                    {{ 'appFunctionSettings_deploy' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>Configure Continuous Integration</div>
+                    <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>{{ 'appFunctionSettings_configureCI' | translate }}</div>
                 </div>
             </div>
             <div>
                 <div>
-                    <h2>Authentication/Authorization</h2>
-                    For functions that use the HTTP trigger, you can require calls to be authenticated.
+                    <h2>{{ 'appFunctionSettings_auth' | translate }}</h2>
+                    {{ 'appFunctionSettings_forFunc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("AppAuth")'>Configure Authentication</div>
+                    <div class="clickable" (click)='openBlade("AppAuth")'>{{ 'appFunctionSettings_configAuth' | translate }}</div>
                 </div>
             </div>
             <div>
                 <div>
-                    <h2>CORS</h2>
-                    Allow your HTTP-triggered functions to be called from within a web browser.
+                    <h2>{{ 'cors' | translate }}</h2>
+                   {{ 'appFunctionSettings_allowYour' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ApiCors")'>Configure CORS</div>
+                    <div class="clickable" (click)='openBlade("ApiCors")'>{{ 'appFunctionSettings_configureCors' | translate }}</div>
                 </div>
             </div>
             <div>
                 <div>
-                    <h2>API definition</h2>
-                    Allow clients to more easily consume your HTTP-triggered functions.
+                    <h2>{{ 'appFunctionSettings_apiDefiition' | translate }}</h2>
+                    {{ 'appFunctionSettings_allowClients' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ApiDefinition")'>Configure API metadata</div>
+                    <div class="clickable" (click)='openBlade("ApiDefinition")'>{{ 'appFunctionSettings_configureAPI' | translate }}</div>
                 </div>
             </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_appSettings' | translate }}</h2>
+                    {{ 'appFunctionSettings_appSettingsDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openBlade("WebsiteConfigSiteSettings")'>{{ 'appFunctionSettings_appSettingsButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_devConsole' | translate }}</h2>
+                    {{ 'appFunctionSettings_devConsoleDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h2>{{ 'appFunctionSettings_kudu' | translate }}</h2>
+                    {{ 'appFunctionSettings_kuduDesc' | translate }}
+                </div>
+                <div>
+                    <div class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div class="setting-wrapper">
-        <label>Advanced Settings</label>
+        <label>{{ 'appFunctionSettings_manageFunction' | translate }}</label>
         <div class="features-wrapper">
             <div>
-                <div>Manage your function app like any other App Service instance.</div>
+                <div>{{ 'appFunctionSettings_AdvancedSettings' | translate }}</div>
                 <div>
-                    <div class="clickable" (click)='openBlade("WebsiteBlade")'>Go to App Service Settings</div>
+                    <div class="clickable" (click)='openBlade("WebsiteBlade")'>{{ 'appFunctionSettings_goToAppSettings' | translate }}</div>
                 </div>
             </div>
         </div>

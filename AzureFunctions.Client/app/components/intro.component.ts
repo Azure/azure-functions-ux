@@ -10,11 +10,14 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {BindingManager} from '../models/binding-manager';
 import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'intro',
     templateUrl: './templates/intro.component.html',
-    styleUrls: ['styles/intro.style.css']
+    styleUrls: ['styles/intro.style.css'],
+    pipes: [TranslatePipe]
 })
 
 export class IntroComponent {
@@ -23,10 +26,11 @@ export class IntroComponent {
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
 
-    constructor( private _functionsService: FunctionsService,
+    constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
@@ -42,7 +46,7 @@ export class IntroComponent {
         if (!this._broadcastService.getDirtyState("function_disabled")) {
             this.selectedLanguage = selectedLanguage;
         }
-}
+    }
 
     onCreateNewFunction() {
         this._functionsService.getTemplates().subscribe((templates) => {
@@ -51,16 +55,16 @@ export class IntroComponent {
             });
 
             if (selectedTemplate) {
-                try{
+                try {
                     var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                    this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name : functionName });
+                    this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name: functionName });
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                     this._globalStateService.setBusyState();
                     this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
-                            this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name : functionName });
+                            this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
                             this._broadcastService.broadcast<TutorialEvent>(
                                 BroadcastEvent.TutorialStep,
                                 {
@@ -71,13 +75,19 @@ export class IntroComponent {
                             this._globalStateService.clearBusyState();
                         },
                         e => {
-                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name : functionName });
+                            this._portalService.logAction('intro-create-from-template', 'failed', { template: selectedTemplate.id, name: functionName });
                             this._globalStateService.clearBusyState();
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
+                                details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
+                            });
                         });
                 }
-                catch(e){
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: 'Function creation error! Please try again.', details: `Create Function Error: ${JSON.stringify(e)}` });
+                catch (e) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
+                        details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
+                    });
                     throw e;
                 }
             }

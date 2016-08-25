@@ -9,11 +9,12 @@ import {TrialExpiredComponent} from './trial-expired.component';
 import {FunctionsService} from '../services/functions.service';
 import {UserService} from '../services/user.service';
 import {PortalService} from '../services/portal.service';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {FunctionTemplate} from '../models/function-template';
 import {ScmInfo} from '../models/scm-info';
 import {Subscription} from '../models/subscription';
+import {Action} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {ServerFarm} from '../models/server-farm';
 import {BroadcastService} from '../services/broadcast.service';
@@ -25,6 +26,11 @@ import {FunctionContainer} from '../models/function-container';
 import {ErrorEvent} from '../models/error-event';
 import {SourceControlComponent} from './source-control.component';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {TryNowComponent} from './try-now.component';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'functions-dashboard',
@@ -41,8 +47,10 @@ import {GlobalStateService} from '../services/global-state.service';
         IntroComponent,
         TutorialComponent,
         SourceControlComponent,
-        TrialExpiredComponent
-    ]
+        TrialExpiredComponent,
+        TryNowComponent
+    ],
+    pipes: [TranslatePipe]
 })
 export class DashboardComponent implements OnChanges {
     @ViewChild(SideBarComponent) sideBar: SideBarComponent;
@@ -55,12 +63,46 @@ export class DashboardComponent implements OnChanges {
     public openSourceControl: boolean;
     public openIntro: any;
     public trialExpired: boolean;
+    public action: Action;
+    public tabId: string = "Develop";    
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
+
+        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
+            let selectedTabId: string;
+            switch (event.step) {
+                case TutorialStep.Develop:
+                case TutorialStep.NextSteps:
+                    selectedTabId = "Develop";
+                    break;
+                case TutorialStep.Integrate:
+                    selectedTabId = "Integrate"
+                    break;
+                default:
+                    break;
+            }
+
+            if (selectedTabId) {
+                this.tabId = selectedTabId;
+                this.onChangeTab(this.tabId);
+            }
+        });
+
+        this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
+            this.action = <Action>value;
+            var lang = FunctionInfoHelper.getLanguage(this.selectedFunction);
+
+            var newFunc = this.functionsInfo.find((fi) => {
+                return fi.name === this._translateService.instant('sideBar_newFunction');
+            });
+            this.selectedFunction = newFunc;
+            this.action.templateId =this.action.template + "-" + lang;
+        });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction === fi) {
@@ -69,12 +111,13 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
+            this.action = null;
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
 
             this._globalStateService.setBusyState();
 
-            if(fi.name !== "New Function") {
+            if (fi.name !== this._translateService.instant(PortalResources.sideBar_newFunction)) {
                 this._functionsService.getFunction(fi).subscribe((fi) => {
                     this.selectedFunction = fi;
                     this._globalStateService.clearBusyState();
@@ -108,7 +151,7 @@ export class DashboardComponent implements OnChanges {
                 this._globalStateService.clearBusyState();
                 this.resetView(true);
                 this.openIntro = true;
-
+                selectedFunctionName = selectedFunctionName || Cookie.get('functionName');;
                 if (selectedFunctionName) {
                     var findSelected = this.functionsInfo.find((f) => {
                         return f.name === selectedFunctionName;
@@ -126,6 +169,10 @@ export class DashboardComponent implements OnChanges {
 
     onRefreshClicked() {
         this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
+    }
+
+    onChangeTab(event: string) {
+        this.tabId = event;
     }
 
     onAppMonitoringClicked() {

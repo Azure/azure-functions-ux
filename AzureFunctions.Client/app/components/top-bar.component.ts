@@ -9,6 +9,9 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {TryNowComponent} from './try-now.component';
 
 enum TopbarButton {
     None = <any>"None",
@@ -22,7 +25,9 @@ enum TopbarButton {
     selector: 'top-bar',
     templateUrl: 'templates/top-bar.component.html',
     styleUrls: ['styles/top-bar.style.css'],
-    inputs: ['isFunctionSelected', 'quickStartSelected']
+    inputs: ['isFunctionSelected', 'quickStartSelected'],
+    pipes: [TranslatePipe],
+    directives: [TryNowComponent]
 })
 
 export class TopBarComponent implements OnInit {
@@ -34,18 +39,20 @@ export class TopBarComponent implements OnInit {
     public ActiveButton: TopbarButton;
     public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
+    private showTryView; boolean;
+
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private appSettingsClicked: EventEmitter<any>;
     @Output() private quickstartClicked: EventEmitter<any>;
     @Output() private sourceControlClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
-                private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _functionsService: FunctionsService,
-                private _globalStateService: GlobalStateService
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService,
+        private _functionsService: FunctionsService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService
     ) {
-
         this.appMonitoringClicked = new EventEmitter<any>();
         this.appSettingsClicked = new EventEmitter<any>();
         this.quickstartClicked = new EventEmitter<any>();
@@ -64,22 +71,25 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.ActiveButton = TopbarButton.Quickstart;
+        this.showTryView = this._globalStateService.showTryView;
+        if (!this.showTryView) {
+            this.ActiveButton = TopbarButton.Quickstart;
 
-        // nothing to do if we're running in an iframe
-        if (this.inIFrame) return;
+            // nothing to do if we're running in an iframe
+            if (this.inIFrame) return;
 
-        this._userService.getUser()
-            .subscribe((u) => {
-                this.user = u
-            });
+            this._userService.getUser()
+                .subscribe((u) => {
+                    this.user = u;
+                });
 
-        this._userService.getTenants()
-            .subscribe(t => {
-                this.tenants = t;
-                this.currentTenant = this.tenants.find(e => e.Current);
-            });
-
+            this._userService.getTenants()
+                .subscribe(t => {
+                    this.tenants = t;
+                    this.currentTenant = this.tenants.find(e => e.Current);
+                });
+        } else
+            this.ActiveButton = TopbarButton.None;
     }
 
     selectTenant(tenant: TenantInfo) {
@@ -126,7 +136,7 @@ export class TopBarComponent implements OnInit {
         return this._isFunctionSelected;
     }
 
-    private resetView(){
+    private resetView() {
         this.ActiveButton = TopbarButton.None;
     }
 
@@ -148,7 +158,7 @@ export class TopBarComponent implements OnInit {
         var leaveFunction = true;
         if (this.isFunctionSelected &&
             (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            leaveFunction = confirm(`Changes made to the current function will be lost. Are you sure you want to continue?`);
+            leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
             if (leaveFunction) {
                 this._broadcastService.clearDirtyState('function', true);
                 this._broadcastService.clearDirtyState('function_integrate', true);

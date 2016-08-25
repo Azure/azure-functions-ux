@@ -3,6 +3,8 @@ import {FunctionConfig} from './function-config';
 import {Template} from './template-picker';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionBinding} from './function-config';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+import {PortalResources} from './portal-resources';
 
 export class BindingManager {
 
@@ -50,6 +52,7 @@ export class BindingManager {
                 name: b.name,
                 type: type,
                 direction: direction,
+                enabledInTryMode: false,
                 settings: [],
                 displayName: bindingConfig ? bindingConfig.displayName : ""
             };
@@ -127,6 +130,7 @@ export class BindingManager {
             name: parameterNameSetting.defaultValue,
             type: type,
             direction: direction,
+            enabledInTryMode: false,
             settings: [],
             displayName: schema.displayName
         };
@@ -173,14 +177,37 @@ export class BindingManager {
         });
     }
 
-    validateConfig(config: FunctionConfig) {
+    validateConfig(config: FunctionConfig, translationService: TranslateService) {
+
         config.bindings.forEach((b) => {
             var duplicate = config.bindings.find((binding) => {
                 return b !== binding &&  binding.name === b.name;
             });
+
             if (duplicate) {
-                throw `parameter name must be unique in a function: '${b.name}'.`;
+                throw translationService.instant(PortalResources.bindingsValidationNameDublicate, { functionName: b.name });                
             }
+
+            if (!b.name) {
+                throw translationService.instant(PortalResources.bindingsValidationNameMissed);
+            }
+
+            if (!b.direction) {
+                throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
+            }
+
+            if (!b.type) {
+                throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
+            }            
+
+            if (!DirectionType[b.direction]) {
+                throw translationService.instant(PortalResources.bindingsValidationDirectionUnknown, { direction: b.direction });
+            }
+
+            if (!BindingType[b.type]) {
+                throw translationService.instant(PortalResources.bindingsValidationTypeUnknown, { type: b.type });
+            }
+
         });
     }
 

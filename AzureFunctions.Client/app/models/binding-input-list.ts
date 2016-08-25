@@ -1,5 +1,5 @@
 ﻿import {BindingInputBase} from './binding-input';
-import {SettingType} from './binding';
+import {SettingType, Action} from './binding';
 
 export class BindingInputList {
     inputs: BindingInputBase<any>[] = [];
@@ -8,6 +8,8 @@ export class BindingInputList {
     rightInputs: BindingInputBase<any>[] = [];
     label: string;
     description: string;
+    documentation: string;
+    actions: Action[];
 
     saveOriginInputs() {
         this.originInputs = JSON.parse(JSON.stringify(this.inputs));

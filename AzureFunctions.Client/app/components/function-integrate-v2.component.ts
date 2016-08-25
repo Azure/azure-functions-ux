@@ -1,6 +1,6 @@
 ﻿import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {BindingList} from '../models/binding-list';
-import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../models/binding';
+import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingComponent} from './binding.component';
 import {TemplatePickerComponent} from './template-picker.component';
@@ -12,21 +12,26 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {PopOverComponent} from './pop-over.component';
 
 declare var jQuery: any;
 
 @Component({
     selector: 'function-integrate-v2',
     templateUrl: './templates/function-integrate-v2.component.html',
-    directives: [BindingComponent, TemplatePickerComponent],
+    directives: [BindingComponent, TemplatePickerComponent, PopOverComponent],
     styleUrls: ['styles/integrate.style.css'],
-    inputs: ['selectedFunction']
+    inputs: ['selectedFunction'],
+    pipes: [TranslatePipe]
 })
 
 
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
-    @Output() changeEditor = new EventEmitter<string>();
+    @Output() changeEditor = new EventEmitter<string>();    
+
     public disabled: boolean;
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
@@ -63,7 +68,8 @@ export class FunctionIntegrateV2Component {
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
         this._elementRef = elementRef;
     }
 
@@ -119,6 +125,13 @@ export class FunctionIntegrateV2Component {
         this.updateFunction();
     }
 
+    onGo(action: Action) {
+        if (!this.checkDirty()) {
+            return;
+        }
+        this._broadcastService.broadcast(BroadcastEvent.FunctionNew, action);
+    }
+
     onUpdateBinding(binding: UIFunctionBinding) {
         this.model.updateBinding(binding);
         this.model.setBindings();
@@ -126,7 +139,7 @@ export class FunctionIntegrateV2Component {
         try {
             this.updateFunction();
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Error parsing config: ${e}` });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, {error: e}) });
             this.onRemoveBinding(binding);
         }
     }
@@ -153,15 +166,14 @@ export class FunctionIntegrateV2Component {
 
     private updateFunction() {
         this._functionInfo.config = this._bindingManager.UIToFunctionConfig(this.model.config);
-        this._bindingManager.validateConfig(this._functionInfo.config);
+        this._bindingManager.validateConfig(this._functionInfo.config, this._translateService);
 
         // Update test_data only from develop tab
-        if (this._functionInfo.test_data) {
-            delete this._functionInfo.test_data;
-        }
+        var functionInfoCopy: FunctionInfo = Object.assign({}, this._functionInfo);
+        delete functionInfoCopy.test_data;
 
         this._globalStateService.setBusyState();
-        this._functionsService.updateFunction(this._functionInfo).subscribe((result) => {
+        this._functionsService.updateFunction(functionInfoCopy).subscribe((result) => {
             this._globalStateService.clearBusyState();
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._functionInfo);
         });
@@ -170,7 +182,7 @@ export class FunctionIntegrateV2Component {
     private checkDirty(): boolean {
         var switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
-            switchBinding = confirm(`Changes made will be lost. Are you sure you want to continue?`);
+            switchBinding = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost1));
         }
 
         if (switchBinding) {
@@ -182,7 +194,7 @@ export class FunctionIntegrateV2Component {
     private switchIntegrate() {
         var result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            result = confirm(`Changes made to function ${this._functionInfo.name} will be lost. Are you sure you want to continue?`);
+            result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, {name: this._functionInfo.name}));
         }
         return result;
     }

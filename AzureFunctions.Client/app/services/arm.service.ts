@@ -8,6 +8,7 @@ import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
 import {Constants} from '../models/constants';
+import {ClearCache} from '../decorators/cache.decorator';
 
 @Injectable()
 export class ArmService {
@@ -18,7 +19,10 @@ export class ArmService {
     private websiteApiVersion = '2015-08-01';
 
     constructor(private _http: Http, private _userService: UserService) {
-        _userService.getToken().subscribe(t => this.token = t);
+        //Cant Get Angular to accept GlobalStateService as input param
+        if ( !window.location.pathname.endsWith('/try')) {
+            _userService.getToken().subscribe(t => this.token = t);
+        }
     }
 
     getSubscriptions() {
@@ -60,8 +64,10 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
+    @ClearCache('clearAllCachedData')
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
-        appSettings[Constants.extensionVersionAppSettingName] = Constants.latestExtensionVersion;
+        appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+        appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
         return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
                 .map<{ [key: string]: string }>(r => r.json().properties);
@@ -154,12 +160,12 @@ export class ArmService {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: Constants.extensionVersionAppSettingName, value: Constants.latestExtensionVersion },
+                        { name: Constants.runtimeVersionAppSettingName, value: Constants.runtimeVersion },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },
                         { name: 'AZUREJOBS_EXTENSION_VERSION', value: 'beta' },
-                        { name: 'WEBSITE_NODE_DEFAULT_VERSION', value: '4.1.2' }
+                        { name: Constants.nodeVersionAppSettingName, value: Constants.nodeVersion }
                     ]
                 },
                 sku: 'Dynamic'
@@ -230,14 +236,14 @@ export class ArmService {
 
         if (storageAccount &&
             typeof storageAccount !== 'string' &&
-            (storageAccount.properties.provisioningState === 'Succeeded' || storageAccount.properties.provisioningState === 'ResolvingDNS')) {
+            storageAccount.properties.provisioningState === 'Succeeded') {
             this.getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
         } else  {
             this._http.get(url, { headers: this.getHeaders() })
                 .map<StorageAccount>(r => r.json())
                 .subscribe(
                 sa => {
-                    if (sa.properties.provisioningState === 'Succeeded' || sa.properties.provisioningState === 'ResolvingDNS') {
+                    if (sa.properties.provisioningState === 'Succeeded') {
                         this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
                     } else if (count < 10) {
                         setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 200)

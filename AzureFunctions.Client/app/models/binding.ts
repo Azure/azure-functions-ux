@@ -25,17 +25,20 @@ export interface BindingConfig {
     $shcema: string,
     contentVersion: string,
     variables: any,
-    bindings: Binding[];
+    bindings: Binding[]
 }
 
 
 export interface Binding {
     type: BindingType;
     displayName: string;
+    documentation: string;
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
-    filters?: string[];
+    filters?: string[],
+    enabledInTryMode?: boolean;
+    actions: Action[]
 }
 
 export interface Setting {
@@ -80,7 +83,8 @@ export interface EnumOption {
 export enum DirectionType {
     trigger = <any>"trigger",
     in = <any>"in",
-    out = <any>"out"
+    out = <any>"out",
+    inOut = <any>"inOut"
 }
 
 export enum ResourceType {
@@ -116,6 +120,7 @@ export interface FunctionSetting {
 export interface FunctionBindingBase {
     type: BindingType;
     direction: DirectionType;
+    enabledInTryMode: boolean;
 }
 
 export interface UIFunctionBinding extends FunctionBindingBase {
@@ -126,4 +131,13 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     hiddenList?: string[];
     displayName: string;
     newBinding?: boolean;
+}
+
+export interface Action {
+    template: string;
+    binding: string;
+    settings: string[];
+
+    settingValues: string[];
+    templateId: string;
 }

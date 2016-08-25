@@ -9,6 +9,9 @@ import {SettingType, ResourceType} from '../models/binding';
 import {DropDownElement} from '../models/drop-down-element';
 import {DropDownComponent} from './drop-down.component';
 import {PopOverComponent} from './pop-over.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var prettyCron: any;
 
@@ -18,7 +21,8 @@ declare var prettyCron: any;
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"],
     styleUrls: ['styles/binding.style.css'],
-    directives: [DropDownComponent, PopOverComponent]
+    directives: [DropDownComponent, PopOverComponent],
+    pipes: [TranslatePipe]
 })
 
 export class BindingInputComponent {
@@ -27,16 +31,25 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     public description: string;
     private _input: BindingInputBase<any>;
-
+    private showTryView: boolean;
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _userService: UserService) {
-
+        private _userService: UserService,
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService) {
+        this.showTryView = this._globalStateService.showTryView;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
     set input(input: BindingInputBase<any>) {
+        if (input.type === SettingType.picker) {
+            var picker = <PickerInput>input;
+            if (!input.value && picker.items) {
+                input.value = picker.items[0];
+            }            
+        }
+
         this._input = input;
         this.setBottomDescription(this._input.id, this._input.value);
 
@@ -83,27 +96,21 @@ export class BindingInputComponent {
             return;
         }
 
+        if (!this._userService.inIFrame) {
+            return;
+        }
+
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
+        this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
         if(bladeInput){
             this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {
-                if (appSettingName) {
-                    this.input.value = appSettingName;
-                    this.inputChanged(name);
-                    this.setClass(appSettingName);
-                }
-                picker.inProcess = false;
+                this.finishResourcePickup(appSettingName, picker);
             });
-        }
-        else{
+        } else {
             this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
-                if (appSettingName) {
-                    this.input.value = appSettingName;
-                    this.inputChanged(name);
-                    this.setClass(appSettingName);
-                }
-                picker.inProcess = false;
+                this.finishResourcePickup(appSettingName, picker);
             });
         }
     }
@@ -131,9 +138,12 @@ export class BindingInputComponent {
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
-                this._input.errorText = this._input.isValid ? "" : "This field is required";
+
+                this._input.errorText = this._input.isValid ? "" : this._translateService.instant(PortalResources.filedRequired);
+
             } else {
                 this._input.isValid = true;                
+                this._input.errorText = "";
             }
 
             if (this._input.isValid && this._input.validators) {
@@ -152,6 +162,27 @@ export class BindingInputComponent {
             }
 
         }
+    }
+
+    private finishResourcePickup(appSettingName: string, picker: PickerInput) {
+        if (appSettingName) {
+
+            var existedAppSetting;
+            if (picker.items) {
+                existedAppSetting = picker.items.find((item) => {
+                    return item === appSettingName;
+                });
+            }
+
+            this.input.value = appSettingName;
+            if (!existedAppSetting) {
+                picker.items.splice(0, 0, this.input.value);
+            }
+            this.inputChanged(name);
+            this.setClass(appSettingName);
+        }
+        picker.inProcess = false;
+        this._globalStateService.clearBusyState();
     }
 
     setBottomDescription(id: string, value: any) {

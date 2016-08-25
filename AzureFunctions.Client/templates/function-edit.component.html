@@ -1,14 +1,14 @@
 <tutorial></tutorial>
-<tabs (tabSelected) = 'onTabSelected($event)'>
+ <!--<tabs (tabSelected) = 'onTabSelected($event)' [tabId]="tabId">
     <tab [tabTitle]="DevelopTab">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-            Read only - because you have started editing with source control, this view is read only.
+            {{ 'dashboard_noFunctionContainer' | translate }}
         </div>
         <function-dev [selectedFunction]="selectedFunction"></function-dev>
     </tab>
     <tab [tabTitle]="IntegrateTab">
         <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-            Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json
+            {{ 'functionEdit_readOnly' | translate }}
         </div>
         <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
         <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
@@ -19,4 +19,26 @@
     <tab [tabTitle]="ManageTab">
         <function-manage [selectedFunction]="selectedFunction"></function-manage>
     </tab>
-</tabs>
+
+</tabs>--> 
+
+
+<div *ngIf="tabId === 'Develop'" class="tab-content">
+    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'dashboard_noFunctionContainer' | translate }}
+    </div>
+    <function-dev [selectedFunction]="selectedFunction"></function-dev>
+</div>
+<div *ngIf="tabId === 'Integrate'" class="tab-content">
+    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'functionEdit_readOnly' | translate }}
+    </div>
+    <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
+    <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
+</div>
+<div *ngIf="tabId === 'Manage'" class="tab-content">
+    <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
+</div>
+<div *ngIf="tabId === 'Monitor'" class="tab-content">
+    <function-manage [selectedFunction]="selectedFunction"></function-manage>
+</div>

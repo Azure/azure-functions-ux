@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren} from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy } from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -18,6 +18,9 @@ import {FileExplorerComponent} from './file-explorer.component';
 import {GlobalStateService} from '../services/global-state.service';
 import {BusyStateComponent} from './busy-state.component';
 import {ErrorEvent} from '../models/error-event';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
 
 @Component({
     selector: 'function-dev',
@@ -30,11 +33,13 @@ import {ErrorEvent} from '../models/error-event';
         CopyPreComponent,
         FileExplorerComponent,
         BusyStateComponent
-    ]
+    ],
+    pipes: [TranslatePipe]
 })
-export class FunctionDevComponent implements OnChanges {
+export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
+    @ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -64,7 +69,8 @@ export class FunctionDevComponent implements OnChanges {
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
-                private _globalStateService: GlobalStateService) {
+                private _globalStateService: GlobalStateService,
+                private _translateService: TranslateService) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -88,26 +94,21 @@ export class FunctionDevComponent implements OnChanges {
             .switchMap(fi => {
                 this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._globalStateService.setBusyState();
+                this.checkErrors(fi);
                 return Observable.zip(
                     fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
-                    this._functionsService.getFunctionErrors(fi),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, errors: e}))
+                    (s, f) => ({ secrets: s, functionInfo: f}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo, errors: string[]}) => {
-                if (res.errors) {
-                    res.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `Function (${res.functionInfo.name}) Error: ${e}`, details: `Function Error: ${e}` }))
-                } else {
-                    this._functionsService.getHostErrors()
-                             .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {message: `Host Error: ${e}`, details: `Host Error: ${e}`})));
-                }
-
+            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
                 this._globalStateService.clearBusyState();
+                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
+                this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
+                    ? this.scriptFile
+                    : {name: this.fileName, href: res.functionInfo.script_href, mime: 'file'};
+                this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
-                this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf('/') + 1);
-                this.scriptFile = {name: this.fileName, href: this.functionInfo.script_href, mime: 'file'}
-                this.selectedFileStream.next(this.scriptFile);
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
@@ -144,13 +145,21 @@ export class FunctionDevComponent implements OnChanges {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
-
     }
 
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         this.functionSelectStream.unsubscribe();
+    }
+
+    ngAfterContentInit() {        
+        this._broadcastService.broadcast<TutorialEvent>(
+            BroadcastEvent.TutorialStep,
+            {
+                functionInfo: null,
+                step: TutorialStep.Develop
+            });
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
@@ -244,7 +253,14 @@ export class FunctionDevComponent implements OnChanges {
             busyComponent.setBusyState();
             var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
             this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => { this.runResult = r; busyComponent.clearBusyState(); delete this.running; });
+                .subscribe(r => {
+                    this.runResult = r;
+                    busyComponent.clearBusyState();
+                    delete this.running;
+                    if (this.runResult.statusCode >= 400) {
+                        this.checkErrors(this.functionInfo);
+                    }
+                });
         }
     }
 
@@ -258,5 +274,23 @@ export class FunctionDevComponent implements OnChanges {
 
     toggleShowHideFileExplorer() {
         this.showFileExplorer = !this.showFileExplorer;
+    }
+
+    checkErrors(functionInfo: FunctionInfo) {
+        this._functionsService.getFunctionErrors(functionInfo)
+        .subscribe(errors => {
+            if (errors) {
+                errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
+                    details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
+                }));
+            } else {
+                this._functionsService.getHostErrors()
+                .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                    details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
+                })));
+            }
+        });
     }
 }

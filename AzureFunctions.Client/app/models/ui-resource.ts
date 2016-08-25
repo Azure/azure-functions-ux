@@ -11,7 +11,7 @@ export interface UIResource {
     isRbacEnabled: boolean;
     templateName: string;
     isExtended: boolean;
-    csmId : string;
+    csmId: string;
 }
 
 export enum AppService {
@@ -20,4 +20,14 @@ export enum AppService {
     Api,
     Logic,
     Function
+}
+
+export interface ITryAppServiceTemplate {
+    name: string;
+    sprite?: string;
+    appService: string;
+    language?: string;
+    fileName?: string;
+    githubRepo: string;
+    description?: string;
 }

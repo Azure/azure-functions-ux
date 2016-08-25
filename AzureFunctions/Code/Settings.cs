@@ -32,6 +32,8 @@ namespace AzureFunctions.Code
 
         public string AppDataPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");
         public string TemplatesPath => Path.Combine(AppDataPath, "Templates");
+        public string ResourcesPortalPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "ResourcesPortal");
+
 
         public string LoggingSqlServerConnectionString => config();
 
@@ -40,5 +42,6 @@ namespace AzureFunctions.Code
         public bool LogToFile => bool.Parse(config(false.ToString()));
 
         public bool LogLoggingDebugInfo => bool.Parse(config(false.ToString()));
+
     }
 }

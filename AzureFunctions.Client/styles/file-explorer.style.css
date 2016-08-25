@@ -52,9 +52,6 @@
     width: 49%;
     text-align: center;
     padding: 4.5px;
-}
-
-#lower-panel > div:first-child {
     border-right: 1px solid #ccc;
 }
 

@@ -9,6 +9,7 @@ export class BusyStateComponent implements OnInit {
     private busy: boolean = false;
     @Input() name: string;
     isGlobal: boolean = false;
+    @Input() message: string;
 
     ngOnInit() {
         this.isGlobal = this.name === 'global';
@@ -20,5 +21,9 @@ export class BusyStateComponent implements OnInit {
 
     clearBusyState() {
         this.busy = false;
+    }
+
+    get isBusy(): boolean {
+        return this.busy;
     }
 }

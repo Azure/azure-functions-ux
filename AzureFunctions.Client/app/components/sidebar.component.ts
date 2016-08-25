@@ -9,38 +9,42 @@ import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {SideBarFilterPipe} from '../pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {TryNowComponent} from './try-now.component';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
+import {GlobalStateService} from '../services/global-state.service';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: ['styles/sidebar.style.css'],
-    inputs: ['functionsInfo'],
-    pipes: [SideBarFilterPipe],
-    directives: [TryNowComponent]
+    inputs: ['functionsInfo', 'tabId'],
+    pipes: [SideBarFilterPipe, TranslatePipe],
 })
 export class SideBarComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
-    public tryItNowTenant: boolean;
+    private showTryView: boolean;
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
+    public _tabId: string = "Develop";
 
-    //TODO: move to constants since it is being used in other compenents as well
-    private tryAppServiceTenantId: string = "6224bcc1-1690-4d04-b905-92265f948dad";
-    @Output()
-    refreshClicked = new EventEmitter<void>();
+    @Output() refreshClicked = new EventEmitter<void>();
+    @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService,
+        private _portalService: PortalService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
-        this.tryItNowTenant = false;
+        this.showTryView = this._globalStateService.showTryView;
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
             if (this.selectedFunction.name === fi.name) delete this.selectedFunction;
@@ -53,18 +57,20 @@ export class SideBarComponent implements OnDestroy {
         }));
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
-            this.functionsInfo.push(fi);
-            this.functionsInfo.sort((f1, f2) => {
-                if (f1.name === "New Function") {
-                    return -1;
-                }
-                if (f2.name === "New Function") {
-                    return 1;
-                }
+            if (this.functionsInfo) {
+                this.functionsInfo.push(fi);
+                this.functionsInfo.sort((f1, f2) => {
+                    if (f1.name === this._translateService.instant(PortalResources.sideBar_newFunction)) {
+                        return -1;
+                    }
+                    if (f2.name === this._translateService.instant(PortalResources.sideBar_newFunction)) {
+                        return 1;
+                    }
 
-                return f1.name > f2.name ? 1 : -1;
-            });
-            this.selectFunction(fi);
+                    return f1.name.localeCompare(f2.name);
+                });
+                this.selectFunction(fi);
+            }
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
@@ -74,11 +80,20 @@ export class SideBarComponent implements OnDestroy {
             }
         });
 
-         this._userService.getTenants()
-            .subscribe(tenants => {
-                 this.tryItNowTenant = tenants.some(e => e.Current && e.TenantId.toLocaleLowerCase() === this.tryAppServiceTenantId)
-             });
+        this.subscriptions.push(this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, (action) => {
+            var newFunc = this.functionsInfo.find((fi) => {
+                return fi.name === this._translateService.instant('sideBar_newFunction');
+            });
+            if (newFunc) {
+                this.selectFunction(newFunc);
+            }
+        }));
 
+        this.showTryView = this._globalStateService.showTryView;
+        if (this.showTryView && this.functionsInfo) {
+            let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);
+            this.selectFunction(selectedFi);
+        }
     }
 
     ngOnDestroy() {
@@ -100,10 +115,28 @@ export class SideBarComponent implements OnDestroy {
         }
     }
 
+    get tabId(): string {
+        return this._tabId;
+    }
+
+    set tabId(value: string) {
+        this._tabId = value;
+    } 
+
+    onTabClicked(tabId: string) {
+        debugger;
+        if (!this._globalStateService.IsBusy) {
+            this._portalService.logAction("tabs", "click " + tabId, null);
+
+            this._tabId = tabId;
+            this.changedTab.emit(tabId);
+        }
+    }
+
     private switchFunctions() {
         var switchFunction = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
-            switchFunction = confirm(`Changes made to function ${this.selectedFunction.name} will be lost. Are you sure you want to continue?`);
+            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name }));
         }
         return switchFunction;
     }

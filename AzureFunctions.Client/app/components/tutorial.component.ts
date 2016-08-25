@@ -2,24 +2,32 @@
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'tutorial',
     styleUrls: ['styles/tutorial.style.css'],
-    templateUrl: 'templates/tutorial.component.html'
+    templateUrl: 'templates/tutorial.component.html',
+    pipes: [TranslatePipe]
 })
 
 export class TutorialComponent {
     public currentStep = TutorialStep.Off;
+    public lang: string;
     private initialFunction: FunctionInfo;
 
-    constructor(private _broadcastService: BroadcastService){
+    constructor(
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             // Gets called only from intro after a template has been selected
-            if (event.step === TutorialStep.Waiting){
+            if (event.step === TutorialStep.Waiting) {
                 this.currentStep = event.step;
-                this.initialFunction = event.functionInfo;
+                this.initialFunction = event.functionInfo;                
+                var t = new FunctionInfoHelper();
+                this.lang = FunctionInfoHelper.getLanguage(event.functionInfo);
             }
 
             // Gets called after the tabs component has completed loading.
@@ -65,6 +73,6 @@ export class TutorialComponent {
     }
 
     get buttonText(){
-        return this.currentStep < TutorialStep.NextSteps ? "Next" : "Close";
+        return this.currentStep < TutorialStep.NextSteps ? this._translateService.instant(PortalResources.next) : this._translateService.instant(PortalResources.close);
     }
 }

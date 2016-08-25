@@ -1,77 +1,67 @@
-﻿<div class="container-fluid" style="margin-top: 20px">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-1" heigth="100%">
+﻿<div>
+    <div class="col-md-4" heigth="100%">
         <div class="text-center">
-            <img src="/images/bolt.svg" width="40px" height="40px"/>
-            <div class="column-title">Trigger</div>
+            <div class="column-title">
+                {{ 'trigger' | translate }}
+                <pop-over [message]="'integrate_triggersHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <!-- SVG right arrow -->
-        <svg height="40px" viewBox="0 0 42 16" width="100%">
-            <path fill="#ccc" d="M1 9v-2h40v-2l3 3-3 3v-2z"></path>
-        </svg>
-    </div>
-    <div class="col-md-1">
+    <div class="col-md-4">
         <div class="text-center">
-            <img src="/images/stack.svg" width="40px" height="40px"/>
-            <div class="column-title">Input</div>
+            <div class="column-title">
+            {{ 'input' | translate }}
+                <pop-over [message]="'integrate_inputsHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <!-- SVG right arrow -->
-        <svg height="40px" viewBox="0 0 42 16" width="100%">
-            <path fill="#ccc" d="M1 9v-2h40v-2l3 3-3 3v-2z"></path>
-        </svg>
-    </div>
-    <div class="col-md-1">
+    <div class="col-md-4">
+        <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('advanced')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_advancedEditor' | translate }}</div>
         <div class="text-center">
-            <img src="/images/stack.svg" width="40px" height="40px"/>
-            <div class="column-title">Output</div>
-        </div>
-
-    </div>
-    <div class="col-md-2">
+            <div class="column-title">
+            {{ 'output' | translate }}
+                <pop-over [message]="'integrate_outputsHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </div>
+        </div>        
     </div>
 </div>
 
 <div class="container-fluid">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="list-group list-special">
             <div>
                 <span *ngIf="model.trigger && currentBindingId === model.trigger.id" class="list-group-item active" (click)="onBindingSelect(model.trigger.id)">{{model.trigger.title}}</span>
                 <span *ngIf="model.trigger && currentBindingId !== model.trigger.id" class="list-group-item" (click)="onBindingSelect(model.trigger.id )">{{model.trigger.title}}</span>
-                <span *ngIf="!disabled && !model.trigger && currentBindingId !== 'trigger'" class="list-group-item" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> New Trigger</span>
-                <span *ngIf="!disabled && !model.trigger && currentBindingId === 'trigger'" class="list-group-item active" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> New Trigger</span>
+                <span *ngIf="!disabled && !model.trigger && currentBindingId !== 'trigger'" class="list-group-item" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> {{ 'newTrigger' | translate }}</span>
+                <span *ngIf="!disabled && !model.trigger && currentBindingId === 'trigger'" class="list-group-item active" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span>{{ 'newTrigger' | translate }}</span>
             </div>
         </div>
     </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="list-group list-special">
             <div *ngFor="let input of model.inputs">
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>
-            <span *ngIf="!disabled && currentBindingId !== 'input'" class="list-group-item" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span> New Input</span>
-            <span *ngIf="!disabled && currentBindingId === 'input'" class="list-group-item active" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span> New Input</span>
+            <span *ngIf="!disabled && currentBindingId !== 'input'" class="list-group-item" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span> {{ 'newInput' | translate }}</span>
+            <span *ngIf="!disabled && currentBindingId === 'input'" class="list-group-item active" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span>{{ 'newInput' | translate }}</span>
         </div>
     </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="list-group list-special">
             <div *ngFor="let input of model.outputs">
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>
-            <span *ngIf="!disabled && currentBindingId !== 'output'" class="list-group-item" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> New Output</span>
-            <span *ngIf="!disabled && currentBindingId === 'output'" class="list-group-item active" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> New Output</span>
+            <span *ngIf="!disabled && currentBindingId !== 'output'" class="list-group-item" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
+            <span *ngIf="!disabled && currentBindingId === 'output'" class="list-group-item active" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
         </div>
-    </div>
-    <div class="col-md-1">
     </div>
 </div>
 <br />
@@ -79,10 +69,7 @@
 <br />
 
 <div>
-    <binding *ngIf="currentBinding" [binding]="currentBinding" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)"></binding>
+    <binding *ngIf="currentBinding" [binding]="currentBinding" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)" (go)="onGo($event)"></binding>
 </div>
 
-
 <template-picker *ngIf="pickerType!==4" [type]="pickerType" [showFooter]="true" (complete)="onBindingCreateComplete(behavior, $event)" (cancel)="onBindingCreateCancel($event)"></template-picker>
-
-<div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('advanced')"><i class="fa fa-edit"></i> Advanced editor</div>

@@ -1,59 +1,38 @@
-﻿.tryinfo-box {
-    background-color: white;
-    height: 120px;
+﻿.wrapper {
+    background-color: #539CF6;
+    height: 40px;
     width: 100%;
-    border: 5px blue;
-    padding-left: 10px;
-    color: red;
     font-size: medium;
-    text-align: center;
-    position: absolute;
-    bottom: 40px;
-}
-
-.tryinfo-box-timer {
-    background-color: white;
-    color: red;
-    font-size: large;
-    text-align: center;
-    border: none;
-    outline: none;
-    font-weight: bold;
+    display: block;
+    color: white;
 }
 
 .tryinfo-box {
-    background-color: white;
-    height: 120px;
-    width: 100%;
-    border: 5px blue;
-    padding-left: 10px;
+    height: 100%;
+    padding-left: 25px;
 }
 
-.signup-button {
-    margin-right: 10px;
-    display: inline;
-    padding: 5px 5px 5px 5px;
-    font-size: 14px;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    color: #fff;
-    background-color: #539CF6;
+.tryinfo-box > div {
+    float: left;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 4%;
 }
 
-.signup-button :disabled {
-    cursor: not-allowed;
-    background-color: #ECEFF1;
+.tryinfo-box > div:first-child {
+    padding-right: 20%;
 }
 
-.extend-trial-button {
-    margin-right: 10px;
-    display: inline;
-    padding: 5px 5px 5px 5px;
-    font-size: 14px;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    color: #fff;
-    background-color: #539CF6;
+a {
+    color: white;
+    text-decoration: underline;
+}
+
+#extendTrial {
+    text-decoration: underline;
+}
+
+#timer-text {
+    font-weight: 900;
 }

@@ -7,25 +7,40 @@ import {BroadcastEvent} from '../models/broadcast-event'
 import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'app-settings',
     templateUrl: 'templates/app-settings.component.html',
-    styleUrls: ['styles/app-settings.style.css']
+    styleUrls: ['styles/app-settings.style.css'],
+    pipes: [TranslatePipe],
+    inputs: ['functionContainer']
 })
 export class AppSettingsComponent implements OnInit {
-    @Input() functionContainer: FunctionContainer;
+    private _functionContainer: FunctionContainer;
     public memorySize: number | string;
     public dirty: boolean;
     public needUpdateExtensionVersion;
     public extensionVersion: string;
     public latestExtensionVersion: string;
+    public debugConsole: string;
+    private showTryView: boolean;
+
+    set functionContainer(value: FunctionContainer) {
+        this.debugConsole  = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + "/DebugConsole";
+        this._functionContainer = value;
+    }
+
+    get functionContainer() {
+        return this._functionContainer;
+    }
 
     constructor(private _armService : ArmService,
                 private _portalService : PortalService,
                 private _broadcastService: BroadcastService,
                 private _functionsService: FunctionsService,
                 private _globalStateService: GlobalStateService) {
+        this.showTryView = this._globalStateService.showTryView;
     }
 
     onChange(value: string | number, event?: any) {
@@ -40,11 +55,16 @@ export class AppSettingsComponent implements OnInit {
         this.memorySize = this.functionContainer.properties.containerSize;
         this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
         this.extensionVersion = this._globalStateService.ExtensionVersion;
-        this.latestExtensionVersion = Constants.latestExtensionVersion;
+        this.latestExtensionVersion = Constants.runtimeVersion;
     }
 
     openBlade(name : string) {
         this._portalService.openBlade(name, "app-settings");
+    }
+
+    openNewTab(url: string) {
+        var win = window.open(url, '_blank');
+        win.focus();
     }
 
     saveMemorySize(value: string | number) {
@@ -63,8 +83,10 @@ export class AppSettingsComponent implements OnInit {
             this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
-                this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+                this._functionsService.getResources().subscribe(() => {
+                    this._globalStateService.clearBusyState();
+                    this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+                });
             });
         });
     }
