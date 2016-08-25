@@ -28,13 +28,13 @@
                 <i class="fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
             </span>
 
-            <span *ngIf="!gettingStarted"
-                  class="top-bar-tool clickable"
-                  (click)="onAppMonitoringClicked()"
-                  [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
+        <!--<span *ngIf="!gettingStarted"
+              class="top-bar-tool clickable"
+              (click)="onAppMonitoringClicked()"
+              [class.top-bar-settings-selected]="ActiveButton.toString() === 'AppMonitoring'">
 
-                <i class="fa fa-clock-o"></i> {{ 'topBar_usage' | translate }}
-            </span>
+            <i class="fa fa-clock-o"></i>  {{ 'topBar_usage' | translate }}
+        </span>-->
 
             <span *ngIf="!gettingStarted"
                   class="top-bar-tool clickable"

@@ -12,12 +12,13 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
+import {PortalService} from '../services/portal.service';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: ['styles/sidebar.style.css'],
-    inputs: ['functionsInfo'],
+    inputs: ['functionsInfo', 'tabId'],
     pipes: [SideBarFilterPipe, TranslatePipe],
 })
 export class SideBarComponent implements OnDestroy {
@@ -28,15 +29,18 @@ export class SideBarComponent implements OnDestroy {
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
+    public _tabId: string = "Develop";
 
     @Output() refreshClicked = new EventEmitter<void>();
+    @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _portalService: PortalService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
@@ -108,6 +112,24 @@ export class SideBarComponent implements OnDestroy {
     refresh() {
         if (this.switchFunctions()) {
             this.refreshClicked.emit(null);
+        }
+    }
+
+    get tabId(): string {
+        return this._tabId;
+    }
+
+    set tabId(value: string) {
+        this._tabId = value;
+    } 
+
+    onTabClicked(tabId: string) {
+        debugger;
+        if (!this._globalStateService.IsBusy) {
+            this._portalService.logAction("tabs", "click " + tabId, null);
+
+            this._tabId = tabId;
+            this.changedTab.emit(tabId);
         }
     }
 

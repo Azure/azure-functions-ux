@@ -85,6 +85,11 @@ export class GlobalStateService {
         }
     }
 
+    get IsBusy(): boolean
+    {
+        return (this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy) ? true : false;
+    }
+
     get CurrentToken(): string {
         return this._token;
     }
