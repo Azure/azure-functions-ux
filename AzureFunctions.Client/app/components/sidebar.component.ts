@@ -124,7 +124,6 @@ export class SideBarComponent implements OnDestroy {
     } 
 
     onTabClicked(tabId: string) {
-        debugger;
         if (!this._globalStateService.IsBusy) {
             this._portalService.logAction("tabs", "click " + tabId, null);
 

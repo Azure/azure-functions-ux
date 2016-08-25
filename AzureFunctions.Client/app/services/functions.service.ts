@@ -132,8 +132,6 @@ export class FunctionsService {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-        private _globalStateService: GlobalStateService
-    ) {
 
     setScmParams(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
@@ -380,8 +378,6 @@ export class FunctionsService {
 
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
-        return this._http.get('api/bindingconfig', { headers: this.getPassthroughHeaders() })
-            .map<BindingConfig>(r => r.json());
         return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
             .map<BindingConfig>(r => {
                 var object = r.json();

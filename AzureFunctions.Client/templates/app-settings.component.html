@@ -92,7 +92,7 @@
                     {{ 'appFunctionSettings_devConsoleDesc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
+                    <div class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
                     {{ 'appFunctionSettings_kuduDesc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
+                    <div class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
                 </div>
             </div>
 

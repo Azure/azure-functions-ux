@@ -707,10 +707,10 @@
     <value>Application settings</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Manage environment variables and connection strings for your function app</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
     <value>Dev console description</value>
@@ -719,10 +719,10 @@
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Access advanced functionality of App Service like uploading zips, killing processes, and more</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>Configure app settings</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
     <value>Open dev console</value>
