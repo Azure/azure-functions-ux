@@ -21,6 +21,7 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
+
         private readonly ITemplatesManager _templatesManager;
 
         private readonly ISettings _settings;
@@ -91,6 +92,8 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
+
+        [Authorize]
         [HttpPost]
         public HttpResponseMessage ReportClientError([FromBody] ClientError clientError)
         {

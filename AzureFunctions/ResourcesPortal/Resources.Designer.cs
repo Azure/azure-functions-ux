@@ -124,7 +124,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure app aettings.
+        ///   Looks up a localized string similar to Configure app settings.
         /// </summary>
         internal static string appFunctionSettings_appSettingsButtonLabel {
             get {
@@ -133,7 +133,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application settings description.
+        ///   Looks up a localized string similar to Manage environment variables and connection strings for your function app.
         /// </summary>
         internal static string appFunctionSettings_appSettingsDesc {
             get {
@@ -205,7 +205,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dev console.
+        ///   Looks up a localized string similar to In-portal console for accessing your function app’s file system.
         /// </summary>
         internal static string appFunctionSettings_devConsole {
             get {
@@ -295,7 +295,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kudu description.
+        ///   Looks up a localized string similar to Access advanced functionality of App Service like uploading zips, killing processes, and more.
         /// </summary>
         internal static string appFunctionSettings_kuduDesc {
             get {
@@ -390,6 +390,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string azureFunctions {
             get {
                 return ResourceManager.GetString("azureFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        internal static string binding_actions {
+            get {
+                return ResourceManager.GetString("binding_actions", resourceCulture);
             }
         }
         

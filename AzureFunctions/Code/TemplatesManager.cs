@@ -22,7 +22,7 @@ namespace AzureFunctions.Code
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
         private readonly ReaderWriterLockSlim _rwlock;
-        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
+        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();        
 
         public TemplatesManager(ISettings settings)
         {
@@ -60,7 +60,8 @@ namespace AzureFunctions.Code
         {
             var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
             var templateDirs = new List<string>();
-            foreach (var d in runtimeDirs)
+
+            foreach(var d in runtimeDirs)
             {
                 templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
             }

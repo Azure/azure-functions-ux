@@ -186,7 +186,7 @@ export class FunctionsService {
 
     @Cache()
     getTemplates() {
-        return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+         return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
                 this.localize(object);
