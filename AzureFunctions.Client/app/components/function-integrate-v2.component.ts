@@ -5,7 +5,7 @@ import {BindingManager} from '../models/binding-manager';
 import {BindingComponent} from './binding.component';
 import {TemplatePickerComponent} from './template-picker.component';
 import {FunctionsService} from '../services/functions.service';
-import {FunctionInfo} from '../models/function-info';
+import {FunctionInfo, FunctionInfoHelper} from '../models/function-info';
 import {TemplatePickerType} from '../models/template-picker';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
@@ -51,14 +51,31 @@ export class FunctionIntegrateV2Component {
             this.currentBindingId = "";
             this._functionInfo = fi;
             this._functionsService.getBindingConfig().subscribe((bindings) => {
-                this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
-                if (this.model.config.bindings.length > 0) {
-                    this.currentBinding = this.model.config.bindings[0];
-                    this.currentBindingId = this.currentBinding.id;
-                }
+                this._functionsService.getTemplates().subscribe((templates) => {
 
-                this.model.setBindings();
-                jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
+                    bindings.bindings.forEach((b) => {
+                        if (b.actions) {
+                            var filteredActions = [];
+                            b.actions.forEach((a) => {
+                                var lang = FunctionInfoHelper.getLanguage(this._functionInfo);
+                                var templateId = a.template + "-" + lang;
+                                var actionTemplate = templates.find((t) => {
+                                    return t.id === templateId;
+                                });
+                                a.templateId = (actionTemplate) ? templateId : null;
+                            });
+                        }
+                    });
+
+                    this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
+                    if (this.model.config.bindings.length > 0) {
+                        this.currentBinding = this.model.config.bindings[0];
+                        this.currentBindingId = this.currentBinding.id;
+                    }
+
+                    this.model.setBindings();
+                    jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
+                });
             });
         }
     }

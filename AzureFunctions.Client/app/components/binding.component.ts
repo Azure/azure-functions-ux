@@ -116,8 +116,13 @@ export class BindingComponent {
                 this.newFunction = true;
             }
 
-            if (!this.newFunction) {
-                this.model.actions = bindingSchema.actions;
+            if (!this.newFunction && bindingSchema.actions) {
+                this.model.actions = [];
+                bindingSchema.actions.forEach((a) => {
+                    if (a.templateId) {
+                        this.model.actions.push(a);
+                    }
+                });
             }
 
             this.setLabel();
