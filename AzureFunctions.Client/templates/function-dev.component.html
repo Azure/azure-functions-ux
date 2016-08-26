@@ -1,4 +1,4 @@
-﻿<div style="width: 90%" *ngIf="scriptFile">
+﻿<div *ngIf="scriptFile">
     <div class="gutter-container">
         <div *ngIf="showFunctionInvokeUrl"><label>{{ 'functionDev_functionUrl' | translate }}</label></div>
         <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
