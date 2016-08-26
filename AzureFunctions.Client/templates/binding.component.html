@@ -33,7 +33,7 @@
 
     </div>
 
-    <div *ngIf="model.actions" class="panel panel-default">
+    <div *ngIf="model.actions && model.actions.length > 0" class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title pull-left">
                 {{ 'binding_actions' | translate }}

@@ -207,6 +207,7 @@ export class PortalResources
     public static appFunctionSettings_devConsoleButtonLabel: string = "appFunctionSettings_devConsoleButtonLabel";
     public static appFunctionSettings_kuduButtonLabel: string = "appFunctionSettings_kuduButtonLabel";
     public static tutorial_theFastestWayCSharp: string = "tutorial_theFastestWayCSharp";
+    public static binding_actions: string = "binding_actions";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

@@ -95,13 +95,11 @@ export class DashboardComponent implements OnChanges {
 
         this._broadcastService.subscribe<any>(BroadcastEvent.FunctionNew, value => {
             this.action = <Action>value;
-            var lang = FunctionInfoHelper.getLanguage(this.selectedFunction);
 
             var newFunc = this.functionsInfo.find((fi) => {
                 return fi.name === this._translateService.instant('sideBar_newFunction');
             });
             this.selectedFunction = newFunc;
-            this.action.templateId =this.action.template + "-" + lang;
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionDeleted, fi => {
