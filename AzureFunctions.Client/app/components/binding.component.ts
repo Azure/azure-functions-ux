@@ -58,8 +58,15 @@ export class BindingComponent {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
+        var renderer = new marked.Renderer();
+
+        renderer.link = function (href, title, text) {
+            debugger;
+            return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
+        };
+
         marked.setOptions({
-            renderer: new marked.Renderer(),
+            renderer: renderer,
             gfm: true,
             tables: true,
             breaks: false,
