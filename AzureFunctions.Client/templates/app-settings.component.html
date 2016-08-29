@@ -9,7 +9,7 @@
                     <h2>{{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="!needUpdateExtensionVersion">
-                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }})</h2>
+                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
                     <button class="custom-button" (click)="updateVersion()">{{ 'update' | translate }}</button>

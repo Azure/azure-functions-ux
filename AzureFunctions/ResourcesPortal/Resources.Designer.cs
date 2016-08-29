@@ -250,7 +250,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update your runtime version.
+        ///   Looks up a localized string similar to Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings1 {
             get {
@@ -259,7 +259,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your runtime version is  up to-date.
+        ///   Looks up a localized string similar to Runtime version: latest ({{latestExtensionVersion}}).
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings2 {
             get {
