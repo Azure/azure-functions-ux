@@ -623,10 +623,10 @@
     <value>Waiting for the resource</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Update your runtime version</value>
+    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>We've enjoyed hosting your functions !</value>
