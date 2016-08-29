@@ -10,9 +10,10 @@
     "node_modules",
     "bower_components"
   ],
-  "dependencies": {    
+  "dependencies": {
     "bootstrap": "~3.3.4",
     "jquery": "~2.1.4",
-    "jquery-ui": "~1.11.4"
+    "jquery-ui": "~1.11.4",
+    "application-insights": "^0.22.19-build00125"
   }
 }
