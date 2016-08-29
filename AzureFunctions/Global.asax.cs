@@ -23,6 +23,7 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Routing;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace AzureFunctions
 {
@@ -30,6 +31,7 @@ namespace AzureFunctions
     {
         protected void Application_Start()
         {
+            InitApplicationInsight();
             var container = InitAutofacContainer();
 
             var config = GlobalConfiguration.Configuration;
@@ -39,6 +41,20 @@ namespace AzureFunctions
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             InitLogging(container);
             RegisterRoutes(config);
+        }
+
+        private void InitApplicationInsight()
+        {
+            var key = Environment.GetEnvironmentVariable("aiInstrumentationKey");
+            if (!string.IsNullOrEmpty(key))
+            {
+                TelemetryConfiguration.Active.InstrumentationKey = key;
+                TelemetryConfiguration.Active.DisableTelemetry = false;
+            }
+            else
+            {
+                TelemetryConfiguration.Active.DisableTelemetry = true;
+            }
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
