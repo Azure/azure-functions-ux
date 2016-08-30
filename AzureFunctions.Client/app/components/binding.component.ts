@@ -61,7 +61,6 @@ export class BindingComponent {
         var renderer = new marked.Renderer();
 
         renderer.link = function (href, title, text) {
-            debugger;
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
         };
 
