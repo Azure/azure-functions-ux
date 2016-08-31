@@ -18,7 +18,8 @@
     documentDB = <any>"documentDB",
     mobileTable = <any>"mobileTable",
     notificationHub = <any>"notificationHub",
-    sendGrid = <any>"sendGrid"
+    sendGrid = <any>"sendGrid",
+    twilioSms = <any>"twilioSms"
 }
 
 export interface BindingConfig {
