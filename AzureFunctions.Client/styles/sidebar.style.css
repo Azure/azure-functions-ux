@@ -142,18 +142,32 @@
     outline: none;
 }
 
-#refresh {
-    padding: 10px 10px 5px 15px;
-    height: 4%;
-}
 
 .function-icon {
     height: 15px;
 }
 
-.refresh-button {
-    position: absolute;
-    bottom: 0px;
+
+.sidebar-button {
+    padding: 3px 1px 3px 10px;    
+}
+
+.sidebar-button-selected{
+    background-color: #FFFFFF;
+    color: black;
+}
+
+.sidebar-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.buttons-section {
+    padding-bottom: 10px;
+}
+
+.button {
+    padding-left: 15px !important;
 }
 
 .tab-item {
@@ -175,4 +189,5 @@
 
 .tab-item i {
     line-height:30px;
+    color: #0273D4 !important;
 }

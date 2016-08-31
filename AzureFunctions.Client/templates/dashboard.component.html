@@ -1,14 +1,15 @@
 ﻿<div class="container-full" [class.try-container-full]="_globalStateService?.showTryView">
     <!-- TODO: move padding to css -->
     <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
-             (appSettingsClicked)='onAppSettingsClicked($event)'
-             (quickstartClicked)='onQuickstartClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
              [quickStartSelected]="openIntro"></top-bar>
 
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)' (changedTab)='onChangeTab($event)' [tabId]="tabId"></sidebar>
+        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)' (changedTab)='onChangeTab($event)' [tabId]="tabId"
+            (appSettingsClicked)='onAppSettingsClicked($event)'
+            (quickstartClicked)='onQuickstartClicked($event)'>
+        </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
             <div >

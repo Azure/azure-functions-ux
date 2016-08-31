@@ -14,6 +14,14 @@ import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
 import {PortalService} from '../services/portal.service';
 
+enum TopbarButton {
+    None = <any>"None",
+    AppMonitoring = <any>"AppMonitoring",
+    AppSettings = <any>"AppSettings",
+    Quickstart = <any>"Quickstart",
+    SourceControl = <any>"SourceControl"
+}
+
 @Component({
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
@@ -29,11 +37,14 @@ export class SideBarComponent implements OnDestroy {
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
-    public _tabId: string = "Develop";
+    public ActiveButton: TopbarButton =  TopbarButton.None;
 
+    @Output() private appSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
+    @Output() private quickstartClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() refreshClicked = new EventEmitter<void>();
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
+    private _tabId: string = "Develop";
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -102,6 +113,7 @@ export class SideBarComponent implements OnDestroy {
 
     selectFunction(fi: FunctionInfo) {
         if (this.switchFunctions()) {
+            this.resetView();
             this._broadcastService.clearDirtyState('function', true);
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedFunction = fi;
@@ -113,6 +125,30 @@ export class SideBarComponent implements OnDestroy {
         if (this.switchFunctions()) {
             this.refreshClicked.emit(null);
         }
+    }
+
+    appsettings() {
+        if (this.switchFunctions()) {            
+            this.appSettingsClicked.emit(null);
+            this.resetView();
+            this.ActiveButton = TopbarButton.AppSettings;
+        }
+
+    }
+
+
+    quickstart() {
+        if (this.switchFunctions()) {
+            this._portalService.logAction('top-bar-azure-functions-link', 'click');
+            this.resetView();
+            this.quickstartClicked.emit(null);
+            this.ActiveButton = TopbarButton.Quickstart;
+        }
+
+    }
+
+    private resetView() {
+        this.ActiveButton = TopbarButton.None;
     }
 
     get tabId(): string {
