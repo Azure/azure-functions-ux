@@ -736,4 +736,13 @@
   <data name="binding_actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Less than 1 minute</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Signing up for a free Azure account unlocks all Azure Functions functionality, plus you won't have to worry about the time limit of your free trial!</value>
+  </data>
 </root>

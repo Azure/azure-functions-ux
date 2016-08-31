@@ -111,9 +111,17 @@ pre {
 }
 
 
-.custom-button:disabled {
+.custom-button-disabled {
+    margin-left: 15px;
+    display: inline;
+    padding: 5px 45px 5px 45px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: #fff;
     cursor: not-allowed;
-    background-color: #ECEFF1;
+    background-color: lightgray;
 }
 
 .dirty {

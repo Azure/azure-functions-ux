@@ -39,8 +39,6 @@ h2 {
 .setting-wrapper-disabled {
     display: flex;
     flex-direction: column;
-    pointer-events:none;
-    cursor: crosshair;
 }
 
 .setting-wrapper > label {
@@ -126,8 +124,6 @@ input[type=range]::-ms-thumb {
     display: flex;
     flex-direction: column;
     width: 75%;
-    pointer-events:none;
-    cursor: crosshair;
 }
 
 .features-wrapper {
@@ -146,6 +142,14 @@ input[type=range]::-ms-thumb {
     justify-content: center
 }
 
+.features-wrapper-disabled > div {
+    flex-grow: 1;
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
 .features-wrapper > div:first-child {
 }
 
@@ -174,6 +178,39 @@ input[type=range]::-ms-thumb {
         text-align: center;
     }
 
+    .features-wrapper-disabled > div > div {
+        padding: 1px 10px 10px 0;
+        font-size: 13px;
+    }
+
+    .features-wrapper-disabled > div > div:first-child {
+        flex-grow: 3;
+        width: 60%;
+    }
+
+    .features-wrapper-disabled > div > div:last-child {
+        flex-grow: 1;
+        width: 25%;
+    }
+    .features-wrapper-disabled > div > div:last-child > div, .button-div {
+        margin-left: 15px;
+        padding: 6px 25px 6px 25px;
+        font-size: 14px;
+        border: 1px solid transparent;
+        color: #fff;
+        background-color: lightgray;
+        text-align: center;
+    }
+
 .button-div {
     width: 20%;
+}
+
+.clickable-disabled {
+    background-color: lightgray;
+}
+
+.tooltip {
+    background-color: white;
+    color: black;
 }

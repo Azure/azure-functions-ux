@@ -8,13 +8,15 @@ import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TOOLTIP_DIRECTIVES} from 'ng2-tooltip/index';
 
 @Component({
     selector: 'app-settings',
     templateUrl: 'templates/app-settings.component.html',
     styleUrls: ['styles/app-settings.style.css'],
     pipes: [TranslatePipe],
-    inputs: ['functionContainer']
+    inputs: ['functionContainer'],
+    directives: [TOOLTIP_DIRECTIVES]
 })
 export class AppSettingsComponent implements OnInit {
     private _functionContainer: FunctionContainer;
