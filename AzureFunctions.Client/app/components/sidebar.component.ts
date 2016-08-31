@@ -100,6 +100,12 @@ export class SideBarComponent implements OnDestroy {
             }
         }));
 
+        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
+            if (event && event.step === TutorialStep.AppSettings) {
+                this.appsettings();
+            }
+        });
+
         this.showTryView = this._globalStateService.showTryView;
         if (this.showTryView && this.functionsInfo) {
             let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);
