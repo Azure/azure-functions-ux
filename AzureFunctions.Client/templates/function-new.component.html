@@ -14,7 +14,6 @@
 
 <div *ngIf="selectedTemplate">
     <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="templateWarning">
-        {{templateWarning}}
     </div>
     <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
     <input type="text"

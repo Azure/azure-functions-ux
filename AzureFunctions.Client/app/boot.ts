@@ -9,6 +9,7 @@ import {UserService} from './services/user.service';
 import {PortalService} from './services/portal.service';
 import {BroadcastService} from './services/broadcast.service';
 import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
+import {FunctionMonitorService} from './services/function-monitor.service'
 import {ArmService} from './services/arm.service';
 import {MonitoringService} from './services/app-monitoring.service';
 import {TelemetryService} from './services/telemetry.service';
@@ -31,6 +32,7 @@ bootstrap(
         TRANSLATE_PROVIDERS,
         BroadcastService,
         FunctionsService,
+        FunctionMonitorService,
         UserService,
         PortalService,
         provide(ExceptionHandler, {useClass: FunctionsExceptionHandler}),

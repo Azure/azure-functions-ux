@@ -16,7 +16,10 @@
       },
       "sasUrl":{
          "type":"string"
-      }
+     },
+     "aiInstrumentationKey":{
+         "type":"string"
+     }
    },
    "variables":{
       "location":"[resourceGroup().location]",
@@ -64,7 +67,11 @@
                   {
                      "name":"WEBSITE_WEBDEPLOY_USE_SCM",
                      "value":"true"
-                  }
+                 },
+                 {
+                     "name":"aiInstrumentationKey",
+                     "value":"[parameters('aiInstrumentationKey')]"
+                 }
                ],
                "virtualApplications":[
                   {
@@ -118,7 +125,7 @@
                ],
                "properties":{
                   "siteConfig":{
-                     "appSettings":[
+                    "appSettings":[
                         {
                            "name":"FUNCTIONS_SLOT_NAME",
                            "value":"staging"
@@ -138,9 +145,13 @@
                         {
                            "name":"WEBSITE_WEBDEPLOY_USE_SCM",
                            "value":"true"
+                        },
+                        {
+                            "name":"aiInstrumentationKey",
+                            "value":"[parameters('aiInstrumentationKey')]"
                         }
-                     ],
-                     "virtualApplications":[
+                    ],
+                    "virtualApplications":[
                         {
                            "virtualPath": "/",
                            "physicalPath": "site\\wwwroot",

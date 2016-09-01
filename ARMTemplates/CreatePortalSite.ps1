@@ -35,5 +35,6 @@ ForEach ($e in $values.value)
     New-AzureRmResourceGroup -Name $name -Location $location -Force
     $appSettings = Invoke-AzureRmResourceAction -ResourceGroupName $name -ResourceType Microsoft.Web/sites/config -ResourceName $name/appsettings -Action list -ApiVersion 2015-08-01 -Force
     $sasUrl = $appsettings.Properties.WEBSITE_HTTPLOGGING_CONTAINER_URL
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $name -appLocation $appLocation -TemplateFile FunctionsPortal.json -appName $name -appServicePlanId $farmId -storageAccountName $storageName -sasUrl $sasUrl -Force
+    $aiInstrumentationKey = $appsettings.Properties.aiInstrumentationKey
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $name -appLocation $appLocation -TemplateFile FunctionsPortal.json -appName $name -appServicePlanId $farmId -storageAccountName $storageName -sasUrl $sasUrl -aiInstrumentationKey $aiInstrumentationKey -Force
 }

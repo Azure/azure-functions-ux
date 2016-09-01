@@ -42,8 +42,6 @@ export class TopBarComponent implements OnInit {
     private showTryView; boolean;
 
     @Output() private appMonitoringClicked: EventEmitter<any>;
-    @Output() private appSettingsClicked: EventEmitter<any>;
-    @Output() private quickstartClicked: EventEmitter<any>;
     @Output() private sourceControlClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
@@ -54,16 +52,8 @@ export class TopBarComponent implements OnInit {
         private _translateService: TranslateService
     ) {
         this.appMonitoringClicked = new EventEmitter<any>();
-        this.appSettingsClicked = new EventEmitter<any>();
-        this.quickstartClicked = new EventEmitter<any>();
         this.sourceControlClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
-
-        this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
-            if (event && event.step === TutorialStep.AppSettings) {
-                this.onAppSettingsClicked();
-            }
-        });
 
         this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
             this.setInfo();
@@ -101,23 +91,6 @@ export class TopBarComponent implements OnInit {
             this.resetView();
             this.appMonitoringClicked.emit(null);
             this.ActiveButton = TopbarButton.AppMonitoring;
-        }
-    }
-
-    onAppSettingsClicked() {
-        if (this.canLeaveFunction()) {
-            this.resetView();
-            this.appSettingsClicked.emit(null);
-            this.ActiveButton = TopbarButton.AppSettings;
-        }
-    }
-
-    onQuickstartClicked() {
-        if (this.canLeaveFunction()) {
-            this._portalService.logAction('top-bar-azure-functions-link', 'click');
-            this.resetView();
-            this.quickstartClicked.emit(null);
-            this.ActiveButton = TopbarButton.Quickstart;
         }
     }
 

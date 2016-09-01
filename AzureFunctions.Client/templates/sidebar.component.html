@@ -1,6 +1,6 @@
 <div class="sidebar" [class.try-sidebar]="_globalStateService?.showTryView">
 
-    <ul class="functions-list" [style.height]="_showTryView ? '82%' : '96%'">
+    <ul class="functions-list" [style.height]="_showTryView ? '76%' : '90%'">
         <li>
             <span class="function-item full-height">
                 <input type="text" id="search-box" placeholder="{{ 'sideBar_searchMyFunction' | translate }}" [(ngModel)]="searchValue" />
@@ -22,7 +22,22 @@
             </div>
         </li>
     </ul>
-    <div id="refresh" (click)="refresh()" class="refresh-button link clickable"><i class="fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
+    <div class="buttons-section">
+        <div (click)="appsettings()"
+             class="tab-item link clickable button"
+             [class.tab-item-selected]="ActiveButton.toString() === 'AppSettings'">
+            <i class="fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
+            <i *ngIf="ActiveButton.toString() === 'AppSettings'" class="fa fa-chevron-right pull-right"></i>
+        </div>
+        <div (click)="quickstart()"
+            class="tab-item link clickable button"
+            [class.tab-item-selected]="ActiveButton.toString() === 'Quickstart'">
+            <i class="fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
+            <i *ngIf="ActiveButton.toString() === 'Quickstart'" class="fa fa-chevron-right pull-right"></i>
+        </div>
+        <div (click)="refresh()" class="tab-item link clickable button">
+            <i class="fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
+        </div>
     </div>
 
 </div>

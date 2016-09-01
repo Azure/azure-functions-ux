@@ -481,6 +481,39 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Are you sure you want to delete Function {{name}}?</value>
   </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Total success count</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Total errors count</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Invocation log</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Invocation details</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>live event stream</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: Last ran</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duration)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
     <value>Authentication is enabled for the function app. Disable authentication before running the function.</value>
   </data>
