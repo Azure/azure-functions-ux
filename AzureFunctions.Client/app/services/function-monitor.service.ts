@@ -36,7 +36,7 @@ export class FunctionMonitorService {
     }
 
     getInvocationsDataForSelctedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase().replace(/-/g, ''); // workaround API bug the functionName cannot have dashes & needs to be all small.
+        let funcName = selectedFunctionName.toLocaleLowerCase(); // workaround API bug the functionName needs to be lowercase
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions/" + funcName + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
@@ -59,7 +59,7 @@ export class FunctionMonitorService {
     }
 
     getAggregateErrorsAndInvocationsForSelectedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase().replace(/-/g, ''); // workaround API bug the functionName cannot have dashes & needs to be all small.
+        let funcName = selectedFunctionName.toLocaleLowerCase();  // workaround API bug the functionName needs to be lowercase
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?limit=11";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
