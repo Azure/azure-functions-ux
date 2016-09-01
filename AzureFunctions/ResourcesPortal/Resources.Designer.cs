@@ -925,6 +925,105 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total errors count.
+        /// </summary>
+        internal static string functionMonitor_errorsAggregate {
+            get {
+                return ResourceManager.GetString("functionMonitor_errorsAggregate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invocation details.
+        /// </summary>
+        internal static string functionMonitor_invocationDetails {
+            get {
+                return ResourceManager.GetString("functionMonitor_invocationDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invocation log.
+        /// </summary>
+        internal static string functionMonitor_invocationLog {
+            get {
+                return ResourceManager.GetString("functionMonitor_invocationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        internal static string functionMonitor_invocationOutput {
+            get {
+                return ResourceManager.GetString("functionMonitor_invocationOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to live event stream.
+        /// </summary>
+        internal static string functionMonitor_pulseUrl {
+            get {
+                return ResourceManager.GetString("functionMonitor_pulseUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total success count.
+        /// </summary>
+        internal static string functionMonitor_successAggregate {
+            get {
+                return ResourceManager.GetString("functionMonitor_successAggregate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter.
+        /// </summary>
+        internal static string functionMonitorInvocationTable_paramColumn {
+            get {
+                return ResourceManager.GetString("functionMonitorInvocationTable_paramColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details: Last ran.
+        /// </summary>
+        internal static string functionMonitorTable_detailsColumn {
+            get {
+                return ResourceManager.GetString("functionMonitorTable_detailsColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (duration).
+        /// </summary>
+        internal static string functionMonitorTable_durationColumn {
+            get {
+                return ResourceManager.GetString("functionMonitorTable_durationColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function.
+        /// </summary>
+        internal static string functionMonitorTable_functionColumn {
+            get {
+                return ResourceManager.GetString("functionMonitorTable_functionColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string functionMonitorTable_statusColumn {
+            get {
+                return ResourceManager.GetString("functionMonitorTable_statusColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a template.
         /// </summary>
         internal static string functionNew_chooseTemplate {

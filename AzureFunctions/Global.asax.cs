@@ -24,6 +24,7 @@ using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Routing;
 using Microsoft.ApplicationInsights.Extensibility;
+using System.Web.Http.ExceptionHandling;
 
 namespace AzureFunctions
 {
@@ -35,6 +36,7 @@ namespace AzureFunctions
             var container = InitAutofacContainer();
 
             var config = GlobalConfiguration.Configuration;
+            config.Services.Add(typeof(IExceptionLogger), new TelemetryExceptionLogger());
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 

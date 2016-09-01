@@ -1,7 +1,6 @@
 // This file is auto generated
 
-export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
@@ -123,6 +122,17 @@ export class PortalResources
     public static functionIntegrate_settingName: string = "functionIntegrate_settingName";
     public static functionIntegrate_standardEditor: string = "functionIntegrate_standardEditor";
     public static functionManage_areYouSure: string = "functionManage_areYouSure";
+    public static functionMonitor_successAggregate: string = "functionMonitor_successAggregate";
+    public static functionMonitor_errorsAggregate: string = "functionMonitor_errorsAggregate";
+    public static functionMonitor_invocationLog: string = "functionMonitor_invocationLog";
+    public static functionMonitor_invocationDetails: string = "functionMonitor_invocationDetails";
+    public static functionMonitor_invocationOutput: string = "functionMonitor_invocationOutput";
+    public static functionMonitor_pulseUrl: string = "functionMonitor_pulseUrl";
+    public static functionMonitorTable_functionColumn: string = "functionMonitorTable_functionColumn";
+    public static functionMonitorTable_statusColumn: string = "functionMonitorTable_statusColumn";
+    public static functionMonitorTable_detailsColumn: string = "functionMonitorTable_detailsColumn";
+    public static functionMonitorTable_durationColumn: string = "functionMonitorTable_durationColumn";
+    public static functionMonitorInvocationTable_paramColumn: string = "functionMonitorInvocationTable_paramColumn";
     public static functionService_authIsEnabled: string = "functionService_authIsEnabled";
     public static functionService_errorRunningFunc: string = "functionService_errorRunningFunc";
     public static input: string = "input";
@@ -496,4 +506,3 @@ export class PortalResources
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
 }
-
