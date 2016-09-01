@@ -49,13 +49,16 @@
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
     <Content Include="templates\tooltip-content-component.html" />
+    <Content Include="templates\aggregate-block.component.html" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\try-now-busy-state.component.html" />
     <Content Include="templates\copy-pre.component.html" />
     <Content Include="templates\error-list.component.html" />
     <Content Include="templates\file-explorer.component.html" />
     <Content Include="templates\function-manage.component.html" />
+    <Content Include="templates\function-monitoring.component.html" />
     <Content Include="templates\source-control.component.html" />
+    <Content Include="templates\table-function-monitor.html" />
     <Content Include="templates\try-landing.component.html" />
     <Content Include="templates\try-now.component.html" />
     <Content Include="templates\trial-expired.component.html" />
@@ -105,6 +108,7 @@
     <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
+    <TypeScriptCompile Include="app\components\aggregate-block.component.ts" />
     <TypeScriptCompile Include="app\components\app-monitoring.component.ts" />
     <TypeScriptCompile Include="app\components\app.component.ts" />
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
@@ -138,6 +142,7 @@
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
     <TypeScriptCompile Include="app\components\source-control.component.ts" />
     <TypeScriptCompile Include="app\components\tab.component.ts" />
+    <TypeScriptCompile Include="app\components\table-function-monitor.component.ts" />
     <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
     <TypeScriptCompile Include="app\components\try-landing.component.ts" />
@@ -148,6 +153,7 @@
     <TypeScriptCompile Include="app\decorators\cache.decorator.ts" />
     <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
+    <TypeScriptCompile Include="app\models\function-monitor.ts" />
     <TypeScriptCompile Include="app\models\portal-resources.ts" />
     <TypeScriptCompile Include="app\models\constants.ts" />
     <TypeScriptCompile Include="app\models\ace-editor.ts" />
@@ -191,11 +197,13 @@
     <TypeScriptCompile Include="app\models\ui-resource.ts" />
     <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
+    <TypeScriptCompile Include="app\pipes\aggregate-block.pipe.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
     <TypeScriptCompile Include="app\services\app-monitoring.service.ts" />
     <TypeScriptCompile Include="app\services\arm.service.ts" />
     <TypeScriptCompile Include="app\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="app\services\broadcast.service.ts" />
+    <TypeScriptCompile Include="app\services\function-monitor.service.ts" />
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\global-state.service.ts" />
     <TypeScriptCompile Include="app\services\portal.service.ts" />

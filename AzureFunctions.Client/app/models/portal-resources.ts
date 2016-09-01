@@ -1,6 +1,7 @@
 // This file is auto generated
 
-export class PortalResources {
+export class PortalResources
+{
     public static azureFunctions: string = "azureFunctions";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
@@ -506,3 +507,4 @@ export class PortalResources {
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
 }
+
