@@ -121,7 +121,7 @@ pre {
     border: 1px solid transparent;
     color: #fff;
     cursor: not-allowed;
-    background-color: lightgray;
+    background-color: #ECEFF1;
 }
 
 .dirty {
