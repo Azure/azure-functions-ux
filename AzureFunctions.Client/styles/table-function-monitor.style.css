@@ -53,19 +53,19 @@ th, td {
 }
 
 .table-function-monitor tr:hover {
-    background-color : #419BF3;
+    background-color : #ADD8E6;
     cursor: pointer;
 }
 
-.table-function-monitor .rowSelected td:nth-child(5)::after{
-   color: #0000FF;
-   content: "\f105";
-   font-family: FontAwesome;
-   font-weight: bold;
+#selected-row-icon{
+    color: #0273D4;
+    font-weight: 900;
 }
 
-.table-function-monitor tr.rowSelected {
-    background-color: #ADD8E6;
+#refresh-icon{
+    padding-left: 10px;
+    cursor: pointer;
+    color:#337ab7
 }
 
 .table-function-monitor td:nth-child(3), #selected-row-icon{

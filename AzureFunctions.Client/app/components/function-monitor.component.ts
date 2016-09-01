@@ -23,12 +23,11 @@ export class FunctionMonitorComponent implements OnDestroy, OnChanges {
     public pulseUrl: string;
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
     private timer: RxSubscription;
-    private _functionName: string;
     public successAggregateHeading: string;
     public errorsAggregateHeading: string;
     public successAggregate: string;
     public errorsAggregate: string;
-
+    public funcName: string;
     public columns: any[];
 
     constructor(
@@ -39,10 +38,10 @@ export class FunctionMonitorComponent implements OnDestroy, OnChanges {
         private _translateService: TranslateService) { }
 
     ngOnDestroy() {
-        if (this.timer) {
-            this.timer.unsubscribe();
-            delete this.timer;
-        }
+        // if (this.timer) {
+        //     this.timer.unsubscribe();
+        //     delete this.timer;
+        // }
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
@@ -72,26 +71,16 @@ export class FunctionMonitorComponent implements OnDestroy, OnChanges {
         let site = this._functionsService.getSiteName();
         this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
         this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
-        let funcName = this.selectedFunction.name;
-        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${funcName}`;
-        if (this.timer) {
-            this.timer.unsubscribe();
-            delete this.timer;
-        }
-
-        this.timer = Observable.timer(0, 60000) // allow polling of the API
-            .concatMap<FunctionInvocations[]>(() =>
-                this._functionMonitorService.getInvocationsDataForSelctedFunction(funcName)
-            )
-            .subscribe(result => {
-                this.rows = result;
-            });
-
-        this._functionMonitorService.getAggregateErrorsAndInvocationsForSelectedFunction(funcName)
+        this.funcName = this.selectedFunction.name;
+        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
+        this._functionMonitorService.getAggregateErrorsAndInvocationsForSelectedFunction(this.funcName)
             .subscribe(results => {
-                this.successAggregate = typeof results !== "undefined" ? results.successCount.toString() : "No data found"; //TODO: make this a pipe instead?
-                this.errorsAggregate = typeof results !== "undefined" ? results.failedCount.toString() : "No data found";
+                this.successAggregate = !!results ? results.successCount.toString() : "No data found";
+                this.errorsAggregate = !!results ? results.failedCount.toString() : "No data found";
                 this._globalStateService.clearBusyState();
             });
+        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.funcName).subscribe(result => {
+            this.rows = result;
+        });
     }
 }
