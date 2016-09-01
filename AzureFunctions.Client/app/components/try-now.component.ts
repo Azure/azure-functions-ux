@@ -6,14 +6,15 @@ import {FunctionsService} from '.././services/functions.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
-import {TOOLTIP_DIRECTIVES} from 'ng2-tooltip/index';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'try-now',
     templateUrl: 'templates/try-now.component.html',
     styleUrls: ['styles/try-now.styles.css'],
     pipes: [TranslatePipe],
-    directives: [TOOLTIP_DIRECTIVES]
+    directives: [TooltipContentComponent, TooltipComponent]
 })
 
 export class TryNowComponent implements OnInit {

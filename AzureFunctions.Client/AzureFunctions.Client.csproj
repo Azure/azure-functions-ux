@@ -48,6 +48,7 @@
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
+    <Content Include="templates\tooltip-content-component.html" />
     <Content Include="templates\app-monitoring.component.html" />
     <Content Include="templates\try-now-busy-state.component.html" />
     <Content Include="templates\copy-pre.component.html" />
@@ -109,6 +110,8 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\tooltip.component.ts" />
+    <TypeScriptCompile Include="app\components\tooltip-content.component.ts" />
     <TypeScriptCompile Include="app\components\try-now-busy-state.component.ts" />
     <TypeScriptCompile Include="app\components\copy-pre.component.ts" />
     <TypeScriptCompile Include="app\components\error-list.component.ts" />

@@ -8,7 +8,8 @@ import {FunctionsService} from '../services/functions.service';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
-import {TOOLTIP_DIRECTIVES} from 'ng2-tooltip/index';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'app-settings',
@@ -16,7 +17,7 @@ import {TOOLTIP_DIRECTIVES} from 'ng2-tooltip/index';
     styleUrls: ['styles/app-settings.style.css'],
     pipes: [TranslatePipe],
     inputs: ['functionContainer'],
-    directives: [TOOLTIP_DIRECTIVES]
+    directives: [TooltipContentComponent, TooltipComponent]
 })
 export class AppSettingsComponent implements OnInit {
     private _functionContainer: FunctionContainer;

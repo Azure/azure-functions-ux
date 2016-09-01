@@ -37,7 +37,6 @@ System.config({
     "ng2-cookies": "npm:ng2-cookies@1.0.1",
     "ng2-file-upload": "github:ahmelsayed/ng2-file-upload@1.0.4",
     "ng2-nvd3": "npm:ng2-nvd3@1.1.0",
-    "ng2-tooltip": "github:fashaikh/ng2-tooltip@master",
     "ng2-translate": "npm:ng2-translate@2.1.0",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.7",
