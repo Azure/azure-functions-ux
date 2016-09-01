@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnChanges, SimpleChange} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {CORE_DIRECTIVES} from '@angular/common';
@@ -18,7 +18,7 @@ import {PortalResources} from '../models/portal-resources';
     directives: [CORE_DIRECTIVES, TableFunctionMonitor, AggregateBlock],
     pipes: [TranslatePipe]
 })
-export class FunctionMonitorComponent implements OnDestroy, OnChanges {
+export class FunctionMonitorComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
     public pulseUrl: string;
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
@@ -36,13 +36,6 @@ export class FunctionMonitorComponent implements OnDestroy, OnChanges {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) { }
-
-    ngOnDestroy() {
-        // if (this.timer) {
-        //     this.timer.unsubscribe();
-        //     delete this.timer;
-        // }
-    }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         this._globalStateService.setBusyState();

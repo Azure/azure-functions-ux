@@ -482,10 +482,10 @@
     <value>Are you sure you want to delete Function {{name}}?</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Total success count</value>
+    <value>Recent success count</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Total errors count</value>
+    <value>Recent errors count</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Invocation log</value>

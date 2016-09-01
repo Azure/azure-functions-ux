@@ -51,7 +51,6 @@ export class TableFunctionMonitor implements OnChanges {
     }
 
     refreshFuncMonitorGridData() {
-        //    this.data = null;
         this._globalStateService.setBusyState();
         this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncName).subscribe(result => {
             this.data = result;

@@ -925,7 +925,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total errors count.
+        ///   Looks up a localized string similar to Recent errors count.
         /// </summary>
         internal static string functionMonitor_errorsAggregate {
             get {
@@ -970,7 +970,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total success count.
+        ///   Looks up a localized string similar to Recent success count.
         /// </summary>
         internal static string functionMonitor_successAggregate {
             get {
