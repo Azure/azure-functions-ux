@@ -4,6 +4,8 @@ import {FunctionInvocations} from '../models/function-monitor';
 import {Format} from "../pipes/table-function-monitor.pipe";
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {FunctionInfo} from '../models/function-info';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'table-function-monitor',
@@ -17,13 +19,15 @@ export class TableFunctionMonitor implements OnChanges {
     @Input() data: any[];
     @Input() details: any;
     @Input() pulseUrl: string;
+    @Input() selectedFuncName: string;
 
     public outputLog: string;
     public selectedRowId: string;
 
     constructor(
         private _functionMonitorService: FunctionMonitorService,
-        private _translateService: TranslateService) { }
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService) { }
 
     showDetails(rowData: FunctionInvocations) {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(rowData.id).subscribe(results => {
@@ -44,5 +48,14 @@ export class TableFunctionMonitor implements OnChanges {
         this.details = null;
         this.outputLog = "";
         this.selectedRowId = null;
+    }
+
+    refreshFuncMonitorGridData() {
+        //    this.data = null;
+        this._globalStateService.setBusyState();
+        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncName).subscribe(result => {
+            this.data = result;
+            this._globalStateService.clearBusyState();
+        });
     }
 }
