@@ -50,7 +50,7 @@ export class GlobalStateService {
     }
 
     get IsLatest(): boolean {
-        return this.showTryView || this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false;
+        return this.showTryView || (this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false);
     }
 
     set AppSettings(value: { [key: string]: string }) {
