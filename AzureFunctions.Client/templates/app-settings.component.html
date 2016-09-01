@@ -3,7 +3,7 @@
         {{ 'appFunctionSettings_functionAppSettings' | translate }}
     </div>
     <div [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
-        <div class="features-wrapper">
+        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
                 <div *ngIf="needUpdateExtensionVersion">
                     <h2>{{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}</h2>
@@ -12,7 +12,7 @@
                     <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <button class="custom-button" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                    <button [tooltip]="freeAccountTooltip" [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
                 </div>
             </div>
 
@@ -38,14 +38,15 @@
 
     <div class="setting-wrapper">
         <label>{{ 'features' | translate }}</label>
-        <div class="features-wrapper">
+        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
                 <div>
                     <h2>{{ 'appFunctionSettings_CI' | translate }}</h2>
                     {{ 'appFunctionSettings_deploy' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>{{ 'appFunctionSettings_configureCI' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_configureCI' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("ContinuousDeploymentListBlade")'>{{ 'appFunctionSettings_configureCI' | translate }}</div>
                 </div>
             </div>
             <div>
@@ -54,7 +55,8 @@
                     {{ 'appFunctionSettings_forFunc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("AppAuth")'>{{ 'appFunctionSettings_configAuth' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_configAuth' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("AppAuth")'>{{ 'appFunctionSettings_configAuth' | translate }}</div>
                 </div>
             </div>
             <div>
@@ -63,7 +65,8 @@
                    {{ 'appFunctionSettings_allowYour' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ApiCors")'>{{ 'appFunctionSettings_configureCors' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_configureCors' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("ApiCors")'>{{ 'appFunctionSettings_configureCors' | translate }}</div>                
                 </div>
             </div>
             <div>
@@ -72,7 +75,8 @@
                     {{ 'appFunctionSettings_allowClients' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ApiDefinition")'>{{ 'appFunctionSettings_configureAPI' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_configureAPI' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("ApiDefinition")'>{{ 'appFunctionSettings_configureAPI' | translate }}</div>
                 </div>
             </div>
 
@@ -82,7 +86,8 @@
                     {{ 'appFunctionSettings_appSettingsDesc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("WebsiteConfigSiteSettings")'>{{ 'appFunctionSettings_appSettingsButtonLabel' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_appSettingsButtonLabel' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("WebsiteConfigSiteSettings")'>{{ 'appFunctionSettings_appSettingsButtonLabel' | translate }}</div>
                 </div>
             </div>
 
@@ -92,7 +97,8 @@
                     {{ 'appFunctionSettings_devConsoleDesc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("ConsoleBlade")'>{{ 'appFunctionSettings_devConsoleButtonLabel' | translate }}</div>
                 </div>
             </div>
 
@@ -102,7 +108,8 @@
                     {{ 'appFunctionSettings_kuduDesc' | translate }}
                 </div>
                 <div>
-                    <div class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openNewTab(debugConsole)'>{{ 'appFunctionSettings_kuduButtonLabel' | translate }}</div>
                 </div>
             </div>
 
@@ -111,13 +118,19 @@
 
     <div class="setting-wrapper">
         <label>{{ 'appFunctionSettings_manageFunction' | translate }}</label>
-        <div class="features-wrapper">
+        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
                 <div>{{ 'appFunctionSettings_AdvancedSettings' | translate }}</div>
                 <div>
-                    <div class="clickable" (click)='openBlade("WebsiteBlade")'>{{ 'appFunctionSettings_goToAppSettings' | translate }}</div>
+                    <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_goToAppSettings' | translate }}</div>
+                    <div *ngIf="!showTryView" class="clickable" (click)='openBlade("WebsiteBlade")'>{{ 'appFunctionSettings_goToAppSettings' | translate }}</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<tooltip-content #freeAccountTooltip>
+    <p>
+        {{ 'appFunctionSettings_FreeAccountToolTip' | translate }}
+    </p>
+</tooltip-content>

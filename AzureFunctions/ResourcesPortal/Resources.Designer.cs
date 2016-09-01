@@ -241,6 +241,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not available during your free trial! Create a free Azure account by clicking the link above.
+        /// </summary>
+        internal static string appFunctionSettings_FreeAccountToolTip {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_FreeAccountToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function App Settings.
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings {
@@ -1839,6 +1848,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tryNow_extendTrial {
             get {
                 return ResourceManager.GetString("tryNow_extendTrial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!.
+        /// </summary>
+        internal static string tryNow_FreeAccountToolTip {
+            get {
+                return ResourceManager.GetString("tryNow_FreeAccountToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Less than 1 minute.
+        /// </summary>
+        internal static string tryNow_lessThanOneMinute {
+            get {
+                return ResourceManager.GetString("tryNow_lessThanOneMinute", resourceCulture);
             }
         }
         

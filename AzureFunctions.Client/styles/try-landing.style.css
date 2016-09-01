@@ -135,12 +135,10 @@ button {
     border: 3px solid #419BF3;
 }
 
-
 .trylanding-template div:first-of-type{
     background-color: #419BF3;
     padding: 30px;
 }
-
 
 .trylanding-template div:nth-of-type(2){ 
     margin-top: 15px;
@@ -210,6 +208,7 @@ div.google-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
+	cursor: pointer;
 }
 .sprite-google{ background-position: 0 0; width: 221px; height: 49px; } 
 
@@ -230,7 +229,6 @@ div.google-login:hover {
 	}
 }
 
-
 div.microsoft-login {
     background: url(/images/Logins/microsoftaccount.png) no-repeat top left;
     background-position: 0 0;
@@ -247,6 +245,7 @@ div.microsoft-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
+	cursor: pointer;
 }
 div.facebook-login {
     background: url(/images/Logins/facebook.png) no-repeat top left;
@@ -265,6 +264,7 @@ div.facebook-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
+	cursor: pointer;
 }
 
 div.vk-login {
@@ -284,6 +284,7 @@ div.vk-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
+	cursor: pointer;
 }
 .login-box {
     -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);

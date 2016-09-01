@@ -24,7 +24,9 @@
   <ItemGroup>
     <Content Include="health.html" />
     <Content Include="images\arrow-right.svg" />
+    <Content Include="images\azure-logo.svg" />
     <Content Include="images\bolt.svg" />
+    <Content Include="images\busy-image.png" />
     <Content Include="images\generic-template.svg" />
     <Content Include="images\Logins\facebook.png" />
     <Content Include="images\Logins\google.png" />
@@ -38,6 +40,7 @@
     <Content Include="images\timer-template.svg" />
     <Content Include="images\webhook-api-template.svg" />
     <Content Include="styles\binding.style.css" />
+    <Content Include="styles\try-now-busy-state.style.css" />
     <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />
     <Content Include="styles\try-landing.style.css" />
@@ -45,8 +48,10 @@
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
+    <Content Include="templates\tooltip-content-component.html" />
     <Content Include="templates\aggregate-block.component.html" />
     <Content Include="templates\app-monitoring.component.html" />
+    <Content Include="templates\try-now-busy-state.component.html" />
     <Content Include="templates\copy-pre.component.html" />
     <Content Include="templates\error-list.component.html" />
     <Content Include="templates\file-explorer.component.html" />
@@ -109,6 +114,9 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\tooltip.component.ts" />
+    <TypeScriptCompile Include="app\components\tooltip-content.component.ts" />
+    <TypeScriptCompile Include="app\components\try-now-busy-state.component.ts" />
     <TypeScriptCompile Include="app\components\copy-pre.component.ts" />
     <TypeScriptCompile Include="app\components\error-list.component.ts" />
     <TypeScriptCompile Include="app\components\file-explorer.component.ts" />
@@ -242,6 +250,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>AzureFunctions.Client</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>images\azure-logo.svg</ApplicationManifest>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />

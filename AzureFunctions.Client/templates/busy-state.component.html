@@ -5,9 +5,6 @@
             <div *ngIf="message">{{ message }}</div>
         </div>
     </div>
-    <div class="try-functions" *ngIf="name == 'try-functions'">
-        <div>Hang on while we put the 'fun' in functions...</div>
-        <div><img src="/images/busy-image.png"></div>
-        <div>Just a few more seconds...</div>
-    </div>
+    <try-now-busy-state *ngIf="name == 'try-functions'">
+    </try-now-busy-state>
 </div>

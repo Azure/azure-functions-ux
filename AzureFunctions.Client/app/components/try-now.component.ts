@@ -6,17 +6,19 @@ import {FunctionsService} from '.././services/functions.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'try-now',
     templateUrl: 'templates/try-now.component.html',
     styleUrls: ['styles/try-now.styles.css'],
     pipes: [TranslatePipe],
+    directives: [TooltipContentComponent, TooltipComponent]
 })
 
 export class TryNowComponent implements OnInit {
     public uiResource: UIResource;
-//    public isExtended: boolean;
     public trialExpired: boolean;
     public endTime: Date;
     public timerText: string;
@@ -32,16 +34,17 @@ export class TryNowComponent implements OnInit {
 
         var callBack = () => {
             window.setTimeout(() => {
-                var hh, mm;
+                var  mm;
                 var now = new Date();
                 var msLeft = this.endTime.getTime() - now.getTime();
                 if (this.endTime >= now) {
                     //http://stackoverflow.com/questions/1787939/check-time-difference-in-javascript
-                    hh = Math.floor(msLeft / 1000 / 60 / 60);
-                    msLeft -= hh * 1000 * 60 * 60;
                     mm = Math.floor(msLeft / 1000 / 60);
-
-                    this.timerText = (hh ? this.pad(hh, 2) + ':' + this.pad(mm, 2) : mm) + ' ' + this._translateService.instant(PortalResources.tryNow_minutes) ;
+                    if (mm < 1) {
+                        this.timerText = (this._translateService.instant(PortalResources.tryNow_lessThanOneMinute));
+                    } else {
+                        this.timerText = this.pad(mm, 2) + ' ' + this._translateService.instant(PortalResources.tryNow_minutes);
+                    }
                     window.setTimeout(callBack, 1000);
                 } else {
                     this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);
@@ -67,16 +70,5 @@ export class TryNowComponent implements OnInit {
         var z = '0';
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
-
-    extendResourceLifeTime() {
-        this._globalStateService.setBusyState();
-        this._functionsService.extendTrialResource().
-                subscribe((resource) => {
-                    this.uiResource = resource;
-                    this.endTime = new Date();
-                    this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
-                    this._globalStateService.clearBusyState();
-                });
     }
 }
