@@ -40,6 +40,7 @@
     <Content Include="images\timer-template.svg" />
     <Content Include="images\webhook-api-template.svg" />
     <Content Include="styles\binding.style.css" />
+    <Content Include="styles\try-now-busy-state.style.css" />
     <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />
     <Content Include="styles\try-landing.style.css" />
@@ -48,6 +49,7 @@
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
     <Content Include="templates\app-monitoring.component.html" />
+    <Content Include="templates\try-now-busy-state.component.html" />
     <Content Include="templates\copy-pre.component.html" />
     <Content Include="templates\error-list.component.html" />
     <Content Include="templates\file-explorer.component.html" />
@@ -107,6 +109,7 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\try-now-busy-state.component.ts" />
     <TypeScriptCompile Include="app\components\copy-pre.component.ts" />
     <TypeScriptCompile Include="app\components\error-list.component.ts" />
     <TypeScriptCompile Include="app\components\file-explorer.component.ts" />

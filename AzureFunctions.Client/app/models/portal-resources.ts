@@ -208,6 +208,9 @@ export class PortalResources
     public static appFunctionSettings_kuduButtonLabel: string = "appFunctionSettings_kuduButtonLabel";
     public static tutorial_theFastestWayCSharp: string = "tutorial_theFastestWayCSharp";
     public static binding_actions: string = "binding_actions";
+    public static tryNow_lessThanOneMinute: string = "tryNow_lessThanOneMinute";
+    public static appFunctionSettings_FreeAccountToolTip: string = "appFunctionSettings_FreeAccountToolTip";
+    public static tryNow_FreeAccountToolTip: string = "tryNow_FreeAccountToolTip";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
@@ -459,6 +462,7 @@ export class PortalResources
     public static GithubWebhookNodeJS_description: string = "GithubWebhookNodeJS_description";
     public static HttpGETCRUDC_description: string = "HttpGETCRUDC_description";
     public static HttpGETCRUDNodeJS_description: string = "HttpGETCRUDNodeJS_description";
+    public static HttpGETCRUDPHP_description: string = "HttpGETCRUDPHP_description";
     public static HttpPOSTCRUDCSharp_description: string = "HttpPOSTCRUDCSharp_description";
     public static HttpPOSTCRUDNodeJS_description: string = "HttpPOSTCRUDNodeJS_description";
     public static HttpPUTCRUDC_description: string = "HttpPUTCRUDC_description";

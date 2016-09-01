@@ -743,6 +743,6 @@
     <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-    <value>Signing up for a free Azure account unlocks all Azure Functions functionality, plus you won't have to worry about the time limit of your free trial!</value>
+    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
   </data>
 </root>

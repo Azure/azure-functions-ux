@@ -208,7 +208,7 @@ div.google-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 .sprite-google{ background-position: 0 0; width: 221px; height: 49px; } 
 
@@ -245,7 +245,7 @@ div.microsoft-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 div.facebook-login {
     background: url(/images/Logins/facebook.png) no-repeat top left;
@@ -264,7 +264,7 @@ div.facebook-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 div.vk-login {
@@ -284,7 +284,7 @@ div.vk-login:hover {
 	opacity: 1;
 	-webkit-animation: flash 1.5s;
 	animation: flash 1.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 .login-box {
     -webkit-box-shadow: 10px 10px 45px -4px rgba(74,74,74,1);

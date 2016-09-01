@@ -1753,7 +1753,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Azure Functions functionality, plus you won&apos;t have to worry about the time limit of your free trial!.
+        ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!.
         /// </summary>
         internal static string tryNow_FreeAccountToolTip {
             get {
