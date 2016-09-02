@@ -5,6 +5,7 @@ import {UserService} from './user.service';
 import {FunctionsService} from '../services/functions.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {FunctionInvocations, FunctionInvocationDetails, FunctionAggregates} from '../models/function-monitor'
+import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class FunctionMonitorService {
@@ -41,7 +42,14 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
-            .map<FunctionInvocations[]>(r => r.json().entries);
+            .map<FunctionInvocations[]>(r => r.json().entries)
+            .catch(e => {
+                if (e.status === 404) {
+                    return Observable.of([]);
+                } else {
+                    throw e;
+                }
+            });
     }
 
     getInvocationDetailsForSelectedInvocation(invocationId: string) {
