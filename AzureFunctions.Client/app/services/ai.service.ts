@@ -7,7 +7,7 @@ function AiDefined() {
     return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
-            if (appInsights) {
+            if (typeof(appInsights) !== 'undefined') {
                 return originalMethod.apply(this, args);
             } else {
                 return null;
@@ -18,7 +18,7 @@ function AiDefined() {
 }
 
 function run<T>(action: () => T) {
-    if (appInsights) {
+    if (typeof(appInsights) !== 'undefined') {
         return action();
     }
 }
