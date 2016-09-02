@@ -77,11 +77,9 @@ namespace AzureFunctions
             // If the route doesn't have authenticated value assume true
             var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
             var isTryPageRequested = context.Request.RawUrl.StartsWith("/try");
-            var isOpenApiRoute = (context.Request.RawUrl.StartsWith("/api") && !isAuthenticated);
 
             if (   !isFile              //skip auth for files
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
-                && !isOpenApiRoute      // some templateresource APIs dont need authentication
                 && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
                 if (isAuthenticated)
@@ -95,7 +93,7 @@ namespace AzureFunctions
                     context.Response.Flush();
                     context.Response.End();
                 }
-                else if (!isFile)
+                else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
                 {
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
