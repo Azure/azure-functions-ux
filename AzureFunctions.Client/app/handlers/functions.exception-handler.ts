@@ -17,7 +17,12 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
     call(error) {
         console.log(error);
         this._globalStateService.clearBusyState();
-        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this.getErrorMessage(error), details: this.getErrorDetails(error) });
+        let errorMessage = this.getErrorMessage(error);
+        let errorDetails = this.getErrorDetails(error);
+        if (errorMessage.indexOf('NONUSRACT') === -1 &&
+            errorMessage.indexOf('USRACT') === -1) {
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: errorMessage, details: errorDetails });
+        }
     }
 
     private getErrorMessage(error: any): string {
