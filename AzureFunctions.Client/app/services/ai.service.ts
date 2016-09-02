@@ -43,13 +43,15 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     setSessionId(sessionId: string) {
-        appInsights.queue.push(() => {
-            appInsights.context.addTelemetryInitializer(envelope => {
-                var telemetryItem = envelope.data.baseData;
-                telemetryItem.properties = telemetryItem.properties || {};
-                telemetryItem.properties['sessionId'] = sessionId;
+        if (appInsights.queue) {
+            appInsights.queue.push(() => {
+                appInsights.context.addTelemetryInitializer(envelope => {
+                    var telemetryItem = envelope.data.baseData;
+                    telemetryItem.properties = telemetryItem.properties || {};
+                    telemetryItem.properties['sessionId'] = sessionId;
+                });
             });
-        });
+        }
     }
 
     /**
