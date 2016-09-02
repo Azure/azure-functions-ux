@@ -45,7 +45,9 @@ export class SideBarComponent implements OnDestroy {
     @Output() refreshClicked = new EventEmitter<void>();
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
-    private _tabId: string = "Develop";
+    private _tabId: string = 'Develop';
+    private _viewTimeRunning = false;
+    private _currentViewName: string;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -120,7 +122,7 @@ export class SideBarComponent implements OnDestroy {
     }
 
     selectFunction(fi: FunctionInfo) {
-        if (this.switchFunctions()) {
+        if (this.canSwitchFunctions()) {
             this.resetView();
             this._broadcastService.clearDirtyState('function', true);
             this._broadcastService.clearDirtyState('function_integrate', true);
@@ -130,29 +132,44 @@ export class SideBarComponent implements OnDestroy {
     }
 
     refresh() {
-        if (this.switchFunctions()) {
+        if (this.canSwitchFunctions()) {
             this.refreshClicked.emit(null);
+            this._aiService.trackEvent('/actions/refresh');
         }
     }
 
     appsettings() {
-        if (this.switchFunctions()) {
+        if (this.canSwitchFunctions()) {
             this.appSettingsClicked.emit(null);
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
+            if (this._viewTimeRunning) {
+                this._aiService.stopTrackPage(this._tabId);
+                this._viewTimeRunning = false;
+            }
+            this._aiService.startTrackPage('appSettings');
+            this._currentViewName = 'appSettings';
+            this._viewTimeRunning = true;
         }
 
     }
 
 
     quickstart() {
-        if (this.switchFunctions()) {
+        if (this.canSwitchFunctions()) {
             this._portalService.logAction('top-bar-azure-functions-link', 'click');
             this.resetView();
             this.quickstartClicked.emit(null);
             this.ActiveButton = TopbarButton.Quickstart;
+            this._aiService.trackPageView();
+            if (this._viewTimeRunning) {
+                this._aiService.stopTrackPage(this._tabId);
+                this._viewTimeRunning = false;
+            }
+            this._aiService.startTrackPage('quickStart');
+            this._currentViewName = 'quickStart';
+            this._viewTimeRunning = true;
         }
-
     }
 
     private resetView() {
@@ -170,18 +187,23 @@ export class SideBarComponent implements OnDestroy {
     onTabClicked(tabId: string) {
         if (!this._globalStateService.IsBusy) {
             this._portalService.logAction("tabs", "click " + tabId, null);
-            this._aiService.trackEvent('/actions/tabs/click', {name: tabId});
+            if (this._viewTimeRunning) {
+                this._aiService.stopTrackPage(this._currentViewName);
+                this._viewTimeRunning = false;
+            }
+            this._aiService.startTrackPage(tabId);
+            this._currentViewName = tabId;
+            this._viewTimeRunning = true;
             this._tabId = tabId;
             this.changedTab.emit(tabId);
         }
     }
 
-    private switchFunctions() {
+    private canSwitchFunctions() {
         var switchFunction = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
             switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name }));
         }
         return switchFunction;
     }
-
 }
