@@ -189,6 +189,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     renameFile() {
+
         this.setBusyState();
         this._functionsService.getFileContent(this.selectedFile)
             .subscribe(content => {
@@ -204,7 +205,12 @@ export class FileExplorerComponent implements OnChanges {
             if (this.creatingNewFile) {
                 this.addFile();
             } else if (this.renamingFile) {
-                this.renameFile();
+                if (this.newFileName.toLocaleLowerCase() !== this.selectedFile.name.toLocaleLowerCase()) {
+                    this.renameFile();
+                } else {
+                    this.files.push(this.selectedFile);
+                    this.renamingFile = false;
+                }
             }
 
         } else if (event.keyCode === 27) {
