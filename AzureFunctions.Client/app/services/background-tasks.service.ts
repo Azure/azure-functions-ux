@@ -44,8 +44,9 @@ export class BackgroundTasksService {
     }
 
     runTasks() {
-        if (this._tasks && this._tasks.isUnsubscribed) {
+        if (this._tasks) {
             this._tasks.unsubscribe();
+            delete this._tasks;
         }
 
         if (!this._globalStateService.showTryView) {
