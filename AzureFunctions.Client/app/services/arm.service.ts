@@ -94,9 +94,13 @@ export class ArmService {
     }
 
     getDynamicStampLocations(subscriptionId: string): Observable<{ name: string; displayName: string }[]> {
-        var url = `${this.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this.websiteApiVersion}`;
-        return this._http.get(url, { headers: this.getHeaders() })
-            .map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties));
+        var dynamicUrl = `${this.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this.websiteApiVersion}`;
+        var geoFencedUrl = `${this.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web?api-version=2014-04-01`;
+        return Observable.zip(
+            this._http.get(dynamicUrl, { headers: this.getHeaders() }).map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties)),
+            this._http.get(geoFencedUrl, { headers: this.getHeaders() }).map<string[]>(r => [].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() == 'sites').map(e => e.locations))),
+            (d: {name: string, displayName: string}[], g: string[]) => ({dynamicEnabled: d, geoFenced: g})
+        ).map<{ name: string; displayName: string }[]>(result => result.dynamicEnabled.filter(e => !!result.geoFenced.find(g => g.toLowerCase() === e.name.toLowerCase())));
     }
 
     warmUpFunctionApp(armId: string) {
