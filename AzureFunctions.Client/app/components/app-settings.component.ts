@@ -10,6 +10,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {TooltipContentComponent} from './tooltip-content.component';
 import {TooltipComponent} from './tooltip.component';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'app-settings',
@@ -30,7 +31,7 @@ export class AppSettingsComponent implements OnInit {
     private showTryView: boolean;
 
     set functionContainer(value: FunctionContainer) {
-        this.debugConsole  = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + "/DebugConsole";
+        this.debugConsole  = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/DebugConsole`;
         this._functionContainer = value;
     }
 
@@ -42,7 +43,8 @@ export class AppSettingsComponent implements OnInit {
                 private _portalService : PortalService,
                 private _broadcastService: BroadcastService,
                 private _functionsService: FunctionsService,
-                private _globalStateService: GlobalStateService) {
+                private _globalStateService: GlobalStateService,
+                private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -63,11 +65,13 @@ export class AppSettingsComponent implements OnInit {
 
     openBlade(name : string) {
         this._portalService.openBlade(name, "app-settings");
+        this._aiService.trackEvent(`/actions/app_settings/open_${name}_blade`);
     }
 
     openNewTab(url: string) {
         var win = window.open(url, '_blank');
         win.focus();
+        this._aiService.trackEvent(`/actions/app_settings/open_url`);
     }
 
     saveMemorySize(value: string | number) {
@@ -81,6 +85,7 @@ export class AppSettingsComponent implements OnInit {
     }
 
     updateVersion() {
+        this._aiService.trackEvent('/actions/app_settings/update_version');
         this._globalStateService.setBusyState();
         this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
             this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {

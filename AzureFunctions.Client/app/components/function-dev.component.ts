@@ -276,6 +276,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     toggleShowHideFileExplorer() {
         this.showFileExplorer = !this.showFileExplorer;
+        if (this.showFileExplorer) {
+            this._aiService.trackEvent('/actions/file_explorer/show');
+        }
     }
 
     checkErrors(functionInfo: FunctionInfo) {

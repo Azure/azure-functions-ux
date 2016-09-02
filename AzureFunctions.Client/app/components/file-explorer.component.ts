@@ -10,6 +10,7 @@ import {BroadcastEvent} from '../models/broadcast-event';
 import {Subscription as RxSubscription} from 'rxjs/Rx';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'file-explorer',
@@ -42,7 +43,8 @@ export class FileExplorerComponent implements OnChanges {
         private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
         private _broadcastService: BroadcastService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _aiService: AiService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
         this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
         this.selectedFunctionChange
@@ -74,6 +76,7 @@ export class FileExplorerComponent implements OnChanges {
             this.uploader.clearQueue();
             this._functionsService.ClearAllFunctionCache(this.functionInfo);
             this.refresh();
+            this._aiService.trackEvent('/actions/file_explorer/upload_file');
         };
 
         this.uploader.onErrorItem = (item, response, status, headers) => {
@@ -108,6 +111,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
+        this._aiService.trackEvent('/actions/file_explorer/select_item');
         if (!this.switchFiles() || (typeof vfsObject !== 'string' && vfsObject.isBinary)) return;
         if (typeof vfsObject === 'string' || (typeof vfsObject !== 'string' && vfsObject.mime === 'inode/directory')) {
             this.setBusyState();
@@ -158,12 +162,14 @@ export class FileExplorerComponent implements OnChanges {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
                     this._functionsService.ClearAllFunctionCache(this.functionInfo);
                     this.refresh();
+                    this._aiService.trackEvent('/actions/file_explorer/create_directory');
                 } else {
                     let o = typeof r === 'string'
                         ? {name: this.newFileName, href: href, mime: 'file'}
                         : r;
                     this.files.push(o);
                     this.selectVfsObject(o, true);
+                    this._aiService.trackEvent('/actions/file_explorer/create_file');
                 }
                 this.creatingNewFile = false;
                 this.renamingFile = false;
@@ -174,6 +180,8 @@ export class FileExplorerComponent implements OnChanges {
                     this._broadcastService.broadcast(BroadcastEvent.Error, {
                         message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorCreatingFile, { fileName: this.newFileName })
                     });
+                    var error = new Error(body.ExceptionMessage);
+                    this._aiService.trackException(error);
                 }
                 this.clearBusyState();
             });
@@ -187,6 +195,7 @@ export class FileExplorerComponent implements OnChanges {
                 var bypassConfirm = true;
                 this.addFile(content).subscribe(s => this.deleteCurrentFile(bypassConfirm));
             }, e => this.clearBusyState());
+        this._aiService.trackEvent('/actions/file_explorer/rename_file');
     }
 
     handleKeyUp(event: KeyboardEvent) {
@@ -236,6 +245,7 @@ export class FileExplorerComponent implements OnChanges {
                 }
                 this.clearBusyState();
             });
+        this._aiService.trackEvent('/actions/file_explorer/delete_file');
     }
 
     renameCurrentFile(event: Event, element: any) {
