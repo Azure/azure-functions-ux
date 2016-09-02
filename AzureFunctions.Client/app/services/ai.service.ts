@@ -4,10 +4,11 @@ import {IAppInsights, IConfig, SeverityLevel} from '../models/app-insights';
 declare var appInsights: IAppInsights;
 
 function AiDefined() {
-    return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
+    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
-            if (typeof(appInsights) !== 'undefined') {
+            if (typeof(appInsights) !== 'undefined' &&
+                typeof(appInsights[functionName]) !== 'undefined' {
                 return originalMethod.apply(this, args);
             } else {
                 return null;
