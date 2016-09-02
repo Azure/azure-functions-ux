@@ -21,6 +21,7 @@ import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'function-dev',
@@ -70,7 +71,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService) {
+                private _translateService: TranslateService,
+                private _aiService: AiService) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -153,7 +155,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream.unsubscribe();
     }
 
-    ngAfterContentInit() {        
+    ngAfterContentInit() {
         this._broadcastService.broadcast<TutorialEvent>(
             BroadcastEvent.TutorialStep,
             {
@@ -280,17 +282,21 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this._functionsService.getFunctionErrors(functionInfo)
         .subscribe(errors => {
             if (errors) {
-                errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
-                    details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e })
-                }));
+                errors.forEach(e => {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
+                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }) });
+                    this._aiService.trackEvent('/errors/function', { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
+                });
             } else {
                 this._functionsService.getHostErrors()
-                .subscribe(errors => errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                    details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
-                })));
-            }
+                .subscribe(errors => errors.forEach(e => {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                        details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }) });
+                    this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
+                }));
+           }
         });
     }
 }

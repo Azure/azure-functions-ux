@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _trnaslateService: TranslateService
     ) {
         this.gettingStarted = !_userService.inIFrame;
-        this.showTryView = this._globalStateService.showTryView; 
+        this.showTryView = this._globalStateService.showTryView;
         this._functionsService.getResources().subscribe(() => {
             this.readyResources = true;
         });

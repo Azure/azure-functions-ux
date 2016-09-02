@@ -1,21 +1,16 @@
-﻿using AzureFunctions.Common;
-using AzureFunctions.Contracts;
-using AzureFunctions.Models;
-using AzureFunctions.Trace;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Resources;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Linq;
+using AzureFunctions.Contracts;
+using AzureFunctions.Models;
+using AzureFunctions.Trace;
 using Newtonsoft.Json.Linq;
-using System.Web;
 
 namespace AzureFunctions.Controllers
 {

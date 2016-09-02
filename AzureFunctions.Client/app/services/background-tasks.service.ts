@@ -9,6 +9,7 @@ import {ErrorEvent} from '../models/error-event';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from './global-state.service';
 import {ArmService} from './arm.service';
+import {AiService} from './ai.service';
 
 @Injectable()
 export class BackgroundTasksService {
@@ -21,6 +22,7 @@ export class BackgroundTasksService {
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _armService: ArmService,
+        private _aiService: AiService,
         private _applicationRef: ApplicationRef) {
             if (!this._userService.inIFrame) {
                 this.runPreIFrameTasks();
@@ -57,7 +59,10 @@ export class BackgroundTasksService {
                     )
                 )
                 .subscribe(result => {
-                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` }));
+                    result.errors.forEach(e => {
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+                        this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
+                    });
                     this.setDisabled(result.config);
                     this._functionsService.setEasyAuth(result.config);
                     this._globalStateService.AppSettings = result.appSettings;

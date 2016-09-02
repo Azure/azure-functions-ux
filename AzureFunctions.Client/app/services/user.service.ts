@@ -4,6 +4,8 @@ import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
 import {FunctionContainer} from '../models/function-container';
+import {IAppInsights} from '../models/app-insights';
+import {AiService} from './ai.service';
 
 @Injectable()
 export class UserService {
@@ -12,7 +14,7 @@ export class UserService {
     private tokenSubject: ReplaySubject<string>;
     private languageSubject: ReplaySubject<string>;
 
-    constructor(private _http: Http) {
+    constructor(private _http: Http, private _aiService: AiService) {
         this.tokenSubject = new ReplaySubject<string>(1);
         this.languageSubject = new ReplaySubject<string>(1);
         this.inIFrame = window.parent !== window;
@@ -23,8 +25,6 @@ export class UserService {
         return this._http.get('api/tenants')
             .catch(e => Observable.of({ json: () => [] }))
             .map<TenantInfo[]>(r => r.json());
-            // .publishReplay(1)
-            // .refCount();
     }
 
     getUser() {
@@ -38,6 +38,14 @@ export class UserService {
 
     setToken(token: string) {
         this.tokenSubject.next(token);
+        try {
+            var encodedUser = token.split('.')[1];
+            var user: {unique_name: string, email: string} = JSON.parse(atob(encodedUser));
+            var userName = (user.unique_name || user.email).replace(/[,;=| ]+/g, "_");
+            this._aiService.setAuthenticatedUserContext(userName);
+        } catch (error) {
+            this._aiService.trackException(error, 'setToken');
+        }
     }
 
     setLanguage(lang: string) {

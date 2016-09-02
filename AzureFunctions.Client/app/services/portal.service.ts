@@ -5,6 +5,7 @@ import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {UserService} from './user.service';
+import {AiService} from './ai.service';
 
 @Injectable()
 export class PortalService {
@@ -15,7 +16,9 @@ export class PortalService {
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
-    constructor(private _broadcastService : BroadcastService, private _userService: UserService) {
+    constructor(private _broadcastService : BroadcastService,
+     private _userService: UserService,
+     private _aiService: AiService) {
         this.resourceIdObservable = new ReplaySubject<string>(1);
         if (this.inIFrame()){
             this.initializeIframe();
@@ -105,6 +108,7 @@ export class PortalService {
             let startupInfo = <StartupInfo>data;
             this.sessionId = startupInfo.sessionId;
             this._userService.setToken(startupInfo.token);
+            this._aiService.setSessionId(this.sessionId);
 
             // Effective language has language and formatting information eg: "en.en-us"
             let lang = startupInfo.effectiveLocale.split(".")[0];

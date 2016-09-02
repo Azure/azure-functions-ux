@@ -5,6 +5,7 @@ import {UserService} from './user.service';
 import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
 import {BusyStateComponent} from '../components/busy-state.component';
+import {AiService} from './ai.service';
 
 @Injectable()
 export class GlobalStateService {
@@ -18,7 +19,9 @@ export class GlobalStateService {
 
     public showTryView: boolean;
 
-    constructor(private _userService: UserService, private _armService: ArmService) {
+    constructor(private _userService: UserService,
+      private _armService: ArmService,
+      private _aiService: AiService) {
         this._appSettings = {};
         this.showTryView = window.location.pathname.endsWith('/try');
         this._userService.getFunctionContainer()

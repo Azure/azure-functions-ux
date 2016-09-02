@@ -13,6 +13,7 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
 import {PortalService} from '../services/portal.service';
+import {AiService} from '../services/ai.service';
 
 enum TopbarButton {
     None = <any>"None",
@@ -51,7 +52,8 @@ export class SideBarComponent implements OnDestroy {
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
-        private _portalService: PortalService) {
+        private _portalService: PortalService,
+        private _aiService: AiService) {
 
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
@@ -134,7 +136,7 @@ export class SideBarComponent implements OnDestroy {
     }
 
     appsettings() {
-        if (this.switchFunctions()) {            
+        if (this.switchFunctions()) {
             this.appSettingsClicked.emit(null);
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
@@ -163,12 +165,12 @@ export class SideBarComponent implements OnDestroy {
 
     set tabId(value: string) {
         this._tabId = value;
-    } 
+    }
 
     onTabClicked(tabId: string) {
         if (!this._globalStateService.IsBusy) {
             this._portalService.logAction("tabs", "click " + tabId, null);
-
+            this._aiService.trackEvent('/actions/tabs/click', {name: tabId});
             this._tabId = tabId;
             this.changedTab.emit(tabId);
         }
