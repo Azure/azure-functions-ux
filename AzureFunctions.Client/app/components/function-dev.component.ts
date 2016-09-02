@@ -140,7 +140,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     this.isHttpFunction = false;
                 }
-                this.createSecretIfNeeded(res.functionInfo, res.secrets);
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -162,21 +161,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 functionInfo: null,
                 step: TutorialStep.Develop
             });
-    }
-
-    private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
-        if (!secrets.key) {
-            if (this.isHttpFunction) {
-                //http://stackoverflow.com/a/8084248/3234163
-                var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                this._functionsService.setSecrets(fi, { key: secret })
-                    .subscribe(r => this.secrets = r);
-            } else {
-                this.secrets = secrets;
-            }
-        } else {
-            this.secrets = secrets;
-        }
     }
 
     private setInvokeUrlVisibility()
