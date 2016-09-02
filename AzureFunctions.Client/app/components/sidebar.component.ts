@@ -154,6 +154,7 @@ export class SideBarComponent implements OnDestroy, OnInit {
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
             this.trackPage('appSettings');
+            this.tabId = 'Develop';
         }
     }
 
@@ -164,6 +165,7 @@ export class SideBarComponent implements OnDestroy, OnInit {
             this.quickstartClicked.emit(null);
             this.ActiveButton = TopbarButton.Quickstart;
             this.trackPage('quickStart');
+            this.tabId = 'Develop';
         }
     }
 
