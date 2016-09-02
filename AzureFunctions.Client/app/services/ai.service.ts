@@ -8,7 +8,7 @@ function AiDefined() {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
             if (typeof(appInsights) !== 'undefined' &&
-                typeof(appInsights[functionName]) !== 'undefined' {
+                typeof(appInsights[functionName]) !== 'undefined') {
                 return originalMethod.apply(this, args);
             } else {
                 return null;
