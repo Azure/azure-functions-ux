@@ -30,7 +30,7 @@ enum TopbarButton {
     inputs: ['functionsInfo', 'tabId'],
     pipes: [SideBarFilterPipe, TranslatePipe],
 })
-export class SideBarComponent implements OnDestroy {
+export class SideBarComponent implements OnDestroy, OnInit {
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
@@ -46,7 +46,6 @@ export class SideBarComponent implements OnDestroy {
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
     private _tabId: string = 'Develop';
-    private _viewTimeRunning = false;
     private _currentViewName: string;
 
     constructor(private _functionsService: FunctionsService,
@@ -117,6 +116,11 @@ export class SideBarComponent implements OnDestroy {
         }
     }
 
+    ngOnInit() {
+        this._currentViewName = 'quickStart';
+        this._aiService.startTrackPage(this._currentViewName);
+    }
+
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
     }
@@ -128,6 +132,12 @@ export class SideBarComponent implements OnDestroy {
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedFunction = fi;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
+            if (fi.clientOnly) {
+                this.trackPage('NewFunction');
+                this.tabId = 'Develop';
+            } else {
+                this.trackPage(this.tabId);
+            }
         }
     }
 
@@ -143,17 +153,9 @@ export class SideBarComponent implements OnDestroy {
             this.appSettingsClicked.emit(null);
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
-            if (this._viewTimeRunning) {
-                this._aiService.stopTrackPage(this._tabId);
-                this._viewTimeRunning = false;
-            }
-            this._aiService.startTrackPage('appSettings');
-            this._currentViewName = 'appSettings';
-            this._viewTimeRunning = true;
+            this.trackPage('appSettings');
         }
-
     }
-
 
     quickstart() {
         if (this.canSwitchFunctions()) {
@@ -161,15 +163,14 @@ export class SideBarComponent implements OnDestroy {
             this.resetView();
             this.quickstartClicked.emit(null);
             this.ActiveButton = TopbarButton.Quickstart;
-            this._aiService.trackPageView();
-            if (this._viewTimeRunning) {
-                this._aiService.stopTrackPage(this._tabId);
-                this._viewTimeRunning = false;
-            }
-            this._aiService.startTrackPage('quickStart');
-            this._currentViewName = 'quickStart';
-            this._viewTimeRunning = true;
+            this.trackPage('quickStart');
         }
+    }
+
+    private trackPage(pageName: string) {
+        this._aiService.stopTrackPage(this._currentViewName);
+        this._aiService.startTrackPage(pageName);
+        this._currentViewName = pageName;
     }
 
     private resetView() {
@@ -187,14 +188,8 @@ export class SideBarComponent implements OnDestroy {
     onTabClicked(tabId: string) {
         if (!this._globalStateService.IsBusy) {
             this._portalService.logAction("tabs", "click " + tabId, null);
-            if (this._viewTimeRunning) {
-                this._aiService.stopTrackPage(this._currentViewName);
-                this._viewTimeRunning = false;
-            }
-            this._aiService.startTrackPage(tabId);
-            this._currentViewName = tabId;
-            this._viewTimeRunning = true;
             this._tabId = tabId;
+            this.trackPage(tabId);
             this.changedTab.emit(tabId);
         }
     }
