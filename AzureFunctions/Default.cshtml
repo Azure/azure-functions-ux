@@ -17,29 +17,29 @@
 
         if (isAzure)
         {
-            <script src="@cdn/node_modules/es6-shim/es6-shim.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/systemjs/dist/system-polyfills.js?v=@version"></script>
-            <script src="@cdn/shims_for_IE.js?v=@version"></script>
+            <script src="@cdn/node_modules/es6-shim/es6-shim.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/systemjs/dist/system-polyfills.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/shims_for_IE.js?v=@version" crossorigin="anonymous"></script>
 
-            <script src="@cdn/node_modules/zone.js/dist/zone.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/reflect-metadata/Reflect.js?v=@version"></script>
-            <script src="@cdn/node_modules/systemjs/dist/system.js?v=@version"></script>
+            <script src="@cdn/node_modules/zone.js/dist/zone.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/reflect-metadata/Reflect.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/systemjs/dist/system.js?v=@version" crossorigin="anonymous"></script>
 
-            <script src="@cdn/config.js?v=@version"></script>
+            <script src="@cdn/config.js?v=@version" crossorigin="anonymous"></script>
 
-            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ace.js?v=@version"></script>
-            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-modelist.js?v=@version"></script>
-            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-language_tools.js?v=@version"></script>
+            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ace.js?v=@version" crossorigin="anonymous"></script>
+            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-modelist.js?v=@version" crossorigin="anonymous"></script>
+            <script src="/jspm_packages/github/ahmelsayed/Ace.Tern@master/ace-builds/src-min/ext-language_tools.js?v=@version" crossorigin="anonymous"></script>
 
-            <script src="@cdn/node_modules/later/later.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/prettycron/prettycron.js?v=@version" type="text/javascript"></script>
+            <script src="@cdn/node_modules/later/later.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/prettycron/prettycron.js?v=@version" type="text/javascript" crossorigin="anonymous"></script>
 
-            <script src="@cdn/bower_components/jquery/dist/jquery.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/d3/d3.min.js?v=@version" charset="utf-8"></script>
-            <script src="@cdn/node_modules/nvd3/build/nv.d3.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/moment/moment.js?v=@version"></script>
-            <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js?v=@version"></script>
-            <script src="@cdn/node_modules/marked/marked.min.js?v=@version"></script>
+            <script src="@cdn/bower_components/jquery/dist/jquery.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/d3/d3.min.js?v=@version" charset="utf-8" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/nvd3/build/nv.d3.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/moment/moment.js?v=@version" crossorigin="anonymous"></script>
+            <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js?v=@version" crossorigin="anonymous"></script>
+            <script src="@cdn/node_modules/marked/marked.min.js?v=@version" crossorigin="anonymous"></script>
 
             <link href="/node_modules/font-awesome/css/font-awesome.css?v=@version" rel="stylesheet" type="text/css">
             <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css?v=@version" rel="stylesheet">
@@ -150,7 +150,7 @@
                 <script type="text/javascript"> var appInsights = window.appInsights || function (config) { function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; s.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(s); try { t.cookie = u.cookie } catch (h) { } for (t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t }({ instrumentationKey: "@instrumentationKey" }); window.appInsights = appInsights; appInsights.trackPageView();</script>
             }
 
-            <script src="@cdn/sfx/app.js?v=@version"></script>
+            <script src="@cdn/sfx/app.js?v=@version" crossorigin="anonymous"></script>
 
             <!-- start Mixpanel -->
             <script type="text/javascript">
