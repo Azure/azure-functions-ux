@@ -407,7 +407,7 @@
     <value>Function App Usage</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>There is no Data</value>
+    <value>No data available</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>of executions</value>
@@ -480,6 +480,9 @@
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Are you sure you want to delete Function {{name}}?</value>
+  </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Loading ...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Recent success count</value>
