@@ -13,6 +13,7 @@ export class UserService {
     private functionContainerSubject: ReplaySubject<FunctionContainer>;
     private tokenSubject: ReplaySubject<string>;
     private languageSubject: ReplaySubject<string>;
+    private currentToken: string;
 
     constructor(private _http: Http, private _aiService: AiService) {
         this.tokenSubject = new ReplaySubject<string>(1);
@@ -37,14 +38,17 @@ export class UserService {
     }
 
     setToken(token: string) {
-        this.tokenSubject.next(token);
-        try {
-            var encodedUser = token.split('.')[1];
-            var user: {unique_name: string, email: string} = JSON.parse(atob(encodedUser));
-            var userName = (user.unique_name || user.email).replace(/[,;=| ]+/g, "_");
-            this._aiService.setAuthenticatedUserContext(userName);
-        } catch (error) {
-            this._aiService.trackException(error, 'setToken');
+        if (token !== this.currentToken) {
+            this.tokenSubject.next(token);
+            this.currentToken = token;
+            try {
+                var encodedUser = token.split('.')[1];
+                var user: {unique_name: string, email: string} = JSON.parse(atob(encodedUser));
+                var userName = (user.unique_name || user.email).replace(/[,;=| ]+/g, "_");
+                this._aiService.setAuthenticatedUserContext(userName);
+            } catch (error) {
+                this._aiService.trackException(error, 'setToken');
+            }
         }
     }
 

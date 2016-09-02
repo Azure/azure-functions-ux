@@ -61,7 +61,7 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     startTrackPage(name?: string) {
-        return appInsights.stopTrackPage(name);
+        return appInsights.startTrackPage(name);
     }
 
     /**

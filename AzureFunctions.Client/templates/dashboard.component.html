@@ -4,11 +4,10 @@
              (sourceControlClicked)='onSourceControlClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
              [quickStartSelected]="openIntro"></top-bar>
-
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)='onRefreshClicked($event)' (changedTab)='onChangeTab($event)' [tabId]="tabId"
-            (appSettingsClicked)='onAppSettingsClicked($event)'
-            (quickstartClicked)='onQuickstartClicked($event)'>
+        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
+            (appSettingsClicked)="onAppSettingsClicked($event)"
+            (quickstartClicked)="onQuickstartClicked($event)">
         </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>

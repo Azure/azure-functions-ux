@@ -170,7 +170,7 @@ export class SideBarComponent implements OnDestroy, OnInit {
     }
 
     private trackPage(pageName: string) {
-        this._aiService.stopTrackPage(this._currentViewName);
+        this._aiService.stopTrackPage(this._currentViewName, '/tabs');
         this._aiService.startTrackPage(pageName);
         this._currentViewName = pageName;
     }
