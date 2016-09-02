@@ -9,6 +9,7 @@ import {UserService} from './user.service';
 import {PublishingCredentials} from '../models/publishing-credentials';
 import {Constants} from '../models/constants';
 import {ClearCache} from '../decorators/cache.decorator';
+import {AiService} from './ai.service';
 
 @Injectable()
 export class ArmService {
@@ -18,7 +19,9 @@ export class ArmService {
     private storageApiVersion = '2015-05-01-preview';
     private websiteApiVersion = '2015-08-01';
 
-    constructor(private _http: Http, private _userService: UserService) {
+    constructor(private _http: Http,
+        private _userService: UserService,
+        private _aiService: AiService) {
         //Cant Get Angular to accept GlobalStateService as input param
         if ( !window.location.pathname.endsWith('/try')) {
             _userService.getToken().subscribe(t => this.token = t);
@@ -221,6 +224,7 @@ export class ArmService {
                 accountType: 'Standard_GRS'
             }
         };
+        this._aiService.startTrackEvent('/action/arm/create/storage_account');
         this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
         .retryWhen(e => e.scan<number>((errorCount, err) => {
             if (errorCount >= 5) {
@@ -233,7 +237,7 @@ export class ArmService {
             e => this.completeError(result, e));
     }
 
-    private pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0) {
+    private pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0, stopCreationEvent = false) {
         var url = typeof storageAccount === 'string'
         ? `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount}?api-version=${this.storageApiVersion}`
         : `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}?api-version=${this.storageApiVersion}`;
@@ -242,17 +246,22 @@ export class ArmService {
             typeof storageAccount !== 'string' &&
             storageAccount.properties.provisioningState === 'Succeeded') {
             this.getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
+            if (stopCreationEvent) {
+                this._aiService.stopTrackEvent('/action/arm/create/storage_account', { region: geoRegion });
+            }
         } else  {
             this._http.get(url, { headers: this.getHeaders() })
                 .map<StorageAccount>(r => r.json())
                 .subscribe(
                 sa => {
                     if (sa.properties.provisioningState === 'Succeeded') {
+                        if (stopCreationEvent) {
+                            this._aiService.stopTrackEvent('/action/arm/create/storage_account', { region: geoRegion });
+                        }
                         this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
-                    } else if (count < 10) {
-                        setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 200)
+                    } else if (count < 50) {
+                        setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1, stopCreationEvent), 200)
                     } else {
-                        console.log('there was an error creating Storage Account')
                         this.completeError(result, sa);
                     }
                 },

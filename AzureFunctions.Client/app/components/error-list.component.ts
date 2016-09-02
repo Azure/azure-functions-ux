@@ -7,6 +7,7 @@ import {ErrorItem} from '../models/error-item';
 import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'error-list',
@@ -16,7 +17,10 @@ import {PortalResources} from '../models/portal-resources';
 export class ErrorListComponent {
     public errorList: ErrorItem[];
     // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
-    constructor(private _broadcastService: BroadcastService, public _portalService: PortalService, private _translateService: TranslateService)
+    constructor(private _broadcastService: BroadcastService,
+        public _portalService: PortalService,
+        private _translateService: TranslateService,
+        private _aiService: AiService)
     {
         this.errorList = [];
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (e) => {

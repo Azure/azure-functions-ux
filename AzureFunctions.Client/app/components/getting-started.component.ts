@@ -16,7 +16,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TenantInfo} from '../models/tenant-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
-
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'getting-started',
@@ -49,7 +49,8 @@ export class GettingStartedComponent implements OnInit {
         private _armService: ArmService,
         private _telemetryService: TelemetryService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _aiService: AiService
     ) {
         this.isValidContainerName = true;
         //http://stackoverflow.com/a/8084248/3234163
@@ -78,7 +79,7 @@ export class GettingStartedComponent implements OnInit {
                             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                         this._globalStateService.clearBusyState();
                     });
-                
+
             })
         );
 
@@ -87,18 +88,18 @@ export class GettingStartedComponent implements OnInit {
                 this.user = u;
                 this._globalStateService.clearBusyState();
             });
-
     }
 
     createFunctionsContainer() {
         delete this.createError;
         this._globalStateService.setBusyState();
         this._telemetryService.track('gettingstarted-create-functionapp');
-
+        this._aiService.startTrackEvent('/actions/arm/create/function_app')
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this.userReady.emit(r);
                 this._globalStateService.clearBusyState();
+                this._aiService.stopTrackEvent('/actions/arm/create/function_app', {region: this.selectedGeoRegion})
             });
     }
 
