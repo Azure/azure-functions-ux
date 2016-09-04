@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Utwórz</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Prawdopodobnie nie masz kontenera funkcji. Wybierz subskrypcję, aby go utworzyć:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Ważność Twojej wersji próbnej wygasła</value>
   </data>

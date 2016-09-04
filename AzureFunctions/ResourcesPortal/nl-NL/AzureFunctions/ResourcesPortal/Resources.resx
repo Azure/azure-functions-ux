@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Maken</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>U hebt geen Functions-container. Selecteer een abonnement om een container te maken:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>De proefversie is verlopen</value>
   </data>

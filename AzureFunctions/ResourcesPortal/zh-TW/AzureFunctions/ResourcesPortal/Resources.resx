@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>建立</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>您似乎沒有函式容器。請選取訂用帳戶建立一個:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>您的試用版已到期</value>
   </data>

@@ -601,15 +601,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It looks like you don&apos;t have a functions container. Select a subscription to create one:.
-        /// </summary>
-        internal static string dashboard_noFunctionContainer {
-            get {
-                return ResourceManager.GetString("dashboard_noFunctionContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Your trial has expired.
         /// </summary>
         internal static string dashboard_yourTrialExpiered {

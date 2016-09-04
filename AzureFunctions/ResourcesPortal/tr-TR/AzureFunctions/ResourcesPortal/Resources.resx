@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Oluştur</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Bir işlev kapsayıcınız yok gibi görünüyor. Bir tane oluşturmak için bir abonelik seçin:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Deneme sürümünüzün süresi doldu</value>
   </data>

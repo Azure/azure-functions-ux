@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Создать</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Похоже, у вас нет контейнера функций. Выберите подписку, чтобы создать его:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Срок действия пробной версии истек</value>
   </data>

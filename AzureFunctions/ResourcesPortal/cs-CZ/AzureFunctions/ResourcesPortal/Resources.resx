@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Vytvořit</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Vypadá to, že nemáte kontejner funkcí. Pokud chcete jeden vytvořit, vyberte předplatné:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Vaše zkušební období vypršelo.</value>
   </data>

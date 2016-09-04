@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Crea</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Non sono presenti contenitori di funzioni. Per crearne uno, selezionare una sottoscrizione:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>La versione di valutazione è scaduta</value>
   </data>

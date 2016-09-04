@@ -105,7 +105,6 @@ export class PortalResources
     public static config: string = "config";
     public static cors: string = "cors";
     public static create: string = "create";
-    public static dashboard_noFunctionContainer: string = "dashboard_noFunctionContainer";
     public static dashboard_yourTrialExpiered: string = "dashboard_yourTrialExpiered";
     public static disabled: string = "disabled";
     public static enabled: string = "enabled";

@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Criar</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Parece que não tem um contentor de funções. Selecione uma subscrição para criar um:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Período de teste expirado</value>
   </data>
