@@ -76,7 +76,7 @@ namespace AzureFunctions
             //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
             // If the route doesn't have authenticated value assume true
             var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try");
+            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try",  StringComparison.OrdinalIgnoreCase) || (context.Request.UrlReferrer?.AbsoluteUri.EndsWith("/try" ,StringComparison.OrdinalIgnoreCase) ?? true);
 
             if (   !isFile              //skip auth for files
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
