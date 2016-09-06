@@ -9,11 +9,11 @@
 .try-functions {
     margin-right: auto;
     margin-left: auto;
-    width: 50%;
+    width: 100%;
     text-align: center;
     position: relative;
     transform: translateY(10%);
-    font-size: 47px;
+    font-size: 35px;
 }
 
 .try-functions > div {

@@ -1843,11 +1843,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Just a few more seconds....
+        /// </summary>
+        internal static string tryNow_fewMoreSeconds {
+            get {
+                return ResourceManager.GetString("tryNow_fewMoreSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!.
         /// </summary>
         internal static string tryNow_FreeAccountToolTip {
             get {
                 return ResourceManager.GetString("tryNow_FreeAccountToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hang on while we put the &apos;fun&apos; in functions....
+        /// </summary>
+        internal static string tryNow_hangOn {
+            get {
+                return ResourceManager.GetString("tryNow_hangOn", resourceCulture);
             }
         }
         

@@ -32,7 +32,7 @@ export class TryLandingComponent implements OnInit {
     loginOptions: boolean = false;
     selectedFunction: string;
     selectedLanguage: string;
-
+    private isBusyState: boolean;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
@@ -44,9 +44,9 @@ export class TryLandingComponent implements OnInit {
     }
 
     ngOnInit() {
-        //Disabling this temporarily. Comehow ngOnit gets called twice on refresh
+        //Disabling this temporarily. Somehow ngOnit gets called twice on refresh
         // possibly related to https://github.com/angular/angular/issues/6782
-        //and sstrangely the clearbusystate doesnt get called.
+        //and strangely the clearbusystate doesnt get called.
         //this.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             if (this._globalStateService.TryAppServiceToken) {
@@ -195,12 +195,14 @@ export class TryLandingComponent implements OnInit {
 
     setBusyState() {
         if (this.busyState) {
+            this.isBusyState = true;
             this.busyState.setBusyState();
         }
     }
 
     clearBusyState() {
         if (this.busyState) {
+            this.isBusyState = false;
             this.busyState.clearBusyState();
         }
     }

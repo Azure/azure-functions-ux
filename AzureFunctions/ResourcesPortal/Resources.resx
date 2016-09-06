@@ -775,4 +775,10 @@
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
   </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Just a few more seconds...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Hang on while we put the 'fun' in functions...</value>
+  </data>
 </root>
