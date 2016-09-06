@@ -12,7 +12,6 @@
     width: 50%;
     text-align: center;
     position: relative;
-    top: 50%;
     transform: translateY(10%);
     font-size: 47px;
 }
