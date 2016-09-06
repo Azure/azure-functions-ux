@@ -118,619 +118,664 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Azure Functions</value>
+    <value>[io2Ya][Ô¢Azure Functions !!! !!]</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Mégse</value>
+    <value>[R71II][µùCancel !!!]</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Konfigurálás</value>
+    <value>[oYutu][ÌÙConfigure !!! ]</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Hiba történt a függvény létrehozásakor: {{error}}</value>
+    <value>[17ym6][çáCreate Function Error: {{error}} !!! !!! !!! ]</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Hiba történt a függvény létrehozásakor. Próbálkozzon újra.</value>
+    <value>[S6XZZ][ÖËFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Függvényhiba: {{error}}</value>
+    <value>[3Qo2N][ÛÖFunction Error: {{error}} !!! !!! !!]</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>A függvény (${{name}}) hibába ütközött: {{error}}</value>
+    <value>[oR0Kt][ïÌFunction (${{name}}) Error: {{error}} !!! !!! !!! !!]</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Függvény URL-címe:</value>
+    <value>[z2m32][ëìFunction Url: !!! !!]</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHubos titkos kód:</value>
+    <value>[G33l1][©üGithub Secret: !!! !!]</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Fájlok elrejtése</value>
+    <value>[hZWeI][ýÏHide files !!! !]</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Gazdagéphiba: {{error}}</value>
+    <value>[rzF0R][ôâHost Error: {{error}} !!! !!! ]</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Kimenet</value>
+    <value>[9j93r][õ¥Output !!!]</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Kérelem törzse</value>
+    <value>[DNy8f][ÁªRequest body !!! !]</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Mentés és futtatás</value>
+    <value>[pb8gF][ÝåSave and run !!! !]</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Állapot:</value>
+    <value>[wZz1H][©åStatus: !!!]</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Fájlok megjelenítése</value>
+    <value>[4oKjj][£¢View files !!! !]</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Válasszon sablont</value>
+    <value>[aVe0w][ùãChoose a template !!! !!!]</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Ez egy kísérleti sablon, amely még nem rendelkezik teljes körű támogatással. Ha problémákat tapasztal, jelentse a hibát a &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-adattárunkban&lt;/a&gt;.</value>
+    <value>[oNfto][ËÍThis template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Függvény neve</value>
+    <value>[rtEBl][ÑóFunction name !!! !!]</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>A függvény nevét kötelező megadni</value>
+    <value>[5Uup0][ßóA function name is required !!! !!! !!]</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Adjon nevet a függvénynek</value>
+    <value>[WF8As][ÍÞName your function !!! !!!]</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Létrehozás + első lépések</value>
+    <value>[D06QT][üÂCreate + get started !!! !!! ]</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Függvényalkalmazások</value>
+    <value>[JzUDJ][ÓùFunction Apps !!! !!]</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Az Azure Functions használatának első lépései</value>
+    <value>[vUqFJ][Ý¢Get started with Azure Functions !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Új függvényalkalmazás</value>
+    <value>[hnFfT][¥ªNew function app !!! !!!]</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Előfizetése nem tartalmaz függvényalkalmazást. A függvényalkalmazások olyan tárolók, amelyekben a függvények végrehajtása történik. Hozzon létre egyet.</value>
+    <value>[GIcnj][þüYour subscription contains no function apps. These are containers where your functions are executed. Create one now. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Másik lehetőségként az &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal webhelyen&lt;/a&gt; is hozhat létre függvényalkalmazást.</value>
+    <value>[Mi23r][ãËOr create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Hely kiválasztása</value>
+    <value>[Zm41F][éøSelect Location !!! !!]</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Előfizetés kiválasztása</value>
+    <value>[Qo5CI][ÑµSelect Subscription !!! !!! ]</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>A(z) {{displayName}} előfizetés ({{ subscriptionId }}) nem szerepel a függvények futtatását lehetővé tevő engedélyezési listán</value>
+    <value>[l0pIk][ôïSubscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Az előfizetés egy vagy több függvényalkalmazást tartalmaz. A függvényalkalmazások olyan tárolók, amelyekben a függvények végrehajtása történik. Válasszon egyet az alábbiak közül, vagy hozzon létre egy újat.</value>
+    <value>[z9IKp][ÛÃThis subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>A név nem lehet rövidebb 2 karakternél</value>
+    <value>[u4WqF][ÓõThe name must be at least 2 characters !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>A név legfeljebb 60 karakter hosszú lehet</value>
+    <value>[IiOWb][üÑThe name must be at most 60 characters !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>A név csak betűket, számokat és kötőjeleket tartalmazhat, emellett kizárólag betűvel vagy számmal kezdődhet és végződhet</value>
+    <value>[2ldyz][ÿËThe name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number) !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>a függvényalkalmazás neve ({{funcName}}) foglalt</value>
+    <value>[Cey3j][ãüfunction app name {{funcName}} isn't available !!! !!! !!! !!! !]</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>A szolgáltatás használatához Azure-előfizetés szükséges; &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;ide kattintva&lt;/a&gt; létrehozhat egy ingyenes próba-előfizetést</value>
+    <value>[pMcuB][üôYou need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Saját függvényalkalmazások</value>
+    <value>[6S9B6][ñ¢Your function apps !!! !!!]</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Saját előfizetés</value>
+    <value>[6fq5Y][áëYour subscription !!! !!!]</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Válasszon nyelvet:</value>
+    <value>[pcHSk][Ãî2) Choose a language: !!! !!! ]</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Válasszon forgatókönyvet:</value>
+    <value>[cQIBg][ßÐ1) Choose a scenario: !!! !!! ]</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Függvény létrehozása</value>
+    <value>[2PwH3][áõCreate this function !!! !!! ]</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Vagy saját egyéni függvény létrehozása</value>
+    <value>[BxjYr][æ©Or create your own custom function !!! !!! !!! !]</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Adatfeldolgozás</value>
+    <value>[q007q][üÓData processing !!! !!]</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>Gyorsabb megoldás a függvények használatára</value>
+    <value>[lUgaS][ÆðThe faster way to functions !!! !!! !!]</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Előre elkészített függvényeinkkel gyorsan megteheti az első lépéseket</value>
+    <value>[AmEoC][öÕGet started quickly with a premade function !!! !!! !!! !!! ]</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>De akár saját függvény létrehozásával is kezdheti</value>
+    <value>[qgdAc][ÜÔOr get started on your own !!! !!! !!]</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Ha másik támogatott nyelvet szeretne használni, válassza a „Létrehozás sablon nélkül” lehetőséget.</value>
+    <value>[ym8CF][ÝÔIf you'd prefer another supported language, choose "Create a function from scratch". !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>kiindulás a verziókövetésből.</value>
+    <value>[UC498][Óèstart from source control. !!! !!! !!]</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Időzítő</value>
+    <value>[OwYIy][ïÃTimer !!!]</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook + API</value>
+    <value>[hp33d][¢æWebhook + API !!! !!]</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Bármilyen függvényt percek alatt megírhat, legyen szó akár egyszerű adatbázis-karbantartási feladat futtatásáról, akár összetettebb architektúra kiépítéséről. Mindegy, milyen operációs rendszert, platformot vagy fejlesztési módszert használ, a függvények készítése egyszerűbb, mint valaha. Telepítésre nincs szükség.</value>
+    <value>[MAxDP][üîWrite any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Törlés</value>
+    <value>[l94nS][ÆÀClear !!!]</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Másolva!</value>
+    <value>[9d0rU][ÀÎCopied! !!!]</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Naplók másolása</value>
+    <value>[uRHXZ][ßÕCopy Logs !!! ]</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Szünet</value>
+    <value>[quafK][ÉÿPause !!!]</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Indítás</value>
+    <value>[512zy][ïæStart !!!]</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Túl sok a napló. Frissítési gyakoriság: {{seconds}} másodperc.</value>
+    <value>[MXQBR][ñÐToo many logs. Refresh rate: {{seconds}} seconds. !!! !!! !!! !!! !!]</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Név</value>
+    <value>[cNops][ìþName !!]</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Nyitott</value>
+    <value>[SUapk][äÈOpen !!]</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>vagy</value>
+    <value>[90m4i][ùÀor !!]</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Írásvédett – mivel verziókövetéssel kezdte el a szerkesztést, ez a nézet írásvédett.</value>
+    <value>[p67R2][ëñRead only - because you have started editing with source control, this view is read only. !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Régió</value>
+    <value>[Xv714][Ö©Region !!!]</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Futtatás</value>
+    <value>[NR2Ak][Û@Run !!]</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Mentés</value>
+    <value>[ZTiYZ][öûSave !!]</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>A függvény ({{name}}) módosításai el fognak veszni. Biztosan folytatja a műveletet?</value>
+    <value>[eskne][ÎôChanges made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>Új függvény</value>
+    <value>[mzJsh][ÙªNew Function !!! !]</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Frissítés</value>
+    <value>[2JBgw][ÆÁRefresh !!!]</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Keresés a saját függvények között</value>
+    <value>[Gri6g][ËïSearch my functions !!! !!! ]</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Előfizetés</value>
+    <value>[cGfKd][ÊÝSubscription !!! !]</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Az aktuális függvény módosításai el fognak veszni. Biztosan folytatja a műveletet?</value>
+    <value>[OfSsG][Â¢Changes made to the current function will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Függvényalkalmazás beállításai</value>
+    <value>[mVGCu][ËÊFunction app settings !!! !!! ]</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Az Azure Functions új verziója érhető el. Az új verzióra a Függvényalkalmazás beállításai lapon frissíthet.</value>
+    <value>[T5Tpi][ÛÒA new version of Azure Functions is available.Visit Function App Settings to upgrade. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Gyors üzembe helyezés</value>
+    <value>[cjfhr][þúQuickstart !!! !]</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Használat</value>
+    <value>[9xZ9t][ÀòUsage !!!]</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>Mind</value>
+    <value>[U3vby][ßíAll !!]</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Speciális beállítások</value>
+    <value>[8x1fG][¢åAdvanced Settings !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>A HTTP-triggert alkalmazó függvények könnyebb felhasználásának lehetővé tétele az ügyfelek számára.</value>
+    <value>[WUUsP][èÁAllow clients to more easily consume your HTTP-triggered functions. !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>HTTP-triggert alkalmazó függvények webböngészőből való meghívásának engedélyezése.</value>
+    <value>[cGmyO][øÞAllow your HTTP-triggered functions to be called from within a web browser. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API-definíció</value>
+    <value>[U669i][ÓÛAPI definition !!! !!]</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Hitelesítés/engedélyezés</value>
+    <value>[YW3u4][ÅàAuthentication/Authorization !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Folyamatos integráció</value>
+    <value>[J9ERx][µëContinuous Integration !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>[Amuav][ÄÕConfigure authentication !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>API-metaadatok konfigurálása</value>
+    <value>[QdNuq][äïConfigure API metadata !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>[vP6Rz][µÊConfigure continuous integration !!! !!! !!! ]</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>CORS konfigurálása</value>
+    <value>[t1kTJ][üÿConfigure CORS !!! !!]</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Függvénykód üzembe helyezése a GitHubról, a Visual Studio Team Servicesből és más szolgáltatásokból.</value>
+    <value>[1gUpF][ÖåDeploy your function code from GitHub, Visual Studio Team Services, and more. !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>A HTTP triggert alkalmazó függvények esetén előírhatja a hívások hitelesítését.</value>
+    <value>[IdyEg][ÞïFor functions that use the HTTP trigger, you can require calls to be authenticated. !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Függvényalkalmazás beállításai</value>
+    <value>[nFUXm][õýFunction App Settings !!! !!! ]</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>App Service-beállítások megnyitása</value>
+    <value>[jqGaK][öãGo to App Service Settings !!! !!! !!]</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>A függvényalkalmazást bármely más App Service-példányhoz hasonlóan felügyelheti.</value>
+    <value>[lpg0i][ãåManage your function app like any other App Service instance. !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Memóriaméret</value>
+    <value>[QGT6K][¥âMemory Size !!! !]</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Futtatókörneyzet verziója: legújabb ({{latestExtensionVersion}})</value>
+    <value>[tG54I][£äRuntime version: Latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Futtatókörneyzet verziója: {{extensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
+    <value>[URiez][éØRuntime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>Alkalmazás-végrehajtások</value>
+    <value>[yo2If][òãApp executions !!! !!]</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>Alkalmazáshasználat (Gb/s)</value>
+    <value>[3dLXg][ÊÆApp Usage(Gb Sec) !!! !!!]</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Függvényalkalmazás használata</value>
+    <value>[b4tIr][ÖÌFunction App Usage !!! !!!]</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Nincs adat</value>
+    <value>[OPtrV][ÖÁThere is no Data !!! !!!]</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>(végrehajtások)</value>
+    <value>[03hIV][Èâof executions !!! !!]</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Paraméter neve</value>
+    <value>[Wtqp5][ßÂParameter name !!! !!]</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Bezárás</value>
+    <value>[28Gw1][óÒClose !!!]</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Konfiguráció</value>
+    <value>[fiRY6][ýõConfig !!!]</value>
   </data>
   <data name="cors" xml:space="preserve">
-    <value>CORS</value>
+    <value>[Oi4NP][Õ¢CORS !!]</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Létrehozás</value>
+    <value>[j7hh7][ÒÄCreate !!!]</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Nem rendelkezik függvénytárolóval. Ha létre szeretne hozni egyet, válasszon egy előfizetést:</value>
+    <value>[4xHh3][úûIt looks like you don't have a functions container. Select a subscription to create one: !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>A próbaidőszak lejárt</value>
+    <value>[w6XMR][ìÕYour trial has expired !!! !!! !]</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Letiltva</value>
+    <value>[aHE4R][ÍõDisabled !!! ]</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Engedélyezve</value>
+    <value>[5tA68][ûæEnabled !!!]</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>itt</value>
+    <value>[StZeI][áúhere !!]</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>Lehetséges, hogy hiba történt. Ha problémákat tapasztal, küldje el őket</value>
+    <value>[qnJ4m][ù@You may be experiencing an error. If you're having issues, please post them !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Hiba történt a konfiguráció elemzésekor: {{error}}</value>
+    <value>[rAcqH][éçError parsing config: {{error}} !!! !!! !!! ]</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Szolgáltatások</value>
+    <value>[m0qJa][µ§Features !!! ]</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>Ezt a mezőt kötelező kitölteni</value>
+    <value>[qPCpe][ªóThis field is required !!! !!! !]</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Kód</value>
+    <value>[J8v9W][ÃþCode !!]</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Futtatás</value>
+    <value>[wmrlO][©æRun !!]</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Írásvédett – mivel verziókövetéssel kezdte el a szerkesztést, ez a nézet írásvédett; a beállításokat a function.json fájlban szerkesztheti</value>
+    <value>[L3v4Z][æÑRead only - because you have started editing with source control, this view is read only. You can edit these settings in function.json !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Speciális szerkesztő</value>
+    <value>[XKoih][öÌAdvanced editor !!! !!]</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>A módosítások el fognak veszni. Biztosan folytatja a műveletet?</value>
+    <value>[UPPmU][ëðChanges made will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>A függvény ({{name}}) módosításai el fognak veszni. Biztosan folytatja a műveletet?</value>
+    <value>[oEF4e][Á©Changes made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Beállítás neve:</value>
+    <value>[m230i][ç¢Setting name: !!! !!]</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Normál szerkesztő</value>
+    <value>[0m98f][ðÃStandard editor !!! !!]</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Biztosan törli a függvényt ({{name}})?</value>
+    <value>[ofcbI][ÿØAre you sure you want to delete Function {{name}}? !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>[r059Y][£öRecent success count !!! !!! ]</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>[U9g38][õæRecent errors count !!! !!! ]</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>[a9qoH][õôInvocation log !!! !!]</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>[kXEkP][@ÏInvocation details !!! !!!]</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>[5w5KC][þÀOutput !!!]</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>[gcbE8][Öèlive event stream !!! !!!]</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>[kN17H][úÀFunction !!! ]</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>[m5m6f][õ@Status !!!]</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>[BASuW][@ìDetails: Last ran !!! !!!]</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>[QYcnf][ÙÓ(duration) !!! !]</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>[t55X6][ÓûParameter !!! ]</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>A függvényalkalmazáshoz engedélyezve van a hitelesítés. Tiltsa le a hitelesítést, mielőtt futtatná a függvényt.</value>
+    <value>[pie5F][äàAuthentication is enabled for the function app. Disable authentication before running the function. !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>Hiba történt a függvény ({{name}}) futtatásakor. A teljes hibaüzenetet a naplókimenetben találja.</value>
+    <value>[g55Ib][ßîThere was an error running function ({{name}}). Check logs output for the full error. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Bemenetek</value>
+    <value>[ni51t][ÿÒInputs !!!]</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Naplók</value>
+    <value>[BxGrN][ÍïLogs !!]</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>Új bemenet</value>
+    <value>[9mkDf][ÕÄNew Input !!! ]</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>Új kimenet</value>
+    <value>[u0x1V][ÇåNew Output !!! !]</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>Új trigger</value>
+    <value>[fpntM][Æ©New Trigger !!! !]</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Tovább</value>
+    <value>[e1rTR][ÿäNext !!]</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Érvénytelen érték</value>
+    <value>[azTKD][ÎòNot valid value !!! !!]</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Kimenetek</value>
+    <value>[F4dds][¥ïOutputs !!!]</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Kijelölés</value>
+    <value>[vrdXE][éÍSelect !!!]</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Fejlesztés</value>
+    <value>[DqD6m][ÕâDevelop !!!]</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrálás</value>
+    <value>[hvG21][îàIntegrate !!! ]</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Kezelés</value>
+    <value>[50Yko][òÁManage !!!]</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Figyelő</value>
+    <value>[Bo1ZH][ÃµMonitor !!!]</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Bemeneti kötés választása</value>
+    <value>[h8mDd][¢ÆChoose an input binding !!! !!! !]</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Kimeneti kötés választása</value>
+    <value>[FibqR][âÓChoose an output binding !!! !!! !]</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Válasszon sablont</value>
+    <value>[4b5uS][ÑóChoose a template !!! !!!]</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Válasszon triggert</value>
+    <value>[uB8CD][úÃChoose a trigger !!! !!!]</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Nyelv:</value>
+    <value>[dppNp][øêLanguage: !!! ]</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Forgatókönyv:</value>
+    <value>[AMJtI][áÒScenario: !!! ]</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggerek</value>
+    <value>[1Gq31][èÏTriggers !!! ]</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>A próbaidőszak letelt</value>
+    <value>[Nav0l][âÔTrial expired !!! !!]</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Az itt elvégzett módosítások a függvényalkalmazás összes függvényére érvényesek lesznek.</value>
+    <value>[z6q5S][ÚèChanges made here will affect all of the functions within your function app. !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Új függvény létrehozása&lt;/span&gt; – Induljon ki az előre elkészített függvénysablonok valamelyikéből</value>
+    <value>[4WGl6][Áâ&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Fejlesztés</value>
+    <value>[EazO5][ÛÞDevelop !!!]</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;A dokumentáció elolvasása&lt;/span&gt; – Fedezze fel az Azure Functions összes funkcióját &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;itt&lt;/a&gt;</value>
+    <value>[cIfph][ÔÆ&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Függvényalkalmazás beállításai</value>
+    <value>[Z0a96][ìïFunction App Settings !!! !!! ]</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integrálás</value>
+    <value>[Xw7Ys][ßÆIntegrate !!! ]</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Függvényeit könnyedén integrálhatja más szolgáltatásokkal és adatforrásokkal.</value>
+    <value>[kjLVb][ªÜIntegrating your functions with other services and data sources is easy. !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Következő lépések</value>
+    <value>[YhOTp][åëNext Steps !!! !]</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Állítson be külső triggereken alapuló automatikus műveleteket, használjon fel más bemeneti adatforrásokat, és küldje el a kimenetet több célnak.</value>
+    <value>[BuAxL][ðÙSet up automated actions based on external triggers, include other input data sources, and send the output to multiple targets. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>A bemutató kihagyása és a kódírás megkezdése</value>
+    <value>[uVXps][ÙåSkip the tour and start coding !!! !!! !!!]</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>A kódot a legegyszerűbben a kódíróval szerkesztheti, de használhatja a Gitet is. Ebben a példában a Node.js-t használjuk, de számos más nyelv is támogatott.</value>
+    <value>[xujYO][âìThe fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>Ezen a lapon egy naplóstreamet és egy tesztkonzolt is talál, amelyek segítenek a függvény hibakeresésében.</value>
+    <value>[Oeh5e][öÇThis page also includes a log stream and a test console for helping you debug your function. !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;A mintafüggvény szerkesztése&lt;/span&gt; – Alakítsa át a függvényt tetszés szerint a könnyen kezelhető irányítópulton</value>
+    <value>[SrGrl][þé&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>A függvények az Azure App Service-t használják függvényalkalmazásként, és itt módosíthatja ennek az alkalmazásnak a funkcióit.</value>
+    <value>[c2DAb][Ü£Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Frissítés</value>
+    <value>[BsMNY][íôUpdate !!!]</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>kiválasztás</value>
+    <value>[93db5][ÃÃselect !!!]</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>törlés</value>
+    <value>[Px7eu][¥Ôdelete !!!]</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>A direction paraméter hiányzik.</value>
+    <value>[TFETU][æçParameter 'direction' is missed. !!! !!! !!! ]</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Érvénytelen irány: {{direction}}.</value>
+    <value>[yKPGF][¥@Unknown direction: '{{direction}}'. !!! !!! !!! !]</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>A paraméternévnek egyedinek kell lennie a függvényen belül: {{functionName}}</value>
+    <value>[88vLi][ýâParameter name must be unique in a function: '{{functionName}}' !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>A name paraméter hiányzik.</value>
+    <value>[wAfYV][ìùParameter 'name' is missed. !!! !!! !!]</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>A type paraméter hiányzik.</value>
+    <value>[UPyLm][ßåParameter 'type' is missed. !!! !!! !!]</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Ismeretlen típus: {{type}}.</value>
+    <value>[dBgLF][êÑUnknown type: '{{type}}'. !!! !!! !!]</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Várakozás az erőforrásra</value>
+    <value>[H9FOe][ÃÕWaiting for the resource !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Frissítse a futtatókörnyezetet újabb verzióra</value>
+    <value>[qso5Y][©òRuntime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>[YFkSm][èìRuntime version: latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>Köszönjük, hogy tárolhattuk függvényeit!</value>
+    <value>[C0x5g][õÿWe've enjoyed hosting your functions ! !!! !!! !!! !!]</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>A próbaidőszak lejárt, de feliratkozhat egy kiterjesztett próbaidőszakra, amely az Azure többi szolgáltatását is tartalmazza.</value>
+    <value>[pEr2v][øÉYour trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Válasszon hitelesítésszolgáltatót</value>
+    <value>[MmFW5][ôúChoose an auth provider !!! !!! !]</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft-fiók</value>
+    <value>[xGxmh][ùÌMicrosoft Account !!! !!!]</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Ingyenes Azure-fiók létrehozása</value>
+    <value>[Y7sP3][©ÁCreate a free Azure account !!! !!! !!]</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Próbaidőszak meghosszabbítása 24 óra</value>
+    <value>[MpBJl][Ó§Extend trial to 24 hours !!! !!! !]</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Free Trial - Time remaining:</value>
+    <value>[li1Tb][ÐäFree Trial - Time remaining: !!! !!! !!!]</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Hiba történt a függvény létrehozásakor. Próbálkozzon újra.</value>
+    <value>[XItrU][ÆÞFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Függvény-létrehozási hiba</value>
+    <value>[eNJlt][úùCreate Function Error !!! !!! ]</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>Ha másik támogatott nyelvet szeretne használni, később választhat egyet a Functions portálján.</value>
+    <value>[JyFkD][ëÆIf you'd prefer another supported language, you can choose one later in the functions portal. !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> percre</value>
+    <value>[795ge][Üû minutes !!! ]</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>új</value>
+    <value>[ECXmU][ñÆnew !!]</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>A bemeneti kötések további adatokat szolgáltatnak az aktivált függvénynek. Például új üzenetsorbeli üzenetek adatait lehet beolvasni a Table Storage szolgáltatásból. A bemenetek nem kötelezők.</value>
+    <value>[SP7uC][Æ£Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>A kimeneti kötések lehetővé teszik, hogy függvényekből származó kimeneti adatokat használjon, például hogy új elemeket vegyen fel az üzenetsorba. A kimenetek nem kötelezők.</value>
+    <value>[PEQE2][ÛñOutputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Az eseményindítókkal indíthatók el a függvények, például új üzenetsorbeli üzenetek érkezésekor. Eseményindítóval mindig rendelkeznie kell.</value>
+    <value>[l09UW][ÅÂTriggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Kimenet által aktivált új függvény létrehozása</value>
+    <value>[ocAoW][¢üCreate a new functoin triggered by this output !!! !!! !!! !!! !]</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Dokumentáció</value>
+    <value>[wMNk4][¢øDocumentation !!! !!]</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Ugrás</value>
+    <value>[q11Kx][íáGo !!]</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Másolva!</value>
+    <value>[Gtjfq][âõCopied! !!!]</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Másolás a vágólapra</value>
+    <value>[BpNYe][ñÁCopy to clipboard !!! !!!]</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Az aktuális fájl módosításai elvesznek. Biztosan folytatja?</value>
+    <value>[mC5qm][©ÈChanges made to current file will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Biztosan törli a(z) {{fileName}} fájlt?</value>
+    <value>[NAlJ6][ÓÇAre you sure you want to delete {{fileName}} !!! !!! !!! !!! ]</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>A bináris fájlok szerkesztése nem támogatott.</value>
+    <value>[RGD9i][åÊEditing binary files is not supported. !!! !!! !!! !!]</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Hiba történt a fájl létrehozásakor: {{fileName}}</value>
+    <value>[TOGJS][Õ©Error creating file: {{fileName}} !!! !!! !!! !]</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Hiba történt a fájl törlésekor: {{fileName}}</value>
+    <value>[KcPQJ][êÛError deleting file: {{fileName}} !!! !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Alkalmazásbeállítások</value>
+    <value>[ppLE7][ÜìApplication settings !!! !!! ]</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>[YzX2g][ÆÁManage environment variables and connection strings for your function app !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>[ckMMW][ÍúIn-portal console for accessing your function app’s file system !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>[Izdgz][ðíDev console description !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
+    <value>[I349Y][ÆäKudu !!]</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>[ThQpw][ÛÅAccess advanced functionality of App Service like uploading zips, killing processes, and more !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>[cwVVG][ÐÁConfigure app settings !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>[cCOFb][ûµOpen dev console !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>[zWbs7][ïòGo to Kudu !!! !]</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>[ODzDm][£ÄThe fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>[thyZd][ÄÂActions !!!]</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>[tFzAi][ÆÞLess than 1 minute !!! !!!]</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>[Jk5zY][ÛïNot available during your free trial! Create a free Azure account by clicking the link above !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>[QIBBg][æçSigning up for a free Azure account unlocks all Functions capabilities without worrying about time limits! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
 </root>

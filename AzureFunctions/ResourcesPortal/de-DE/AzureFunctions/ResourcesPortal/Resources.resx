@@ -121,616 +121,661 @@
     <value>Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Annuleren</value>
+    <value>Abbrechen</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Configureren</value>
+    <value>Konfigurieren</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Fout bij het maken van de functie: {{error}}</value>
+    <value>Fehler beim Erstellen der Funktion: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Fout bij het maken van de functie. Probeer het opnieuw.</value>
+    <value>Fehler beim Erstellen der Funktion. Bitte versuchen Sie es noch mal.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Fout met functie: {{error}}</value>
+    <value>Funktionsfehler: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Functie (${{name}}), fout: {{error}}</value>
+    <value>Fehler bei Funktion (${{name}}): {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Functie-URL:</value>
+    <value>Funktions-URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github-geheim:</value>
+    <value>Geheimer GitHub-Schlüssel:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Bestanden verbergen</value>
+    <value>Dateien ausblenden</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Hostfout: {{error}}</value>
+    <value>Hostfehler: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Uitvoer</value>
+    <value>Ausgabe</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Aanvraagtekst</value>
+    <value>Anforderungstext</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Opslaan en uitvoeren</value>
+    <value>Speichern und ausführen</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
     <value>Status:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Bestanden weergeven</value>
+    <value>Dateien anzeigen</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Een sjabloon kiezen</value>
+    <value>Vorlage auswählen</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Deze sjabloon is experimenteel en wordt nog niet volledig ondersteund. Als u problemen tegenkomt, kunt u een fout rapporteren in de &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-opslagplaats.&lt;/a&gt;</value>
+    <value>Diese Vorlage ist experimentell und wird noch nicht vollständig unterstützt. Wenn Probleme auftreten, posten Sie einen Fehlerbericht in unserem &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-Repository.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Functienaam</value>
+    <value>Funktionsname</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>Een functienaam is vereist</value>
+    <value>Ein Funktionsname ist erforderlich.</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Een naam voor de functie opgeven</value>
+    <value>Funktion benennen</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Maken en aan de slag</value>
+    <value>Erstellen und erste Schritte durchführen</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Functie-apps</value>
+    <value>Funktionen-Apps</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Aan de slag met Azure Functions</value>
+    <value>Erste Schritte mit Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Nieuwe functie-app</value>
+    <value>Neue Funktionen-App</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Het abonnement bevat geen functie-apps. Dit zijn containers waarin de functies worden uitgevoerd. Maak nu een functie-app.</value>
+    <value>Ihr Abonnement enthält keine Funktionen-Apps. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Erstellen Sie jetzt eine App.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Of maak een functie-app via &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+    <value>Oder erstellen Sie eine Funktionen-App über das &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure-Portal&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Een locatie selecteren</value>
+    <value>Standort auswählen</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Abonnement selecteren</value>
+    <value>Abonnement auswählen</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Het abonnement {{displayName}} ({{ subscriptionId }}) heeft geen toestemming om functies uit te voeren</value>
+    <value>Das Abonnement "{{displayName}}" ({{ subscriptionId }}) ist für die Ausführung von Funktionen nicht freigegeben.</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Het abonnement bevat een of meer functie-apps. Dit zijn containers waarin de functies worden uitgevoerd. Selecteer een functie-app of maak hieronder een nieuwe.</value>
+    <value>Dieses Abonnement enthält mindestens eine Funktionen-App. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Wählen Sie eine aus, oder erstellen Sie unten eine neue.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>De naam mag niet korter zijn dan 2 tekens</value>
+    <value>Der Name muss mindestens 2 Zeichen lang sein.</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>De naam mag niet langer zijn dan zestig tekens</value>
+    <value>Der Name darf höchstens 60 Zeichen umfassen.</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>De naam kan letters, cijfers en afbreekstreepjes bevatten, maar het eerste en laatste teken moeten een letter of cijfer zijn</value>
+    <value>Der Name darf Buchstaben, Ziffern und Bindestriche enthalten (wobei das erste und letzte Zeichen ein Buchstabe oder eine Ziffer sein müssen).</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>De naam {{funcName}} is niet beschikbaar voor de functie-app</value>
+    <value>Der Name der Funktionen-App, {{funcName}}, ist nicht verfügbar.</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>U hebt een Azure-abonnement nodig om deze service te gebruiken. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Klik hier&lt;/a&gt; om een gratis proefabonnement te maken</value>
+    <value>Sie benötigen ein Azure-Abonnement, um diesen Dienst zu verwenden. &lt;a href="https://azure.microsoft.com/de-de/free/"&gt;Klicken Sie hier&lt;/a&gt;, um ein kostenloses Testabonnement zu erstellen.</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Uw functie-apps</value>
+    <value>Ihre Funktionen-Apps</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Uw abonnement</value>
+    <value>Ihr Abonnement</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Kies een taal:</value>
+    <value>2) Wählen Sie eine Sprache:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Kies een scenario:</value>
+    <value>1) Wählen Sie ein Szenario aus:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Maak deze functie</value>
+    <value>Diese Funktion erstellen</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Of maak uw eigen functie</value>
+    <value>Ode eigene benutzerdefinierte Funktion erstellen</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Gegevensverwerking</value>
+    <value>Datenverarbeitung</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>De snellere manier voor functies</value>
+    <value>Der schnellere Weg zu den Funktionen</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Ga snel aan de slag met een vooraf gemaakte functie</value>
+    <value>Erste Schritte mit einer vorgefertigten Funktion</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Of ga aan de slag met uw eigen functie</value>
+    <value>Oder selbstständig einsteigen</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Als u liever een andere, ondersteunde taal gebruikt, kiest u Een volledig nieuwe functie maken.</value>
+    <value>Wenn Sie eine andere unterstützte Sprache bevorzugen, wählen Sie "Funktion ganz neu erstellen".</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>begin bij broncodebeheer.</value>
+    <value>Starten Sie von der Quellcodeverwaltung aus.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Timer</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook en API</value>
+    <value>Webhook + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Schrijf binnen enkele minuten functies, of u nu gewoon een database wilt opschonen of een complexere architectuur wilt bouwen. Functies maken is eenvoudiger dan ooit, ongeacht het besturingssysteem, platform of de ontwikkelingsmethode. Geen installatie vereist.</value>
+    <value>Schreiben Sie jede Funktion in Minutenschnelle – ob zum Ausführen eines einfachen Auftrags zum Bereinigen einer Datenbank oder zum Erstellen einer komplexeren Architektur. Das Erstellen von Funktionen ist einfacher als je zuvor, unabhängig davon, für welches Betriebssystem, welche Plattform oder welche Entwicklungsmethode Sie sich entscheiden. Keine Installation erforderlich.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Wissen</value>
+    <value>Löschen</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Gekopieerd.</value>
+    <value>Kopiert!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Logboeken kopiëren</value>
+    <value>Protokolle kopieren</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Onderbreken</value>
+    <value>Anhalten</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
     <value>Starten</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Er zijn te veel logboeken. Vernieuwingsfrequentie: {{seconds}} seconden.</value>
+    <value>Zu viele Protokolle. Aktualisierungsrate: {{seconds}} Sekunden.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Naam</value>
+    <value>Name</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Openen</value>
+    <value>Öffnen</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>of</value>
+    <value>oder</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Alleen-lezen: omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen.</value>
+    <value>Schreibgeschützt: Da Sie mit der Bearbeitung über die Quellcodeverwaltung begonnen haben, ist diese Ansicht schreibgeschützt.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Regio</value>
+    <value>Region</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Uitvoeren</value>
+    <value>Ausführen</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Opslaan</value>
+    <value>Speichern</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>De wijzigingen voor de functie {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Änderungen an der Funktion "{{name}}" gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>Nieuwe functie</value>
+    <value>Neue Funktion</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Vernieuwen</value>
+    <value>Aktualisieren</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Zoeken in mijn functies</value>
+    <value>Meine Funktionen durchsuchen</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Abonnement</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Wijzigingen voor de huidige functie gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Änderungen an der aktuellen Funktion gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Instellingen voor functie-apps</value>
+    <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Ga naar de instellingen voor functie-apps om een upgrade uit te voeren.</value>
+    <value>Eine neue Version von Azure Functions ist verfügbar. Besuchen Sie die Funktionen-App-Einstellungen, um ein Upgrade durchzuführen.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Snelstartgids</value>
+    <value>Schnellstart</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Gebruik</value>
+    <value>Verwendung</value>
   </data>
   <data name="all" xml:space="preserve">
     <value>Alle</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Geavanceerde instellingen</value>
+    <value>Erweiterte Einstellungen</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Toestaan dat clients de functies die worden geactiveerd via HTTP, eenvoudiger kunnen gebruiken.</value>
+    <value>Ermöglichen Sie den Clients eine einfachere Nutzung Ihrer über HTTP ausgelösten Funktionen.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Toestaan dat functies die worden geactiveerd via HTTP, kunnen worden aangeroepen vanuit een webbrowser.</value>
+    <value>Ermöglichen Sie den Aufruf Ihrer über HTTP ausgelösten Funktionen innerhalb eines Webbrowsers.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API-definitie</value>
+    <value>API-Definition</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Verificatie/autorisatie</value>
+    <value>Authentifizierung/Autorisierung</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continue integratie</value>
+    <value>Continuous Integration</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>Authentifizierung konfigurieren</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>API-metagegevens configureren</value>
+    <value>API-Metadaten konfigurieren</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>Continuous Integration konfigurieren</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>CORS configureren</value>
+    <value>CORS konfigurieren</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Implementeer uw functiecode vanuit GitHub, Visual Studio Team Services en meer.</value>
+    <value>Stellen Sie Ihren Funktionscode über GitHub, Visual Studio Team Services und andere Dienste bereit.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd.</value>
+    <value>Für Funktionen, die den HTTP-Trigger verwenden, können Sie die Authentifizierung von Aufrufen anfordern.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Instellingen voor functie-apps</value>
+    <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Ga naar App Service-instellingen</value>
+    <value>Zu App Service-Einstellungen wechseln</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>U kunt de functie-app net als elk ander App Service-exemplaar beheren.</value>
+    <value>Verwalten Sie Ihre Funktionen-App genau wie jede andere App Service-Instanz.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Geheugengrootte</value>
+    <value>Speichergröße</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtimeversie: nieuwste ({{latestExtensionVersion}})</value>
+    <value>Laufzeitversion: Neueste ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
+    <value>Laufzeitversion: {{extensionVersion}}. Eine neuere Version ist verfügbar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>Uitvoerbewerkingen voor apps</value>
+    <value>App-Ausführungen</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>Gebruik van app (Gb Sec)</value>
+    <value>App-Nutzung (GB/Sek.)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Gebruik van functie-app</value>
+    <value>Funktionen-App-Nutzung</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Er zijn geen gegevens</value>
+    <value>Keine Daten vorhanden.</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>van uitvoerbewerkingen</value>
+    <value>von Ausführungen</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Parameternaam</value>
+    <value>Parametername</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Sluiten</value>
+    <value>Schließen</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Config</value>
+    <value>Konfiguration</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Maken</value>
+    <value>Erstellen</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>U hebt geen Functions-container. Selecteer een abonnement om een container te maken:</value>
+    <value>Offenbar verfügen Sie nicht über einen Funktionscontainer. Wählen Sie ein Abonnement aus, um einen zu erstellen:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>De proefversie is verlopen</value>
+    <value>Ihre Testversion ist abgelaufen.</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Uitgeschakeld</value>
+    <value>Deaktiviert</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Ingeschakeld</value>
+    <value>Aktiviert</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
     <value>hier</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>Mogelijk is er een fout opgetreden. Als u problemen ondervindt, plaatst u deze</value>
+    <value>Möglicherweise liegt ein Fehler vor. Wenn Probleme auftreten, posten Sie sie bitte</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Fout bij het parseren van Config: {{error}}</value>
+    <value>Fehler beim Analysieren der Konfiguration: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Functies</value>
+    <value>Features</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>Dit veld is vereist</value>
+    <value>Dieses Feld ist erforderlich.</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
     <value>Code</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Uitvoeren</value>
+    <value>Ausführen</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Alleen-lezen: Omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen. U kunt deze instellingen bewerken in function.json</value>
+    <value>Schreibgeschützt: Da Sie mit der Bearbeitung über die Quellcodeverwaltung begonnen haben, ist diese Ansicht schreibgeschützt. Sie können diese Einstellungen in "function.json" bearbeiten.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Geavanceerde editor</value>
+    <value>Erweiterter Editor</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>De wijzigingen gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Änderungen gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>De wijzigingen voor de functie {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Änderungen an der Funktion "{{name}}" gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Naam van instelling:</value>
+    <value>Einstellungsname:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Standaardeditor</value>
+    <value>Standard-Editor</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Weet u zeker dat u functie {{name}} wilt verwijderen?</value>
+    <value>Möchten Sie die Funktion {{name}} löschen?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Anzahl der letzten erfolgreichen Vorgänge</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Anzahl der letzten fehlerhaften Vorgänge</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Aufrufprotokoll</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Aufrufdetails</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Ausgabe</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>Liveereignisdatenstrom</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Funktion</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: letzte Ausführung</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(Dauer)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parameter</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Verificatie is ingeschakeld voor de functie-app. Schakel de verificatie uit voordat u de functie uitvoert.</value>
+    <value>Die Authentifizierung ist für die Funktionen-App aktiviert. Deaktivieren Sie die Authentifizierung, bevor Sie die Funktion ausführen.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>Er is een fout opgetreden bij het uitvoeren van de functie ({{name}}). Controleer de logboeken voor de volledige foutmelding.</value>
+    <value>Fehler beim Ausführen der Funktion ({{name}}). Die vollständige Fehlermeldung finden Sie in den Protokollen.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Invoer</value>
+    <value>Eingaben</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Logboeken</value>
+    <value>Protokolle</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>Nieuwe invoer</value>
+    <value>Neue Eingabe</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>Nieuwe uitvoer</value>
+    <value>Neue Ausgabe</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>Nieuwe trigger</value>
+    <value>Neuer Trigger</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Volgende</value>
+    <value>Weiter</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Geen geldige waarde</value>
+    <value>Ungültiger Wert</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Uitvoer</value>
+    <value>Ausgaben</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Selecteren</value>
+    <value>Auswählen</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Ontwikkelen</value>
+    <value>Entwickeln</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integreren</value>
+    <value>Integrieren</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Beheren</value>
+    <value>Verwalten</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Controle</value>
+    <value>Monitor</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Een invoerbinding kiezen</value>
+    <value>Eingabebindung auswählen</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Een uitvoerbinding kiezen</value>
+    <value>Ausgabebindung auswählen</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Een sjabloon kiezen</value>
+    <value>Vorlage auswählen</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Kies een trigger</value>
+    <value>Trigger auswählen</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Taal:</value>
+    <value>Sprache:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Scenario:</value>
+    <value>Szenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Triggers</value>
+    <value>Trigger</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>De proefversie is verlopen</value>
+    <value>Testversion abgelaufen.</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Wijzigingen die hier worden aangebracht, zijn van invloed op alle functies in uw functie-app.</value>
+    <value>Hier vorgenommene Änderungen wirken sich auf alle Funktionen innerhalb Ihrer Funktionen-App aus.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Maak een gloednieuwe functie&lt;/span&gt; - Ga aan de slag met een van de bestaande functiesjablonen</value>
+    <value>&lt;span&gt;Ganz neue Funktion erstellen&lt;/span&gt; – Erste Schritte mit einer der vordefinierten Funktionsvorlagen</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Ontwikkelen</value>
+    <value>Entwickeln</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Duik in de documentatie&lt;/span&gt; - Verken &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;hier&lt;/a&gt; alle mogelijkheden van Azure Functions</value>
+    <value>&lt;span&gt;In die Dokumentation eintauchen&lt;/span&gt; – Erkunden Sie &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;hier&lt;/a&gt; alle Features von Azure Functions.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Instellingen voor functie-apps</value>
+    <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integreren</value>
+    <value>Integrieren</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Uw kunt uw functies eenvoudig integreren met andere services en gegevensbronnen.</value>
+    <value>Ihre Funktionen lassen sich ganz leicht in andere Dienste und Datenquellen integrieren.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Volgende stappen</value>
+    <value>Nächste Schritte</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Stel geautomatiseerde acties in op basis van externe triggers, voeg andere invoergegevensbronnen toe en stuur de uitvoer naar meerdere doelen.</value>
+    <value>Richten Sie automatisierte Aktionen basierend auf externen Trigger ein, nehmen Sie andere Eingabedatenquellen auf, und senden Sie die Ausgabe an mehrere Ziele.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Rondleiding overslaan en beginnen met het schrijven van code</value>
+    <value>Tour überspringen und mit der Codierung beginnen</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>De code-editor biedt de snelste manier om code te bewerken, maar u kunt ook Git gebruiken. In dit voorbeeld wordt NodeJS gebruikt, maar er worden nog veel meer andere talen ondersteund.</value>
+    <value>Die schnellste Möglichkeit, Code zu bearbeiten, ist der Code-Editor, Sie können aber auch Git verwenden. In diesem Beispiel wird NodeJS eingesetzt, es werden jedoch noch viele weitere Sprachen unterstützt.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>Deze pagina bevat tevens een logboekstream en een testconsole waarmee u fouten in uw functie kunt opsporen.</value>
+    <value>Diese Seite enthält auch einen Datenstrom und eine Testkonsole zum Debuggen Ihrer Funktion.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Pas deze voorbeeldfunctie aan&lt;/span&gt; - Maak de functie naar wens met het gebruiksvriendelijke dashboard</value>
+    <value>&lt;span&gt;Diese Beispielfunktion optimieren&lt;/span&gt; – Passen Sie sie im benutzerfreundlichen Dashboard an.</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Uw functies zijn ontwikkeld voor gebruik in Azure App Service als een functie-app. Dit is de plek waar u de functies van die app aanpast.</value>
+    <value>Ihre Funktionen sind so konzipiert, dass sie innerhalb von Azure App Service als Funktionen-App ausgeführt werden. Dort können Sie die Features der App auch bearbeiten.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Bijwerken</value>
+    <value>Aktualisieren</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>selecteer</value>
+    <value>Auswählen</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>verwijderen</value>
+    <value>Löschen</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>De parameter direction ontbreekt.</value>
+    <value>Parameter "direction" fehlt.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Onbekende richting: {{direction}}.</value>
+    <value>Unbekannte Richtung: {{direction}}.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>De parameternaam moet uniek zijn in een functie: {{functionName}}</value>
+    <value>Der Parametername muss in einer Funktion eindeutig sein: {{functionName}}</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>De parameter name ontbreekt.</value>
+    <value>Parameter "name" fehlt.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>De parameter type ontbreekt.</value>
+    <value>Parameter "type" fehlt.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Onbekend type: {{type}}.</value>
+    <value>Unbekannter Typ: {{type}}.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Wachten op de resource</value>
+    <value>Auf die Ressource wird gewartet.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Uw runtimeversie bijwerken</value>
+    <value>Laufzeitversion: {{extensionVersion}}. Eine neuere Version ist verfügbar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Laufzeitversion: Neueste ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>We hebben uw functies met plezier gehost.</value>
+    <value>Es hat Spaß gemacht, Ihre Funktionen zu hosten!</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>De proefversie is nu verlopen, maar u kunt zich registreren voor een verlengde proefperiode zodat u kunt ook kennismaken met de andere mogelijkheden van Azure.</value>
+    <value>Ihre Testversion ist jetzt abgelaufen, aber Sie können sich für eine erweiterte Testversion registrieren, die auch das übrigen Azure-Angebot umfasst.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Een verificatieprovider kiezen</value>
+    <value>Authentifizierungsanbieter auswählen</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft-account</value>
+    <value>Microsoft-Konto</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Een gratis Azure-account maken</value>
+    <value>Kostenloses Azure-Konto erstellen</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Proefversie uitbreiden naar 24 uur</value>
+    <value>Testversion auf 24 Stunden verlängern</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Resterende tijd van de gratis proefversie:</value>
+    <value>Kostenlose Testversion – verbleibende Zeit:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Fout bij het maken van de functie. Probeer het opnieuw.</value>
+    <value>Fehler beim Erstellen der Funktion. Bitte versuchen Sie es noch mal.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Fout bij het maken van de functie</value>
+    <value>Fehler beim Erstellen der Funktion.</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>Als u liever een andere ondersteunde taal gebruikt, kunt u later in de Functions-portal een andere taal kiezen.</value>
+    <value>Wenn Sie eine andere unterstützte Sprache bevorzugen, können Sie diese später im Funktionsportal auswählen.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> minuten</value>
+    <value> Minuten</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>nieuw</value>
+    <value>neu</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Met invoerbindingen kunnen aanvullende gegevens voor uw functie worden geleverd wanneer deze wordt geactiveerd. U kunt bijvoorbeeld gegevens ophalen uit Table Storage voor een nieuw wachtrijbericht. Invoer is optioneel.</value>
+    <value>Eingabebindungen bieten zusätzliche Daten, die für Ihre Funktion bereitgestellt werden, wenn sie ausgelöst wird. Beispielsweise können Sie Daten aus dem Tabellenspeicher für eine neue Warteschlangennachricht abrufen. Eingaben sind optional.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Met uitvoerbindingen kunt u gegevens uitvoeren via uw functie. U kunt bijvoorbeeld een nieuw item aan een wachtrij toevoegen. Uitvoer is optioneel.</value>
+    <value>Über Ausgabebindungen können Sie Daten aus Ihrer Funktion ausgeben. Beispielsweise können Sie einer Warteschlange ein neues Element hinzufügen. Ausgaben sind optional.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Met triggers wordt uw functie gestart. U kunt bijvoorbeeld een trigger voor een nieuw wachtrijbericht instellen. U moet altijd een trigger gebruiken.</value>
+    <value>Mit Triggern wird Ihre Funktion gestartet. Beispielsweise kann eine Funktion bei einer neuen Warteschlangennachricht ausgelöst werden. Ein Trigger ist immer erforderlich.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Een nieuwe functie maken die wordt geactiveerd door deze uitvoer</value>
+    <value>Neue durch diese Ausgabe ausgelöste Funktion erstellen</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Documentatie</value>
+    <value>Dokumentation</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Start</value>
+    <value>Los</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Gekopieerd.</value>
+    <value>Kopiert!</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Kopiëren naar het klembord</value>
+    <value>In Zwischenablage kopieren</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>De wijzigingen voor het huidige bestand gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
+    <value>Änderungen an der aktuellen Datei gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Weet u zeker dat u {{fileName}} wilt verwijderen?</value>
+    <value>Möchten Sie "{{fileName}}" löschen?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Het bewerken van binaire bestanden wordt niet ondersteund.</value>
+    <value>Die Bearbeitung von Binärdateien wird nicht unterstützt.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Fout bij het maken van het bestand: {{fileName}}</value>
+    <value>Fehler beim Erstellen von Datei: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Fout bij het verwijderen van het bestand: {{fileName}}</value>
+    <value>Fehler beim Löschen von Datei: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Toepassingsinstellingen</value>
+    <value>Anwendungseinstellungen</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Umgebungsvariablen und Verbindungszeichenfolgen für Ihre Funktions-App verwalten</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>Im Portal enthaltene Konsole für den Zugriff auf das Dateisystem Ihrer Funktionen-App</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>Beschreibung der Entwicklerkonsole</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Greifen Sie auf die erweiterte Funktionalität von App Service zu, z.B. das Hochladen von ZIP-Dateien, das Beenden von Prozessen und vieles mehr.</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>App-Einstellungen konfigurieren</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>Entwicklerkonsole öffnen</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>Zu Kudu wechseln</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>Am schnellsten lässt sich dieser Code mit dem Code-Editor bearbeiten, Sie können aber auch Git verwenden. In diesem Beispiel wird C# eingesetzt, es werden jedoch noch viele weitere Sprachen unterstützt.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Weniger als 1 Minute</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Nicht während der kostenlosen Testphase verfügbar! Erstellen Sie ein kostenloses Azure-Konto, indem Sie auf den obigen Link klicken.</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Registrieren Sie sich für ein kostenloses Azure-Konto, um alle Funktionen zu nutzen, ohne sich über Zeitlimits Gedanken zu machen!</value>
   </data>
 </root>

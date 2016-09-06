@@ -118,619 +118,664 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Azure Functions</value>
+    <value>Funzioni di Azure</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Annulla</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Konfigurieren</value>
+    <value>Configura</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Fehler beim Erstellen der Funktion: {{error}}</value>
+    <value>Errore durante la creazione della funzione: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Fehler beim Erstellen der Funktion. Bitte versuchen Sie es noch mal.</value>
+    <value>Errore durante la creazione della funzione. Riprovare.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Funktionsfehler: {{error}}</value>
+    <value>Errore della funzione: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Fehler bei Funktion (${{name}}): {{error}}</value>
+    <value>Errore {{error}} della funzione (${{name}})</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Funktions-URL:</value>
+    <value>URL funzione:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Geheimer GitHub-Schlüssel:</value>
+    <value>Segreto GitHub:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Dateien ausblenden</value>
+    <value>Nascondi file</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Hostfehler: {{error}}</value>
+    <value>Errore dell'host: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Ausgabe</value>
+    <value>Output</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Anforderungstext</value>
+    <value>Corpo della richiesta</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Speichern und ausführen</value>
+    <value>Salva ed esegui</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Status:</value>
+    <value>Stato:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Dateien anzeigen</value>
+    <value>Visualizza file</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Vorlage auswählen</value>
+    <value>Scegliere un modello</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Diese Vorlage ist experimentell und wird noch nicht vollständig unterstützt. Wenn Probleme auftreten, posten Sie einen Fehlerbericht in unserem &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-Repository.&lt;/a&gt;</value>
+    <value>Questo modello è sperimentale e quindi il supporto completo non è ancora disponibile. Se si verificano problemi, pubblicare un bug nel &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repository di GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Funktionsname</value>
+    <value>Nome funzione</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>Ein Funktionsname ist erforderlich.</value>
+    <value>Il nome della funzione è obbligatorio</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Funktion benennen</value>
+    <value>Assegnare un nome alla funzione</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Erstellen und erste Schritte durchführen</value>
+    <value>Creazione e introduzione</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Funktionen-Apps</value>
+    <value>App per le funzioni</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Erste Schritte mit Azure Functions</value>
+    <value>Introduzione a Funzioni di Azure</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Neue Funktionen-App</value>
+    <value>Nuova app per le funzioni</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Ihr Abonnement enthält keine Funktionen-Apps. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Erstellen Sie jetzt eine App.</value>
+    <value>La sottoscrizione non contiene app per le funzioni, ovvero contenitori in cui vengono eseguite le funzioni. È possibile crearne una adesso.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Oder erstellen Sie eine Funktionen-App über das &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure-Portal&lt;/a&gt;.</value>
+    <value>Creare un'app per le funzioni nel &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;portale di Azure&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Standort auswählen</value>
+    <value>Selezionare la località</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Abonnement auswählen</value>
+    <value>Seleziona la sottoscrizione</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Das Abonnement "{{displayName}}" ({{ subscriptionId }}) ist für die Ausführung von Funktionen nicht freigegeben.</value>
+    <value>La sottoscrizione {{displayName}} ({{ subscriptionId }}) non è autorizzata all'esecuzione di funzioni</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Dieses Abonnement enthält mindestens eine Funktionen-App. Hierbei handelt es sich um Container, in denen Ihre Funktionen ausgeführt werden. Wählen Sie eine aus, oder erstellen Sie unten eine neue.</value>
+    <value>Questa sottoscrizione contiene una o più app per le funzioni, ovvero contenitori in cui vengono eseguite le funzioni. Selezionarne una oppure crearne una nuova sotto.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>Der Name muss mindestens 2 Zeichen lang sein.</value>
+    <value>Il nome deve contenere almeno 2 caratteri</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>Der Name darf höchstens 60 Zeichen umfassen.</value>
+    <value>Il nome deve contenere meno di 60 caratteri</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>Der Name darf Buchstaben, Ziffern und Bindestriche enthalten (wobei das erste und letzte Zeichen ein Buchstabe oder eine Ziffer sein müssen).</value>
+    <value>Il nome può contenere lettere, numeri e trattini ma il primo e l'ultimo carattere devono essere una lettera o un numero</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Der Name der Funktionen-App, {{funcName}}, ist nicht verfügbar.</value>
+    <value>Il nome {{funcName}} dell'app per le funzioni non è disponibile</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>Sie benötigen ein Azure-Abonnement, um diesen Dienst zu verwenden. &lt;a href="https://azure.microsoft.com/de-de/free/"&gt;Klicken Sie hier&lt;/a&gt;, um ein kostenloses Testabonnement zu erstellen.</value>
+    <value>Per usare questo servizio, è necessaria una sottoscrizione di Azure. &lt;a href="https://azure.microsoft.com/it-it/free/"&gt;Fare clic qui&lt;/a&gt; per creare una sottoscrizione di valutazione gratuita</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Ihre Funktionen-Apps</value>
+    <value>App per le funzioni</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Ihr Abonnement</value>
+    <value>Sottoscrizione</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Wählen Sie eine Sprache:</value>
+    <value>2) Scegliere un linguaggio:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Wählen Sie ein Szenario aus:</value>
+    <value>1) Scegliere uno scenario:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Diese Funktion erstellen</value>
+    <value>Creare questa funzione</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Ode eigene benutzerdefinierte Funktion erstellen</value>
+    <value>Creare una funzione personalizzata</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Datenverarbeitung</value>
+    <value>Elaborazione dati</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>Der schnellere Weg zu den Funktionen</value>
+    <value>Creazione rapida di funzioni</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Erste Schritte mit einer vorgefertigten Funktion</value>
+    <value>Iniziare rapidamente con una funzione preconfezionata</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Oder selbstständig einsteigen</value>
+    <value>Iniziare da zero</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Wenn Sie eine andere unterstützte Sprache bevorzugen, wählen Sie "Funktion ganz neu erstellen".</value>
+    <value>Per usare un altro linguaggio supportato, scegliere "Creare una funzione da zero".</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>Starten Sie von der Quellcodeverwaltung aus.</value>
+    <value>iniziare dal controllo del codice sorgente.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Timer</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook + API</value>
+    <value>Webhook e API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Schreiben Sie jede Funktion in Minutenschnelle – ob zum Ausführen eines einfachen Auftrags zum Bereinigen einer Datenbank oder zum Erstellen einer komplexeren Architektur. Das Erstellen von Funktionen ist einfacher als je zuvor, unabhängig davon, für welches Betriebssystem, welche Plattform oder welche Entwicklungsmethode Sie sich entscheiden. Keine Installation erforderlich.</value>
+    <value>Scrivere funzioni in pochi minuti, che si tratti di eseguire un semplice processo per la pulizia di un database o di creare un'architettura più complessa. La creazione di funzioni è più semplice che mai, indipendentemente dal sistema operativo, dalla piattaforma o dal metodo di sviluppo scelto. Nessuna installazione richiesta.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Cancella</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Kopiert!</value>
+    <value>Copiato</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Protokolle kopieren</value>
+    <value>Copia log</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Anhalten</value>
+    <value>Sospendi</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Starten</value>
+    <value>Avvia</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Zu viele Protokolle. Aktualisierungsrate: {{seconds}} Sekunden.</value>
+    <value>Sono presenti troppi log. Frequenza di aggiornamento: {{seconds}} secondi.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Name</value>
+    <value>Nome</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Öffnen</value>
+    <value>Apri</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>oder</value>
+    <value>oppure</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Schreibgeschützt: Da Sie mit der Bearbeitung über die Quellcodeverwaltung begonnen haben, ist diese Ansicht schreibgeschützt.</value>
+    <value>Sola lettura. Poiché le modifiche sono state effettuate con il controllo del codice sorgente, questa visualizzazione è di sola lettura.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Region</value>
+    <value>Area</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Ausführen</value>
+    <value>Esegui</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Salva</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Änderungen an der Funktion "{{name}}" gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
+    <value>Le modifiche apportate alla funzione {{name}} andranno perse. Continuare?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>Neue Funktion</value>
+    <value>Nuova funzione</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Aggiorna</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Meine Funktionen durchsuchen</value>
+    <value>Cerca nelle funzioni</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Abonnement</value>
+    <value>Sottoscrizione</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Änderungen an der aktuellen Funktion gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
+    <value>Le modifiche apportate alla funzione corrente andranno perse. Continuare?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Impostazioni dell'app per le funzioni</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Eine neue Version von Azure Functions ist verfügbar. Besuchen Sie die Funktionen-App-Einstellungen, um ein Upgrade durchzuführen.</value>
+    <value>È disponibile una nuova versione di Funzioni di Azure. Per procedere all'aggiornamento, visitare la pagina Impostazioni dell'app per le funzioni.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Schnellstart</value>
+    <value>Avvio rapido</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Verwendung</value>
+    <value>Utilizzo</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>Alle</value>
+    <value>Tutte</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Erweiterte Einstellungen</value>
+    <value>Impostazioni avanzate</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Ermöglichen Sie den Clients eine einfachere Nutzung Ihrer über HTTP ausgelösten Funktionen.</value>
+    <value>Consente ai client di usare più facilmente le funzioni attivate da HTTP.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Ermöglichen Sie den Aufruf Ihrer über HTTP ausgelösten Funktionen innerhalb eines Webbrowsers.</value>
+    <value>È possibile consentire alle funzioni attivate da HTTP di essere chiamate dall'interno di un Web browser.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API-Definition</value>
+    <value>Definizione API</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentifizierung/Autorisierung</value>
+    <value>Autenticazione/Autorizzazione</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continuous Integration</value>
+    <value>Integrazione continua</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Authentifizierung konfigurieren</value>
+    <value>Configura autenticazione</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>API-Metadaten konfigurieren</value>
+    <value>Configura metadati dell'API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Continuous Integration konfigurieren</value>
+    <value>Configura integrazione continua</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>CORS konfigurieren</value>
+    <value>Configura CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Stellen Sie Ihren Funktionscode über GitHub, Visual Studio Team Services und andere Dienste bereit.</value>
+    <value>È possibile distribuire il codice delle funzioni da GitHub, Visual Studio Team Services e altri.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Für Funktionen, die den HTTP-Trigger verwenden, können Sie die Authentifizierung von Aufrufen anfordern.</value>
+    <value>Per le funzioni che usano il trigger HTTP, è possibile richiedere l'autenticazione delle chiamate.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Impostazioni dell'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Zu App Service-Einstellungen wechseln</value>
+    <value>Passa a Impostazioni del servizio app</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Verwalten Sie Ihre Funktionen-App genau wie jede andere App Service-Instanz.</value>
+    <value>È possibile gestire l'app per le funzioni come qualsiasi altra istanza del servizio app.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Speichergröße</value>
+    <value>Dimensioni memoria</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Laufzeitversion: Neueste ({{latestExtensionVersion}})</value>
+    <value>Versione runtime: più recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Laufzeitversion: {{extensionVersion}}. Eine neuere Version ist verfügbar ({{latestExtensionVersion}}).</value>
+    <value>Versione runtime: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>App-Ausführungen</value>
+    <value>Esecuzioni app</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>App-Nutzung (GB/Sek.)</value>
+    <value>Utilizzo app (GB/sec)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Funktionen-App-Nutzung</value>
+    <value>Utilizzo app per le funzioni</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Keine Daten vorhanden.</value>
+    <value>Non sono disponibili dati</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>von Ausführungen</value>
+    <value>di esecuzioni</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Parametername</value>
+    <value>Nome parametro</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Schließen</value>
+    <value>Chiudi</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Konfiguration</value>
+    <value>Configurazione</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>Crea</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Offenbar verfügen Sie nicht über einen Funktionscontainer. Wählen Sie ein Abonnement aus, um einen zu erstellen:</value>
+    <value>Non sono presenti contenitori di funzioni. Per crearne uno, selezionare una sottoscrizione:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Ihre Testversion ist abgelaufen.</value>
+    <value>La versione di valutazione è scaduta</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Deaktiviert</value>
+    <value>Disabilitato</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Aktiviert</value>
+    <value>Abilitato</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>hier</value>
+    <value>qui</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>Möglicherweise liegt ein Fehler vor. Wenn Probleme auftreten, posten Sie sie bitte</value>
+    <value>Potrebbero verificarsi alcuni errori. In questo caso, segnalarli</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Fehler beim Analysieren der Konfiguration: {{error}}</value>
+    <value>Errore durante l'analisi della configurazione: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Features</value>
+    <value>Funzionalità</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>Dieses Feld ist erforderlich.</value>
+    <value>Questo campo è obbligatorio</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Code</value>
+    <value>Codice</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Ausführen</value>
+    <value>Esegui</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Schreibgeschützt: Da Sie mit der Bearbeitung über die Quellcodeverwaltung begonnen haben, ist diese Ansicht schreibgeschützt. Sie können diese Einstellungen in "function.json" bearbeiten.</value>
+    <value>Sola lettura. Poiché le modifiche sono state effettuate con il controllo del codice sorgente, questa visualizzazione è di sola lettura. È possibile modificare queste impostazioni nel file function.json</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Erweiterter Editor</value>
+    <value>Editor avanzato</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Änderungen gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
+    <value>Le modifiche apportate andranno perse. Continuare?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Änderungen an der Funktion "{{name}}" gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
+    <value>Le modifiche apportate alla funzione {{name}} andranno perse. Continuare?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Einstellungsname:</value>
+    <value>Nome impostazione:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Standard-Editor</value>
+    <value>Editor standard</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Möchten Sie die Funktion {{name}} löschen?</value>
+    <value>Eliminare la funzione {{name}}?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Numero operazioni riuscite recenti</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Numero di errori recenti</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Log chiamate</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Dettagli chiamata</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>flusso eventi live</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Funzione</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Dettagli: ultima esecuzione</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(durata)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parametro</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Die Authentifizierung ist für die Funktionen-App aktiviert. Deaktivieren Sie die Authentifizierung, bevor Sie die Funktion ausführen.</value>
+    <value>L'autenticazione è abilitata per l'app per le funzioni. Disabilitare l'autenticazione prima di eseguire la funzione.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>Fehler beim Ausführen der Funktion ({{name}}). Die vollständige Fehlermeldung finden Sie in den Protokollen.</value>
+    <value>Si è verificato un errore durante l'esecuzione della funzione ({{name}}). Per l'errore completo, vedere l'output dei log.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Eingaben</value>
+    <value>Input</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Protokolle</value>
+    <value>Log</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>Neue Eingabe</value>
+    <value>Nuovo input</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>Neue Ausgabe</value>
+    <value>Nuovo output</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>Neuer Trigger</value>
+    <value>Nuovo trigger</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Weiter</value>
+    <value>Avanti</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Ungültiger Wert</value>
+    <value>Valore non valido</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Ausgaben</value>
+    <value>Output</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Auswählen</value>
+    <value>Seleziona</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Entwickeln</value>
+    <value>Sviluppo</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integrieren</value>
+    <value>Integrazione</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Verwalten</value>
+    <value>Gestisci</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Monitoraggio</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Eingabebindung auswählen</value>
+    <value>Scegliere un'associazione di input</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Ausgabebindung auswählen</value>
+    <value>Scegliere un'associazione di output</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Vorlage auswählen</value>
+    <value>Scegliere un modello</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Trigger auswählen</value>
+    <value>Scegliere un trigger</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Sprache:</value>
+    <value>Lingua:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Szenario:</value>
+    <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Testversion abgelaufen.</value>
+    <value>La versione di valutazione è scaduta</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Hier vorgenommene Änderungen wirken sich auf alle Funktionen innerhalb Ihrer Funktionen-App aus.</value>
+    <value>Le modifiche apportate qui interesseranno tutte le funzioni incluse nell'app per le funzioni.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Ganz neue Funktion erstellen&lt;/span&gt; – Erste Schritte mit einer der vordefinierten Funktionsvorlagen</value>
+    <value>&lt;span&gt;Creare una funzione da zero&lt;/span&gt; - Iniziare con uno dei modelli di funzioni preconfezionati</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Entwickeln</value>
+    <value>Sviluppo</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;In die Dokumentation eintauchen&lt;/span&gt; – Erkunden Sie &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;hier&lt;/a&gt; alle Features von Azure Functions.</value>
+    <value>&lt;span&gt;Esplorare la documentazione&lt;/span&gt; - Fare clic &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;qui&lt;/a&gt; per esplorare tutte le funzionalità di Funzioni di Azure</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Funktionen-App-Einstellungen</value>
+    <value>Impostazioni dell'app per le funzioni</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integrieren</value>
+    <value>Integrazione</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Ihre Funktionen lassen sich ganz leicht in andere Dienste und Datenquellen integrieren.</value>
+    <value>L'integrazione delle funzioni con altri servizi e origini dati è facile.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Nächste Schritte</value>
+    <value>Passaggi successivi</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Richten Sie automatisierte Aktionen basierend auf externen Trigger ein, nehmen Sie andere Eingabedatenquellen auf, und senden Sie die Ausgabe an mehrere Ziele.</value>
+    <value>Configurare azioni automatizzate in base a trigger esterni, includere altre origini dati di input e inviare l'output a più destinazioni.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Tour überspringen und mit der Codierung beginnen</value>
+    <value>Ignora la presentazione e inizia a scrivere codice</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>Die schnellste Möglichkeit, Code zu bearbeiten, ist der Code-Editor, Sie können aber auch Git verwenden. In diesem Beispiel wird NodeJS eingesetzt, es werden jedoch noch viele weitere Sprachen unterstützt.</value>
+    <value>Il modo più veloce per modificare il codice prevede l'uso dell'editor di codice, ma è anche possibile usare Git. Questo esempio usa NodeJS, ma sono supportati numerosi altri linguaggi.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>Diese Seite enthält auch einen Datenstrom und eine Testkonsole zum Debuggen Ihrer Funktion.</value>
+    <value>Questa pagina include anche un flusso di log e una console di test per il debug della funzione.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Diese Beispielfunktion optimieren&lt;/span&gt; – Passen Sie sie im benutzerfreundlichen Dashboard an.</value>
+    <value>&lt;span&gt;Perfezionare questa funzione di esempio&lt;/span&gt; - Personalizzare la funzione nel dashboard di facile utilizzo</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Ihre Funktionen sind so konzipiert, dass sie innerhalb von Azure App Service als Funktionen-App ausgeführt werden. Dort können Sie die Features der App auch bearbeiten.</value>
+    <value>Le funzioni sono progettate per essere eseguite nel servizio app di Azure come un'app per le funzioni ed è qui che si modificano le funzionalità dell'app.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Aggiorna</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>Auswählen</value>
+    <value>seleziona</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>Löschen</value>
+    <value>elimina</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Parameter "direction" fehlt.</value>
+    <value>Manca il parametro 'direction'.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Unbekannte Richtung: {{direction}}.</value>
+    <value>Direzione sconosciuta: '{{direction}}'.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Der Parametername muss in einer Funktion eindeutig sein: {{functionName}}</value>
+    <value>Il nome del parametro in una funzione deve essere univoco: '{{functionName}}'</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Parameter "name" fehlt.</value>
+    <value>Manca il parametro 'name'.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Parameter "type" fehlt.</value>
+    <value>Manca il parametro 'type'.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Unbekannter Typ: {{type}}.</value>
+    <value>Tipo sconosciuto: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Auf die Ressource wird gewartet.</value>
+    <value>In attesa della risorsa</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Laufzeitversion aktualisieren</value>
+    <value>Versione runtime: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Versione runtime: più recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>Es hat Spaß gemacht, Ihre Funktionen zu hosten!</value>
+    <value>Grazie per aver provato le funzioni.</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Ihre Testversion ist jetzt abgelaufen, aber Sie können sich für eine erweiterte Testversion registrieren, die auch das übrigen Azure-Angebot umfasst.</value>
+    <value>La versione di valutazione è scaduta, ma è possibile iscriversi a una versione di valutazione estesa che include anche gli altri servizi di Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Authentifizierungsanbieter auswählen</value>
+    <value>Scegliere un provider di autenticazione</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft-Konto</value>
+    <value>Account Microsoft</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Kostenloses Azure-Konto erstellen</value>
+    <value>Crea un account Azure gratuito</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Testversion auf 24 Stunden verlängern</value>
+    <value>Estendi la versione di valutazione di 24 ore</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Kostenlose Testversion – verbleibende Zeit:</value>
+    <value>Versione di valutazione gratuita - Tempo rimanente:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Fehler beim Erstellen der Funktion. Bitte versuchen Sie es noch mal.</value>
+    <value>Errore durante la creazione della funzione. Riprovare.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Fehler beim Erstellen der Funktion.</value>
+    <value>Errore di creazione della funzione</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>Wenn Sie eine andere unterstützte Sprache bevorzugen, können Sie diese später im Funktionsportal auswählen.</value>
+    <value>Per usare un altro linguaggio supportato, è possibile sceglierne uno in seguito nel portale delle funzioni.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> Minuten</value>
+    <value> minuti</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>neu</value>
+    <value>nuovo</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Eingabebindungen bieten zusätzliche Daten, die für Ihre Funktion bereitgestellt werden, wenn sie ausgelöst wird. Beispielsweise können Sie Daten aus dem Tabellenspeicher für eine neue Warteschlangennachricht abrufen. Eingaben sind optional.</value>
+    <value>Le associazioni di input forniscono dati aggiuntivi alla funzione quando questa viene attivata. Ad esempio, è possibile recuperare i dati dall'archiviazione tabelle in un nuovo messaggio della coda. Gli input sono facoltativi.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Über Ausgabebindungen können Sie Daten aus Ihrer Funktion ausgeben. Beispielsweise können Sie einer Warteschlange ein neues Element hinzufügen. Ausgaben sind optional.</value>
+    <value>Le associazioni di output consentono di eseguire l'output dei dati dalla funzione. Ad esempio, è possibile aggiungere un nuovo elemento a una coda. Gli output sono facoltativi.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Mit Triggern wird Ihre Funktion gestartet. Beispielsweise kann eine Funktion bei einer neuen Warteschlangennachricht ausgelöst werden. Ein Trigger ist immer erforderlich.</value>
+    <value>I trigger consentono di avviare la funzione. Ad esempio, è possibile impostare un trigger per un nuovo messaggio della coda. Deve sempre essere presente un trigger.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Neue durch diese Ausgabe ausgelöste Funktion erstellen</value>
+    <value>Crea una nuova funzione attivata da questo output</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Dokumentation</value>
+    <value>Documentazione</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Los</value>
+    <value>Vai</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Kopiert!</value>
+    <value>Copiato</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>In Zwischenablage kopieren</value>
+    <value>Copia negli Appunti</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Änderungen an der aktuellen Datei gehen verloren. Möchten Sie den Vorgang fortsetzen?</value>
+    <value>Le modifiche apportate al file corrente andranno perse. Continuare?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Möchten Sie "{{fileName}}" löschen?</value>
+    <value>Eliminare {{fileName}}?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Die Bearbeitung von Binärdateien wird nicht unterstützt.</value>
+    <value>La modifica dei file binari non è supportata.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Fehler beim Erstellen von Datei: {{fileName}}</value>
+    <value>Errore durante la creazione del file: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Fehler beim Löschen von Datei: {{fileName}}</value>
+    <value>Errore durante l'eliminazione del file: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Anwendungseinstellungen</value>
+    <value>Impostazioni dell'applicazione</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Consente di gestire le variabili di ambiente e le stringhe di connessione per l'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>Console incorporata nel portale per accedere al file system dell'app per le funzioni</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>Descrizione console sviluppo</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Consente di accedere a funzionalità avanzate del servizio app, ad esempio caricare file ZIP, terminare processi e altro ancora</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>Configura le impostazioni dell'app</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>Apri console sviluppo</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>Vai a Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>Il modo più veloce per modificare il codice prevede l'uso dell'editor di codice, ma è anche possibile usare Git. Questo esempio usa C#, ma sono supportati numerosi altri linguaggi.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Azioni</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Meno di 1 minuto</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Non disponibile durante il periodo di valutazione gratuita. Per creare un account Azure gratuito, fare clic sul collegamento precedente</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>L'iscrizione a un account Azure gratuito permette di sbloccare tutte le funzionalità di Funzioni di Azure senza preoccuparsi dei limiti di tempo.</value>
   </data>
 </root>

@@ -269,58 +269,58 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ResourcesPortal\cs-CZ\Resources.resx">
+    <Content Include="ResourcesPortal\cs-CZ\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\de-DE\Resources.resx">
+    <Content Include="ResourcesPortal\de-DE\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\es-ES\Resources.resx">
+    <Content Include="ResourcesPortal\es-ES\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\fr-FR\Resources.resx">
+    <Content Include="ResourcesPortal\fr-FR\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\hu-HU\Resources.resx">
+    <Content Include="ResourcesPortal\hu-HU\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\it-IT\Resources.resx">
+    <Content Include="ResourcesPortal\it-IT\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\ja-JP\Resources.resx">
+    <Content Include="ResourcesPortal\ja-JP\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\ko-KR\Resources.resx">
+    <Content Include="ResourcesPortal\ko-KR\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\nl-NL\Resources.resx">
+    <Content Include="ResourcesPortal\nl-NL\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\pl-PL\Resources.resx">
+    <Content Include="ResourcesPortal\pl-PL\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\pt-BR\Resources.resx">
+    <Content Include="ResourcesPortal\pt-BR\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\pt-PT\Resources.resx">
+    <Content Include="ResourcesPortal\pt-PT\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\qps-ploc\Resources.resx">
+    <Content Include="ResourcesPortal\qps-ploc\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\ru-RU\Resources.resx">
+    <Content Include="ResourcesPortal\ru-RU\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\sv-SE\Resources.resx">
+    <Content Include="ResourcesPortal\sv-SE\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\tr-TR\Resources.resx">
+    <Content Include="ResourcesPortal\tr-TR\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\zh-CN\Resources.resx">
+    <Content Include="ResourcesPortal\zh-CN\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ResourcesPortal\zh-TW\Resources.resx">
+    <Content Include="ResourcesPortal\zh-TW\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

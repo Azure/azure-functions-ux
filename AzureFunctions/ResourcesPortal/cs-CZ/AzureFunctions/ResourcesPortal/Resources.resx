@@ -118,619 +118,664 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Функции Azure</value>
+    <value>Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Отмена</value>
+    <value>Zrušit</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Настроить</value>
+    <value>Konfigurovat</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Ошибка при создании функции: {{error}}</value>
+    <value>Chyba při vytváření funkce: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Ошибка при создании функции. Повторите попытку.</value>
+    <value>Při vytváření funkce se stala chyba! Zkuste to prosím znovu.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Ошибка функции: {{error}}</value>
+    <value>Chyba funkce: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Ошибка функции (${{name}}): {{error}}</value>
+    <value>Funkce (${{name}}) Chyba: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>URL-адрес функции:</value>
+    <value>Adresa URL funkce:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Секрет Github:</value>
+    <value>Tajný klíč GitHubu:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Скрыть файлы</value>
+    <value>Skrýt soubory</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Ошибка узла: {{error}}</value>
+    <value>Chyba hostitele: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Вывод</value>
+    <value>Výstup</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Текст запроса</value>
+    <value>Tělo požadavku</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Сохранить и запустить</value>
+    <value>Uložit a spustit</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Состояние:</value>
+    <value>Stav:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Просмотреть файлы</value>
+    <value>Zobrazit soubory</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Выберите шаблон.</value>
+    <value>Zvolte šablonu</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Этот шаблон является экспериментальным и пока не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
+    <value>Tato šablona je experimentální a ještě nemá plnou podporu. Pokud narazíte na potíže, pošlete prosím zprávu o chybě prostřednictvím našeho &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;úložiště GitHub&lt;/a&gt;.</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Имя функции</value>
+    <value>Název funkce</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>Требуется указать имя функции.</value>
+    <value>Název funkce je povinný.</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Присвойте функции имя.</value>
+    <value>Pojmenujte svoji funkci.</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Создать и начать работу</value>
+    <value>Vytvořit a začít</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Приложения-функции</value>
+    <value>Aplikace funkcí</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Начать работу с Функциями Azure</value>
+    <value>Začínáme s Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Новое приложение-функция</value>
+    <value>Nová aplikace funkcí</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Ваша подписка не содержит приложения-функции. Это контейнеры, где выполняются ваши функции. Создайте один сейчас.</value>
+    <value>Vaše předplatné neobsahuje žádné aplikace funkcí. To jsou kontejnery, ve kterých se spouští vaše funkce. Vytvořte nějaký.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Либо создайте приложение-функцию на &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;портале Azure&lt;/a&gt;.</value>
+    <value>Nebo vytvořte aplikaci funkcí přes &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Выбрать расположение</value>
+    <value>Vyberte umístění</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Выбрать подписку</value>
+    <value>Vyberte předplatné.</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Подписка {{displayName}} ({{ subscriptionId }}) не включена в список разрешенных для запуска функций.</value>
+    <value>Předplatné {{displayName}} ({{ subscriptionId }}) není na seznamu předplatných, která můžou spouštět funkce.</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Эта подписка содержит одно или несколько приложений-функций. Это контейнеры, где выполняются ваши функции. Выберите контейнер или создайте его ниже.</value>
+    <value>Toto předplatné obsahuje jednu nebo více aplikací funkcí. To jsou kontejnery, ve kterých se spouští vaše funkce. Jednu dole vyberte nebo vytvořte.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>Имя должно содержать не менее 2 символов.</value>
+    <value>Název musí mít aspoň 2 znaky.</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>Длина имени не должна превышать 60 символов.</value>
+    <value>Název musí být dlouhý nanejvýš 60 znaků.</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>Имя может содержать буквы, цифры и дефисы (первый и последний символы должны быть цифрами или буквами)</value>
+    <value>V názvu můžou být písmena, číslice a spojovníky (ale první a poslední znak musí být písmeno nebo číslice).</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>имя приложения-функции {{funcName}} недоступно</value>
+    <value>Název aplikace funkcí {{funcName}} není dostupný.</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>Для использования этой службы требуется подписка Azure. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Щелкните здесь&lt;/a&gt;, чтобы создать бесплатную пробную подписку.</value>
+    <value>Abyste mohli používat tuto službu, potřebujete předplatné Azure. Pokud si chcete vytvořit bezplatné zkušební předplatné, &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;klikněte sem&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Ваши приложения-функции</value>
+    <value>Vaše aplikace funkcí</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Ваша подписка</value>
+    <value>Vaše předplatné</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Выберите язык:</value>
+    <value>2) Zvolte jazyk:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Выберите сценарий:</value>
+    <value>1) Zvolte scénář:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Создайте эту функцию</value>
+    <value>Vytvořte tuto funkci.</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Или создайте настраиваемую функцию</value>
+    <value>Nebo vytvořte svoji vlastní funkci.</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Обработка данных</value>
+    <value>Zpracování dat</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>Быстрое освоение функций</value>
+    <value>Rychlejší cesta k funkcím</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Быстрее приступайте к работе благодаря готовой функции</value>
+    <value>Začněte rychle pomocí předpřipravených funkcí.</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Или создайте свою собственную</value>
+    <value>Nebo začněte vlastními silami.</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Если вы хотите использовать другой поддерживаемый язык, выберите "Создать новую функцию".</value>
+    <value>Pokud dáváte přednost jinému podporovanému jazyku, vyberte Vytvořit funkci od základu.</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>начало с управления версиями.</value>
+    <value>začít ze správy zdrojového kódu</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Таймер</value>
+    <value>Časovač</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Напишите любую функцию в считанные минуты как при запуске простого задания для очистки базы данных, так и при создании сложной архитектуры. Создание функций стало еще проще, чем раньше, при любом сочетании ОС, платформы или метода разработки. Установка не требуется.</value>
+    <value>Napište jakoukoli funkci během pár minut – ať už má spouštět jednoduchou úlohu, která vyčistí databáze, nebo vytvořit složitější architekturu. Vytvářet funkce je jednodušší než kdy dřív bez ohledu na to, jaký operační systém, platformu nebo metodu vývoje používáte. Nic se nemusí instalovat.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Очистить</value>
+    <value>Vymazat</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Скопировано.</value>
+    <value>Zkopírováno!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Скопировать журналы</value>
+    <value>Zkopírovat protokoly</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Приостановить</value>
+    <value>Pozastavit</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Запустить</value>
+    <value>Spustit</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Слишком много журналов. Частота обновления: {{seconds}} с.</value>
+    <value>Protokolů je moc. Obnovovací frekvence v sekundách: {{seconds}}</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Имя</value>
+    <value>Název</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Открыть</value>
+    <value>Otevřít</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>или</value>
+    <value>nebo</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения.</value>
+    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Регион</value>
+    <value>Oblast</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Запуск</value>
+    <value>Spustit</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Сохранить</value>
+    <value>Uložit</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
+    <value>Změny, které jste udělali ve funkci {{name}}, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>Новая функция</value>
+    <value>Nová funkce</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Обновить</value>
+    <value>Aktualizovat</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Искать мои функции</value>
+    <value>Prohledat moje funkce</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Подписка</value>
+    <value>Předplatné</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Изменения, внесенные в текущую функцию, будут утеряны. Вы действительно хотите продолжить?</value>
+    <value>Změny, které jste udělali v aktuální funkci, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Параметры приложения-функции</value>
+    <value>Nastavení Function App</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Доступна новая версия приложения-функции. Для обновления перейдите в параметры приложения-функции.</value>
+    <value>Je k dispozici nová verze Azure Functions. Pokud chcete upgradovat, přejděte na nastavení Function App.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Быстрый старт</value>
+    <value>Rychlý start</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Использование</value>
+    <value>Použití</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>Все</value>
+    <value>Vše</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Дополнительные параметры</value>
+    <value>Upřesnit nastavení</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Упростить использование функций, активируемых по HTTP, клиентами.</value>
+    <value>Umožnit klientům snadněji používat funkce spuštěné protokolem HTTP</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Разрешить вызов функций, активируемых по HTTP, из веб-браузера.</value>
+    <value>Umožnit volání funkcí spuštěných protokolem HTTP z webového prohlížeče</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>Определение API</value>
+    <value>Definice rozhraní API</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Проверка подлинности/авторизация</value>
+    <value>Ověřování nebo autorizace</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Непрерывная интеграция</value>
+    <value>Kontinuální integrace</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Настроить проверку подлинности</value>
+    <value>Konfigurovat ověřování</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Настроить метаданные API</value>
+    <value>Konfigurovat metadata rozhraní API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Настроить непрерывную интеграцию</value>
+    <value>Konfigurovat kontinuální integraci</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Настроить CORS</value>
+    <value>Konfigurovat CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Разверните код функции из GitHub, Visual Studio Team Services и других источников.</value>
+    <value>Nasadit kód funkce z GitHubu, Visual Studio Team Services a dalších služeb</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Для функций, использующих триггер HTTP, можно настроить проверку подлинности вызовов.</value>
+    <value>U funkcí, které používají aktivační událost HTTP, můžete vyžadovat, aby se volání nejdřív ověřila.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Параметры приложения-функции</value>
+    <value>Nastavení Function App</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Перейти к параметрам службы приложений</value>
+    <value>Přejít na nastavení App Service</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Управляйте приложением-функцией как любым другим экземпляром службы приложений.</value>
+    <value>Spravovat aplikaci funkcí jako jakoukoli jinou instanci služby App Service</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Размер памяти</value>
+    <value>Velikost paměti</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Версия среды выполнения: последняя ({{latestExtensionVersion}})</value>
+    <value>Verze modulu runtime: nejnovější ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Версия среды выполнения: {{extensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
+    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>Выполнения приложения</value>
+    <value>Spuštění aplikace</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>Использование приложения (ГБ/с)</value>
+    <value>Využití aplikace (Gb/s)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Использование приложения-функции</value>
+    <value>Využití Function App</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Данные отсутствуют.</value>
+    <value>Neexistují žádná data.</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>выполнений</value>
+    <value>spuštění</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Имя параметра</value>
+    <value>Název parametru</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Закрыть</value>
+    <value>Zavřít</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Конфигурация</value>
+    <value>Konfigurace</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Создать</value>
+    <value>Vytvořit</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Похоже, у вас нет контейнера функций. Выберите подписку, чтобы создать его:</value>
+    <value>Vypadá to, že nemáte kontejner funkcí. Pokud chcete jeden vytvořit, vyberte předplatné:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Срок действия пробной версии истек</value>
+    <value>Vaše zkušební období vypršelo.</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Отключено</value>
+    <value>Zakázáno</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Включено</value>
+    <value>Povoleno</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>здесь</value>
+    <value>tady</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>Возможно, возникла ошибка. При наличии проблем сообщите о них.</value>
+    <value>Možná dochází k nějaké chybě. Pokud máte potíže, pošlete nám je, prosím.</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Ошибка при анализе конфигурации: {{error}}</value>
+    <value>Chyba při analýze konfigurace: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Функции</value>
+    <value>Funkce</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>Это обязательное поле</value>
+    <value>Toto pole je povinné.</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Код</value>
+    <value>Kód</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Запуск</value>
+    <value>Spustit</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения. Эти параметры можно изменить в файле function.json.</value>
+    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení. Tato nastavení můžete upravovat v souboru function.json.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Расширенный редактор</value>
+    <value>Rozšířený editor</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Внесенные изменения будут утеряны. Вы действительно хотите продолжить?</value>
+    <value>Změny, které jste udělali, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
+    <value>Změny, které jste udělali ve funkci {{name}}, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Имя параметра:</value>
+    <value>Název nastavení:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Обычный редактор</value>
+    <value>Standardní editor</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Вы действительно хотите удалить функцию {{name}}?</value>
+    <value>Opravdu chcete odstranit funkci {{name}}?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Počet posledních úspěchů</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Počet posledních chyb</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Protokol volání</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Podrobnosti volání</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Výstup</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>živý stream z události</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Podrobnosti: poslední spuštění</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(doba trvání)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parametr</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Для приложения-функции включена проверка подлинности. Отключите ее перед запуском функции.</value>
+    <value>Pro aplikaci funkcí je zapnuté ověřování. Než ji spustíte, vypněte ověřování.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>При выполнении функции ({{name}}) возникла ошибка. Полные сведения об ошибке см. в выходных данных журнала.</value>
+    <value>Při spouštění funkce ({{name}}) se stala chyba. Celou chybu najdete ve výstupu protokolů.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Входные данные</value>
+    <value>Vstupy</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Журналы</value>
+    <value>Protokoly</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>Новое входное значение</value>
+    <value>Nový vstup</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>Новое выходное значение</value>
+    <value>Nový výstup</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>Новый триггер</value>
+    <value>Nová aktivační událost</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Далее</value>
+    <value>Další</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Недопустимое значение</value>
+    <value>Není platná hodnota</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Выходные данные</value>
+    <value>Výstupy</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Выбор</value>
+    <value>Vybrat</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Разработка</value>
+    <value>Vyvíjet</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Интегрировать</value>
+    <value>Integrace</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Управление</value>
+    <value>Spravovat</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Монитор</value>
+    <value>Sledovat</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Выберите привязку для ввода.</value>
+    <value>Zvolte vstupní vazbu</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Выберите привязку для вывода.</value>
+    <value>Zvolte výstupní vazbu</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Выберите шаблон.</value>
+    <value>Zvolte šablonu</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Выберите триггер</value>
+    <value>Zvolte aktivační událost.</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Язык:</value>
+    <value>Jazyk:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Сценарий:</value>
+    <value>Scénář:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Триггеры</value>
+    <value>Aktivační události</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Истек срок действия пробной версии.</value>
+    <value>Zkušební verze vypršela.</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Внесенные здесь изменения затрагивают все функции в вашем приложении-функции.</value>
+    <value>Změny, které jste tady udělali, se projeví ve všech funkcích aplikace funkcí.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Создайте полностью новую функцию&lt;/span&gt; — начните работу с помощью одного из готовых шаблонов функций.</value>
+    <value>&lt;span&gt;Vytvořte úplně novou funkci&lt;/span&gt; – začněte jednou z předpřipravených šablon funkce</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Разработка</value>
+    <value>Vyvíjet</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Обратитесь к документации&lt;/span&gt; — ознакомьтесь со всеми возможностями Функций Azure &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;здесь&lt;/a&gt;.</value>
+    <value>&lt;span&gt;Prozkoumejte dokumentaci&lt;/span&gt; – &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;tady&lt;/a&gt; najdete informace o všech funkcích služby Azure Functions.</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Параметры приложения-функции</value>
+    <value>Nastavení Function App</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Интегрировать</value>
+    <value>Integrace</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Интеграция функций с другими службами и источниками данных не вызывает никаких сложностей.</value>
+    <value>Integrovat funkce s jinými službami a zdroji dat je snadné.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Следующие шаги</value>
+    <value>Další kroky</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Настройте автоматические действия на основе внешних триггеров, включите другие источники входных данных и отправьте выходные данные в несколько конечных расположений.</value>
+    <value>Nastavení automatických akcí založených na externích aktivačních událostech, zahrnutí dalších vstupních zdrojů dat a posílání výstupů</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Пропустить обзор и приступить к программированию</value>
+    <value>Přeskočit kurz a začít vytvářet kód</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>Правки в код быстрее всего вносить в редакторе кода, но можно использовать и Git. В этом примере используется NodeJS, но поддерживается и множество других языков.</value>
+    <value>Nejrychlejší způsob, jak upravit kód, je pomocí editoru kódu, ale můžete použít i Git. V tomto příkladu se používá NodeJS, ale podporuje se i mnoho dalších jazyků.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>Этот пакет также включает поток журналов и тестовую консоль для отладки функции.</value>
+    <value>Tato stránka obsahuje i stream protokolů a testovací konzolu, která vám pomůže ladit vaši funkci.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Оптимизируйте этот пример функции&lt;/span&gt; — превратите его в нечто оригинальное с помощью удобной панели мониторинга.</value>
+    <value>&lt;span&gt;Úprava této ukázkové funkce&lt;/span&gt; – přizpůsobte si ji na snadno použitelném řídicím panelu.</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Ваши функции предназначены для выполнения в качестве приложения-функции внутри службы приложений Azure, и именно там следует изменять возможности такого приложения.</value>
+    <value>Vaše funkce jsou navržené tak, aby běžely jako aplikace funkcí ve službě Azure App Service. Proto je to taky místo, kde upravíte funkce dané aplikace.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Обновить</value>
+    <value>Aktualizovat</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>выбрать </value>
+    <value>vybrat</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>удалить</value>
+    <value>odstranit</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Пропущено направление для параметра.</value>
+    <value>Parametr direction chybí.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Неизвестное направление: "{{direction}}".</value>
+    <value>Neznámý směr: {{direction}}.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Имя параметра должно быть уникальным в рамках функции: "{{functionName}}".</value>
+    <value>Název parametru musí být v následující funkci jedinečný: {{functionName}}</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Пропущено имя для параметра.</value>
+    <value>Parametr name chybí.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Пропущен тип для параметра.</value>
+    <value>Parametr type chybí.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Неизвестный тип: "{{type}}".</value>
+    <value>Neznámý typ: {{type}}.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Ожидается ресурс</value>
+    <value>Čeká se na prostředek</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Обновить версию среды выполнения</value>
+    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Verze modulu runtime: nejnovější ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>Нам очень понравилось размещать ваши функции.</value>
+    <value>Hostování vašich funkcí nás bavilo!</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Срок действия вашей пробной версии истек, однако вы можете получить расширенную пробную версию, включающую в себя все остальные функции Azure.</value>
+    <value>Vaše předplatné už vypršelo, ale můžete si zaregistrovat rozšířenou zkušební verzi, která taky obsahuje zbytek Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Выберите поставщика проверки подлинности.</value>
+    <value>Zvolte poskytovatele ověřování</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Учетная запись Майкрософт</value>
+    <value>Účet Microsoft</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Создать бесплатную учетную запись Azure</value>
+    <value>Vytvořit bezplatný účet Azure</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Продлить срок действия пробной версии на 24 часа</value>
+    <value>Rozšířit zkušební verzi na 24 hodin</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Оставшийся срок действия пробной версии:</value>
+    <value>Zkušební verze – zbývající čas:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Ошибка при создании функции. Повторите попытку.</value>
+    <value>Při vytváření funkce se stala chyba! Zkuste to prosím znovu.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Ошибка при создании функции</value>
+    <value>Chyba při vytváření funkce</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>Если вы хотите использовать другой поддерживаемый язык, позднее вы сможете выбрать его на портале функций.</value>
+    <value>Pokud dáváte přednost jinému podporovanému jazyku, můžete si ho později zvolit na portálu funkcí.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> мин</value>
+    <value> min</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>новое</value>
+    <value>nový</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Привязки входных данных предоставляют дополнительные данные функции при ее вызове. Например, можно извлечь данные из табличного хранилища в новом сообщении очереди. Входные данные необязательны.</value>
+    <value>Vstupní vazby poskytují další data pro vaši funkci, když dojde k jejímu spuštění. Například můžete načíst data z úložiště tabulek v nové zprávě fronty. Vstupy jsou volitelné.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Привязки выходных данных позволяют выводить данные из функции. Например, можно добавить элемент в очередь. Выходные данные необязательны.</value>
+    <value>Výstupní vazby umožňují výstup dat z funkce. Můžete například přidat novou položku do fronty. Výstupy jsou volitelné.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
+    <value>Triggery spouští funkci. Můžete mít třeba trigger zprávy o nové frontě. Trigger musíte mít vždy.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Создание новой функции, запускаемой этими выходными данными</value>
+    <value>Vytvořit novou funkci spouštěnou tímto výstupem</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Документация</value>
+    <value>Dokumentace</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Перейти</value>
+    <value>Přejít</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Скопировано.</value>
+    <value>Zkopírováno!</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Копировать в буфер</value>
+    <value>Zkopírovat do schránky</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Изменения, внесенные в текущий файл, будут потеряны. Вы действительно хотите продолжить?</value>
+    <value>Přijdete o změny provedené v aktuálním souboru. Opravdu chcete pokračovat?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Вы действительно хотите удалить {{fileName}}?</value>
+    <value>Opravdu chcete odstranit {{fileName}}?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Редактирование двоичных файлов не поддерживается.</value>
+    <value>Úpravy binárních souborů se nepodporují.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Ошибка при создании файла: {{fileName}}</value>
+    <value>Chyba při vytváření souboru: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Ошибка при удалении файла: {{fileName}}</value>
+    <value>Chyba při odstraňování souboru: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Параметры приложения</value>
+    <value>Nastavení aplikace</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Описание параметров приложения</value>
+    <value>Spravovat proměnné prostředí a připojovací řetězce pro svou Function App</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Консоль для разработчиков</value>
+    <value>Konzola na portálu pro přístup k systému souborů vaší Function App</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Описание консоли для разработчиков</value>
+    <value>Popis konzoly pro vývojáře</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Описание Kudu</value>
+    <value>Přístup k rozšířeným funkcím služby App Service, jako je nahrávání komprimovaných souborů zip, ukončování procesů a další</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Настроить параметры приложения</value>
+    <value>Konfigurovat nastavení aplikace</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Открыть консоль для разработчиков</value>
+    <value>Otevřít konzolu pro vývojáře</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Перейти в Kudu</value>
+    <value>Přejít na Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>Быстрее всего редактировать код в редакторе, но можно использовать и Git. В этом примере используется C#, но поддерживаются и многие другие языки.</value>
+    <value>Nejrychlejší způsob, jak upravovat kód, je pomocí editoru kódu, ale můžete použít i Git. V této ukázce se používá C#, ale podporuje se i mnoho dalších jazyků.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Méně než 1 minuta</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Během bezplatného zkušebního období toto není k dispozici! Vytvořte si bezplatný účet Azure tak, že kliknete na odkaz nahoře.</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti funkcí a nejste omezení časem!</value>
   </data>
 </root>

@@ -57,26 +57,30 @@ namespace AzureFunctions.Controllers
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             runtime = getClearRuntime(runtime);
-            string folder = "";
+            string portalFolder = "";
+            string sdkFolder = "";
             if (name != "en")
             {
                 if(name.Length == 2)
                 {
-                    if (!_languageMap.TryGetValue(name,out folder)) {
-                        folder = name + "-" + name;
-                    } 
+                    if (!_languageMap.TryGetValue(name,out portalFolder)) {
+                        portalFolder = name + "-" + name;
+                        sdkFolder = name + "-" + name;
+                    }
+                    portalFolder = Path.Combine(portalFolder, "AzureFunctions\\ResourcesPortal");
+                    sdkFolder = Path.Combine(portalFolder, "Resources");
                 } else
                 {
-                    folder = name;
+                    portalFolder = name;
                 }
             }
 
             List<string> resxFiles = new List<string>();
             var result = new JObject();
-            if (!string.IsNullOrEmpty(folder))
+            if (!string.IsNullOrEmpty(portalFolder) && !string.IsNullOrEmpty(sdkFolder))
             {
-                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), folder + "\\Resources.resx"));
-                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources" + folder + "\\Resources.resx"));
+                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), sdkFolder + "\\Resources.resx"));
+                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources" + portalFolder + "\\Resources.resx"));
                 result["lang"] = ConvertResxToJObject(resxFiles);
                 resxFiles.Clear();
             }

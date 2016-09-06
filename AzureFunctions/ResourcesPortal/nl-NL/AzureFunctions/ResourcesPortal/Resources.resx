@@ -121,616 +121,661 @@
     <value>Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Annuleren</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>配置</value>
+    <value>Configureren</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>创建函数出错: {{error}}</value>
+    <value>Fout bij het maken van de functie: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>函数创建错误! 请重试。</value>
+    <value>Fout bij het maken van de functie. Probeer het opnieuw.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>函数错误: {{error}}</value>
+    <value>Fout met functie: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>函数(${{name}})错误: {{error}}</value>
+    <value>Functie (${{name}}), fout: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>函数 URL:</value>
+    <value>Functie-URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 机密:</value>
+    <value>Github-geheim:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>隐藏文件</value>
+    <value>Bestanden verbergen</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>主机错误: {{error}}</value>
+    <value>Hostfout: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>输出</value>
+    <value>Uitvoer</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>请求正文</value>
+    <value>Aanvraagtekst</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>保存和运行</value>
+    <value>Opslaan en uitvoeren</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>状态:</value>
+    <value>Status:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>查看文件</value>
+    <value>Bestanden weergeven</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>选择模板</value>
+    <value>Een sjabloon kiezen</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>此模板是实验模板，尚无完全支持。如果遇到问题，请将 bug 提交于我们的 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub 存储库。&lt;/a&gt;</value>
+    <value>Deze sjabloon is experimenteel en wordt nog niet volledig ondersteund. Als u problemen tegenkomt, kunt u een fout rapporteren in de &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-opslagplaats.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>函数名称</value>
+    <value>Functienaam</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>函数名为必填项</value>
+    <value>Een functienaam is vereist</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>为函数命名</value>
+    <value>Een naam voor de functie opgeven</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>创建 + 开始使用</value>
+    <value>Maken en aan de slag</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Function App</value>
+    <value>Functie-apps</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>开始使用 Azure Functions</value>
+    <value>Aan de slag met Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>新建 Function App</value>
+    <value>Nieuwe functie-app</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>你的订阅不含任何 Function App。这些是函数执行所在的容器。立即创建一个。</value>
+    <value>Het abonnement bevat geen functie-apps. Dit zijn containers waarin de functies worden uitgevoerd. Maak nu een functie-app.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>或从 &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure 门户&lt;/a&gt;创建 Function App。</value>
+    <value>Of maak een functie-app via &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>选择位置</value>
+    <value>Een locatie selecteren</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>选择订阅</value>
+    <value>Abonnement selecteren</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>订阅 {{displayName}} ({{ subscriptionId }})未列入运行函数的白名单中</value>
+    <value>Het abonnement {{displayName}} ({{ subscriptionId }}) heeft geen toestemming om functies uit te voeren</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>此订阅包含一个或多个 Function App。这些是函数执行所在的容器。选择一个或在下方新建一个。 </value>
+    <value>Het abonnement bevat een of meer functie-apps. Dit zijn containers waarin de functies worden uitgevoerd. Selecteer een functie-app of maak hieronder een nieuwe.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>名称必须包含至少 2 个字符</value>
+    <value>De naam mag niet korter zijn dan 2 tekens</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>名称最多包含 60 个字符</value>
+    <value>De naam mag niet langer zijn dan zestig tekens</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>该名称可以包含字母、数字和连字符(但第一个和最后一个字符必须是字母或数字)</value>
+    <value>De naam kan letters, cijfers en afbreekstreepjes bevatten, maar het eerste en laatste teken moeten een letter of cijfer zijn</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>Function App 名 {{funcName}} 不可用</value>
+    <value>De naam {{funcName}} is niet beschikbaar voor de functie-app</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>需要 Azure 订阅才能使用此服务。&lt;a href="https://azure.microsoft.com/en-us/free/"&gt;单击此处&lt;/a&gt;创建免费的试用版订阅</value>
+    <value>U hebt een Azure-abonnement nodig om deze service te gebruiken. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Klik hier&lt;/a&gt; om een gratis proefabonnement te maken</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>你的 Function App</value>
+    <value>Uw functie-apps</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>你的订阅</value>
+    <value>Uw abonnement</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) 选择语言:</value>
+    <value>2) Kies een taal:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) 选择方案:</value>
+    <value>1) Kies een scenario:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>创建此函数</value>
+    <value>Maak deze functie</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>或创建自己的自定义函数</value>
+    <value>Of maak uw eigen functie</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>数据处理</value>
+    <value>Gegevensverwerking</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>函数的更快方法</value>
+    <value>De snellere manier voor functies</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>快速开始使用预制函数</value>
+    <value>Ga snel aan de slag met een vooraf gemaakte functie</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>或开始使用你自己的函数</value>
+    <value>Of ga aan de slag met uw eigen functie</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>如果希望使用另一种受支持的语言，请选择“从头开始创建函数”。</value>
+    <value>Als u liever een andere, ondersteunde taal gebruikt, kiest u Een volledig nieuwe functie maken.</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>从源控件开始。</value>
+    <value>begin bij broncodebeheer.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>计时器</value>
+    <value>Timer</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook + API</value>
+    <value>Webhook en API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>在几分钟内即可编写任何函数 - 无论是运行清理数据库的简单作业，还是构建更复杂的体系结构。创建函数从未如此方便，完全不用考虑你选择的操作系统、平台或开发方法是什么。无需安装。</value>
+    <value>Schrijf binnen enkele minuten functies, of u nu gewoon een database wilt opschonen of een complexere architectuur wilt bouwen. Functies maken is eenvoudiger dan ooit, ongeacht het besturingssysteem, platform of de ontwikkelingsmethode. Geen installatie vereist.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>清除</value>
+    <value>Wissen</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>已复制!</value>
+    <value>Gekopieerd.</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>复制日志</value>
+    <value>Logboeken kopiëren</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>暂停</value>
+    <value>Onderbreken</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>开始</value>
+    <value>Starten</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>日志过多。刷新率: {{seconds}} 秒。</value>
+    <value>Er zijn te veel logboeken. Vernieuwingsfrequentie: {{seconds}} seconden.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>名称</value>
+    <value>Naam</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>打开</value>
+    <value>Openen</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>或</value>
+    <value>of</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>只读 - 由于你已开始使用源控件进行编辑，所以此视图为只读。</value>
+    <value>Alleen-lezen: omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>区域</value>
+    <value>Regio</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>运行</value>
+    <value>Uitvoeren</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>保存</value>
+    <value>Opslaan</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>将丢失对函数 {{name}} 所做的更改。是否确实要继续?</value>
+    <value>De wijzigingen voor de functie {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>新建函数</value>
+    <value>Nieuwe functie</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>刷新</value>
+    <value>Vernieuwen</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>搜索我的函数</value>
+    <value>Zoeken in mijn functies</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>订阅</value>
+    <value>Abonnement</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>将丢失对当前函数所做的更改。是否确实要继续?</value>
+    <value>Wijzigingen voor de huidige functie gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>Instellingen voor functie-apps</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Azure Functions 的新版本可用。请访问 Function App 设置进行升级。</value>
+    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Ga naar de instellingen voor functie-apps om een upgrade uit te voeren.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>快速入门</value>
+    <value>Snelstartgids</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>用法</value>
+    <value>Gebruik</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>全部</value>
+    <value>Alle</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>高级设置</value>
+    <value>Geavanceerde instellingen</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>允许客户更轻松地使用 HTTP 触发的函数。</value>
+    <value>Toestaan dat clients de functies die worden geactiveerd via HTTP, eenvoudiger kunnen gebruiken.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>允许从 Web 浏览器内调用 HTTP 触发的函数。</value>
+    <value>Toestaan dat functies die worden geactiveerd via HTTP, kunnen worden aangeroepen vanuit een webbrowser.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API 定义</value>
+    <value>API-definitie</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>身份验证/授权</value>
+    <value>Verificatie/autorisatie</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>持续集成</value>
+    <value>Continue integratie</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>Verificatie configureren</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>配置 API 元数据</value>
+    <value>API-metagegevens configureren</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>Continue integratie configureren</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>配置 CORS</value>
+    <value>CORS configureren</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>从 GitHub、Visual Studio Team Services 等部署函数代码。</value>
+    <value>Implementeer uw functiecode vanuit GitHub, Visual Studio Team Services en meer.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>对于使用 HTTP 触发器的函数，你可以要求对调用进行身份验证。</value>
+    <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>Instellingen voor functie-apps</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>转到 App Service 设置</value>
+    <value>Ga naar App Service-instellingen</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>如同管理任何其他 App Service 实例一样管理你的 Function App。</value>
+    <value>U kunt de functie-app net als elk ander App Service-exemplaar beheren.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>内存大小</value>
+    <value>Geheugengrootte</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>运行时版本: 最新({{latestExtensionVersion}})</value>
+    <value>Runtimeversie: nieuwste ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>运行时版本: {{extensionVersion}}。更新的版本可用({{latestExtensionVersion}})。</value>
+    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>应用执行数</value>
+    <value>Uitvoerbewerkingen voor apps</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>应用使用情况(Gb/秒)</value>
+    <value>Gebruik van app (Gb Sec)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Function App 使用情况</value>
+    <value>Gebruik van functie-app</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>没有执行的</value>
+    <value>Er zijn geen gegevens</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>数据</value>
+    <value>van uitvoerbewerkingen</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>参数名称</value>
+    <value>Parameternaam</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>关闭</value>
+    <value>Sluiten</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>配置</value>
+    <value>Config</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>创建</value>
+    <value>Maken</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>似乎你没有函数容器。请选择一个订阅以进行创建:</value>
+    <value>U hebt geen Functions-container. Selecteer een abonnement om een container te maken:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>你的试用已过期</value>
+    <value>De proefversie is verlopen</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>已禁用</value>
+    <value>Uitgeschakeld</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>已启用</value>
+    <value>Ingeschakeld</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>此处</value>
+    <value>hier</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>你可能会遇到错误。如果遇到问题，请将其发布</value>
+    <value>Mogelijk is er een fout opgetreden. Als u problemen ondervindt, plaatst u deze</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>错误分析配置: {{error}}</value>
+    <value>Fout bij het parseren van Config: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>功能</value>
+    <value>Functies</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>此字段是必需的</value>
+    <value>Dit veld is vereist</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>代码</value>
+    <value>Code</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>运行</value>
+    <value>Uitvoeren</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>只读 - 由于你已开始使用源控件进行编辑，所以此视图为只读。你可以在 function.json 中编辑这些设置</value>
+    <value>Alleen-lezen: Omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen. U kunt deze instellingen bewerken in function.json</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>高级编辑器</value>
+    <value>Geavanceerde editor</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>将丢失所做的更改。是否确实要继续?</value>
+    <value>De wijzigingen gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>将丢失对函数 {{name}} 所做的更改。是否确实要继续?</value>
+    <value>De wijzigingen voor de functie {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>设置名称:</value>
+    <value>Naam van instelling:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>标准编辑器</value>
+    <value>Standaardeditor</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>是否确实要删除函数 {{name}}?</value>
+    <value>Weet u zeker dat u functie {{name}} wilt verwijderen?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Aantal recent geslaagde pogingen</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Aantal recente fouten</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Aanroeplogbestand</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Aanroepdetails</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Uitvoer</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>stroom van live gebeurtenis</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Functie</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: Laatste keer uitgevoerd</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duur)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parameter</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>已为 Function App 启用身份验证。运行该函数前，请禁用身份验证。</value>
+    <value>Verificatie is ingeschakeld voor de functie-app. Schakel de verificatie uit voordat u de functie uitvoert.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>运行函数({{name}})时出错。检查日志输出以查看完整错误。</value>
+    <value>Er is een fout opgetreden bij het uitvoeren van de functie ({{name}}). Controleer de logboeken voor de volledige foutmelding.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>输入</value>
+    <value>Invoer</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>日志</value>
+    <value>Logboeken</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>新建输入</value>
+    <value>Nieuwe invoer</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>新建输出</value>
+    <value>Nieuwe uitvoer</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>新建触发器</value>
+    <value>Nieuwe trigger</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>下一步</value>
+    <value>Volgende</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>无效值</value>
+    <value>Geen geldige waarde</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>输出</value>
+    <value>Uitvoer</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>选择</value>
+    <value>Selecteren</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>开发</value>
+    <value>Ontwikkelen</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>集成</value>
+    <value>Integreren</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>管理</value>
+    <value>Beheren</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>监视器</value>
+    <value>Controle</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>选择输入绑定</value>
+    <value>Een invoerbinding kiezen</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>选择输出绑定</value>
+    <value>Een uitvoerbinding kiezen</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>选择模板</value>
+    <value>Een sjabloon kiezen</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>选择触发器</value>
+    <value>Kies een trigger</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>语言:</value>
+    <value>Taal:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>方案:</value>
+    <value>Scenario:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>触发器</value>
+    <value>Triggers</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>试用已过期</value>
+    <value>De proefversie is verlopen</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>此处所做的更改将影响 Function App 中的所有函数。</value>
+    <value>Wijzigingen die hier worden aangebracht, zijn van invloed op alle functies in uw functie-app.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;创建一个全新函数&lt;/span&gt; - 开始使用预生成函数模板之一</value>
+    <value>&lt;span&gt;Maak een gloednieuwe functie&lt;/span&gt; - Ga aan de slag met een van de bestaande functiesjablonen</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>开发</value>
+    <value>Ontwikkelen</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;深入了解文档&lt;/span&gt; - 在&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;此处&lt;/a&gt;浏览 Azure Functions 的所有功能</value>
+    <value>&lt;span&gt;Duik in de documentatie&lt;/span&gt; - Verken &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;hier&lt;/a&gt; alle mogelijkheden van Azure Functions</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>Instellingen voor functie-apps</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>集成</value>
+    <value>Integreren</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>将函数与其他服务和数据源集成非常简单。</value>
+    <value>Uw kunt uw functies eenvoudig integreren met andere services en gegevensbronnen.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>后续步骤</value>
+    <value>Volgende stappen</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>设置基于外部触发器的自动化操作，包括其他输入数据源并向多个目标发送输出。</value>
+    <value>Stel geautomatiseerde acties in op basis van externe triggers, voeg andere invoergegevensbronnen toe en stuur de uitvoer naar meerdere doelen.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>跳过教程并开始编码</value>
+    <value>Rondleiding overslaan en beginnen met het schrijven van code</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>编辑代码的最快方法是使用代码编辑器，但也可使用 Git。此示例使用 NodeJS，但也支持许多其他语言。</value>
+    <value>De code-editor biedt de snelste manier om code te bewerken, maar u kunt ook Git gebruiken. In dit voorbeeld wordt NodeJS gebruikt, maar er worden nog veel meer andere talen ondersteund.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>此页面也包括日志流和测试控制台，以便帮助你调试函数。</value>
+    <value>Deze pagina bevat tevens een logboekstream en een testconsole waarmee u fouten in uw functie kunt opsporen.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;调整此示例函数&lt;/span&gt; - 在易于使用的仪表板上进行个性化设置</value>
+    <value>&lt;span&gt;Pas deze voorbeeldfunctie aan&lt;/span&gt; - Maak de functie naar wens met het gebruiksvriendelijke dashboard</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>你的函数旨在于 Azure App Service 内作为 Function App 运行，并可在其中修改该应用的功能。</value>
+    <value>Uw functies zijn ontwikkeld voor gebruik in Azure App Service als een functie-app. Dit is de plek waar u de functies van die app aanpast.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>更新</value>
+    <value>Bijwerken</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>选择</value>
+    <value>selecteer</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>删除</value>
+    <value>verwijderen</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>参数 "direction" 缺失。</value>
+    <value>De parameter direction ontbreekt.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>未知方向:“{{direction}}”。</value>
+    <value>Onbekende richting: {{direction}}.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>参数名称在函数中必须唯一:“{{functionName}}”</value>
+    <value>De parameternaam moet uniek zijn in een functie: {{functionName}}</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>参数 "name" 缺失。</value>
+    <value>De parameter name ontbreekt.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>参数 "type" 缺失。 </value>
+    <value>De parameter type ontbreekt.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>未知类型:“{{type}}”。</value>
+    <value>Onbekend type: {{type}}.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>正在等待资源</value>
+    <value>Wachten op de resource</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>更新你的运行时版本</value>
+    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Runtime-versie: meest recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>我们非常乐意托管你的函数!</value>
+    <value>We hebben uw functies met plezier gehost.</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>你的试用版现已过期，但可以注册扩展的试用版，其中也包括 Azure 的其余部分。</value>
+    <value>De proefversie is nu verlopen, maar u kunt zich registreren voor een verlengde proefperiode zodat u kunt ook kennismaken met de andere mogelijkheden van Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>选择身份验证提供程序</value>
+    <value>Een verificatieprovider kiezen</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft 帐户</value>
+    <value>Microsoft-account</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>创建免费的 Azure 帐户</value>
+    <value>Een gratis Azure-account maken</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>延长试用期 24 小时</value>
+    <value>Proefversie uitbreiden naar 24 uur</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>免费试用版 - 剩余时间:</value>
+    <value>Resterende tijd van de gratis proefversie:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>函数创建错误! 请重试。</value>
+    <value>Fout bij het maken van de functie. Probeer het opnieuw.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>创建函数出错</value>
+    <value>Fout bij het maken van de functie</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>如果希望使用另一种受支持的语言，可以稍后在函数门户中选择一种语言。</value>
+    <value>Als u liever een andere ondersteunde taal gebruikt, kunt u later in de Functions-portal een andere taal kiezen.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> 分钟</value>
+    <value> minuten</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>新建</value>
+    <value>nieuw</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>输入绑定在函数被触发时向该函数提供其他数据。例如，你可以从新队列消息上的表存储中提取数据。输入是可选的。</value>
+    <value>Met invoerbindingen kunnen aanvullende gegevens voor uw functie worden geleverd wanneer deze wordt geactiveerd. U kunt bijvoorbeeld gegevens ophalen uit Table Storage voor een nieuw wachtrijbericht. Invoer is optioneel.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>输出绑定使你可以从函数输出数据。例如，你可以将一个新项添加到队列。输出是可选的。</value>
+    <value>Met uitvoerbindingen kunt u gegevens uitvoeren via uw functie. U kunt bijvoorbeeld een nieuw item aan een wachtrij toevoegen. Uitvoer is optioneel.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>触发器将启动函数。例如，可在新的队列消息上进行触发。你必须始终具有触发器。</value>
+    <value>Met triggers wordt uw functie gestart. U kunt bijvoorbeeld een trigger voor een nieuw wachtrijbericht instellen. U moet altijd een trigger gebruiken.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>创建此输出触发的新函数</value>
+    <value>Een nieuwe functie maken die wordt geactiveerd door deze uitvoer</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>文档</value>
+    <value>Documentatie</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>转到</value>
+    <value>Start</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>已复制!</value>
+    <value>Gekopieerd.</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>复制到剪贴板</value>
+    <value>Kopiëren naar het klembord</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>对当前文件所做的更改将会丢失。是否确实要继续?</value>
+    <value>De wijzigingen voor het huidige bestand gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>是否确实要删除 {{fileName}}</value>
+    <value>Weet u zeker dat u {{fileName}} wilt verwijderen?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>不支持删除二进制文件。</value>
+    <value>Het bewerken van binaire bestanden wordt niet ondersteund.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>创建文件时出错: {{fileName}}</value>
+    <value>Fout bij het maken van het bestand: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>删除文件时出错: {{fileName}}</value>
+    <value>Fout bij het verwijderen van het bestand: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>应用程序设置</value>
+    <value>Toepassingsinstellingen</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>应用程序设置说明</value>
+    <value>Omgevingsvariabelen en verbindingsreeksen voor uw functie-app beheren</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>开发人员控制台</value>
+    <value>Console in de portal voor toegang tot het bestandsysteem van uw functie-app</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>开发人员控制台说明</value>
+    <value>Beschrijving van de ontwikkelaarsconsole</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu 说明</value>
+    <value>Toegang krijgen tot geavanceerde functionaliteit van App Service, zoals het uploaden van zip-bestanden, het afsluiten van processen en meer</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>配置应用设置</value>
+    <value>App-instellingen configureren</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>打开开发人员控制台</value>
+    <value>Ontwikkelaarsconsole openen</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>转到 Kudu</value>
+    <value>Naar Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>编辑代码的最快方式是使用代码编辑器，但也可以使用 GIT。此示例使用的是 C#，但也支持许多其他语言。</value>
+    <value>De code-editor biedt de snelste manier om code te bewerken, maar u kunt ook Git gebruiken. In dit voorbeeld wordt C# gebruikt, maar er worden nog veel meer andere talen ondersteund.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Acties</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Minder dan 1 minuut</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Niet beschikbaar tijdens de gratis proefversie. Maak een gratis Azure-account door op bovenstaande koppeling te klikken</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Als u zich aanmeldt voor een gratis Azure-account, zijn alle functiemogelijkheden voor u beschikbaar zonder dat u zich druk hoeft te maken over tijdsbeperkingen.</value>
   </data>
 </root>

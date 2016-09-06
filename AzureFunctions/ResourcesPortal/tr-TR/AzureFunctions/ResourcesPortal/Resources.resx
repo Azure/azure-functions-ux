@@ -118,619 +118,664 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>Azure Functions</value>
+    <value>Azure İşlevleri</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>İptal</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>設定</value>
+    <value>Yapılandır</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>建立函式發生錯誤: {{error}}</value>
+    <value>İşlev Oluşturma Hatası: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>函式建立錯誤! 請再試一次。</value>
+    <value>İşlev oluşturma hatası! Lütfen yeniden deneyin.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>函式錯誤: {{error}}</value>
+    <value>İşlev Hatası: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>函式 (${{name}}) 錯誤: {{error}}</value>
+    <value>İşlev (${{name}}) Hatası: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>函式 URL:</value>
+    <value>İşlev Url'si:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 密碼:</value>
+    <value>Github Gizli Anahtarı:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>隱藏檔案</value>
+    <value>Dosyaları gizle</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>主機錯誤: {{error}}</value>
+    <value>Ana Bilgisayar Hatası: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>輸出</value>
+    <value>Çıktı</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>要求本文</value>
+    <value>İstek gövdesi</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>儲存並執行</value>
+    <value>Kaydet ve çalıştır</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>狀態:</value>
+    <value>Durum:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>檢視檔案</value>
+    <value>Dosyaları görüntüle</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>選擇範本</value>
+    <value>Şablon seçin</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>此範本為實驗性質，且尚未具備完整支援。若您遇到問題，請於 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt; GitHub 存放庫&lt;/a&gt;提出 Bug。</value>
+    <value>Bu şablon deneysel ve henüz tam destek içermiyor. Sorun yaşarsanız lütfen &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub depomuzda bir hata oluşturun.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>函數名稱</value>
+    <value>İşlev adı</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>需要函式名稱</value>
+    <value>İşlev adı gereklidir</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>替您的函式命名</value>
+    <value>İşlevinizi adlandırın</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>建立 + 開始使用</value>
+    <value>Oluşturun ve kullanmaya başlayın</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>函數應用程式</value>
+    <value>İşlev Uygulamaları</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>開始使用 Azure Functions</value>
+    <value>Azure İşlevleri ile çalışmaya başlayın</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>新函數應用程式</value>
+    <value>Yeni işlev uygulaması</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>您的訂用帳戶未包含任何函數應用程式。這些是您函式執行所在的容器。請立即建立一個。</value>
+    <value>Aboneliğiniz bir işlev uygulaması içermiyor. Bunlar işlevlerinizin yürütüldüğü kapsayıcılardır. Şimdi bir tane oluşturun.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>或從 &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure 入口網站&lt;/a&gt;建立函數應用程式。</value>
+    <value>Ya da &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;'dan bir işlev uygulaması oluşturun.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>選取位置</value>
+    <value>Konum Seç</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>選取訂用帳戶</value>
+    <value>Abonelik seçin</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>訂用帳戶 {{displayName}} ({{ subscriptionId }}) 對執行中的函式而言不在允許清單中</value>
+    <value>Abonelik {{displayName}} ({{ subscriptionId }}) işlevleri çalıştırmak için güvenli listeye alınmamış</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>此訂用帳戶包含一或多個函數應用程式。這些是您函式執行所在的容器。請選取一個或於下方建立新的容器。</value>
+    <value>Bu abonelik bir veya daha fazla işlev uygulaması içeriyor. Bunlar işlevlerinizin yürütüldüğü kapsayıcılardır. Bir tane seçin veya aşağıdan yeni bir tane oluşturun.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>名稱至少必須包含 2 個字元</value>
+    <value>Ad en az 2 karakter olmalıdır</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>名稱最多只能 60 個字元</value>
+    <value>Ad en fazla 60 karakter olmalıdır</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>名稱可以包含字母、數字和連字號 (但第一個和最後一個字元必須是字母或數字)</value>
+    <value>Ad harf, rakam ve tire içerebilir (ancak ilk ve son karakter bir harf veya rakam olmalıdır)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>無法使用函數應用程式名稱 {{funcName}}</value>
+    <value>işlev uygulaması adı {{funcName}} mevcut değil</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>您需要 Azure 訂用帳戶才能使用此服務。&lt;a href="https://azure.microsoft.com/en-us/free/"&gt;請按一下這裡&lt;/a&gt;建立免費的試用版訂用帳戶</value>
+    <value>Bu hizmeti kullanmak için bir Azure aboneliği gereklidir. Bir ücretsiz deneme aboneliği oluşturmak için &lt;a href="https://azure.microsoft.com/tr-tr/free/"&gt;buraya tıklayın&lt;/a&gt;</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>您的函數應用程式</value>
+    <value>İşlev uygulamalarınız</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>您的訂用帳戶</value>
+    <value>Aboneliğiniz</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) 選擇語言:</value>
+    <value>2) Bir dil seçin:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) 選擇案例:</value>
+    <value>1) Bir senaryo seçin:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>建立此函式</value>
+    <value>Bu işlevi oluşturun</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>或是建立您自己的自訂函式</value>
+    <value>Ya da kendi özel işlevinizi oluşturun</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>資料處理</value>
+    <value>Veri işleme</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>更快取得函式的方法</value>
+    <value>İşlevler için daha hızlı yol</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>搭配預先建立的函式快速開始使用</value>
+    <value>Önceden hazırlanmış bir işlev ile hızlıca çalışmaya başlayın</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>或是自行開始使用</value>
+    <value>Ya da kendi işlevinizle çalışmaya başlayın</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>若您偏好其他支援的語言，請選擇 [從頭建立函式]。</value>
+    <value>Desteklenen başka bir dili tercih ediyorsanız "Baştan bir işlev oluştur" öğesini seçin.</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>從原始檔控制開始。</value>
+    <value>kaynak denetiminden başlayın.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>計時器</value>
+    <value>Zamanlayıcı</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Webhook + API</value>
+    <value>Web Kancası + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>無論是要執行清除資料庫的簡單作業，或者建置更複雜的架構，請皆以分鐘為單位寫入任何函式。建立函式比以往更加容易，無論您選擇何種 OS、平台或開發方法皆然。無須安裝。</value>
+    <value>Bir veritabanını temizleyen basit bir iş çalıştırmak ya da daha karmaşık mimari derlemek için herhangi bir işlevi dakikalar içinde yazın. Seçtiğiniz işletim sistemi, platform ya da geliştirme yöntemi ne olursa olsun işlevlerin oluşturulması öncekinden daha kolay. Yükleme gerekli değildir.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>清除</value>
+    <value>Temizle</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>已複製!</value>
+    <value>Kopyalandı!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>複製記錄</value>
+    <value>Günlükleri Kopyala</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>暫停</value>
+    <value>Duraklat</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>開始</value>
+    <value>Başlat</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>太多記錄。重新整理的頻率: {{seconds}} 秒。</value>
+    <value>Çok fazla günlük var. Yenileme hızı: {{seconds}} saniye.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>名稱</value>
+    <value>Ad</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>開啟</value>
+    <value>Aç</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>或</value>
+    <value>veya</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。</value>
+    <value>Salt okunur - kaynak denetimiyle düzenlemeye başladığınız için bu görünüm salt okunur durumdadır.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>區域</value>
+    <value>Bölge</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>執行</value>
+    <value>Çalıştır</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>儲存</value>
+    <value>Kaydet</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>將遺失對函式 {{name}} 所做的變更。確定要繼續嗎?</value>
+    <value>{{name}} işlevinde yaptığınız değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>新函式</value>
+    <value>Yeni İşlev</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>重新整理</value>
+    <value>Yenile</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>搜尋我的函式</value>
+    <value>İşlevlerimi ara</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>訂用帳戶</value>
+    <value>Abonelik</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>將遺失對目前函式所做的變更。確定要繼續嗎?</value>
+    <value>Geçerli işlevde yapılan değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>函數應用程式設定</value>
+    <value>İşlev uygulaması ayarları</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>有可用的 Azure Functions 新版本。請造訪函數應用程式設定進行升級。</value>
+    <value>Azure İşlevleri'nin yeni bir sürümü mevcut. Yükseltmek için İşlev Uygulaması Ayarları'nı ziyaret edin.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>快速入門</value>
+    <value>Hızlı başlangıç</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>使用方式</value>
+    <value>Kullanım</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>全部</value>
+    <value>Tümü</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>進階設定</value>
+    <value>Gelişmiş Ayarlar</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>讓用戶端能更輕鬆地使用您的 HTTP 觸發函式。</value>
+    <value>İstemcilerin HTTP ile tetiklenen işlevleri daha kolay kullanmasına izin verir.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>讓您的 HTTP 觸發函式可從網頁瀏覽器中呼叫。</value>
+    <value>HTTP ile tetiklenen işlevlerin bir web tarayıcısı içinden çağrılmasına izin verir.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API 定義</value>
+    <value>API tanımı</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>驗證/授權</value>
+    <value>Kimlik Doğrulaması/Yetkilendirme</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>持續整合</value>
+    <value>Sürekli Tümleştirme</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>設定驗證</value>
+    <value>Kimlik doğrulamasını yapılandır</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>設定 API 中繼資料</value>
+    <value>API meta verilerini yapılandır</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>設定持續整合</value>
+    <value>Sürekli tümleştirmeyi yapılandır</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>設定 CORS</value>
+    <value>CORS'yi yapılandır</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>從 GitHub、Visual Studio Team Services 等部署您的函式程式碼。</value>
+    <value>İşlev kodunuzu GitHub, Visual Studio Team Services ve diğer hizmetlerden dağıtın.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫。</value>
+    <value>HTTP tetikleme kullanan işlevler için çağrıların kimliğinin doğrulanmasını isteyebilirsiniz.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>函數應用程式設定</value>
+    <value>İşlev Uygulaması Ayarları</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>前往 App Service 設定</value>
+    <value>App Service Ayarlarına git</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>以管理任何其他 App Service 執行個體的方式來管理您的函數應用程式。</value>
+    <value>İşlev uygulamanızı diğer App Service örnekleri gibi yönetin.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>記憶體大小</value>
+    <value>Bellek Boyutu</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>執行階段版本: 最新的 ({{latestExtensionVersion}})</value>
+    <value>Çalışma zamanı sürümü: En Son ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
+    <value>Çalışma zamanı sürümü: {{extensionVersion}}. Daha yeni bir sürüm mevcut ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>應用程式執行</value>
+    <value>Uygulama yürütmeleri</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>應用程式使用量 (GB 秒)</value>
+    <value>Uygulama Kullanımı (Gb Sn)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>函數應用程式使用量</value>
+    <value>İşlev Uygulaması Kullanımı</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>沒有任何資料</value>
+    <value>Veri yok</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>可執行</value>
+    <value>yürütme</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>參數名稱</value>
+    <value>Parametre adı</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>關閉</value>
+    <value>Kapat</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>設定</value>
+    <value>Yapılandırma</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>建立</value>
+    <value>Oluştur</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>您似乎沒有函式容器。請選取訂用帳戶建立一個:</value>
+    <value>Bir işlev kapsayıcınız yok gibi görünüyor. Bir tane oluşturmak için bir abonelik seçin:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>您的試用版已到期</value>
+    <value>Deneme sürümünüzün süresi doldu</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>已停用</value>
+    <value>Devre Dışı</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>已啟用</value>
+    <value>Etkin</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>這裡</value>
+    <value>buraya</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>您可能遇到錯誤。若您遇到問題，請加以張貼</value>
+    <value>Bir hatayla karşılaşıyor olabilirsiniz. Sorun yaşıyorsanız lütfen gönderin</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>剖析設定時發生錯誤: {{error}}</value>
+    <value>Yapılandırma ayrıştırma hatası: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>功能</value>
+    <value>Özellikler</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>這是必要欄位</value>
+    <value>Bu alan gereklidir</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>程式碼</value>
+    <value>Kod</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>執行</value>
+    <value>Çalıştır</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。您可以在 function.json 中編輯這些設定。</value>
+    <value>Salt okunur - kaynak denetimiyle düzenlemeye başladığınız için bu görünüm salt okunur durumdadır. Bu ayarları function.json dosyasında düzenleyebilirsiniz</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>進階編輯器</value>
+    <value>Gelişmiş düzenleyici</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>將遺失所做的變更。確定要繼續嗎?</value>
+    <value>Değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>將遺失對函式 {{name}} 所做的變更。確定要繼續嗎?</value>
+    <value>{{name}} işlevinde yaptığınız değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>設定名稱:</value>
+    <value>Ayar adı:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>標準編輯器</value>
+    <value>Standart düzenleyici</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>確定要刪除函式 {{name}} 嗎?</value>
+    <value>{{name}} İşlevini silmek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Recent success count</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Recent errors count</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Invocation log</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Invocation details</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>live event stream</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>İşlev</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: Last ran</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duration)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parametre</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>函數應用程式已啟用驗證。請先停用驗證再執行函式。</value>
+    <value>İşlev uygulaması için kimlik doğrulama etkinleştirildi. İşlevi çalıştırmadan önce kimlik doğrulamasını devre dışı bırakın.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>執行函式 ({{name}}) 時發生錯誤。請檢查記錄輸出取得完整錯誤。</value>
+    <value>İşlev ({{name}}) çalıştırılırken hata oluştu. Hatanın tamamı için günlük çıktısını denetleyin.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>輸入</value>
+    <value>Giriş</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>記錄</value>
+    <value>Günlükler</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>新的輸入</value>
+    <value>Yeni Giriş</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>新的輸出</value>
+    <value>Yeni Çıkış</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>新的觸發程序</value>
+    <value>Yeni Tetikleyici</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>下一步</value>
+    <value>İleri</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>值無效</value>
+    <value>Geçerli değer yok</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>輸出</value>
+    <value>Çıkışlar</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>選取</value>
+    <value>Seç</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>開發</value>
+    <value>Geliştirme</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>整合</value>
+    <value>Tümleştir</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>管理</value>
+    <value>Yönet</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>監視</value>
+    <value>İzle</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>選擇輸入繫結</value>
+    <value>Bir giriş bağlaması seçin</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>選擇輸出繫結</value>
+    <value>Bir çıkış bağlaması seçin</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>選擇範本</value>
+    <value>Şablon seçin</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>選擇觸發程序</value>
+    <value>Tetikleyici seçin</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>語言:</value>
+    <value>Dil:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>案例:</value>
+    <value>Senaryo:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>觸發程序</value>
+    <value>Tetikleyiciler</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>試用版到期</value>
+    <value>Deneme süresi doldu</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>此處所做的變更會影響您函數應用程式中的所有函式。</value>
+    <value>Burada yapılan değişiklikler işlev uygulamanızın içindeki tüm işlevleri etkiler.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;建立全新函式&lt;/span&gt; - 開始使用其中一項預先建立的函式範本</value>
+    <value>&lt;span&gt;Yepyeni bir işlev oluşturun&lt;/span&gt; - Önceden oluşturulmuş işlev şablonlarından biriyle çalışmaya başlayın</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>開發</value>
+    <value>Geliştirme</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;深入了解文件&lt;/span&gt; - 在&lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;此處&lt;/a&gt;探索所有 Azure Functions 功能</value>
+    <value>&lt;span&gt;Belgeleri inceleyin&lt;/span&gt; - Azure İşlevleri'nin tüm özelliklerini &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;buradan keşfedin&lt;/a&gt;</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>函數應用程式設定</value>
+    <value>İşlev Uygulaması Ayarları</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>整合</value>
+    <value>Tümleştir</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>輕易即可整合您的函式與其他服務及資料來源。</value>
+    <value>İşlevlerinizin diğer hizmetler ve veri kaynaklarıyla tümleştirilmesi kolaydır.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>後續步驟</value>
+    <value>Sonraki Adımlar</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>根據外部的觸發程序設定自動化的動作、包含其他輸入資料來源，並將輸出傳送至多個目標。</value>
+    <value>Dış tetikleyicileri temel alan otomatik eylemler oluşturun, diğer giriş veri kaynaklarını dahil edin ve çıktıyı birden fazla hedefe gönderin.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>跳過導覽並開始撰寫程式碼</value>
+    <value>Turu atlayın ve kodlamaya başlayın</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>使用程式碼編輯器是編輯程式碼最快的方法，但您也可以使用 GIT。此範例使用 NodeJS，但許多其他語言也受支援。</value>
+    <value>Kod düzenlemenin en hızlı yöntemi kod düzenleyicisini kullanmaktır, ancak Git de kullanabilirsiniz. Bu örnekte NodeJS kullanılmaktadır, ancak diğer birçok dil de desteklenmektedir.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>此網頁也包含記錄資料流及測試主控台，可協助您為函式偵錯。</value>
+    <value>Bu sayfa ayrıca bir günlük akışı ve işlevinizin hatalarını ayıklamanıza yardımcı olan bir test konsolu içerir.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;扭轉此範例函式&lt;/span&gt; - 在容易使用的儀表板上加入自己的風格</value>
+    <value>&lt;span&gt;Bu örnek işlevde ince ayar yapın&lt;/span&gt; - Kullanımı kolay panoda kendinize göre özelleştirin</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>您的函式是設計用來在 Azure App Service 內作為函數應用程式執行，而此為讓您修改該應用程式的功能所在。</value>
+    <value>İşlevleriniz Azure App Service içinde bir işlev uygulaması olarak çalışacak şekilde tasarlanmıştır ve burası ilgili uygulamanın özelliklerini değiştirdiğiniz yerdir.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>更新</value>
+    <value>Güncelleştir</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>選取</value>
+    <value>seç</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>刪除</value>
+    <value>sil</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>遺漏參數 'direction'。</value>
+    <value>'Yön' parametresi eksik.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>未知的方向: '{{direction}}'。</value>
+    <value>Bilinmeyen yön: '{{direction}}'.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>參數名稱在函式中不得重複: '{{functionName}}'</value>
+    <value>Bir işlevde parametre adı benzersiz olmalıdır: '{{functionName}}'</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>遺漏參數 'name'。</value>
+    <value>'Ad' parametresi eksik.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>遺漏參數 'type'。</value>
+    <value>'Tür' parametresi eksik.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>未知的類型: '{{type}}'。</value>
+    <value>Bilinmeyen tür: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>正在等候資源</value>
+    <value>Kaynak bekleniyor</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>更新您的執行階段版本</value>
+    <value>Çalışma zamanı sürümü: {{extensionVersion}}. Daha yeni bir sürüm mevcut ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>我們很高興能主控您的函式!</value>
+    <value>İşlevlerinizi barındırmaktan keyif aldık!</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>您的試用版現已到期，但是您可以註冊延長的試用版，其也包含 Azure 的其餘部分。</value>
+    <value>Deneme sürümünüzün süresi doldu, ancak Azure'un diğer özelliklerini de içeren uzatılmış deneme sürümüne kaydolabilirsiniz.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>選擇驗證提供者</value>
+    <value>Bir kimlik doğrulama sağlayıcısı seçin</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Microsoft 帳戶</value>
+    <value>Microsoft Hesabı</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>建立免費的 Azure 帳戶</value>
+    <value>Ücretsiz Azure hesabı oluşturun</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>將試用版延長至 24 小時</value>
+    <value>Deneme süresini 24 saate uzatın</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>免費試用 - 剩餘的時間:</value>
+    <value>Ücretsiz Deneme - Kalan süre:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>函式建立錯誤! 請再試一次。</value>
+    <value>İşlev oluşturma hatası! Lütfen yeniden deneyin.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>建立函式發生錯誤</value>
+    <value>İşlev Oluşturma Hatası</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>若您偏好其他支援的語言，可於稍後在函式入口網站中選擇。</value>
+    <value>Desteklenen başka bir dili tercih ediyorsanız daha sonra işlevler portalından seçebilirsiniz.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> 分鐘</value>
+    <value> dakika </value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>新增</value>
+    <value>yeni</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>輸入繫結提供額外的資料，供您的函式在觸發時使用。例如，您可以在新佇列訊息上從表格儲存體擷取資料。輸入為選擇性。</value>
+    <value>Giriş bağlamaları, tetiklendiğinde işleviniz için ek veriler sağlar. Örneğin, yeni bir kuyruk iletisine tablo depolamasından veri getirebilirsiniz. Girişler isteğe bağlıdır.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>輸出繫結可讓您從函式輸出資料。例如，您可以將新的項目加入佇列中。輸出為選擇性。</value>
+    <value>Çıkış bağlamaları, işlevinizden veri çıkarmanızı sağlar. Örneğin, bir kuyruğa yeni öğe ekleyebilirsiniz. Çıktılar isteğe bağlıdır.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>觸發程序會啟動您的函式。例如，您可以在新的佇列訊息上進行觸發。您必須隨時具備觸發程序。</value>
+    <value>Tetikleyiciler, işlevinizi başlatır. Örneğin, yeni bir kuyruk iletisi üzerinde tetikleyebilirsiniz. Her zaman bir tetikleyiciniz olmalıdır.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>建立由此輸出所觸發的新函式</value>
+    <value>Bu çıktı tarafından tetiklenen yeni bir işlev oluşturun</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>文件</value>
+    <value>Belgeler</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>執行</value>
+    <value>Git</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>已複製!</value>
+    <value>Kopyalandı!</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>複製到剪貼簿</value>
+    <value>Panoya kopyala</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>將遺失對目前檔案所做的變更。確定要繼續嗎?</value>
+    <value>Geçerli dosyada yapılan değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>確定要刪除 {{fileName}} 嗎</value>
+    <value>{{fileName}} adlı dosyayı silmek istediğinizden emin misiniz?</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>不支援編輯二進位檔案。</value>
+    <value>İkili dosyaları düzenleme desteklenmiyor.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>建立檔案 {{fileName}} 時發生錯誤</value>
+    <value>{{fileName}} adlı dosyayı oluşturma hatası</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>刪除檔案 {{fileName}} 時發生錯誤</value>
+    <value>{{fileName}} adlı dosyayı silme hatası</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>應用程式設定</value>
+    <value>Uygulama ayarları</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>應用程式設定描述</value>
+    <value>Manage environment variables and connection strings for your function app</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>開發主控台</value>
+    <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>開發主控台描述</value>
+    <value>Dev konsolu tanımı</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu 描述</value>
+    <value>Access advanced functionality of App Service like uploading zips, killing processes, and more</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>設定應用程式設定</value>
+    <value>Configure app settings</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>開啟開發主控台</value>
+    <value>Dev konsolunu aç</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>前往 Kudu</value>
+    <value>Kudu'ya git</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>編輯程式碼最快速的方法為使用程式碼編輯器，但您也可以使用 GIT。此範例使用 C#，但許多其他語言也受支援。</value>
+    <value>Bir kodu düzenlemenin en hızlı yolu, kod düzenleyicisi kullanmaktadır, ancak Git de kullanabilirsiniz. Bu örnekte C# kullanılmıştır, ancak çok sayıda başka dil de desteklenmektedir.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Eylemler</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Less than 1 minute</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
   </data>
 </root>

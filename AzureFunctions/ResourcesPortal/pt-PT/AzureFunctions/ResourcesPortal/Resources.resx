@@ -362,13 +362,13 @@
     <value>Integração Contínua</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>Configurar Autenticação</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
     <value>Configurar metadados da API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>Configurar Integração Contínua</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
     <value>Configurar CORS</value>
@@ -480,6 +480,39 @@
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Tem a certeza de que quer eliminar a Função {{name}}?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Recent success count</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Recent errors count</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Invocation log</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Invocation details</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Saída</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>live event stream</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Função</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Details: Last ran</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duration)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parameter</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
     <value>A autenticação está ativada para a aplicação de funções. Desative a autenticação antes de executar a função.</value>
@@ -623,10 +656,10 @@
     <value>A aguardar pelo recurso</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Atualizar a versão de runtime</value>
+    <value>Versão de runtime: {{extensionVersion}}. Está disponível uma versão mais recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Versão de runtime: mais recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>Gostámos de alojar as suas funções!</value>
@@ -707,30 +740,42 @@
     <value>Definições da aplicação</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Gerir variáveis de ambiente e cadeias de ligação para a aplicação de funções</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>Consola do portal para aceder ao sistema de ficheiros da aplicação de funções</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>Descrição da consola do dispositivo</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Acesso às funcionalidades avançadas do Serviço de Aplicações como, por exemplo, carregamento de zips, cancelamento de processos e muito mais</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>Configure app settings</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>Abrir consola do dispositivo</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>Ir para Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>A forma mais rápida para editar o código é com o editor de código, mas também pode utilizar o Git.Este exemplo utiliza C#, mas também são suportados muitos outros idiomas.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Less than 1 minute</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
   </data>
 </root>

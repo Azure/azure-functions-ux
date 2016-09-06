@@ -121,616 +121,661 @@
     <value>Azure Functions</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Anuluj</value>
+    <value>Cancelar</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>Konfiguruj</value>
+    <value>Configurar</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>Błąd tworzenia funkcji: {{error}}</value>
+    <value>Erro na Criação da Função: {{error}}</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>Błąd tworzenia funkcji. Spróbuj ponownie.</value>
+    <value>Erro na criação da função! Tente novamente.</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>Błąd funkcji: {{error}}</value>
+    <value>Erro de Função: {{error}}</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>Błąd funkcji (${{name}}): {{error}}</value>
+    <value>Função (${{name}}) Erro: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Adres URL funkcji:</value>
+    <value>URL da função:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Klucz tajny usługi Github:</value>
+    <value>Segredo do GitHub:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>Ukryj pliki</value>
+    <value>Ocultar arquivos</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>Błąd hosta: {{error}}</value>
+    <value>Erro de Host: {{error}}</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>Dane wyjściowe</value>
+    <value>Saída</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>Treść żądania</value>
+    <value>Solicitar corpo</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>Zapisz i uruchom</value>
+    <value>Salvar e executar</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>Stan:</value>
+    <value>Status:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Wyświetl pliki</value>
+    <value>Exibir arquivos</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Wybierz szablon</value>
+    <value>Escolha um modelo</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>To jest szablon eksperymentalny, który nie jest jeszcze w pełni obsługiwany. Jeśli napotkasz problemy, zgłoś usterkę w naszym &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repozytorium GitHub&lt;/a&gt;.</value>
+    <value>Este modelo é experimental e ainda não tem suporte completo. Se tiver problemas, registre um bug no nosso &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositório GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>Nazwa funkcji</value>
+    <value>Nome da função</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>Nazwa funkcji jest wymagana</value>
+    <value>Um nome de função é obrigatório</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>Nadaj nazwę funkcji</value>
+    <value>Nomeie sua função</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>Utwórz i rozpocznij</value>
+    <value>Criar + introdução</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>Aplikacje funkcji</value>
+    <value>Aplicativos de Funções</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>Wprowadzenie do usługi Azure Functions</value>
+    <value>Introdução ao Azure Functions</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>Nowa aplikacja funkcji</value>
+    <value>Novo aplicativo de funções</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>Twoja subskrypcja nie zawiera żadnych aplikacji funkcji. Są to kontenery, w ramach których są wykonywane funkcje. Utwórz aplikację teraz.</value>
+    <value>Sua assinatura não contém nenhum aplicativo de funções, que são contêineres nos quais suas funções são executadas. Crie um agora.</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>Lub utwórz aplikację funkcji w usłudze &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;.</value>
+    <value>Ou crie um aplicativo de funções no &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Portal do Azure&lt;/a&gt;.</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>Wybierz lokalizację</value>
+    <value>Selecionar Localização</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>Wybierz subskrypcję</value>
+    <value>Selecionar Assinatura</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>Uruchamianie funkcji nie jest dozwolone w ramach subskrypcji {{displayName}} ({{ subscriptionId }})</value>
+    <value>A assinatura {{displayName}} ({{ subscriptionId }}) não está na lista branca para as funções em execução</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>Ta subskrypcja zawiera co najmniej jedną aplikację funkcji. Są to kontenery, w ramach których są wykonywane funkcje. Wybierz aplikację lub utwórz nową teraz.</value>
+    <value>Esta assinatura contém um ou mais aplicativos de funções, que são contêineres nos quais suas funções são executadas. Selecione um ou crie um novo abaixo.</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>Nazwa musi mieć co najmniej 2 znaki</value>
+    <value>O nome deve ter pelo menos 2 caracteres</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>Nazwa może mieć co najwyżej 60 znaków</value>
+    <value>O nome deve ter no máximo 60 caracteres</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>Nazwa może zawierać litery, cyfry i łączniki (lecz pierwszym i ostatnim znakiem musi być litera lub cyfra)</value>
+    <value>O nome pode conter letras, números e hífens (mas o primeiro e o último caracteres devem ser uma letra ou um número)</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>nazwa aplikacji funkcji {{funcName}} jest niedostępna</value>
+    <value>o nome do aplicativo de funções {{funcName}} não está disponível</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>Musisz mieć subskrypcję platformy Azure, aby użyć tej usługi. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Kliknij tutaj&lt;/a&gt;, aby utworzyć bezpłatną subskrypcję próbną.</value>
+    <value>Você precisa de uma assinatura do Azure para usar este serviço. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Clique aqui&lt;/a&gt; para criar uma assinatura de avaliação gratuita</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>Twoje aplikacje funkcji</value>
+    <value>Seus aplicativos de funções</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>Twoja subskrypcja</value>
+    <value>Sua assinatura</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Wybierz język:</value>
+    <value>2) Escolha uma linguagem:</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Wybierz scenariusz:</value>
+    <value>1) Escolha um cenário:</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>Utwórz tę funkcję</value>
+    <value>Crie esta função</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Lub utwórz własną funkcję niestandardową</value>
+    <value>Ou crie sua própria função personalizada</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>Przetwarzanie danych</value>
+    <value>Processamento de dados</value>
   </data>
   <data name="intro_fasterWay" xml:space="preserve">
-    <value>Szybszy sposób korzystania z funkcji</value>
+    <value>A maneira mais rápida para as funções</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Szybko rozpocznij pracę przy użyciu gotowej funkcji</value>
+    <value>Comece rapidamente com uma função preexistente</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Lub rozpocznij pracę samodzielnie</value>
+    <value>Ou comece por conta própria</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Jeśli wolisz inny obsługiwany język, wybierz pozycję „Utwórz funkcję od podstaw”.</value>
+    <value>Se você preferir outra linguagem com suporte, escolha "Criar uma função do zero".</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>rozpocznij od kontroli źródła.</value>
+    <value>iniciar do controle do código-fonte.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>Czasomierz</value>
+    <value>Temporizador</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>Element webhook i interfejs API</value>
+    <value>Webhook + API</value>
   </data>
   <data name="intro_writeAny" xml:space="preserve">
-    <value>Napisz dowolną funkcję w ciągu kilku minut — aby uruchomić proste zadanie czyszczenia bazy danych lub utworzyć bardziej złożoną architekturę. Tworzenie funkcji jest łatwiejsze niż kiedykolwiek przedtem niezależnie od wybranej platformy systemu operacyjnego lub metody opracowywania. Instalowanie nie jest wymagane.</value>
+    <value>Grave qualquer função em minutos — seja para executar um trabalho simples para limpar um banco de dados, seja para compilar uma arquitetura mais complexa. Criar funções está mais fácil do que nunca, independentemente do sistema operacional, da plataforma ou do método de desenvolvimento escolhido. Nenhuma instalação é necessária.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>Wyczyść</value>
+    <value>Limpar</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>Skopiowano</value>
+    <value>Copiado!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Kopiuj dzienniki</value>
+    <value>Copiar Logs</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>Wstrzymaj</value>
+    <value>Pausar</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>Uruchom</value>
+    <value>Iniciar</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>Za dużo dzienników. Częstotliwość odświeżania: {{seconds}} s.</value>
+    <value>Há muitos logs. Taxa de atualização: {{seconds}} segundos.</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>Nazwa</value>
+    <value>Nome</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Otwórz</value>
+    <value>Abrir</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>lub</value>
+    <value>ou</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>Tylko do odczytu — ponieważ rozpoczęto edytowanie za pomocą kontroli źródła, ten widok jest tylko do odczytu.</value>
+    <value>Somente leitura — uma vez que você iniciou a edição com o controle do código-fonte, este modo de exibição é somente leitura.</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>Region</value>
+    <value>Região</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>Uruchom</value>
+    <value>Executar</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Zapisz</value>
+    <value>Salvar</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>Zmiany wprowadzone w funkcji {{name}} zostaną utracone. Czy na pewno chcesz kontynuować?</value>
+    <value>As alterações feitas na função {{name}} serão perdidas. Tem certeza de que deseja continuar?</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>Nowa funkcja</value>
+    <value>Nova Função</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>Odśwież</value>
+    <value>Atualizar</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Wyszukaj moje funkcje</value>
+    <value>Pesquisar minhas funções</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>Subskrypcja</value>
+    <value>Assinatura</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>Zmiany wprowadzone w bieżącej funkcji zostaną utracone. Czy na pewno chcesz kontynuować?</value>
+    <value>As alterações feitas na função atual serão perdidas. Tem certeza de que deseja continuar?</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>Ustawienia aplikacji funkcji</value>
+    <value>Configurações do aplicativo de funções</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Jest dostępna nowa wersja usługi Azure Functions. Odwiedź stronę ustawień aplikacji funkcji, aby wykonać uaktualnienie.</value>
+    <value>Uma nova versão do Azure Functions está disponível. Visite as Configurações do Aplicativo de Funções para atualizar.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>Szybki start</value>
+    <value>Início rápido</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>Użycie</value>
+    <value>Uso</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>Wszystkie</value>
+    <value>Todos</value>
   </data>
   <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Ustawienia zaawansowane</value>
+    <value>Configurações Avançadas</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Zezwalaj klientom na łatwiejsze używanie funkcji wyzwalanych przez protokół HTTP.</value>
+    <value>Permita que os clientes consumam suas funções disparadas por HTTP mais facilmente.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Zezwalaj na wywoływanie funkcji wyzwalanych przez protokół HTTP z przeglądarki sieci Web.</value>
+    <value>Permita que suas funções disparadas por HTTP sejam chamadas de um navegador da Web.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>Definicja interfejsu API</value>
+    <value>Definição de API</value>
   </data>
   <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Uwierzytelnianie/Autoryzacja</value>
+    <value>Autenticação/Autorização</value>
   </data>
   <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Ciągła integracja</value>
+    <value>Integração Contínua</value>
   </data>
   <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
+    <value>Configurar autenticação</value>
   </data>
   <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Konfiguruj metadane interfejsu API</value>
+    <value>Configurar metadados de API</value>
   </data>
   <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
+    <value>Configurar integração contínua</value>
   </data>
   <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Konfiguruj mechanizm CORS</value>
+    <value>Configurar CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Wdrażaj kod funkcji z usług GitHub, Visual Studio Team Services i innych.</value>
+    <value>Implante seu código de função do GitHub, do Visual Studio Team Services e muito mais.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>W przypadku funkcji używających wyzwalacza protokołu HTTP możesz wymagać uwierzytelniania wywołań.</value>
+    <value>Para funções que usam o gatilho HTTP, você pode exigir que as chamadas sejam autenticadas.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Ustawienia aplikacji funkcji</value>
+    <value>Configurações do Aplicativo de Funções</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Przejdź do ustawień usługi App Service</value>
+    <value>Acesse as Configurações do Serviço de Aplicativo</value>
   </data>
   <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Zarządzaj aplikacją funkcji tak jak każdym innym wystąpieniem usługi App Service.</value>
+    <value>Gerencie seu aplicativo de funções como qualquer outra instância do Serviço de Aplicativo.</value>
   </data>
   <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Rozmiar pamięci</value>
+    <value>Tamanho da Memória</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Wersja środowiska uruchomieniowego: najnowsza ({{latestExtensionVersion}})</value>
+    <value>Versão de tempo de execução: mais recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Wersja środowiska uruchomieniowego: {{extensionVersion}}. Jest dostępna nowsza wersja ({{latestExtensionVersion}}).</value>
+    <value>Versão de tempo de execução: {{extensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>Wykonania aplikacji</value>
+    <value>Execuções do aplicativo</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>Użycie aplikacji (Gb/s)</value>
+    <value>Uso do Aplicativo (GB/s)</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>Użycie aplikacji funkcji</value>
+    <value>Uso do Aplicativo de Funções</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Nie ma danych</value>
+    <value>Não há Dados</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>wykonań</value>
+    <value>das execuções</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>Nazwa parametru</value>
+    <value>Nome do parâmetro</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>Zamknij</value>
+    <value>Fechar</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>Konfiguracja</value>
+    <value>Config</value>
   </data>
   <data name="cors" xml:space="preserve">
     <value>CORS</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>Utwórz</value>
+    <value>Criar</value>
   </data>
   <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Prawdopodobnie nie masz kontenera funkcji. Wybierz subskrypcję, aby go utworzyć:</value>
+    <value>Parece que você não tem um contêiner de funções. Selecione uma assinatura para criar um:</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>Ważność Twojej wersji próbnej wygasła</value>
+    <value>Sua avaliação expirou</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>Wyłączono</value>
+    <value>Desabilitado</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>Włączono</value>
+    <value>Habilitada</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>tutaj</value>
+    <value>aqui</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>Mógł wystąpić błąd. Jeśli masz problemy, opublikuj je</value>
+    <value>Possibilidade de erro. Se estiver com problemas, poste-os</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>Błąd analizowania konfiguracji: {{error}}</value>
+    <value>Erro de configuração de análise: {{error}}</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>Funkcje</value>
+    <value>Recursos</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>To pole jest wymagane</value>
+    <value>Este campo é obrigatório</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>Kod</value>
+    <value>Código</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>Uruchom</value>
+    <value>Executar</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Tylko do odczytu — ponieważ rozpoczęto edytowanie za pomocą funkcji kontroli źródła, ten widok jest tylko do odczytu. Możesz edytować ustawienia w pliku function.json.</value>
+    <value>Somente leitura — uma vez que você iniciou a edição com o controle do código-fonte, este modo de exibição é somente leitura. Você pode editar estas configurações em function.json</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>Edytor zaawansowany</value>
+    <value>Editor avançado</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>Wprowadzone zmiany zostaną utracone. Czy na pewno chcesz kontynuować?</value>
+    <value>As alterações feitas serão perdidas. Tem certeza de que deseja continuar?</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>Zmiany wprowadzone w funkcji {{name}} zostaną utracone. Czy na pewno chcesz kontynuować?</value>
+    <value>As alterações feitas na função {{name}} serão perdidas. Tem certeza de que deseja continuar?</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>Nazwa ustawienia:</value>
+    <value>Nome da configuração:</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>Edytor standardowy</value>
+    <value>Editor padrão</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć funkcję {{name}}?</value>
+    <value>Tem certeza de que deseja excluir a Função {{name}}?</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Contagem de sucesso recente</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Contagem dos erros recentes</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Log de invocação</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Detalhes da invocação</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Saída</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>transmissão de evento ao vivo</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Função</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Detalhes: executado pela última vez</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(duração)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Parâmetro</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>Uwierzytelnianie jest włączone dla aplikacji funkcji. Wyłącz uwierzytelnianie przed uruchomieniem funkcji.</value>
+    <value>A autenticação está habilitada para o aplicativo de funções. Desabilite a autenticação antes de executar a função.</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>Wystąpił błąd podczas uruchamiania funkcji ({{name}}). Pełny komunikat o błędzie zawierają dane wyjściowe dzienników.</value>
+    <value>Houve um erro ao executar a função ({{name}}). Verifique a saída dos logs para obter o erro completo.</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>Dane wejściowe</value>
+    <value>Entradas</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>Dzienniki</value>
+    <value>Logs</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>Nowe dane wejściowe</value>
+    <value>Nova Entrada</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>Nowe dane wyjściowe</value>
+    <value>Nova Saída</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>Nowy wyzwalacz</value>
+    <value>Novo Gatilho</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>Dalej</value>
+    <value>Avançar</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>Nieprawidłowa wartość</value>
+    <value>Valor inválido</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>Dane wyjściowe</value>
+    <value>Saídas</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Wybierz</value>
+    <value>Selecionar</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>Opracowuj</value>
+    <value>Desenvolver</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>Integruj</value>
+    <value>Integrar</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>Zarządzaj</value>
+    <value>Gerenciar</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>Monitoruj</value>
+    <value>Monitor</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>Wybierz powiązanie danych wejściowych</value>
+    <value>Escolher uma associação de entrada</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>Wybierz powiązanie danych wyjściowych</value>
+    <value>Escolher uma associação de saída</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>Wybierz szablon</value>
+    <value>Escolha um modelo</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>Wybierz wyzwalacz</value>
+    <value>Escolha um gatilho</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>Język:</value>
+    <value>Idioma:</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>Scenariusz:</value>
+    <value>Cenário:</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>Wyzwalacze</value>
+    <value>Gatilhos</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>Wersja próbna wygasła</value>
+    <value>Avaliação expirada</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>Zmiany wprowadzone w tym miejscu wpłyną na wszystkie funkcje w ramach aplikacji funkcji.</value>
+    <value>As alterações feitas aqui afetarão todas as funções no seu aplicativo de funções.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Utwórz całkiem nową funkcję&lt;/span&gt; — rozpocznij od jednego ze wstępnie utworzonych szablonów funkcji</value>
+    <value>&lt;span&gt;Crie uma função totalmente nova&lt;/span&gt; — comece com um dos modelos de função predefinidos</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>Opracowuj</value>
+    <value>Desenvolver</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>&lt;span&gt;Zapoznaj się z dokumentacją&lt;/span&gt; — eksploruj wszystkie funkcje usługi Azure Functions &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;tutaj&lt;/a&gt;</value>
+    <value>&lt;span&gt;Estude a documentação&lt;/span&gt; — explore todos os recursos do Azure Functions &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;aqui&lt;/a&gt;</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>Ustawienia aplikacji funkcji</value>
+    <value>Configurações do Aplicativo de Funções</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>Integruj</value>
+    <value>Integrar</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>Integrowanie funkcji z innymi usługami i źródłami danych jest łatwe.</value>
+    <value>É fácil integrar suas funções a outros serviços e fontes de dados.</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>Następne kroki</value>
+    <value>Próximas Etapas</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>Skonfiguruj automatyczne akcje na podstawie zewnętrznych wyzwalaczy, dołącz inne wejściowe źródła danych i wyślij dane wyjściowe do wielu celów.</value>
+    <value>Configurar ações automáticas com base em gatilhos externos, incluir outras fontes de dados de entrada e enviar a saída para vários destinos.</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>Pomiń przewodnik i rozpocznij kodowanie</value>
+    <value>Ignorar o tour e iniciar a codificação</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>Najszybszym sposobem edytowania kodu jest edytor kodu, lecz możesz użyć także usługi Git. W tym przykładzie użyto oprogramowania NodeJS, lecz wiele innych języków jest także obsługiwanych.</value>
+    <value>A maneira mais rápida de editar códigos com o editor de código, mas você também pode usar o Git. Este exemplo usa NodeJS, mas muitas outras linguagens também têm suporte.</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>Ta strona zawiera także strumień dziennika i konsolę testową, które ułatwiają debugowanie funkcji.</value>
+    <value>Esta página também inclui um fluxo de log e um console de testes para ajudar você a depurar a sua função.</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>&lt;span&gt;Dostosuj tę przykładową funkcję&lt;/span&gt; — zmodyfikuj ją pod kątem własnych potrzeb na łatwym w użyciu pulpicie nawigacyjnym</value>
+    <value>&lt;span&gt;Ajuste esta função de exemplo&lt;/span&gt; — personalize-a no painel fácil de usar</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>Twoje funkcje są zaprojektowane do działania w ramach usługi Azure App Service jako aplikacja funkcji i tam modyfikuje się funkcje aplikacji.</value>
+    <value>As funções são projetadas para serem executadas em um Serviço de Aplicativo do Azure como um aplicativo de funções, no qual você pode modificar os recursos do aplicativo.</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Aktualizuj</value>
+    <value>Atualizar</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>wybierz</value>
+    <value>selecionar</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>usuń</value>
+    <value>excluir</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>Brakuje parametru „direction”.</value>
+    <value>A 'direção' do parâmetro está ausente.</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>Nieznany kierunek: „{{direction}}”.</value>
+    <value>Direção desconhecida: '{{direction}}'.</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>Nazwa parametru musi być unikatowa w funkcji „{{functionName}}”</value>
+    <value>O nome do parâmetro deve ser exclusivo em uma função: '{{functionName}}'</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>Brakuje parametru „name”.</value>
+    <value>O 'nome' do parâmetro está ausente.</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>Brakuje parametru „type”.</value>
+    <value>O 'tipo' de parâmetro está ausente.</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>Nieznany typ „{{type}}”.</value>
+    <value>Tipo desconhecido: '{{type}}'.</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>Oczekiwanie na zasób</value>
+    <value>Crie ou selecione um recurso</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Aktualizuj wersję środowiska uruchomieniowego</value>
+    <value>Versão de tempo de execução: {{extensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Your runtime version is  up to-date</value>
+    <value>Versão de tempo de execução: mais recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>Hostowanie Twoich funkcji było przyjemnością</value>
+    <value>Foi um prazer hospedar suas funções!</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>Twoja wersja próbna wygasła, lecz możesz utworzyć konto w ramach rozszerzonej wersji próbnej, która obejmuje także pozostałą część platformy Azure.</value>
+    <value>A avaliação expirou, mas você pode se inscrever para obter uma avaliação estendida que também inclui o restante do Azure.</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>Wybierz dostawcę uwierzytelniania</value>
+    <value>Escolher um provedor de autenticação</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>Konto Microsoft</value>
+    <value>Conta da Microsoft</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>Utwórz bezpłatne konto Azure</value>
+    <value>Criar uma conta gratuita do Azure</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>Rozszerz wersję próbną do 24 godzin</value>
+    <value>Estender avaliação por 24 horas</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>Bezpłatna wersja próbna — pozostały czas:</value>
+    <value>Avaliação Gratuita - Tempo restante:</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>Błąd tworzenia funkcji. Spróbuj ponownie.</value>
+    <value>Erro na criação da função! Tente novamente.</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>Błąd tworzenia funkcji</value>
+    <value>Erro na Criação da Função</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>Jeśli wolisz inny obsługiwany język, możesz go wybrać później w portalu funkcji.</value>
+    <value>Se preferir outra linguagem com suporte, você poderá escolher uma mais tarde no portal de funções.</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value> min</value>
+    <value> minutos</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>nowy</value>
+    <value>novo</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>Powiązania danych wejściowych udostępniają dodatkowe dane funkcji po jej wyzwoleniu. Na przykład możesz pobrać dane z magazynu tabel w przypadku pojawienia się nowego komunikatu w kolejce. Dane wejściowe są opcjonalne.</value>
+    <value>Associações de entrada fornecem dados adicionais fornecidos à sua função quando acionada. Por exemplo, você pode obter dados no armazenamento de tabelas em uma nova mensagem de fila. Entradas são opcionais.</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>Powiązania danych wyjściowych umożliwiają wyprowadzanie danych z funkcji. Na przykład możesz dodać nowy element do kolejki. Dane wyjściowe są opcjonalne.</value>
+    <value>Associações de saídas permitem que você transfira dados de sua função. Por exemplo, você pode adicionar um novo item a uma fila. Saídas são opcionais.</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>Wyzwalacze to elementy uruchamiające funkcję. Na przykład wyzwolenie może mieć miejsce w przypadku pojawienia się nowego komunikatu w kolejce. Funkcja zawsze musi mieć wyzwalacz.</value>
+    <value>Gatilhos são o que iniciarão sua função. Por exemplo, você pode disparar em uma nova mensagem na fila. Você deve sempre ter um gatilho.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Utwórz nową funkcję wyzwalaną przez te dane wyjściowe</value>
+    <value>Criar uma nova função disparada por essa saída</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>Dokumentacja</value>
+    <value>Documentação</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>Przejdź</value>
+    <value>Ir</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>Skopiowano</value>
+    <value>Copiado!</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>Kopiuj do schowka</value>
+    <value>Copiar para área de transferência</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>Zmiany wprowadzone w bieżącym pliku zostaną utracone. Czy na pewno chcesz kontynuować?</value>
+    <value>Mudanças feitas ao arquivo atual serão perdidas. Tem certeza que deseja continuar?</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć plik {{fileName}}?</value>
+    <value>Tem certeza que deseja excluir o {{fileName}}</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>Edytowanie plików binarnych nie jest obsługiwane.</value>
+    <value>Editar arquivos binários não tem suporte.</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>Błąd podczas tworzenia pliku: {{fileName}}</value>
+    <value>Erro ao criar o arquivo: {{fileName}}</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>Błąd podczas usuwania pliku: {{fileName}}</value>
+    <value>Erro ao excluir o arquivo: {{fileName}}</value>
   </data>
   <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Ustawienia aplikacji</value>
+    <value>Configurações do aplicativo</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Application settings description</value>
+    <value>Gerenciar variáveis de ambiente e cadeia de conexão para seu aplicativo de função</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev console</value>
+    <value>Console no portal para acessar seu sistema de arquivos do aplicativo de função</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>Descrição do console de desenvolvimento</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Kudu description</value>
+    <value>Acesse funcionalidades avançadas do Serviço de Aplicativo como atualizar zips, eliminar processos e mais</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app aettings</value>
+    <value>Definir configurações do aplicativo</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
+    <value>Abrir console de desenvolvimento</value>
   </data>
   <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
+    <value>Ir para Kudu</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
+    <value>A maneira mais rápida de editar o código é com o editor de código, mas é possível também usar o Git. Esse exemplo usa C#, mas muitas outras linguagens tem suporte.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Menos de 1 minuto</value>
+  </data>
+  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
+    <value>Não está disponível durante a avaliação gratuita! Crie uma conta do Azure gratuita ao clicar no link acima</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Inscrever-se para uma conta do Azure gratuita desbloqueia todos os recursos de funções sem se preocupar com os limites de tempo!</value>
   </data>
 </root>
