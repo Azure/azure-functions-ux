@@ -103,6 +103,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f) => ({ secrets: s, functionInfo: f}))
             })
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
+                this.secrets = res.secrets;
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
