@@ -68,7 +68,7 @@ namespace AzureFunctions.Controllers
                         sdkFolder = name + "-" + name;
                     }
                     portalFolder = Path.Combine(portalFolder, "AzureFunctions\\ResourcesPortal");
-                    sdkFolder = Path.Combine(portalFolder, "Resources");
+                    sdkFolder = Path.Combine(sdkFolder, "Resources");
                 } else
                 {
                     portalFolder = name;
@@ -79,8 +79,8 @@ namespace AzureFunctions.Controllers
             var result = new JObject();
             if (!string.IsNullOrEmpty(portalFolder) && !string.IsNullOrEmpty(sdkFolder))
             {
-                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), sdkFolder + "\\Resources.resx"));
-                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources" + portalFolder + "\\Resources.resx"));
+                resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), portalFolder + "\\Resources.resx"));
+                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\" + sdkFolder + "\\Resources.resx"));
                 result["lang"] = ConvertResxToJObject(resxFiles);
                 resxFiles.Clear();
             }
