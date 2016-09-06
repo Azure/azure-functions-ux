@@ -3,7 +3,7 @@
         <div *ngIf="showFunctionInvokeUrl"><label>{{ 'functionDev_functionUrl' | translate }}</label></div>
         <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
         <div *ngIf="webHookType === 'github'"><label>{{ 'functionDev_githubSelect' | translate }}</label></div>
-        <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key"></copy-pre></div>
+        <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || _functionsService?.HostSecrets?.functionKey"></copy-pre></div>
     </div>
 
     <div>
