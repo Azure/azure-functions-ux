@@ -1,4 +1,4 @@
-// Downloaded from https://npmcdn.com/angular2@2.0.0-beta.17/es6/dev/src/testing/shims_for_IE.js
+// Downloaded from https://unpkg.com/angular2@2.0.0-beta.17/es6/dev/src/testing/shims_for_IE.js
 // function.name (all IE)
 /*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
 if (!Object.hasOwnProperty('name')) {
