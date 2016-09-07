@@ -579,16 +579,26 @@ export class FunctionsService {
         }
         return headers;
     }
+
     private localize(objectTolocalize: any) {
         if ((typeof value === "string") && (value.startsWith("$"))) {
             objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
         }
 
         for (var property in objectTolocalize) {
+
+            if (property === "files" || property === "defaultValue") {
+                continue;
+            }
+
             if (objectTolocalize.hasOwnProperty(property)) {
                 var value = objectTolocalize[property];
                 if ((typeof value === "string") && (value.startsWith("$"))) {
-                    objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
+                    var key = value.substring(1, value.length);
+                    var locString = this._translateService.instant(key));
+                    if (locString !== key) {
+                        objectTolocalize[property] = locString;
+                    }
                 }
                 if (typeof value === "array") {
                     for (var i = 0; i < value.length; i++) {
