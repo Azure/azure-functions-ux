@@ -595,7 +595,7 @@ export class FunctionsService {
                 var value = objectTolocalize[property];
                 if ((typeof value === "string") && (value.startsWith("$"))) {
                     var key = value.substring(1, value.length);
-                    var locString = this._translateService.instant(key));
+                    var locString = this._translateService.instant(key);
                     if (locString !== key) {
                         objectTolocalize[property] = locString;
                     }
