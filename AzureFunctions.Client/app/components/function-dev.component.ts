@@ -39,6 +39,7 @@ import {AiService} from '../services/ai.service';
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
+    @ViewChild(LogStreamingComponent) logStreaming: LogStreamingComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
     @ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
     @Input() selectedFunction: FunctionInfo;
@@ -103,7 +104,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f) => ({ secrets: s, functionInfo: f}))
             })
             .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
-                this.secrets = res.secrets;
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
@@ -141,6 +141,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     this.isHttpFunction = false;
                 }
+                this.createSecretIfNeeded(res.functionInfo, res.secrets);
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -149,10 +150,31 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
          });
     }
 
+    private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
+         if (!secrets.key) {
+             if (this.isHttpFunction) {
+                 //http://stackoverflow.com/a/8084248/3234163
+                 let secret = '';
+                 do {
+                     secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                 } while (secret.length < 32 || secret.length > 128);
+                 this._functionsService.setSecrets(fi, { key: secret })
+                     .subscribe(r => this.secrets = r);
+             } else {
+                 this.secrets = secrets;
+             }
+         } else {
+             this.secrets = secrets;
+         }
+     }
+
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         this.functionSelectStream.unsubscribe();
+        if (this.logStreaming) {
+            this.logStreaming.ngOnDestroy();
+        }
     }
 
     ngAfterContentInit() {

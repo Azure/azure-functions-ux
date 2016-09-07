@@ -56,6 +56,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         }
         if (this.tokenSubscription) {
             this.tokenSubscription.unsubscribe();
+            delete this.tokenSubscription;
         }
     }
 
@@ -100,10 +101,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
         this.xhReq = new XMLHttpRequest();
         this.xhReq.open('GET', `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`, true);
-        if (this._globalStateService.ScmCreds)
+        if (this._globalStateService.ScmCreds) {
             this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
-        else
+        } else {
             this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
+        }
         this.xhReq.setRequestHeader('FunctionsPortal', '1');
         this.xhReq.send(null);
         let oldLogs = '';
