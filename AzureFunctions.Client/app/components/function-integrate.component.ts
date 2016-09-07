@@ -44,6 +44,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this._selectedFunction = value;
         this.configContent = JSON.stringify(value.config, undefined, 2);
         this._originalContent = this.configContent;
+
+        try {
+            this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
+        } catch (e) {
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });                        
+        }
     }
 
     contentChanged(content: string) {
