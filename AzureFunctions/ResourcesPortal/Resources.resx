@@ -746,7 +746,7 @@
     <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>

@@ -223,7 +223,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dev console description.
+        ///   Looks up a localized string similar to In-portal console for accessing your function app’s file system.
         /// </summary>
         internal static string appFunctionSettings_devConsoleDesc {
             get {
