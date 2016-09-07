@@ -119,6 +119,8 @@ export class PortalService {
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
+        } else if (methodName === Verbs.sendToken) {
+            this._userService.setToken(data);
         }
     }
 
