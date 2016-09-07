@@ -43,6 +43,7 @@ export class Verbs{
     public static sendStartupInfo = "send-startup-info";
     public static sendResourceId = "send-resourceId";
     public static sendAppSettingName = "send-appSettingName";
+    public static sendToken = "send-token";		
 }
 
 export enum LogEntryLevel {
