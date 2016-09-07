@@ -32,7 +32,6 @@ export class TryLandingComponent implements OnInit {
     loginOptions: boolean = false;
     selectedFunction: string;
     selectedLanguage: string;
-    private isBusyState: boolean;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
@@ -195,14 +194,12 @@ export class TryLandingComponent implements OnInit {
 
     setBusyState() {
         if (this.busyState) {
-            this.isBusyState = true;
             this.busyState.setBusyState();
         }
     }
 
     clearBusyState() {
         if (this.busyState) {
-            this.isBusyState = false;
             this.busyState.clearBusyState();
         }
     }

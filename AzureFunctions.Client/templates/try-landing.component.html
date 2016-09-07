@@ -10,7 +10,7 @@
             </p>
         </div>
     </div>
-    <div [ngClass]="isBusyState? 'trylanding-body-disabled' : 'trylanding-body'">
+    <div [ngClass]="busyState?.busy? 'trylanding-body-disabled' : 'trylanding-body'">
         <h2>{{ 'intro_getStarted' | translate }}</h2>
         <h3>{{ 'intro_chooseScenario' | translate }}</h3>
         <div>

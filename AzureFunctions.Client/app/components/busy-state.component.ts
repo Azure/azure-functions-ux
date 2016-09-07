@@ -8,7 +8,7 @@ import {TryNowBusyStateComponent} from './try-now-busy-state.component';
     directives: [TryNowBusyStateComponent]
 })
 export class BusyStateComponent implements OnInit {
-    private busy: boolean = false;
+    public busy: boolean = false;
     @Input() name: string;
     isGlobal: boolean = false;
     @Input() message: string;
