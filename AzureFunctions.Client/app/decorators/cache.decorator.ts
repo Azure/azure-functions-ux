@@ -10,11 +10,11 @@ let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?
  *
  * If there are no args passed to the function, then the function name is the key.
  */
-export function Cache(propertyKey?: string) {
+export function Cache(propertyKey?: string, arg?: number) {
     return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
-            let key = getCacheKey(functionName, propertyKey, args);
+            let key = getCacheKey(functionName, propertyKey, args, arg || 0);
             let cache = cachedData[key];
             if (cache && cache.data) {
                 return Observable.of(cache.data);
@@ -42,14 +42,14 @@ export function Cache(propertyKey?: string) {
  * This function requires the name of the function that would have generated the cache that needs to be cleared.
  * Also if the function called is 'clearAllCachedData()' then all data is cleared.
  */
-export function ClearCache(functionName: string, propertyKey?: string) {
+export function ClearCache(functionName: string, propertyKey?: string, arg?: number) {
     return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
             if (functionName === 'clearAllCachedData') {
                 cachedData = {};
             } else {
-                let key = getCacheKey(functionName, propertyKey, args);
+                let key = getCacheKey(functionName, propertyKey, args, arg || 0);
                 delete cachedData[key];
             }
             return originalMethod.apply(this, args);
@@ -70,12 +70,12 @@ export function ClearAllFunctionCache(functionInfo: FunctionInfo) {
     }
 }
 
-function getCacheKey(functionName: string, propertyName: string, args: any[]): string {
+function getCacheKey(functionName: string, propertyName: string, args: any[], arg: number): string {
     let key: string = `${functionName}+`;
-    if (propertyName && args && args.length > 0 && args[0][propertyName]) {
-        key += args[0][propertyName];
-    } else if (args && args.length > 0 && typeof args[0] === 'string') {
-        key += args[0];
+    if (propertyName && args && args.length >= arg && args[arg][propertyName]) {
+        key += args[arg][propertyName];
+    } else if (args && args.length >= arg && typeof args[arg] === 'string') {
+        key += args[arg];
     } else if (args && args.length > 1) {
         key += JSON.stringify(args);
     }

@@ -351,6 +351,7 @@ export class FunctionsService {
 
     @ClearCache('getFunction', 'href')
     saveFunction(fi: FunctionInfo, config: any) {
+        ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify({ config: config }), { headers: this.getScmSiteHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
@@ -452,6 +453,7 @@ export class FunctionsService {
         window.location.href = url;
 
     }
+
     extendTrialResource() {
         var url = this.tryAppServiceUrl + "/api/resource/extend" + this.tryAppServiceUrlSlotFragment
             + "&appServiceName=" + encodeURIComponent("Function")
@@ -468,6 +470,7 @@ export class FunctionsService {
     }
 
     updateFunction(fi: FunctionInfo) {
+        ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getScmSiteHeaders() })
             .map<FunctionInfo>(r => r.json());
     }
