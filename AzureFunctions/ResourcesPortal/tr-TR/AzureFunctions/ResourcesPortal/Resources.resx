@@ -142,7 +142,7 @@
     <value>İşlev Url'si:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github Gizli Anahtarı:</value>
+    <value>GitHub Gizli Anahtarı:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Dosyaları gizle</value>

@@ -142,7 +142,7 @@
     <value>函式 URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 密碼:</value>
+    <value>GitHub 密碼:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>隱藏檔案</value>
