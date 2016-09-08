@@ -484,10 +484,12 @@ export class FunctionsService {
     }
 
     getHostErrors() {
-        return this.isEasyAuthEnabled
-            ? Observable.of([])
-            : this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                .map<string[]>(r => r.json().errors || []);
+        if (this.isEasyAuthEnabled || !this.hostSecrets || !this.hostSecrets.masterKey) {
+            return Observable.of([]);
+        } else {
+            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+            .map<string[]>(r => r.json().errors || []);
+        }
     }
 
     setEasyAuth(config: { [key: string]: string }) {
