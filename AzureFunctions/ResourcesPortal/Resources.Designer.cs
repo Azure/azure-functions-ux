@@ -781,7 +781,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Github Secret:.
+        ///   Looks up a localized string similar to GitHub Secret:.
         /// </summary>
         internal static string functionDev_githubSelect {
             get {
