@@ -250,7 +250,7 @@ export class FunctionsService {
         };
     }
 
-    private statusCodeToText(code: number) {
+    statusCodeToText(code: number) {
         var statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
@@ -372,7 +372,12 @@ export class FunctionsService {
 
     getHostSecrets() {
         return this._http.get(`${this.scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
-            .retryWhen(errors => errors.delay(100))
+            .retryWhen(e => e.scan<number>((errorCount, err) => {
+                if (errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(400))
             .map<HostSecrets>(r => r.json())
             .subscribe(h => this.hostSecrets = h, e => console.log(e));
     }

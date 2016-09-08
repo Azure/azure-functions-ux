@@ -31,6 +31,8 @@ import {PortalResources} from '../models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TryNowComponent} from './try-now.component';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {Response, ResponseType} from '@angular/http';
+import {ArmService} from '../services/arm.service';
 
 @Component({
     selector: 'functions-dashboard',
@@ -64,14 +66,15 @@ export class DashboardComponent implements OnChanges {
     public openIntro: any;
     public trialExpired: boolean;
     public action: Action;
-    public tabId: string = "Develop";    
+    public tabId: string = "Develop";
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _armService: ArmService) {
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             let selectedTabId: string;
@@ -160,9 +163,53 @@ export class DashboardComponent implements OnChanges {
                         this.sideBar.selectedFunction = findSelected;
                     }
                 }
+            },
+            (error: Response) => {
+                this.functionsInfo = [];
+                this.checkCorsOrDnsErrors(error);
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
+    }
+
+    checkCorsOrDnsErrors(error: Response) {
+        if (error.status === 200 && error.type === ResponseType.Error) {
+            this._armService.getConfig(this.functionContainer)
+                .subscribe(config => {
+                    let cors: {allowedOrigins: string[]} = <any>config['cors'];
+                    let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
+                        ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
+                        : false;
+                    if (!isConfigured) {
+                        // CORS Error
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}) }
+                        );
+                    } else {
+                        // DNS resolution
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_DnsResolution) }
+                        );
+                    }
+                }, (error: Response) => {
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}) }
+                        );
+                })
+        } else if (error.status === 404) {
+            this._broadcastService.broadcast<ErrorEvent>(
+                BroadcastEvent.Error,
+                { message: this._translateService.instant(PortalResources.error_DnsResolution) }
+            );
+        } else {
+            this._broadcastService.broadcast<ErrorEvent>(
+                BroadcastEvent.Error,
+                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this._functionsService.statusCodeToText(error.status)})}
+             );
+        }
     }
 
     onRefreshClicked() {
