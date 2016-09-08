@@ -961,6 +961,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent success count.
+        /// </summary>
+        internal static string functionMonitor_loading {
+            get {
+                return ResourceManager.GetString("functionMonitor_loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to live event stream.
         /// </summary>
         internal static string functionMonitor_pulseUrl {

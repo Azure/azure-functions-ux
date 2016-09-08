@@ -123,6 +123,7 @@ export class PortalResources
     public static functionIntegrate_settingName: string = "functionIntegrate_settingName";
     public static functionIntegrate_standardEditor: string = "functionIntegrate_standardEditor";
     public static functionManage_areYouSure: string = "functionManage_areYouSure";
+    public static functionMonitor_loading: string = "functionMonitor_loading";
     public static functionMonitor_successAggregate: string = "functionMonitor_successAggregate";
     public static functionMonitor_errorsAggregate: string = "functionMonitor_errorsAggregate";
     public static functionMonitor_invocationLog: string = "functionMonitor_invocationLog";
