@@ -70,8 +70,8 @@ export class FunctionMonitorComponent implements OnChanges {
         this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
         this._functionMonitorService.getAggregateErrorsAndInvocationsForSelectedFunction(this.funcName)
             .subscribe(results => {
-                this.successAggregate = !!results ? results.successCount.toString() : "No data found";
-                this.errorsAggregate = !!results ? results.failedCount.toString() : "No data found";
+                this.successAggregate = !!results ? results.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.errorsAggregate = !!results ? results.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
             });
         this._functionMonitorService.getInvocationsDataForSelctedFunction(this.funcName).subscribe(result => {
             this.rows = result;
