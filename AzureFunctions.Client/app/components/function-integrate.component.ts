@@ -1,5 +1,4 @@
 ﻿import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
-import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionsService} from '../services/functions.service';
 import {PortalService} from '../services/portal.service';
@@ -10,13 +9,14 @@ import {GlobalStateService} from '../services/global-state.service';
 import {BindingManager} from '../models/binding-manager';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
 
 @Component({
     selector: 'function-integrate',
     templateUrl: 'templates/function-integrate.component.html',
     styleUrls: ['styles/function-integrate.style.css'],
     inputs: ['selectedFunction'],
-    directives: [AceEditorDirective],
+    directives: [MonacoEditorDirective],
     pipes: [TranslatePipe]
 })
 export class FunctionIntegrateComponent implements OnDestroy {

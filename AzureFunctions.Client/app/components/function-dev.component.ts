@@ -2,7 +2,6 @@
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
-import {AceEditorDirective} from '../directives/ace-editor.directive';
 import {FunctionDesignerComponent} from './function-designer.component';
 import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionConfig} from '../models/function-config';
@@ -22,18 +21,19 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {AiService} from '../services/ai.service';
+import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
 
 @Component({
     selector: 'function-dev',
     templateUrl: 'templates/function-dev.component.html',
     styleUrls: ['styles/function-dev.style.css'],
     directives: [
-        AceEditorDirective,
         FunctionDesignerComponent,
         LogStreamingComponent,
         CopyPreComponent,
         FileExplorerComponent,
-        BusyStateComponent
+        BusyStateComponent,
+        MonacoEditorDirective
     ],
     pipes: [TranslatePipe]
 })
@@ -41,7 +41,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChild(LogStreamingComponent) logStreaming: LogStreamingComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
-    @ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
+    //@ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -216,6 +216,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     saveScript(dontClearBusy?: boolean) {
+        //debugger;
+
+
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
         this._globalStateService.setBusyState();
@@ -233,6 +236,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     contentChanged(content: string) {
+        //debugger;
+
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
             this._broadcastService.setDirtyState('function');

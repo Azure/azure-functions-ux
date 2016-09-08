@@ -64,8 +64,6 @@
     <Content Include="templates\trial-expired.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
-    <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
-    <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
     <Content Include="images\monitoring-coming-soon.png" />
     <Content Include="mocks\user.json" />
@@ -151,8 +149,9 @@
     <TypeScriptCompile Include="app\components\trial-expired.component.ts" />
     <TypeScriptCompile Include="app\components\tutorial.component.ts" />
     <TypeScriptCompile Include="app\decorators\cache.decorator.ts" />
-    <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
+    <TypeScriptCompile Include="app\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
+    <TypeScriptCompile Include="app\models\monaco-model.ts" />
     <TypeScriptCompile Include="app\models\function-monitor.ts" />
     <TypeScriptCompile Include="app\models\portal-resources.ts" />
     <TypeScriptCompile Include="app\models\constants.ts" />
