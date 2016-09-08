@@ -75,8 +75,7 @@ pre {
     background-color: #E4E4E4;
 }
 
-
-.monaco-editor {
+.monaco {
     border:1px solid #ccc;
     width: 100%;
 }

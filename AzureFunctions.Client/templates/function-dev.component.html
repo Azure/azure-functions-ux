@@ -19,7 +19,7 @@
                 [selectedFile]="scriptFile"
                 (selectedFileChange)="selectedFileStream.next($event)">
             </file-explorer>
-            <div id="code" monacoEditor class="dev-code-flex monaco-editor" style="height:330px;"
+            <div id="code" monacoEditor class="dev-code-flex monaco" style="height:330px;"
                  (onSave)="saveScript()"
                  (onContentChanged)="contentChanged($event)"
                  [content]="content"
@@ -46,7 +46,7 @@
         <busy-state name="run-busy"></busy-state>
         <div class="dev-run-block" style="margin-right: 10px">
             <div style="padding-bottom: 6px">{{ 'functionDev_requestBody' | translate }}</div>
-            <div id="test_data" monacoEditor class="monaco-editor" style="height:230px"
+            <div id="test_data" monacoEditor class="monaco" style="height:230px"
                  (onSave)="saveTestData()"
                  (onContentChanged)="testContentChanged($event)"
                  [content]="functionInfo.test_data"

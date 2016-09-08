@@ -6,7 +6,7 @@
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
-            <div id="container" monacoEditor class="monaco-editor" style="height:330px;"
+            <div id="container" monacoEditor class="monaco" style="height:330px;"
                  (onSave)="saveConfig()"
                  (onContentChanged)="contentChanged($event)"
                  [content]="configContent"
