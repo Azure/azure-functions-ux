@@ -31,16 +31,18 @@ export class MonacoEditorDirective {
     }
 
     set content(str: string) {
-        if (str) {
-            if (this._editor && this._editor.getValue() === str) {
-                return;
-            }
-            this._content = str;
-            if (this._editor) {
-                this._silent = true;
-                this._editor.setValue(this._content);
-                this._silent = false;
-            }
+        if (!str) {
+            str = "";
+        }
+
+        if (this._editor && this._editor.getValue() === str) {
+            return;
+        }
+        this._content = str;
+        if (this._editor) {
+            this._silent = true;
+            this._editor.setValue(this._content);
+            this._silent = false;
         }
     }
 
