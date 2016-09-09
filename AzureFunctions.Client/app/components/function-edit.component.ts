@@ -11,8 +11,6 @@ import {FunctionIntegrateComponent} from './function-integrate.component';
 import {FunctionConfig} from '../models/function-config';
 import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
-import {TabsComponent} from './tabs.component';
-import {TabComponent} from './tab.component';
 import {FunctionManageComponent} from './function-manage.component';
 import {FunctionIntegrateV2Component} from './function-integrate-v2.component';
 import {BroadcastService} from '../services/broadcast.service';
@@ -31,8 +29,6 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
         FunctionIntegrateComponent,
         FunctionDesignerComponent,
         LogStreamingComponent,
-        TabsComponent,
-        TabComponent,
         FunctionManageComponent,
         FunctionIntegrateV2Component,
         FunctionMonitorComponent

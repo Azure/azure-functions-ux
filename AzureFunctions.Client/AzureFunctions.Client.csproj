@@ -79,7 +79,6 @@
     <Content Include="styles\function-integrate.style.css" />
     <Content Include="styles\radio-selector.style.css" />
     <Content Include="styles\sidebar.style.css" />
-    <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\app.component.html" />
     <Content Include="styles\tutorial.style.css" />
@@ -102,8 +101,6 @@
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\radio-selector.component.html" />
     <Content Include="templates\sidebar.component.html" />
-    <Content Include="templates\tab.component.html" />
-    <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\aggregate-block.component.ts" />
@@ -139,9 +136,7 @@
     <TypeScriptCompile Include="app\components\radio-selector.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
     <TypeScriptCompile Include="app\components\source-control.component.ts" />
-    <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\table-function-monitor.component.ts" />
-    <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
     <TypeScriptCompile Include="app\components\try-landing.component.ts" />
     <TypeScriptCompile Include="app\components\try-now.component.ts" />
