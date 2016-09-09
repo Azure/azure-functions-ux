@@ -18,41 +18,16 @@ export class MonacoEditorDirective {
     private _disabled: boolean;
     private _editor: any;
     private _containerName: string;
-    private _el: any;
+    private _elementRef: ElementRef;
     private _silent: boolean = false;
 
     constructor(private elementRef: ElementRef) {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
 
-        this._el = elementRef.nativeElement;
+        this._elementRef = elementRef;
 
-        require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
-
-        var that = this;
-
-        setTimeout(() => {
-            require(['vs/editor/editor.main'], function (input: any) {
-
-                that._editor = monaco.editor.create(that._el, {
-                    value: that._content,
-                    language: that._language,
-                    readOnly: that._disabled
-                });
-
-                that._editor.onDidChangeModelContent(() => {
-                    if (!that._silent) {
-                        that.onContentChanged.emit(that._editor.getValue());
-                    }
-                });
-
-                // This code does not work by some reason
-                that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-                    that.onSave.emit(that._editor.getValue());
-                });
-
-            });
-        }, 0);
+        this.init();
     }
 
     set content(str: string) {
@@ -105,7 +80,52 @@ export class MonacoEditorDirective {
         }
 
         if (this._editor) {
-            monaco.editor.setModelLanguage(this._editor.getModel(), this._language);
+            this.init();
+            // This does not work for JSON
+            //monaco.editor.setModelLanguage(this._editor.getModel(), this._language);
         }
+    }
+
+    changeWidth(value: number) {
+        if (this._elementRef.nativeElement.id === "code") {
+            var layout = this._editor.getLayoutInfo();
+            this._editor.layout({
+                width: layout.width + value,
+                height: layout.height
+            });
+        }
+    }
+
+    private init() {
+        require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
+
+        var that = this;
+
+        setTimeout(() => {
+            require(['vs/editor/editor.main'], function (input: any) {
+                
+                if (that._editor) {
+                    that._editor.dispose();
+                }
+                
+                that._editor = monaco.editor.create(that._elementRef.nativeElement, {
+                    value: that._content,
+                    language: that._language,
+                    readOnly: that._disabled,
+                });
+
+                that._editor.onDidChangeModelContent(() => {
+                    if (!that._silent) {
+                        that.onContentChanged.emit(that._editor.getValue());
+                    }
+                });
+
+                // TODO: test with MAC
+                that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+                    that.onSave.emit(that._editor.getValue());
+                });
+
+            });
+        }, 0);
     }
 }

@@ -42,7 +42,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChild(LogStreamingComponent) logStreaming: LogStreamingComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
-    //@ViewChildren(AceEditorDirective) aceEditors: QueryList<AceEditorDirective>;
+    @ViewChildren(MonacoEditorDirective) aceEditors: QueryList<MonacoEditorDirective>;
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -294,6 +294,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     toggleShowHideFileExplorer() {
+
+        this.aceEditors.forEach((e: MonacoEditorDirective) => {
+            e.changeWidth(this.showFileExplorer ? 200 : -200);
+        });
+
         this.showFileExplorer = !this.showFileExplorer;
         if (this.showFileExplorer) {
             this._aiService.trackEvent('/actions/file_explorer/show');
