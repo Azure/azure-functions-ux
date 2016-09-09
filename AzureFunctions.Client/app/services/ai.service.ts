@@ -94,6 +94,7 @@ export class AiService implements IAppInsights {
      * Start timing an extended event. Call {@link stopTrackEvent} to log the event when it ends.
      * @param   name    A string that identifies this event uniquely within the document.
      */
+    @AiDefined()
     startTrackEvent(name: string) {
         return appInsights.startTrackEvent(name);
     }
