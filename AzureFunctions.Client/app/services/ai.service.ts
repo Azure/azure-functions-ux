@@ -34,7 +34,7 @@ export class AiService implements IAppInsights {
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
             if (error.details) {
                  if (typeof(appInsights) !== 'undefined' && typeof(appInsights['trackEvent']) !== 'undefined') {
-                     this.trackEvent('/errors/portal', {error: error.details, displayedGeneric: (!!error.message).toString()});
+                     this.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: (!error.message).toString()});
                 }
             }
         });
