@@ -12,6 +12,7 @@ export interface FunctionInfo {
     clientOnly: boolean;
     isDeleted: boolean;
     test_data: string;
+    config_href: string;
 }
 
 export class FunctionInfoHelper {

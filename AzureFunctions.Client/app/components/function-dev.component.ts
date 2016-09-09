@@ -22,6 +22,7 @@ import {PortalResources} from '../models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {AiService} from '../services/ai.service';
 import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
+import {BindingManager} from '../models/binding-manager';
 
 @Component({
     selector: 'function-dev',
@@ -67,6 +68,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
+    private _bindingManager = new BindingManager();
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
@@ -216,11 +218,16 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     saveScript(dontClearBusy?: boolean) {
-        //debugger;
-
-
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) return;
+        if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
+            try {
+                this._bindingManager.validateConfig(JSON.parse(this.updatedContent), this._translateService);
+            } catch (e) {
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
+                return;
+            }
+        }
         this._globalStateService.setBusyState();
         return this._functionsService.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {

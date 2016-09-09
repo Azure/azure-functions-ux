@@ -231,7 +231,8 @@ export class FunctionsService {
             isDeleted: false,
             secrets_file_href: null,
             test_data: null,
-            script_root_path_href: null
+            script_root_path_href: null,
+            config_href: null
         };
     }
 
@@ -246,7 +247,8 @@ export class FunctionsService {
             isDeleted: false,
             secrets_file_href: null,
             test_data: null,
-            script_root_path_href: null
+            script_root_path_href: null,
+            config_href: null
         };
     }
 
