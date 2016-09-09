@@ -1,6 +1,4 @@
-﻿# Before swapping, make sure to increase the version in AzureFunctions.Client\prod.html. Search for ?v= in two places.
-
-# make sure the script stops if one of the swaps failed
+﻿# make sure the script stops if one of the swaps failed
 $ErrorActionPreference = "Stop"
 
 Select-AzureRmSubscription -SubscriptionName "Websites migration"
@@ -9,17 +7,21 @@ $ParametersObject = @{
   targetSlot = "staging"
 }
 
-Write-Host swapping bay site ....
-Invoke-AzureRmResourceAction -ResourceGroupName functions-bay -ResourceType Microsoft.Web/sites -ResourceName functions-bay -Action slotsswap -Parameters $ParametersObject -ApiVersion 2015-08-01 -Force
+"functions-bay", "functions-blu", "functions-db3", "functions-hk1" | %{
+  $scriptBlock = {
+    param($siteName)
+    Write-Host "swapping $siteName ..."
+    Invoke-AzureRmResourceAction -ResourceGroupName $siteName -ResourceType Microsoft.Web/sites -ResourceName $siteName -Action slotsswap -Parameters $ParametersObject -ApiVersion 2015-08-01 -Force
+  }
+  Write-Host "processing $_..."
+  Start-Job $scriptBlock -ArgumentList $_
+}
 
-Write-Host swapping blu site ....
-Invoke-AzureRmResourceAction -ResourceGroupName functions-blu -ResourceType Microsoft.Web/sites -ResourceName functions-blu -Action slotsswap -Parameters $ParametersObject -ApiVersion 2015-08-01 -Force
+While (Get-Job -State "Running") { Start-Sleep 2 }
 
-Write-Host swapping db3 site ....
-Invoke-AzureRmResourceAction -ResourceGroupName functions-db3 -ResourceType Microsoft.Web/sites -ResourceName functions-db3 -Action slotsswap -Parameters $ParametersObject -ApiVersion 2015-08-01 -Force
+Get-Job | Receive-Job
 
-Write-Host swapping hk1 site ....
-Invoke-AzureRmResourceAction -ResourceGroupName functions-hk1 -ResourceType Microsoft.Web/sites -ResourceName functions-hk1 -Action slotsswap -Parameters $ParametersObject -ApiVersion 2015-08-01 -Force
+Remove-Job *
 
 Write-Host Done Swapping all sites
 

@@ -1,4 +1,4 @@
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, Response, ResponseType} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -26,6 +26,16 @@ import {PortalResources} from '../models/portal-resources';
 import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resource';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {UsageVolume} from '../models/app-monitoring-usage'
+
+
+let retryAntares = (error: Observable<any>): Observable<any> => {
+    return error.scan<number>((errorCount, err: Response) => {
+            if (errorCount >= 10) {
+                throw err;
+            }
+            return errorCount + 1;
+        }, 0).delay(300);
+};
 
 @Injectable()
 export class FunctionsService {
@@ -144,13 +154,14 @@ export class FunctionsService {
     @Cache()
     getFunctions() {
         return this._http.get(`${this.scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() })
-            .retry(3)
+            .retryWhen(retryAntares)
             .map<FunctionInfo[]>(r => r.json());
     }
 
     @Cache('href')
     getFileContent(file: VfsObject | string) {
         return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<string>(r => r.text());
     }
 
@@ -164,6 +175,7 @@ export class FunctionsService {
         }
 
         return this._http.put(typeof file === 'string' ? file : file.href, updatedContent, { headers: headers })
+            .retryWhen(retryAntares)
             .map<VfsObject | string>(r => file);
     }
 
@@ -177,6 +189,7 @@ export class FunctionsService {
         }
 
         return this._http.delete(typeof file === 'string' ? file : file.href, { headers: headers })
+            .retryWhen(retryAntares)
             .map<VfsObject | string>(r => file);
     }
 
@@ -187,6 +200,7 @@ export class FunctionsService {
     @Cache()
     getTemplates() {
          return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+            .retryWhen(retryAntares)
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
                 this.localize(object);
@@ -203,9 +217,11 @@ export class FunctionsService {
                 containerScmUrl: this.scmUrl
             };
             return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
+                .retryWhen(retryAntares)
                 .map<FunctionInfo>(r => r.json());
         } else {
             return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
+                .retryWhen(retryAntares)
                 .map<FunctionInfo>(r => r.json());
         }
     }
@@ -217,6 +233,7 @@ export class FunctionsService {
         delete filesCopy["sample.dat"];
 
         return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: filesCopy, test_data: sampleData, config: config }), { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -283,14 +300,15 @@ export class FunctionsService {
         }
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
-            .catch(e => {
+            .retryWhen(retryAntares)
+            .catch((e: Response) => {
                 if (this.isEasyAuthEnabled) {
                     return Observable.of({
                         status: 401,
                         statusText: this.statusCodeToText(401),
                         text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
                     });
-                } else if (e.status === 200 && e._body.type === 'error') {
+                } else if (e.status === 200 && e.type === ResponseType.Error) {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
@@ -300,7 +318,7 @@ export class FunctionsService {
                     return Observable.of({
                         status: e.status,
                         statusText: this.statusCodeToText(e.status),
-                        text: () => e._body
+                        text: () => e.text()
                     });
                 }
             })
@@ -311,12 +329,14 @@ export class FunctionsService {
     @ClearCache('getFunction', 'href')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<string>(r => r.statusText);
     }
 
     @Cache()
     getDesignerSchema() {
         return this._http.get('mocks/function-json-schema.json')
+            .retryWhen(retryAntares)
             .map<DesignerSchema>(r => r.json());
     }
 
@@ -326,6 +346,7 @@ export class FunctionsService {
             url: this.scmUrl.replace('.scm.', '.')
         };
         var observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<string>(r => r.statusText);
 
         observable.subscribe(() => this.getHostSecrets(), () => this.getHostSecrets());
@@ -335,15 +356,17 @@ export class FunctionsService {
     @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
-            .map<FunctionSecrets>(r => r.json());
+            .map<FunctionSecrets>(r => r.json())
     }
 
     @ClearCache('getSecrets', 'secrets_file_href')
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
+            .retryWhen(retryAntares)
             .map<FunctionSecrets>(e => secrets);
     }
 
@@ -355,12 +378,14 @@ export class FunctionsService {
     saveFunction(fi: FunctionInfo, config: any) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify({ config: config }), { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<FunctionInfo>(r => r.json());
     }
 
     @Cache('href')
     getFunction(fi: FunctionInfo) {
         return this._http.get(fi.href, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -375,7 +400,8 @@ export class FunctionsService {
     getHostSecrets() {
         return this._http.get(`${this.scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
             .retryWhen(e => e.scan<number>((errorCount, err) => {
-                if (errorCount >= 10) {
+                this.getHostErrors().toPromise();
+                if (errorCount >= 100) {
                     throw err;
                 }
                 return errorCount + 1;
@@ -387,6 +413,7 @@ export class FunctionsService {
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
         return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+            .retryWhen(retryAntares)
             .map<BindingConfig>(r => {
                 var object = r.json();
                 this.localize(object);
@@ -419,12 +446,7 @@ export class FunctionsService {
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err) => {
-                if (errorCount >= 2) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(300))
+            .retryWhen(retryAntares)
             .map<UIResource>(r => r.json());
     }
 
@@ -443,12 +465,7 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err) => {
-                if (errorCount >= 2) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(300))
+            .retryWhen(retryAntares)
             .map<UIResource>(r => r.json());
     }
 
@@ -467,18 +484,14 @@ export class FunctionsService {
             + (this.selectedProvider ? "&provider=" + this.selectedProvider : "");
 
         return this._http.post(url, '', { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err) => {
-                if (errorCount >= 2) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(300))
+            .retryWhen(retryAntares)
             .map<UIResource>(r => r.json());
     }
 
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -486,6 +499,7 @@ export class FunctionsService {
         return this.isEasyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+                .retryWhen(retryAntares)
                 .map<string[]>(r => r.json().errors || [])
                 .catch<string[]>(e => Observable.of(null));
     }
@@ -495,6 +509,7 @@ export class FunctionsService {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<string[]>(r => r.json().errors || []);
         }
     }
@@ -505,6 +520,7 @@ export class FunctionsService {
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .catch(e => Observable.of({ json: () => [] }))
             .flatMap<string>(r => {
                 var files: any[] = r.json();
@@ -529,6 +545,7 @@ export class FunctionsService {
     @Cache('href')
     getVfsObjects(fi: FunctionInfo | string) {
         return this._http.get(typeof fi === 'string' ? fi : fi.script_root_path_href, { headers: this.getScmSiteHeaders() })
+            .retryWhen(retryAntares)
             .map<VfsObject[]>(e => e.json());
     }
 
@@ -626,6 +643,7 @@ export class FunctionsService {
 
     private getLocolizedResources(lang: string, runtime: string): Observable<any> {
         return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
+            .retryWhen(retryAntares)
             .map<any>(r => {
                 var resources = r.json();
 

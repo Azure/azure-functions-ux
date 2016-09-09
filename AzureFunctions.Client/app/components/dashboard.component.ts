@@ -184,7 +184,7 @@ export class DashboardComponent implements OnChanges {
                         // CORS Error
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}) }
+                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
                         );
                     } else {
                         // DNS resolution
@@ -196,18 +196,18 @@ export class DashboardComponent implements OnChanges {
                 }, (error: Response) => {
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}) }
+                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
                         );
                 })
         } else if (error.status === 404) {
             this._broadcastService.broadcast<ErrorEvent>(
                 BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_DnsResolution) }
+                { message: this._translateService.instant(PortalResources.error_DnsResolution), details: JSON.stringify(error) }
             );
         } else {
             this._broadcastService.broadcast<ErrorEvent>(
                 BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this._functionsService.statusCodeToText(error.status)})}
+                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this._functionsService.statusCodeToText(error.status)}), details: JSON.stringify(error)}
              );
         }
     }
