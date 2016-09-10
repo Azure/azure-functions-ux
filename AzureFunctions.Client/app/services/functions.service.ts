@@ -26,16 +26,11 @@ import {PortalResources} from '../models/portal-resources';
 import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resource';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {UsageVolume} from '../models/app-monitoring-usage'
+import {BroadcastService} from './broadcast.service';
+import {ArmService} from './arm.service';
+import {BroadcastEvent} from '../models/broadcast-event';
+import {ErrorEvent} from '../models/error-event';
 
-
-let retryAntares = (error: Observable<any>): Observable<any> => {
-    return error.scan<number>((errorCount, err: Response) => {
-            if (errorCount >= 10) {
-                throw err;
-            }
-            return errorCount + 1;
-        }, 0).delay(300);
-};
 
 @Injectable()
 export class FunctionsService {
@@ -107,16 +102,20 @@ export class FunctionsService {
 
     private tryAppServiceUrl = "https://tryappservice.azure.com";
     private tryAppServiceUrlSlotFragment = "?x-ms-routing-name=next";
+    private functionContainer: FunctionContainer;
 
     constructor(
         private _http: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _broadcastService: BroadcastService,
+        private _armService: ArmService) {
 
         if (!_globalStateService.showTryView) {
             this._userService.getToken().subscribe(t => this.token = t);
             this._userService.getFunctionContainer().subscribe(fc => {
+                this.functionContainer = fc;
                 this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
                 this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
                 this.siteName = fc.name;
@@ -154,14 +153,16 @@ export class FunctionsService {
     @Cache()
     getFunctions() {
         return this._http.get(`${this.scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo[]>(r => r.json());
     }
 
     @Cache('href')
     getFileContent(file: VfsObject | string) {
         return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string>(r => r.text());
     }
 
@@ -175,7 +176,8 @@ export class FunctionsService {
         }
 
         return this._http.put(typeof file === 'string' ? file : file.href, updatedContent, { headers: headers })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<VfsObject | string>(r => file);
     }
 
@@ -189,7 +191,8 @@ export class FunctionsService {
         }
 
         return this._http.delete(typeof file === 'string' ? file : file.href, { headers: headers })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<VfsObject | string>(r => file);
     }
 
@@ -200,7 +203,7 @@ export class FunctionsService {
     @Cache()
     getTemplates() {
          return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
                 this.localize(object);
@@ -217,11 +220,13 @@ export class FunctionsService {
                 containerScmUrl: this.scmUrl
             };
             return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
-                .retryWhen(retryAntares)
+                .retryWhen(this.retryAntares)
+                .catch(e => this.checkCorsOrDnsErrors(e))
                 .map<FunctionInfo>(r => r.json());
         } else {
             return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
-                .retryWhen(retryAntares)
+                .retryWhen(this.retryAntares)
+                .catch(e => this.checkCorsOrDnsErrors(e))
                 .map<FunctionInfo>(r => r.json());
         }
     }
@@ -233,7 +238,8 @@ export class FunctionsService {
         delete filesCopy["sample.dat"];
 
         return this._http.put(`${this.scmUrl}/api/functions/${functionName}`, JSON.stringify({ files: filesCopy, test_data: sampleData, config: config }), { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -300,7 +306,7 @@ export class FunctionsService {
         }
 
         return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .catch((e: Response) => {
                 if (this.isEasyAuthEnabled) {
                     return Observable.of({
@@ -329,14 +335,15 @@ export class FunctionsService {
     @ClearCache('getFunction', 'href')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string>(r => r.statusText);
     }
 
     @Cache()
     getDesignerSchema() {
         return this._http.get('mocks/function-json-schema.json')
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<DesignerSchema>(r => r.json());
     }
 
@@ -346,7 +353,8 @@ export class FunctionsService {
             url: this.scmUrl.replace('.scm.', '.')
         };
         var observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string>(r => r.statusText);
 
         observable.subscribe(() => this.getHostSecrets(), () => this.getHostSecrets());
@@ -356,7 +364,7 @@ export class FunctionsService {
     @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
@@ -366,7 +374,8 @@ export class FunctionsService {
     @ClearCache('getSecrets', 'secrets_file_href')
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionSecrets>(e => secrets);
     }
 
@@ -378,14 +387,15 @@ export class FunctionsService {
     saveFunction(fi: FunctionInfo, config: any) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify({ config: config }), { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo>(r => r.json());
     }
 
     @Cache('href')
     getFunction(fi: FunctionInfo) {
         return this._http.get(fi.href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -406,6 +416,7 @@ export class FunctionsService {
                 }
                 return errorCount + 1;
             }, 0).delay(400))
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<HostSecrets>(r => r.json())
             .subscribe(h => this.hostSecrets = h, e => console.log(e));
     }
@@ -413,7 +424,8 @@ export class FunctionsService {
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
         return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<BindingConfig>(r => {
                 var object = r.json();
                 this.localize(object);
@@ -446,7 +458,7 @@ export class FunctionsService {
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<UIResource>(r => r.json());
     }
 
@@ -465,7 +477,7 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<UIResource>(r => r.json());
     }
 
@@ -484,14 +496,15 @@ export class FunctionsService {
             + (this.selectedProvider ? "&provider=" + this.selectedProvider : "");
 
         return this._http.post(url, '', { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<UIResource>(r => r.json());
     }
 
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo>(r => r.json());
     }
 
@@ -499,7 +512,7 @@ export class FunctionsService {
         return this.isEasyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(retryAntares)
+                .retryWhen(this.retryAntares)
                 .map<string[]>(r => r.json().errors || [])
                 .catch<string[]>(e => Observable.of(null));
     }
@@ -509,7 +522,8 @@ export class FunctionsService {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string[]>(r => r.json().errors || []);
         }
     }
@@ -520,7 +534,7 @@ export class FunctionsService {
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .catch(e => Observable.of({ json: () => [] }))
             .flatMap<string>(r => {
                 var files: any[] = r.json();
@@ -545,7 +559,8 @@ export class FunctionsService {
     @Cache('href')
     getVfsObjects(fi: FunctionInfo | string) {
         return this._http.get(typeof fi === 'string' ? fi : fi.script_root_path_href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
             .map<VfsObject[]>(e => e.json());
     }
 
@@ -643,7 +658,7 @@ export class FunctionsService {
 
     private getLocolizedResources(lang: string, runtime: string): Observable<any> {
         return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
-            .retryWhen(retryAntares)
+            .retryWhen(this.retryAntares)
             .map<any>(r => {
                 var resources = r.json();
 
@@ -654,5 +669,58 @@ export class FunctionsService {
                 }
                 this._translateService.use(lang);
             });
+    }
+
+    private retryAntares(error: Observable<any>): Observable<any> {
+        return error.scan<number>((errorCount, err: Response) => {
+                if (err.status <= 500) {
+                    throw err;
+                } else if (errorCount >= 5) {
+                        throw err;
+                } else {
+                    return errorCount + 1;
+                }
+            }, 0).delay(300);
+    }
+
+    private checkCorsOrDnsErrors(error: Response): Observable<Response> {
+        if (error.status < 404 && error.type === ResponseType.Error) {
+            this._armService.getConfig(this.functionContainer)
+                .subscribe(config => {
+                    let cors: {allowedOrigins: string[]} = <any>config['cors'];
+                    let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
+                        ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
+                        : false;
+                    if (!isConfigured) {
+                        // CORS Error
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
+                        );
+                    } else {
+                        // DNS resolution
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_DnsResolution) }
+                        );
+                    }
+                }, (error: Response) => {
+                        this._broadcastService.broadcast<ErrorEvent>(
+                            BroadcastEvent.Error,
+                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
+                        );
+                });
+        } else if (error.status === 404) {
+            this._broadcastService.broadcast<ErrorEvent>(
+                BroadcastEvent.Error,
+                { message: this._translateService.instant(PortalResources.error_DnsResolution), details: JSON.stringify(error) }
+            );
+        } else {
+            this._broadcastService.broadcast<ErrorEvent>(
+                BroadcastEvent.Error,
+                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error)}
+             );
+        }
+        return Observable.of(error);
     }
 }

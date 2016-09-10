@@ -166,50 +166,9 @@ export class DashboardComponent implements OnChanges {
             },
             (error: Response) => {
                 this.functionsInfo = [];
-                this.checkCorsOrDnsErrors(error);
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
-    }
-
-    checkCorsOrDnsErrors(error: Response) {
-        if (error.status === 200 && error.type === ResponseType.Error) {
-            this._armService.getConfig(this.functionContainer)
-                .subscribe(config => {
-                    let cors: {allowedOrigins: string[]} = <any>config['cors'];
-                    let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
-                        ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
-                        : false;
-                    if (!isConfigured) {
-                        // CORS Error
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
-                        );
-                    } else {
-                        // DNS resolution
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_DnsResolution) }
-                        );
-                    }
-                }, (error: Response) => {
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
-                        );
-                })
-        } else if (error.status === 404) {
-            this._broadcastService.broadcast<ErrorEvent>(
-                BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_DnsResolution), details: JSON.stringify(error) }
-            );
-        } else {
-            this._broadcastService.broadcast<ErrorEvent>(
-                BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this._functionsService.statusCodeToText(error.status)}), details: JSON.stringify(error)}
-             );
-        }
     }
 
     onRefreshClicked() {
