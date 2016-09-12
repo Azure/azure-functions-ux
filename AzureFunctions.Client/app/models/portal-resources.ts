@@ -228,6 +228,7 @@ export class PortalResources
     public static error_UnableToRetriveFunctions: string = "error_UnableToRetriveFunctions";
     public static tryNow_fewMoreSeconds: string = "tryNow_fewMoreSeconds";
     public static tryNow_hangOn: string = "tryNow_hangOn";
+    public static tryNow_learnMore: string = "tryNow_learnMore";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

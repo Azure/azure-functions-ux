@@ -38,7 +38,7 @@
     <div *ngFor="let template of templates"
           [ngClass]="showTryView && !template.enabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
           (click)="onTemplateClicked(template.value, showTryView && !template.enabledInTryMode)"
-          [class.tp-template-selected]="selectedTemplate == template.value" [tooltip]="freeAccountTooltip" [tooltipDisabled]="! (showTryView && !template.enabledInTryMode)">
+          [class.tp-template-selected]="selectedTemplate == template.value" [tooltip]="freeAccountTooltip" [tooltipDisabled]="!(showTryView && !template.enabledInTryMode)">
 
         <div class="tp-template-func-title" [class.tp-template-icon-selected]="selectedTemplate === template.value">{{template.name}}</div>
         <div class="tp-template-func-description">{{template.description}}</div>

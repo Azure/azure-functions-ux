@@ -1879,6 +1879,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discover more.
+        /// </summary>
+        internal static string tryNow_discoverMore {
+            get {
+                return ResourceManager.GetString("tryNow_discoverMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extend trial to 24 hours.
         /// </summary>
         internal static string tryNow_extendTrial {

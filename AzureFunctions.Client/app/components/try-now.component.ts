@@ -18,11 +18,12 @@ import {TooltipComponent} from './tooltip.component';
 })
 
 export class TryNowComponent implements OnInit {
-    public uiResource: UIResource;
-    public trialExpired: boolean;
-    public endTime: Date;
-    public timerText: string;
-    public freeTrialUri: string;
+    private uiResource: UIResource;
+    private trialExpired: boolean;
+    private endTime: Date;
+    private timerText: string;
+    private freeTrialUri: string;
+    private discoverMoreUri:string;
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
@@ -30,7 +31,9 @@ export class TryNowComponent implements OnInit {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
         var freeTrialExpireCachedQuery = `try_functionstimer`;
+        var discoverMoreButton = `try_functionsdiscovermore`;
         this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
+        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/?WT.mc_id=${discoverMoreButton}`;
 
         var callBack = () => {
             window.setTimeout(() => {

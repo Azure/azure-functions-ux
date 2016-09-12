@@ -796,4 +796,7 @@
   <data name="tryNow_hangOn" xml:space="preserve">
     <value>Hang on while we put the 'fun' in functions...</value>
   </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Discover more</value>
+  </data>
 </root>
