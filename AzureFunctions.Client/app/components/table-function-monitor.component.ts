@@ -1,20 +1,22 @@
-import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChange, ViewChild} from '@angular/core';
 import {FunctionMonitorService} from '../services/function-monitor.service';
 import {FunctionInvocations} from '../models/function-monitor';
 import {Format} from "../pipes/table-function-monitor.pipe";
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {FunctionInfo} from '../models/function-info';
-import {GlobalStateService} from '../services/global-state.service';
+import {BusyStateComponent} from './busy-state.component';
 
 @Component({
     selector: 'table-function-monitor',
     templateUrl: 'templates/table-function-monitor.html',
     styleUrls: ['styles/table-function-monitor.style.css'],
-    pipes: [Format, TranslatePipe]
+    pipes: [Format, TranslatePipe],
+    directives: [BusyStateComponent]
 })
 
 export class TableFunctionMonitor implements OnChanges {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() columns: any[];
     @Input() data: any[];
     @Input() details: any;
@@ -26,8 +28,7 @@ export class TableFunctionMonitor implements OnChanges {
 
     constructor(
         private _functionMonitorService: FunctionMonitorService,
-        private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService) { }
+        private _translateService: TranslateService) { }
 
     showDetails(rowData: FunctionInvocations) {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(rowData.id).subscribe(results => {
@@ -51,10 +52,20 @@ export class TableFunctionMonitor implements OnChanges {
     }
 
     refreshFuncMonitorGridData() {
-        this._globalStateService.setBusyState();
+        this.setBusyState();
         this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncName).subscribe(result => {
             this.data = result;
-            this._globalStateService.clearBusyState();
+            this.clearBusyState();
         });
+    }
+
+    setBusyState() {
+        if (this.busyState)
+            this.busyState.setBusyState();
+    }
+
+    clearBusyState() {
+        if (this.busyState)
+            this.busyState.clearBusyState();
     }
 }

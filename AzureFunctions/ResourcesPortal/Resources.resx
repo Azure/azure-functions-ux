@@ -142,7 +142,7 @@
     <value>Function Url:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github Secret:</value>
+    <value>GitHub Secret:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Hide files</value>
@@ -407,7 +407,7 @@
     <value>Function App Usage</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>There is no Data</value>
+    <value>No data available</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>of executions</value>
@@ -477,6 +477,9 @@
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Are you sure you want to delete Function {{name}}?</value>
+  </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Loading ...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Recent success count</value>
@@ -743,7 +746,7 @@
     <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev console description</value>
+    <value>In-portal console for accessing your function app’s file system</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,6 +777,18 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS is not configured for this function app. Please add {{origin}} to your CORS list.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>We are unable to reach your function app. This could happen if DNS resolution fails to resolve to the right place. You can either flush your local DNS cache, or try again in 15 minutes.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Unable to retrive Function App ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
     <value>Just a few more seconds...</value>

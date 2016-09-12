@@ -6,13 +6,12 @@
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
-            <div class="ace_editor" aceEditor id="editor"
+            <div id="container" monacoEditor class="monaco" style="height:330px;"
                  (onSave)="saveConfig()"
                  (onContentChanged)="contentChanged($event)"
                  [content]="configContent"
                  fileName="function.json"
-                 [height]="600"
-                 [readOnly]="disabled">
+                 [disabled]="disabled">
             </div>
         </div>
     </div>

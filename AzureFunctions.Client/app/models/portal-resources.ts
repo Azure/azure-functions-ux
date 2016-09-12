@@ -122,6 +122,7 @@ export class PortalResources
     public static functionIntegrate_settingName: string = "functionIntegrate_settingName";
     public static functionIntegrate_standardEditor: string = "functionIntegrate_standardEditor";
     public static functionManage_areYouSure: string = "functionManage_areYouSure";
+    public static functionMonitor_loading: string = "functionMonitor_loading";
     public static functionMonitor_successAggregate: string = "functionMonitor_successAggregate";
     public static functionMonitor_errorsAggregate: string = "functionMonitor_errorsAggregate";
     public static functionMonitor_invocationLog: string = "functionMonitor_invocationLog";
@@ -221,6 +222,10 @@ export class PortalResources
     public static tryNow_lessThanOneMinute: string = "tryNow_lessThanOneMinute";
     public static appFunctionSettings_FreeAccountToolTip: string = "appFunctionSettings_FreeAccountToolTip";
     public static tryNow_FreeAccountToolTip: string = "tryNow_FreeAccountToolTip";
+    public static error_CORSNotConfigured: string = "error_CORSNotConfigured";
+    public static error_DnsResolution: string = "error_DnsResolution";
+    public static error_UnableToRetriveFunctionApp: string = "error_UnableToRetriveFunctionApp";
+    public static error_UnableToRetriveFunctions: string = "error_UnableToRetriveFunctions";
     public static tryNow_fewMoreSeconds: string = "tryNow_fewMoreSeconds";
     public static tryNow_hangOn: string = "tryNow_hangOn";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
@@ -507,5 +512,6 @@ export class PortalResources
     public static TimerTriggerPowerShell_description: string = "TimerTriggerPowerShell_description";
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
+    public static documentDB_displayName: string = "documentDB_displayName";
 }
 

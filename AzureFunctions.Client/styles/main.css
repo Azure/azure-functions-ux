@@ -75,14 +75,9 @@ pre {
     background-color: #E4E4E4;
 }
 
-.ace_editor {
-    border: 1px solid #bcbcbc;
-    border-radius: 0;
-    font: monospace !important;
-}
-
-.ace_editor div {
-    font: monospace !important;
+.monaco {
+    border:1px solid #ccc;
+    width: 100%;
 }
 
 .file-name {

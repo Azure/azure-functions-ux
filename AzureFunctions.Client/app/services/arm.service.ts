@@ -226,7 +226,7 @@ export class ArmService {
         };
         this._aiService.startTrackEvent('/action/arm/create/storage_account');
         this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
-        .retryWhen(e => e.scan<number>((errorCount, err) => {
+        .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
             if (errorCount >= 5) {
                 throw err;
             }

@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {IAppInsights, IConfig, SeverityLevel} from '../models/app-insights';
+import {BroadcastService} from './broadcast.service';
+import {BroadcastEvent} from '../models/broadcast-event';
+import {ErrorEvent} from '../models/error-event';
 
 declare var appInsights: IAppInsights;
 
@@ -26,6 +29,16 @@ function run<T>(action: () => T) {
 
 @Injectable()
 export class AiService implements IAppInsights {
+
+    constructor(private _broadcastService: BroadcastService) {
+        this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
+            if (error.details) {
+                 if (typeof(appInsights) !== 'undefined' && typeof(appInsights['trackEvent']) !== 'undefined') {
+                     this.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: (!error.message).toString()});
+                }
+            }
+        });
+    }
 
     /*
     * Config object used to initialize AppInsights
@@ -94,6 +107,7 @@ export class AiService implements IAppInsights {
      * Start timing an extended event. Call {@link stopTrackEvent} to log the event when it ends.
      * @param   name    A string that identifies this event uniquely within the document.
      */
+    @AiDefined()
     startTrackEvent(name: string) {
         return appInsights.startTrackEvent(name);
     }

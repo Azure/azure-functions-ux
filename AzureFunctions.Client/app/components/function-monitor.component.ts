@@ -37,8 +37,10 @@ export class FunctionMonitorComponent implements OnChanges {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) { }
 
+
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
         this._globalStateService.setBusyState();
+        this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
         this.columns = [
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), //The display text
@@ -68,12 +70,12 @@ export class FunctionMonitorComponent implements OnChanges {
         this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
         this._functionMonitorService.getAggregateErrorsAndInvocationsForSelectedFunction(this.funcName)
             .subscribe(results => {
-                this.successAggregate = !!results ? results.successCount.toString() : "No data found";
-                this.errorsAggregate = !!results ? results.failedCount.toString() : "No data found";
-                this._globalStateService.clearBusyState();
+                this.successAggregate = !!results ? results.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.errorsAggregate = !!results ? results.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
             });
         this._functionMonitorService.getInvocationsDataForSelctedFunction(this.funcName).subscribe(result => {
             this.rows = result;
+            this._globalStateService.clearBusyState();
         });
     }
 }

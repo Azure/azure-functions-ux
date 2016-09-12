@@ -142,7 +142,7 @@
     <value>函数 URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 机密:</value>
+    <value>GitHub 机密:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>隐藏文件</value>

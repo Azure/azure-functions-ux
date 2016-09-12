@@ -142,7 +142,7 @@
     <value>함수 URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 암호:</value>
+    <value>GitHub 암호:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>파일 숨기기</value>

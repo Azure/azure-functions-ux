@@ -64,8 +64,6 @@
     <Content Include="templates\trial-expired.component.html" />
     <Content Include="templates\tutorial.component.html" />
     <Content Include="styles\app-monitoring.style.css" />
-    <TypeScriptCompile Include="ace\themes\theme-visualstudio.ts" />
-    <Content Include="ace\themes\visualstudio.css" />
     <Content Include="images\landing-page.png" />
     <Content Include="images\monitoring-coming-soon.png" />
     <Content Include="mocks\user.json" />
@@ -81,7 +79,6 @@
     <Content Include="styles\function-integrate.style.css" />
     <Content Include="styles\radio-selector.style.css" />
     <Content Include="styles\sidebar.style.css" />
-    <Content Include="styles\tabs.style.css" />
     <Content Include="styles\top-bar.style.css" />
     <Content Include="templates\app.component.html" />
     <Content Include="styles\tutorial.style.css" />
@@ -104,8 +101,6 @@
     <Content Include="templates\log-streaming.component.html" />
     <Content Include="templates\radio-selector.component.html" />
     <Content Include="templates\sidebar.component.html" />
-    <Content Include="templates\tab.component.html" />
-    <Content Include="templates\tabs.component.html" />
     <Content Include="templates\top-bar.component.html" />
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\aggregate-block.component.ts" />
@@ -141,9 +136,7 @@
     <TypeScriptCompile Include="app\components\radio-selector.component.ts" />
     <TypeScriptCompile Include="app\components\sidebar.component.ts" />
     <TypeScriptCompile Include="app\components\source-control.component.ts" />
-    <TypeScriptCompile Include="app\components\tab.component.ts" />
     <TypeScriptCompile Include="app\components\table-function-monitor.component.ts" />
-    <TypeScriptCompile Include="app\components\tabs.component.ts" />
     <TypeScriptCompile Include="app\components\template-picker.component.ts" />
     <TypeScriptCompile Include="app\components\try-landing.component.ts" />
     <TypeScriptCompile Include="app\components\try-now.component.ts" />
@@ -151,8 +144,9 @@
     <TypeScriptCompile Include="app\components\trial-expired.component.ts" />
     <TypeScriptCompile Include="app\components\tutorial.component.ts" />
     <TypeScriptCompile Include="app\decorators\cache.decorator.ts" />
-    <TypeScriptCompile Include="app\directives\ace-editor.directive.ts" />
+    <TypeScriptCompile Include="app\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
+    <TypeScriptCompile Include="app\models\monaco-model.ts" />
     <TypeScriptCompile Include="app\models\function-monitor.ts" />
     <TypeScriptCompile Include="app\models\portal-resources.ts" />
     <TypeScriptCompile Include="app\models\constants.ts" />

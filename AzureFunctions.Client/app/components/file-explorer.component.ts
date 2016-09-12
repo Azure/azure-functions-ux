@@ -231,6 +231,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     deleteCurrentFile(bypassConfirm?: boolean) {
+        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) return;
         if (bypassConfirm !== true && !confirm(this._translateService.instant(PortalResources.fileExplorer_deletePromt, { fileName: this.selectedFile.name }) )) return;
         this.setBusyState();
         this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
@@ -255,7 +256,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     renameCurrentFile(event: Event, element: any) {
-        if (!this.switchFiles()) return;
+        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase() || !this.switchFiles()) return;
         this.newFileName = this.selectedFile.name;
         this.renamingFile = true;
         var fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);

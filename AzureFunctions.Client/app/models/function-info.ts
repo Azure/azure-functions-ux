@@ -12,6 +12,7 @@ export interface FunctionInfo {
     clientOnly: boolean;
     isDeleted: boolean;
     test_data: string;
+    config_href: string;
 }
 
 export class FunctionInfoHelper {
@@ -26,24 +27,30 @@ export class FunctionInfoHelper {
                 break;
             case "bat":
                 lang = "Batch";
+                //bat
                 break;
             case "csx":
                 lang = "CSharp";
+                //csharp
                 break;
             case "fsx":
                 lang = "FSharp";
+                //fsharp
                 break;
             case "js":
                 lang = "NodeJS";
+                //javascript
                 break;
             case "php":
                 lang = "Php";
                 break;
             case "ps1":
                 lang = "Powershell";
+                //powershell
                 break;
             case "py":
                 lang = "Python";
+                //python
                 break;
         }
         return lang;

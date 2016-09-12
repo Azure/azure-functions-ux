@@ -1,33 +1,31 @@
-﻿using AzureFunctions.Code.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Web.Hosting;
+using AzureFunctions.Code.Extensions;
 using AzureFunctions.Common;
 using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Trace;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Hosting;
 
 namespace AzureFunctions.Code
 {
-    public class TemplatesManager : ITemplatesManager, IDisposable
+    public class TemplatesManager : ITemplatesManager
     {
         private readonly ISettings _settings;
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
-        private readonly ReaderWriterLockSlim _rwlock;
-        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();        
+        private readonly object _lock = new object();
+        private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
 
         public TemplatesManager(ISettings settings)
         {
             this._settings = settings;
-            this._rwlock = new ReaderWriterLockSlim();
             this._fileSystemWatcher = new FileSystemWatcher
             {
                 IncludeSubdirectories = true,
@@ -56,28 +54,26 @@ namespace AzureFunctions.Code
             HostingEnvironment.QueueBackgroundWorkItem(_ => HandleFileSystemChange());
         }
 
-        private async Task HandleFileSystemChange()
+        private void HandleFileSystemChange()
         {
-            var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
-            var templateDirs = new List<string>();
-
-            foreach(var d in runtimeDirs)
+            lock (_lock)
             {
-                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
+                var templateDirs = new List<string>();
+
+                foreach (var d in runtimeDirs)
+                {
+                    templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                }
+
+                IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate);
+
+                templates = templates.Where(e => e != null);
+                _templates = templates;
             }
-
-            IEnumerable<FunctionTemplate> templates = await
-                templateDirs
-                .Select(GetFunctionTemplate)
-                .WhenAll();
-
-            templates = templates.Where(e => e != null);
-            _rwlock.EnterWriteLock();
-            try { _templates = templates; }
-            finally { _rwlock.ExitWriteLock(); }
         }
 
-        private async Task<FunctionTemplate> GetFunctionTemplate(string templateFolderName)
+        private FunctionTemplate GetFunctionTemplate(string templateFolderName)
         {
             var templateDir = Path.Combine(_settings.TemplatesPath, templateFolderName);
             var metadataPath = Path.Combine(templateDir, "metadata.json");
@@ -90,8 +86,8 @@ namespace AzureFunctions.Code
                     {
                         Files = new Dictionary<string, string>()
                     };
-                    template.Metadata = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(metadataPath));
-                    template.Function = JObject.Parse(await FileSystemHelpers.ReadAllTextFromFileAsync(functionPath));
+                    template.Metadata = JObject.Parse(FileSystemHelpers.ReadAllTextFromFile(metadataPath));
+                    template.Function = JObject.Parse(FileSystemHelpers.ReadAllTextFromFile(functionPath));
                     var splits = templateFolderName.Split('\\');
                     template.Runtime = splits[splits.Length - 3];
                     template.Id = splits[splits.Length - 1];
@@ -120,8 +116,7 @@ namespace AzureFunctions.Code
 
         public IEnumerable<FunctionTemplate> GetTemplates(string runtime)
         {
-            _rwlock.EnterReadLock();
-            try
+            lock (_lock)
             {
                 var result = _templates.Where(t => t.Runtime == runtime);
                 if (result.ToList().Count == 0)
@@ -130,7 +125,6 @@ namespace AzureFunctions.Code
                 }
                 return result;
             }
-            finally { _rwlock.ExitReadLock(); }
         }
 
         public async Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId)
@@ -156,20 +150,6 @@ namespace AzureFunctions.Code
             var result = JsonConvert.DeserializeObject<JObject>(await FileSystemHelpers.ReadAllTextFromFileAsync(Path.Combine(runtimeFolder, "Bindings\\bindings.json")));
             AddReferencesContent(result, runtimeFolder);
             return result;
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool flag)
-        {
-            if (flag)
-            {
-                this._rwlock.Dispose();
-            }
         }
 
         private JObject AddReferencesContent(JObject jo, string runtimeForlder)

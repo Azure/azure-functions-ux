@@ -31,6 +31,8 @@ import {PortalResources} from '../models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TryNowComponent} from './try-now.component';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {Response, ResponseType} from '@angular/http';
+import {ArmService} from '../services/arm.service';
 
 @Component({
     selector: 'functions-dashboard',
@@ -64,14 +66,15 @@ export class DashboardComponent implements OnChanges {
     public openIntro: any;
     public trialExpired: boolean;
     public action: Action;
-    public tabId: string = "Develop";    
+    public tabId: string = "Develop";
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _armService: ArmService) {
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, event => {
             let selectedTabId: string;
@@ -160,6 +163,9 @@ export class DashboardComponent implements OnChanges {
                         this.sideBar.selectedFunction = findSelected;
                     }
                 }
+            },
+            (error: Response) => {
+                this.functionsInfo = [];
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();

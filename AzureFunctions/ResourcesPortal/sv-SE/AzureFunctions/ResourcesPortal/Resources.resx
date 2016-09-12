@@ -142,7 +142,7 @@
     <value>Funktionswebbadress:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github-hemlighet:</value>
+    <value>GitHub-hemlighet:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Dölj filer</value>

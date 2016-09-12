@@ -142,7 +142,7 @@
     <value>Adres URL funkcji:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Klucz tajny usługi Github:</value>
+    <value>Klucz tajny usługi GitHub:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Ukryj pliki</value>

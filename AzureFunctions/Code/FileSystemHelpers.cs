@@ -13,6 +13,11 @@ namespace AzureFunctions.Code
             }
         }
 
+        public static string ReadAllTextFromFile(string path)
+        {
+            return File.ReadAllText(path);
+        }
+
         public static bool FileExists(string path)
         {
             return File.Exists(path);

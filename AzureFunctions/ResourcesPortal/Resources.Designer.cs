@@ -223,7 +223,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dev console description.
+        ///   Looks up a localized string similar to In-portal console for accessing your function app’s file system.
         /// </summary>
         internal static string appFunctionSettings_devConsoleDesc {
             get {
@@ -376,7 +376,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no Data.
+        ///   Looks up a localized string similar to No data available.
         /// </summary>
         internal static string appMonitoring_noData {
             get {
@@ -628,6 +628,42 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CORS is not configured for this function app. Please add {{origin}} to your CORS list..
+        /// </summary>
+        internal static string error_CORSNotConfigured {
+            get {
+                return ResourceManager.GetString("error_CORSNotConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to reach your function app. This could happen if DNS resolution fails to resolve to the right place. You can either flush your local DNS cache, or try again in 15 minutes..
+        /// </summary>
+        internal static string error_DnsResolution {
+            get {
+                return ResourceManager.GetString("error_DnsResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrive Function App ({{functionApp}}).
+        /// </summary>
+        internal static string error_UnableToRetriveFunctionApp {
+            get {
+                return ResourceManager.GetString("error_UnableToRetriveFunctionApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to reach your function app ({{statusText}}). Please try again later..
+        /// </summary>
+        internal static string error_UnableToRetriveFunctions {
+            get {
+                return ResourceManager.GetString("error_UnableToRetriveFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to here.
         /// </summary>
         internal static string errorList_here {
@@ -772,7 +808,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Github Secret:.
+        ///   Looks up a localized string similar to GitHub Secret:.
         /// </summary>
         internal static string functionDev_githubSelect {
             get {
@@ -948,6 +984,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionMonitor_invocationOutput {
             get {
                 return ResourceManager.GetString("functionMonitor_invocationOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading ....
+        /// </summary>
+        internal static string functionMonitor_loading {
+            get {
+                return ResourceManager.GetString("functionMonitor_loading", resourceCulture);
             }
         }
         

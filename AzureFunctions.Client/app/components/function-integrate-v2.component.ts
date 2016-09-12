@@ -50,6 +50,15 @@ export class FunctionIntegrateV2Component {
             this.currentBinding = null;
             this.currentBindingId = "";
             this._functionInfo = fi;
+
+            try {
+                this._bindingManager.validateConfig(this._functionInfo.config, this._translateService);
+            } catch (e) {
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });
+                this.onEditorChange('advanced');
+                return;
+            }
+
             this._functionsService.getBindingConfig().subscribe((bindings) => {
                 this._functionsService.getTemplates().subscribe((templates) => {
 
@@ -74,9 +83,11 @@ export class FunctionIntegrateV2Component {
                     }
 
                     this.model.setBindings();
+
                     jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
                 });
             });
+            
         }
     }
 
