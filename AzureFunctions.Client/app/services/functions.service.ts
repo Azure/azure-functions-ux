@@ -96,7 +96,6 @@ export class FunctionsService {
     }
 
     private tryAppServiceUrl = "https://tryappservice.azure.com";
-    private tryAppServiceUrlSlotFragment = "?x-ms-routing-name=next";
 
     constructor(
         private _http: Http,
@@ -406,8 +405,8 @@ export class FunctionsService {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
-            + "&appServiceName=" + encodeURIComponent("Function")
+        var url = this.tryAppServiceUrl + "/api/resource"
+            + "?appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
@@ -421,8 +420,8 @@ export class FunctionsService {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
-            + "&appServiceName=" + encodeURIComponent("Function")
+        var url = this.tryAppServiceUrl + "/api/resource" 
+            + "?appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
             + "&functionName=" + encodeURIComponent(functionName);
@@ -445,16 +444,16 @@ export class FunctionsService {
     }
 
     redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
-        var url = this.tryAppServiceUrl + "/api/resource" + this.tryAppServiceUrlSlotFragment
-            + "&appServiceName=" + encodeURIComponent("Functions")
+        var url = this.tryAppServiceUrl + "/api/resource"
+            + "?appServiceName=" + encodeURIComponent("Functions")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id);
         window.location.href = url;
 
     }
     extendTrialResource() {
-        var url = this.tryAppServiceUrl + "/api/resource/extend" + this.tryAppServiceUrlSlotFragment
-            + "&appServiceName=" + encodeURIComponent("Function")
+        var url = this.tryAppServiceUrl + "/api/resource/extend"
+            + "?appServiceName=" + encodeURIComponent("Function")
             + (this.selectedProvider ? "&provider=" + this.selectedProvider : "");
 
         return this._http.post(url, '', { headers: this.getTryAppServiceHeaders() })

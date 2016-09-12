@@ -1,5 +1,5 @@
 ﻿import {Component, Input, OnInit} from '@angular/core';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'try-now-busy-state',
@@ -8,7 +8,6 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
     pipes: [TranslatePipe]
 })
 export class TryNowBusyStateComponent implements OnInit {
-    private _translateService: TranslateService;
     private inputBoltClass: string;
     private inputStoreClass: string;
     private leftBracketClass: string;

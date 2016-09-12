@@ -506,19 +506,6 @@ export class PortalResources
     public static TimerTriggerNodeJS_description: string = "TimerTriggerNodeJS_description";
     public static TimerTriggerPowerShell_description: string = "TimerTriggerPowerShell_description";
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
-    public static twilioSms_accountsid_help: string = "twilioSms_accountsid_help";
-    public static twilioSms_accountsid_label: string = "twilioSms_accountsid_label";
-    public static twilioSms_authtoken_help: string = "twilioSms_authtoken_help";
-    public static twilioSms_authtoken_label: string = "twilioSms_authtoken_label";
-    public static twilioSms_body_help: string = "twilioSms_body_help";
-    public static twilioSms_body_label: string = "twilioSms_body_label";
-    public static twilioSms_displayName: string = "twilioSms_displayName";
-    public static twilioSms_from_help: string = "twilioSms_from_help";
-    public static twilioSms_from_label: string = "twilioSms_from_label";
-    public static twilioSms_name_help: string = "twilioSms_name_help";
-    public static twilioSms_name_label: string = "twilioSms_name_label";
-    public static twilioSms_to_help: string = "twilioSms_to_help";
-    public static twilioSms_to_label: string = "twilioSms_to_label";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
 }
 

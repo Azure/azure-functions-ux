@@ -11,13 +11,15 @@ import {DropDownComponent} from './drop-down.component';
 import {DropDownElement} from '../models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'template-picker',
     templateUrl: './templates/template-picker.component.html',
     inputs: ['type', 'template'],
     styleUrls: ['styles/template-picker.style.css'],
-    directives: [DropDownComponent],
+    directives: [TooltipContentComponent, TooltipComponent, DropDownComponent],
     pipes: [TranslatePipe]
 })
 
@@ -208,10 +210,12 @@ export class TemplatePickerComponent {
         this.cancel.emit(""); // this fires an eventClicked
     }
 
-    onTemplateCliked(template: string) {
-        this.selectedTemplate = template;
-        if (!this.showFooter) {
-            this.complete.emit(this.selectedTemplate);
+    onTemplateClicked(template: string, templateDisabled:boolean) {
+        if (!templateDisabled) {
+            this.selectedTemplate = template;
+            if (!this.showFooter) {
+                this.complete.emit(this.selectedTemplate);
+            }
         }
     }
 

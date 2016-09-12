@@ -43,8 +43,8 @@ export class TryLandingComponent implements OnInit {
     }
 
     ngOnInit() {
-        //Disabling this temporarily. Somehow ngOnit gets called twice on refresh
-        // possibly related to https://github.com/angular/angular/issues/6782
+        //Disabling this temporarily. Somehow ngOnInit gets called twice on refresh
+        //possibly related to https://github.com/angular/angular/issues/6782
         //and strangely the clearbusystate doesnt get called.
         //this.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
