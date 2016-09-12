@@ -41,7 +41,7 @@ export class TemplatePickerComponent {
 
     set template(value: string) {
         if (value) {
-            this.onTemplateCliked(value);
+            this.onTemplateClicked(value, true);
         }
     }
 

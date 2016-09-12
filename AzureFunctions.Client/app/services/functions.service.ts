@@ -101,6 +101,7 @@ export class FunctionsService {
     }
 
     private tryAppServiceUrl = "https://tryappservice.azure.com";
+    private functionContainer: FunctionContainer;
 
     constructor(
         private _http: Http,

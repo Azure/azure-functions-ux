@@ -512,6 +512,5 @@ export class PortalResources
     public static TimerTriggerPowerShell_description: string = "TimerTriggerPowerShell_description";
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
-    public static documentDB_displayName: string = "documentDB_displayName";
 }
 

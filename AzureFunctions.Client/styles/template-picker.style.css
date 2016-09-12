@@ -21,7 +21,7 @@
 
 .tp-template-disabled:hover{
     border: 3px solid #C2C5C9;
-    cursor: crosshair;
+    cursor: not-allowed;
     background: lightgray;
 }
 
@@ -70,7 +70,7 @@
 
 .tp-template-func-disabled:hover{
     border: 3px solid #C2C5C9;
-    cursor: crosshair;
+    cursor: not-allowed;
     background: lightgray;
 }
 
