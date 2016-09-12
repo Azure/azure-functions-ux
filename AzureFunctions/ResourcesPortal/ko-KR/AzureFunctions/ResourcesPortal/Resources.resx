@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>만들기</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>함수 컨테이너가 없는 것 같습니다. 구독을 선택하여 새로 만드세요.</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>평가판이 만료되었습니다.</value>
   </data>

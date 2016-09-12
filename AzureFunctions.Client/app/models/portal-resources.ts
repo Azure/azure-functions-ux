@@ -105,7 +105,6 @@ export class PortalResources
     public static config: string = "config";
     public static cors: string = "cors";
     public static create: string = "create";
-    public static dashboard_noFunctionContainer: string = "dashboard_noFunctionContainer";
     public static dashboard_yourTrialExpiered: string = "dashboard_yourTrialExpiered";
     public static disabled: string = "disabled";
     public static enabled: string = "enabled";
@@ -227,6 +226,9 @@ export class PortalResources
     public static error_DnsResolution: string = "error_DnsResolution";
     public static error_UnableToRetriveFunctionApp: string = "error_UnableToRetriveFunctionApp";
     public static error_UnableToRetriveFunctions: string = "error_UnableToRetriveFunctions";
+    public static tryNow_fewMoreSeconds: string = "tryNow_fewMoreSeconds";
+    public static tryNow_hangOn: string = "tryNow_hangOn";
+    public static tryNow_discoverMore: string = "tryNow_discoverMore";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
@@ -510,20 +512,6 @@ export class PortalResources
     public static TimerTriggerNodeJS_description: string = "TimerTriggerNodeJS_description";
     public static TimerTriggerPowerShell_description: string = "TimerTriggerPowerShell_description";
     public static timerTrigger_schedule_errorText: string = "timerTrigger_schedule_errorText";
-    public static twilioSms_accountsid_help: string = "twilioSms_accountsid_help";
-    public static twilioSms_accountsid_label: string = "twilioSms_accountsid_label";
-    public static twilioSms_authtoken_help: string = "twilioSms_authtoken_help";
-    public static twilioSms_authtoken_label: string = "twilioSms_authtoken_label";
-    public static twilioSms_body_help: string = "twilioSms_body_help";
-    public static twilioSms_body_label: string = "twilioSms_body_label";
-    public static twilioSms_displayName: string = "twilioSms_displayName";
-    public static twilioSms_from_help: string = "twilioSms_from_help";
-    public static twilioSms_from_label: string = "twilioSms_from_label";
-    public static twilioSms_name_help: string = "twilioSms_name_help";
-    public static twilioSms_name_label: string = "twilioSms_name_label";
-    public static twilioSms_to_help: string = "twilioSms_to_help";
-    public static twilioSms_to_label: string = "twilioSms_to_label";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
-    public static documentDB_displayName: string = "documentDB_displayName";
 }
 

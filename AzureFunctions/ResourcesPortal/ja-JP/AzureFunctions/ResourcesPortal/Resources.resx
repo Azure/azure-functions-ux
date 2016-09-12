@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>作成</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>関数コンテナーがないようです。作成するには、サブスクリプションを選択してください:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>試用期間が終了しました</value>
   </data>

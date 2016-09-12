@@ -16,14 +16,13 @@
     border: 3px solid transparent;
     text-align: center;
     margin: 5px;
-    pointer-events:none;
     background: silver;
 }
 
 .tp-template-disabled:hover{
     border: 3px solid #C2C5C9;
-    cursor: crosshair;
-    background: plum;
+    cursor: not-allowed;
+    background: lightgray;
 }
 
 .tp-template{
@@ -66,14 +65,13 @@
     margin: 5px;
     border: 1px solid #C2C5C9;
     vertical-align: top;
-    pointer-events:none;
     background: silver;
 }
 
 .tp-template-func-disabled:hover{
     border: 3px solid #C2C5C9;
-    cursor: crosshair;
-    background: plum;
+    cursor: not-allowed;
+    background: lightgray;
 }
 
 .tp-template-func{

@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Létrehozás</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Nem rendelkezik függvénytárolóval. Ha létre szeretne hozni egyet, válasszon egy előfizetést:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>A próbaidőszak lejárt</value>
   </data>

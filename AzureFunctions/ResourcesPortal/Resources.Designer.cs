@@ -601,15 +601,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It looks like you don&apos;t have a functions container. Select a subscription to create one:.
-        /// </summary>
-        internal static string dashboard_noFunctionContainer {
-            get {
-                return ResourceManager.GetString("dashboard_noFunctionContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Your trial has expired.
         /// </summary>
         internal static string dashboard_yourTrialExpiered {
@@ -1888,6 +1879,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discover more.
+        /// </summary>
+        internal static string tryNow_discoverMore {
+            get {
+                return ResourceManager.GetString("tryNow_discoverMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extend trial to 24 hours.
         /// </summary>
         internal static string tryNow_extendTrial {
@@ -1897,11 +1897,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Just a few more seconds....
+        /// </summary>
+        internal static string tryNow_fewMoreSeconds {
+            get {
+                return ResourceManager.GetString("tryNow_fewMoreSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!.
         /// </summary>
         internal static string tryNow_FreeAccountToolTip {
             get {
                 return ResourceManager.GetString("tryNow_FreeAccountToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hang on while we put the &apos;fun&apos; in functions....
+        /// </summary>
+        internal static string tryNow_hangOn {
+            get {
+                return ResourceManager.GetString("tryNow_hangOn", resourceCulture);
             }
         }
         

@@ -127,8 +127,8 @@ export class TooltipContentComponent implements AfterViewInit {
 
             case "bottom":
                 targetElPos = {
-                    top: shiftHeight[pos0](),
-                    left: shiftWidth[pos1]()
+                    top: shiftHeight[pos0]() - 40,
+                    left: shiftWidth[pos1]() + 40
                 };
                 break;
 

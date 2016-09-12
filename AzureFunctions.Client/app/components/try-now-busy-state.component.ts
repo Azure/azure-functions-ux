@@ -1,9 +1,11 @@
 ﻿import {Component, Input, OnInit} from '@angular/core';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'try-now-busy-state',
     templateUrl: 'templates/try-now-busy-state.component.html',
-    styleUrls: ['styles/try-now-busy-state.style.css']
+    styleUrls: ['styles/try-now-busy-state.style.css'],
+    pipes: [TranslatePipe]
 })
 export class TryNowBusyStateComponent implements OnInit {
     private inputBoltClass: string;

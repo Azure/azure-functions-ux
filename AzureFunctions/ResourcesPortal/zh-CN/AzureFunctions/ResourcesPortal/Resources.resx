@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>创建</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>似乎你没有函数容器。请选择一个订阅以进行创建:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>你的试用已过期</value>
   </data>

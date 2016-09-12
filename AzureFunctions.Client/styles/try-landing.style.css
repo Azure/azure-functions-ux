@@ -159,7 +159,9 @@ button {
     width: 70px;
     height: 70px;
 }
-
+.trylanding-body-disabled{
+    display: none;
+}
 .trylanding-footer{
     padding: 10px 0 25px 0px;
 }

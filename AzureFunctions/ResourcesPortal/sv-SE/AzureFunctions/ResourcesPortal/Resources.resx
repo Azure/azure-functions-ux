@@ -427,9 +427,6 @@
   <data name="create" xml:space="preserve">
     <value>Skapa</value>
   </data>
-  <data name="dashboard_noFunctionContainer" xml:space="preserve">
-    <value>Du har ingen funktionsbehållare. Välj en prenumeration eller skapa en här:</value>
-  </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
     <value>Utvärderingsperioden har upphört</value>
   </data>
