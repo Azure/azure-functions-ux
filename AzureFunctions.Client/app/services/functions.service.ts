@@ -317,7 +317,7 @@ export class FunctionsService {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled, { name: functionInfo.name })
+                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
                     });
                 } else {
                     return Observable.of({
