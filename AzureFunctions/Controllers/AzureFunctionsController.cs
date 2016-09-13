@@ -63,6 +63,8 @@ namespace AzureFunctions.Controllers
                     if (!_languageMap.TryGetValue(name,out portalFolder)) {
                         portalFolder = name + "-" + name;
                         sdkFolder = name + "-" + name;
+                    } else {
+                        sdkFolder = portalFolder;
                     }
                     portalFolder = Path.Combine(portalFolder, "AzureFunctions\\ResourcesPortal");
                     sdkFolder = Path.Combine(sdkFolder, "Resources");
