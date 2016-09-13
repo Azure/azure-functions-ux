@@ -39,10 +39,7 @@ namespace AzureFunctions.Controllers
         {
             runtime = getClearRuntime(runtime);
 
-            using (FunctionsTrace.BeginTimedOperation())
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
         }
 
         [HttpGet]

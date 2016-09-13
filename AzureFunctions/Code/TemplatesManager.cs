@@ -20,7 +20,6 @@ namespace AzureFunctions.Code
         private readonly ISettings _settings;
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
-        private readonly object _lock = new object();
         private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
 
         public TemplatesManager(ISettings settings)
@@ -56,21 +55,18 @@ namespace AzureFunctions.Code
 
         private void HandleFileSystemChange()
         {
-            lock (_lock)
+            var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
+            var templateDirs = new List<string>();
+
+            foreach (var d in runtimeDirs)
             {
-                var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
-                var templateDirs = new List<string>();
-
-                foreach (var d in runtimeDirs)
-                {
-                    templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
-                }
-
-                IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate);
-
-                templates = templates.Where(e => e != null);
-                _templates = templates;
+                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
             }
+
+            IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate);
+
+            templates = templates.Where(e => e != null);
+            _templates = templates;
         }
 
         private FunctionTemplate GetFunctionTemplate(string templateFolderName)
@@ -116,15 +112,12 @@ namespace AzureFunctions.Code
 
         public IEnumerable<FunctionTemplate> GetTemplates(string runtime)
         {
-            lock (_lock)
+            var result = _templates.Where(t => t.Runtime == runtime);
+            if (result.ToList().Count == 0)
             {
-                var result = _templates.Where(t => t.Runtime == runtime);
-                if (result.ToList().Count == 0)
-                {
-                    result = _templates.Where(t => t.Runtime == "default");
-                }
-                return result;
+                result = _templates.Where(t => t.Runtime == "default");
             }
+            return result;
         }
 
         public async Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId)
