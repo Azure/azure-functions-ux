@@ -93,3 +93,8 @@ textarea{
     margin-top: 5px;
     width: 100%;
 }
+.pulse-button-disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: black;
+}

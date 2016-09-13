@@ -6,13 +6,16 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {FunctionInfo} from '../models/function-info';
 import {BusyStateComponent} from './busy-state.component';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
+import {GlobalStateService} from '../services/global-state.service';
 
 @Component({
     selector: 'table-function-monitor',
     templateUrl: 'templates/table-function-monitor.html',
     styleUrls: ['styles/table-function-monitor.style.css'],
     pipes: [Format, TranslatePipe],
-    directives: [BusyStateComponent]
+    directives: [BusyStateComponent, TooltipContentComponent, TooltipComponent]
 })
 
 export class TableFunctionMonitor implements OnChanges {
@@ -28,7 +31,8 @@ export class TableFunctionMonitor implements OnChanges {
 
     constructor(
         private _functionMonitorService: FunctionMonitorService,
-        private _translateService: TranslateService) { }
+        private _translateService: TranslateService,
+        private _globalStateService: GlobalStateService ) { }
 
     showDetails(rowData: FunctionInvocations) {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(rowData.id).subscribe(results => {
