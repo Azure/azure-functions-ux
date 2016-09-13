@@ -112,12 +112,9 @@ namespace AzureFunctions.Code
 
         public IEnumerable<FunctionTemplate> GetTemplates(string runtime)
         {
-            var result = _templates.Where(t => t.Runtime == runtime);
-            if (result.ToList().Count == 0)
-            {
-                result = _templates.Where(t => t.Runtime == "default");
-            }
-            return result;
+            return _templates.Any(t => t.Runtime == runtime)
+                ? _templates.Where(t => t.Runtime == runtime)
+                : _templates.Where(t => t.Runtime == "default");
         }
 
         public async Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId)
