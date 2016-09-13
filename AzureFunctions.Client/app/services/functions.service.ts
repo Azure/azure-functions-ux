@@ -201,7 +201,7 @@ export class FunctionsService {
 
     @Cache()
     getTemplates() {
-         return this._http.get('api/templates?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+         return this._http.get('api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
@@ -462,7 +462,7 @@ export class FunctionsService {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource" 
+        var url = this.tryAppServiceUrl + "/api/resource"
             + "?appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
