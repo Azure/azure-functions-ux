@@ -782,7 +782,7 @@
     <value>CORS is not configured for this function app. Please add {{origin}} to your CORS list.</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>We are unable to reach your function app. This could happen if DNS resolution fails to resolve to the right place. You can either flush your local DNS cache, or try again in 15 minutes.</value>
+    <value>We are unable to reach your function app. If you had recently deleted and recreated the app, this could be due to DNS resolution errors. Otherwise, your app could be having an intermediat issue or failing to start. You can either flush your local DNS cache, or try again in a couple of minutes.</value>
   </data>
   <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
     <value>Unable to retrive Function App ({{functionApp}})</value>

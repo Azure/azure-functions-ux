@@ -697,7 +697,7 @@ export class FunctionsService {
                             { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
                         );
                     } else {
-                        // DNS resolution
+                        // DNS resolution or any error that results from the worker process crashing or restarting
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
                             { message: this._translateService.instant(PortalResources.error_DnsResolution) }
@@ -709,11 +709,6 @@ export class FunctionsService {
                             { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
                         );
                 });
-        } else if (error.status === 404) {
-            this._broadcastService.broadcast<ErrorEvent>(
-                BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_DnsResolution), details: JSON.stringify(error) }
-            );
         } else {
             this._broadcastService.broadcast<ErrorEvent>(
                 BroadcastEvent.Error,

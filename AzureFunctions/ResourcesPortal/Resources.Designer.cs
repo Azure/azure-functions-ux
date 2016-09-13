@@ -637,7 +637,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are unable to reach your function app. This could happen if DNS resolution fails to resolve to the right place. You can either flush your local DNS cache, or try again in 15 minutes..
+        ///   Looks up a localized string similar to We are unable to reach your function app. If you had recently deleted and recreated the app, this could be due to DNS resolution errors. Otherwise, your app could be having an intermediat issue or failing to start. You can either flush your local DNS cache, or try again in a couple of minutes..
         /// </summary>
         internal static string error_DnsResolution {
             get {
