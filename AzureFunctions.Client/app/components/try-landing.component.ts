@@ -47,12 +47,12 @@ export class TryLandingComponent implements OnInit {
         //possibly related to https://github.com/angular/angular/issues/6782
         //and strangely the clearbusystate doesnt get called.
         //this.setBusyState();
-        this.selectedFunction = this._functionsService.selectedFunction;
-        this.selectedLanguage = this._functionsService.selectedLanguage;
+        this.selectedFunction = this._functionsService.selectedFunction || 'TimerTrigger';
+        this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
         this._functionsService.getTemplates().subscribe((templates) => {
             if (this._globalStateService.TryAppServiceToken) {
                 var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                    return t.id === this._functionsService.selectedFunction + "-" + this._functionsService.selectedLanguage;
+                    return t.id === this.selectedFunction + "-" + this.selectedLanguage;
                 });
 
                 if (selectedTemplate) {
@@ -76,9 +76,6 @@ export class TryLandingComponent implements OnInit {
                                 }
                             });
                 }
-            } else {
-                this.selectedFunction = "TimerTrigger";
-                this.selectedLanguage = "CSharp";
             }
         });
 
