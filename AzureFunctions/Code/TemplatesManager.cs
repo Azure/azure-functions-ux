@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using AzureFunctions.Code.Extensions;
@@ -21,6 +22,7 @@ namespace AzureFunctions.Code
         private readonly FileSystemWatcher _fileSystemWatcher;
         private readonly IObservable<FileSystemEventArgs> _fileSystemObservable;
         private IEnumerable<FunctionTemplate> _templates = Enumerable.Empty<FunctionTemplate>();
+        private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public TemplatesManager(ISettings settings)
         {
@@ -55,18 +57,28 @@ namespace AzureFunctions.Code
 
         private void HandleFileSystemChange()
         {
-            var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
-            var templateDirs = new List<string>();
-
-            foreach (var d in runtimeDirs)
+            if (_lock.TryEnterWriteLock(Timeout.Infinite))
             {
-                templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                try
+                {
+                    var runtimeDirs = Directory.GetDirectories(_settings.TemplatesPath);
+                    var templateDirs = new List<string>();
+
+                    foreach (var d in runtimeDirs)
+                    {
+                        templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                    }
+
+                    IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate).ToList();
+
+                    templates = templates.Where(e => e != null).ToList();
+                    _templates = templates;
+                }
+                finally
+                {
+                    _lock.ExitWriteLock();
+                }
             }
-
-            IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate);
-
-            templates = templates.Where(e => e != null);
-            _templates = templates;
         }
 
         private FunctionTemplate GetFunctionTemplate(string templateFolderName)
@@ -112,9 +124,23 @@ namespace AzureFunctions.Code
 
         public IEnumerable<FunctionTemplate> GetTemplates(string runtime)
         {
-            return _templates.Any(t => t.Runtime == runtime)
-                ? _templates.Where(t => t.Runtime == runtime)
-                : _templates.Where(t => t.Runtime == "default");
+            if (_lock.TryEnterReadLock(Timeout.Infinite))
+            {
+                try
+                {
+                    return _templates.Any(t => t.Runtime == runtime)
+                        ? _templates.Where(t => t.Runtime == runtime)
+                        : _templates.Where(t => t.Runtime == "default");
+                }
+                finally
+                {
+                    _lock.ExitReadLock();
+                }
+            }
+            else
+            {
+                return Enumerable.Empty<FunctionTemplate>();
+            }
         }
 
         public async Task<Dictionary<string, string>> GetTemplateContentAsync(string templateId)
