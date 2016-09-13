@@ -20,10 +20,6 @@
     padding-right: 4%;
 }
 
-.tryinfo-box > div:first-child {
-    padding-right: 20%;
-}
-
 a {
     color: white;
     text-decoration: underline;
@@ -38,4 +34,14 @@ a {
 }
 .discover-more-button {
     padding-left: 30px;   
+}
+.discover-more-wrapper {
+    float: right;
+    padding-right: 2%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.free-trial-wrapper {
+    padding-left: 13%;
 }

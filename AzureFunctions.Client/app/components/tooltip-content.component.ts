@@ -24,6 +24,11 @@ export class TooltipContentComponent implements AfterViewInit {
     @Input()
     animation: boolean = true;
 
+    @Input()
+    leftOffset: number = 0;
+
+    @Input()
+    topOffset: number = 0;
     // -------------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------------
@@ -113,29 +118,29 @@ export class TooltipContentComponent implements AfterViewInit {
         switch (pos0) {
             case "right":
                 targetElPos = {
-                    top: shiftHeight[pos1](),
-                    left: shiftWidth[pos0]()
+                    top: shiftHeight[pos1]() + this.topOffset,
+                    left: shiftWidth[pos0]() + this.leftOffset
                 };
                 break;
 
             case "left":
                 targetElPos = {
-                    top: shiftHeight[pos1](),
-                    left: hostElPos.left - targetElWidth
+                    top: shiftHeight[pos1]() + this.topOffset,
+                    left: hostElPos.left - targetElWidth + this.leftOffset
                 };
                 break;
 
             case "bottom":
                 targetElPos = {
-                    top: shiftHeight[pos0]() - 40,
-                    left: shiftWidth[pos1]() + 40
+                    top: shiftHeight[pos0]() + this.topOffset,
+                    left: shiftWidth[pos1]() + this.leftOffset
                 };
                 break;
 
             default:
                 targetElPos = {
-                    top: hostElPos.top - targetElHeight,
-                    left: shiftWidth[pos1]()
+                    top: hostElPos.top - targetElHeight + this.topOffset,
+                    left: shiftWidth[pos1]() + this.leftOffset
                 };
                 break;
         }

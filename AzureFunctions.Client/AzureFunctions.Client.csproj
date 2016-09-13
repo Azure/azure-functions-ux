@@ -39,7 +39,15 @@
     <Content Include="images\iot-template.svg" />
     <Content Include="images\timer-template.svg" />
     <Content Include="images\webhook-api-template.svg" />
+    <Content Include="styles\aggregate-block.style.css" />
     <Content Include="styles\binding.style.css" />
+    <Content Include="styles\copy-pre.style.css" />
+    <Content Include="styles\error-list.style.css" />
+    <Content Include="styles\file-explorer.style.css" />
+    <Content Include="styles\function-monitor.style.css" />
+    <Content Include="styles\nvd3Charts.css" />
+    <Content Include="styles\source-control.styles.css" />
+    <Content Include="styles\table-function-monitor.style.css" />
     <Content Include="styles\try-now-busy-state.style.css" />
     <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />

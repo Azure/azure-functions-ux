@@ -96,5 +96,5 @@ textarea{
 .pulse-button-disabled {
     cursor: not-allowed;
     background-color: lightgray;
-    color: black;
+    color: white;
 }
