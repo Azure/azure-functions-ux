@@ -16,6 +16,7 @@ export class BackgroundTasksService {
 
     private _preIFrameTasks: RxSubscription;
     private _tasks: RxSubscription;
+    private _isResourcesReceived = false;
     constructor(private _http: Http,
         private _userService: UserService,
         private _functionsService: FunctionsService,
@@ -67,7 +68,12 @@ export class BackgroundTasksService {
                     this.setDisabled(result.config);
                     this._functionsService.setEasyAuth(result.config);
                     this._globalStateService.AppSettings = result.appSettings;
-                    this._functionsService.getResources().subscribe();
+                    if (!this._isResourcesReceived) {
+                        this._functionsService.getResources().subscribe(() => {
+                            this._isResourcesReceived = true;
+                        });                        
+                    }
+                    
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
         } else if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
