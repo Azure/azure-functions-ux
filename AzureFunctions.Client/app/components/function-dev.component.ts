@@ -207,11 +207,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     //TODO: change to field;
     get functionInvokeUrl(): string {
         var code = '';
-        if (this.webHookType === 'github' || this.authLevel === 'anonymous' || this._functionsService.HostSecrets === undefined) {
+        if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
             code = '';
         } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
             code = `?code=${this.secrets.key}`;
-        } else if (this.isHttpFunction && this._functionsService.HostSecrets.functionKey) {
+        } else if (this.isHttpFunction && this._functionsService && this._functionsService.HostSecrets.functionKey) {
             code = `?code=${this._functionsService.HostSecrets.functionKey}`;
         }
         return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
