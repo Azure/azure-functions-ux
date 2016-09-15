@@ -79,7 +79,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
-            .distinctUntilChanged((x, y) => x.href === y.href)
             .switchMap(file => {
                 if (this.fileExplorer)
                     this.fileExplorer.setBusyState();
