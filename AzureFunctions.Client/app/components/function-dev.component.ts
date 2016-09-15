@@ -268,7 +268,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     runFunction() {
         this.saveTestData();
         if (this.scriptFile.isDirty) {
-            this.saveScript().add(() => setTimeout(() => this.runFunction(), 200));
+            this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
             var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
             busyComponent.setBusyState();
