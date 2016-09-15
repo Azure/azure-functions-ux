@@ -270,9 +270,9 @@ export class ArmService {
         }
     }
 
-    private createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount, functionAppName: string, result: Subject<FunctionContainer>): RxSubscription {
+    private createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount, functionAppName: string): RxSubscription {
         let storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
-        let url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}-${functionAppName}?api-version=${this.armLocksApiVersion}`;
+        let url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}?api-version=${this.armLocksApiVersion}`;
         var body = {
             properties: {
                 level: 'CanNotDelete',
@@ -280,16 +280,19 @@ export class ArmService {
             }
         };
 
-        return this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
-                if (errorCount >= 5) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(200))
-            .subscribe();
+        return this._http.get(url, { headers: this.getHeaders() })
+            .subscribe(r => {
+            }, error => {
+                return this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
+                    .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                        if (errorCount >= 5) {
+                            throw err;
+                        }
+                        return errorCount + 1;
+                    }, 0).delay(200))
+                    .subscribe();
+            });
     }
-
     private getStorageAccountSecrets(subscription: string, geoRegion: string, storageAccount: StorageAccount, functionAppName: string, result: Subject<FunctionContainer>) {
         var url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys?api-version=${this.storageApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
@@ -297,7 +300,7 @@ export class ArmService {
         .subscribe(
             secrets => this.createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
             error => this.completeError(result, error)
-        ).add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName, result));
+        ).add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName));
 
     }
 
