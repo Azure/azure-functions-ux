@@ -94,12 +94,10 @@ export class GettingStartedComponent implements OnInit {
         delete this.createError;
         this._globalStateService.setBusyState();
         this._telemetryService.track('gettingstarted-create-functionapp');
-        this._aiService.startTrackEvent('/actions/arm/create/function_app')
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this.userReady.emit(r);
                 this._globalStateService.clearBusyState();
-                this._aiService.stopTrackEvent('/actions/arm/create/function_app', {region: this.selectedGeoRegion})
             });
     }
 

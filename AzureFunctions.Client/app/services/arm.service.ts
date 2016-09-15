@@ -228,7 +228,6 @@ export class ArmService {
                 accountType: 'Standard_GRS'
             }
         };
-        this._aiService.startTrackEvent('/action/arm/create/storage_account');
         this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
         .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
             if (errorCount >= 5) {
@@ -241,7 +240,7 @@ export class ArmService {
             e => this.completeError(result, e));
     }
 
-    private pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0, stopCreationEvent = false) {
+    private pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0) {
         var url = typeof storageAccount === 'string'
         ? `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount}?api-version=${this.storageApiVersion}`
         : `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}?api-version=${this.storageApiVersion}`;
@@ -250,28 +249,25 @@ export class ArmService {
             typeof storageAccount !== 'string' &&
             storageAccount.properties.provisioningState === 'Succeeded') {
             this.getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
-            if (stopCreationEvent) {
-                this._aiService.stopTrackEvent('/action/arm/create/storage_account', { region: geoRegion });
-            }
         } else  {
             this._http.get(url, { headers: this.getHeaders() })
                 .map<StorageAccount>(r => r.json())
                 .subscribe(
                 sa => {
                     if (sa.properties.provisioningState === 'Succeeded') {
-                        if (stopCreationEvent) {
-                            this._aiService.stopTrackEvent('/action/arm/create/storage_account', { region: geoRegion });
-                        }
                         this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result)
                             .add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName, result));
-                    } else if (count < 50) {
-                        setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1, stopCreationEvent), 200)
+                    } else if (count < 100) {
+                        setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400)
                     } else {
+                        this._aiService.trackEvent('/errors/portal/storage/timeout', {count : count.toString(), geoRegion: geoRegion, subscription: subscription})
                         this.completeError(result, sa);
                     }
                 },
-                e => this.completeError(result, e)
-                );
+                e => {
+                    this._aiService.trackEvent('/errors/portal/storage/pull', {count : count.toString(), geoRegion: geoRegion, subscription: subscription})
+                    this.completeError(result, e);
+                });
         }
     }
 
