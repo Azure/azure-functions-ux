@@ -76,3 +76,8 @@ i.select {
 button.go {
     margin-left: 100px;
 }
+.button-go-disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
+}
