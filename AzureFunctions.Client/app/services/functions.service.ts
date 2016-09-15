@@ -230,6 +230,14 @@ export class FunctionsService {
         }
     }
 
+    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
+        var url = `${this.scmUrl}/api/settings`;
+        return this._http.get(url, { headers: this.getScmSiteHeaders() })
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
+            .map<{ [key: string]: string }>(r => r.json());
+    }
+
     @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any, config: any) {
         var filesCopy = Object.assign({}, files);
