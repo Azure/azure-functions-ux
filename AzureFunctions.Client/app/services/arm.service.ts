@@ -256,7 +256,6 @@ export class ArmService {
                 sa => {
                     if (sa.properties.provisioningState === 'Succeeded') {
                         this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result)
-                            .add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName, result));
                     } else if (count < 100) {
                         setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400)
                     } else {
@@ -298,7 +297,8 @@ export class ArmService {
         .subscribe(
             secrets => this.createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
             error => this.completeError(result, error)
-            );
+        ).add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName, result));
+
     }
 
     private complete(o: Subject<FunctionContainer>, functionContainer: FunctionContainer) {
