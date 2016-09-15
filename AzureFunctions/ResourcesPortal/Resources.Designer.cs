@@ -1654,6 +1654,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One or more function apps were linked to this storage account. You can see all the function apps linked to the account under &apos;files&apos; or &apos;Shares&apos;..
+        /// </summary>
+        internal static string storageLockNote {
+            get {
+                return ResourceManager.GetString("storageLockNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subscription.
         /// </summary>
         internal static string subscription {

@@ -10,18 +10,22 @@ import {PublishingCredentials} from '../models/publishing-credentials';
 import {Constants} from '../models/constants';
 import {ClearCache} from '../decorators/cache.decorator';
 import {AiService} from './ai.service';
+import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../models/portal-resources';
 
 @Injectable()
 export class ArmService {
     private token: string;
     private armUrl = 'https://management.azure.com';
     private armApiVersion = '2014-04-01'
+    private armLocksApiVersion = '2015-01-01';
     private storageApiVersion = '2015-05-01-preview';
     private websiteApiVersion = '2015-08-01';
 
     constructor(private _http: Http,
         private _userService: UserService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _translateService: TranslateService) {
         //Cant Get Angular to accept GlobalStateService as input param
         if ( !window.location.pathname.endsWith('/try')) {
             _userService.getToken().subscribe(t => this.token = t);
@@ -258,7 +262,8 @@ export class ArmService {
                         if (stopCreationEvent) {
                             this._aiService.stopTrackEvent('/action/arm/create/storage_account', { region: geoRegion });
                         }
-                        this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
+                        this.getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result)
+                            .add(() => this.createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName, result));
                     } else if (count < 50) {
                         setTimeout(() => this.pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1, stopCreationEvent), 200)
                     } else {
@@ -270,9 +275,29 @@ export class ArmService {
         }
     }
 
+    private createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount, functionAppName: string, result: Subject<FunctionContainer>): RxSubscription {
+        let storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
+        let url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}-${functionAppName}?api-version=${this.armLocksApiVersion}`;
+        var body = {
+            properties: {
+                level: 'CanNotDelete',
+                notes: this._translateService.instant(PortalResources.storageLockNote)
+            }
+        };
+
+        return this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (errorCount >= 5) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(200))
+            .subscribe();
+    }
+
     private getStorageAccountSecrets(subscription: string, geoRegion: string, storageAccount: StorageAccount, functionAppName: string, result: Subject<FunctionContainer>) {
         var url = `${this.armUrl}/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys?api-version=${this.storageApiVersion}`;
-        this._http.post(url, '', { headers: this.getHeaders() })
+        return this._http.post(url, '', { headers: this.getHeaders() })
         .map<{ key1: string, key2: string }>(r => r.json())
         .subscribe(
             secrets => this.createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
