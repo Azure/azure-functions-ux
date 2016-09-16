@@ -76,9 +76,17 @@
                         {{ 'intro_createYourOwn' | translate }}
                     </span>
                     {{ 'or' | translate }}
-                    <span class="link" (click)='startFromSC()'>
+                    <span *ngIf="!_globalStateService.showTryView" class="link" (click)='startFromSC()'>
                         {{ 'intro_startSC' | translate }}
                     </span>
+                    <label *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip" tooltipPlacement="right" class="link-disabled">
+                        {{ 'intro_startSC' | translate }}
+                    </label>
+                    <tooltip-content #freeAccountTooltip>
+                        <p>
+                            {{ 'tryNow_FreeAccountToolTip' | translate }}
+                        </p>
+                    </tooltip-content>
                 </div>
             </div>
 

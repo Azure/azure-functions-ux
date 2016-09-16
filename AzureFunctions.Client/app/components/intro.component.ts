@@ -12,11 +12,14 @@ import {ErrorEvent} from '../models/error-event';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'intro',
     templateUrl: './templates/intro.component.html',
     styleUrls: ['styles/intro.style.css'],
+    directives: [TooltipContentComponent, TooltipComponent],
     pipes: [TranslatePipe]
 })
 

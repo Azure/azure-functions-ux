@@ -85,3 +85,8 @@
 .custom-button{
     margin: 30px 0px;
 }
+.link-disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
+}
