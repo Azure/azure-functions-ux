@@ -20,11 +20,23 @@ export class ErrorListComponent {
     constructor(private _broadcastService: BroadcastService,
         public _portalService: PortalService,
         private _translateService: TranslateService,
-        private _aiService: AiService)
-    {
+        private _aiService: AiService) {
         this.errorList = [];
-        _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (e) => {
-            var errorItem: ErrorItem = e && e.message ? { message: e.message, dateTime: new Date().toISOString() } : this.getGenericError()
+        _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (error) => {
+            var errorItem: ErrorItem;
+
+            if (error && error.message && !error.message.startsWith('<!DOC')) {
+                errorItem = { message: error.message, dateTime: new Date().toISOString() };
+                this._aiService.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: false.toString()})
+            } else {
+                errorItem = this.getGenericError();
+                if (error) {
+                    this._aiService.trackEvent('/errors/portal', {error: error.details, displayedGeneric: true.toString()});
+                } else {
+                    this._aiService.trackEvent('/errors/portal', {error: 'no error info', displayedGeneric: true.toString()});
+                }
+            }
+
             if (!this.errorList.find(e => e.message === errorItem.message)) {
                 this.errorList.push(errorItem);
             }
