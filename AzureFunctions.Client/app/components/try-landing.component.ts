@@ -174,8 +174,9 @@ export class TryLandingComponent implements OnInit {
             tryScmCred: encryptedCreds
         };
         this._functionsService.setScmParams(tryfunctionContainer);
-
         this.setBusyState();
+        this._functionsService.getFunctionContainerAppSettings(tryfunctionContainer)
+            .subscribe(a => this._globalStateService.AppSettings = a);
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();

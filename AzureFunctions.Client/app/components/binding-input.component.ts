@@ -12,6 +12,8 @@ import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
+import {TooltipContentComponent} from './tooltip-content.component';
+import {TooltipComponent} from './tooltip.component';
 
 declare var prettyCron: any;
 
@@ -21,7 +23,7 @@ declare var prettyCron: any;
     //changeDetection: ChangeDetectionStrategy.CheckAlways,
     inputs: ["input"],
     styleUrls: ['styles/binding.style.css'],
-    directives: [DropDownComponent, PopOverComponent],
+    directives: [TooltipContentComponent, TooltipComponent, DropDownComponent, PopOverComponent],
     pipes: [TranslatePipe]
 })
 

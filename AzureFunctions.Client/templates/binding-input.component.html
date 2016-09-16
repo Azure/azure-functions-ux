@@ -34,6 +34,13 @@
         </pop-over>
 
         <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openCollectorBlade(input)"> {{ 'bindingInput_new' | translate }}</i>
+        <span *ngIf="!input.inProcess && showTryView" class ="button-go-disabled" [class.select]="input.errorText" [tooltip]="freeAccountTooltip" 
+              tooltipPlacement="bottom" [leftOffset]=20 [topOffset]=10> {{ 'bindingInput_new' | translate }}</span>
+        <tooltip-content #freeAccountTooltip>
+            <p>
+                {{ 'tryNow_FreeAccountToolTip' | translate }}
+            </p>
+        </tooltip-content>
     </div>
 
     <div *ngIf="input.type === 'boolean'" class="checkbox">

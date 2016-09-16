@@ -163,11 +163,6 @@ export class BindingComponent {
                                 input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
-                                if (setting.resource.toString() === "Storage" && this._globalStateService.showTryView) {
-                                    input.value = "AzureWebJobsStorage";
-                                } else {
-                                    input.value = settigValue;
-                                }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                 input.metadata = setting.metadata;
