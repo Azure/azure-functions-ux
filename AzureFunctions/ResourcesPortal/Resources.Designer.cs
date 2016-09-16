@@ -412,7 +412,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create a new functoin triggered by this output.
+        ///   Looks up a localized string similar to Create a new function triggered by this output.
         /// </summary>
         internal static string binding_createNewFunction {
             get {
