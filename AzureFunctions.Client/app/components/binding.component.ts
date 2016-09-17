@@ -163,6 +163,7 @@ export class BindingComponent {
                                 input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
+                                input.value = settigValue;
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                 input.metadata = setting.metadata;
