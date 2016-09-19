@@ -88,8 +88,15 @@ export class FileExplorerComponent implements OnChanges {
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
         if (changes['functionInfo']) {
             this.currentTitle = this.functionInfo.name;
+            this.resetState();
             this.selectedFunctionChange.emit(this.functionInfo);
         }
+    }
+
+    resetState() {
+        this.creatingNewFile = false;
+        this.renamingFile = false;
+        delete this.newFileName;
     }
 
     setBusyState() {
