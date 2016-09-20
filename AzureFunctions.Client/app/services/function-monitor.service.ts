@@ -57,6 +57,13 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         }).map<FunctionInvocationDetails[]>(r => r.json().parameters)
+            .catch(e => {
+                if (e.status === 404) {
+                    return Observable.of([]);
+                } else {
+                    throw e;
+                }
+            });
     }
 
     getOutputDetailsForSelectedInvocation(invocationId: string) {
@@ -64,6 +71,13 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         }).map<string>(r => r.text())
+            .catch(e => {
+                if (e.status === 404) {
+                    return Observable.of("");
+                } else {
+                    throw e;
+                }
+            });
     }
 
     getAggregateErrorsAndInvocationsForSelectedFunction(selectedFunctionName: string) {

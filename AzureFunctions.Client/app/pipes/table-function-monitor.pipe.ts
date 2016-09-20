@@ -23,7 +23,9 @@ export class Format implements PipeTransform {
             case 'text':
                 return input;
             case 'icon':
-                return input.toLowerCase() === "completedsuccess" ? `<i class="fa fa-check success" style="color: green"></i>` : `<i class="fa fa-times" style="color: red"></i>`;
+                return input.toLowerCase() === "completedsuccess" ? `<i class="fa fa-check success" style="color: green"></i>` :
+                    input.toLowerCase() === "running" ? `<i class="fa fa-ellipsis-h" style="color: blue"></i>` :
+                        `<i class="fa fa-times" style="color: red"></i>`;
             case 'number':
                 parsedFloat = !isNaN(parseFloat(input)) ? parseFloat(input) : 0;
                 format = pipeArgs.length > 1 ? pipeArgs[1] : null;
