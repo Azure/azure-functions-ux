@@ -20,7 +20,8 @@ export class FunctionsExceptionHandler extends ExceptionHandler {
         let errorMessage = this.getErrorMessage(error) || '';
         let errorDetails = this.getErrorDetails(error) || '';
         if (errorMessage.indexOf('NONUSRACT') === -1 &&
-            errorMessage.indexOf('USRACT') === -1) {
+            errorMessage.indexOf('USRACT') === -1 &&
+            !errorMessage.startsWith('EXCEPTION')) {
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: errorMessage, details: errorDetails });
         }
     }

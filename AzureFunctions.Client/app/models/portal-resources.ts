@@ -230,6 +230,7 @@ export class PortalResources
     public static tryNow_hangOn: string = "tryNow_hangOn";
     public static tryNow_discoverMore: string = "tryNow_discoverMore";
     public static storageLockNote: string = "storageLockNote";
+    public static fileExplorer_fileAlreadyExists: string = "fileExplorer_fileAlreadyExists";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";

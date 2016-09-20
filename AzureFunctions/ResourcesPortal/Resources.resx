@@ -802,4 +802,7 @@
   <data name="storageLockNote" xml:space="preserve">
     <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
   </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>A File with the name {{fileName}} already exists.</value>
+  </data>
 </root>

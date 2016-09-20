@@ -11,6 +11,7 @@ import {Subscription as RxSubscription} from 'rxjs/Rx';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {AiService} from '../services/ai.service';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'file-explorer',
@@ -158,7 +159,15 @@ export class FileExplorerComponent implements OnChanges {
         setTimeout(() => element.focus(), 50);
     }
 
-    addFile(content? : string) {
+    addFile(content? : string): Observable<VfsObject | string> {
+        if (this.newFileName && this.files.find(f => f.name.toLocaleLowerCase() === this.newFileName.toLocaleLowerCase())) {
+            let error = {
+                message: this._translateService.instant(PortalResources.fileExplorer_fileAlreadyExists, { fileName: this.newFileName })
+            };
+            this._broadcastService.broadcast(BroadcastEvent.Error, error);
+            return Observable.throw(error.message);
+        }
+
         let href = this.currentVfsObject
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
@@ -196,12 +205,12 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     renameFile() {
-
         this.setBusyState();
         this._functionsService.getFileContent(this.selectedFile)
             .subscribe(content => {
                 var bypassConfirm = true;
-                this.addFile(content).subscribe(s => this.deleteCurrentFile(bypassConfirm));
+                this.addFile(content)
+                    .subscribe(s => this.deleteCurrentFile(bypassConfirm), e => this.clearBusyState());
             }, e => this.clearBusyState());
         this._aiService.trackEvent('/actions/file_explorer/rename_file');
     }

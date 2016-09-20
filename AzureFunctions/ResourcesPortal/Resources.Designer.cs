@@ -754,6 +754,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A File with the name {{fileName}} already exists..
+        /// </summary>
+        internal static string fileExplorer_fileAlreadyExists {
+            get {
+                return ResourceManager.GetString("fileExplorer_fileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Function Error: {{error}}.
         /// </summary>
         internal static string functionCreateErrorDetails {
