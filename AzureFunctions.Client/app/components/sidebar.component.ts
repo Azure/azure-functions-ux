@@ -188,11 +188,15 @@ export class SideBarComponent implements OnDestroy, OnInit {
     }
 
     onTabClicked(tabId: string) {
-        if (!this._globalStateService.IsBusy) {
-            this._portalService.logAction("tabs", "click " + tabId, null);
-            this._tabId = tabId;
-            this.trackPage(tabId);
-            this.changedTab.emit(tabId);
+        if (this.canSwitchFunctions()) {
+            this._broadcastService.clearDirtyState('function');
+            this._broadcastService.clearDirtyState('function_integrate');
+            if (!this._globalStateService.IsBusy) {
+                this._portalService.logAction("tabs", "click " + tabId, null);
+                this._tabId = tabId;
+                this.trackPage(tabId);
+                this.changedTab.emit(tabId);
+            }
         }
     }
 
