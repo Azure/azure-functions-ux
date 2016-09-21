@@ -58,9 +58,9 @@ namespace AzureFunctions.Controllers
             string sdkFolder = "";
             if (name != "en")
             {
-                if(name.Length == 2)
+                if (name.Length == 2)
                 {
-                    if (!_languageMap.TryGetValue(name,out portalFolder)) {
+                    if (!_languageMap.TryGetValue(name, out portalFolder)) {
                         portalFolder = name + "-" + name;
                         sdkFolder = name + "-" + name;
                     } else {
@@ -76,15 +76,29 @@ namespace AzureFunctions.Controllers
 
             List<string> resxFiles = new List<string>();
             var result = new JObject();
+            string templateResourcesPath;
+
             if (!string.IsNullOrEmpty(portalFolder) && !string.IsNullOrEmpty(sdkFolder))
             {
                 resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), portalFolder + "\\Resources.resx"));
-                resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\" + sdkFolder + "\\Resources.resx"));
+                templateResourcesPath = Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\" + sdkFolder + "\\Resources.resx");
+                if (!File.Exists(templateResourcesPath))
+                {
+                    templateResourcesPath = Path.Combine(this._settings.TemplatesPath, "default\\Resources\\" + sdkFolder + "\\Resources.resx");
+                }
+                resxFiles.Add(templateResourcesPath);
                 result["lang"] = ConvertResxToJObject(resxFiles);
                 resxFiles.Clear();
             }
+
+            // Always add english strings
             resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources.resx"));
-            resxFiles.Add(Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources.resx"));
+            
+            templateResourcesPath = Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources.resx");
+            if (!File.Exists(templateResourcesPath)) {
+                templateResourcesPath = Path.Combine(this._settings.TemplatesPath, "default\\Resources\\Resources.resx");
+            }
+            resxFiles.Add(templateResourcesPath);
             result["en"] = ConvertResxToJObject(resxFiles);
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
