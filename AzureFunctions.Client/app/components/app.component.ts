@@ -113,12 +113,12 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this._backgroundTasksService.runTasks();
             } else {
                 this._globalStateService.setBusyState();
-                this._userService.getToken().subscribe(() =>
+                this._userService.getToken().first().subscribe(() =>
                     this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc)));
             }
         } else {
             this._globalStateService.setBusyState();
-            this._userService.getToken().subscribe(() =>
+            this._userService.getToken().first().subscribe(() =>
                 this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc)));
         }
     }
