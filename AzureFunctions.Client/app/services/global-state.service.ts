@@ -6,18 +6,27 @@ import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
 import {BusyStateComponent} from '../components/busy-state.component';
 import {AiService} from './ai.service';
+import {LocalDevelopmentInstructionsComponent} from '../components/local-development-instructions.component';
+import {DashboardComponent} from '../components/dashboard.component';
+import {FunctionsService} from './functions.service';
+import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 
 @Injectable()
 export class GlobalStateService {
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
     private _globalBusyStateComponent: BusyStateComponent;
+    private _localDevelopmentInstructions: LocalDevelopmentInstructionsComponent;
+    private _dashboardComponent: DashboardComponent;
     private _shouldBeBusy: boolean;
     private _token: string;
     private _tryAppServicetoken: string;
     private _scmCreds: string;
+    private _localMode: boolean = false;
+    public _functionsService: FunctionsService;
 
     public showTryView: boolean;
+    public isRunningLocal: boolean = false;
 
     constructor(private _userService: UserService,
       private _armService: ArmService,
@@ -153,5 +162,33 @@ export class GlobalStateService {
                break;
        }
        return result;
+   }
+
+   showLocalDevelopInstructions() {
+       this._localDevelopmentInstructions.show();
+   }
+
+   set LocalDevelopmentInstructionsComponent(value: LocalDevelopmentInstructionsComponent) {
+       this._localDevelopmentInstructions = value;
+   }
+
+   set DashboardComponent(value: DashboardComponent) {
+       this._dashboardComponent = value;
+   }
+
+   checkLocalFunctionsServer() {
+       return this._functionsService.checkLocalFunctionsServer();
+   }
+
+   switchToLocalServer() {
+       this.isRunningLocal = true;
+       this._functionsService.switchToLocalServer();
+       this._dashboardComponent.onRefreshClicked();
+   }
+
+   switchToAzure() {
+       this.isRunningLocal = false;
+       this._functionsService.switchToAzure();
+       this._dashboardComponent.onRefreshClicked();
    }
 }

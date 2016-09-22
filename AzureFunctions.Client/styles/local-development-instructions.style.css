@@ -1,0 +1,78 @@
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.wrapper {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    width: 40%;
+    height: 800px;
+    z-index: 1001;
+    background-color: white;
+    margin-left: -20%;
+    padding: 55px;
+}
+
+.steps {
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    text-align: left;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.step > span {
+    padding-left: 30px;
+    font-size: 16px;
+}
+
+.step > pre {
+    margin-left: 30px;
+}
+
+.mode:hover{
+    border: 3px solid #C2C5C9;
+}
+
+.mode-selected, .mode-selected:hover{
+    border: 3px solid #419BF3;
+}
+
+.mode {
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    width: 156px;
+    cursor: pointer;
+}
+
+.mode-container{
+    padding-top:10px;
+    text-align: center;
+}
+
+.close-button {
+    position: relative;
+    float: right;
+    display: inline;
+    height: 20px;
+    right: -10px;
+    top: -15px;
+    font-size: 22px;
+}
+
+.disable-mode {
+    cursor: not-allowed !important;
+}
+
+a {
+    color: #419BF3;
+    text-decoration: underline;
+}

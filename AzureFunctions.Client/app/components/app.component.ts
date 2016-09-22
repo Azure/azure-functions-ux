@@ -16,14 +16,18 @@ import {BackgroundTasksService} from '../services/background-tasks.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {TryLandingComponent} from './try-landing.component';
+import {LocalDevelopmentInstructionsComponent} from './local-development-instructions.component';
 
 @Component({
     selector: 'azure-functions-app',
     templateUrl: 'templates/app.component.html',
-    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent]
+    directives: [BusyStateComponent, DashboardComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent, LocalDevelopmentInstructionsComponent]
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
+    @ViewChild(LocalDevelopmentInstructionsComponent) localDevelopment: LocalDevelopmentInstructionsComponent;
+    //@ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
+
     public gettingStarted: boolean;
     public ready: boolean = false;
     public showTryView:boolean;
@@ -66,6 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this._functionsService.getResources().subscribe(() => {
             this.readyResources = true;
         });
+        this._globalStateService._functionsService = this._functionsService;
     }
 
     ngOnInit() {
@@ -89,6 +94,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent  = this.busyState;
+        this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
     }
 
 

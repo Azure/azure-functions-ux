@@ -133,6 +133,8 @@ export class DashboardComponent implements OnChanges {
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
                this.trialExpired = true;
         });
+
+        this._globalStateService.DashboardComponent = this;
     }
 
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,

@@ -47,6 +47,8 @@ export class SideBarComponent implements OnDestroy, OnInit {
     private subscriptions: Subscription[];
     private _tabId: string = 'Develop';
     private _currentViewName: string;
+    private showDevelop: boolean = false;
+    private interval: number;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
@@ -114,6 +116,20 @@ export class SideBarComponent implements OnDestroy, OnInit {
             let selectedFi = this.functionsInfo.find(fi => fi.name === this._functionsService.selectedFunctionName);
             this.selectFunction(selectedFi);
         }
+
+        document.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (!e.ctrlKey || !e.altKey || this.showDevelop) return;
+            if (!this.interval) {
+                this.interval = setInterval(() => {
+                    this.showDevelop = true;
+                }, 900);
+            }
+        });
+        document.addEventListener('keyup', (e: KeyboardEvent) => {
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+        });
     }
 
     ngOnInit() {
@@ -167,6 +183,10 @@ export class SideBarComponent implements OnDestroy, OnInit {
             this.trackPage('quickStart');
             this.tabId = 'Develop';
         }
+    }
+
+    developLocally() {
+        this._globalStateService.showLocalDevelopInstructions();
     }
 
     private trackPage(pageName: string) {

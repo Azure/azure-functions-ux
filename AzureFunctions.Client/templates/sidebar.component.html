@@ -23,6 +23,9 @@
         </li>
     </ul>
     <div class="buttons-section">
+        <div (click)="developLocally()" class="tab-item link clickable button" *ngIf="showDevelop">
+            <i class="fa fa-wrench"></i> Develop locally
+        </div>
         <div (click)="appsettings()"
              class="tab-item link clickable button"
              [class.tab-item-selected]="ActiveButton.toString() === 'AppSettings'">
