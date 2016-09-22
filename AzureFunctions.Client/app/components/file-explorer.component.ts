@@ -218,10 +218,11 @@ export class FileExplorerComponent implements OnChanges {
     handleKeyUp(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             // Enter
-            if (this.creatingNewFile) {
+            if (this.creatingNewFile && this.newFileName) {
                 this.addFile();
             } else if (this.renamingFile) {
-                if (this.newFileName.toLocaleLowerCase() !== this.selectedFile.name.toLocaleLowerCase()) {
+                // TODO: handle filename in an input validator.
+                if (this.newFileName && this.newFileName.toLocaleLowerCase() !== this.selectedFile.name.toLocaleLowerCase()) {
                     this.renameFile();
                 } else {
                     this.files.push(this.selectedFile);
