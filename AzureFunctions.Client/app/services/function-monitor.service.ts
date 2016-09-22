@@ -37,7 +37,7 @@ export class FunctionMonitorService {
     }
 
     getInvocationsDataForSelctedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase(); // workaround API bug the functionName needs to be lowercase
+        let funcName = selectedFunctionName.toLocaleLowerCase();
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions/" + funcName + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
@@ -81,11 +81,11 @@ export class FunctionMonitorService {
     }
 
     getAggregateErrorsAndInvocationsForSelectedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase();  // workaround API bug the functionName needs to be lowercase
+        let funcName = selectedFunctionName.toLocaleLowerCase();
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?limit=11";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
-            .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName === funcName));
+            .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === funcName));
     }
 }
