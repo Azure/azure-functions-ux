@@ -114,9 +114,6 @@ export class BindingComponent {
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             this.model.inputs = [];
-            if (bindingSchema.documentation) {
-                this.model.documentation = marked(bindingSchema.documentation);
-            }
 
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 this.newFunction = true;
@@ -133,6 +130,7 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
+                var selectedStorage = '';
                 bindingSchema.settings.forEach((setting) => {
 
                     var functionSettingV = this.bindingValue.settings.find((s) => {
@@ -164,6 +162,9 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
+                                if (input.resource.toString() === 'Storage'){ 
+                                    selectedStorage = settigValue ? settigValue: input.items[0];
+                                }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                 input.metadata = setting.metadata;
@@ -306,6 +307,16 @@ export class BindingComponent {
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
                 this.hasInputsToShowEvent.emit(this.hasInputsToShow);
+
+                if (bindingSchema.documentation) {
+                    if (selectedStorage !== '') {
+                        var storagekeys = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage).split(',');
+                        this.model.documentation = marked(bindingSchema.documentation).replace("{{accountName}}", storagekeys[0]).replace("{{accountKey}}", storagekeys[1]);
+                    } else {
+                        this.model.documentation = marked(bindingSchema.documentation);
+                    }
+
+                }
             }
         });
     }
