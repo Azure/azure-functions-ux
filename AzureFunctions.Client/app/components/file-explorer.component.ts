@@ -16,16 +16,17 @@ import {Observable} from 'rxjs/Rx';
 @Component({
     selector: 'file-explorer',
     templateUrl: 'templates/file-explorer.component.html',
-    styleUrls: ['styles/file-explorer.style.css'],
+    styleUrls: ['styles/file-explorer.style.css', 'styles/function-dev.style.css'],
     directives: [BusyStateComponent, FileSelectDirective, FileDropDirective],
     pipes: [TranslatePipe]
 })
 export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
-    @Input() functionInfo: FunctionInfo;
+    @Input() functionInfo: FunctionInfo;    
     @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
+    @ViewChild('container') container: ElementRef;
 
     folders: VfsObject[];
     files: VfsObject[];

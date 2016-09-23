@@ -1,86 +1,98 @@
-﻿<div *ngIf="scriptFile">
-    <div class="gutter-container">
-        <div *ngIf="showFunctionInvokeUrl"><label>{{ 'functionDev_functionUrl' | translate }}</label></div>
-        <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
-        <div *ngIf="webHookType === 'github'"><label>{{ 'functionDev_githubSelect' | translate }}</label></div>
-        <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || _functionsService?.HostSecrets?.functionKey"></copy-pre></div>
-    </div>
+﻿<div #functionContainer (window:resize)="onResize($event)">    
+    <div *ngIf="scriptFile" class="dev-full">
 
-    <div>
-        <h2 class="dev-block-header">{{ 'functionDev_code' | translate }}</h2>
-        <span>({{fileName}})</span>
-        <div class="dev-block-header">
-            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
-        </div>
-        <div class="dev-flex-container" style="padding-top: 5px">
-            <file-explorer class="dev-files-flex"
-                [class.not-shown]="!showFileExplorer"
-                [functionInfo]="functionInfo"
-                [selectedFile]="scriptFile"
-                (selectedFileChange)="selectedFileStream.next($event)">
-            </file-explorer>
-            <div id="code" monacoEditor class="dev-code-flex monaco" style="height:330px;"
-                 (onSave)="saveScript()"
-                 (onContentChanged)="contentChanged($event)"
-                 [content]="content"
-                 [fileName]="fileName"
-                 [disabled]="disabled">
+        <div class="header">
+            <div class="header-code">
+                <h2>{{ 'functionDev_code' | translate }}</h2>
+                <span>({{fileName}})</span>
+                <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
+            </div>
+            <div>
+                <span class="bubble link" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
+                <span class="bubble link" [class.active]="rightTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
+                <span class="bubble link" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-play"></i> {{ 'run' | translate }}</span>
             </div>
         </div>
-        <span class="clickable link-action" *ngIf="!showFileExplorer" (click)="toggleShowHideFileExplorer()">
-                <i class="fa fa-folder"></i>
-                {{ 'functionDev_viewFiles' | translate }}
-         </span>
-         <span class="clickable link-action" *ngIf="showFileExplorer" (click)="toggleShowHideFileExplorer()">
-                <i class="fa fa-folder-open"></i>
-                {{ 'functionDev_hideFiles' | translate }}
-         </span>
-    </div>
 
-    <div *ngIf="functionInfo" class="gutter-container" style="margin-top:5px">
-        <log-streaming [functionInfo]="functionInfo"></log-streaming>
-    </div>
 
-    <h2 class="dev-block-header">{{ 'functionDev_run' | translate }}</h2>
-    <div class="dev-flex-container" *ngIf="functionInfo">
-        <busy-state name="run-busy"></busy-state>
-        <div class="dev-run-block" style="margin-right: 10px">
-            <div style="padding-bottom: 6px">{{ 'functionDev_requestBody' | translate }}</div>
-            <div id="test_data" monacoEditor class="monaco" style="height:230px"
-                 (onSave)="saveTestData()"
-                 (onContentChanged)="testContentChanged($event)"
-                 [content]="functionInfo.test_data"
-                 fileName="sample.dat"
-                 [disabled]="disabled">
+        <div class="work-block">            
+
+            <div #editorContainer class="dev-full">
+
+                <div *ngIf="showFunctionInvokeUrl"><label>{{ 'functionDeComv_functionUrl' | translate }}</label></div>
+                <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
+                <div *ngIf="webHookType === 'github'"><label>{{ 'functionDev_githubSelect' | translate }}</label></div>
+                <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || _functionsService?.HostSecrets?.functionKey"></copy-pre></div>
+
+                <div monacoEditor id="code" class="monaco dev-full"
+                     (onSave)="saveScript()"
+                     (onContentChanged)="contentChanged($event)"
+                     [content]="content"
+                     [fileName]="fileName"
+                     [disabled]="disabled">
+                </div>
             </div>
-            <button *ngIf="scriptFile.isDirty"
-                class="custom-button"
-                [class.dirty]="scriptFile.isDirty"
-                (click)="runFunction()">
-                {{ 'functionDev_saveAndRun' | translate }}
-            </button>
 
-            <button *ngIf="!scriptFile.isDirty"
-                class="custom-button"
-                [class.dirty]="scriptFile.isDirty"
-                (click)="runFunction()">
-                {{ 'run' | translate }}
-            </button>
+            <div #rightContainer id="sidebar" class="right-block">
 
-            <button
-                *ngIf="running"
-                class="custom-button cancel-button"
-                (click)="cancelCurrentRun()">
-                {{ 'cancel' | translate }}
-            </button>
-        </div>
+                <div [hidden]="rightTab!=='files'" *ngIf="functionInfo" class="dev-full">
+                    <file-explorer [functionInfo]="functionInfo"
+                                   [selectedFile]="scriptFile"
+                                   (selectedFileChange)="selectedFileStream.next($event)">
+                    </file-explorer>
+                </div>
 
-        <div class="dev-run-block">
-            <div class="dev-flex-container">
-                <div class="dev-run-block">{{ 'functionDev_Output' | translate }}</div>
-                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                <div [hidden]="rightTab!=='logs'" *ngIf="functionInfo" class="dev-full">
+                    <log-streaming [functionInfo]="functionInfo"></log-streaming>
+                </div>
+
+                <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container">
+                    <busy-state name="run-busy"></busy-state>
+                    <div class="dev-full dev-flex-column" *ngIf="functionInfo">
+                        <div>
+                            <div class="run-label">{{ 'functionDev_requestBody' | translate }}</div>
+                            <div id="test_data" monacoEditor class="monaco"
+                                 (onSave)="saveTestData()"
+                                 (onContentChanged)="testContentChanged($event)"
+                                 [content]="functionInfo.test_data"
+                                 fileName="sample.dat"
+                                 [disabled]="disabled">
+                            </div>
+                            <button *ngIf="scriptFile.isDirty"
+                                    class="custom-button"
+                                    [class.dirty]="scriptFile.isDirty"
+                                    (click)="runFunction()">
+                                {{ 'functionDev_saveAndRun' | translate }}
+                            </button>
+
+                            <div>
+                                <button *ngIf="!scriptFile.isDirty"
+                                        class="custom-button"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'run' | translate }}
+                                </button>
+                                <button *ngIf="running"
+                                        class="custom-button cancel-button"
+                                        (click)="cancelCurrentRun()">
+                                    {{ 'cancel' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="dev-flex-column" style="flex-grow:1;">
+                            <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                            <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+
+                            <pre style="flex-grow:1;">{{runResult?.content}}</pre>
+
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
-            <pre class="log-stream">{{runResult?.content}}</pre>
+
         </div>
     </div>
 

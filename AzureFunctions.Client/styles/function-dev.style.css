@@ -1,60 +1,69 @@
-﻿h2 {
-    font-weight: 400;
+﻿div.header {
+    display: flex;
 }
 
-h2.dev-block-header{
+div.header-code {
+    flex-grow: 1;
+    padding-bottom: 10px;
+}
+
+div.header-code > h2 {
     display: inline;
 }
 
-div.dev-block-header{
-    float: right;
+
+div.work-block {
+    display:flex;
+    height:100%
 }
 
-div.inline-no-float {
-    float: none;
-    display: inline-block;
-    margin-left: 10px;
+div.right-block {
+    padding-left:10px;
 }
 
-.dev-block-header > span, .dev-block-header + span {
-    margin-left: 10px;
+.dev-full {
+    height:100%;
+    width:100%;
 }
 
-.dev-block-header > span span{
-    color: #539CF6;
+.dev-border {
+    border: 1px solid #ccc;
 }
 
-.dev-block-header > span > span i{
-    margin-right: 5px;
-}
-
-.dev-flex-container{
+.dev-flex-column {
     display: flex;
+    flex-direction:column;
+}
+
+.run-container {
+    padding-left: 10px;
+    padding-right: 10px;
     position: relative;
 }
 
-.dev-code-flex {
-    flex-grow: 3;
+.run-label {
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.dev-files-flex {
-    flex-grow: 1;
-    max-width: 200px;
-    min-width: 200px;
-}
-
-.dev-run-block{
-    flex-grow: 1;
-    min-width: 49.5%;
-}
-
-.dev-run-block button{
-    float: right;
+.run-container button {
     margin-top: 10px;
+    float: right;
 }
 
-.dev-run-block > pre.log-stream{
-    height: 270px;
+
+.bottom-toolbar {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-top: 0px;
+    margin: 0px;
+    margin-left: 0px;
+    line-height: 25px;
+    padding: 10px;
+}
+
+.bottom-toolbar > span  {
+    margin-right: 30px;
 }
 
 .cancel-button {
@@ -62,10 +71,6 @@ div.inline-no-float {
     border-color: #d43f3a;
     z-index: 2000;
     position: relative;
-}
-
-.log-stream {
-    margin-top: 5px;
 }
 
 .link-action {
@@ -94,4 +99,57 @@ div.inline-no-float {
 
 .not-shown {
     display: none;
+}
+
+.bubble {
+    position: relative;
+    padding: 4px;
+    background: #FFFFFF;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border: #7F7F7F solid 1px;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 27px 6px 0;
+    border-color: #FFFFFF transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    margin-left: -6px;
+    bottom: -27px;
+    left: 50%;
+}
+
+.bubble:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 27px 6px 0;
+    border-color: #7F7F7F transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    margin-left: -6px;
+    bottom: -28px;
+    left: 50%;
+}
+
+.bubble {   
+    position: relative;
+    padding: 4px;
+    background: #FFFFFF;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    border: #7F7F7F solid 1px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #D1D2D4;
 }

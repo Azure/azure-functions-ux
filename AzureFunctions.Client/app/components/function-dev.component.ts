@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy } from '@angular/core';
+﻿import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
@@ -38,11 +38,17 @@ import {BindingManager} from '../models/binding-manager';
     ],
     pipes: [TranslatePipe]
 })
+
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChild(LogStreamingComponent) logStreaming: LogStreamingComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
-    @ViewChildren(MonacoEditorDirective) aceEditors: QueryList<MonacoEditorDirective>;
+    @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
+
+    @ViewChild('functionContainer') functionContainer: ElementRef;
+    @ViewChild('editorContainer') editorContainer: ElementRef;
+    @ViewChild('rightContainer') rightContainer: ElementRef;
+
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
     public functionInfo: FunctionInfo;
@@ -61,8 +67,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
-
-    public showFileExplorer: boolean;
+    
+    public rightTab : string = "";
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -75,7 +81,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService,
-                private _aiService: AiService) {
+                private _aiService: AiService,
+                private _el: ElementRef) {
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -149,6 +156,59 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
+    }
+
+    private onResize(ev?: any) {
+        var TOP = 140;
+        var LEFT = 300;        
+
+        var GLOBAL_PADDING = 20;
+
+        var WIDTH = window.innerWidth - LEFT;
+        var HEIGHT = window.innerHeight - TOP;
+
+        var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
+        var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
+
+        var playgroundContainer = this.functionContainer.nativeElement;
+        playgroundContainer.style.width = WIDTH + 'px';
+        playgroundContainer.style.height = HEIGHT + 'px';
+
+
+        if (this.editorContainer) {
+            var typingContainer = this.editorContainer.nativeElement;
+            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px",
+            typingContainer.style.height = HEIGHT + 'px';
+        }
+
+        if (this.codeEditor) {
+            this.codeEditor.setLayout(
+                this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
+                HEIGHT - 2
+            );
+        }
+
+        if (this.testDataEditor) {
+            this.testDataEditor.setLayout(
+                this.rightTab ? RIGHTBAR_WIDTH - 34  : 0,
+                HEIGHT / 2 
+            );
+        }
+
+        if (this.rightContainer) {
+            var editorContainer = this.rightContainer.nativeElement;
+            editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
+            editorContainer.style.height = HEIGHT + 'px';
+        }
+    }
+
+    ngAfterViewInit() {
+        this.onResize();
+    }
+
+    clickRightTab(tab: string) {
+        this.rightTab = (this.rightTab === tab) ? "" : tab;
+        this.onResize();
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
@@ -242,7 +302,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     contentChanged(content: string) {
-        //debugger;
+
 
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
@@ -292,18 +352,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    toggleShowHideFileExplorer() {
-
-        this.aceEditors.forEach((e: MonacoEditorDirective) => {
-            e.changeWidth(this.showFileExplorer ? 200 : -200);
-        });
-
-        this.showFileExplorer = !this.showFileExplorer;
-        if (this.showFileExplorer) {
-            this._aiService.trackEvent('/actions/file_explorer/show');
-        }
-    }
-
     checkErrors(functionInfo: FunctionInfo) {
         this._functionsService.getFunctionErrors(functionInfo)
         .subscribe(errors => {
@@ -323,6 +371,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
                 }));
            }
+        });
+    }
+
+    get codeEditor(): MonacoEditorDirective {
+        return this.monacoEditors.toArray().find((e) => {
+            return e.elementRef.nativeElement.id === "code";
+        });
+    }
+
+    get testDataEditor(): MonacoEditorDirective {
+        return this.monacoEditors.toArray().find((e) => {
+            return e.elementRef.nativeElement.id === "test_data";
         });
     }
 }

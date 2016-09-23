@@ -17,15 +17,12 @@ export class MonacoEditorDirective {
     private _content: string;
     private _disabled: boolean;
     private _editor: any;
-    private _containerName: string;
-    private _elementRef: ElementRef;
+    private _containerName: string;    
     private _silent: boolean = false;
 
-    constructor(private elementRef: ElementRef) {
+    constructor(public elementRef: ElementRef) {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
-
-        this._elementRef = elementRef;
 
         this.init();
     }
@@ -88,15 +85,18 @@ export class MonacoEditorDirective {
         }
     }
 
-    changeWidth(value: number) {
-        if (this._elementRef.nativeElement.id === "code") {
+
+
+    public setLayout(width?: number, height?: number) {
+        if (this._editor) {
             var layout = this._editor.getLayoutInfo();
             this._editor.layout({
-                width: layout.width + value,
-                height: layout.height
+                width: width ? width : layout.width,
+                height: height ? height : layout.height,
             });
         }
     }
+
 
     private init() {
         require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
@@ -110,7 +110,7 @@ export class MonacoEditorDirective {
                     that._editor.dispose();
                 }
                 
-                that._editor = monaco.editor.create(that._elementRef.nativeElement, {
+                that._editor = monaco.editor.create(that.elementRef.nativeElement, {
                     value: that._content,
                     language: that._language,
                     readOnly: that._disabled,
@@ -127,6 +127,7 @@ export class MonacoEditorDirective {
                 that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
                     that.onSave.emit(that._editor.getValue());
                 });
+
 
             });
         }, 0);

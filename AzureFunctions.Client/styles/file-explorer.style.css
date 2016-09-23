@@ -19,7 +19,7 @@
 }
 
 .file-container {
-    height: 300px;
+    height: 100%;
     border: 1px solid #ccc;
     /*margin-right: 3px;*/
     overflow-y: auto;
@@ -48,10 +48,9 @@
     display: flex;
 }
 
-#lower-panel > div {
-    width: 49%;
+#lower-panel > div {    
     text-align: center;
-    padding: 4.5px;
+    padding: 10px;
     border-right: 1px solid #ccc;
 }
 

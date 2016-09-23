@@ -1,6 +1,6 @@
-<div class="wrapper">
+<div class="dev-full dev-flex-column">
     <busy-state></busy-state>
-    <div ng2FileDrop [uploader]="uploader" class="file-container">
+    <div ng2FileDrop [uploader]="uploader" class="file-container" style="flex-grow:1;">
         <div class="clickable heading" (click)="headingClick()">
             <i class="fa fa-folder-open"></i>
             {{currentTitle}}
@@ -27,19 +27,29 @@
                [class.hidden]="!creatingNewFile && !renamingFile"
                #focusable />
     </div>
-    <div id="lower-panel">
-        <div class="clickable" (click)="addnewInput($event, focusable)">
+
+    <div class="bottom-toolbar">
+        <span class="clickable link-action" (click)="addnewInput($event, focusable)">
             <i class="fa fa-plus"></i>
-        </div>
-        <div class="clickable" (click)="inputElement.click()">
-            <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement/>
+            {{ 'fileExplorer_add' | translate }}
+        </span>
+        <span class="clickable link-action" (click)="inputElement.click()">
+            <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement />
             <i class="fa fa-upload"></i>
-        </div>
-        <div class="clickable" [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" (click)="deleteCurrentFile()">
-            <i class="fa fa-trash"></i>
-        </div>
-        <!--<div class="clickable" [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" (click)="renameCurrentFile($event, focusable)">
-            <i class="fa fa-pencil"></i>
-        </div>-->
+            {{ 'fileExplorer_upload' | translate }}
+        </span>
+        <span>
+            <span [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" class="clickable link-action" (click)="deleteCurrentFile()">
+                <i class="fa fa-trash"></i>
+                {{ 'fileExplorer_delete' | translate }}
+            </span>
+        </span>
+<!--        <span>
+            <span [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" class="clickable link-action" (click)="renameCurrentFile($event, focusable)">
+                <i class="fa fa-pencil"></i>
+                {{ 'fileExplorer_edit' | translate }}
+            </span>
+        </span>
+-->
     </div>
 </div>

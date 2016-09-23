@@ -799,6 +799,18 @@
   <data name="tryNow_discoverMore" xml:space="preserve">
     <value>Discover more</value>
   </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
   </data>

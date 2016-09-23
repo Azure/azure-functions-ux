@@ -709,6 +709,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string fileExplorer_add {
+            get {
+                return ResourceManager.GetString("fileExplorer_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes made to current file will be lost. Are you sure you want to continue?.
         /// </summary>
         internal static string fileExplorer_changesLost {
@@ -718,11 +727,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string fileExplorer_delete {
+            get {
+                return ResourceManager.GetString("fileExplorer_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete {{fileName}}.
         /// </summary>
         internal static string fileExplorer_deletePromt {
             get {
                 return ResourceManager.GetString("fileExplorer_deletePromt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string fileExplorer_edit {
+            get {
+                return ResourceManager.GetString("fileExplorer_edit", resourceCulture);
             }
         }
         
@@ -750,6 +777,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string fileExplorer_errorDeletingFile {
             get {
                 return ResourceManager.GetString("fileExplorer_errorDeletingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        internal static string fileExplorer_upload {
+            get {
+                return ResourceManager.GetString("fileExplorer_upload", resourceCulture);
             }
         }
         
