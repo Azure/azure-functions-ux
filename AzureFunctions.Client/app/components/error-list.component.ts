@@ -27,7 +27,10 @@ export class ErrorListComponent {
 
             if (error && error.message && !error.message.startsWith('<!DOC')) {
                 errorItem = { message: error.message, dateTime: new Date().toISOString() };
-                this._aiService.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: false.toString()})
+                this._aiService.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: false.toString()});
+                if (!this.errorList.find(e => e.message === errorItem.message)) {
+                    this.errorList.push(errorItem);
+                }
             } else {
                 errorItem = this.getGenericError();
                 if (error) {
@@ -35,10 +38,6 @@ export class ErrorListComponent {
                 } else {
                     this._aiService.trackEvent('/errors/portal', {error: 'no error info', displayedGeneric: true.toString()});
                 }
-            }
-
-            if (!this.errorList.find(e => e.message === errorItem.message)) {
-                this.errorList.push(errorItem);
             }
         });
     }
