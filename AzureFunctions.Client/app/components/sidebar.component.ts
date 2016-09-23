@@ -164,9 +164,11 @@ export class SideBarComponent implements OnDestroy, OnInit {
         }
     }
 
-    appsettings() {
+    appsettings(emit: boolean = true) {
         if (this.canSwitchFunctions()) {
-            this.appSettingsClicked.emit(null);
+            if (emit) {
+                this.appSettingsClicked.emit(null);
+            }
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
             this.trackPage('appSettings');

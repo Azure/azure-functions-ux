@@ -189,6 +189,7 @@ export class DashboardComponent implements OnChanges {
     onAppSettingsClicked() {
         this.resetView(true);
         this.openAppSettings = true;
+        this.sideBar.appsettings(false);
     }
 
     onQuickstartClicked() {
