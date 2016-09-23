@@ -781,20 +781,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload.
-        /// </summary>
-        internal static string fileExplorer_upload {
-            get {
-                return ResourceManager.GetString("fileExplorer_upload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A File with the name {{fileName}} already exists..
         /// </summary>
         internal static string fileExplorer_fileAlreadyExists {
             get {
                 return ResourceManager.GetString("fileExplorer_fileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        internal static string fileExplorer_upload {
+            get {
+                return ResourceManager.GetString("fileExplorer_upload", resourceCulture);
             }
         }
         
@@ -1825,7 +1825,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A new version of Azure Functions is available.Visit Function App Settings to upgrade..
+        ///   Looks up a localized string similar to A new version of Azure Functions is available. To upgrade visit.
         /// </summary>
         internal static string topBar_newVersion {
             get {

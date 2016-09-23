@@ -43,6 +43,7 @@ export class TopBarComponent implements OnInit {
 
     @Output() private appMonitoringClicked: EventEmitter<any>;
     @Output() private sourceControlClicked: EventEmitter<any>;
+    @Output() private functionAppSettingsClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
         private _broadcastService: BroadcastService,
@@ -53,6 +54,7 @@ export class TopBarComponent implements OnInit {
     ) {
         this.appMonitoringClicked = new EventEmitter<any>();
         this.sourceControlClicked = new EventEmitter<any>();
+        this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
@@ -123,6 +125,12 @@ export class TopBarComponent implements OnInit {
             this.resetView();
             this.sourceControlClicked.emit(null);
             this.ActiveButton = TopbarButton.SourceControl;
+        }
+    }
+
+    onFunctionAppSettingsClicked(event: any) {
+        if (this.canLeaveFunction()) {
+            this.functionAppSettingsClicked.emit(event);
         }
     }
 

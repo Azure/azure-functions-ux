@@ -2,6 +2,7 @@
     <!-- TODO: move padding to css -->
     <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
+             (functionAppSettingsClicked)='onAppSettingsClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
              [quickStartSelected]="openIntro"></top-bar>
     <div class="content">

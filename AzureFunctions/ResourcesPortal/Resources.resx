@@ -332,7 +332,7 @@
     <value>Function app settings</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>A new version of Azure Functions is available.Visit Function App Settings to upgrade.</value>
+    <value>A new version of Azure Functions is available. To upgrade visit</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Quickstart</value>
