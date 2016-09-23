@@ -417,7 +417,7 @@ export class FunctionsService {
     }
 
     getScmUrl() {
-        return this.scmUrl;
+        return this.azureScmServer;
     }
 
     getSiteName() {

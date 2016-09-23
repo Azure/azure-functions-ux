@@ -11,9 +11,12 @@ export class LocalDevelopmentInstructionsComponent implements OnInit {
     private shown: boolean = false;
     private selectedMode: string = 'Azure';
     private isLocalServerRunning: boolean = false;
+    private downloadUrl: string;
     constructor(
         private _globalStateService: GlobalStateService,
-        private _functionsService: FunctionsService) { }
+        private _functionsService: FunctionsService) {
+            this.downloadUrl = `${this._functionsService.getScmUrl()}/zip/site/wwwroot`;
+         }
 
     ngOnInit() {
 
