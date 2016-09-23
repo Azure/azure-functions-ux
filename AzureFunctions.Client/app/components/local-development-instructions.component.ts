@@ -15,15 +15,14 @@ export class LocalDevelopmentInstructionsComponent implements OnInit {
     constructor(
         private _globalStateService: GlobalStateService,
         private _functionsService: FunctionsService) {
-            this.downloadUrl = `${this._functionsService.getScmUrl()}/zip/site/wwwroot`;
          }
 
     ngOnInit() {
-
      }
 
     show() {
         this.shown = true;
+        this.downloadUrl = `${this._functionsService.getScmUrl()}/zip/site/wwwroot`;
         this.checkLocalFunctionsServer();
     }
 
