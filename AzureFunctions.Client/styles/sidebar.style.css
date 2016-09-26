@@ -41,6 +41,10 @@
     color: #000;
 }
 
+.tab {
+    width: 13px;
+}
+
 .functions-list li span {
     display: block;
     padding: 10px;
