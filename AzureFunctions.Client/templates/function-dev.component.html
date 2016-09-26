@@ -8,9 +8,9 @@
                 <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
             </div>
             <div>
-                <span class="bubble link" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                <span class="bubble link" [class.active]="rightTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
-                <span class="bubble link" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-play"></i> {{ 'run' | translate }}</span>
+                <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
+                <span class="link bubble-label" [class.bubble]="rightTab==='logs'" [class.active]="rightTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
+                <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-play"></i> {{ 'run' | translate }}</span>
             </div>
         </div>
 
