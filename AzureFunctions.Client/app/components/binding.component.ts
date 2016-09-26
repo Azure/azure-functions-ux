@@ -41,6 +41,8 @@ export class BindingComponent {
 
     public newFunction: boolean = false;
     public disabled: boolean;
+    public storageAccountName: string;
+    public storageAccountKey: string;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
@@ -307,8 +309,8 @@ export class BindingComponent {
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
                 this.hasInputsToShowEvent.emit(this.hasInputsToShow);
-
-                this.setStorageInformation(bindingSchema.documentation, selectedStorage);
+                this.model.documentation = marked(bindingSchema.documentation);
+                this.setStorageInformation(selectedStorage);
             }
         });
     }
@@ -361,7 +363,7 @@ export class BindingComponent {
 
         this.setLabel();
         this.model.saveOriginInputs();
-        this.setStorageInformation(this.model.markedDocumentation, selectedStorage);
+        this.setStorageInformation(selectedStorage);
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -387,16 +389,14 @@ export class BindingComponent {
         this.go.emit(action);
     }
 
-    private setStorageInformation(documentation: string, selectedStorage: string) {
-        if (documentation) {
-            this.model.markedDocumentation = documentation;
-            if (selectedStorage !== '') {
-                var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
-                if (storageAccount.length === 2) {
-                    this.model.documentation = marked(documentation).replace("{{accountKey}}", storageAccount.pop()).replace("{{accountName}}", storageAccount.pop());
-                }
-            } else {
-                this.model.documentation = marked(documentation);
+    private setStorageInformation(selectedStorage: string) {
+        this.storageAccountKey = undefined;
+        this.storageAccountName = undefined;
+        if (selectedStorage !== '') {
+            var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
+            if (storageAccount.length === 2) {
+                this.storageAccountKey = storageAccount.pop();
+                this.storageAccountName = storageAccount.pop();
             }
         }
     }
