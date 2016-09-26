@@ -308,15 +308,7 @@ export class BindingComponent {
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
                 this.hasInputsToShowEvent.emit(this.hasInputsToShow);
 
-                if (bindingSchema.documentation) {
-                    if (selectedStorage !== '') {
-                        var storagekeys = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage).split(',');
-                        this.model.documentation = marked(bindingSchema.documentation).replace("{{accountName}}", storagekeys[0]).replace("{{accountKey}}", storagekeys[1]);
-                    } else {
-                        this.model.documentation = marked(bindingSchema.documentation);
-                    }
-
-                }
+                this.setStorageInformation(bindingSchema.documentation, selectedStorage);
             }
         });
     }
@@ -342,13 +334,15 @@ export class BindingComponent {
 
         this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
-
+        var selectedStorage;
         this.model.inputs.forEach((input) => {
             var setting = this.bindingValue.settings.find((s) => {
                 return s.name == input.id;
             });
 
             if (setting) {
+                if (input.resource && input.resource.toString() === 'Storage')
+                    selectedStorage = input.value;
                 setting.value = input.value;
                 if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
                     setting.noSave = true;
@@ -367,6 +361,7 @@ export class BindingComponent {
 
         this.setLabel();
         this.model.saveOriginInputs();
+        this.setStorageInformation(this.model.markedDocumentation, selectedStorage);
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -390,6 +385,20 @@ export class BindingComponent {
         });
 
         this.go.emit(action);
+    }
+
+    private setStorageInformation(documentation: string, selectedStorage: string) {
+        if (documentation) {
+            this.model.markedDocumentation = documentation;
+            if (selectedStorage !== '') {
+                var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
+                if (storageAccount.length === 2) {
+                    this.model.documentation = marked(documentation).replace("{{accountKey}}", storageAccount.pop()).replace("{{accountName}}", storageAccount.pop());
+                }
+            } else {
+                this.model.documentation = marked(documentation);
+            }
+        }
     }
 
     private setDirtyIfNewBinding() {

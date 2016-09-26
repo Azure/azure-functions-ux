@@ -9,6 +9,7 @@ export class BindingInputList {
     label: string;
     description: string;
     documentation: string;
+    markedDocumentation: string;
     actions: Action[];
 
     saveOriginInputs() {
