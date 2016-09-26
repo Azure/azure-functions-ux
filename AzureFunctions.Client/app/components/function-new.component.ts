@@ -192,12 +192,24 @@ export class FunctionNewComponent {
     private validate() {
         //^[a-z][a-z0-9_\-]{0,127}$(?<!^host$) C# expression
         // Lookbehind is not supported in JS 
+        this.areInputsValid = true;
         var regexp = new RegExp("^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$");
         this.areInputsValid = regexp.test(this.functionName);
         if (this.functionName.toLowerCase() ==="host") {
             this.areInputsValid = false;
         }
-        this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.notValidValue);
+        if (!this.areInputsValid) {
+            this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.notValidValue);
+        } else {
+            var nameMatch = this._functionsInfo.find((f) => {
+                return f.name.toLowerCase() === this.functionName.toLowerCase();
+            });
+            if (nameMatch) {
+                this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
+                this.areInputsValid = true;
+            }
+        }
+        
         this._bindingComponents.forEach((b) => {
             this.areInputsValid = b.areInputsValid && this.areInputsValid;
         });

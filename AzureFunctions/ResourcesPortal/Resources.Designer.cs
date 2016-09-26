@@ -1123,6 +1123,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Function with name &apos;{{name}}&apos; already exists..
+        /// </summary>
+        internal static string functionNew_functionExsists {
+            get {
+                return ResourceManager.GetString("functionNew_functionExsists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function name.
         /// </summary>
         internal static string functionNew_functionName {
