@@ -495,7 +495,7 @@ export class FunctionsService {
             + "&functionName=" + encodeURIComponent(functionName);
 
         var template = <ITryAppServiceTemplate>{
-            name: selectedTemplate.metadata.name,
+            name: selectedTemplate.id,
             appService: "FunctionsContainer",
             language: selectedTemplate.metadata.language,
             githubRepo: ""

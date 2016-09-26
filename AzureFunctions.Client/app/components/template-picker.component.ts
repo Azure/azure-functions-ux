@@ -165,7 +165,7 @@ export class TemplatePickerComponent {
                                     );
 
                                     this.templates.push({
-                                        name: template.metadata.name,
+                                        name: template.id,
                                         value: template.id,
                                         keys: keys,
                                         description: template.metadata.description,
