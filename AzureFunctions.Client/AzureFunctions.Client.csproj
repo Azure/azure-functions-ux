@@ -201,6 +201,7 @@
     <TypeScriptCompile Include="app\models\vfs-object.ts" />
     <TypeScriptCompile Include="app\pipes\aggregate-block.pipe.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
+    <TypeScriptCompile Include="app\pipes\table-function-monitor.pipe.ts" />
     <TypeScriptCompile Include="app\services\app-monitoring.service.ts" />
     <TypeScriptCompile Include="app\services\arm.service.ts" />
     <TypeScriptCompile Include="app\services\background-tasks.service.ts" />
