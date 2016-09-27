@@ -1,5 +1,6 @@
 import {Directive, EventEmitter, ElementRef} from '@angular/core';
 import {MonacoModel} from '../models/monaco-model';
+import {GlobalStateService} from '../services/global-state.service';
 
 declare var monaco;
 declare var require;
@@ -20,7 +21,9 @@ export class MonacoEditorDirective {
     private _containerName: string;    
     private _silent: boolean = false;
 
-    constructor(public elementRef: ElementRef) {
+    constructor(public elementRef: ElementRef,
+        private _globalStateService: GlobalStateService
+        ) {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
 
@@ -102,7 +105,9 @@ export class MonacoEditorDirective {
         require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
 
         var that = this;
-
+        
+        this._globalStateService.setBusyState();
+        
         setTimeout(() => {
             require(['vs/editor/editor.main'], function (input: any) {
                 
@@ -127,7 +132,7 @@ export class MonacoEditorDirective {
                 that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
                     that.onSave.emit(that._editor.getValue());
                 });
-
+                that._globalStateService.clearBusyState();
 
             });
         }, 0);
