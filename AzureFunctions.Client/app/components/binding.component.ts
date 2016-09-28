@@ -37,8 +37,8 @@ export class BindingComponent {
     @Output() validChange = new EventEmitter<BindingComponent>();
     @Output() hasInputsToShowEvent = new EventEmitter<boolean>();
     @Output() go = new EventEmitter<Action>();
+    @Output() cancel = new EventEmitter<void>();
 
-    
     public newFunction: boolean = false;
     public disabled: boolean;
     public model = new BindingInputList();
@@ -314,12 +314,11 @@ export class BindingComponent {
         this.remove.emit(this.bindingValue);
     }
 
-    discardClicked() {
-        this.model.discard();
+    cancelClicked() {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.isDirty = false;
-        this.setDirtyIfNewBinding();
+        this.cancel.emit(null);
     }
 
     saveClicked() {

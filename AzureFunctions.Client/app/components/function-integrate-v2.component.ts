@@ -172,6 +172,11 @@ export class FunctionIntegrateV2Component {
         }
     }
 
+    onCancel() {
+        this.currentBinding = null;
+        this.currentBindingId = "";
+    }
+
     onBindingSelect(id: string) {
         if (!this.checkDirty()) {
             return;
