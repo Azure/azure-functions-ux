@@ -126,7 +126,7 @@ export class FunctionsService {
                 this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
                 this.siteName = fc.name;
                 this.azureMainServer = this.mainSiteUrl;
-                this.azureScmServer = this.scmUrl
+                this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
                 this.localServer = 'https://localhost:6061';
             });
         }
@@ -607,7 +607,7 @@ export class FunctionsService {
 
     switchToAzure() {
         this.mainSiteUrl = this.azureMainServer;
-        this.scmUrl = this.azureScmServer;
+        this.scmUrl = `${this.azureScmServer}/api`;
         this.hostSecrets.masterKey = this.azureAdminKey;
     }
 
