@@ -397,7 +397,7 @@ export class FunctionsService {
     }
 
     getFunctionInvokeUrl(fi: FunctionInfo) {
-        return `${this.scmUrl.replace('.scm.', '.')}/api/${fi.name}`;
+        return `${this.mainSiteUrl}/api/${fi.name}`;
     }
 
     @ClearCache('getFunction', 'href')
