@@ -25,7 +25,10 @@ namespace AzureFunctions.Controllers
         {
             { "ja", "ja-JP"},
             { "ko", "ko-KR"},
-            { "sv", "sv-SE"}
+            { "sv", "sv-SE"},
+            { "cs", "cs-CZ"},
+            { "zh-hans", "zh-TW"},
+            { "zh-hant", "zh-CN"}
         };
 
         public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
@@ -56,22 +59,15 @@ namespace AzureFunctions.Controllers
             runtime = getClearRuntime(runtime);
             string portalFolder = "";
             string sdkFolder = "";
+            string languageFolder = name;
+
             if (name != "en")
             {
-                if (name.Length == 2)
-                {
-                    if (!_languageMap.TryGetValue(name, out portalFolder)) {
-                        portalFolder = name + "-" + name;
-                        sdkFolder = name + "-" + name;
-                    } else {
-                        sdkFolder = portalFolder;
-                    }
-                    portalFolder = Path.Combine(portalFolder, "AzureFunctions\\ResourcesPortal");
-                    sdkFolder = Path.Combine(sdkFolder, "Resources");
-                } else
-                {
-                    portalFolder = name;
-                }
+                if (!_languageMap.TryGetValue(name, out languageFolder)) {
+                    languageFolder = name + "-" + name;
+                } 
+                portalFolder = Path.Combine(languageFolder, "AzureFunctions\\ResourcesPortal");
+                sdkFolder = Path.Combine(languageFolder, "Resources");
             }
 
             List<string> resxFiles = new List<string>();
