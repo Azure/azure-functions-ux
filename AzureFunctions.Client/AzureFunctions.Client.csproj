@@ -46,6 +46,7 @@
     <Content Include="styles\file-explorer.style.css" />
     <Content Include="styles\function-monitor.style.css" />
     <Content Include="styles\nvd3Charts.css" />
+    <Content Include="styles\secrets-box-container.style.css" />
     <Content Include="styles\source-control.styles.css" />
     <Content Include="styles\table-function-monitor.style.css" />
     <Content Include="styles\try-now-busy-state.style.css" />
@@ -56,6 +57,7 @@
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
+    <Content Include="templates\secrets-box-container.html" />
     <Content Include="templates\tooltip-content-component.html" />
     <Content Include="templates\aggregate-block.component.html" />
     <Content Include="templates\app-monitoring.component.html" />
@@ -117,6 +119,8 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\secrets-box-container.ts" />
+    <TypeScriptCompile Include="app\components\secrets-box-input.ts" />
     <TypeScriptCompile Include="app\components\tooltip.component.ts" />
     <TypeScriptCompile Include="app\components\tooltip-content.component.ts" />
     <TypeScriptCompile Include="app\components\try-now-busy-state.component.ts" />
