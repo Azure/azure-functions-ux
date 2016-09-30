@@ -1,5 +1,5 @@
 ﻿//https://github.com/henkie14/angular2-show-hide-password
-import {Component, Input, ContentChild  } from '@angular/core'
+import {Component, ContentChild} from '@angular/core'
 import {SecretsBoxInput} from './secrets-box-input'
 
 @Component({
@@ -10,8 +10,9 @@ import {SecretsBoxInput} from './secrets-box-input'
 })
 export class SecretsBoxContainer {
     @ContentChild(SecretsBoxInput) input: SecretsBoxInput;
-    @Input()
-    show: boolean = false;
+
+    private show: boolean;
+
     constructor() { }
 
     toggleShow() {

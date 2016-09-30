@@ -1,6 +1,6 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -13,7 +13,8 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Validator} from '../models/binding';
-
+import {SecretsBoxInput} from './secrets-box-input';
+import {SecretsBoxContainer} from './secrets-box-container';
 declare var jQuery: any;
 declare var marked: any;
 
@@ -23,7 +24,7 @@ declare var marked: any;
     styleUrls: ['styles/binding.style.css'],
     //changeDetection: ChangeDetectionStrategy.OnPush,
     inputs: ['binding', 'clickSave'],
-    directives: [BindingInputComponent],
+    directives: [BindingInputComponent, SecretsBoxInput, SecretsBoxContainer],
     pipes: [TranslatePipe]
 })
 
@@ -164,7 +165,7 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
-                                if (input.resource.toString() === 'Storage'){ 
+                                if (input.resource === ResourceType.Storage){ 
                                     selectedStorage = settigValue ? settigValue: input.items[0];
                                 }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
@@ -343,7 +344,7 @@ export class BindingComponent {
             });
 
             if (setting) {
-                if (input.resource && input.resource.toString() === 'Storage')
+                if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage)
                     selectedStorage = input.value;
                 setting.value = input.value;
                 if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
