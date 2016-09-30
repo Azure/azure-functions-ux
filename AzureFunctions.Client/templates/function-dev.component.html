@@ -55,8 +55,7 @@
                                  (onSave)="saveTestData()"
                                  (onContentChanged)="testContentChanged($event)"
                                  [content]="functionInfo.test_data"
-                                 fileName="sample.dat"
-                                 [disabled]="disabled">
+                                 fileName="sample.dat">
                             </div>
                             <button *ngIf="scriptFile.isDirty"
                                     class="custom-button"
