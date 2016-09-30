@@ -118,6 +118,12 @@ export class FunctionsService {
         private _broadcastService: BroadcastService,
         private _armService: ArmService) {
 
+        if (!Constants.runtimeVersion) {
+            this.getLatestRuntime().subscribe((runtime: any) => {
+                Constants.runtimeVersion = runtime;
+            });
+        }
+
         if (!_globalStateService.showTryView) {
             this._userService.getToken().subscribe(t => this.token = t);
             this._userService.getFunctionContainer().subscribe(fc => {
@@ -612,6 +618,15 @@ export class FunctionsService {
 
     launchVsCode() {
         return this._http.post(`${this.localServer}/admin/run/vscode`, '');
+    }
+
+    getLatestRuntime() {
+        return this._http.get('api/latestruntime', { headers: this.getPortalHeaders() })
+            .map(r => {
+                return r.json();
+            })
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
     }
 
     //to talk to scm site

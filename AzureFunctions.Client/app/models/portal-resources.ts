@@ -240,6 +240,8 @@ export class PortalResources
     public static binding_storageAccountName: string = "binding_storageAccountName";
     public static binding_storageInfoFooter: string = "binding_storageInfoFooter";
     public static binding_storageInfoHeader: string = "binding_storageInfoHeader";
+    public static binding_storageInfoHeader2: string = "binding_storageInfoHeader2";
+    public static binding_storageInfoHeader3: string = "binding_storageInfoHeader3";
     public static eventHubOut_connection_help: string = "eventHubOut_connection_help";
     public static eventHubOut_connection_label: string = "eventHubOut_connection_label";
     public static eventHubOut_displayName: string = "eventHubOut_displayName";
@@ -537,6 +539,5 @@ export class PortalResources
     public static twilioSms_to_help: string = "twilioSms_to_help";
     public static twilioSms_to_label: string = "twilioSms_to_label";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
-    public static documentDB_displayName: string = "documentDB_displayName";
 }
 

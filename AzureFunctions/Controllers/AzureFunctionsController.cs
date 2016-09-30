@@ -53,6 +53,13 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
+
+        [HttpGet]
+        public HttpResponseMessage GetLatestRuntime()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, "~0.6");
+        }
+
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
@@ -99,7 +106,6 @@ namespace AzureFunctions.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
-
 
         [Authorize]
         [HttpPost]
