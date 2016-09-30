@@ -1,7 +1,7 @@
 <div class="dev-flex-column dev-full">
 
     <pre id="log-stream" class="log-stream" tabindex="1" (keydown)="handleKeyPress($event)" style="margin-bottom: 0px;">{{log}}</pre>
-    <div class="bottom-toolbar ">
+    <div class="bottom-toolbar">
         <span>
             <span class="clickable link-action" *ngIf="stopped" (click)="startLogs()">
                 <i class="fa fa-play"></i>
@@ -25,6 +25,12 @@
                     {{ 'logStreaming_copyLogs' | translate }}
                 </span>
             </pop-over>
+        </span>
+        <span>
+            <span class="clickable link-action close-right" (click)="close()">
+                <i class="fa fa-arrow-right"></i>
+                {{ 'close' | translate }}
+            </span>
         </span>
     </div>
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">

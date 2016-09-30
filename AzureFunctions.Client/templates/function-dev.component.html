@@ -38,12 +38,15 @@
                 <div [hidden]="rightTab!=='files'" *ngIf="functionInfo" class="dev-full">
                     <file-explorer [functionInfo]="functionInfo"
                                    [selectedFile]="scriptFile"
-                                   (selectedFileChange)="selectedFileStream.next($event)">
+                                   (selectedFileChange)="selectedFileStream.next($event)"
+                                   (closeClicked)="clickRightTab('files')">
                     </file-explorer>
                 </div>
 
                 <div [hidden]="rightTab!=='logs'" *ngIf="functionInfo" class="dev-full">
-                    <log-streaming [functionInfo]="functionInfo"></log-streaming>
+                    <log-streaming [functionInfo]="functionInfo" 
+                                   (closeClicked)="clickRightTab('logs')">
+                    </log-streaming>
                 </div>
 
                 <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container">
@@ -83,9 +86,16 @@
                             <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
                             <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
 
-                            <pre style="flex-grow:1;">{{runResult?.content}}</pre>
+                            <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
 
                         </div>
+
+                        <span style="padding: 5px;line-height: 25px;">
+                            <span class="clickable link-action close-right" (click)="clickRightTab('run')">
+                                <i class="fa fa-arrow-right"></i>
+                                {{ 'close' | translate }}
+                            </span>
+                        </span>
 
                     </div>
                 </div>

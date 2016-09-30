@@ -26,6 +26,7 @@ export class FileExplorerComponent implements OnChanges {
     @Input() functionInfo: FunctionInfo;    
     @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
+    @Output() closeClicked = new EventEmitter<any>();
     @ViewChild('container') container: ElementRef;
 
     folders: VfsObject[];
@@ -286,6 +287,10 @@ export class FileExplorerComponent implements OnChanges {
 
     getFileTitle(file: VfsObject) {
         return (file.isBinary) ? this._translateService.instant(PortalResources.fileExplorer_editingBinary) : file.name;
+    }
+
+    close() {
+        this.closeClicked.emit(null);
     }
 
     private getFiles(arr: VfsObject[]) {

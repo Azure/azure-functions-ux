@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef} from '@angular/core';
+import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {UserService} from '../services/user.service';
 import {FunctionContainer} from '../models/function-container';
@@ -30,6 +30,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     private token: string;
     private tokenSubscription: Subscription;
     @Input() functionInfo: FunctionInfo;
+    @Output() closeClicked = new EventEmitter<any>();
 
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
@@ -81,6 +82,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             e.preventDefault();
             this._utilities.highlightText(this._elementRef.nativeElement.querySelector('pre'));
         }
+    }
+
+    close() {
+        this.closeClicked.emit(null);
     }
 
     private initLogs(clear?: boolean) {
