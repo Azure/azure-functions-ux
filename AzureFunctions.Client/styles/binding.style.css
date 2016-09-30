@@ -81,3 +81,8 @@ button.go {
     background-color: lightgray;
     color: white;
 }
+.storage-creds-texbox {
+    float: left; 
+    margin-right: 0px;
+    width: 70%;
+}

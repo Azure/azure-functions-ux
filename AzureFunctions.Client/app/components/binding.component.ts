@@ -1,6 +1,6 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
 import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action} from '../models/binding';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
 import {FunctionsService} from '../services/functions.service';
@@ -13,7 +13,8 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {Validator} from '../models/binding';
-
+import {SecretsBoxInput} from './secrets-box-input';
+import {SecretsBoxContainer} from './secrets-box-container';
 declare var jQuery: any;
 declare var marked: any;
 
@@ -23,7 +24,7 @@ declare var marked: any;
     styleUrls: ['styles/binding.style.css'],
     //changeDetection: ChangeDetectionStrategy.OnPush,
     inputs: ['binding', 'clickSave'],
-    directives: [BindingInputComponent],
+    directives: [BindingInputComponent, SecretsBoxInput, SecretsBoxContainer],
     pipes: [TranslatePipe]
 })
 
@@ -41,6 +42,8 @@ export class BindingComponent {
 
     public newFunction: boolean = false;
     public disabled: boolean;
+    public storageAccountName: string;
+    public storageAccountKey: string;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
@@ -114,9 +117,6 @@ export class BindingComponent {
             var order = 0;
             var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             this.model.inputs = [];
-            if (bindingSchema.documentation) {
-                this.model.documentation = marked(bindingSchema.documentation);
-            }
 
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 this.newFunction = true;
@@ -133,6 +133,7 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
+                var selectedStorage = '';
                 bindingSchema.settings.forEach((setting) => {
 
                     var functionSettingV = this.bindingValue.settings.find((s) => {
@@ -164,6 +165,9 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
+                                if (input.resource === ResourceType.Storage){ 
+                                    selectedStorage = settigValue ? settigValue: input.items[0];
+                                }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
                                 input.metadata = setting.metadata;
@@ -306,6 +310,8 @@ export class BindingComponent {
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
                 this.hasInputsToShowEvent.emit(this.hasInputsToShow);
+                this.model.documentation = marked(bindingSchema.documentation);
+                this.setStorageInformation(selectedStorage);
             }
         });
     }
@@ -331,13 +337,15 @@ export class BindingComponent {
 
         this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
-
+        var selectedStorage;
         this.model.inputs.forEach((input) => {
             var setting = this.bindingValue.settings.find((s) => {
                 return s.name == input.id;
             });
 
             if (setting) {
+                if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage)
+                    selectedStorage = input.value;
                 setting.value = input.value;
                 if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
                     setting.noSave = true;
@@ -356,6 +364,7 @@ export class BindingComponent {
 
         this.setLabel();
         this.model.saveOriginInputs();
+        this.setStorageInformation(selectedStorage);
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -379,6 +388,18 @@ export class BindingComponent {
         });
 
         this.go.emit(action);
+    }
+
+    private setStorageInformation(selectedStorage: string) {
+        this.storageAccountKey = undefined;
+        this.storageAccountName = undefined;
+        if (selectedStorage !== '') {
+            var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
+            if (storageAccount.length === 2) {
+                this.storageAccountKey = storageAccount.pop();
+                this.storageAccountName = storageAccount.pop();
+            }
+        }
     }
 
     private setDirtyIfNewBinding() {

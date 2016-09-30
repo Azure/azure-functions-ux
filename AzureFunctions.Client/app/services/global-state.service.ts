@@ -122,7 +122,23 @@ export class GlobalStateService {
        this._tryAppServicetoken = tryAppServiceToken ;
    }
 
-   getResourceAppSettings(type: ResourceType): string[] {
+   getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
+       var value = this._appSettings[settingName].toLowerCase();
+       var account = [];
+       var partsArray = value.split(';');
+       for (var i = 0; i < partsArray.length; i++) {
+           var part = partsArray[i];
+           var accountNameIndex = part.toLowerCase().indexOf("accountname");
+           var accountKeyIndex = part.toLowerCase().indexOf("accountkey");
+           if (accountNameIndex > -1)
+               account.push(part.substring(accountNameIndex + 12, part.length));
+           if (accountKeyIndex > -1)
+               account.push(part.substring(accountKeyIndex + 11, part.length));
+       }
+       return account;
+   }
+
+    getResourceAppSettings(type: ResourceType): string[] {
        var result = [];
        switch (type) {
            case ResourceType.Storage:

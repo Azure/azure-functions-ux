@@ -820,4 +820,22 @@
   <data name="functionNew_functionExsists" xml:space="preserve">
     <value>Function with name '{{name}}' already exists.</value>
   </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Account Key:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Account Name:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>You can now view the blobs, queues and tables associated with this storage binding.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Connecting to your Storage Account</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Download Storage explorer from here:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Connect using these credentials:</value>
+  </data>
 </root>

@@ -55,6 +55,21 @@
                 {{ 'binding_documentation' | translate }}
             </h3>
         </div>
+        <div *ngIf="storageAccountName && storageAccountKey">
+            <br/>
+            <h4>{{'binding_storageInfoHeader' | translate}}</h4>
+            {{'binding_storageInfoHeader2' | translate}}<a href="http://storageexplorer.com" target='_blank'>http://storageexplorer.com</a>
+            <br/>
+            {{'binding_storageInfoHeader3' | translate}}
+            <br/><br/>
+            <dl class="dl-horizontal">
+                <dt>{{ 'binding_storageAccountName' | translate }}</dt>
+                <dd><input class="storage-creds-texbox" [ngModel]="storageAccountName"/></dd>
+                <dt>{{ 'binding_storageAccountKey' | translate}}</dt>
+                <dd><secrets-box-container><input class="storage-creds-texbox" style="width: 70%" secrets-box-input type="password" [ngModel]="storageAccountKey"/></secrets-box-container></dd>
+            </dl>
+            {{ 'binding_storageInfoFooter'| translate }}
+        </div>
         <div class="panel-body" [innerHTML]="model.documentation">
         </div>
     </div>

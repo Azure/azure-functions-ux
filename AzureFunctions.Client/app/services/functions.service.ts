@@ -472,7 +472,6 @@ export class FunctionsService {
         }
     }
 
-
     get HostSecrets() {
         return this.hostSecrets;
     }

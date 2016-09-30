@@ -457,6 +457,60 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Key:.
+        /// </summary>
+        internal static string binding_storageAccountKey {
+            get {
+                return ResourceManager.GetString("binding_storageAccountKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Name:.
+        /// </summary>
+        internal static string binding_storageAccountName {
+            get {
+                return ResourceManager.GetString("binding_storageAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can now view the blobs, queues and tables associated with this storage binding..
+        /// </summary>
+        internal static string binding_storageInfoFooter {
+            get {
+                return ResourceManager.GetString("binding_storageInfoFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting to your Storage Account.
+        /// </summary>
+        internal static string binding_storageInfoHeader {
+            get {
+                return ResourceManager.GetString("binding_storageInfoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Storage explorer from here:      .
+        /// </summary>
+        internal static string binding_storageInfoHeader2 {
+            get {
+                return ResourceManager.GetString("binding_storageInfoHeader2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect using these credentials:.
+        /// </summary>
+        internal static string binding_storageInfoHeader3 {
+            get {
+                return ResourceManager.GetString("binding_storageInfoHeader3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
         internal static string bindingInput_new {
