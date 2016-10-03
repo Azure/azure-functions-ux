@@ -391,13 +391,15 @@ export class BindingComponent {
     }
 
     private setStorageInformation(selectedStorage: string) {
-        this.storageAccountKey = undefined;
-        this.storageAccountName = undefined;
-        if (selectedStorage !== '') {
-            var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
-            if (storageAccount.length === 2) {
-                this.storageAccountKey = storageAccount.pop();
-                this.storageAccountName = storageAccount.pop();
+        if (selectedStorage) {
+            this.storageAccountKey = undefined;
+            this.storageAccountName = undefined;
+            if (selectedStorage !== '') {
+                var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
+                if (storageAccount.length === 2) {
+                    this.storageAccountKey = storageAccount.pop();
+                    this.storageAccountName = storageAccount.pop();
+                }
             }
         }
     }
