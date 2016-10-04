@@ -838,4 +838,10 @@
   <data name="binding_storageInfoHeader3" xml:space="preserve">
     <value>Connect using these credentials:</value>
   </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>To learn more, see</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions release notes.</value>
+  </data>
 </root>

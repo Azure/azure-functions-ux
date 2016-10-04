@@ -1888,6 +1888,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To learn more, see.
+        /// </summary>
+        internal static string topBar_learnMore {
+            get {
+                return ResourceManager.GetString("topBar_learnMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A new version of Azure Functions is available. To upgrade visit.
         /// </summary>
         internal static string topBar_newVersion {
@@ -1902,6 +1911,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_quickStart {
             get {
                 return ResourceManager.GetString("topBar_quickStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure Functions release notes..
+        /// </summary>
+        internal static string topBar_releaseNotes {
+            get {
+                return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
             }
         }
         

@@ -9,6 +9,7 @@
         <div class="top-bar-info left vertical-align-center">
             <span *ngIf="needUpdateExtensionVersion && !tryModeView" class="left">
               <i class="fa fa-info"></i> {{ 'topBar_newVersion' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+                {{ 'topBar_learnMore' | translate }} <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=829530">{{ 'topBar_releaseNotes' | translate }}</a>
             </span>
         </div>
 
