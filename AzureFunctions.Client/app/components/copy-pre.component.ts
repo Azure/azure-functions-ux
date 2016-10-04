@@ -13,6 +13,7 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 export class CopyPreComponent {
     @Input() selectOnClick: boolean = true;
     @Input() content: string;
+    @Input() label: string;
 
     constructor(
         @Inject(ElementRef) private elementRef: ElementRef,
