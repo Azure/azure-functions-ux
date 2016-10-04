@@ -354,8 +354,7 @@ export class FunctionsService {
             .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
-    @ClearCache('getFunctions')
-    @ClearCache('getFunction', 'href')
+    @ClearCache('clearAllCachedData')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
