@@ -733,7 +733,7 @@ export class FunctionsService {
 
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan<number>((errorCount, err: Response) => {
-                if (err.status <= 500) {
+                if (err.status <= 500 && err.status !== 200) {
                     throw err;
                 } else if (errorCount >= 5) {
                         throw err;
