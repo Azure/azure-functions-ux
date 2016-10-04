@@ -181,9 +181,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
         var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
 
-        var playgroundContainer = this.functionContainer.nativeElement;
-        playgroundContainer.style.width = WIDTH + 'px';
-        playgroundContainer.style.height = HEIGHT + 'px';
+        if (this.functionContainer) {
+            var playgroundContainer = this.functionContainer.nativeElement;
+            playgroundContainer.style.width = WIDTH + 'px';
+            playgroundContainer.style.height = HEIGHT + 'px';
+        }
 
 
         if (this.editorContainer) {
@@ -386,14 +388,21 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     get codeEditor(): MonacoEditorDirective {
-        return this.monacoEditors.toArray().find((e) => {
-            return e.elementRef.nativeElement.id === "code";
-        });
+        return this.getMonacoDirective("code");
     }
 
     get testDataEditor(): MonacoEditorDirective {
+        return this.getMonacoDirective("test_data");
+    }
+
+    private getMonacoDirective(id: string): MonacoEditorDirective {
+
+        if (!this.monacoEditors) {
+            return null;
+        }
+
         return this.monacoEditors.toArray().find((e) => {
-            return e.elementRef.nativeElement.id === "test_data";
+            return e.elementRef.nativeElement.id === id;
         });
     }
 }
