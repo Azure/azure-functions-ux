@@ -200,7 +200,7 @@ export class BindingManager {
                 throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
             }            
 
-            if (!DirectionType[b.direction]) {
+            if (!DirectionType[b.direction.toLowerCase()]) {
                 throw translationService.instant(PortalResources.bindingsValidationDirectionUnknown, { direction: b.direction });
             }
 

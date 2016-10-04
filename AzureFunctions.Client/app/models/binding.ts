@@ -85,7 +85,7 @@ export enum DirectionType {
     trigger = <any>"trigger",
     in = <any>"in",
     out = <any>"out",
-    inOut = <any>"inOut"
+    inout = <any>"inout"
 }
 
 export enum ResourceType {
