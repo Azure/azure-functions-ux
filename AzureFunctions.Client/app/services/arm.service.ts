@@ -179,7 +179,8 @@ export class ArmService {
                         { name: Constants.nodeVersionAppSettingName, value: Constants.nodeVersion }
                     ]
                 },
-                sku: 'Dynamic'
+                sku: 'Dynamic',
+                clientAffinityEnabled: false
             },
             location: geoRegion,
             kind: 'functionapp'
