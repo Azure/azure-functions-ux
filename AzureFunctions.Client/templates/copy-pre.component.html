@@ -1,4 +1,5 @@
 <div class="wrapper">
+    <label *ngIf="label">{{label}}</label>
     <div>
         <pre (click)="highlightText($event)">{{content}}</pre>
     </div>

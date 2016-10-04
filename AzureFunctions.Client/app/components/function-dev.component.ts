@@ -150,6 +150,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.isHttpFunction = false;
                 }
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
+
+                this.onResize();                
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -161,8 +163,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private onResize(ev?: any) {
         var TOP = 140;
         var LEFT = 300;        
-
         var GLOBAL_PADDING = 20;
+        var PRECOPY_HEIGHT = 38;
+
+        var EDIT_TOP = 0;
+        if (this.showFunctionInvokeUrl) {
+            EDIT_TOP += PRECOPY_HEIGHT;
+        }
+
+        if (this.webHookType === 'github') {
+            EDIT_TOP += PRECOPY_HEIGHT;
+        }
 
         var WIDTH = window.innerWidth - LEFT;
         var HEIGHT = window.innerHeight - TOP;
@@ -178,13 +189,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.editorContainer) {
             var typingContainer = this.editorContainer.nativeElement;
             typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px",
-            typingContainer.style.height = HEIGHT + 'px';
+            typingContainer.style.height = (HEIGHT - EDIT_TOP) + 'px';
         }
 
         if (this.codeEditor) {
             this.codeEditor.setLayout(
                 this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                HEIGHT - 2
+                HEIGHT - 2 - EDIT_TOP
             );
         }
 
