@@ -30,6 +30,7 @@ foreach($tag in $response)
         
     cd $path 
     Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait        
+    Start-Process git -ArgumentList "fetch origin --tags" -NoNewWindow -Wait
     $sha = $tag.commit.sha
     Start-Process git -ArgumentList "reset --hard $sha" -NoNewWindow -Wait
     cd $basePath         
