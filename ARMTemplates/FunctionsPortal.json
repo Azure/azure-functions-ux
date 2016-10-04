@@ -84,7 +84,13 @@
                      "physicalPath": "site\\docs",
                      "preloadEnabled": true
                   }
-                ]
+                ],
+               "cors": {
+                   "allowedOrigins": [
+                       "https://portal.azure.com",
+                       "https://ms.portal.azure.com"
+                   ]
+               }
             }
             //"hostNames":[
                //"functions.trafficmanager.net",
