@@ -3,6 +3,8 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {AiService} from '../services/ai.service';
 
+declare var mixpanel: any;
+
 @Component({
     selector: 'trial-expired',
     templateUrl: 'templates/trial-expired.component.html',
@@ -14,8 +16,7 @@ export class TrialExpiredComponent implements OnInit {
     public freeTrialUri: string;
 
     constructor(private _aiService: AiService) {
-        var freeTrialExpireCachedQuery = `try_functionsexpiredpage`;
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");;
     }
 
     ngOnInit() { }

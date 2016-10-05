@@ -10,6 +10,8 @@ import {TooltipContentComponent} from './tooltip-content.component';
 import {TooltipComponent} from './tooltip.component';
 import {AiService} from '../services/ai.service';
 
+declare var mixpanel: any;
+
 @Component({
     selector: 'try-now',
     templateUrl: 'templates/try-now.component.html',
@@ -32,10 +34,8 @@ export class TryNowComponent implements OnInit {
         private _aiService: AiService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
-        var freeTrialExpireCachedQuery = `try_functionstimer`;
-        var discoverMoreButton = `try_functionsdiscovermore`;
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
-        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/?WT.mc_id=${discoverMoreButton}`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");
+        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/`+ ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");
 
         var callBack = () => {
             window.setTimeout(() => {
