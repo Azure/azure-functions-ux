@@ -18,6 +18,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {AiService} from '../services/ai.service';
 
 declare var jQuery: any;
 
@@ -82,7 +83,8 @@ export class FunctionNewComponent {
         private _broadcastService: BroadcastService,
         private _portalService : PortalService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService)
+        private _translateService: TranslateService,
+        private _aiService: AiService)
     {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
@@ -230,11 +232,13 @@ export class FunctionNewComponent {
         this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
+                this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "success", first: "false" });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 this._globalStateService.clearBusyState();
             },
             e => {
                 this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
+                this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "failed", first: "false" });
                 this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.functionCreateErrorMessage),

@@ -31,6 +31,7 @@ import {ArmService} from './arm.service';
 import {BroadcastEvent} from '../models/broadcast-event';
 import {ErrorEvent} from '../models/error-event';
 
+declare var mixpanel: any;
 
 @Injectable()
 export class FunctionsService {
@@ -496,7 +497,8 @@ export class FunctionsService {
             + "?appServiceName=" + encodeURIComponent("Function")
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
-            + "&functionName=" + encodeURIComponent(functionName);
+            + "&functionName=" + encodeURIComponent(functionName) 
+            + ((mixpanel) ? "&correlationId="+ mixpanel.get_distinct_id():"") ;
 
         var template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
@@ -506,25 +508,6 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryAntares)
-            .map<UIResource>(r => r.json());
-    }
-
-    redirectToCreateResource(selectedTemplate: FunctionTemplate, provider: string) {
-        var url = this.tryAppServiceUrl + "/api/resource"
-            + "?appServiceName=" + encodeURIComponent("Functions")
-            + (provider ? "&provider=" + provider : "")
-            + "&templateId=" + encodeURIComponent(selectedTemplate.id);
-        window.location.href = url;
-
-    }
-
-    extendTrialResource() {
-        var url = this.tryAppServiceUrl + "/api/resource/extend"
-            + "?appServiceName=" + encodeURIComponent("Function")
-            + (this.selectedProvider ? "&provider=" + this.selectedProvider : "");
-
-        return this._http.post(url, '', { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryAntares)
             .map<UIResource>(r => r.json());
     }

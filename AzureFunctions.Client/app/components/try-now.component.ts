@@ -8,6 +8,7 @@ import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
 import {TooltipContentComponent} from './tooltip-content.component';
 import {TooltipComponent} from './tooltip.component';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'try-now',
@@ -27,7 +28,8 @@ export class TryNowComponent implements OnInit {
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _aiService: AiService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
         var freeTrialExpireCachedQuery = `try_functionstimer`;
@@ -73,5 +75,15 @@ export class TryNowComponent implements OnInit {
         var z = '0';
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+
+    trackClick(buttonName: string) {
+        if (buttonName) {
+            try {
+                this._aiService.trackEvent(buttonName, {expired:this.trialExpired.toString()});
+            } catch (error) {
+                this._aiService.trackException(error, 'trackClick');
+            }
+        }
     }
 }

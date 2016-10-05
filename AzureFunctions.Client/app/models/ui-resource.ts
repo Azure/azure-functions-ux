@@ -12,6 +12,7 @@ export interface UIResource {
     templateName: string;
     isExtended: boolean;
     csmId: string;
+    userName: string;
 }
 
 export enum AppService {

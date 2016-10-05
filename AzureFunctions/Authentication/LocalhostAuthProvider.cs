@@ -38,6 +38,11 @@ namespace AzureFunctions.Authentication
 
             response.Headers["Strict-Transport-Security"] = "max-age=0";
 
+            if (request.UrlReferrer!=null && request.UrlReferrer.AbsolutePath.StartsWith("/try", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
             if (request.Url.Scheme != "https")
             {
                 response.Redirect(String.Format("https://{0}{1}", request.Url.Authority, request.Url.PathAndQuery), endResponse: true);
