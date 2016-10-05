@@ -152,8 +152,10 @@ export class DashboardComponent implements OnChanges {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._globalStateService.clearBusyState();
-                this.resetView(true);
-                this.openIntro = true;
+                if (!this.openAppSettings) {
+                    this.resetView(true);
+                    this.openIntro = true;
+                }
                 selectedFunctionName = selectedFunctionName || Cookie.get('functionName');;
                 if (selectedFunctionName) {
                     var findSelected = this.functionsInfo.find((f) => {
