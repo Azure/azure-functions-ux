@@ -25,7 +25,7 @@
 
             <div>
                 <button *ngIf="canSave && isDirty" (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
-                <button (click)="cancelClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
+                <button *ngIf="canCancel" (click)="cancelClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
             </div>
             
 

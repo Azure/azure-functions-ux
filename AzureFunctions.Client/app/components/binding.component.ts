@@ -30,7 +30,8 @@ declare var marked: any;
 
 export class BindingComponent {
     @Input() canDelete: boolean = true;
-    @Input() canSave: boolean = true;    
+    @Input() canSave: boolean = true;
+    @Input() canCancel: boolean = true;
     @Input() saveClick = new EventEmitter<void>();
 
     @Output() remove = new EventEmitter<UIFunctionBinding>();

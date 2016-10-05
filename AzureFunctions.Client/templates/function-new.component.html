@@ -32,6 +32,7 @@
              (validChange)="onValidChanged($event)"
              [binding]="model.trigger"
              [canDelete]="false"
+             [canCancel]="false"
              [canSave]="false"
              [clickSave]="clickSave"
              (remove)="onRemoveBinding($event)"
@@ -43,6 +44,7 @@
              [binding]="binding"
              [canSave]="false"
              [canDelete] ="false"
+             [canCancel]="false"
              [clickSave]="clickSave"
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding>
@@ -52,6 +54,7 @@
              [binding]="binding"
              [canSave]="false"
              [canDelete] ="false"
+             [canCancel]="false"
              [clickSave]="clickSave"
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding>
