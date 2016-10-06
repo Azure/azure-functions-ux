@@ -27,6 +27,7 @@ export class GlobalStateService {
 
     public showTryView: boolean;
     public isRunningLocal: boolean = false;
+    public showTopbar: boolean;
 
     constructor(private _userService: UserService,
       private _armService: ArmService,

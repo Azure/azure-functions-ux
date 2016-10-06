@@ -58,7 +58,8 @@ export class TopBarComponent implements OnInit {
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
-            this.setInfo();
+            this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
+            this.setVisible();
         });
     }
 
@@ -73,15 +74,20 @@ export class TopBarComponent implements OnInit {
             this._userService.getUser()
                 .subscribe((u) => {
                     this.user = u;
+                    this.setVisible();
                 });
 
             this._userService.getTenants()
                 .subscribe(t => {
                     this.tenants = t;
                     this.currentTenant = this.tenants.find(e => e.Current);
+                    this.setVisible();
                 });
-        } else
+        } else {
             this.ActiveButton = TopbarButton.None;
+            this.setVisible();
+        }
+
     }
 
     selectTenant(tenant: TenantInfo) {
@@ -115,8 +121,8 @@ export class TopBarComponent implements OnInit {
         this.ActiveButton = TopbarButton.None;
     }
 
-    private setInfo() {
-        this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
+    private setVisible() {
+        this._globalStateService.showTopbar = (this.showTryView && !this.gettingStarted) || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
     }
 
     onSourceControlClicked() {

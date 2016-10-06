@@ -1,4 +1,4 @@
-﻿<div class="container-full" [class.try-container-full]="_globalStateService?.showTryView">
+﻿<div [class.container-full]="!_globalStateService.showTopbar" [class.container-full-topbar]="_globalStateService.showTopbar" [class.try-container-full]="_globalStateService?.showTryView">
     <!-- TODO: move padding to css -->
     <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
