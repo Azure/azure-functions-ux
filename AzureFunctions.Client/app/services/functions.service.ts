@@ -483,8 +483,7 @@ export class FunctionsService {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource"
-            + "?appServiceName=" + encodeURIComponent("Function")
+        var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
@@ -493,16 +492,15 @@ export class FunctionsService {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource"
-            + "?appServiceName=" + encodeURIComponent("Function")
+        var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
             + "&functionName=" + encodeURIComponent(functionName) 
-            + ((mixpanel) ? "&correlationId="+ mixpanel.get_distinct_id():"") ;
+            + ((typeof mixpanel !== 'undefined') ? "&correlationId="+ mixpanel.get_distinct_id():"") ;
 
         var template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
-            appService: "FunctionsContainer",
+            appService: "Function",
             language: selectedTemplate.metadata.language,
             githubRepo: ""
         };

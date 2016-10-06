@@ -16,7 +16,7 @@ export class TrialExpiredComponent implements OnInit {
     public freeTrialUri: string;
 
     constructor(private _aiService: AiService) {
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");;
     }
 
     ngOnInit() { }

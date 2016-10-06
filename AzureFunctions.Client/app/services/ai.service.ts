@@ -8,7 +8,7 @@ function AiDefined() {
     return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
-            if (typeof(appInsights) !== 'undefined' &&
+            if (typeof (appInsights) !== 'undefined' && typeof (mixpanel) !== 'undefined' &&
                 typeof(appInsights[functionName]) !== 'undefined') {
                 return originalMethod.apply(this, args);
             } else {
@@ -62,13 +62,14 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     startTrackPage(name?: string) {
-        if (mixpanel) mixpanel.track('Functions Start Page View', { page: name, properties: this.addsiteName(null)});
+        mixpanel.track('Functions Start Page View', { page: name, properties: this.addMixPanelProperties(null)});
         return appInsights.startTrackPage(name);
     }
 
-    addsiteName(properties?) {
+    addMixPanelProperties(properties?) {
         properties = properties || {};
         properties['sitename'] = 'functions';
+        properties["correlationId"] = mixpanel.get_distinct_id();
     }
 
     /**
@@ -80,7 +81,7 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     stopTrackPage(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        if (mixpanel) mixpanel.track('Functions Stop Page View', { page: name, url: url, properties: this.addsiteName(properties), measurements : measurements });
+        mixpanel.track('Functions Stop Page View', { page: name, url: url, properties: this.addMixPanelProperties(properties), measurements : measurements });
         return appInsights.stopTrackPage(name, url, properties, measurements);
     }
 
@@ -94,7 +95,7 @@ export class AiService implements IAppInsights {
      */
     @AiDefined()
     trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
-        if (mixpanel) mixpanel.track('Functions Page Viewed', { page: name, url: url, properties: this.addsiteName(properties), measurements: measurements });
+        mixpanel.track('Functions Page Viewed', { page: name, url: url, properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.trackPageView(name, url, properties, measurements);
     }
 
@@ -104,7 +105,7 @@ export class AiService implements IAppInsights {
      */
     @AiDefined()
     startTrackEvent(name: string) {
-        if (mixpanel) mixpanel.track(name);
+        mixpanel.track(name);
         return appInsights.startTrackEvent(name);
     }
 
@@ -117,7 +118,7 @@ export class AiService implements IAppInsights {
      */
     @AiDefined()
     stopTrackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        if (mixpanel) mixpanel.track(name, { properties: this.addsiteName(properties), measurements: measurements });
+        mixpanel.track(name, { properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.stopTrackEvent(name, properties, measurements);
     }
 
@@ -129,7 +130,7 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     trackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }){
-        if (mixpanel) mixpanel.track(name, { properties: this.addsiteName(properties), measurements: measurements });
+        mixpanel.track(name, { properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.trackEvent(name, properties, measurements);
     }
 
@@ -172,7 +173,7 @@ export class AiService implements IAppInsights {
      */
     @AiDefined()
     trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {
-        if (mixpanel) mixpanel.track(name, { average: average, sampleCount: sampleCount, min: min, max: max, properties: this.addsiteName(properties)  });
+        mixpanel.track(name, { average: average, sampleCount: sampleCount, min: min, max: max, properties: this.addMixPanelProperties(properties)  });
         return appInsights.trackMetric(name, average, sampleCount, min, max, properties);
     }
 
@@ -205,14 +206,12 @@ export class AiService implements IAppInsights {
     */
     @AiDefined()
     setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string) {
-        if (mixpanel) {
             var userDetails = authenticatedUserId.split("#");
             if (userDetails.length === 2) {
                 mixpanel.alias(userDetails[1]);
             } else {
                 mixpanel.alias(authenticatedUserId);
             }
-        }
         return appInsights.setAuthenticatedUserContext(authenticatedUserId, accountId);
     }
 

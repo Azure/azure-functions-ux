@@ -34,8 +34,8 @@ export class TryNowComponent implements OnInit {
         private _aiService: AiService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");
-        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/`+ ((mixpanel) ? "?correlationId=" + mixpanel.get_distinct_id() : "");
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");
+        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");
 
         var callBack = () => {
             window.setTimeout(() => {
