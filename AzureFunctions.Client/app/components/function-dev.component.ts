@@ -161,14 +161,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var TOP = 100;
+        var TOP = 140;
         var LEFT = 300;        
         var GLOBAL_PADDING = 20;
         var PRECOPY_HEIGHT = 38;
-        
-        if (document.getElementsByClassName("top-bar").length === 1) {
-            TOP += 40;
-        }
 
         var EDIT_TOP = 0;
         if (this.showFunctionInvokeUrl) {
