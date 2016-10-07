@@ -9,7 +9,7 @@ namespace AzureFunctions.ResxConvertor
         static void Main(string[] args)
         {
             var convertor = new ResxConvertor();
-            convertor.SaveResxAsTypeScriptFile(new string[]{ args[0].ToString(), args[1].ToString() }, args[2]);
+            convertor.SaveResxAsTypeScriptFile(new string[]{ args[0].ToString()}, args[1]);
         }
     }
 }

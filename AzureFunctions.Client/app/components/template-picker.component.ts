@@ -54,15 +54,15 @@ export class TemplatePickerComponent {
         private _translateService: TranslateService) {
 
         this.showTryView = this._globalStateService.showTryView;
-        this._language = this._translateService.instant(PortalResources.temp_category_api);
+        this._language = this._translateService.instant("temp_category_api");
 
         this._orderedCategoties = [
-            this._translateService.instant(PortalResources.temp_category_core),
-            this._translateService.instant(PortalResources.temp_category_api),
-            this._translateService.instant(PortalResources.temp_category_dataProcessing),
-            this._translateService.instant(PortalResources.temp_category_all),
-            this._translateService.instant(PortalResources.temp_category_experimental),
-            this._translateService.instant(PortalResources.temp_category_all)
+            this._translateService.instant("temp_category_core"),
+            this._translateService.instant("temp_category_api"),
+            this._translateService.instant("temp_category_dataProcessing"),
+            this._translateService.instant("temp_category_samples"),
+            this._translateService.instant("temp_category_experimental"),
+            this._translateService.instant("temp_category_all")
         ];
     }
 
@@ -95,13 +95,13 @@ export class TemplatePickerComponent {
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all), default: true }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant("temp_category_all"), default: true }];
                             initLanguages = true;
                         }
 
 
                         if (this.categories.length === 0) {
-                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant(PortalResources.temp_category_all) }];
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant("temp_category_all") }];
                             initCategories = true;
                         }
 
@@ -129,7 +129,7 @@ export class TemplatePickerComponent {
 
                             if (initCategories) {
                                 template.metadata.category.forEach((c) => {
-                                    if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
+                                    if ((this._language === this._translateService.instant("temp_category_all") || (template.metadata.language === this._language))) {
 
                                         var index = this.categories.findIndex((category) => {
                                             return category.value === c;
@@ -143,7 +143,7 @@ export class TemplatePickerComponent {
 
                                             if (this.category === c) {
                                                 dropDownElement.default = true;
-                                            } else if (!this.category && c === this._translateService.instant(PortalResources.temp_category_core)) {
+                                            } else if (!this.category && c === this._translateService.instant("temp_category_core")) {
                                                 dropDownElement.default = true;
                                             }
 
@@ -154,12 +154,12 @@ export class TemplatePickerComponent {
                             }
 
                             var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this.category || this.category === this._translateService.instant(PortalResources.temp_category_all);
+                                return c === this.category || this.category === this._translateService.instant("temp_category_all");
                             });
 
                             if (matchIndex !== -1) {
-                                if ((this._language === this._translateService.instant(PortalResources.temp_category_all) || (template.metadata.language === this._language))) {
-                                    var keys = template.metadata.category.slice(0) || [this._translateService.instant(PortalResources.temp_category_experimental)];
+                                if ((this._language === this._translateService.instant("temp_category_all") || (template.metadata.language === this._language))) {
+                                    var keys = template.metadata.category.slice(0) || [this._translateService.instant("temp_category_experimental")];
                                     keys.push(
                                         template.metadata.language
                                     );
