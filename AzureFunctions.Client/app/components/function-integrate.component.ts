@@ -42,8 +42,10 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     set selectedFunction(value: FunctionInfo) {
         this._selectedFunction = value;
-        this.configContent = JSON.stringify(value.config, undefined, 2);
-        this._originalContent = this.configContent;
+        this._originalContent = JSON.stringify(value.config, undefined, 2);;
+        this._currentConent = this._originalContent;
+        this.cancelConfig();
+        this.isDirty = false;
 
         try {
             this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
@@ -63,7 +65,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     cancelConfig() {
-        this.configContent = this._currentConent;
+        this.configContent = "";
         setTimeout(() => {
             this.configContent = this._originalContent;
             this.clearDirty();

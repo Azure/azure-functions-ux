@@ -46,7 +46,7 @@ export class FunctionIntegrateV2Component {
     set selectedFunction(fi: FunctionInfo) {
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
 
-        if (!this._functionInfo || this._functionInfo.name !== fi.name) {
+        //if (!this._functionInfo || this._functionInfo.name !== fi.name) {
             this.currentBinding = null;
             this.currentBindingId = "";
             this._functionInfo = fi;
@@ -88,7 +88,7 @@ export class FunctionIntegrateV2Component {
                 });
             });
             
-        }
+        //}
     }
 
     constructor(

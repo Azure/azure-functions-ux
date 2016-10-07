@@ -91,8 +91,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.fileExplorer.setBusyState();
                 return Observable.zip(this._functionsService.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}));
             })
-            .subscribe((res: {content: string, file: VfsObject}) => {
+            .subscribe((res: { content: string, file: VfsObject }) => {
                 this.content = res.content;
+                this.updatedContent = res.content;
+                res.file.isDirty = false;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
                 if (this.fileExplorer)
@@ -111,7 +113,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this._functionsService.getFunction(fi),
                     (s, f) => ({ secrets: s, functionInfo: f}))
             })
-            .subscribe((res: {secrets: any, functionInfo: FunctionInfo}) => {
+            .subscribe((res: { secrets: any, functionInfo: FunctionInfo }) => {
+                this.content = "";
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
