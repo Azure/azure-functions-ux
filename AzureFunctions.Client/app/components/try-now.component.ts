@@ -77,12 +77,12 @@ export class TryNowComponent implements OnInit {
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
-    trackClick(buttonName: string) {
+    trackLinkClick(buttonName: string) {
         if (buttonName) {
             try {
-                this._aiService.trackEvent(buttonName, {expired:this.trialExpired.toString()});
+                this._aiService.trackLinkClick(buttonName, this.trialExpired.toString());
             } catch (error) {
-                this._aiService.trackException(error, 'trackClick');
+                this._aiService.trackException(error, 'trackLinkClick');
             }
         }
     }
