@@ -15,8 +15,9 @@ export class BroadcastService {
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
-    private versionUpdated: EventEmitter<void>;;
+    private versionUpdated: EventEmitter<void>;
     private trialExpired: EventEmitter<void>;
+    private resetKeySelection: EventEmitter<FunctionInfo>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -31,6 +32,7 @@ export class BroadcastService {
         this.versionUpdated = new EventEmitter<void>();
         this.trialExpired = new EventEmitter<void>();
         this.functionNewEvent = new EventEmitter<any>();
+        this.resetKeySelection = new EventEmitter<FunctionInfo>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -117,6 +119,9 @@ export class BroadcastService {
 
             case BroadcastEvent.FunctionNew:
                 return this.functionNewEvent;
+
+            case BroadcastEvent.ResetKeySelection:
+                return this.resetKeySelection;
         }
     }
 }

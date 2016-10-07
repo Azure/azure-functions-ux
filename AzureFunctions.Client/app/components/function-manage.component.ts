@@ -1,4 +1,4 @@
-﻿import {Component} from '@angular/core';
+﻿import {Component, Input} from '@angular/core';
 import {Subject} from 'rxjs/Rx';
 import {FunctionsService} from '../services/functions.service';
 import {FunctionInfo} from '../models/function-info';
@@ -11,17 +11,17 @@ import {PortalService} from '../services/portal.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {FunctionKeysComponent} from './function-keys.component';
 
 @Component({
     selector: 'function-manage',
     templateUrl: 'templates/function-manage.component.html',
     styleUrls: ['styles/function-manage.style.css'],
-    inputs: ['selectedFunction'],
-    directives: [RadioSelectorComponent],
+    directives: [RadioSelectorComponent, FunctionKeysComponent],
     pipes: [TranslatePipe]
 })
 export class FunctionManageComponent {
-    public selectedFunction: FunctionInfo;
+    @Input() selectedFunction: FunctionInfo;
     public functionStatusOptions: SelectOption<boolean>[];
     public disabled: boolean;
     private valueChange: Subject<boolean>;

@@ -9,5 +9,6 @@ export enum BroadcastEvent {
     IntegrateChanged,
     Error,
     VersionUpdated,
-    TrialExpired
+    TrialExpired,
+    ResetKeySelection
 }

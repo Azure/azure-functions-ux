@@ -1,4 +1,4 @@
-﻿<div #functionContainer (window:resize)="onResize($event)">    
+﻿<div #functionContainer (window:resize)="onResize($event)">
     <div *ngIf="scriptFile" class="dev-full">
 
         <div class="header">
@@ -11,15 +11,16 @@
                 <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
                 <span class="link bubble-label" [class.bubble]="rightTab==='logs'" [class.active]="rightTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
                 <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-play"></i> {{ 'run' | translate }}</span>
+                <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
             </div>
         </div>
 
 
-        <div class="work-block">            
+        <div class="work-block">
 
-            <div #editorContainer class="dev-full">                
+            <div #editorContainer class="dev-full">
                 <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl" [label]="'functionDev_functionUrl' | translate"></copy-pre></div>
-                <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || _functionsService?.HostSecrets?.functionKey" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>
+                <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || functionKey || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>
 
                 <div monacoEditor id="code" class="monaco dev-full"
                      (onSave)="saveScript()"
@@ -41,7 +42,7 @@
                 </div>
 
                 <div [hidden]="rightTab!=='logs'" *ngIf="functionInfo" class="dev-full">
-                    <log-streaming [functionInfo]="functionInfo" 
+                    <log-streaming [functionInfo]="functionInfo"
                                    (closeClicked)="clickRightTab('logs')">
                     </log-streaming>
                 </div>
@@ -51,7 +52,7 @@
 
                     <div class="dev-full dev-flex-column" *ngIf="functionInfo">
                         <run-http *ngIf="isHttpFunction"
-                                  [functionInvokeUrl]="functionInvokeUrl" 
+                                  [functionInvokeUrl]="functionInvokeUrl"
                                   [functionInfo]="functionInfo"
                                   (validChange)="onRunValid($event)">
                         </run-http>
@@ -123,6 +124,11 @@
                     </div>
                 </div>
 
+                <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
+                    <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
+                    <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
+                    <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
+                </div>
             </div>
 
         </div>

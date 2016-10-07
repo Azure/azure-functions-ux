@@ -859,4 +859,34 @@
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>
   </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Admin Keys (All functions)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Add new admin key</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Add new function key</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Click to show</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Required)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Optional) Leave empty to auto-generate a key.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Key Name</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Key Value</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Function Keys</value>
+  </data>
 </root>

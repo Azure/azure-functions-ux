@@ -13,7 +13,7 @@ import {GlobalStateService} from '../services/global-state.service';
 @Component({
     selector: 'table-function-monitor',
     templateUrl: 'templates/table-function-monitor.html',
-    styleUrls: ['styles/table-function-monitor.style.css'],
+    styleUrls: ['styles/table-function.style.css'],
     pipes: [Format, TranslatePipe],
     directives: [BusyStateComponent, TooltipContentComponent, TooltipComponent]
 })

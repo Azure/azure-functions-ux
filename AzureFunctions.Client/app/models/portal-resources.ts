@@ -248,5 +248,15 @@ export class PortalResources
     public static httpRun_httpMethod: string = "httpRun_httpMethod";
     public static httpRun_query: string = "httpRun_query";
     public static topBar_alwaysOn: string = "topBar_alwaysOn";
+    public static adminKeys_title: string = "adminKeys_title";
+    public static functionKeys_addNewAdminKey: string = "functionKeys_addNewAdminKey";
+    public static functionKeys_addNewFunctionKey: string = "functionKeys_addNewFunctionKey";
+    public static functionKeys_clickToShow: string = "functionKeys_clickToShow";
+    public static functionKeys_discard: string = "functionKeys_discard";
+    public static functionKeys_enterKeyName: string = "functionKeys_enterKeyName";
+    public static functionKeys_enterKeyValue: string = "functionKeys_enterKeyValue";
+    public static functionKeys_keyName: string = "functionKeys_keyName";
+    public static functionKeys_keyValue: string = "functionKeys_keyValue";
+    public static functionKeys_title: string = "functionKeys_title";
 }
 

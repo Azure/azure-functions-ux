@@ -12,7 +12,6 @@ import {DesignerSchema} from '../models/designer-schema';
 import {FunctionSecrets} from '../models/function-secrets';
 import {Subscription} from '../models/subscription';
 import {ServerFarm} from '../models/server-farm';
-import {HostSecrets} from '../models/host-secrets';
 import {BindingConfig} from '../models/binding';
 import {PortalService} from './portal.service';
 import {UserService} from './user.service';
@@ -31,12 +30,13 @@ import {ArmService} from './arm.service';
 import {BroadcastEvent} from '../models/broadcast-event';
 import {ErrorEvent} from '../models/error-event';
 import {HttpRunModel} from '../models/http-run';
+import {FunctionKeys, FunctionKey} from '../models/function-key';
 
 declare var mixpanel: any;
 
 @Injectable()
 export class FunctionsService {
-    private hostSecrets: HostSecrets;
+    private masterKey: string;
     private token: string;
     private scmUrl: string;
     private storageConnectionString: string;
@@ -54,6 +54,7 @@ export class FunctionsService {
 
     private localAdminKey: string = '';
     private azureAdminKey: string;
+    public isMultiKeySupported: boolean = false;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -76,7 +77,7 @@ export class FunctionsService {
         306: '(Unused)',
         307: 'Temporary Redirect',
         400: 'Bad Request',
-        401: 'Unauthorized ',
+        401: 'Unauthorized',
         402: 'Payment Required',
         403: 'Forbidden',
         404: 'Not Found',
@@ -494,24 +495,73 @@ export class FunctionsService {
 
     getHostSecrets() {
         if (this.scmUrl.indexOf("localhost:6061") != -1) {
-            this.hostSecrets = {
-                masterKey: this.localAdminKey,
-                functionKey: this.localAdminKey
-            };
-            return null;
+            this.masterKey = this.localAdminKey;
+            this.isMultiKeySupported = true;
         }
 
+        // call kudu
+        let masterKey = this._http.get(`${this.scmUrl}/functions/admin/masterkey`, { headers: this.getScmSiteHeaders()})
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (err.status === 404) throw err;
+                if (errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(400))
+            .catch((e: Response) => {
+                if (e.status === 404) throw e;
+                return this.checkCorsOrDnsErrors(e);
+            });
+        masterKey
+            .subscribe(r => {
+                let masterKey: {masterKey: string} = r.json();
+                this.masterKey = masterKey.masterKey;
+                this.getFunctionHostKeys(masterKey.masterKey);
+            }, e => {
+                this.isMultiKeySupported = false;
+                this.legacyGetHostSecrets();
+            });
+        return masterKey;
+    }
+
+    legacyGetHostSecrets() {
         return this._http.get(`${this.scmUrl}/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
             .retryWhen(e => e.scan<number>((errorCount, err) => {
-                this.getHostErrors().toPromise();
                 if (errorCount >= 100) {
                     throw err;
                 }
                 return errorCount + 1;
             }, 0).delay(400))
             .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<HostSecrets>(r => r.json())
-            .subscribe(h => this.hostSecrets = h, e => console.log(e));
+            .map<string>(r => r.json().masterKey)
+            .subscribe(h => {
+                this.masterKey = h;
+                this.isMultiKeySupported = false;
+            }, e => console.log(e));
+    }
+
+    @Cache()
+    getFunctionHostKeys(masterKey?: string): Observable<FunctionKeys> {
+        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders(masterKey)})
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
+            .map<FunctionKeys>(r => {
+                let keys: FunctionKeys = r.json();
+                if (keys && Array.isArray(keys.keys)) {
+                    keys.keys.unshift({
+                        name: '_master',
+                        value: this.masterKey
+                    });
+                }
+                return keys;
+            });
+
+            hostKeys.subscribe(r => {
+                this.isMultiKeySupported = true;
+            }, e => {
+                this.isMultiKeySupported = false;
+            });
+        return hostKeys;
     }
 
     @Cache()
@@ -541,7 +591,7 @@ export class FunctionsService {
     }
 
     get HostSecrets() {
-        return this.hostSecrets;
+        return this.masterKey;
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
@@ -590,7 +640,7 @@ export class FunctionsService {
     }
 
     getHostErrors() {
-        if (this.isEasyAuthEnabled || !this.hostSecrets || !this.hostSecrets.masterKey) {
+        if (this.isEasyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -654,14 +704,14 @@ export class FunctionsService {
     switchToLocalServer() {
         this.mainSiteUrl = this.localServer;
         this.scmUrl = this.localServer + '/admin';
-        this.azureAdminKey = this.hostSecrets.masterKey;
-        this.hostSecrets.masterKey = this.localAdminKey;
+        this.azureAdminKey = this.masterKey;
+        this.masterKey = this.localAdminKey;
     }
 
     switchToAzure() {
         this.mainSiteUrl = this.azureMainServer;
         this.scmUrl = `${this.azureScmServer}/api`;
-        this.hostSecrets.masterKey = this.azureAdminKey;
+        this.masterKey = this.azureAdminKey;
     }
 
     launchVsCode() {
@@ -675,6 +725,66 @@ export class FunctionsService {
             })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e));
+    }
+
+    @Cache('href')
+    getFunctionKeys(functionInfo: FunctionInfo) {
+        return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, {headers: this.getMainSiteHeaders()})
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e))
+            .map<FunctionKeys>(r => r.json());
+    }
+
+    @ClearCache('clearAllFunction', 'getFunctionKeys')
+    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
+    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo) {
+        let url = functionInfo
+            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
+            : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
+
+        if (keyValue) {
+            var body = {
+                name: keyName,
+                value: keyValue
+            };
+           return this._http.put(url, JSON.stringify(body), {headers: this.getMainSiteHeaders()})
+                    .retryWhen(this.retryAntares)
+                    .catch(e => this.checkCorsOrDnsErrors(e))
+                    .map<FunctionKey>(r => r.json());
+        } else {
+            return this._http.post(url, '', {headers: this.getMainSiteHeaders()})
+                    .retryWhen(this.retryAntares)
+                    .catch(e => this.checkCorsOrDnsErrors(e))
+                    .map<FunctionKey>(r => r.json());
+        }
+    }
+
+    @ClearCache('clearAllFunction', 'getFunctionKeys')
+    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
+    deleteKey(key: FunctionKey, functionInfo?: FunctionInfo) {
+        let url = functionInfo
+            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
+            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+
+        return this._http.delete(url, {headers: this.getMainSiteHeaders()})
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
+    }
+
+    @ClearCache('clearAllFunction', 'getFunctionKeys')
+    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
+    renewKey(key: FunctionKey, functionInfo?: FunctionInfo) {
+        let url = functionInfo
+            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
+            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+        let keyRenew = this._http.post(url, '', {headers: this.getMainSiteHeaders()})
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
+        if (!functionInfo && key.name === '_master') {
+            return keyRenew.flatMap(_ => this.getHostSecrets());
+        } else {
+            return keyRenew;
+        }
     }
 
     //to talk to scm site
@@ -692,14 +802,12 @@ export class FunctionsService {
         return headers;
     }
 
-    private getMainSiteHeaders(contentType?: string): Headers {
+    private getMainSiteHeaders(contentType?: string, key?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-        if (this.hostSecrets) {
-            headers.append('x-functions-key', this.hostSecrets.masterKey);
-        }
+        headers.append('x-functions-key', key || this.masterKey);
         return headers;
     }
 
@@ -782,10 +890,8 @@ export class FunctionsService {
 
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan<number>((errorCount, err: Response) => {
-                if (err.status <= 500 && err.status !== 200) {
+                if (errorCount >= 10) {
                     throw err;
-                } else if (errorCount >= 5) {
-                        throw err;
                 } else {
                     return errorCount + 1;
                 }
@@ -825,7 +931,7 @@ export class FunctionsService {
                 { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error)}
              );
         }
-        return Observable.of(error);
+        throw error;
     }
 
     private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {

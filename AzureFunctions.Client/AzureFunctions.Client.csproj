@@ -39,6 +39,8 @@
     <Content Include="images\iot-template.svg" />
     <Content Include="images\timer-template.svg" />
     <Content Include="images\webhook-api-template.svg" />
+    <Content Include="styles\function-keys.style.css" />
+    <Content Include="styles\local-development-instructions.style.css" />
     <Content Include="styles\run-http.style.css" />
     <Content Include="styles\aggregate-block.style.css" />
     <Content Include="styles\binding.style.css" />
@@ -49,7 +51,7 @@
     <Content Include="styles\nvd3Charts.css" />
     <Content Include="styles\secrets-box-container.style.css" />
     <Content Include="styles\source-control.styles.css" />
-    <Content Include="styles\table-function-monitor.style.css" />
+    <Content Include="styles\table-function.style.css" />
     <Content Include="styles\try-now-busy-state.style.css" />
     <Content Include="styles\function-manage.style.css" />
     <Content Include="styles\function-new.style.css" />
@@ -58,6 +60,7 @@
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
+    <Content Include="templates\function-keys.component.html" />
     <Content Include="templates\local-development-instructions.component.html" />
     <Content Include="templates\run-http.component.html" />
     <Content Include="templates\secrets-box-container.html" />
@@ -123,6 +126,8 @@
     <TypeScriptCompile Include="app\components\app-settings.component.ts" />
     <TypeScriptCompile Include="app\components\binding-designer.component.ts" />
     <TypeScriptCompile Include="app\components\binding-input.component.ts" />
+    <TypeScriptCompile Include="app\components\function-keys.component.ts" />
+    <TypeScriptCompile Include="app\components\local-development-instructions.component.ts" />
     <TypeScriptCompile Include="app\components\run-http.component.ts" />
     <TypeScriptCompile Include="app\components\secrets-box-container.ts" />
     <TypeScriptCompile Include="app\components\secrets-box-input.ts" />
@@ -164,6 +169,7 @@
     <TypeScriptCompile Include="app\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
     <TypeScriptCompile Include="app\models\app-insights.ts" />
+    <TypeScriptCompile Include="app\models\function-key.ts" />
     <TypeScriptCompile Include="app\models\http-run.ts" />
     <TypeScriptCompile Include="app\models\monaco-model.ts" />
     <TypeScriptCompile Include="app\models\function-monitor.ts" />
@@ -222,6 +228,7 @@
     <TypeScriptCompile Include="app\services\functions.service.ts" />
     <TypeScriptCompile Include="app\services\global-state.service.ts" />
     <TypeScriptCompile Include="app\services\portal.service.ts" />
+    <TypeScriptCompile Include="app\services\telemetry.service.ts" />
     <TypeScriptCompile Include="app\services\user.service.ts" />
     <Content Include="bower.json" />
     <Content Include="mocks\bindings.json" />
@@ -275,7 +282,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1464</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

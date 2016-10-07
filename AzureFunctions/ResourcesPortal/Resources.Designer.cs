@@ -70,6 +70,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin Keys (All functions).
+        /// </summary>
+        internal static string adminKeys_title {
+            get {
+                return ResourceManager.GetString("adminKeys_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         internal static string all {
@@ -1038,6 +1047,87 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionIntegrate_standardEditor {
             get {
                 return ResourceManager.GetString("functionIntegrate_standardEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new admin key.
+        /// </summary>
+        internal static string functionKeys_addNewAdminKey {
+            get {
+                return ResourceManager.GetString("functionKeys_addNewAdminKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new function key.
+        /// </summary>
+        internal static string functionKeys_addNewFunctionKey {
+            get {
+                return ResourceManager.GetString("functionKeys_addNewFunctionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to show.
+        /// </summary>
+        internal static string functionKeys_clickToShow {
+            get {
+                return ResourceManager.GetString("functionKeys_clickToShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard.
+        /// </summary>
+        internal static string functionKeys_discard {
+            get {
+                return ResourceManager.GetString("functionKeys_discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Required).
+        /// </summary>
+        internal static string functionKeys_enterKeyName {
+            get {
+                return ResourceManager.GetString("functionKeys_enterKeyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Optional) Leave empty to auto-generate a key..
+        /// </summary>
+        internal static string functionKeys_enterKeyValue {
+            get {
+                return ResourceManager.GetString("functionKeys_enterKeyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key Name.
+        /// </summary>
+        internal static string functionKeys_keyName {
+            get {
+                return ResourceManager.GetString("functionKeys_keyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key Value.
+        /// </summary>
+        internal static string functionKeys_keyValue {
+            get {
+                return ResourceManager.GetString("functionKeys_keyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function Keys.
+        /// </summary>
+        internal static string functionKeys_title {
+            get {
+                return ResourceManager.GetString("functionKeys_title", resourceCulture);
             }
         }
         

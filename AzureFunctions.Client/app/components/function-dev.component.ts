@@ -8,7 +8,7 @@ import {FunctionConfig} from '../models/function-config';
 import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../models/function-secrets';
 import {BroadcastService} from '../services/broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
+import {BroadcastEvent} from '../models/broadcast-event';
 import {PortalService} from '../services/portal.service';
 import {BindingType} from '../models/binding';
 import {CopyPreComponent} from './copy-pre.component';
@@ -24,6 +24,7 @@ import {AiService} from '../services/ai.service';
 import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
 import {BindingManager} from '../models/binding-manager';
 import {RunHttpComponent} from './run-http.component';
+import {FunctionKeysComponent} from './function-keys.component';
 
 @Component({
     selector: 'function-dev',
@@ -36,7 +37,8 @@ import {RunHttpComponent} from './run-http.component';
         FileExplorerComponent,
         BusyStateComponent,
         MonacoEditorDirective,
-        RunHttpComponent
+        RunHttpComponent,
+        FunctionKeysComponent
     ],
     pipes: [TranslatePipe]
 })
@@ -72,7 +74,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
-    
+
     public rightTab : string = "";
     public functionInvokeUrl: string;
 
@@ -80,6 +82,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
+    private selectedKeyStream: Subject<string>;
+    private autoSelectAdminKey: boolean;
+    private functionKey: string;
     private _bindingManager = new BindingManager();
 
     constructor(private _functionsService: FunctionsService,
@@ -131,7 +136,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } catch (e) {
                     // it's not run http model
                 }
-                
+
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
@@ -169,16 +174,28 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     this.isHttpFunction = false;
                 }
-                this.createSecretIfNeeded(res.functionInfo, res.secrets);
 
                 this.onResize();
-                this.setFunctionInvokeUrl();
+                if (!this._functionsService.isMultiKeySupported) {
+                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
+                    this.setFunctionInvokeUrl();
+                }
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
+
+         this.selectedKeyStream = new Subject<string>();
+         this.selectedKeyStream
+            .subscribe(key => {
+                if (key) {
+                    this.setFunctionInvokeUrl(key);
+               } else {
+                   this.autoSelectAdminKey = true;
+               }
+            });
     }
 
     private onResize(ev?: any) {
@@ -232,7 +249,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
             this.testDataEditor.setLayout(
                 this.rightTab ? widthDataEditor  : 0,
-                this.isHttpFunction ? 200 : HEIGHT / 2 
+                this.isHttpFunction ? 200 : HEIGHT / 2
             );
         }
 
@@ -303,34 +320,34 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             delete this.updatedTestContent;
             delete this.runResult;
             this.functionSelectStream.next(changes['selectedFunction'].currentValue);
-        }
+            }
     }
 
-    //TODO: change to field;
-    private setFunctionInvokeUrl() {
+    private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
                 code = '';
+            } else if (key) {
+                code = `?code=${key}`;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = `?code=${this.secrets.key}`;
-            } else if (this.isHttpFunction && this._functionsService.HostSecrets && this._functionsService.HostSecrets.functionKey) {
-                code = `?code=${this._functionsService.HostSecrets.functionKey}`;
+            } else if (this.isHttpFunction && this._functionsService.HostSecrets) {
+                code = `?code=${this._functionsService.HostSecrets}`;
             }
 
             this._functionsService.getHostJson().subscribe((jsonObj) => {
-                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ?
-                    jsonObj.http.routePrefix : result = "api";
+                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ? jsonObj.http.routePrefix : 'api';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
                 });
                 if (httpTrigger && httpTrigger.route) {
-                    result = result + "/" + httpTrigger.route;
+                    result = result + '/' + httpTrigger.route;
                 }
 
-                result = result.replace("//", "/");
+                result = result.replace('//', '/');
 
-                if (!result) {
+                if (!result || result === 'api') {
                     result = `${this._functionsService.getMainSiteUrl()}/api/${this.functionInfo.name}`;
                 } else {
                     result = this._functionsService.getMainSiteUrl() + "/" + result;
@@ -339,7 +356,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.functionInvokeUrl = result + code;
             });
         }
-        
     }
 
     saveScript(dontClearBusy?: boolean) {

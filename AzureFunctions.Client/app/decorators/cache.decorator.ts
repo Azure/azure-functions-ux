@@ -48,6 +48,12 @@ export function ClearCache(functionName: string, propertyKey?: string, arg?: num
         descriptor.value = function(...args: any[]) {
             if (functionName === 'clearAllCachedData') {
                 cachedData = {};
+            } else if (functionName === 'clearAllFunction' && propertyKey) {
+                for (let key in cachedData) {
+                    if (key.startsWith(propertyKey + '+')) {
+                        delete cachedData[key];
+                    }
+                }
             } else {
                 let key = getCacheKey(functionName, propertyKey, args, arg || 0);
                 delete cachedData[key];
