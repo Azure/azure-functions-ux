@@ -139,9 +139,9 @@ export class AiService implements IAppInsights {
     * @param   name    A string to identify this event in the portal.
     * @param   expired  string - determines if the link was clicked before or after the trial had expired .
     */
-    @AiDefined()
-    trackLinkClick(name: string, expired:string) {
-        mixpanel.track(name, { expired:expired, properties: this.addMixPanelProperties(null) });
+    trackLinkClick(name: string, expired: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+        if (typeof (mixpanel) !== 'undefined')
+            mixpanel.track(name, { expired: expired, properties: this.addMixPanelProperties(null), measurements: measurements });
     }
 
     /**
