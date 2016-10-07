@@ -21,12 +21,12 @@ export class TrialExpiredComponent implements OnInit {
 
     ngOnInit() { }
 
-    trackClick(buttonName: string) {
+    trackLinkClick(buttonName: string) {
         if (buttonName) {
             try {
-                this._aiService.trackEvent(buttonName, { expired: "true" });
+                this._aiService.trackLinkClick(buttonName, "true");
             } catch (error) {
-                this._aiService.trackException(error, 'trackClick');
+                this._aiService.trackException(error, 'trackLinkClick');
             }
         }
     }

@@ -135,6 +135,16 @@ export class AiService implements IAppInsights {
     }
 
     /**
+    * Log a user action or other occurrence.
+    * @param   name    A string to identify this event in the portal.
+    * @param   expired  string - determines if the link was clicked before or after the trial had expired .
+    */
+    trackLinkClick(name: string, expired: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+        if (typeof (mixpanel) !== 'undefined')
+            mixpanel.track(name, { expired: expired, properties: this.addMixPanelProperties(null), measurements: measurements });
+    }
+
+    /**
      * Log a dependency call
      * @param id    unique id, this is used by the backend o correlate server requests. Use Util.newId() to generate a unique Id.
      * @param method    represents request verb (GET, POST, etc.)
