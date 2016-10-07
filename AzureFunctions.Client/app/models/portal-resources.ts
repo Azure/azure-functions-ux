@@ -542,7 +542,5 @@ export class PortalResources
     public static twilioSms_to_label: string = "twilioSms_to_label";
     public static eventHubTrigger_consumerGroup_errorText: string = "eventHubTrigger_consumerGroup_errorText";
     public static documentDB_displayName: string = "documentDB_displayName";
-    public static sendGrid_apiKey_help: string = "sendGrid_apiKey_help";
-    public static sendGrid_apiKey_label: string = "sendGrid_apiKey_label";
 }
 

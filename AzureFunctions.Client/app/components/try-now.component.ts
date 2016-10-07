@@ -8,6 +8,9 @@ import {PortalResources} from '../models/portal-resources';
 import {GlobalStateService} from '../services/global-state.service';
 import {TooltipContentComponent} from './tooltip-content.component';
 import {TooltipComponent} from './tooltip.component';
+import {AiService} from '../services/ai.service';
+
+declare var mixpanel: any;
 
 @Component({
     selector: 'try-now',
@@ -27,13 +30,12 @@ export class TryNowComponent implements OnInit {
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _aiService: AiService) {
         this.trialExpired = false;
         //TODO: Add cookie referer details like in try
-        var freeTrialExpireCachedQuery = `try_functionstimer`;
-        var discoverMoreButton = `try_functionsdiscovermore`;
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
-        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/?WT.mc_id=${discoverMoreButton}`;
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");
+        this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");
 
         var callBack = () => {
             window.setTimeout(() => {
@@ -73,5 +75,15 @@ export class TryNowComponent implements OnInit {
         var z = '0';
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+
+    trackClick(buttonName: string) {
+        if (buttonName) {
+            try {
+                this._aiService.trackEvent(buttonName, {expired:this.trialExpired.toString()});
+            } catch (error) {
+                this._aiService.trackException(error, 'trackClick');
+            }
+        }
     }
 }

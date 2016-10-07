@@ -15,6 +15,7 @@ import {FunctionContainer} from '../models/function-container';
 import {BusyStateComponent} from './busy-state.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {AiService} from '../services/ai.service';
 
 @Component({
     selector: 'try-landing',
@@ -36,7 +37,8 @@ export class TryLandingComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _aiService: AiService
 
     ) {
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
@@ -174,17 +176,20 @@ export class TryLandingComponent implements OnInit {
             tryScmCred: encryptedCreds
         };
         this._functionsService.setScmParams(tryfunctionContainer);
+        this._userService.setTryUserName(resource.userName);
         this.setBusyState();
         this._functionsService.getFunctionContainerAppSettings(tryfunctionContainer)
             .subscribe(a => this._globalStateService.AppSettings = a);
         this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
+                this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "success", first:"true" });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 this.tryFunctionsContainer.emit(tryfunctionContainer);
             },
             e => {
                 this.clearBusyState();
+                this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "failed", first: "true" });
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}` });
             });
     }

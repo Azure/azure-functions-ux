@@ -1,6 +1,9 @@
 ﻿import {Component, OnInit} from '@angular/core';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
+import {AiService} from '../services/ai.service';
+
+declare var mixpanel: any;
 
 @Component({
     selector: 'trial-expired',
@@ -12,10 +15,20 @@ export class TrialExpiredComponent implements OnInit {
 
     public freeTrialUri: string;
 
-    constructor() {
-        var freeTrialExpireCachedQuery = `try_functionsexpiredpage`;
-        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free?WT.mc_id=${freeTrialExpireCachedQuery}`;
+    constructor(private _aiService: AiService) {
+        this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free` + ((typeof mixpanel !== 'undefined') ? "?correlationId=" + mixpanel.get_distinct_id() : "");;
     }
 
     ngOnInit() { }
+
+    trackClick(buttonName: string) {
+        if (buttonName) {
+            try {
+                this._aiService.trackEvent(buttonName, { expired: "true" });
+            } catch (error) {
+                this._aiService.trackException(error, 'trackClick');
+            }
+        }
+    }
+
 }

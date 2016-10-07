@@ -52,6 +52,15 @@ export class UserService {
         }
     }
 
+    setTryUserName(userName: string) {
+        if (userName) {
+            try {
+                this._aiService.setAuthenticatedUserContext(userName);
+            } catch (error) {
+                this._aiService.trackException(error, 'setToken');
+            }
+        }
+    }
     setLanguage(lang: string) {
         this.languageSubject.next(lang);
     }

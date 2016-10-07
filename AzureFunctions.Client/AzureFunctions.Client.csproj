@@ -57,6 +57,7 @@
     <Content Include="styles\pop-over.style.css" />
     <Content Include="styles\try-now.styles.css" />
     <Content Include="styles\trial-expired.styles.css" />
+    <Content Include="templates\local-development-instructions.component.html" />
     <Content Include="templates\secrets-box-container.html" />
     <Content Include="templates\tooltip-content-component.html" />
     <Content Include="templates\aggregate-block.component.html" />
@@ -158,6 +159,7 @@
     <TypeScriptCompile Include="app\decorators\cache.decorator.ts" />
     <TypeScriptCompile Include="app\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="app\handlers\functions.exception-handler.ts" />
+    <TypeScriptCompile Include="app\models\app-insights.ts" />
     <TypeScriptCompile Include="app\models\monaco-model.ts" />
     <TypeScriptCompile Include="app\models\function-monitor.ts" />
     <TypeScriptCompile Include="app\models\portal-resources.ts" />
@@ -206,6 +208,7 @@
     <TypeScriptCompile Include="app\pipes\aggregate-block.pipe.ts" />
     <TypeScriptCompile Include="app\pipes\sidebar.pipe.ts" />
     <TypeScriptCompile Include="app\pipes\table-function-monitor.pipe.ts" />
+    <TypeScriptCompile Include="app\services\ai.service.ts" />
     <TypeScriptCompile Include="app\services\app-monitoring.service.ts" />
     <TypeScriptCompile Include="app\services\arm.service.ts" />
     <TypeScriptCompile Include="app\services\background-tasks.service.ts" />
