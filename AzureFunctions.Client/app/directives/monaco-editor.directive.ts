@@ -75,9 +75,15 @@ export class MonacoEditorDirective {
                 break;
             case "py":
                 this._language = "python";
+                break;
+            case "ts":
+                this._language = "typescript";
+                break;
             // Monaco does not have sh, php
             case "sh":
             case "php":
+            default:
+                this._language = undefined;
                 break;
         }
 

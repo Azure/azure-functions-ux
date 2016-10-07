@@ -52,6 +52,10 @@ export class FunctionInfoHelper {
                 lang = "Python";
                 //python
                 break;
+            case "ts":
+                lang = "TypeScript";
+                //typescript
+                break;
         }
         return lang;
     }
