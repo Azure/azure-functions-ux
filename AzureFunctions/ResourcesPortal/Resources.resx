@@ -785,7 +785,7 @@
     <value>We are unable to reach your function app. If you have recently deleted and recreated the app, this could be due to DNS resolution errors. Otherwise, your app could be having a temporary issue or may be failing to start. You can either flush your local DNS cache, or try again in a couple of minutes.</value>
   </data>
   <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
-    <value>Unable to retrive Function App ({{functionApp}})</value>
+    <value>Unable to retrieve Function App ({{functionApp}})</value>
   </data>
   <data name="error_UnableToRetriveFunctions" xml:space="preserve">
     <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>

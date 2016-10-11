@@ -700,7 +700,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to retrive Function App ({{functionApp}}).
+        ///   Looks up a localized string similar to Unable to retrieve Function App ({{functionApp}}).
         /// </summary>
         internal static string error_UnableToRetriveFunctionApp {
             get {
