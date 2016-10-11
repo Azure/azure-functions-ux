@@ -46,19 +46,27 @@
                     </log-streaming>
                 </div>
 
-                <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container">
+                <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container" [class.run-container-http]="isHttpFunction">
                     <busy-state name="run-busy"></busy-state>
+
                     <div class="dev-full dev-flex-column" *ngIf="functionInfo">
+                        <run-http *ngIf="isHttpFunction"
+                                  [functionInvokeUrl]="functionInvokeUrl" 
+                                  [functionInfo]="functionInfo"
+                                  (validChange)="onRunValid($event)">
+                        </run-http>
+
                         <div>
                             <div class="run-label">{{ 'functionDev_requestBody' | translate }}</div>
                             <div id="test_data" monacoEditor class="monaco"
                                  (onSave)="saveTestData()"
                                  (onContentChanged)="testContentChanged($event)"
-                                 [content]="functionInfo.test_data"
+                                 [content]="testContent"
                                  fileName="sample.dat">
                             </div>
                             <button *ngIf="scriptFile.isDirty"
-                                    class="custom-button"
+                                    [class.custom-button] = "runValid"
+                                    [class.custom-button-disabled] = "!runValid"
                                     [class.dirty]="scriptFile.isDirty"
                                     (click)="runFunction()">
                                 {{ 'functionDev_saveAndRun' | translate }}
@@ -66,7 +74,8 @@
 
                             <div>
                                 <button *ngIf="!scriptFile.isDirty"
-                                        class="custom-button"
+                                        [class.custom-button] = "runValid"
+                                        [class.custom-button-disabled] = "!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
                                     {{ 'run' | translate }}
@@ -79,12 +88,29 @@
                             </div>
                         </div>
 
-                        <div class="dev-flex-column" style="flex-grow:1;">
+                        <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1;">
                             <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
                             <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
 
                             <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
 
+                        </div>
+
+                        <div *ngIf="isHttpFunction" style="flex-grow:1;">
+                            <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                            <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+
+                            <pre style="margin-bottom: 0px;" class="height-fixed">{{runResult?.content}}</pre>
+                        </div>
+
+                        <div *ngIf="isHttpFunction">
+
+                            <div class="run-label">{{ 'logStreaming_logs' | translate }}</div>
+
+                            <log-streaming [functionInfo]="functionInfo"
+                                           [isHttpLogs]="true"
+                                           (closeClicked)="clickRightTab('logs')">
+                            </log-streaming>
                         </div>
 
                         <span style="padding: 5px;line-height: 25px;">

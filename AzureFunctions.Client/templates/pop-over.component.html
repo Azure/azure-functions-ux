@@ -1,5 +1,5 @@
 ﻿<span class="pop-over-container" [ngClass]="{'pop-over-input-error': isInputError}">
-    <span class="pop-over" [class.pop-over-visible]="show" [innerHtml]="message"></span>
+    <span *ngIf="message" class="pop-over" [class.pop-over-visible]="show" [innerHtml]="message"></span>
     <button class="pop-over-button" (focus)="onFocus($event)" (blur)="onBlur($event)">
         <ng-content></ng-content>
         <span *ngIf="isInputError" class="fa fa-exclamation input-error"></span>

@@ -1,0 +1,17 @@
+﻿export class HttpRunModel {
+    method: string;
+    availavleMethods: string[] = [];
+    queryStringParams: Param[] = [];
+    headers: Param[] = [];
+    body: string;
+
+    constructor() {
+    }
+}
+
+export interface Param {
+    name: string;
+    value: string;
+    isFixed?: boolean;
+}
+

@@ -30,6 +30,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     private token: string;
     private tokenSubscription: Subscription;
     @Input() functionInfo: FunctionInfo;
+    @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
 
     constructor(
@@ -46,7 +47,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     ngOnChanges() {
         this.initLogs();
-        this.startLogs()
+        if (!this.isHttpLogs) {
+            this.startLogs();
+        } else {
+            this.stopLogs();
+        }
     }
 
     ngOnDestroy() {

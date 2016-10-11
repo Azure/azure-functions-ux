@@ -844,4 +844,16 @@
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>
   </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Add header</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Add parameter</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP method</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Query</value>
+  </data>
 </root>

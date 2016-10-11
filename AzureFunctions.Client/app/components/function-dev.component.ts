@@ -23,6 +23,7 @@ import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {AiService} from '../services/ai.service';
 import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
 import {BindingManager} from '../models/binding-manager';
+import {RunHttpComponent} from './run-http.component';
 
 @Component({
     selector: 'function-dev',
@@ -34,16 +35,18 @@ import {BindingManager} from '../models/binding-manager';
         CopyPreComponent,
         FileExplorerComponent,
         BusyStateComponent,
-        MonacoEditorDirective
+        MonacoEditorDirective,
+        RunHttpComponent
     ],
     pipes: [TranslatePipe]
 })
 
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
-    @ViewChild(LogStreamingComponent) logStreaming: LogStreamingComponent;
+    @ViewChild(RunHttpComponent) runHttp: RunHttpComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
+    @ViewChildren(LogStreamingComponent) logStreamings: QueryList<LogStreamingComponent>;
 
     @ViewChild('functionContainer') functionContainer: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
@@ -55,8 +58,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionUpdate: Subscription;
     public scriptFile: VfsObject;
     public content: string;
+    public testContent: string;
     public fileName: string;
     public inIFrame: boolean;
+    public runValid: boolean;
 
     public configContent: string;
     public webHookType: string;
@@ -75,6 +80,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
     private _bindingManager = new BindingManager();
+    private _functionInvokeUrl: string;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
@@ -115,6 +121,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             })
             .subscribe((res: { secrets: any, functionInfo: FunctionInfo }) => {
                 this.content = "";
+                this.testContent = res.functionInfo.test_data;
+                this.runValid = true;
+                try {
+                    var httpModel = JSON.parse(res.functionInfo.test_data);
+                    if (httpModel.body !== undefined) {
+                        this.testContent = httpModel.body;
+                    }
+                } catch (e) {
+                    // it's not run http model
+                }
+                
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
@@ -154,7 +171,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
 
-                this.onResize();                
+                this.onResize();
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -208,9 +225,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.testDataEditor) {
+            var widthDataEditor = RIGHTBAR_WIDTH - 34;
+            if (this.isHttpFunction) {
+                widthDataEditor -= 17;
+            }
             this.testDataEditor.setLayout(
-                this.rightTab ? RIGHTBAR_WIDTH - 34  : 0,
-                HEIGHT / 2 
+                this.rightTab ? widthDataEditor  : 0,
+                this.isHttpFunction ? 200 : HEIGHT / 2 
             );
         }
 
@@ -252,8 +273,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         this.functionSelectStream.unsubscribe();
-        if (this.logStreaming) {
-            this.logStreaming.ngOnDestroy();
+        if (this.logStreamings) {
+            this.logStreamings.toArray().forEach((ls) => {
+                ls.ngOnDestroy();
+            });
         }
     }
 
@@ -284,15 +307,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     //TODO: change to field;
     get functionInvokeUrl(): string {
-        var code = '';
-        if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
-            code = '';
-        } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
-            code = `?code=${this.secrets.key}`;
-        } else if (this.isHttpFunction && this._functionsService.HostSecrets && this._functionsService.HostSecrets.functionKey) {
-            code = `?code=${this._functionsService.HostSecrets.functionKey}`;
+        if (!this._functionInvokeUrl) {
+            var code = '';
+            if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
+                code = '';
+            } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
+                code = `?code=${this.secrets.key}`;
+            } else if (this.isHttpFunction && this._functionsService.HostSecrets && this._functionsService.HostSecrets.functionKey) {
+                code = `?code=${this._functionsService.HostSecrets.functionKey}`;
+            }
+            this._functionInvokeUrl = this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
         }
-        return this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
+
+        return this._functionInvokeUrl;
     }
 
     saveScript(dontClearBusy?: boolean) {
@@ -336,23 +363,36 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     saveTestData() {
-        if (typeof this.updatedTestContent !== 'undefined' && this.updatedTestContent !== this.functionInfo.test_data) {
-            this.functionInfo.test_data = this.updatedTestContent;
+        var test_data = this.getTestData();
+        if (this.functionInfo.test_data !== test_data) {
+            this.functionInfo.test_data = test_data;
             this._functionsService.updateFunction(this.functionInfo)
                 .subscribe(r => Object.assign(this.functionInfo, r));
         }
     }
 
     runFunction() {
+        if (this.runHttp) {
+            if (!this.runHttp.valid) {
+                return;
+            }
+            this.httpRunLogs.clearLogs();
+            this.httpRunLogs.startLogs();
+        }
+
         this.saveTestData();
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
             var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
             busyComponent.setBusyState();
-            var testData = typeof this.updatedTestContent !== 'undefined' ? this.updatedTestContent : this.functionInfo.test_data;
-            this.running = this._functionsService.runFunction(this.functionInfo, testData)
-                .subscribe(r => {
+            var testData = this.getTestData();
+
+            var result = (this.runHttp) ? this._functionsService.runHttpFunction(this.functionInfo, this.runHttp.model) :
+                    this._functionsService.runFunction(this.functionInfo, this.getTestData());
+
+
+            this.running = result.subscribe(r => {
                     this.runResult = r;
                     busyComponent.clearBusyState();
                     delete this.running;
@@ -399,6 +439,29 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     get testDataEditor(): MonacoEditorDirective {
         return this.getMonacoDirective("test_data");
+    }
+
+    get httpRunLogs(): LogStreamingComponent {
+        if (!this.logStreamings) {
+            return null;
+        }
+
+        return this.logStreamings.toArray().find((l) => {
+            return l.isHttpLogs === true;
+        });
+    }
+
+    onRunValid(runValid: any) {
+        this.runValid = runValid;
+    }
+
+    private getTestData(): string {
+        if (this.runHttp) {
+            this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
+            return JSON.stringify(this.runHttp.model);
+        } else {
+            return this.updatedTestContent !== undefined ? this.updatedTestContent : this.functionInfo.test_data;
+        }
     }
 
     private getMonacoDirective(id: string): MonacoEditorDirective {

@@ -46,11 +46,19 @@ div.right-block {
     padding-bottom: 5px;
 }
 
-.run-container button {
-    margin-top: 10px;
-    float: right;
+.height-fixed {
+    height: 200px;
 }
 
+.run-container button {
+    margin-top: 10px;
+    margin-left: 0px;
+    /*float: right;*/
+}
+
+.run-container-http {
+    overflow: auto;
+}
 
 .bottom-toolbar {
     flex-grow: 1;

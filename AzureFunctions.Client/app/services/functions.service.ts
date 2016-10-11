@@ -30,6 +30,7 @@ import {BroadcastService} from './broadcast.service';
 import {ArmService} from './arm.service';
 import {BroadcastEvent} from '../models/broadcast-event';
 import {ErrorEvent} from '../models/error-event';
+import {HttpRunModel} from '../models/http-run';
 
 declare var mixpanel: any;
 
@@ -304,55 +305,77 @@ export class FunctionsService {
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
-    runFunction(functionInfo: FunctionInfo, content: string) {
+    runHttpFunction(functionInfo: FunctionInfo, model: HttpRunModel) {
+        var content = model.body;
+        var url = `${this.mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`;
+        model.queryStringParams.forEach((p, index) => {
+            if (index === 0) {
+                url += '?';
+            } else {
+                url += '&';
+            }
+            url += p.name + "=" + p.value;
+        });
         var inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
 
-        var url = inputBinding
-            ? `${this.mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`
-            : `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
-
-        var _content: string = inputBinding
-            ? content
-            : JSON.stringify({ input: content });
-
         var contentType: string;
         if (!inputBinding || inputBinding && inputBinding.webHookType) {
             contentType = 'application/json';
-        } else {
-            try {
-                var temp = JSON.parse(_content);
-                contentType = 'application/json';
-            } catch (e) {
-                contentType = 'plain/text';
-            }
         }
 
-        return this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) })
-            .retryWhen(this.retryAntares)
-            .catch((e: Response) => {
-                if (this.isEasyAuthEnabled) {
-                    return Observable.of({
-                        status: 401,
-                        statusText: this.statusCodeToText(401),
-                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
-                    });
-                } else if (e.status === 200 && e.type === ResponseType.Error) {
-                    return Observable.of({
-                        status: 502,
-                        statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
-                    });
-                } else {
-                    return Observable.of({
-                        status: e.status,
-                        statusText: this.statusCodeToText(e.status),
-                        text: () => e.text()
-                    });
-                }
-            })
-            .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
+        var headers = this.getMainSiteHeaders(contentType);
+        model.headers.forEach((h) => {
+            headers.append(h.name, h.value);
+        });
+
+        var response: Observable<Response>;
+        switch (model.method) {
+            case Constants.httpMethods.GET:
+                response = this._http.get(url, { headers: headers });
+                break;
+            case Constants.httpMethods.POST:
+                response = this._http.post(url, content, { headers: headers });
+                break;
+            case Constants.httpMethods.DELETE:
+                response = this._http.delete(url, { headers: headers });
+                break;
+            case Constants.httpMethods.HEAD:
+                response = this._http.head(url, { headers: headers });
+                break;
+            case Constants.httpMethods.PATCH:
+                response = this._http.patch(url, content, { headers: headers });
+                break;
+            case Constants.httpMethods.PUT:
+                response = this._http.put(url, content, { headers: headers });
+                break;
+
+        }
+
+        return this.runFunctionInternal(response, functionInfo);
+    }
+
+    runFunction(functionInfo: FunctionInfo, content: string) {
+
+        var url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+
+        var _content: string = JSON.stringify({ input: content });
+
+        var contentType: string;
+
+        try {
+            var temp = JSON.parse(_content);
+            contentType = 'application/json';
+        } catch (e) {
+            contentType = 'plain/text';
+        }
+
+
+            return this.runFunctionInternal(
+                this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) }),
+                functionInfo);
+
     }
 
     @ClearCache('clearAllCachedData')
@@ -758,5 +781,31 @@ export class FunctionsService {
              );
         }
         return Observable.of(error);
+    }
+
+    private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {
+         return response.retryWhen(this.retryAntares)
+            .catch((e: Response) => {
+                if (this.isEasyAuthEnabled) {
+                    return Observable.of({
+                        status: 401,
+                        statusText: this.statusCodeToText(401),
+                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                    });
+                } else if (e.status === 200 && e.type === ResponseType.Error) {
+                    return Observable.of({
+                        status: 502,
+                        statusText: this.statusCodeToText(502),
+                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
+                    });
+                } else {
+                    return Observable.of({
+                        status: e.status,
+                        statusText: this.statusCodeToText(e.status),
+                        text: () => e.text()
+                    });
+                }
+            })
+            .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 }

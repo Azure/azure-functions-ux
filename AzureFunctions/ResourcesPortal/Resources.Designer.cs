@@ -1384,6 +1384,42 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add header.
+        /// </summary>
+        internal static string httpRun_addHeader {
+            get {
+                return ResourceManager.GetString("httpRun_addHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add parameter.
+        /// </summary>
+        internal static string httpRun_addParameter {
+            get {
+                return ResourceManager.GetString("httpRun_addParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTTP method.
+        /// </summary>
+        internal static string httpRun_httpMethod {
+            get {
+                return ResourceManager.GetString("httpRun_httpMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query.
+        /// </summary>
+        internal static string httpRun_query {
+            get {
+                return ResourceManager.GetString("httpRun_query", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inputs.
         /// </summary>
         internal static string input {
