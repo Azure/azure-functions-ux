@@ -372,35 +372,23 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     runFunction() {
+        var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
+        busyComponent.setBusyState();
+
+        this.saveTestData();
+
         if (this.runHttp) {
             if (!this.runHttp.valid) {
                 return;
             }
-            this.httpRunLogs.clearLogs();
+            this.httpRunLogs.clearLogs().then(() => {
+                this.runFunctionInternal(busyComponent);
+            });
             this.httpRunLogs.startLogs();
-        }
-
-        this.saveTestData();
-        if (this.scriptFile.isDirty) {
-            this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
-            var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
-            busyComponent.setBusyState();
-            var testData = this.getTestData();
-
-            var result = (this.runHttp) ? this._functionsService.runHttpFunction(this.functionInfo, this.runHttp.model) :
-                    this._functionsService.runFunction(this.functionInfo, this.getTestData());
-
-
-            this.running = result.subscribe(r => {
-                    this.runResult = r;
-                    busyComponent.clearBusyState();
-                    delete this.running;
-                    if (this.runResult.statusCode >= 400) {
-                        this.checkErrors(this.functionInfo);
-                    }
-                });
+            this.runFunctionInternal(busyComponent);
         }
+
     }
 
     cancelCurrentRun() {
@@ -473,5 +461,26 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         return this.monacoEditors.toArray().find((e) => {
             return e.elementRef.nativeElement.id === id;
         });
+    }
+
+    private runFunctionInternal(busyComponent: BusyStateComponent) {
+
+        if (this.scriptFile.isDirty) {
+            this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
+        } else {
+            var testData = this.getTestData();
+
+            var result = (this.runHttp) ? this._functionsService.runHttpFunction(this.functionInfo, this.runHttp.model) :
+                this._functionsService.runFunction(this.functionInfo, this.getTestData());
+
+            this.running = result.subscribe(r => {
+                this.runResult = r;
+                busyComponent.clearBusyState();
+                delete this.running;
+                if (this.runResult.statusCode >= 400) {
+                    this.checkErrors(this.functionInfo);
+                }
+            });
+        }
     }
 }

@@ -75,7 +75,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     clearLogs(){
-        this.initLogs(true);
+        return this.initLogs(true);
     }
 
     copyLogs(event) {
@@ -98,66 +98,73 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 1000;
         const maxInterval = 10000;
-
-        if (this.xhReq) {
-            this.timeouts.forEach(window.clearTimeout);
-            this.timeouts = [];
-            this.log = '';
-            this.xhReq.abort();
-            this.oldLength = 0;
-        }
-
-        var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
-
-        this.xhReq = new XMLHttpRequest();
-        let url = this._globalStateService.isRunningLocal
-            ? `https://localhost:6061/admin/logstream/application/functions/function/${this.functionInfo.name}`
-            : `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
-
-        this.xhReq.open('GET', url, true);
-        if (this._globalStateService.ScmCreds) {
-            this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
-        } else {
-            this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
-        }
-        this.xhReq.setRequestHeader('FunctionsPortal', '1');
-        this.xhReq.send(null);
         let oldLogs = '';
-        if (!clear) {
-            this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
-        }
 
-        var callBack = () => {
-            var diff = this.xhReq.responseText.length + oldLogs.length - this.oldLength;
-            if (!this.stopped && diff > 0) {
-                if (this.xhReq.responseText.length > maxCharactersInLog) {
-                    this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
-                } else {
-                    this.log = oldLogs
-                    ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
-                    : this.xhReq.responseText;
-                }
+        var promise = new Promise<string>((resolve, reject) => {           
 
-                this.oldLength = this.xhReq.responseText.length + oldLogs.length;
-                window.setTimeout(() => {
-                    var el = document.getElementById('log-stream');
-                    if (el) {
-                        el.scrollTop = el.scrollHeight;
-                    }
-                });
-                var nextInterval = diff - oldLogs.length > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
-                if (nextInterval < defaultInterval) {
-                    this.timerInterval = defaultInterval;
-                } else if (nextInterval > maxInterval) {
-                    this.timerInterval = defaultInterval;
-                } else {
-                    this.timerInterval = nextInterval;
-                }
-            } else if (diff == 0) {
-                this.timerInterval = defaultInterval;
+            if (this.xhReq) {
+                this.timeouts.forEach(window.clearTimeout);
+                this.timeouts = [];
+                this.log = '';
+                this.xhReq.abort();
+                this.oldLength = 0;
             }
-            this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
-        };
-        callBack();
+
+            var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
+
+            this.xhReq = new XMLHttpRequest();
+            let url = this._globalStateService.isRunningLocal
+                ? `https://localhost:6061/admin/logstream/application/functions/function/${this.functionInfo.name}`
+                : `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
+
+            this.xhReq.open('GET', url, true);
+            if (this._globalStateService.ScmCreds) {
+                this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
+            } else {
+                this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
+            }
+            this.xhReq.setRequestHeader('FunctionsPortal', '1');
+            this.xhReq.send(null);
+            if (!clear) {
+                this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
+            }
+
+            var callBack = () => {
+                var diff = this.xhReq.responseText.length + oldLogs.length - this.oldLength;
+                if (!this.stopped && diff > 0) {
+                    resolve(null);
+                    if (this.xhReq.responseText.length > maxCharactersInLog) {
+                        this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
+                    } else {
+                        this.log = oldLogs
+                        ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
+                        : this.xhReq.responseText;
+                    }
+
+                    this.oldLength = this.xhReq.responseText.length + oldLogs.length;
+                    window.setTimeout(() => {
+                        var el = document.getElementById('log-stream');
+                        if (el) {
+                            el.scrollTop = el.scrollHeight;
+                        }
+                    });
+                    var nextInterval = diff - oldLogs.length > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
+                    if (nextInterval < defaultInterval) {
+                        this.timerInterval = defaultInterval;
+                    } else if (nextInterval > maxInterval) {
+                        this.timerInterval = defaultInterval;
+                    } else {
+                        this.timerInterval = nextInterval;
+                    }
+                } else if (diff == 0) {
+                    this.timerInterval = defaultInterval;
+                }
+                this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+            };
+            callBack();
+
+        });
+
+        return promise;
     }
 }
