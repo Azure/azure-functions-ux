@@ -1,6 +1,6 @@
 ﻿export class HttpRunModel {
     method: string;
-    availavleMethods: string[] = [];
+    availableMethods: string[] = [];
     queryStringParams: Param[] = [];
     headers: Param[] = [];
     body: string;

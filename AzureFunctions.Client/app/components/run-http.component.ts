@@ -37,7 +37,7 @@ export class RunHttpComponent {
 
         if (this.model === undefined) {
             this.model = new HttpRunModel();
-            this.model.availavleMethods = [
+            this.model.availableMethods = [
                 Constants.httpMethods.POST,
                 Constants.httpMethods.GET,
                 Constants.httpMethods.DELETE,
