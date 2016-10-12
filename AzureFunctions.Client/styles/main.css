@@ -100,6 +100,15 @@ pre {
     background-color: #539CF6;
 }
 
+.custom-button {
+    border: 1px solid transparent;
+}
+
+.custom-button-invert {
+    border: 2px solid #539CF6;
+}
+
+
 .custom-button-invert{
     background-color: #FFF;
     color: #539CF6;
