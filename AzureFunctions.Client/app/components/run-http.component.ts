@@ -51,16 +51,20 @@ export class RunHttpComponent {
     }
 
     set functionInvokeUrl(value: string) {
-        var params = this.getQueryParams(value);
-        params.forEach((p) => {
-            var findResult = this.model.queryStringParams.find((qp) => {
-                return qp.name === p.name;
+        if (value) {
+            var params = this.getQueryParams(value);
+            var pathParams = this.getPathParams(value);
+            params = pathParams.concat(params);
+            params.forEach((p) => {
+                var findResult = this.model.queryStringParams.find((qp) => {
+                    return qp.name === p.name;
+                });
+                if (!findResult) {
+                    this.model.queryStringParams.push(p);
+                }
             });
-            if (!findResult) {
-                this.model.queryStringParams.push(p);
-            }
-        });
-        this.change();
+            this.change();
+        }
     }
 
     removeQueryStringParam(index: number) {
@@ -124,6 +128,26 @@ export class RunHttpComponent {
                 });
             }
         }
+        return result;
+    }
+
+    private getPathParams(url: string): Param[] {
+        var regExp = /\{([^}]+)\}/g;
+    
+        var matches = url.match(regExp);
+        var result = [];
+
+        if (matches) {
+            matches.forEach((m) => {
+                var splitResult = m.split(":");
+                result.push({
+                    name: splitResult[0].replace("{", ""),
+                    value: "",
+                    isFixed: true
+                });
+            });
+        }
+
         return result;
     }
 }

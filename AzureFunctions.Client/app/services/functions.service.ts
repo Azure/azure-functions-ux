@@ -305,16 +305,44 @@ export class FunctionsService {
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
-    runHttpFunction(functionInfo: FunctionInfo, model: HttpRunModel) {
+    runHttpFunction(functionInfo: FunctionInfo, url: string, model: HttpRunModel) {
         var content = model.body;
-        var url = `${this.mainSiteUrl}/api/${functionInfo.name.toLocaleLowerCase()}`;
+
+        var regExp = /\{([^}]+)\}/g;
+        var matchesPathParams = url.match(regExp);
+        var processedParams = [];
+
+        var splitResults = url.split("?");
+        if (splitResults.length === 2) {
+            url = splitResults[0];
+        }
+
+        if (matchesPathParams) {
+            matchesPathParams.forEach((m) => {
+                var name = m.split(":")[0].replace("{", "");
+                processedParams.push(name);
+                var param = model.queryStringParams.find((p) => {
+                    return p.name === name;
+                });
+                if (param) {
+                    url = url.replace(m, param.value);
+                }
+            });
+        }
+
         model.queryStringParams.forEach((p, index) => {
-            if (index === 0) {
-                url += '?';
-            } else {
-                url += '&';
+            var findResult = processedParams.find((pr) => {
+                return pr === p.name;
+            });
+
+            if (!findResult) {
+                if (index === 0) {
+                    url += '?';
+                } else {
+                    url += '&';
+                }
+                url += p.name + "=" + p.value;
             }
-            url += p.name + "=" + p.value;
         });
         var inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
@@ -425,8 +453,15 @@ export class FunctionsService {
             .map<FunctionSecrets>(e => secrets);
     }
 
-    getFunctionInvokeUrl(fi: FunctionInfo) {
-        return `${this.mainSiteUrl}/api/${fi.name}`;
+    getHostJson() {
+        return this._http.get(`${this.azureScmServer}/vfs/site/wwwroot/host.json`, { headers: this.getScmSiteHeaders() })
+            .retryWhen(this.retryAntares)
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<any>(r => {
+                return r.json();
+            });
     }
 
     @ClearCache('getFunction', 'href')
@@ -451,6 +486,10 @@ export class FunctionsService {
 
     getSiteName() {
         return this.siteName;
+    }
+
+    getMainSiteUrl(): string {
+        return this.mainSiteUrl;
     }
 
     getHostSecrets() {

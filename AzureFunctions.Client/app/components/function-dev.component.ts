@@ -74,13 +74,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public showFunctionInvokeUrl: boolean = false;
     
     public rightTab : string = "";
+    public functionInvokeUrl: string;
 
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
     private _bindingManager = new BindingManager();
-    private _functionInvokeUrl: string;
 
     constructor(private _functionsService: FunctionsService,
                 private _broadcastService: BroadcastService,
@@ -172,6 +172,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.createSecretIfNeeded(res.functionInfo, res.secrets);
 
                 this.onResize();
+                this.setFunctionInvokeUrl();
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -306,8 +307,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     //TODO: change to field;
-    get functionInvokeUrl(): string {
-        if (!this._functionInvokeUrl) {
+    private setFunctionInvokeUrl() {
+        if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
                 code = '';
@@ -316,10 +317,29 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             } else if (this.isHttpFunction && this._functionsService.HostSecrets && this._functionsService.HostSecrets.functionKey) {
                 code = `?code=${this._functionsService.HostSecrets.functionKey}`;
             }
-            this._functionInvokeUrl = this._functionsService.getFunctionInvokeUrl(this.functionInfo) + code;
-        }
 
-        return this._functionInvokeUrl;
+            this._functionsService.getHostJson().subscribe((jsonObj) => {
+                var result (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ?
+                    jsonObj.http.routePrefix : result = "api";
+                var httpTrigger = this.functionInfo.config.bindings.find((b) => {
+                    return b.type === BindingType.httpTrigger.toString();
+                });
+                if (httpTrigger && httpTrigger.route) {
+                    result = result + "/" + httpTrigger.route;
+                }
+
+                result = result.replace("//", "/");
+
+                if (!result) {
+                    result = `${this._functionsService.getMainSiteUrl()}/api/${this.functionInfo.name}`;
+                } else {
+                    result = this._functionsService.getMainSiteUrl() + "/" + result;
+                }
+
+                this.functionInvokeUrl = result + code;
+            });
+        }
+        
     }
 
     saveScript(dontClearBusy?: boolean) {
@@ -470,7 +490,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         } else {
             var testData = this.getTestData();
 
-            var result = (this.runHttp) ? this._functionsService.runHttpFunction(this.functionInfo, this.runHttp.model) :
+            var result = (this.runHttp) ? this._functionsService.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
                 this._functionsService.runFunction(this.functionInfo, this.getTestData());
 
             this.running = result.subscribe(r => {

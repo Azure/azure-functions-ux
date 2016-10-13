@@ -37,9 +37,9 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
-    filters?: string[],
+    filters?: string[];
     enabledInTryMode?: boolean;
-    actions: Action[]
+    actions: Action[];
 }
 
 export interface Setting {

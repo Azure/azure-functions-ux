@@ -17,4 +17,5 @@ export interface FunctionBinding {
     rowKey: string;
     webHookType: string;
     authLevel: string;
+    route: string;
 }
