@@ -319,7 +319,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this._functionsService.getHostJson().subscribe((jsonObj) => {
-                var result (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ?
+                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ?
                     jsonObj.http.routePrefix : result = "api";
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
