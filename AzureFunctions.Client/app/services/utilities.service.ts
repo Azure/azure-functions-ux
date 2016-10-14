@@ -17,14 +17,13 @@ export class UtilitiesService {
         sel.removeAllRanges();
     }
 
-    copyContentToClipboard(e: Element) {
-        this.highlightText(e);
-        try {
-            var result = document.execCommand('copy');
-            console.log(result);
-        } catch (e) {
-            console.log(e);
-        }
-        this.unHighlightText();
-    }
+     //https://www.reddit.com/r/web_design/comments/33kxgf/javascript_copying_to_clipboard_is_easier_than
+     copyContentToClipboard(text: string) {
+         var textField = document.createElement('textarea');
+         textField.innerText = text;
+         document.body.appendChild(textField);
+         textField.select();
+         document.execCommand('copy');
+         textField.remove();
+      }
 }
