@@ -1906,6 +1906,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Always On&quot; setting is set to off.
+        /// </summary>
+        internal static string topBar_alwaysOn {
+            get {
+                return ResourceManager.GetString("topBar_alwaysOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes made to the current function will be lost. Are you sure you want to continue?.
         /// </summary>
         internal static string topBar_changeMade {
@@ -1924,7 +1933,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To learn more, see.
+        ///   Looks up a localized string similar to Learn more.
         /// </summary>
         internal static string topBar_learnMore {
             get {

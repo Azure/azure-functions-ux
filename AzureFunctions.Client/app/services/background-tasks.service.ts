@@ -66,12 +66,13 @@ export class BackgroundTasksService {
                         this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
                     });
                     this.setDisabled(result.config);
+                    this._globalStateService.isAlwaysOn = result.config.alwaysOn ? true : false;
                     this._functionsService.setEasyAuth(result.config);
                     this._globalStateService.AppSettings = result.appSettings;
                     if (!this._isResourcesReceived) {
                         this._functionsService.getResources().subscribe(() => {
                             this._isResourcesReceived = true;
-                        });                        
+                        });
                     }
                     
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);

@@ -243,10 +243,10 @@ export class PortalResources
     public static binding_storageInfoHeader2: string = "binding_storageInfoHeader2";
     public static binding_storageInfoHeader3: string = "binding_storageInfoHeader3";
     public static topBar_learnMore: string = "topBar_learnMore";
-    public static topBar_releaseNotes: string = "topBar_releaseNotes";
     public static httpRun_addHeader: string = "httpRun_addHeader";
     public static httpRun_addParameter: string = "httpRun_addParameter";
     public static httpRun_httpMethod: string = "httpRun_httpMethod";
     public static httpRun_query: string = "httpRun_query";
+    public static topBar_alwaysOn: string = "topBar_alwaysOn";
 }
 

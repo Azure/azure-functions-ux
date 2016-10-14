@@ -28,6 +28,7 @@ export class GlobalStateService {
     public showTryView: boolean;
     public isRunningLocal: boolean = false;
     public showTopbar: boolean;
+    public isAlwaysOn: boolean = true;
 
     constructor(private _userService: UserService,
       private _armService: ArmService,
@@ -36,9 +37,9 @@ export class GlobalStateService {
         this.showTryView = window.location.pathname.endsWith('/try');
         this._userService.getFunctionContainer()
             .subscribe(fc => {
-              this._functionContainer = fc;
-              if (!this.showTryView) {
-                  this._armService.getFunctionContainerAppSettings(this._functionContainer)
+                this._functionContainer = fc;
+                if (!this.showTryView) {
+                    this._armService.getFunctionContainerAppSettings(this._functionContainer)
                       .subscribe(a => this._appSettings = a);
               }
             });

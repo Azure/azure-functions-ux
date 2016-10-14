@@ -122,7 +122,8 @@ export class TopBarComponent implements OnInit {
     }
 
     private setVisible() {
-        this._globalStateService.showTopbar = (this.showTryView && !this.gettingStarted) || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
+        this._globalStateService.showTopbar = !this._globalStateService.isAlwaysOn || (this.showTryView && !this.gettingStarted)
+            || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
     }
 
     onSourceControlClicked() {

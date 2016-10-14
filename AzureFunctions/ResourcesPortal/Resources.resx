@@ -839,10 +839,7 @@
     <value>Connect using these credentials:</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
-    <value>To learn more, see</value>
-  </data>
-  <data name="topBar_releaseNotes" xml:space="preserve">
-    <value>Azure Functions release notes.</value>
+    <value>Learn more</value>
   </data>
   <data name="httpRun_addHeader" xml:space="preserve">
     <value>Add header</value>
@@ -856,4 +853,10 @@
   <data name="httpRun_query" xml:space="preserve">
     <value>Query</value>
   </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>"Always On" setting is set to off</value>
+  </data>
+   <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions release notes.</value>
+  </data> 
 </root>
