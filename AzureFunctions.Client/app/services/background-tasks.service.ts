@@ -66,7 +66,8 @@ export class BackgroundTasksService {
                         this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
                     });
                     this.setDisabled(result.config);
-                    this._globalStateService.isAlwaysOn = result.config.alwaysOn ? true : false;
+                    let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
+                    this._globalStateService.isAlwaysOn = result.config["alwaysOn"] || isFunctionApp ? true : false;
                     this._functionsService.setEasyAuth(result.config);
                     this._globalStateService.AppSettings = result.appSettings;
                     if (!this._isResourcesReceived) {
@@ -74,7 +75,7 @@ export class BackgroundTasksService {
                             this._isResourcesReceived = true;
                         });
                     }
-                    
+
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
         } else if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
