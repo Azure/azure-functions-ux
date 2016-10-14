@@ -557,7 +557,7 @@ export class FunctionsService {
         var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
-            + "&functionName=" + encodeURIComponent(functionName) 
+            + "&functionName=" + encodeURIComponent(functionName)
             + ((typeof mixpanel !== 'undefined') ? "&correlationId="+ mixpanel.get_distinct_id():"") ;
 
         var template = <ITryAppServiceTemplate>{
@@ -594,7 +594,13 @@ export class FunctionsService {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(e => e.scan<number>((errorCount, err) => {
+                // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
+                if (errorCount >= 12) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(5000))
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string[]>(r => r.json().errors || []);
         }
@@ -783,7 +789,7 @@ export class FunctionsService {
                 } else {
                     return errorCount + 1;
                 }
-            }, 0).delay(300);
+            }, 0).delay(1000);
     }
 
     private checkCorsOrDnsErrors(error: Response): Observable<Response> {
