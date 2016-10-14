@@ -8,6 +8,7 @@ import {ErrorEvent} from '../models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {AiService} from '../services/ai.service';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'error-list',
@@ -26,7 +27,7 @@ export class ErrorListComponent {
             var errorItem: ErrorItem;
 
             if (error && error.message && !error.message.startsWith('<!DOC')) {
-                errorItem = { message: error.message, dateTime: new Date().toISOString() };
+                errorItem = { message: error.message, dateTime: new Date().toISOString(), date: new Date() };
                 this._aiService.trackEvent('/errors/portal', {error: error.details, message: error.message, displayedGeneric: false.toString()});
                 if (!this.errorList.find(e => e.message === errorItem.message)) {
                     this.errorList.push(errorItem);
@@ -40,6 +41,13 @@ export class ErrorListComponent {
                 }
             }
         });
+
+        Observable.timer(1, 60000)
+            .subscribe(_ => {
+                let cutOffTime = new Date();
+                cutOffTime.setMinutes(cutOffTime.getMinutes() - 10);
+                this.errorList = this.errorList.filter(e => e.date > cutOffTime);
+            });
     }
 
     private getGenericError(): ErrorItem {
@@ -47,7 +55,8 @@ export class ErrorListComponent {
             message: this._translateService.instant(PortalResources.errorList_youMay),
             href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
             hrefText: this._translateService.instant(PortalResources.errorList_here),
-            dateTime: new Date().toISOString()
+            dateTime: new Date().toISOString(),
+            date: new Date()
         };
     }
 
