@@ -149,6 +149,7 @@ export class DashboardComponent implements OnChanges {
 
         this._functionsService.getFunctions()
             .subscribe(res => {
+                res = Array.isArray(res) ? res : [];
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._globalStateService.clearBusyState();
