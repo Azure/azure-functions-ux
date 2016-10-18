@@ -178,6 +178,7 @@ export class DashboardComponent implements OnChanges {
 
     onRefreshClicked() {
         this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
+        this._broadcastService.broadcast(BroadcastEvent.RefreshPortal);
     }
 
     onChangeTab(event: string) {

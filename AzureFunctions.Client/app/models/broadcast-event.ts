@@ -10,5 +10,6 @@ export enum BroadcastEvent {
     Error,
     VersionUpdated,
     TrialExpired,
-    ResetKeySelection
+    ResetKeySelection,
+    RefreshPortal
 }

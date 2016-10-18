@@ -51,17 +51,13 @@ export class BackgroundTasksService {
         }
 
         if (!this._globalStateService.showTryView) {
-            this._tasks = Observable.timer(1, 60000)
-                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
-                    Observable.zip(
+            let tasks = () => Observable.zip(
                         this._functionsService.getHostErrors().catch(e => Observable.of([])),
                         this._armService.getConfig(this._globalStateService.FunctionContainer),
                         this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
-                        (e, c, a) => ({ errors: e, config: c, appSettings: a })
-                    )
-                )
-                .subscribe(result => {
-                    result.errors.forEach(e => {
+                        (e, c, a) => ({ errors: e, config: c, appSettings: a }));
+            let handleResult = result => {
+                result.errors.forEach(e => {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
                         this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
                     });
@@ -75,9 +71,15 @@ export class BackgroundTasksService {
                             this._isResourcesReceived = true;
                         });
                     }
-
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
-                });
+            };
+            this._tasks = Observable.timer(1, 60000)
+                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() => tasks())
+                .subscribe(result => handleResult(result));
+
+            this._broadcastService.subscribe(BroadcastEvent.RefreshPortal, () => {
+                tasks().subscribe(r => handleResult(r));
+            });
         } else if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
