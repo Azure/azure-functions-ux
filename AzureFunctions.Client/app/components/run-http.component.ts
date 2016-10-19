@@ -41,6 +41,7 @@ export class RunHttpComponent {
             return b.type === BindingType.httpTrigger.toString();
         });
 
+        this.availableMethods = [];
         if (httpTrigger.methods) {
             httpTrigger.methods.forEach((m) => {
                 this.availableMethods.push(m);
@@ -62,6 +63,9 @@ export class RunHttpComponent {
             this.model = new HttpRunModel();
             this.model.method = Constants.httpMethods.POST;
             this.model.body = value.test_data;
+        }
+        if (!this.model.method && this.availableMethods.length > 0) {
+            this.model.method = this.availableMethods[0];
         }
     }
 
