@@ -2,7 +2,7 @@
 
 <select *ngIf="model"
        [(ngModel)]="model.method">
-    <option *ngFor="let method of model.availavleMethods" [value]="method">{{method}}</option>
+    <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
 </select>
 
 <div class="delimiter"></div>

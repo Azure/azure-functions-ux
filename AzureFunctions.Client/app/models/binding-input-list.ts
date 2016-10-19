@@ -1,4 +1,4 @@
-﻿import {BindingInputBase} from './binding-input';
+﻿import {BindingInputBase, CheckBoxListInput} from './binding-input';
 import {SettingType, Action} from './binding';
 
 export class BindingInputList {
@@ -35,13 +35,20 @@ export class BindingInputList {
     }
 
     isDirty(): boolean {
-        var result = false;
         for (var i = 0; i < this.inputs.length; i++) {
-            if (this.inputs[i].value !== this.originInputs[i].value) {
-                result = true;
+            if (this.inputs[i].type === SettingType.checkBoxList) {
+                var checkBoxList = <CheckBoxListInput>this.inputs[i];
+                var origcheckBoxList = <CheckBoxListInput>this.originInputs[i];
+                if (!checkBoxList.isEqual(origcheckBoxList)) {
+                    return true;
+                }
+            } else {
+                if (this.inputs[i].value !== this.originInputs[i].value) {
+                    return true;
+                }
             }
         }
-        return result;
+        return false;
     }
 
     isValid() {

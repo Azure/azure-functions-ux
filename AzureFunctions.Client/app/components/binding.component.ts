@@ -1,5 +1,5 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput} from '../models/binding-input';
+import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
@@ -196,6 +196,17 @@ export class BindingComponent {
                             ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                             this.model.inputs.push(ddInput);
                             break;
+                        case SettingType.checkBoxList:
+                            let cblInput = new CheckBoxListInput();
+                            cblInput.id = setting.name;
+                            cblInput.isHidden = isHidden;
+                            cblInput.label = setting.label;
+                            cblInput.enum = setting.enum;
+                            cblInput.value = settigValue;
+                            cblInput.toInternalValue();
+                            cblInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            this.model.inputs.push(cblInput);
+                            break;
                         case SettingType.boolean:
                             let chInput = new CheckboxInput();
                             chInput.id = setting.name;
@@ -214,7 +225,6 @@ export class BindingComponent {
 
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
-
                         var isHidden = this.isHidden(rule.name);
                         if (isHidden) {
                             return;
@@ -340,14 +350,16 @@ export class BindingComponent {
         this.bindingValue.name = this.model.getInput("name").value;
         var selectedStorage;
         this.model.inputs.forEach((input) => {
+
             var setting = this.bindingValue.settings.find((s) => {
                 return s.name == input.id;
             });
 
             if (setting) {
-                if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage)
+                if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
                     selectedStorage = input.value;
-                setting.value = input.value;
+                }
+
                 if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
                     setting.noSave = true;
                 } else {
@@ -355,12 +367,20 @@ export class BindingComponent {
                 }
             } else {
                 if (!input.changeValue && !input.isHidden) {
-                    this.bindingValue.settings.push({
+                    setting = {
                         name: input.id,
                         value: input.value
-                    });
+                    };
+                    this.bindingValue.settings.push(setting);
                 }
             }
+            if (input instanceof CheckBoxListInput) {
+                setting.value = (<CheckBoxListInput>input).getArrayValue();
+            }
+        });
+
+        this.bindingValue.settings.forEach((setting) => {
+            
         });
 
         this.setLabel();

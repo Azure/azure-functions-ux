@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\models\binding-input.js" />
     <Content Include="health.html" />
     <Content Include="images\arrow-right.svg" />
     <Content Include="images\azure-logo.svg" />
@@ -64,7 +65,6 @@
     <Content Include="templates\local-development-instructions.component.html" />
     <Content Include="templates\run-http.component.html" />
     <Content Include="templates\secrets-box-container.html" />
-    <Content Include="templates\run.component.html" />
     <Content Include="templates\tooltip-content-component.html" />
     <Content Include="templates\aggregate-block.component.html" />
     <Content Include="templates\app-monitoring.component.html" />

@@ -379,6 +379,14 @@ export class FunctionsService {
             case Constants.httpMethods.PUT:
                 response = this._http.put(url, content, { headers: headers });
                 break;
+            default:
+                response = this._http.request(url, {
+                    headers: headers,
+                    method: model.method,
+                    body: content
+                });
+                break;
+
 
         }
 

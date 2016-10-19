@@ -1,5 +1,6 @@
 import {Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {HttpRunModel, Param} from '../models/http-run';
+import {BindingType} from '../models/binding'
 import {FunctionInfo} from '../models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PopOverComponent} from './pop-over.component';
@@ -18,6 +19,7 @@ export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
+    availableMethods: string[] = [];
 
 
     constructor(private _translateService: TranslateService) {
@@ -35,16 +37,29 @@ export class RunHttpComponent {
             }
         }
 
-        if (this.model === undefined) {
-            this.model = new HttpRunModel();
-            this.model.availableMethods = [
+        var httpTrigger = value.config.bindings.find(b => {
+            return b.type === BindingType.httpTrigger.toString();
+        });
+
+        if (httpTrigger.methods) {
+            httpTrigger.methods.forEach((m) => {
+                this.availableMethods.push(m);
+            });
+        } else {
+            this.availableMethods = [
                 Constants.httpMethods.POST,
                 Constants.httpMethods.GET,
                 Constants.httpMethods.DELETE,
                 Constants.httpMethods.HEAD,
                 Constants.httpMethods.PATCH,
-                Constants.httpMethods.PUT
+                Constants.httpMethods.PUT,
+                Constants.httpMethods.OPTIONS,
+                Constants.httpMethods.TRACE
             ];
+        }
+
+        if (this.model === undefined) {
+            this.model = new HttpRunModel();
             this.model.method = Constants.httpMethods.POST;
             this.model.body = value.test_data;
         }

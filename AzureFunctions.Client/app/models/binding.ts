@@ -102,7 +102,8 @@ export enum SettingType {
     label = <any>"label",
     enum = <any>"enum",
     int = <any>"int",
-    picker = <any>"picker"
+    picker = <any>"picker",
+    checkBoxList = <any>"checkBoxList"
 }
 
 export interface UIFunctionConfig {

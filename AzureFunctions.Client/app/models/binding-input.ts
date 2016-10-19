@@ -67,3 +67,54 @@ export class PickerInput extends BindingInputBase<string>{
         this.errorClass = 'has-error';
     }
 }
+
+export class CheckBoxListInput extends BindingInputBase<any>{
+    enum: EnumOption[];
+
+    toInternalValue() {
+        if (!this.value) {
+            this.value = [];
+        }
+
+        var valueDup = this.value.slice(); 
+        this.value = {};
+
+        valueDup.forEach((v) => {
+            this.value[v] = true;
+        });
+        this.enum.forEach((v) => {
+            if (!this.value[v.value]) {
+                this.value[v.value] = false;
+            }
+        });
+    }
+
+    getArrayValue(): string[] {
+        var result = [];
+        for (var property in this.value) {
+            if (this.value.hasOwnProperty(property)) {
+                if (this.value[property]) {
+                    result.push(property);
+                }
+            }
+        }
+        return result;
+    }
+
+    isEqual(value: CheckBoxListInput): boolean {
+        for (var property in this.value) {
+            if (this.value.hasOwnProperty(property)) {
+                if (this.value[property] !== value.value[property]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    constructor() {
+        super();
+        this.type = SettingType.checkBoxList;
+    }
+
+}

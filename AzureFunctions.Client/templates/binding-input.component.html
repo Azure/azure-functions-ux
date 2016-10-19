@@ -59,4 +59,10 @@
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
+    <div *ngIf="input.type === 'checkBoxList'" style="display: flex; flex-direction: row; width:600px; flex-wrap: wrap;">
+        <div *ngFor="let item of input.enum" style="flex-basis: 150px;">
+            <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" style="margin-left:0px" [disabled]="disabled"> {{ item.display }}
+        </div>
+    </div>
+
 </div>

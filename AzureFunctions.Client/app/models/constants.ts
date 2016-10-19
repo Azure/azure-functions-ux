@@ -1,10 +1,12 @@
 export class HttpMethods {
-    public GET = "GET";
-    public POST = "POST";
-    public DELETE = "DELETE";
-    public HEAD = "HEAD";
-    public PATCH = "PATCH";
-    public PUT = "PUT";
+    public GET = "get";
+    public POST = "post";
+    public DELETE = "delete";
+    public HEAD = "head";
+    public PATCH = "patch";
+    public PUT = "put";
+    public OPTIONS = "options";
+    public TRACE = "trace";
 
     constructor() { }
 }
