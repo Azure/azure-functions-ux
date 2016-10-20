@@ -18,7 +18,9 @@ export function Cache(propertyKey?: string, arg?: number) {
             let cache = cachedData[key];
             // Special case getTemplates() for testing templates
             try {
-                if (functionName === 'getTemplates' && localStorage && localStorage.getItem('dev-templates')) {
+                if (window.localStorage &&
+                    ((functionName === 'getTemplates' && window.localStorage.getItem('dev-templates')) ||
+                     (functionName === 'getBindingConfig' && window.localStorage.getItem('dev-bindings')))) {
                     return originalMethod.apply(this, args);
                 }
             } catch(e) {

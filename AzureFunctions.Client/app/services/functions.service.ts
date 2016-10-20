@@ -222,7 +222,7 @@ export class FunctionsService {
     @Cache()
     getTemplates() {
          try {
-            if (localStorage && localStorage.getItem('dev-templates')) {
+            if (localStorage.getItem('dev-templates')) {
                 let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
                 this.localize(devTemplate);
                 return Observable.of(devTemplate);
@@ -585,6 +585,16 @@ export class FunctionsService {
 
     @Cache()
     getBindingConfig(): Observable<BindingConfig> {
+        try {
+            if (localStorage.getItem('dev-bindings')) {
+                let devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
+                this.localize(devBindings);
+                return Observable.of(devBindings);
+            }
+         } catch (e) {
+             console.error(e);
+         }
+
         return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
