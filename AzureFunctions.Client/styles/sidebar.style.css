@@ -30,10 +30,14 @@
 
 }
 
+.sidebar .flex-container {
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
 .functions-list {
-    height:88%;
     overflow-y:auto;
-    position: relative;
 }
 
 .functions-list li {
