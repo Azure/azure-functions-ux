@@ -16,6 +16,15 @@ export function Cache(propertyKey?: string, arg?: number) {
         descriptor.value = function(...args: any[]) {
             let key = getCacheKey(functionName, propertyKey, args, arg || 0);
             let cache = cachedData[key];
+            // Special case getTemplates() for testing templates
+            try {
+                if (functionName === 'getTemplates' && localStorage && localStorage.getItem('dev-templates')) {
+                    return originalMethod.apply(this, args);
+                }
+            } catch(e) {
+                console.log(e);
+            }
+
             if (cache && cache.data) {
                 return Observable.of(cache.data);
             } else if (cache && cache.observable){

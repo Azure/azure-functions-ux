@@ -218,8 +218,19 @@ export class FunctionsService {
         ClearAllFunctionCache(functionInfo);
     }
 
+    // This function is special cased in the Cache() decorator by name to allow for dev scenarios.
     @Cache()
     getTemplates() {
+         try {
+            if (localStorage && localStorage.getItem('dev-templates')) {
+                let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
+                this.localize(devTemplate);
+                return Observable.of(devTemplate);
+            }
+         } catch (e) {
+             console.error(e);
+         }
+
          return this._http.get('api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
