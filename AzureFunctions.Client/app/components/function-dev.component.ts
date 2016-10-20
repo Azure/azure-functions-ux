@@ -53,6 +53,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild('functionContainer') functionContainer: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChild('rightContainer') rightContainer: ElementRef;
+    @ViewChild('bottomContainer') bottomContainer: ElementRef;
 
     @Input() selectedFunction: FunctionInfo;
     public disabled: boolean;
@@ -75,7 +76,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
-    public rightTab : string = "";
+    public rightTab: string = "";
+    public bottomTab: string = "";
     public functionInvokeUrl: string;
 
     private updatedContent: string;
@@ -220,6 +222,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var HEIGHT = window.innerHeight - TOP;
 
         var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
+        var BOTTOMBAR_HEIGHT = Math.floor(((HEIGHT - EDIT_TOP) / 3));
         var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
 
         if (this.functionContainer) {
@@ -231,14 +234,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         if (this.editorContainer) {
             var typingContainer = this.editorContainer.nativeElement;
-            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px",
-            typingContainer.style.height = (HEIGHT - EDIT_TOP) + 'px';
+            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px";
+            typingContainer.style.height = this.bottomTab ? (HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT) + "px" : (HEIGHT - EDIT_TOP) + 'px';
         }
 
         if (this.codeEditor) {
             this.codeEditor.setLayout(
                 this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                HEIGHT - 2 - EDIT_TOP
+                this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
             );
         }
 
@@ -258,6 +261,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
             editorContainer.style.height = HEIGHT + 'px';
         }
+
+        if (this.bottomContainer) {
+            var bottomContainer = this.bottomContainer.nativeElement;
+            bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
+        }
     }
 
     ngAfterViewInit() {
@@ -265,7 +273,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     clickRightTab(tab: string) {
-        this.rightTab = (this.rightTab === tab) ? "" : tab;
+        if (tab === "logs") {
+            this.bottomTab = (this.bottomTab === tab) ? "" : tab;
+            this.rightTab = "";
+        } else {
+            this.rightTab = (this.rightTab === tab) ? "" : tab;
+            this.bottomTab = "";
+        }
+
         this.onResize();
     }
 

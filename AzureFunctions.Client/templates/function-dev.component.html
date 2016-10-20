@@ -9,7 +9,7 @@
             </div>
             <div>
                 <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                <span class="link bubble-label" [class.bubble]="rightTab==='logs'" [class.active]="rightTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
+                <span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
                 <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-play"></i> {{ 'run' | translate }}</span>
                 <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
             </div>
@@ -29,6 +29,13 @@
                      [fileName]="fileName"
                      [disabled]="disabled">
                 </div>
+                <!---->
+                <div #bottomContainer [hidden]="bottomTab!=='logs'" *ngIf="functionInfo">
+                    <log-streaming [functionInfo]="functionInfo"
+                                    (closeClicked)="clickRightTab('logs')">
+                    </log-streaming>
+                </div>
+
             </div>
 
             <div #rightContainer id="sidebar" class="right-block">
@@ -39,12 +46,6 @@
                                    (selectedFileChange)="selectedFileStream.next($event)"
                                    (closeClicked)="clickRightTab('files')">
                     </file-explorer>
-                </div>
-
-                <div [hidden]="rightTab!=='logs'" *ngIf="functionInfo" class="dev-full">
-                    <log-streaming [functionInfo]="functionInfo"
-                                   (closeClicked)="clickRightTab('logs')">
-                    </log-streaming>
                 </div>
 
                 <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container" [class.run-container-http]="isHttpFunction">
