@@ -29,6 +29,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     private oldLength: number = 0;
     private token: string;
     private tokenSubscription: Subscription;
+    private skipLength: number = 0;
     @Input() functionInfo: FunctionInfo;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
@@ -46,12 +47,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     ngOnChanges() {
-        this.initLogs();
-        if (!this.isHttpLogs) {
-            this.startLogs();
-        } else {
-            this.stopLogs();
-        }
+        this.initLogs(this.isHttpLogs);
+        this.startLogs();
     }
 
     ngOnDestroy() {
@@ -75,7 +72,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     clearLogs(){
-        return this.initLogs(true);
+        this.skipLength = this.skipLength + this.log.length;
+        this.log = '';
     }
 
     copyLogs(event) {
@@ -138,7 +136,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                     } else {
                         this.log = oldLogs
                         ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
-                        : this.xhReq.responseText;
+                            : this.xhReq.responseText;
+                        if (this.skipLength > 0) {
+                            this.log = this.log.substring(this.skipLength);
+                        }
                     }
 
                     this.oldLength = this.xhReq.responseText.length + oldLogs.length;

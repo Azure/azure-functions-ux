@@ -432,10 +432,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (!this.runHttp.valid) {
                 return;
             }
-            this.httpRunLogs.clearLogs().then(() => {
-                this.runFunctionInternal(busyComponent);
-            });
-            this.httpRunLogs.startLogs();
+            
+            this.httpRunLogs.clearLogs();
+            this.runFunctionInternal(busyComponent);
+
         } else {
             this.runFunctionInternal(busyComponent);
         }
