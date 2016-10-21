@@ -351,7 +351,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this._functionsService.getHostJson().subscribe((jsonObj) => {
-                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ? jsonObj.http.routePrefix : 'api/' + this.functionInfo.name;
+                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ? jsonObj.http.routePrefix : '';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
                 });
@@ -359,15 +359,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     result = result + '/' + httpTrigger.route;
                 }
 
-                result = result.replace('//', '/');
-
-                if (!result || result === 'api') {
-                    result = `${this._functionsService.getMainSiteUrl()}/api/${this.functionInfo.name}`;
+                if (!result) {
+                    result = "/api/" + this.functionInfo.name;
                 } else {
-                    result = this._functionsService.getMainSiteUrl() + "/" + result;
+                    result = "/" + result;
                 }
 
-                this.functionInvokeUrl = result + code;
+                result = result.replace('//', '/');
+
+                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + result + code;
             });
         }
     }

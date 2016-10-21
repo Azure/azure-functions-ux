@@ -129,7 +129,19 @@ export class RunHttpComponent {
 
     private getQueryParams(url: string): Param[] {
         var result = [];
-        var queryArray = url.split('?');
+        var urlCopy = url;
+
+
+        // Remove path params
+        var regExp = /\{([^}]+)\}/g;
+        var matches = urlCopy.match(regExp);
+        if (matches) {
+            matches.forEach((m) => {
+                urlCopy = urlCopy.replace(m, "");
+            });
+        }
+
+        var queryArray = urlCopy.split('?');
 
         if (queryArray.length > 1) {
             var query = queryArray[1];
@@ -151,6 +163,7 @@ export class RunHttpComponent {
     }
 
     private getPathParams(url: string): Param[] {
+        debugger;
         var regExp = /\{([^}]+)\}/g;
     
         var matches = url.match(regExp);
