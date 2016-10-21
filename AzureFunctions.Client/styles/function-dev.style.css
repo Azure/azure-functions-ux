@@ -122,7 +122,7 @@ div.right-block {
     background-color: #D1D2D4;
 }
 
-.bubble:after {
+/*.bubble:after {
     content: '';
     position: absolute;
     border-style: solid;
@@ -148,7 +148,7 @@ div.right-block {
     margin-left: -6px;
     bottom: -27px;
     left: 50%;
-}
+}*/
 
 .bubble-label {
     padding: 4px;
