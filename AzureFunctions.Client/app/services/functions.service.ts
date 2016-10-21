@@ -458,7 +458,6 @@ export class FunctionsService {
     @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getScmSiteHeaders() })
-            .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))

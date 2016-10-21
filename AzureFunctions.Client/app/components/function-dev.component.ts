@@ -122,7 +122,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
                 return Observable.zip(
-                    fi.clientOnly ? Observable.of({}) : this._functionsService.getSecrets(fi),
+                    fi.clientOnly || this._functionsService.isMultiKeySupported ? Observable.of({}) : this._functionsService.getSecrets(fi),
                     this._functionsService.getFunction(fi),
                     (s, f) => ({ secrets: s, functionInfo: f}))
             })
