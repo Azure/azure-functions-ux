@@ -963,7 +963,7 @@ export class FunctionsService {
     }
 
     private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {
-         return response.retryWhen(this.retryAntares)
+         return response
             .catch((e: Response) => {
                 if (this.isEasyAuthEnabled) {
                     return Observable.of({
