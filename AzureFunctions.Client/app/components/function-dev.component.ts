@@ -177,7 +177,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.isHttpFunction = false;
                 }
 
-                this.onResize();
+                setTimeout(() => {
+                    this.onResize();
+                }, 0);
+
                 if (!this._functionsService.isMultiKeySupported) {
                     this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     this.setFunctionInvokeUrl();
@@ -210,7 +213,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var GLOBAL_PADDING = 20;
         var PRECOPY_HEIGHT = 38;
         var EDIT_TOP = 0;
-        if (this.showFunctionInvokeUrl) {
+        if (this.isHttpFunction) {
             EDIT_TOP += PRECOPY_HEIGHT;
         }
 
@@ -266,10 +269,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             var bottomContainer = this.bottomContainer.nativeElement;
             bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
         }
-    }
-
-    ngAfterViewInit() {
-        this.onResize();
     }
 
     clickRightTab(tab: string) {
