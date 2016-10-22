@@ -163,7 +163,6 @@ export class RunHttpComponent {
     }
 
     private getPathParams(url: string): Param[] {
-        debugger;
         var regExp = /\{([^}]+)\}/g;
     
         var matches = url.match(regExp);

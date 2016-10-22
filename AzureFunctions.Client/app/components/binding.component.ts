@@ -359,6 +359,7 @@ export class BindingComponent {
                 if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
                     selectedStorage = input.value;
                 }
+                setting.value = input.value;
 
                 if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
                     setting.noSave = true;
