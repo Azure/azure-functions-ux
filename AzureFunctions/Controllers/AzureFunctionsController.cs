@@ -57,7 +57,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetLatestRuntime()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "~0.6");
+            return Request.CreateResponse(HttpStatusCode.OK, "~0.7");
         }
 
         [HttpGet]
