@@ -375,7 +375,7 @@ export class BindingComponent {
                     this.bindingValue.settings.push(setting);
                 }
             }
-            if (input instanceof CheckBoxListInput) {
+            if (input instanceof CheckBoxListInput && setting) {
                 setting.value = (<CheckBoxListInput>input).getArrayValue();
             }
         });
