@@ -97,7 +97,7 @@
 
                         </div>
 
-                        <div *ngIf="isHttpFunction" style="flex-grow:1;">
+                        <div *ngIf="isHttpFunction">
                             <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
                             <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
 
