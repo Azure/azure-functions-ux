@@ -6,6 +6,27 @@
                 <h2>{{ 'functionDev_code' | translate }}</h2>
                 <span>({{fileName}})</span>
                 <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
+                <span>
+                    <button *ngIf="scriptFile.isDirty"
+                            [class.custom-button]="runValid"
+                            [class.custom-button-disabled]="!runValid"
+                            [class.dirty]="scriptFile.isDirty"
+                            (click)="runFunction()">
+                        {{ 'functionDev_saveAndRun' | translate }}
+                    </button>
+                    <button *ngIf="!scriptFile.isDirty"
+                            [class.custom-button]="runValid"
+                            [class.custom-button-disabled]="!runValid"
+                            [class.dirty]="scriptFile.isDirty"
+                            (click)="runFunction()">
+                        {{ 'run' | translate }}
+                    </button>
+                    <button *ngIf="running"
+                            class="custom-button cancel-button"
+                            (click)="cancelCurrentRun()">
+                        {{ 'cancel' | translate }}
+                    </button>
+                </span>
             </div>
             <div>
                 <span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
@@ -65,28 +86,6 @@
                                  (onContentChanged)="testContentChanged($event)"
                                  [content]="testContent"
                                  fileName="sample.dat">
-                            </div>
-                            <button *ngIf="scriptFile.isDirty"
-                                    [class.custom-button] = "runValid"
-                                    [class.custom-button-disabled] = "!runValid"
-                                    [class.dirty]="scriptFile.isDirty"
-                                    (click)="runFunction()">
-                                {{ 'functionDev_saveAndRun' | translate }}
-                            </button>
-
-                            <div>
-                                <button *ngIf="!scriptFile.isDirty"
-                                        [class.custom-button] = "runValid"
-                                        [class.custom-button-disabled] = "!runValid"
-                                        [class.dirty]="scriptFile.isDirty"
-                                        (click)="runFunction()">
-                                    {{ 'run' | translate }}
-                                </button>
-                                <button *ngIf="running"
-                                        class="custom-button cancel-button"
-                                        (click)="cancelCurrentRun()">
-                                    {{ 'cancel' | translate }}
-                                </button>
                             </div>
                         </div>
 
