@@ -561,8 +561,17 @@ export class FunctionsService {
     @Cache()
     getFunctionHostKeys(masterKey?: string): Observable<FunctionKeys> {
         let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders(masterKey)})
-            .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (err.status === 404) throw err;
+                if (errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(400))
+            .catch((e: Response) => {
+                if (e.status === 404) throw e;
+                return this.checkCorsOrDnsErrors(e);
+            })
             .map<FunctionKeys>(r => {
                 let keys: FunctionKeys = r.json();
                 if (keys && Array.isArray(keys.keys)) {
