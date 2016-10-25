@@ -420,6 +420,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     runFunction() {
+        if (this.bottomTab !== "logs") {
+            this.bottomTab = "logs";
+            this.onResize();
+        }
         var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
         busyComponent.setBusyState();
 
