@@ -45,6 +45,7 @@ export class BindingComponent {
     public disabled: boolean;
     public storageAccountName: string;
     public storageAccountKey: string;
+    public storageConnectionString: string;
     public model = new BindingInputList();
     public areInputsValid: boolean = true;
     public bindingValue: UIFunctionBinding;
@@ -415,12 +416,14 @@ export class BindingComponent {
     private setStorageInformation(selectedStorage: string) {
         this.storageAccountKey = undefined;
         this.storageAccountName = undefined;
+        this.storageConnectionString = undefined;
         if (selectedStorage) {
                 var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
-                if (storageAccount.length === 2) {
-                    this.storageAccountKey = storageAccount.pop();
+                if (storageAccount.length === 3) {
                     this.storageAccountName = storageAccount.pop();
-            }
+                    this.storageAccountKey= storageAccount.pop();
+                    this.storageConnectionString = storageAccount.pop();
+                }
         }
     }
 

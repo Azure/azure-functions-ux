@@ -259,5 +259,6 @@ export class PortalResources
     public static functionKeys_keyName: string = "functionKeys_keyName";
     public static functionKeys_keyValue: string = "functionKeys_keyValue";
     public static functionKeys_title: string = "functionKeys_title";
+    public static binding_storageConnectionString: string = "binding_storageConnectionString";
 }
 

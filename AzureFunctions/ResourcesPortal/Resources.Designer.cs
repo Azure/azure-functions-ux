@@ -484,6 +484,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection String.
+        /// </summary>
+        internal static string binding_storageConnectionString {
+            get {
+                return ResourceManager.GetString("binding_storageConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can now view the blobs, queues and tables associated with this storage binding..
         /// </summary>
         internal static string binding_storageInfoFooter {
