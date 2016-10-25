@@ -66,7 +66,9 @@
                 <dt>{{ 'binding_storageAccountName' | translate }}</dt>
                 <dd><input class="storage-creds-texbox" [ngModel]="storageAccountName"/></dd>
                 <dt>{{ 'binding_storageAccountKey' | translate}}</dt>
-                <dd><secrets-box-container><input class="storage-creds-texbox" style="width: 70%" secrets-box-input type="password" [ngModel]="storageAccountKey"/></secrets-box-container></dd>
+                <dd><secrets-box-container><input readonly='readonly' class="storage-creds-texbox" style="width: 70%" secrets-box-input type="password" [ngModel]="storageAccountKey"/></secrets-box-container></dd>
+                <dt>{{ 'binding_storageConnectionString' | translate}}</dt>
+                <dd><secrets-box-container><input readonly='readonly' class="storage-creds-texbox" style="width: 70%" secrets-box-input type="password" [ngModel]="storageConnectionString" /></secrets-box-container></dd>
             </dl>
             {{ 'binding_storageInfoFooter'| translate }}
         </div>
