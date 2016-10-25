@@ -484,7 +484,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connection String.
+        ///   Looks up a localized string similar to Connection String:.
         /// </summary>
         internal static string binding_storageConnectionString {
             get {

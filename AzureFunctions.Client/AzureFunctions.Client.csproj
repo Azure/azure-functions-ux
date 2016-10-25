@@ -119,10 +119,6 @@
     <Content Include="templates\radio-selector.component.html" />
     <Content Include="templates\sidebar.component.html" />
     <Content Include="templates\top-bar.component.html" />
-    <Content Include="web.config" />
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
     <TypeScriptCompile Include="app\boot.ts" />
     <TypeScriptCompile Include="app\components\aggregate-block.component.ts" />
     <TypeScriptCompile Include="app\components\app-monitoring.component.ts" />
