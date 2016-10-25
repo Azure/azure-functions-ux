@@ -889,4 +889,7 @@
   <data name="functionKeys_title" xml:space="preserve">
     <value>Function Keys</value>
   </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Connection String:</value>
+  </data>
 </root>
