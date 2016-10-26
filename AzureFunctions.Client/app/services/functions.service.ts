@@ -472,6 +472,7 @@ export class FunctionsService {
             .map<FunctionSecrets>(e => secrets);
     }
 
+    @Cache()
     getHostJson() {
         return this._http.get(`${this.azureScmServer}/vfs/site/wwwroot/host.json`, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
