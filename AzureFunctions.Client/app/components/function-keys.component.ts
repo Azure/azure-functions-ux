@@ -19,6 +19,9 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;
     @Input() enableKeySelect: boolean;
     @Input() autoSelect: boolean;
+    // TODO: This is a hack to trigger change on this component for admin keys.
+    // Find a better way to do that.
+    @Input() inputChange: any;
     @Output() selectedKey = new EventEmitter<string>();
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
 
