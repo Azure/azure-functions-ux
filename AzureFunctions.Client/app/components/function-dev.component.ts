@@ -336,6 +336,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private setFunctionInvokeUrl(key?: string) {
+        this.functionInvokeUrl = '';
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
@@ -349,23 +350,26 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this._functionsService.getHostJson().subscribe((jsonObj) => {
-                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix) ? jsonObj.http.routePrefix : '';
+                var that = this;
+                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
                 });
                 if (httpTrigger && httpTrigger.route) {
                     result = result + '/' + httpTrigger.route;
-                }
-
-                if (!result) {
-                    result = "/api/" + this.functionInfo.name;
                 } else {
-                    result = "/" + result;
+                    result = result + '/' + this.functionInfo.name;
                 }
 
-                result = result.replace('//', '/');
+                // Remove doubled slashes
+                var path = '/' + result + code;
+                var find = '//';
+                var re = new RegExp(find, 'g');
+                path = path.replace(re, '/');
+                path = path.replace('/?', '?');
 
-                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + result + code;
+                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + path;
+                
             });
         }
     }
@@ -433,7 +437,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (!this.runHttp.valid) {
                 return;
             }
-            
+
             this.httpRunLogs.clearLogs();
             this.runFunctionInternal(busyComponent);
 
