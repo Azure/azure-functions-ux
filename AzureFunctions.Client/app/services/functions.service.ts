@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {FunctionInfo} from '../models/function-info';
 import {VfsObject} from '../models/vfs-object';
 import {ScmInfo} from '../models/scm-info';
-import {PassthroughInfo} from '../models/passthrough-info';
+import {PassthroughInfo } from '../models/passthrough-info';
 import {CreateFunctionInfo} from '../models/create-function-info';
 import {FunctionTemplate} from '../models/function-template';
 import {RunResponse} from '../models/run-response';
@@ -420,7 +420,7 @@ export class FunctionsService {
         }
 
 
-            return this.runFunctionInternal(
+         return this.runFunctionInternal(
                 this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) }),
                 functionInfo);
 
@@ -584,11 +584,11 @@ export class FunctionsService {
                 return keys;
             });
 
-            hostKeys.subscribe(r => {
-                this.isMultiKeySupported = true;
-            }, e => {
-                this.isMultiKeySupported = false;
-            });
+             hostKeys.subscribe(r => {
+                 this.isMultiKeySupported = true;
+             }, e => {
+                 this.isMultiKeySupported = false;
+             });
         return hostKeys;
     }
 
@@ -694,6 +694,18 @@ export class FunctionsService {
         }
     }
 
+
+    @Cache()
+    getFunctionAppId() {
+        if (this.isEasyAuthEnabled || !this.masterKey) {
+            return Observable.of([]);
+        } else {
+            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                .map<string>(r => r.json().id)
+                .catch(e => Observable.of(null));
+        }
+    }
+
     setEasyAuth(config: { [key: string]: string }) {
         this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
     }
@@ -785,15 +797,15 @@ export class FunctionsService {
                 name: keyName,
                 value: keyValue
             };
-           return this._http.put(url, JSON.stringify(body), {headers: this.getMainSiteHeaders()})
-                    .retryWhen(this.retryAntares)
-                    .catch(e => this.checkCorsOrDnsErrors(e))
-                    .map<FunctionKey>(r => r.json());
+        return this._http.put(url, JSON.stringify(body), { headers: this.getMainSiteHeaders() })
+                 .retryWhen(this.retryAntares)
+                 .catch(e => this.checkCorsOrDnsErrors(e))
+                 .map<FunctionKey>(r => r.json());
         } else {
-            return this._http.post(url, '', {headers: this.getMainSiteHeaders()})
-                    .retryWhen(this.retryAntares)
-                    .catch(e => this.checkCorsOrDnsErrors(e))
-                    .map<FunctionKey>(r => r.json());
+            return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
+                .retryWhen(this.retryAntares)
+                .catch(e => this.checkCorsOrDnsErrors(e))
+                .map<FunctionKey>(r => r.json());
         }
     }
 
@@ -958,16 +970,16 @@ export class FunctionsService {
                         );
                     }
                 }, (error: Response) => {
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
-                        );
+                    this._broadcastService.broadcast<ErrorEvent>(
+                        BroadcastEvent.Error,
+                        { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
+                    );
                 });
         } else {
             this._broadcastService.broadcast<ErrorEvent>(
                 BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error)}
-             );
+                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error) }
+            );
         }
         throw error;
     }
