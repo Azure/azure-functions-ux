@@ -694,6 +694,17 @@ export class FunctionsService {
         }
     }
 
+    @Cache()
+    getFunctionAppId() {
+         if (this.isEasyAuthEnabled || !this.masterKey) {
+             return Observable.of([]);
+        } else {
+            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                 .map<string>(r => r.json().id)
+                 .catch(e => Observable.of(null));
+         }
+     }
+
     setEasyAuth(config: { [key: string]: string }) {
         this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
     }
