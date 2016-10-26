@@ -350,6 +350,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this._functionsService.getHostJson().subscribe((jsonObj) => {
+                var that = this;
                 var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
@@ -360,8 +361,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     result = result + '/' + this.functionInfo.name;
                 }
 
-                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + '/' + result + code;
-                this.functionInvokeUrl = this.functionInvokeUrl.replace('.net//', '.net/');
+                // Remove doubled slashes
+                var path = '/' + result + code;
+                var find = '//';
+                var re = new RegExp(find, 'g');
+                path = path.replace(re, '/');
+                path = path.replace('/?', '?');
+
+                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + path;
+                
             });
         }
     }

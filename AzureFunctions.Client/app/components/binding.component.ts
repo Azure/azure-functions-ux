@@ -378,6 +378,12 @@ export class BindingComponent {
             if (input instanceof CheckBoxListInput && setting) {
                 setting.value = (<CheckBoxListInput>input).getArrayValue();
             }
+
+            if (setting && setting.name === "route") {
+                if (setting.value.charAt(0) == "/") {
+                    setting.value = setting.value.substr(1);
+                }
+            }
         });
 
         this.bindingValue.settings.forEach((setting) => {
