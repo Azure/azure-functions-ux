@@ -381,7 +381,7 @@ export class BindingComponent {
             }
 
             if (setting && setting.name === "route") {
-                if (setting.value.charAt(0) == "/") {
+                if (setting.value && setting.value.charAt(0) == "/") { 
                     setting.value = setting.value.substr(1);
                 }
             }
