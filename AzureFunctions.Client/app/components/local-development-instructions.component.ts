@@ -22,7 +22,7 @@ export class LocalDevelopmentInstructionsComponent implements OnInit {
 
     show() {
         this.shown = true;
-        this.downloadUrl = `${this._functionsService.getScmUrl()}/admin/zip/site/wwwroot`;
+        this.downloadUrl = `${this._functionsService.getScmUrl()}/api/zip/site/wwwroot`;
         this.checkLocalFunctionsServer();
     }
 
