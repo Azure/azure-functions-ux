@@ -30,6 +30,8 @@ export class FunctionMonitorComponent implements OnChanges {
     public funcName: string;
     public columns: any[];
 
+    private _functionId: string;
+
     constructor(
         private _functionsService: FunctionsService,
         private _functionMonitorService: FunctionMonitorService,
@@ -67,15 +69,20 @@ export class FunctionMonitorComponent implements OnChanges {
         this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
         this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
         this.funcName = this.selectedFunction.name;
-        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
-        this._functionMonitorService.getAggregateErrorsAndInvocationsForSelectedFunction(this.funcName)
-            .subscribe(results => {
-                this.successAggregate = !!results ? results.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
-                this.errorsAggregate = !!results ? results.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+        this._functionsService.getFunctionAppId().subscribe(host => {
+            var hostId = !!host ? host : "";
+            this._functionMonitorService.getDataForSelectedFunction(this.funcName, hostId).subscribe(data => {
+                this._functionId = !!data ? data.functionId : this.funcName;
+                this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+
+                this._functionMonitorService.getInvocationsDataForSelctedFunction(this._functionId).subscribe(result => {
+                    this.rows = result;
+                    this._globalStateService.clearBusyState();
+                });
             });
-        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.funcName).subscribe(result => {
-            this.rows = result;
-            this._globalStateService.clearBusyState();
         });
+
+        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
     }
 }

@@ -22,6 +22,7 @@ export class FunctionMonitorService {
         }
     }
 
+
     private getHeadersForScmSite(scmCreds?: string): Headers {
         var contentType = 'application/json';
         var headers = new Headers();
@@ -36,56 +37,39 @@ export class FunctionMonitorService {
         return headers;
     }
 
-    getInvocationsDataForSelctedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase();
-        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions/" + funcName + "/invocations?limit=20";
+    getDataForSelectedFunction(funcName: string, host: string) {
+        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?host=" + host + "&limit=11";
+        return this._http.get(url, {
+            headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
+        })
+            .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === funcName.toLowerCase()));
+    }
+
+
+    getInvocationsDataForSelctedFunction(functionId: string) {
+        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
             .map<FunctionInvocations[]>(r => r.json().entries)
-            .catch(e => {
-                if (e.status === 404) {
-                    return Observable.of([]);
-                } else {
-                    throw e;
-                }
-            });
+            .catch(e => Observable.of([]))
     }
 
     getInvocationDetailsForSelectedInvocation(invocationId: string) {
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/invocations/" + invocationId;
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
-        }).map<FunctionInvocationDetails[]>(r => r.json().parameters)
-            .catch(e => {
-                if (e.status === 404) {
-                    return Observable.of([]);
-                } else {
-                    throw e;
-                }
-            });
+        })
+            .map<FunctionInvocationDetails[]>(r => r.json().parameters)
+            .catch(e => Observable.of([]));
     }
 
     getOutputDetailsForSelectedInvocation(invocationId: string) {
         var url = this._functionsService.getScmUrl() + "/azurejobs/api/log/output/" + invocationId;
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
-        }).map<string>(r => r.text())
-            .catch(e => {
-                if (e.status === 404) {
-                    return Observable.of("");
-                } else {
-                    throw e;
-                }
-            });
-    }
-
-    getAggregateErrorsAndInvocationsForSelectedFunction(selectedFunctionName: string) {
-        let funcName = selectedFunctionName.toLocaleLowerCase();
-        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?limit=11";
-        return this._http.get(url, {
-            headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
-            .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === funcName));
+            .map<string>(r => r.text())
+            .catch(e => Observable.of(""))
     }
 }
