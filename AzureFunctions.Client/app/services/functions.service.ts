@@ -537,7 +537,7 @@ export class FunctionsService {
             .subscribe(r => {
                 let masterKey: {masterKey: string} = r.json();
                 this.masterKey = masterKey.masterKey;
-                this.getFunctionHostKeys(masterKey.masterKey);
+                this.getFunctionHostKeys();
             }, e => {
                 this.isMultiKeySupported = false;
                 this.legacyGetHostSecrets();
@@ -561,9 +561,8 @@ export class FunctionsService {
             }, e => console.log(e));
     }
 
-    @Cache()
-    getFunctionHostKeys(masterKey?: string): Observable<FunctionKeys> {
-        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders(masterKey)})
+    getFunctionHostKeys(): Observable<FunctionKeys> {
+        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders()})
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
                 if (err.status === 404) throw err;
                 if (errorCount >= 10) {
@@ -819,9 +818,13 @@ export class FunctionsService {
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
         let keyRenew = this._http.post(url, '', {headers: this.getMainSiteHeaders()})
             .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e));
+            .catch(e => this.checkCorsOrDnsErrors(e))
+            .share();
         if (!functionInfo && key.name === '_master') {
-            return keyRenew.flatMap(_ => this.getHostSecrets());
+            keyRenew.subscribe(r => {
+                this.masterKey = r.json().value;
+            });
+            return keyRenew.delay(100);
         } else {
             return keyRenew;
         }
@@ -842,12 +845,12 @@ export class FunctionsService {
         return headers;
     }
 
-    private getMainSiteHeaders(contentType?: string, key?: string): Headers {
+    private getMainSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
         var headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-        headers.append('x-functions-key', key || this.masterKey);
+        headers.append('x-functions-key', this.masterKey);
         return headers;
     }
 
