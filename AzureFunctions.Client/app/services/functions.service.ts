@@ -164,8 +164,10 @@ export class FunctionsService {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
         this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
         this.siteName = fc.name;
-        if (fc.tryScmCred != null)
+        if (fc.tryScmCred != null) {
             this._globalStateService.ScmCreds = fc.tryScmCred;
+            this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        }
     }
 
     @Cache()
