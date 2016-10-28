@@ -24,7 +24,7 @@ export class TableFunctionMonitor implements OnChanges {
     @Input() data: any[];
     @Input() details: any;
     @Input() pulseUrl: string;
-    @Input() selectedFuncName: string;
+    @Input() selectedFuncId: string;
 
     public outputLog: string;
     public selectedRowId: string;
@@ -57,7 +57,7 @@ export class TableFunctionMonitor implements OnChanges {
 
     refreshFuncMonitorGridData() {
         this.setBusyState();
-        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncName).subscribe(result => {
+        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncId).subscribe(result => {
             this.data = result;
             this.clearBusyState();
         });

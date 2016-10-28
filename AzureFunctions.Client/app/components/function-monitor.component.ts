@@ -27,10 +27,10 @@ export class FunctionMonitorComponent implements OnChanges {
     public errorsAggregateHeading: string;
     public successAggregate: string;
     public errorsAggregate: string;
-    public funcName: string;
     public columns: any[];
+    public functionId: string;
 
-    private _functionId: string;
+    public _funcName: string;
 
     constructor(
         private _functionsService: FunctionsService,
@@ -68,21 +68,21 @@ export class FunctionMonitorComponent implements OnChanges {
         let site = this._functionsService.getSiteName();
         this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
         this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
-        this.funcName = this.selectedFunction.name;
+        this._funcName = this.selectedFunction.name;
         this._functionsService.getFunctionAppId().subscribe(host => {
             var hostId = !!host ? host : "";
-            this._functionMonitorService.getDataForSelectedFunction(this.funcName, hostId).subscribe(data => {
-                this._functionId = !!data ? data.functionId : this.funcName;
+            this._functionMonitorService.getDataForSelectedFunction(this._funcName, hostId).subscribe(data => {
+                this.functionId = !!data ? data.functionId : this._funcName;
                 this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                 this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
 
-                this._functionMonitorService.getInvocationsDataForSelctedFunction(this._functionId).subscribe(result => {
+                this._functionMonitorService.getInvocationsDataForSelctedFunction(this.functionId).subscribe(result => {
                     this.rows = result;
                     this._globalStateService.clearBusyState();
                 });
             });
         });
 
-        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.funcName}`;
+        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this._funcName}`;
     }
 }
