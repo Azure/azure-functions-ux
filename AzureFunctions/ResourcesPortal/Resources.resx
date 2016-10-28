@@ -892,4 +892,19 @@
   <data name="binding_storageConnectionString" xml:space="preserve">
     <value>Connection String:</value>
   </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Daily Usage Quota (GB-Sec)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>The Function App will be stopped when reaching daily usage quota until the next 24 hours timeframe.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Remove quota</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Set quota</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>The Function App wil be stopped when redaching daily usage until the next 24 hours timeframe.</value>
+  </data>
 </root>

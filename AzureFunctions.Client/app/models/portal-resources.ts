@@ -260,5 +260,10 @@ export class PortalResources
     public static functionKeys_keyValue: string = "functionKeys_keyValue";
     public static functionKeys_title: string = "functionKeys_title";
     public static binding_storageConnectionString: string = "binding_storageConnectionString";
+    public static functionAppSettings_dailyUsageQuota: string = "functionAppSettings_dailyUsageQuota";
+    public static functionAppSettings_quotaWarning: string = "functionAppSettings_quotaWarning";
+    public static functionAppSettings_removeQuota: string = "functionAppSettings_removeQuota";
+    public static functionAppSettings_setQuota: string = "functionAppSettings_setQuota";
+    public static functionAppSettings_quotaInfo: string = "functionAppSettings_quotaInfo";
 }
 

@@ -132,6 +132,18 @@ input[type=range]::-ms-thumb {
     width: 75%;
 }
 
+input[type=text], select{
+    background: #fff;
+    border: 2px solid #dedede;
+    position: relative;
+    vertical-align: middle;
+    height: 29px;
+    width: 85%;
+    margin-right: 10px;
+    padding: 0 5px;
+}
+
+
 
 .features-wrapper > div {
     flex-grow: 1;
@@ -208,4 +220,17 @@ input[type=range]::-ms-thumb {
 
 .clickable-disabled {
     background-color: lightgray;
+}
+
+.quotaInput {
+    align-self: flex-start;
+} 
+
+.warning {
+    color: red;
+}
+
+.remove-button {
+    margin-top:10px;
+    background-color: #ff1525;
 }

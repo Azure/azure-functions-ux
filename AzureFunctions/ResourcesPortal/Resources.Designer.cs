@@ -871,6 +871,51 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daily Usage Quota (GB-Sec).
+        /// </summary>
+        internal static string functionAppSettings_dailyUsageQuota {
+            get {
+                return ResourceManager.GetString("functionAppSettings_dailyUsageQuota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Function App wil be stopped when redaching daily usage until the next 24 hours timeframe..
+        /// </summary>
+        internal static string functionAppSettings_quotaInfo {
+            get {
+                return ResourceManager.GetString("functionAppSettings_quotaInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage quota until the next 24 hours timeframe..
+        /// </summary>
+        internal static string functionAppSettings_quotaWarning {
+            get {
+                return ResourceManager.GetString("functionAppSettings_quotaWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove quota.
+        /// </summary>
+        internal static string functionAppSettings_removeQuota {
+            get {
+                return ResourceManager.GetString("functionAppSettings_removeQuota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set quota.
+        /// </summary>
+        internal static string functionAppSettings_setQuota {
+            get {
+                return ResourceManager.GetString("functionAppSettings_setQuota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Function Error: {{error}}.
         /// </summary>
         internal static string functionCreateErrorDetails {

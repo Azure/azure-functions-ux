@@ -19,19 +19,48 @@
         </div>
     </div>
 
-    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper features-wrapper">
-        <label>{{ 'appFunctionSettings_memory' | translate }}</label>
-        <!-- TODO: move css -->
-        <div style="height: 60px">
+    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
+        <div class="features-wrapper">
+            <label>{{ 'appFunctionSettings_memory' | translate }}</label>
             <!-- TODO: move css -->
-            <div style="flex-grow: 10">
-                <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
+            <div style="height: 60px">
+                <!-- TODO: move css -->
+                <div style="flex-grow: 10">
+                    <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
+                </div>
+                <div style="flex-grow: 1">
+                    <span>{{memorySize}} MB</span>
+                </div>
+                <div style="flex-grow: 1">
+                    <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">{{ 'save' | translate }}</button>
+                </div>
             </div>
-            <div style="flex-grow: 1">
-                <span>{{memorySize}} MB</span>
-            </div>
-            <div style="flex-grow: 1">
-                <button *ngIf="dirty" class="custom-button dirty" (click)="saveMemorySize(memorySize)">{{ 'save' | translate }}</button>
+        </div>
+    </div>
+
+    <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
+        <div class="features-wrapper">
+            <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}</label>
+            <div>
+                <div class="quotaInput">
+                    <input [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
+                    <div *ngIf="showDailyMemoryInfo">
+                        {{ 'functionAppSettings_quotaInfo' | translate }}
+                    </div>
+                    <div *ngIf="showDailyMemoryWarning" class="warning">
+                        {{ 'functionAppSettings_quotaWarning' | translate }}
+                    </div>
+                </div>
+                <div>
+                    <button class="custom-button"
+                            (click)="setQuota()">
+                        {{ 'functionAppSettings_setQuota' | translate }}
+                    </button>
+                    <button *ngIf="showDailyMemoryInfo" class="custom-button remove-button"
+                            (click)="removeQuota()">
+                        {{ 'functionAppSettings_removeQuota' | translate }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>

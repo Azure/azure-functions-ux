@@ -28,10 +28,20 @@ export class AppSettingsComponent implements OnInit {
     public extensionVersion: string;
     public latestExtensionVersion: string;
     public debugConsole: string;
+    public dailyMemoryTimeQuota: string;
+    public showDailyMemoryWarning: boolean = false;
+    public showDailyMemoryInfo: boolean = false;
     private showTryView: boolean;
 
     set functionContainer(value: FunctionContainer) {
-        this.debugConsole  = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/DebugConsole`;
+        this.debugConsole = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/DebugConsole`;
+        this.dailyMemoryTimeQuota = value.properties.dailyMemoryTimeQuota.toString();
+        if (this.dailyMemoryTimeQuota === "0") {
+            this.dailyMemoryTimeQuota = "";
+        } else {
+            this.showDailyMemoryInfo = true;
+        }
+        this.showDailyMemoryWarning = (!value.properties.enabled && value.properties.siteDisabledReason === 1);
         this._functionContainer = value;
     }
 
@@ -96,6 +106,30 @@ export class AppSettingsComponent implements OnInit {
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
             });
+        });
+    }
+
+    setQuota() {
+        var dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+
+        if (dailyMemoryTimeQuota > 0) {
+            this._globalStateService.setBusyState();
+            this._armService.dailyMemory(this._functionContainer, dailyMemoryTimeQuota).subscribe(() => {
+                this.showDailyMemoryInfo = true;
+                this._functionContainer.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
+                this._globalStateService.clearBusyState();
+            });
+        }
+    }
+
+    removeQuota() {
+        this._globalStateService.setBusyState();
+        this._armService.dailyMemory(this._functionContainer, 0).subscribe(() => {
+            this.showDailyMemoryInfo = false;
+            this.showDailyMemoryWarning = false;
+            this.dailyMemoryTimeQuota = "";
+            this._functionContainer.properties.dailyMemoryTimeQuota = 0;
+            this._globalStateService.clearBusyState();
         });
     }
 }

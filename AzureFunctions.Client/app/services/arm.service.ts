@@ -118,6 +118,21 @@ export class ArmService {
             .subscribe(r => console.log(r), e => console.log(e));
     }
 
+    dailyMemory(container: FunctionContainer, value: number) {
+        var url = `${this.armUrl}/${container.id}?api-version=${this.websiteApiVersion}`;
+
+        var body = JSON.stringify({
+            Location: container.location,
+            Properties: {
+                dailyMemoryTimeQuota: value
+            }
+        });
+
+        return this._http.put(url, body, { headers: this.getHeaders() })
+            .map(r => r.json());
+            
+    }
+
     private registerProviders(subscription: string, geoRegion: string, name: string, result: Subject<FunctionContainer>) {
         var providersUrl = `${this.armUrl}/subscriptions/${subscription}/providers?api-version=${this.armApiVersion}`;
         var websiteUrl = `${this.armUrl}/subscriptions/${subscription}/providers/Microsoft.Web/register?api-version=${this.websiteApiVersion}`;
