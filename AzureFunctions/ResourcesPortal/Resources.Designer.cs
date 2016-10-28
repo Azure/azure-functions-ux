@@ -880,7 +880,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Function App wil be stopped when redaching daily usage until the next 24 hours timeframe..
+        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage until the next 24 hours timeframe..
         /// </summary>
         internal static string functionAppSettings_quotaInfo {
             get {
@@ -889,7 +889,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage quota until the next 24 hours timeframe..
+        ///   Looks up a localized string similar to The Function App has reached daily usage quota and has been stopped until the next 24 hours timeframe..
         /// </summary>
         internal static string functionAppSettings_quotaWarning {
             get {

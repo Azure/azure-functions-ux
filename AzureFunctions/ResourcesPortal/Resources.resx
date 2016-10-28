@@ -896,7 +896,7 @@
     <value>Daily Usage Quota (GB-Sec)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>The Function App will be stopped when reaching daily usage quota until the next 24 hours timeframe.</value>
+    <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours timeframe.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Remove quota</value>
@@ -905,6 +905,6 @@
     <value>Set quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>The Function App wil be stopped when redaching daily usage until the next 24 hours timeframe.</value>
+    <value>The Function App will be stopped when reaching daily usage until the next 24 hours timeframe.</value>
   </data>
 </root>
