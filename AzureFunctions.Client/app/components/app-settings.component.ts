@@ -35,13 +35,15 @@ export class AppSettingsComponent implements OnInit {
 
     set functionContainer(value: FunctionContainer) {
         this.debugConsole = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/DebugConsole`;
-        this.dailyMemoryTimeQuota = value.properties.dailyMemoryTimeQuota.toString();
+
+        this.dailyMemoryTimeQuota = value.properties.dailyMemoryTimeQuota ? value.properties.dailyMemoryTimeQuota.toString() : "";
         if (this.dailyMemoryTimeQuota === "0") {
             this.dailyMemoryTimeQuota = "";
         } else {
             this.showDailyMemoryInfo = true;
         }
         this.showDailyMemoryWarning = (!value.properties.enabled && value.properties.siteDisabledReason === 1);
+
         this._functionContainer = value;
     }
 

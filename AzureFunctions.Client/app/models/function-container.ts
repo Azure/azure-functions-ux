@@ -11,9 +11,9 @@
         }];
         sku: string;
         containerSize: number;
-        dailyMemoryTimeQuota: number;
-        enabled: boolean;
-        siteDisabledReason: number;
+        dailyMemoryTimeQuota?: number;
+        enabled?: boolean;
+        siteDisabledReason?: number;
     }
     tryScmCred?: string;
 }
