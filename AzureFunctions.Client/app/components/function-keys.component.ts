@@ -49,10 +49,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             })
             .subscribe(keys => {
                 this.clearBusyState();
+                keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {
                     var newKey = keys.keys.find(k => k.name.toLocaleLowerCase() === this.keys[i].name.toLocaleLowerCase());
                     if (newKey) {
-                        newKey.show = this.keys[i].show;
                         newKey.selected = this.keys[i].selected;
                     }
                 }
