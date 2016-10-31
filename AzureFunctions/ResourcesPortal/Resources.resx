@@ -910,4 +910,7 @@
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Are you sure you want to revoke {{name}} key?</value>
   </data>
+  <data name="keys" xml:space="preserve">
+    <value>Keys</value>
+  </data>
 </root>

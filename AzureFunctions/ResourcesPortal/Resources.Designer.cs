@@ -1726,6 +1726,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keys.
+        /// </summary>
+        internal static string keys {
+            get {
+                return ResourceManager.GetString("keys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string logStreaming_clear {

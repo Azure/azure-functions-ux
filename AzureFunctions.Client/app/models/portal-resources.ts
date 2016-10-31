@@ -266,5 +266,6 @@ export class PortalResources
     public static functionAppSettings_setQuota: string = "functionAppSettings_setQuota";
     public static functionAppSettings_quotaInfo: string = "functionAppSettings_quotaInfo";
     public static functionKeys_revokeConfirmation: string = "functionKeys_revokeConfirmation";
+    public static keys: string = "keys";
 }
 
