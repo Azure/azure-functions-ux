@@ -126,23 +126,27 @@ export class GlobalStateService {
 
    getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
        var value = this._appSettings[settingName];
-       var account = [];
-       var accountName;
-       var accountKey;
-       var partsArray = value.split(';');
-       for (var i = 0; i < partsArray.length; i++) {
-           var part = partsArray[i];
-           var accountNameIndex = part.toLowerCase().indexOf("accountname");
-           var accountKeyIndex = part.toLowerCase().indexOf("accountkey");
-           if (accountNameIndex > -1)
-               accountName = (part.substring(accountNameIndex + 12, part.length));
-           if (accountKeyIndex > -1)
-               accountKey = (part.substring(accountKeyIndex + 11, part.length));
+       if (value) {
+            var account = [];
+            var accountName;
+            var accountKey;
+            var partsArray = value.split(';');
+            for (var i = 0; i < partsArray.length; i++) {
+                var part = partsArray[i];
+                var accountNameIndex = part.toLowerCase().indexOf("accountname");
+                var accountKeyIndex = part.toLowerCase().indexOf("accountkey");
+                if (accountNameIndex > -1)
+                    accountName = (part.substring(accountNameIndex + 12, part.length));
+                if (accountKeyIndex > -1)
+                    accountKey = (part.substring(accountKeyIndex + 11, part.length));
+            }
+            account.push(value);
+            if (accountKey) account.push(accountKey);
+            if (accountName) account.push(accountName);
+            return account;
+       } else {
+           return [];
        }
-       account.push(value);
-       if (accountKey) account.push(accountKey);
-       if (accountName) account.push(accountName);
-       return account;
    }
 
     getResourceAppSettings(type: ResourceType): string[] {
