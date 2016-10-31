@@ -77,7 +77,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     copyLogs(event) {
-        this._utilities.copyContentToClipboard(this._elementRef.nativeElement.querySelector('pre'));
+        this._utilities.copyContentToClipboard(this.log);
     }
 
     handleKeyPress(e: KeyboardEvent) {
@@ -98,7 +98,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         const maxInterval = 10000;
         let oldLogs = '';
 
-        var promise = new Promise<string>((resolve, reject) => {           
+        var promise = new Promise<string>((resolve, reject) => {
 
             if (this.xhReq) {
                 this.timeouts.forEach(window.clearTimeout);
