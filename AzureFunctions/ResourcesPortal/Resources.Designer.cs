@@ -1177,6 +1177,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to revoke {{name}} key?.
+        /// </summary>
+        internal static string functionKeys_revokeConfirmation {
+            get {
+                return ResourceManager.GetString("functionKeys_revokeConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function Keys.
         /// </summary>
         internal static string functionKeys_title {

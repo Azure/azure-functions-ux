@@ -907,4 +907,7 @@
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
     <value>The Function App will be stopped when reaching daily usage until the next 24 hours timeframe.</value>
   </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Are you sure you want to revoke {{name}} key?</value>
+  </data>
 </root>

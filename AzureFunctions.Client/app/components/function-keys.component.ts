@@ -7,6 +7,7 @@ import {FunctionKey} from '../models/function-key';
 import {BusyStateComponent} from './busy-state.component';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'function-keys',
@@ -33,7 +34,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     private validKey: boolean;
 
     constructor(private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
         this.validKey = false;
         this.keys = [];
         this.functionStream = new Subject<FunctionInfo>();
@@ -135,13 +137,15 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     revokeKey(key: FunctionKey) {
-        this.setBusyState();
-        this._functionsService
-            .deleteKey(key, this.functionInfo)
-            .subscribe(r => {
-                this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
-            }, e => this.clearBusyState());
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, {name: key.name}))) {
+            this.setBusyState();
+            this._functionsService
+                .deleteKey(key, this.functionInfo)
+                .subscribe(r => {
+                    this.clearBusyState();
+                    this.functionStream.next(this.functionInfo)
+                }, e => this.clearBusyState());
+        }
     }
 
     renewKey(key: FunctionKey) {
