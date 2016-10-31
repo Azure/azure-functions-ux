@@ -59,6 +59,6 @@
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding>
 
-    <button class="custom-button" style="display: block; margin-top: 40px" [disabled]="!areInputsValid" (click)="onCreate()">{{ 'create' | translate }}</button>
+    <button [class.custom-button]="areInputsValid" [class.custom-button-disabled]="!areInputsValid" style="display: block; margin-top: 40px" [disabled]="!areInputsValid" (click)="onCreate()">{{ 'create' | translate }}</button>
 </div>
 </div>
