@@ -193,8 +193,9 @@ export class FunctionNewComponent {
 
     private validate() {
         //^[a-z][a-z0-9_\-]{0,127}$(?<!^host$) C# expression
-        // Lookbehind is not supported in JS 
+        // Lookbehind is not supported in JS
         this.areInputsValid = true;
+        this.functionNameError = "";
         var regexp = new RegExp("^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$");
         this.areInputsValid = regexp.test(this.functionName);
         if (this.functionName.toLowerCase() ==="host") {
