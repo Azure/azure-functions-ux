@@ -1042,7 +1042,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View files.
+        ///   Looks up a localized string similar to View Files.
         /// </summary>
         internal static string functionDev_viewFiles {
             get {
