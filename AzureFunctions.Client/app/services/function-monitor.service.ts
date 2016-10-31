@@ -60,8 +60,8 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
-            .map<FunctionInvocationDetails[]>(r => r.json().parameters)
-            .catch(e => Observable.of([]));
+            .map<any>(r => r.json())
+            .catch(e => Observable.of(null));
     }
 
     getOutputDetailsForSelectedInvocation(invocationId: string) {

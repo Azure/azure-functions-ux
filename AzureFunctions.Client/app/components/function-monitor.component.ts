@@ -72,14 +72,19 @@ export class FunctionMonitorComponent implements OnChanges {
         this._functionsService.getFunctionAppId().subscribe(host => {
             var hostId = !!host ? host : "";
             this._functionMonitorService.getDataForSelectedFunction(this._funcName, hostId).subscribe(data => {
-                this.functionId = !!data ? data.functionId : this._funcName;
-                this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
-                this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.functionId = !!data ? data.functionId : "";
+                this.successAggregate = !!data ? data.successCount.toString() : 
+                    this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.errorsAggregate = !!data ? data.failedCount.toString() : 
+                    this._translateService.instant(PortalResources.appMonitoring_noData);
 
-                this._functionMonitorService.getInvocationsDataForSelctedFunction(this.functionId).subscribe(result => {
-                    this.rows = result;
-                    this._globalStateService.clearBusyState();
-                });
+                // if no data from function monitoring we don't call the Invocations API since this will return 404
+                if (!!data) {
+                    this._functionMonitorService.getInvocationsDataForSelctedFunction(this.functionId).subscribe(result => {
+                        this.rows = result;
+                        this._globalStateService.clearBusyState();
+                    });
+                }
             });
         });
 

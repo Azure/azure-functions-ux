@@ -36,13 +36,18 @@
         <table id="function-monitor-Invocation-details">
             <thead>
                 <tr>
-                    <th>{{'functionMonitorInvocationTable_paramColumn' | translate}}</th>
+                    <th>{{'functionMonitorInvocationTable_paramColumn' | translate}}
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of details">
                     <td>{{item?.name}}</td>
                     <td>{{item?.argInvokeString}}</td>
+                </tr>
+                <tr>
+                    <td>{{invocation?.exceptionType}}</td>
+                    <td>{{invocation?.exceptionMessage}} </td>
                 </tr>
             </tbody>
         </table>
