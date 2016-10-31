@@ -55,7 +55,8 @@ export class BackgroundTasksService {
                         this._functionsService.getHostErrors().catch(e => Observable.of([])),
                         this._armService.getConfig(this._globalStateService.FunctionContainer),
                         this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
-                        (e, c, a) => ({ errors: e, config: c, appSettings: a }));
+                        this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
+                        (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
             let handleResult = result => {
                 result.errors.forEach(e => {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
@@ -64,7 +65,7 @@ export class BackgroundTasksService {
                     this.setDisabled(result.config);
                     let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
                     this._globalStateService.isAlwaysOn = result.config["alwaysOn"] || isFunctionApp ? true : false;
-                    this._functionsService.setEasyAuth(result.config);
+                    this._functionsService.setEasyAuth(result.authSettings);
                     this._globalStateService.AppSettings = result.appSettings;
                     if (!this._isResourcesReceived) {
                         this._functionsService.getResources().subscribe(() => {

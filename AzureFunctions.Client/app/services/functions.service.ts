@@ -706,8 +706,8 @@ export class FunctionsService {
          }
      }
 
-    setEasyAuth(config: { [key: string]: string }) {
-        this.isEasyAuthEnabled = !!config['siteAuthEnabled'];
+    setEasyAuth(config: { [key: string]: any }) {
+        this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
     }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
