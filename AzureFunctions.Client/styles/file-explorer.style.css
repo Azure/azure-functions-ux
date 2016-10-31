@@ -3,7 +3,6 @@
 }
 
 .file, .folder {
-    font-family: Consolas, Courier New, Courier, monospace;
     padding: 5px;
     vertical-align: middle;
     line-height: 1.8;
@@ -31,8 +30,7 @@
 }
 
 .heading {
-    font-weight: 800;
-    font-family: Consolas, Courier New, Courier, monospace;
+    font-weight: 700;
     padding: 5px;
     vertical-align: middle;
     line-height: 1.8;
@@ -48,7 +46,7 @@
     display: flex;
 }
 
-#lower-panel > div {    
+#lower-panel > div {
     text-align: center;
     padding: 10px;
     border-right: 1px solid #ccc;
