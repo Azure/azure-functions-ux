@@ -23,6 +23,7 @@ export class TableFunctionMonitor implements OnChanges {
     @Input() columns: any[];
     @Input() data: any[];
     @Input() details: any;
+    @Input() invocation: any;
     @Input() pulseUrl: string;
     @Input() selectedFuncId: string;
 
@@ -32,13 +33,16 @@ export class TableFunctionMonitor implements OnChanges {
     constructor(
         private _functionMonitorService: FunctionMonitorService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService ) { }
+        private _globalStateService: GlobalStateService) { }
 
     showDetails(rowData: FunctionInvocations) {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(rowData.id).subscribe(results => {
-            this.details = results;
-            this.selectedRowId = rowData.id;
-            this.setOutputLogInfo(this.selectedRowId);
+            if (!!results) {
+                this.invocation = results.invocation;
+                this.details = results.parameters;
+                this.selectedRowId = rowData.id;
+                this.setOutputLogInfo(this.selectedRowId);
+            }
         });
         return this.details;
     }
