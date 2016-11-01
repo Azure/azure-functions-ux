@@ -23,6 +23,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
     public stopped: boolean;
     public timerInterval: number = 1000;
+    public isExpanded = false;
 
     private xhReq: XMLHttpRequest;
     private timeouts: number[];
@@ -33,6 +34,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     @Input() functionInfo: FunctionInfo;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
+    @Output() expandClicked = new EventEmitter<boolean>();
 
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
@@ -90,6 +92,17 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     close() {
         this.closeClicked.emit(null);
     }
+
+    expand() {
+        this.isExpanded = true;
+        this.expandClicked.emit(true);
+    }
+
+    compress() {
+        this.isExpanded = false;
+        this.expandClicked.emit(false);
+    }
+
 
     private initLogs(clear?: boolean) {
         const maxCharactersInLog = 500000;

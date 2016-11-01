@@ -53,7 +53,8 @@
                 <!---->
                 <div #bottomContainer [hidden]="bottomTab!=='logs'" *ngIf="functionInfo">
                     <log-streaming [functionInfo]="functionInfo"
-                                    (closeClicked)="clickRightTab('logs')">
+                                    (closeClicked)="clickRightTab('logs')"
+                                    (expandClicked)="expandLogsClicked($event)">
                     </log-streaming>
                 </div>
 
@@ -116,7 +117,7 @@
 
                         <span style="padding: 5px;line-height: 25px;">
                             <span class="clickable link-action close-right" (click)="clickRightTab('run')">
-                                <i class="fa fa-arrow-right"></i>
+                                <i class="fa fa-times"></i>
                                 {{ 'close' | translate }}
                             </span>
                         </span>

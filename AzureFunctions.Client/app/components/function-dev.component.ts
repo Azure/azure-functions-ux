@@ -79,6 +79,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public rightTab: string = "";
     public bottomTab: string = "";
     public functionInvokeUrl: string;
+    public expandLogs: boolean = false;
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -203,6 +204,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             });
     }
 
+    expandLogsClicked(isExpand: boolean) {
+        this.expandLogs = isExpand;
+        this.onResize();
+    }
+
     private onResize(ev?: any) {
         var TOP = 100;
         if (this._globalStateService.showTopbar) {
@@ -225,7 +231,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var HEIGHT = window.innerHeight - TOP;
 
         var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
-        var BOTTOMBAR_HEIGHT = Math.floor(((HEIGHT - EDIT_TOP) / 3));
+        var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
         var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
 
         if (this.functionContainer) {
@@ -242,10 +248,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.codeEditor) {
-            this.codeEditor.setLayout(
-                this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
-            );
+            if (this.expandLogs === true) {
+                this.codeEditor.setLayout(1, 1);
+            } else {
+                this.codeEditor.setLayout(
+                    this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
+                    this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
+                );
+            }
         }
 
         if (this.testDataEditor) {
