@@ -434,6 +434,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     runFunction() {
+        if (!this.runValid) {
+            return;
+        }
+
         if (this.bottomTab !== "logs") {
             this.bottomTab = "logs";
             this.onResize();
