@@ -1357,6 +1357,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes (&quot;-&quot;), and underscores (&quot;_&quot;)..
+        /// </summary>
+        internal static string functionNew_nameError {
+            get {
+                return ResourceManager.GetString("functionNew_nameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name your function.
         /// </summary>
         internal static string functionNew_nameYourFunction {

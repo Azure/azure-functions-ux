@@ -913,4 +913,7 @@
   <data name="keys" xml:space="preserve">
     <value>Keys</value>
   </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
+  </data>
 </root>

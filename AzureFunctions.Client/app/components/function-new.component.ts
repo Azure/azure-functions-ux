@@ -202,7 +202,7 @@ export class FunctionNewComponent {
             this.areInputsValid = false;
         }
         if (!this.areInputsValid) {
-            this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.notValidValue);
+            this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.functionNew_nameError);
         } else {
             var nameMatch = this._functionsInfo.find((f) => {
                 return f.name.toLowerCase() === this.functionName.toLowerCase();
