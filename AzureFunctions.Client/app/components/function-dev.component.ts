@@ -282,7 +282,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     clickRightTab(tab: string) {
         if (tab === "logs") {
-            this.bottomTab = (this.bottomTab === tab) ? "" : tab;
+            if (this.bottomTab === tab) {
+                this.bottomTab = "";
+                this.expandLogs = false;
+            } else {
+                this.bottomTab = tab;
+            }
         } else {
             this.rightTab = (this.rightTab === tab) ? "" : tab;
         }
