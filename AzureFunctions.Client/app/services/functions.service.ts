@@ -333,7 +333,7 @@ export class FunctionsService {
 
         if (matchesPathParams) {
             matchesPathParams.forEach((m) => {
-                var name = m.split(":")[0].replace("{", "");
+                var name = m.split(":")[0].replace("{", "").replace("}", "");
                 processedParams.push(name);
                 var param = model.queryStringParams.find((p) => {
                     return p.name === name;

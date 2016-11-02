@@ -172,7 +172,7 @@ export class RunHttpComponent {
             matches.forEach((m) => {
                 var splitResult = m.split(":");
                 result.push({
-                    name: splitResult[0].replace("{", ""),
+                    name: splitResult[0].replace("{", "").replace("}", ""),
                     value: "",
                     isFixed: true
                 });
