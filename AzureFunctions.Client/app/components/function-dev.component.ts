@@ -292,7 +292,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.rightTab = (this.rightTab === tab) ? "" : tab;
         }
 
+        // double resize to fix pre heigth
         this.onResize();
+        setTimeout(() => {
+            this.onResize();
+        }, 0);
     }
 
     private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
