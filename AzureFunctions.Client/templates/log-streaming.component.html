@@ -48,7 +48,7 @@
          (keydown)="handleKeyPress($event)" 
          style="margin-bottom: 0px;"
          [class.height-fixed]="isHttpLogs">
-        {{log}}
+{{log}}
     </pre>
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
         {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
