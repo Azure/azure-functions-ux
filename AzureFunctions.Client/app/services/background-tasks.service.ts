@@ -64,7 +64,8 @@ export class BackgroundTasksService {
                     });
                     this.setDisabled(result.config);
                     let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
-                    this._globalStateService.isAlwaysOn = result.config["alwaysOn"] || isFunctionApp ? true : false;
+                    this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
+                        (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
                     this._functionsService.setEasyAuth(result.authSettings);
                     this._globalStateService.AppSettings = result.appSettings;
                     if (!this._isResourcesReceived) {
