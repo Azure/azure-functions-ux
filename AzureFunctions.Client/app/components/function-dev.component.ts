@@ -261,9 +261,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         if (this.testDataEditor) {
             var widthDataEditor = RIGHTBAR_WIDTH - 34;
-            if (this.isHttpFunction) {
-                widthDataEditor -= 17;
-            }
 
             setTimeout(() => {
                 this.testDataEditor.setLayout(
