@@ -494,7 +494,7 @@
     <value>Invocation details</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Output</value>
+    <value>Logs</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>live event stream</value>

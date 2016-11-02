@@ -1240,7 +1240,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output.
+        ///   Looks up a localized string similar to Logs.
         /// </summary>
         internal static string functionMonitor_invocationOutput {
             get {
