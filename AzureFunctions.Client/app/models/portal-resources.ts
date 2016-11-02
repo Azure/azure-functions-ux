@@ -269,5 +269,6 @@ export class PortalResources
     public static keys: string = "keys";
     public static functionNew_nameError: string = "functionNew_nameError";
     public static functionDev_loading: string = "functionDev_loading";
+    public static test: string = "test";
 }
 

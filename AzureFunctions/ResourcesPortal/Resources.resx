@@ -919,4 +919,7 @@
   <data name="functionDev_loading" xml:space="preserve">
     <value>Loading..</value>
   </data>
+  <data name="test" xml:space="preserve">
+    <value>Test</value>
+  </data>
 </root>
