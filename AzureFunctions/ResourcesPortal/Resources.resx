@@ -916,4 +916,7 @@
   <data name="functionNew_nameError" xml:space="preserve">
     <value>The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_").</value>
   </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Loading..</value>
+  </data>
 </root>

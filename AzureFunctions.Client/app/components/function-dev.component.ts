@@ -78,7 +78,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     public rightTab: string = "";
     public bottomTab: string = "";
-    public functionInvokeUrl: string;
+    public functionInvokeUrl: string = " ";
     public expandLogs: boolean = false;
 
     private updatedContent: string;
@@ -217,15 +217,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         var LEFT = 300;
         var GLOBAL_PADDING = 20;
-        var PRECOPY_HEIGHT = 38;
         var EDIT_TOP = 0;
-        if (this.isHttpFunction) {
-            EDIT_TOP += PRECOPY_HEIGHT;
+
+        if (this.codeEditor && this.functionContainer) {
+            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
+                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
         }
 
-        if (this.webHookType === 'github') {
-            EDIT_TOP += PRECOPY_HEIGHT;
-        }
+
 
         var WIDTH = window.innerWidth - LEFT;
         var HEIGHT = window.innerHeight - TOP;
@@ -265,7 +264,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
             this.testDataEditor.setLayout(
                 this.rightTab ? widthDataEditor  : 0,
-                this.isHttpFunction ? 200 : HEIGHT / 2
+                this.isHttpFunction ? 150 : HEIGHT / 2
             );
         }
 
@@ -346,7 +345,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private setFunctionInvokeUrl(key?: string) {
-        this.functionInvokeUrl = '';
+        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {

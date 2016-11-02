@@ -997,6 +997,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading...
+        /// </summary>
+        internal static string functionDev_loading {
+            get {
+                return ResourceManager.GetString("functionDev_loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output.
         /// </summary>
         internal static string functionDev_Output {
