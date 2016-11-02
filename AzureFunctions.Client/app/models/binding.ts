@@ -13,6 +13,7 @@
     http = <any>"http",
     table = <any>"table",
     serviceBus = <any>"serviceBus",
+    bot = <any>"bot",
     serviceBusTrigger = <any>"serviceBusTrigger",
     manualTrigger = <any>"manualTrigger",
     documentDB = <any>"documentDB",
