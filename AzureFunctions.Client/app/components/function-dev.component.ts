@@ -76,8 +76,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
 
-    public rightTab: string = "";
-    public bottomTab: string = "";
+    public rightTab: string = FunctionDevComponent.rightTab;
+    public bottomTab: string = FunctionDevComponent.bottomTab;
+    public static rightTab: string;
+    public static bottomTab: string;
     public functionInvokeUrl: string = " ";
     public expandLogs: boolean = false;
 
@@ -262,10 +264,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (this.isHttpFunction) {
                 widthDataEditor -= 17;
             }
-            this.testDataEditor.setLayout(
-                this.rightTab ? widthDataEditor  : 0,
-                this.isHttpFunction ? 150 : HEIGHT / 2
-            );
+
+            setTimeout(() => {
+                this.testDataEditor.setLayout(
+                    this.rightTab ? widthDataEditor : 0,
+                    this.isHttpFunction ? 150 : HEIGHT / 2
+                )
+            }, 0);
         }
 
         if (this.rightContainer) {
@@ -326,6 +331,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 ls.ngOnDestroy();
             });
         }
+        FunctionDevComponent.rightTab = this.rightTab;
+        FunctionDevComponent.bottomTab = this.bottomTab;
     }
 
     ngAfterContentInit() {
