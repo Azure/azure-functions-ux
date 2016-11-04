@@ -347,10 +347,10 @@
     <value>Advanced Settings</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions.</value>
+    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser.</value>
+    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API definition</value>
@@ -374,10 +374,10 @@
     <value>Configure CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more.</value>
+    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated.</value>
+    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Function App Settings</value>
@@ -743,7 +743,7 @@
     <value>Manage environment variables and connection strings for your function app</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>In-portal console for accessing your function app’s file system</value>
+    <value>Dev Console</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
     <value>In-portal console for accessing your function app’s file system</value>
@@ -921,5 +921,32 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Deploy</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Develop</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service Settings</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>In portal editor with an integrated console and streaming logs</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Go to App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime version</value>
   </data>
 </root>
