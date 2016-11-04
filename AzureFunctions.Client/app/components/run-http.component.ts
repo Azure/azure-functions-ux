@@ -174,7 +174,7 @@ export class RunHttpComponent {
                 result.push({
                     name: splitResult[0].replace("{", "").replace("}", ""),
                     value: "",
-                    isFixed: true
+                    isFixed: false
                 });
             });
         }
