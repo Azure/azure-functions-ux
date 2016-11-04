@@ -270,5 +270,14 @@ export class PortalResources
     public static functionNew_nameError: string = "functionNew_nameError";
     public static functionDev_loading: string = "functionDev_loading";
     public static test: string = "test";
+    public static appFunctionSettings_deploy_title: string = "appFunctionSettings_deploy_title";
+    public static appFunctionSettings_develop: string = "appFunctionSettings_develop";
+    public static appFunctionSettings_manage: string = "appFunctionSettings_manage";
+    public static appFunctionSettings_appServiceSettings: string = "appFunctionSettings_appServiceSettings";
+    public static appFunctionSettings_appServiceSettings_desc: string = "appFunctionSettings_appServiceSettings_desc";
+    public static appFunctionSettings_editor: string = "appFunctionSettings_editor";
+    public static appFunctionSettings_editor_desc: string = "appFunctionSettings_editor_desc";
+    public static appFunctionSettings_gotoEditor: string = "appFunctionSettings_gotoEditor";
+    public static runtimeVersion: string = "runtimeVersion";
 }
 

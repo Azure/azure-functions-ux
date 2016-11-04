@@ -28,6 +28,7 @@ export class AppSettingsComponent implements OnInit {
     public extensionVersion: string;
     public latestExtensionVersion: string;
     public debugConsole: string;
+    public appServiceEditor: string;
     public dailyMemoryTimeQuota: string;
     public showDailyMemoryWarning: boolean = false;
     public showDailyMemoryInfo: boolean = false;
@@ -35,6 +36,7 @@ export class AppSettingsComponent implements OnInit {
 
     set functionContainer(value: FunctionContainer) {
         this.debugConsole = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/DebugConsole`;
+        this.appServiceEditor = `https://${value.properties.hostNameSslStates.find(s => s.hostType === 1).name}/dev`;
 
         this.dailyMemoryTimeQuota = value.properties.dailyMemoryTimeQuota ? value.properties.dailyMemoryTimeQuota.toString() : "0";
         if (this.dailyMemoryTimeQuota === "0") {
