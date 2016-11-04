@@ -344,14 +344,16 @@ export class FunctionsService {
             });
         }
 
+        var firstDone = false;
         model.queryStringParams.forEach((p, index) => {
             var findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
             if (!findResult) {
-                if (index === 0) {
+                if (!firstDone) {
                     url += '?';
+                    firstDone = true;
                 } else {
                     url += '&';
                 }
