@@ -48,14 +48,12 @@
             </div>
         </div>
     </div>
-
     <div *ngIf="model.documentation && !newFunction" class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title pull-left">
-                {{ 'binding_documentation' | translate }}
-            </h3>
+            <span *ngIf="!isDocShown" class="link" (click)="showDoc(true)"><i class="fa fa-plus"></i> {{ 'binding_documentation' | translate }}</span>
+            <span *ngIf="isDocShown" class="link" (click)="showDoc(false)"><i class="fa fa-minus"></i> {{ 'binding_documentation' | translate }}</span>
         </div>
-        <div *ngIf="storageAccountName && storageAccountKey">
+        <div *ngIf="storageAccountName && storageAccountKey && isDocShown">
             <br/>
             <h4>{{'binding_storageInfoHeader' | translate}}</h4>
             {{'binding_storageInfoHeader2' | translate}}<a href="http://storageexplorer.com" target='_blank'>http://storageexplorer.com</a>
@@ -72,7 +70,7 @@
             </dl>
             {{ 'binding_storageInfoFooter'| translate }}
         </div>
-        <div class="panel-body" [innerHTML]="model.documentation">
+        <div *ngIf="isDocShown" class="panel-body" [innerHTML]="model.documentation">
         </div>
     </div>
 </div>

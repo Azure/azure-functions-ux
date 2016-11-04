@@ -51,6 +51,7 @@ export class BindingComponent {
     public bindingValue: UIFunctionBinding;
     public hasInputsToShow = false;
     public isDirty: boolean = false;
+    public isDocShown: boolean = false;
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
@@ -62,7 +63,6 @@ export class BindingComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
-
         var renderer = new marked.Renderer();
 
         renderer.link = function (href, title, text) {
@@ -417,6 +417,10 @@ export class BindingComponent {
         });
 
         this.go.emit(action);
+    }
+
+    showDoc(value: boolean) {
+        this.isDocShown = value;
     }
 
     private setStorageInformation(selectedStorage: string) {
