@@ -33,6 +33,7 @@ h2 {
 .setting-wrapper {
     display: flex;
     flex-direction: column;
+    padding-top: 5px;
 }
 
 .setting-wrapper-disabled {

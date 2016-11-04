@@ -139,14 +139,14 @@
         <label>{{ 'runtimeVersion' | translate }}</label>
         <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
-                <div *ngIf="needUpdateExtensionVersion">
-                    <h2>{{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}</h2>
-                </div>
                 <div *ngIf="!needUpdateExtensionVersion">
                     <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                    <h2>
+                        {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                    </h2>
                 </div>
             </div>
         </div>
