@@ -88,7 +88,10 @@
                "cors": {
                    "allowedOrigins": [
                        "https://portal.azure.com",
-                       "https://ms.portal.azure.com"
+                       "https://ms.portal.azure.com",
+                       "https://onestb.cloudapp.net:8443",
+                       "https://web1.appsvcux.ext.azure.com",
+                       "https://webcanary.appsvcux.ext.azure.com"
                    ]
                }
             }
