@@ -230,6 +230,10 @@ input[type=text], select{
     color: red;
 }
 
+.info {
+    padding-top:10px
+}
+
 .remove-button {
     margin-top:10px;
     background-color: #ff1525;

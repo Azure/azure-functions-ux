@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <div *ngIf="showTryView" [tooltip]="freeAccountTooltip" class="clickable-disabled">{{ 'appFunctionSettings_editor' | translate }}</div>
-                    
+
                     <div *ngIf="!showTryView" class="clickable" (click)='openNewTab(appServiceEditor)'>{{ 'appFunctionSettings_gotoEditor' | translate }}</div>
                 </div>
             </div>
@@ -116,29 +116,21 @@
 
     <div *ngIf="functionContainer?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}</label>
-        <div class="features-wrapper">
-            <div>
-                <div class="quotaInput">
-                    <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
-                    <button class="custom-button"
-                            (click)="setQuota()">
-                        {{ 'functionAppSettings_setQuota' | translate }}
-                    </button>
-                    <button *ngIf="showDailyMemoryInfo" class="custom-button remove-button"
-                            (click)="removeQuota()">
-                        {{ 'functionAppSettings_removeQuota' | translate }}
-                    </button>
-                    <div *ngIf="showDailyMemoryWarning" class="warning">
-                        {{ 'functionAppSettings_quotaWarning' | translate }}
-                    </div>
-                    <div *ngIf="showDailyMemoryInfo">
-                        {{ 'functionAppSettings_quotaInfo' | translate }}
-                    </div>
-                   
-                </div>                
-                <div>
-
-                </div>
+        <div class="quotaInput" style="padding-bottom: 10px">
+            <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
+            <button class="custom-button"
+                    (click)="setQuota()">
+                {{ 'functionAppSettings_setQuota' | translate }}
+            </button>
+            <button *ngIf="showDailyMemoryInfo" class="custom-button remove-button"
+                    (click)="removeQuota()">
+                {{ 'functionAppSettings_removeQuota' | translate }}
+            </button>
+            <div *ngIf="showDailyMemoryInfo" class="info">
+                {{ 'functionAppSettings_quotaInfo' | translate }}
+            </div>
+            <div *ngIf="showDailyMemoryWarning" class="warning">
+                {{ 'functionAppSettings_quotaWarning' | translate }}
             </div>
         </div>
     </div>
@@ -154,7 +146,7 @@
                     <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
-                    <button [tooltip]="freeAccountTooltip" [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                    <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
                 </div>
             </div>
         </div>
