@@ -11,7 +11,8 @@ export class PopOverComponent{
     @Input() public message : string;
     @Input() hideAfter: number;
     @Input() isInputError: boolean;
-    public show : boolean;
+    public show: boolean;
+    @Input() public position: string;
 
     constructor() { }
 
