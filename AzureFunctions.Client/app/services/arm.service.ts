@@ -73,6 +73,9 @@ export class ArmService {
 
     @ClearCache('clearAllCachedData')
     updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
+        if (appSettings[Constants.azureJobsExtensionVersion]) {
+            delete appSettings[Constants.azureJobsExtensionVersion];
+        }
         appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
         appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;

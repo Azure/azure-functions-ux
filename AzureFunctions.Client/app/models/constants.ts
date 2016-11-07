@@ -17,5 +17,6 @@ export class Constants {
     public static latest = "latest";
     public static runtimeVersionAppSettingName = "FUNCTIONS_EXTENSION_VERSION";
     public static nodeVersionAppSettingName = "WEBSITE_NODE_DEFAULT_VERSION";
+    public static azureJobsExtensionVersion = "AZUREJOBS_EXTENSION_VERSION";
     public static httpMethods = new HttpMethods();
 }
