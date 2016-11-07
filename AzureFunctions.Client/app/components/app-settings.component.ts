@@ -71,6 +71,7 @@ export class AppSettingsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._globalStateService.clearBusyState();
         this.memorySize = this.functionContainer.properties.containerSize;
         this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
         this.extensionVersion = this._globalStateService.ExtensionVersion;
