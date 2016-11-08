@@ -279,5 +279,7 @@ export class PortalResources
     public static appFunctionSettings_editor_desc: string = "appFunctionSettings_editor_desc";
     public static appFunctionSettings_gotoEditor: string = "appFunctionSettings_gotoEditor";
     public static runtimeVersion: string = "runtimeVersion";
+    public static error_FunctionExceededQuota: string = "error_FunctionExceededQuota";
+    public static error_siteStopped: string = "error_siteStopped";
 }
 
