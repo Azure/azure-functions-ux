@@ -141,16 +141,7 @@ export class DashboardComponent implements OnChanges {
     // Handles the scenario where the FunctionInfo binding on the app.component has changed,
     // like for instance if we get a new resourceId from Ibiza.
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (this.functionContainer &&
-        this.functionContainer.properties &&
-        (!this.functionContainer.properties.enabled || this.functionContainer.properties.state === 'Stopped')) {
-            this.disabled = true;
-            this._globalStateService.GlobalDisabled = true;
-            let error = this.functionContainer.properties.siteDisabledReason === 1
-                ? PortalResources.error_FunctionExceededQuota
-                : PortalResources.error_siteStopped;
-            this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._translateService.instant(error) });
-        } else {
+        if (!this._globalStateService.GlobalDisabled) {
             this.initFunctions();
         }
     }

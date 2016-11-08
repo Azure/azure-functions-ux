@@ -52,6 +52,13 @@ export class ArmService {
         return this._http.get(url, { headers: this.getHeaders() }).map<FunctionContainer>(r => r.json());
     }
 
+    getCanAccessAppSettings(armId: string) {
+        var url = `${this.armUrl}${armId}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
+        return this._http.post(url, '', { headers: this.getHeaders() })
+            .catch(e => Observable.of(undefined))
+            .map<boolean>(r => !!r);
+    }
+
     createFunctionContainer(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
         geoRegion = geoRegion.replace(/ /g,'');

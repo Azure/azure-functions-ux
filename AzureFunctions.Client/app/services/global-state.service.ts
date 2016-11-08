@@ -39,7 +39,7 @@ export class GlobalStateService {
         this._userService.getFunctionContainer()
             .subscribe(fc => {
                 this._functionContainer = fc;
-                if (!this.showTryView) {
+                if (!this.showTryView && !this.GlobalDisabled) {
                     this._armService.getFunctionContainerAppSettings(this._functionContainer)
                       .subscribe(a => this._appSettings = a);
               }

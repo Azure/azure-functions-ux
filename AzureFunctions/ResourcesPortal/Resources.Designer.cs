@@ -799,6 +799,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar..
+        /// </summary>
+        internal static string error_NoPermissionToAccessApp {
+            get {
+                return ResourceManager.GetString("error_NoPermissionToAccessApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade..
         /// </summary>
         internal static string error_siteStopped {

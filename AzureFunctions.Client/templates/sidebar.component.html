@@ -34,13 +34,13 @@
                 <i class="tab fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
                 <i *ngIf="ActiveButton.toString() === 'AppSettings'" class="tab fa fa-chevron-right pull-right"></i>
             </div>
-            <div *ngIf="!dashboardDisabled" (click)="quickstart()"
+            <div *ngIf="!_globalStateService?.GlobalDisabled" (click)="quickstart()"
                 class="tab-item link clickable button"
                 [class.tab-item-selected]="ActiveButton.toString() === 'Quickstart'">
                 <i class="tab fa fa-bolt"></i> {{ 'topBar_quickStart' | translate }}
                 <i *ngIf="ActiveButton.toString() === 'Quickstart'" class="tab fa fa-chevron-right pull-right"></i>
             </div>
-            <div *ngIf="!dashboardDisabled" (click)="refresh()" class="tab-item link clickable button">
+            <div *ngIf="!_globalStateService?.GlobalDisabled" (click)="refresh()" class="tab-item link clickable button">
                 <i class="tab fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
             </div>
         </div>

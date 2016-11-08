@@ -17,6 +17,7 @@ import {GlobalStateService} from '../services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {TryLandingComponent} from './try-landing.component';
 import {LocalDevelopmentInstructionsComponent} from './local-development-instructions.component';
+import {PortalResources} from '../models/portal-resources';
 
 @Component({
     selector: 'azure-functions-app',
@@ -98,7 +99,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    initializeDashboard(functionContainer: FunctionContainer | string) {
+    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean) {
         this._globalStateService.setBusyState();
         if (typeof functionContainer !== 'string')
             //TODO: investigate this
@@ -110,22 +111,42 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
+                this.functionContainer = functionContainer;
+                if (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped') {
+                    this._globalStateService.GlobalDisabled = true;
+                    if (!appSettingsAccess) {
+                        this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(PortalResources.error_NoPermissionToAccessApp) });
+                    } else {
+                        let error = functionContainer.properties.siteDisabledReason === 1
+                            ? PortalResources.error_FunctionExceededQuota
+                           : PortalResources.error_siteStopped;
+                        this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(error) });
+                    }
+                }
                 this._userService.setFunctionContainer(functionContainer);
                 this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
                 this._globalStateService.clearBusyState();
                 this.readyFunction = true;
-                this.functionContainer = functionContainer;
                 this._backgroundTasksService.runTasks();
+
             } else {
                 this._globalStateService.setBusyState();
                 this._userService.getToken().first().subscribe(() =>
-                    this._armService.getFunctionContainer(functionContainer.id).subscribe(fc => this.initializeDashboard(fc)));
+                     Observable.zip(
+                        this._armService.getFunctionContainer(functionContainer.id),
+                        this._armService.getCanAccessAppSettings(functionContainer.id),
+                        (fc, access) => ({functionContainer: fc, access: access}))
+                        .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
             }
         } else {
             this._globalStateService.setBusyState();
             this._userService.getToken().first().subscribe(() =>
-                this._armService.getFunctionContainer(functionContainer).subscribe(fc => this.initializeDashboard(fc)));
+                Observable.zip(
+                    this._armService.getFunctionContainer(functionContainer),
+                    this._armService.getCanAccessAppSettings(functionContainer),
+                    (fc, access) => ({functionContainer: fc, access: access}))
+                    .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
         }
     }
 

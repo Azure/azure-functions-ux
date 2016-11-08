@@ -8,7 +8,7 @@
     <div *ngIf="disabled" class="content-disabled">
     </div>
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" [dashboardDisabled]="disabled" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
+        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
             (appSettingsClicked)="onAppSettingsClicked($event)"
             (quickstartClicked)="onQuickstartClicked($event)">
         </sidebar>

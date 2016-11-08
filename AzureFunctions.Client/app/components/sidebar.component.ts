@@ -27,7 +27,7 @@ enum TopbarButton {
     selector: 'sidebar',
     templateUrl: 'templates/sidebar.component.html',
     styleUrls: ['styles/sidebar.style.css'],
-    inputs: ['functionsInfo', 'tabId', 'dashboardDisabled'],
+    inputs: ['functionsInfo', 'tabId'],
     pipes: [SideBarFilterPipe, TranslatePipe],
 })
 export class SideBarComponent implements OnDestroy, OnInit {
@@ -49,7 +49,6 @@ export class SideBarComponent implements OnDestroy, OnInit {
     private _currentViewName: string;
     private showDevelop: boolean = false;
     private interval: number;
-    private dashboardDisabled: boolean;
 
     constructor(private _functionsService: FunctionsService,
         private _userService: UserService,
