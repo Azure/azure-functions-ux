@@ -14,6 +14,7 @@
         dailyMemoryTimeQuota?: number;
         enabled?: boolean;
         siteDisabledReason?: number;
+        state?: string;
     }
     tryScmCred?: string;
 }

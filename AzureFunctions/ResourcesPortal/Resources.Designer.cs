@@ -790,6 +790,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar..
+        /// </summary>
+        internal static string error_FunctionExceededQuota {
+            get {
+                return ResourceManager.GetString("error_FunctionExceededQuota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade..
+        /// </summary>
+        internal static string error_siteStopped {
+            get {
+                return ResourceManager.GetString("error_siteStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve Function App ({{functionApp}}).
         /// </summary>
         internal static string error_UnableToRetriveFunctionApp {

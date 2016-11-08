@@ -949,4 +949,10 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
 </root>

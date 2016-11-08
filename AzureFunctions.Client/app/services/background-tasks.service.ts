@@ -50,7 +50,7 @@ export class BackgroundTasksService {
             delete this._tasks;
         }
 
-        if (!this._globalStateService.showTryView) {
+        if (!this._globalStateService.showTryView && !this._globalStateService.GlobalDisabled) {
             let tasks = () => Observable.zip(
                         this._functionsService.getHostErrors().catch(e => Observable.of([])),
                         this._armService.getConfig(this._globalStateService.FunctionContainer),

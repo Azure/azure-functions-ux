@@ -24,6 +24,7 @@ export class GlobalStateService {
     private _scmCreds: string;
     private _localMode: boolean = false;
     public _functionsService: FunctionsService;
+    private _globalDisabled: boolean = false;
 
     public showTryView: boolean;
     public isRunningLocal: boolean = false;
@@ -122,6 +123,14 @@ export class GlobalStateService {
 
    set TryAppServiceToken(tryAppServiceToken : string) {
        this._tryAppServicetoken = tryAppServiceToken ;
+   }
+
+   get GlobalDisabled(): boolean {
+       return this._globalDisabled;
+   }
+
+   set GlobalDisabled(value: boolean) {
+       this._globalDisabled = value;
    }
 
    getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
