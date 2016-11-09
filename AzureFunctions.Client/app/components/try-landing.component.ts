@@ -154,6 +154,7 @@ export class TryLandingComponent implements OnInit {
     createFunctioninResource(resource: UIResource, selectedTemplate: FunctionTemplate, functionName: string) {
         var scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
         var encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
+        // TODO: find a better way to handle this
         var tryfunctionContainer = <FunctionContainer>{
             id: resource.csmId,
             name: resource.csmId.substring(resource.csmId.lastIndexOf('/'), resource.csmId.length),
@@ -171,7 +172,9 @@ export class TryLandingComponent implements OnInit {
                         hostType: 0
                     }],
                 sku: "Free",
-                containerSize: 128
+                containerSize: 128,
+                enabled: true,
+                state: "Running"
             },
             tryScmCred: encryptedCreds
         };
