@@ -142,7 +142,7 @@
     <value>URL-адрес функции:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Секрет GitHub:</value>
+    <value>Секрет Github:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Скрыть файлы</value>
@@ -332,7 +332,7 @@
     <value>Параметры приложения-функции</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Доступна новая версия приложения-функции. Для обновления перейдите в параметры приложения-функции.</value>
+    <value>Доступна новая версия функций Azure. Чтобы обновиться, перейдите на страницу</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Быстрый старт</value>
@@ -350,7 +350,7 @@
     <value>Упростить использование функций, активируемых по HTTP, клиентами.</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Разрешить вызов функций, активируемых по HTTP, из веб-браузера.</value>
+    <value>Разрешить вызов функций, активируемых по HTTP, из браузера.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>Определение API</value>
@@ -374,7 +374,7 @@
     <value>Настроить CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Разверните код функции из GitHub, Visual Studio Team Services и других источников.</value>
+    <value>Вы можете развернуть код функции из GitHub, Visual Studio Team Services и других источников.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
     <value>Для функций, использующих триггер HTTP, можно настроить проверку подлинности вызовов.</value>
@@ -407,7 +407,7 @@
     <value>Использование приложения-функции</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Данные отсутствуют.</value>
+    <value>Данные недоступны</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>выполнений</value>
@@ -478,23 +478,26 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Вы действительно хотите удалить функцию {{name}}?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Идет загрузка...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Recent success count</value>
+    <value>Число недавних успехов</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Recent errors count</value>
+    <value>Число недавних ошибок</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
-    <value>Invocation log</value>
+    <value>Журнал вызовов</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation details</value>
+    <value>Сведения о вызове</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Вывод</value>
+    <value>Журналы</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
-    <value>live event stream</value>
+    <value>прямой поток событий</value>
   </data>
   <data name="functionMonitorTable_functionColumn" xml:space="preserve">
     <value>Функция</value>
@@ -503,10 +506,10 @@
     <value>Состояние</value>
   </data>
   <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
-    <value>Details: Last ran</value>
+    <value>Сведения: последний запуск</value>
   </data>
   <data name="functionMonitorTable_durationColumn" xml:space="preserve">
-    <value>(duration)</value>
+    <value>(длительность)</value>
   </data>
   <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
     <value>Параметр</value>
@@ -704,7 +707,7 @@
     <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>Создание новой функции, запускаемой этими выходными данными</value>
+    <value>Создание функции, запускаемой этими выходными данными</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
     <value>Документация</value>
@@ -740,10 +743,10 @@
     <value>Управление переменными среды и строками подключения приложения-функции</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Консоль на портале для доступа к файловой системе приложения-функции</value>
+    <value>Консоль для разработчиков</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Описание консоли для разработчиков</value>
+    <value>Консоль на портале для доступа к файловой системе приложения-функции</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -767,12 +770,192 @@
     <value>Действия</value>
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
-    <value>Less than 1 minute</value>
+    <value>Менее минуты</value>
   </data>
   <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+    <value>Недоступно в бесплатной пробной версии. Создайте бесплатную учетную запись Azure, щелкнув ссылку выше</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+    <value>Регистрация бесплатной учетной записи Azure делает доступными все возможности функций без ограничения по времени.</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS не настроен для этого приложения-функции. Добавьте {{origin}} в список CORS.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Не удалось подключиться к приложению-функции. В приложении могла возникнуть временная проблема, или же оно может испытывать проблемы с запуском. Можно проверить журналы или повторить попытку через пару минут.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Не удалось получить приложение-функцию ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Не удалось подключиться к приложению-функции ({{statusText}}). Повторите попытку позже.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Еще пару секунд...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Подождите, пока мы доводим функции до ума...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>С этой учетной записью хранения были связаны приложения-функции. Все приложения-функции, связанные с этой учетной записью, можно просмотреть в разделах "Файлы" или "Общие файловые ресурсы".</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Файл с именем {{fileName}} уже существует.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Функция с именем "{{name}}" уже существует.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Ключ учетной записи:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Имя учетной записи:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Теперь можно просматривать BLOB-объекты, очереди и таблицы, связанные с этой привязкой к хранилищу.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Идет подключение к вашей учетной записи хранения</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Скачайте обозреватель хранилищ отсюда:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Подключитесь по этим учетным данным:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Подробнее...</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Добавить заголовок</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Добавить параметр</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>Метод HTTP</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Запрос</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>Настройка Always On отключена.</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Заметки о выпуске для функций Azure.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Ключи администратора (все функции)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Добавить ключ администратора</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Добавить функциональную клавишу</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Щелкните для отображения</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(обязательно)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Необязательно.) Оставьте поле пустым, чтобы создать ключ автоматически.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Имя ключа</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Значение ключа</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Функциональные клавиши</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Строка подключения:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Квота на дневное использование (ГБ/с)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Приложение-функция достигло квоты на дневное использование и было остановлено. Его работа будет возобновлена при наступлении следующего 24-часового интервала.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Удалить квоту</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Задать квоту</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Приложение-функция будет остановлено по достижении квоты на дневное использование до начала следующего 24-часового интервала.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите отозвать ключ {{name}}?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Ключи</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>Имя должно быть уникальным в приложении-функции. Оно должно начинаться с буквы и может содержать буквы, числа (0–9), дефисы ("-") и знаки подчеркивания ("_").</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Загрузка…</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Разработка</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>Параметры службы приложений</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Дополнительные возможности. Доступ ко всем базовым функциям службы приложений Azure.</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>Редактор службы приложений</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>Встроенный в портал редактор с интегрированной консолью и журналами для потокового выполнения</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Перейти в редактор службы приложений</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Версия среды выполнения</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

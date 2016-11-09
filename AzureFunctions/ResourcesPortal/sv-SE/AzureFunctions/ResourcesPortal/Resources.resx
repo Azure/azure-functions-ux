@@ -332,7 +332,7 @@
     <value>Funktionsappinställningar</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>En ny version av Azure Functions är tillgänglig. Gå till funktionsappinställningarna för att uppgradera.</value>
+    <value>En ny version av Azure Functions är tillgänglig. För att uppgradera går du till</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Snabbstart</value>
@@ -347,10 +347,10 @@
     <value>Avancerade inställningar</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Gör det lättare för klienter att använda HTTP-utlösta funktioner.</value>
+    <value>Gör det lättare för klienter att använda HTTP-utlösta funktioner</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Tillåt dina HTTP-utlösta funktioner att anropas från en webbläsare.</value>
+    <value>Tillåt dina HTTP-utlösta funktioner att anropas inifrån en webbläsare</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API-definition</value>
@@ -374,10 +374,10 @@
     <value>Konfigurera CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Distribuera din funktionskod från bland annat GitHub eller Visual Studio Team Services.</value>
+    <value>Distribuera din funktionskod från bland annat GitHub eller Visual Studio Team Services</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>För funktioner som använder HTTP-utlösaren kan du kräva att anrop ska autentiseras.</value>
+    <value>För funktioner som använder HTTP-utlösaren kan du kräva att anrop ska autentiseras</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Funktionsappinställningar</value>
@@ -407,7 +407,7 @@
     <value>Funktionsappanvändning</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Det finns ingen information</value>
+    <value>Inga data tillgängliga</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>för körningar</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Vill du ta bort funktionen {{name}}?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Läser in ...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Antal senaste slutförda</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Anropsinformation</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Utdata</value>
+    <value>Loggar</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>direktsändning av live-händelse</value>
@@ -740,10 +743,10 @@
     <value>Hantera miljövariabler och anslutningssträngar för funktionsappen</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Konsol i portalen för åtkomst till filsystemet för funktionsappen</value>
+    <value>Utvecklarkonsol</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Beskrivning av utvecklarkonsol</value>
+    <value>Konsol i portalen för åtkomst till filsystemet för funktionsappen</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Om du registrerar dig för ett kostnadsfritt Azure-konto låser du upp alla funktioner utan att behöva bekymra dig om tidsbegränsningar!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS är inte konfigurerat för den här funktionsappen. Lägg till {{origin}} i CORS-listan.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Vi kan inte nå din funktionsapp. Det kan handla om ett tillfälligt fel i appen eller att appen inte kan startas. Du kan kontrollera loggarna eller försöka igen om några minuter.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Det gick inte att hämta funktionsappen ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Vi kan inte nå din funktionsapp ({{statusText}}). Försök igen senare.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Några sekunder till bara …</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Häng kvar tills vi är klara med funktionerna …</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Upptäck mer</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Lägg till</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Redigera</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Ladda upp</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>En eller flera funktionsappar länkades till det här lagringskontot. Du kan se alla funktionsappar som har länkats till kontot under "filer" eller "Delningar".</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>En fil med namnet {{fileName}} finns redan.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Funktionen med namnet {{name}} finns redan.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Kontonyckel:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Kontonamn:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Nu kan du visa blobbar, köer och tabeller som är kopplade till den här lagringsbindningen.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Ansluter till ditt lagringskonto</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Ladda ned lagringsutforskaren härifrån:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Anslut med följande autentiseringsuppgifter:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Läs mer</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Lägg till rubrik</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Lägg till parameter</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP-metod</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Fråga</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>Inställningen "Alltid på" är inaktiverad</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Viktig information om Azure Functions.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Administratörsnycklar (alla funktioner)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Lägg till ny administratörsnyckel</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Lägg till ny funktionsnyckel</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Klicka för att visa</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Obligatoriskt)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Valfritt) Lämna tomt för att generera en nyckel automatiskt.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Nyckelnamn</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Nyckelvärde</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Funktionsnycklar</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Anslutningssträng:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Daglig användningskvot (GB/sek)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Den dagliga användningskvoten har uppnåtts för funktionsappen och den har stoppats tills nästa tidsram på 24 timmar.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Ta bort kvot</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Ange kvot</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Funktionsappen stoppas när den dagliga användningen har uppnåtts tills nästa tidsram på 24 timmar.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Vill du återkalla nyckeln {{name}}?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Nycklar</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>Namnet måste vara unikt inom en funktionsapp. Det måste börja med en bokstav och får innehålla bokstäver, siffror (0-9), bindestreck ("-"), och understreck ("_").</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Läser in...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Testa</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Distribuera</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Utveckla</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Hantera</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service-inställningar</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Avancerade funktioner. Få tillgång till alla underliggande funktioner i Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>I portalredigeraren med en integrerad konsol och direktuppspelningsloggning</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Gå till App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Körningsversion</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

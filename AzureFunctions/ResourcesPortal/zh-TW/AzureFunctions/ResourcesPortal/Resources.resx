@@ -142,7 +142,7 @@
     <value>函式 URL:</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHub 密碼:</value>
+    <value>Github 密碼:</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>隱藏檔案</value>
@@ -332,7 +332,7 @@
     <value>函數應用程式設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>有可用的 Azure Functions 新版本。請造訪函數應用程式設定進行升級。</value>
+    <value>有可用的 Azure Functions 新版本。如需升級，請造訪</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>快速入門</value>
@@ -347,10 +347,10 @@
     <value>進階設定</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>讓用戶端能更輕鬆地使用您的 HTTP 觸發函式。</value>
+    <value>讓用戶端能更輕鬆地使用您的 HTTP 觸發函式</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>讓您的 HTTP 觸發函式可從網頁瀏覽器中呼叫。</value>
+    <value>讓您的 HTTP 觸發函式可從網頁瀏覽器中呼叫</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API 定義</value>
@@ -374,10 +374,10 @@
     <value>設定 CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>從 GitHub、Visual Studio Team Services 等部署您的函式程式碼。</value>
+    <value>從 GitHub、Visual Studio Team Services 等部署您的函式程式碼</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫。</value>
+    <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>函數應用程式設定</value>
@@ -407,7 +407,7 @@
     <value>函數應用程式使用量</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>沒有任何資料</value>
+    <value>沒有可用的資料</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>可執行</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>確定要刪除函式 {{name}} 嗎?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>正在載入...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>近期成功計數</value>
   </data>
@@ -491,7 +494,7 @@
     <value>引動過程詳細資料</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>輸出</value>
+    <value>記錄</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>即時事件資料流</value>
@@ -740,10 +743,10 @@
     <value>管理您函數應用程式的環境變數及連接字串</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>入口網站內的主控台，用以存取您函數應用程式的檔案系統</value>
+    <value>開發主控台</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>開發主控台描述</value>
+    <value>入口網站內的主控台，用以存取您函數應用程式的檔案系統</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>註冊免費的 Azure 帳戶，將所有函式功能解除鎖定，而不需擔心時間限制!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>未設定此函數應用程式的 CORS。請將 {{origin}} 新增至您的 CORS 清單。</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>無法連接您的函數應用程式。您的應用程式可能發生暫時問題或無法啟動。您可以檢查記錄檔，或幾分鐘後再試一次。</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>無法擷取函數應用程式 ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>無法連接您的函數應用程式 ({{statusText}})。請稍後再試。</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>再稍待幾秒...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>請稍等，正在讓函式變有趣...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>探索更多</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>上傳</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>一或多個函數應用程式已連結至此儲存體帳戶。您可於 [檔案] 或 [共用] 下看到所有連結至帳戶的函數應用程式。</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>名為 {{fileName}} 的檔案已存在。</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>名為 '{{name}}' 的函式已存在。</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>帳戶金鑰:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>帳戶名稱:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>您現在可檢視與此儲存體繫結相關的 Blob、佇列和資料表。</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>連接到您的儲存體帳戶</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>從這裡下載儲存體總管:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>使用這些認證進行連接:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>深入了解</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>新增標頭</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>新增參數</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP 方法</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>查詢</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>[一律開啟] 設定設為關閉</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions 版本資訊。</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>管理金鑰 (所有功能)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>新增管理金鑰</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>新增功能鍵</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>按一下即可顯示</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>捨棄</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(必要)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(可省略) 保留空白即可自動產生金鑰。</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>金鑰名稱</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>金鑰值</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>功能鍵</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>連接字串:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>每日使用量配額 (GB-秒)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>函數應用程式已達每日使用量且已停止，直到下一個 24 小時時間範圍為止。</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>移除配額</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>設定配額</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>函數應用程式將於到達每日使用量時停止，直到下一個 24 小時時間範圍為止。</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>確定要撤銷 {{name}} 金鑰嗎?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>金鑰</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>名稱在函數應用程式中必須為唯一。名稱必須以字母開頭，且可包含字母、數字 (0-9)、虛線 ("-") 及底線 ("_")。</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>正在載入...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>測試</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>部署</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>開發</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service 設定</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>進階功能。存取 Azure App Service 所有的基礎功能</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service 編輯器</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>入口網站內編輯器與整合式主控台及資料流記錄</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>前往 App Service 編輯器</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Run-time 版本</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>
