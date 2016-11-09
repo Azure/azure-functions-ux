@@ -287,6 +287,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (this.bottomTab === tab) {
                 this.bottomTab = "";
                 this.expandLogs = false;
+                this.runLogs.compress();
             } else {
                 this.bottomTab = tab;
             }
@@ -509,6 +510,16 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     get testDataEditor(): MonacoEditorDirective {
         return this.getMonacoDirective("test_data");
+    }
+
+    get runLogs(): LogStreamingComponent {
+        if (!this.logStreamings) {
+            return null;
+        }
+
+        return this.logStreamings.toArray().find((l) => {
+            return l.isHttpLogs !== true;
+        });
     }
 
     get httpRunLogs(): LogStreamingComponent {
