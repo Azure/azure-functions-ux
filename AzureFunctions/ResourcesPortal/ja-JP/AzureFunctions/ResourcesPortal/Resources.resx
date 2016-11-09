@@ -332,7 +332,7 @@
     <value>Function App の設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>新しいバージョンの Azure Functions が利用できます。アップグレードするには、Function App の設定に移動してください。</value>
+    <value>新しいバージョンの Azure Functions が利用できます。アップグレードするには、次の場所に移動してください</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>クイック スタート</value>
@@ -347,10 +347,10 @@
     <value>詳細設定</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>クライアントが HTTP によってトリガーされる関数をもっと簡単に使用できるようになります。</value>
+    <value>HTTP によってトリガーされる関数をクライアントがもっと簡単に使用できるようになります</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>HTTP によってトリガーされる関数を Web ブラウザーから呼び出せるようになります。</value>
+    <value>HTTP によってトリガーされる関数を Web ブラウザーから呼び出せるようになります</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API 定義</value>
@@ -374,10 +374,10 @@
     <value>CORS の構成</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>GitHub、Visual Studio Team Services などから関数のコードをデプロイします。</value>
+    <value>GitHub、Visual Studio Team Services などから関数のコードをデプロイします</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>HTTP トリガーを使用する関数について、呼び出しに認証を必須とすることができます。</value>
+    <value>HTTP トリガーを使用する関数について、呼び出しに認証を必須とすることができます</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Function App の設定</value>
@@ -407,7 +407,7 @@
     <value>Function App の使用量</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>データがありません</value>
+    <value>利用できるデータはありません</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>実行</value>
@@ -478,23 +478,26 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>関数 {{name}} を削除してもよろしいですか?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>読み込んでいます...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Recent success count</value>
+    <value>最近の成功数</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Recent errors count</value>
+    <value>最近のエラー数</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
-    <value>Invocation log</value>
+    <value>起動ログ</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation details</value>
+    <value>起動の詳細</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>出力</value>
+    <value>ログ</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
-    <value>live event stream</value>
+    <value>ライブ イベント ストリーム</value>
   </data>
   <data name="functionMonitorTable_functionColumn" xml:space="preserve">
     <value>関数</value>
@@ -503,10 +506,10 @@
     <value>状態</value>
   </data>
   <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
-    <value>Details: Last ran</value>
+    <value>詳細: 前回の実行</value>
   </data>
   <data name="functionMonitorTable_durationColumn" xml:space="preserve">
-    <value>(duration)</value>
+    <value>(期間)</value>
   </data>
   <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
     <value>パラメーター</value>
@@ -740,10 +743,10 @@
     <value>Function App の環境変数と接続文字列を管理します</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Function App のファイル システムにアクセスするためのポータル内コンソール</value>
+    <value>開発者コンソール</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>開発者コンソールの説明</value>
+    <value>Function App のファイル システムにアクセスするためのポータル内コンソール</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -767,12 +770,192 @@
     <value>アクション</value>
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
-    <value>Less than 1 minute</value>
+    <value>1 分未満</value>
   </data>
   <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+    <value>無料試用版では利用できません。上のリンクをクリックして無料の Azure アカウントを作成してください</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+    <value>無料の Azure アカウントにサインアップすると、あらゆる関数機能のロックが解除され、時間の制約を気にすることなく使用できます。</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>この Function App では CORS が構成されていません。CORS リストに {{origin}} を追加してください。</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Function App に到達できません。アプリで一時的な問題が発生しているか、アプリが起動に失敗していることが考えられます。ログを確認するか、数分後にもう一度やり直してください。</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Function App ({{functionApp}}) を取得できません</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Function App ({{statusText}}) に到達できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>あと数秒お待ちください...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>関数を '楽しい' ものにしますので、お待ちください...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>アップロード</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>いくつかの Function App が、このストレージ アカウントにリンクされました。このアカウントにリンクされている Function App は、[ファイル] または [共有] で確認できます。</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>{{fileName}} という名前のファイルが既に存在します。</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>'{{name}}' という名前の関数は既に存在します。</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>アカウント キー:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>アカウント名:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>このストレージ バインドに関連付けられている BLOB、キュー、テーブルを表示できるようになりました。</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>ストレージ アカウントに接続しています</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>ストレージ エクスプローラーのダウンロードはこちら:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>これらの資格情報を使用して接続する:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>詳細情報</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>ヘッダーの追加</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>パラメーターの追加</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP メソッド</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>クエリ</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>"常にオン" の設定がオフになります</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions リリース ノート。</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>管理者キー (すべての関数)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>新しい管理者キーの追加</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>新しい関数キーの追加</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>クリックして表示</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>破棄</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(必須)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(省略可能) キーを自動生成するには、空のままにしてください。</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>キー名</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>キー値</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>関数キー</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>接続文字列:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>日ごとの使用量クォータ (GB - 秒)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Function App は日ごとの使用量クォータに達したため、次の 24 時間の時間枠まで停止しています。</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>クォータの削除</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>クォータの設定</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Function App は、日ごとの使用量に達すると、次の 24 時間の時間枠まで停止します。</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>{{name}} キーを取り消してもよろしいですか?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>キー</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>名前は Function App 内で一意になっている必要があります。名前の先頭には文字、それ以外の部分には文字、数字 (0-9)、ダッシュ ("-")、アンダースコア ("_") を使用できます。</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>読み込んでいます...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>展開</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>開発</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service の設定</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>高度な機能です。Azure App Service を支える機能すべてにアクセスします</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service エディター</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>一体型コンソールとストリーミング ログを備えたポータル内エディター</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>App Service エディターに移動</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>ランタイム バージョン</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>
