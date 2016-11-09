@@ -332,7 +332,7 @@
     <value>Nastavení Function App</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Je k dispozici nová verze Azure Functions. Pokud chcete upgradovat, přejděte na nastavení Function App.</value>
+    <value>Je k dispozici nová verze Azure Functions. Pokud chcete upgradovat, navštivte</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Rychlý start</value>
@@ -347,10 +347,10 @@
     <value>Upřesnit nastavení</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Umožnit klientům snadněji používat funkce spuštěné protokolem HTTP</value>
+    <value>Umožnit klientům snadněji používat funkce aktivované přes HTTP</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Umožnit volání funkcí spuštěných protokolem HTTP z webového prohlížeče</value>
+    <value>Umožnit volání funkcí aktivovaných přes HTTP z webového prohlížeče</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>Definice rozhraní API</value>
@@ -377,7 +377,7 @@
     <value>Nasadit kód funkce z GitHubu, Visual Studio Team Services a dalších služeb</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>U funkcí, které používají aktivační událost HTTP, můžete vyžadovat, aby se volání nejdřív ověřila.</value>
+    <value>U funkcí, které používají aktivační událost HTTP, můžete vyžadovat, aby se volání nejdříve ověřila.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Nastavení Function App</value>
@@ -407,7 +407,7 @@
     <value>Využití Function App</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Neexistují žádná data.</value>
+    <value>Nejsou k dispozici žádná data.</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>spuštění</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Opravdu chcete odstranit funkci {{name}}?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Načítá se...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Počet posledních úspěchů</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Podrobnosti volání</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Výstup</value>
+    <value>Protokoly</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>živý stream z události</value>
@@ -740,10 +743,10 @@
     <value>Spravovat proměnné prostředí a připojovací řetězce pro svou Function App</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Konzola na portálu pro přístup k systému souborů vaší Function App</value>
+    <value>Konzola pro vývojáře</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Popis konzoly pro vývojáře</value>
+    <value>Konzola na portálu pro přístup k systému souborů vaší Function App</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti funkcí a nejste omezení časem!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS není pro tuto aplikaci Function App nakonfigurovaný. Přidejte si prosím do seznamu CORS {{origin}}.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App. Je možné, že s aplikací jsou jenom dočasné problémy nebo se ji nedaří spustit. Můžete se podívat na protokoly nebo to zkusit za pár minut znovu.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Nepovedlo se načíst aplikaci Function App ({{functionApp}}).</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App ({{statusText}}). Zkuste to prosím znovu.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Jenom pár sekund...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Vydržte chvíli, než pro vás nachystáme funkce...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Další informace</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Nahrát</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>S tímto účtem úložiště je propojená nejméně jedna aplikace Function App. Pokud si chcete zobrazit všechny aplikace Function App propojené s tímto účtem, najdete je v části Soubory nebo Sdílené složky.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Soubor s názvem {{fileName}} už existuje.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Funkce s názvem {{name}} už existuje.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Klíč účtu:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Název účtu:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Teď si můžete zobrazit objekty blob, fronty a tabulky přidružené k této vazbě úložiště.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Připojení k účtu úložiště</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Stáhněte si Průzkumníka úložišť z této adresy:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Připojte se pomocí těchto přihlašovacích údajů:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Další informace</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Přidat hlavičku</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Přidat parametr</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>Metoda HTTP</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Dotaz</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>Nastavení Stálé připojení je vypnuté.</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Zpráva k vydání verze Azure Functions.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Klíče správce (všechny funkce)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Přidat nový klíč správce</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Přidat nový klíč funkce</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Kliknutím zobrazíte.</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Zahodit</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Povinné)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Nepovinné) Pokud chcete vygenerovat klíč automaticky, nechejte toto pole prázdné.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Název klíče</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Hodnota klíče</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Klíče funkcí</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Připojovací řetězec:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Kvóta denního využití (GB/s)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Aplikace Function App dosáhla své kvóty denního využití a zastavila se. Obnoví se až během následujících 24 hodin.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Odebrat kvótu</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Nastavit kvótu</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Až aplikace Function App dosáhne svého denního využití, zastaví se. Obnoví se až během následujících 24 hodin.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Určitě chcete odvolat klíč {{name}}?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Klíče</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>Název musí být v rámci aplikace Function App jedinečný. Musí začínat písmenem a může obsahovat písmena, číslice (0–9), spojovníky (-) a podtržítka (_).</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Načítání...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Nasadit</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Vyvíjet</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Spravovat</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>Nastavení App Service</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Pokročilé funkce. Přístup ke všem funkcím Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>Editor dostupný přímo na portálu s integrovanou konzolou a protokoly streamování</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Přejít na App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Verze modulu runtime</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

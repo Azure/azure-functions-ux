@@ -332,7 +332,7 @@
     <value>Funktionen-App-Einstellungen</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Eine neue Version von Azure Functions ist verfügbar. Besuchen Sie die Funktionen-App-Einstellungen, um ein Upgrade durchzuführen.</value>
+    <value>Eine neue Version von Azure Functions ist verfügbar. Das Upgrade finden Sie unter</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Schnellstart</value>
@@ -407,7 +407,7 @@
     <value>Funktionen-App-Nutzung</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Keine Daten vorhanden.</value>
+    <value>Keine Daten verfügbar.</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>von Ausführungen</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Möchten Sie die Funktion {{name}} löschen?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Wird geladen...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Anzahl der letzten erfolgreichen Vorgänge</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Aufrufdetails</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Ausgabe</value>
+    <value>Protokolle</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>Liveereignisdatenstrom</value>
@@ -740,10 +743,10 @@
     <value>Umgebungsvariablen und Verbindungszeichenfolgen für Ihre Funktions-App verwalten</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Im Portal enthaltene Konsole für den Zugriff auf das Dateisystem Ihrer Funktionen-App</value>
+    <value>Entwicklerkonsole</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Beschreibung der Entwicklerkonsole</value>
+    <value>Im Portal enthaltene Konsole für den Zugriff auf das Dateisystem Ihrer Funktionen-App</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Registrieren Sie sich für ein kostenloses Azure-Konto, um alle Funktionen zu nutzen, ohne sich über Zeitlimits Gedanken zu machen!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS ist für diese Funktionen-App nicht konfiguriert. Fügen Sie "{{origin}}" zu Ihrer CORS-Liste hinzu.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Wir konnten Ihre Funktionen-App nicht erreichen. Bei Ihrer App liegt möglicherweise ein vorübergehendes Problem oder ein Startfehler vor. Prüfen Sie die Protokolle, oder versuchen Sie es in ein paar Minuten noch mal.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Die Funktionen-App ({{functionApp}}) kann nicht abgerufen werden.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Wir konnten Ihre Funktionen-App ({{statusText}}) nicht erreichen. Versuchen Sie es später noch mal.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Nur noch ein paar Sekunden...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Warten Sie einen Augenblick, während wir die Funktionen vorbereiten...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Mehr entdecken</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Hochladen</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>Mindestens eine Funktionen-App wurde mit diesem Speicherkonto verknüpft. Sie können alle mit dem Konto verknüpften Funktionen-Apps unter "Dateien" oder "Freigaben" anzeigen.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Eine Datei mit dem Namen "{{fileName}}" ist bereits vorhanden.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Die Funktion mit dem Namen "{{name}}" ist bereits vorhanden.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Kontoschlüssel:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Kontoname:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Jetzt können Sie die Blobs, Warteschlangen und Tabellen anzeigen, die dieser Speicherbindung zugeordnet sind.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Verbindung mit Ihrem Speicherkonto wird hergestellt</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Laden Sie den Speicher-Explorer hier herunter:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Stellen Sie mit diesen Anmeldeinformationen eine Verbindung her:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Weitere Informationen</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Header hinzufügen</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Parameter hinzufügen</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP-Methode</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Abfrage</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>Die Einstellung "AlwaysOn" ist deaktiviert.</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Versionsanmerkungen zu Azure Functions.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Administratorschlüssel (alle Funktionen)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Neuen Administratorschlüssel hinzufügen</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Neuen Funktionsschlüssel hinzufügen</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Zum Anzeigen klicken</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Erforderlich)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Optional) Lassen Sie das Feld leer, um einen Schlüssel automatisch zu generieren.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Schlüsselname</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Schlüsselwert</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Funktionsschlüssel</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Verbindungszeichenfolge:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Kontingent für die tägliche Nutzung (GB-Sek)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Für die Funktionen-App wurde das Kontingent für die tägliche Nutzung erreicht, und die App wurde bis zum nächsten 24-Stunden-Zeitraum beendet.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Kontingent entfernen</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Kontingent festlegen</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Die Funktionen-App wird bis zum nächsten 24-Stunden-Zeitraum beendet, wenn das Kontingent für die tägliche Nutzung ausgeschöpft ist.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Möchten Sie den Schlüssel "{{name}}" widerrufen?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Schlüssel</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>Der Name muss innerhalb einer Funktionen-App eindeutig sein. Er muss mit einem Buchstaben beginnen und kann Buchstaben, Ziffern (0-9), Bindestriche ("-") und Unterstriche ("_") enthalten.</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Wird geladen...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Bereitstellen</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Entwickeln</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Verwalten</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service-Einstellungen</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Erweiterte Features. Greifen Sie auf alle zugrunde liegenden Features von Azure App Service zu.</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service-Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>Im Portal enthaltener Editor mit einer integrierten Konsole und Streamingprotokollen</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Zum App Service-Editor wechseln</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Laufzeitversion</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

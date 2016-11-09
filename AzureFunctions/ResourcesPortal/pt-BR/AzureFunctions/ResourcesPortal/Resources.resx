@@ -332,7 +332,7 @@
     <value>Configurações do aplicativo de funções</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Uma nova versão do Azure Functions está disponível. Visite as Configurações do Aplicativo de Funções para atualizar.</value>
+    <value>Uma nova versão do Azure Functions está disponível. Para atualizar, visite</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Início rápido</value>
@@ -347,10 +347,10 @@
     <value>Configurações Avançadas</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Permita que os clientes consumam suas funções disparadas por HTTP mais facilmente.</value>
+    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Permita que suas funções disparadas por HTTP sejam chamadas de um navegador da Web.</value>
+    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>Definição de API</value>
@@ -374,10 +374,10 @@
     <value>Configurar CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Implante seu código de função do GitHub, do Visual Studio Team Services e muito mais.</value>
+    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Para funções que usam o gatilho HTTP, você pode exigir que as chamadas sejam autenticadas.</value>
+    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Configurações do Aplicativo de Funções</value>
@@ -407,7 +407,7 @@
     <value>Uso do Aplicativo de Funções</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Não há Dados</value>
+    <value>Não há dados disponíveis</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>das execuções</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Tem certeza de que deseja excluir a Função {{name}}?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Contagem de sucesso recente</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Detalhes da invocação</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Saída</value>
+    <value>Logs</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>transmissão de evento ao vivo</value>
@@ -740,10 +743,10 @@
     <value>Gerenciar variáveis de ambiente e cadeia de conexão para seu aplicativo de função</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Console no portal para acessar seu sistema de arquivos do aplicativo de função</value>
+    <value>Dev Console</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Descrição do console de desenvolvimento</value>
+    <value>Console no portal para acessar seu sistema de arquivos do aplicativo de função</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Inscrever-se para uma conta do Azure gratuita desbloqueia todos os recursos de funções sem se preocupar com os limites de tempo!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>O CORS não está configurado para este aplicativo de funções. Adicione {{origin}} a sua lista do CORS.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Não podemos acessar seu aplicativo de funções. Seu aplicativo pode estar passando por um problema temporário ou falhando ao iniciar. Você pode verificar os logs ou tentar novamente em alguns minutos.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Não é possível recuperar o Aplicativo de Funções ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Não podemos alcançar seu aplicativo de funções ({{statusText}}). Tente novamente mais tarde.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Apenas mais alguns segundos...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Aguarde enquanto adicionamos a 'parte divertida' nas funções...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Descobrir mais</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Carregar</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>Um ou mais aplicativos de função foram vinculados a essa conta de armazenamento. Você pode ver todos os aplicativos de função vinculados à conta em 'arquivos' ou 'Compartilhamentos'.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Já existe um Arquivo com o nome {{fileName}}.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Já existe uma função com o nome '{{name}}'.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Chave de Conta:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Nome da Conta:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Agora você pode exibir blobs, filas e tabelas vinculados a esta associação de armazenamento.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Conectando à sua Conta de Armazenamento</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Baixe o Gerenciador de armazenamento aqui:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Conecte-se com estas credenciais:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Saiba mais</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Adicionar cabeçalho</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Adicionar parâmetro</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>Método HTTP</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Consulta</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>A configuração "Sempre Ativo" está desligada</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Notas de versão do Azure Functions.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Chaves de Administração (Todas as Funções)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Adicionar nova chave de administração</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Adicionar nova chave de função</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Clique para mostrar</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Descartar</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Necessário)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Opcional) Deixe em branco para gerar uma chave automaticamente.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Nome da Chave</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Valor da Chave</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Teclas de Função</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Cadeia de Conexão:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Cota de Uso Diário (GB-s)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>O Aplicativo de Função chegou a cota de uso diário e foi interrompido até o próximo período de 24 horas.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Remover cota</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Definir cota</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>O Aplicativo de Função será interrompido ao atingir o uso diário até o próximo período de 24 horas.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Tem certeza de que deseja revogar a chave {{name}}?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Chaves</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>O nome deve ser exclusivo dentro de um Aplicativo de Função. Ele deve começar com uma letra e pode conter letras, números (0-9), traços ("-") e sublinhados ("_").</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Testar</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Implantar</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Desenvolver</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Gerenciar</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service Settings</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>In portal editor with an integrated console and streaming logs</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Go to App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime version</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

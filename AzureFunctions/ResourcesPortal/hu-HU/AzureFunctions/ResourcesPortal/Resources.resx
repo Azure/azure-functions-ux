@@ -163,7 +163,7 @@
     <value>Állapot:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Fájlok megjelenítése</value>
+    <value>Fájlok megtekintése</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Válasszon sablont</value>
@@ -332,7 +332,7 @@
     <value>Függvényalkalmazás beállításai</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Az Azure Functions új verziója érhető el. Az új verzióra a Függvényalkalmazás beállításai lapon frissíthet.</value>
+    <value>Az Azure Functions új verziója érhető el. A frissítéshez nyissa meg a következő lapot:</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Gyors üzembe helyezés</value>
@@ -347,10 +347,10 @@
     <value>Speciális beállítások</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>A HTTP-triggert alkalmazó függvények könnyebb felhasználásának lehetővé tétele az ügyfelek számára.</value>
+    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>HTTP-triggert alkalmazó függvények webböngészőből való meghívásának engedélyezése.</value>
+    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API-definíció</value>
@@ -374,10 +374,10 @@
     <value>CORS konfigurálása</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Függvénykód üzembe helyezése a GitHubról, a Visual Studio Team Servicesből és más szolgáltatásokból.</value>
+    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>A HTTP triggert alkalmazó függvények esetén előírhatja a hívások hitelesítését.</value>
+    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Függvényalkalmazás beállításai</value>
@@ -407,7 +407,7 @@
     <value>Függvényalkalmazás használata</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Nincs adat</value>
+    <value>Nincs elérhető adat</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>(végrehajtások)</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Biztosan törli a függvényt ({{name}})?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Betöltés...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Legutóbbi sikeres műveletek száma</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Hívás részletei</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Kimenet</value>
+    <value>Naplók</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>élő stream</value>
@@ -740,10 +743,10 @@
     <value>A függvényalkalmazáshoz kapcsolódó környezeti változók és kapcsolati sztringek kezelése</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Portálba épített konzol a függvényalkalmazás fájlrendszerének eléréséhez</value>
+    <value>Dev Console</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Fejlesztői konzol leírása</value>
+    <value>Portálba épített konzol a függvényalkalmazás fájlrendszerének eléréséhez</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Ha ingyenes Azure-fiókot regisztrál, időkorlát nélkül használhatja a Functions összes lehetőségét!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>A CORS nincs konfigurálva ehhez a függvényalkalmazáshoz. Adja hozzá a(z) {{origin}} forrást a CORS-listához.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>A függvényalkalmazás nem érhető el. Előfordulhat, hogy az alkalmazás átmeneti problémába ütközött, vagy lehet, hogy nem tudott elindulni. Ellenőrizheti a naplófájlokat, vagy újrapróbálkozhat néhány perc múlva.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Nem sikerült beolvasni a(z) {{functionApp}} függvényalkalmazást</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>A függvényalkalmazás nem érhető el ({{statusText}}). Próbálkozzon újra később.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Már csak néhány pillanat...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Kis türelmet, amíg előkészítjük a függvényeket...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>További információk</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Feltöltés</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>Egy vagy több függvényalkalmazás ehhez a tárfiókhoz lett csatolva. Az összes, a fiókhoz csatolt függvényalkalmazás a Fájlok vagy a Megosztások szakaszban jelenik meg.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Már létezik {{fileName}} nevű fájl.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Már létezik {{name}} nevű függvény.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Fiókkulcs:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Fióknév:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Most már megtekintheti a tárkötéshez társított blobokat, üzenetsorokat és táblákat.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Kapcsolódás a tárfiókhoz</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Innen töltheti le a tártallózót:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>A következő hitelesítő adatokkal csatlakozhat:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>További információ</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Fejléc hozzáadása</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Paraméter hozzáadása</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP-metódus</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Lekérdezés</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>A Mindig bekapcsolva beállítás ki van kapcsolva</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure Functions – Kibocsátási megjegyzések</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Adminisztrációs kulcsok (minden függvény)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Új adminisztrációs kulcs felvétele</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Új függvénykulcs felvétele</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Kattintson ide a megjelenítéshez</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Elvetés</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Kötelező)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Nem kötelező) A kulcs automatikus létrehozásához hagyja üresen ezt a mezőt.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Kulcs neve</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Kulcs értéke</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Függvénykulcsok</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Kapcsolati karakterlánc:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Napi használati kvóta (GB/s)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>A függvényalkalmazás elérte a napi használati korlátot, ezért leáll, és csak a következő 24 órás időkerettel indul újra.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Kvóta eltávolítása</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Kvóta beállítása</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>A függvényalkalmazás leáll, ha a következő 24 órában eléri napi használati korlátot.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Biztos, hogy visszavonja a(z) {{name}} kulcsot?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Kulcsok</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>A névnek a függvényalkalmazáson belül egyedinek kell lennie, és betűvel kell kezdődnie. A név betűket, számokat (0–9), kötöjelet (-) és aláhúzásjelet (_) tartalmazhat.</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Betöltés...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Tesztelje</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Üzembe helyezés</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Fejlesztés</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Kezelés</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service Settings</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>In portal editor with an integrated console and streaming logs</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Go to App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime version</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

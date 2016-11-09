@@ -163,7 +163,7 @@
     <value>Durum:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>Dosyaları görüntüle</value>
+    <value>Dosyaları Görüntüle</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Şablon seçin</value>
@@ -332,7 +332,7 @@
     <value>İşlev uygulaması ayarları</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Azure İşlevleri'nin yeni bir sürümü mevcut. Yükseltmek için İşlev Uygulaması Ayarları'nı ziyaret edin.</value>
+    <value>Azure İşlevleri'nin yeni bir sürümü mevcut. Yükseltmek için şu sayfayı ziyaret edin:</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Hızlı başlangıç</value>
@@ -347,10 +347,10 @@
     <value>Gelişmiş Ayarlar</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>İstemcilerin HTTP ile tetiklenen işlevleri daha kolay kullanmasına izin verir.</value>
+    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>HTTP ile tetiklenen işlevlerin bir web tarayıcısı içinden çağrılmasına izin verir.</value>
+    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API tanımı</value>
@@ -374,10 +374,10 @@
     <value>CORS'yi yapılandır</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>İşlev kodunuzu GitHub, Visual Studio Team Services ve diğer hizmetlerden dağıtın.</value>
+    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>HTTP tetikleme kullanan işlevler için çağrıların kimliğinin doğrulanmasını isteyebilirsiniz.</value>
+    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>İşlev Uygulaması Ayarları</value>
@@ -407,7 +407,7 @@
     <value>İşlev Uygulaması Kullanımı</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Veri yok</value>
+    <value>Kullanılabilir veri yok</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>yürütme</value>
@@ -478,23 +478,26 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>{{name}} İşlevini silmek istediğinizden emin misiniz?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Yükleniyor...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Recent success count</value>
+    <value>Yakın zamandaki başarı sayısı</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Recent errors count</value>
+    <value>Yakın zamandaki hataların sayısı</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
-    <value>Invocation log</value>
+    <value>Çağrı günlüğü</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation details</value>
+    <value>Çağrı ayrıntıları</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Çıkış</value>
+    <value>Günlükler</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
-    <value>live event stream</value>
+    <value>canlı olay akışı</value>
   </data>
   <data name="functionMonitorTable_functionColumn" xml:space="preserve">
     <value>İşlev</value>
@@ -503,10 +506,10 @@
     <value>Durum</value>
   </data>
   <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
-    <value>Details: Last ran</value>
+    <value>Ayrıntılar: Son çalıştırma</value>
   </data>
   <data name="functionMonitorTable_durationColumn" xml:space="preserve">
-    <value>(duration)</value>
+    <value>(süre)</value>
   </data>
   <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
     <value>Parametre</value>
@@ -656,7 +659,7 @@
     <value>Çalışma zamanı sürümü: {{extensionVersion}}. Daha yeni bir sürüm mevcut ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
+    <value>Çalışma zamanı sürümü: en son ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>İşlevlerinizi barındırmaktan keyif aldık!</value>
@@ -737,22 +740,22 @@
     <value>Uygulama ayarları</value>
   </data>
   <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Manage environment variables and connection strings for your function app</value>
+    <value>İşlev uygulamanız için ortam değişkenlerini ve bağlantı dizilerini yönetin</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>In-portal console for accessing your function app’s file system</value>
+    <value>Dev Console</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Dev konsolu tanımı</value>
+    <value>İşlev uygulamanızın dosya sistemine erişmek için portal içi konsol</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
   </data>
   <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Access advanced functionality of App Service like uploading zips, killing processes, and more</value>
+    <value>App Service'in zipleri yükleme ve işlemleri sonlandırma gibi işlevlerine ve daha fazlasına erişin</value>
   </data>
   <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app settings</value>
+    <value>Uygulama ayarlarını yapılandır</value>
   </data>
   <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
     <value>Dev konsolunu aç</value>
@@ -767,12 +770,192 @@
     <value>Eylemler</value>
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
-    <value>Less than 1 minute</value>
+    <value>1 dakikadan az</value>
   </data>
   <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
+    <value>Ücretsiz deneme sırasında kullanılamaz! Yukarıdaki bağlantıya tıklayarak ücretsiz bir Azure hesabı oluşturun</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-    <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
+    <value>Ücretsiz bir Azure hesabı için kaydolarak, süre sınırları hakkında endişelenmeden tüm İşlev özelliklerinin kilidini açabilirsiniz!</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS bu işlev uygulaması için yapılandırılmadı. Lütfen {{origin}} öğesini CORS listenize ekleyin.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>İşlev uygulamanıza ulaşamıyoruz. Uygulamanız geçici bir sorun yaşıyor veya başlatılamıyor olabilir. Günlükleri kontrol edebilir veya birkaç dakika sonra yeniden deneyebilirsiniz.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>İşlev Uygulaması ({{functionApp}}) alınamadı</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>İşlev uygulamanıza ulaşamıyoruz ({{statusText}}). Lütfen daha sonra yeniden deneyin.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Yalnızca birkaç saniye daha...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>İşlevler daha eğlenceli hale getirilirken lütfen bekleyin...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Daha fazlasını keşfedin</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Karşıya Yükle</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>Bir veya daha fazla işlev uygulaması bu depolama hesabına bağlandı. Hesaba bağlı tüm işlev uygulamalarını 'dosyalar' veya 'Paylaşımlar' altında görebilirsiniz.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>{{fileName}} adlı bir Dosya zaten var.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>'{{name}}' adlı işlev zaten var.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Hesap Anahtarı:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Hesap Adı:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Artık bu depolama bağlamasıyla ilişkili blobları, kuyrukları ve tabloları görüntüleyebilirsiniz.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Depolama Hesabınıza Bağlanma</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Storage Explorer'ı buradan indirin:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Bağlanmak için bu kimlik bilgilerini kullan:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Daha fazla bilgi</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Üst bilgi ekle</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Parametre ekle</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP yöntemi</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Sorgu</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>"Her Zaman Açık" ayarı kapatıldı</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Azure İşlevleri sürüm notları.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Yönetici Anahtarları (Tüm işlevler)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Yeni yönetici anahtarı ekle</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Yeni işlev anahtarı ekle</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Görüntülemek için tıklayın</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>At</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(Gerekli)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(İsteğe bağlı) Anahtarı otomatik olarak oluşturmak için boş bırakın.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Anahtar Adı</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Anahtar Değeri</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>İşlev Anahtarları</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Bağlantı Dizesi:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Günlük Kullanım Kotası (GB-Sn)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>İşlev Uygulaması günlük kullanım kotasına ulaştı ve sonraki 24 saatlik zaman dilimine kadar durduruldu.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Kotayı kaldır</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Kota ayarla</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>İşlev Uygulaması, günlük kullanım kotasına ulaştığında sonraki 24 saatlik zaman dilimine kadar durdurulur.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>{{name}} adlı anahtarı iptal etmek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Anahtarlar</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>İşlev Uygulamasındaki ad benzersiz olmalıdır. Ad, bir harfle başlamalı ve harf, rakam (0-9), kısa çizgi ("-") ve alt çizgi ("_") içermelidir.</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Yükleniyor...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Dağıt</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Geliştirme</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Yönet</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service Settings</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>In portal editor with an integrated console and streaming logs</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Go to App Service Editor</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime version</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>

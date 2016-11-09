@@ -332,7 +332,7 @@
     <value>Instellingen voor functie-apps</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Ga naar de instellingen voor functie-apps om een upgrade uit te voeren.</value>
+    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Als u een upgrade wilt uitvoeren gaat u naar:</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Snelstartgids</value>
@@ -347,10 +347,10 @@
     <value>Geavanceerde instellingen</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Toestaan dat clients de functies die worden geactiveerd via HTTP, eenvoudiger kunnen gebruiken.</value>
+    <value>Toestaan dat clients de functies die worden geactiveerd via HTTP, eenvoudiger kunnen gebruiken</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Toestaan dat functies die worden geactiveerd via HTTP, kunnen worden aangeroepen vanuit een webbrowser.</value>
+    <value>Toestaan dat functies die worden geactiveerd via HTTP, kunnen worden aangeroepen vanuit een webbrowser</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API-definitie</value>
@@ -374,10 +374,10 @@
     <value>CORS configureren</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Implementeer uw functiecode vanuit GitHub, Visual Studio Team Services en meer.</value>
+    <value>Implementeer uw functiecode vanuit GitHub, Visual Studio Team Services en meer</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd.</value>
+    <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
     <value>Instellingen voor functie-apps</value>
@@ -407,7 +407,7 @@
     <value>Gebruik van functie-app</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>Er zijn geen gegevens</value>
+    <value>Er zijn geen gegevens beschikbaar</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
     <value>van uitvoerbewerkingen</value>
@@ -478,6 +478,9 @@
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Weet u zeker dat u functie {{name}} wilt verwijderen?</value>
   </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Laden ...</value>
+  </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
     <value>Aantal recent geslaagde pogingen</value>
   </data>
@@ -491,7 +494,7 @@
     <value>Aanroepdetails</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>Uitvoer</value>
+    <value>Logboeken</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
     <value>stroom van live gebeurtenis</value>
@@ -740,10 +743,10 @@
     <value>Omgevingsvariabelen en verbindingsreeksen voor uw functie-app beheren</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Console in de portal voor toegang tot het bestandsysteem van uw functie-app</value>
+    <value>Ontwikkelaarsconsole</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Beschrijving van de ontwikkelaarsconsole</value>
+    <value>Console in de portal voor toegang tot het bestandsysteem van uw functie-app</value>
   </data>
   <data name="appFunctionSettings_kudu" xml:space="preserve">
     <value>Kudu</value>
@@ -774,5 +777,185 @@
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Als u zich aanmeldt voor een gratis Azure-account, zijn alle functiemogelijkheden voor u beschikbaar zonder dat u zich druk hoeft te maken over tijdsbeperkingen.</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS is niet geconfigureerd voor deze functie-app. Voeg {{origin}} toe aan de CORS-lijst.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Kan de functie-app niet bereiken. Er kan een tijdelijk probleem zijn met de app of deze start mogelijk niet. Controleer de logboeken of probeer het over een aantal minuten opnieuw.</value>
+  </data>
+  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+    <value>Kan de functie-app ({{functionApp}}) niet ophalen</value>
+  </data>
+  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+    <value>Kan de functie-app niet ophalen: ({{statusText}}). Probeer het later opnieuw.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Nog een aantal seconden...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Bezig met verwerken. Even geduld...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Meer ontdekken</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Uploaden</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>Een of meer functie-apps zijn gekoppeld aan dit opslagaccount. U kunt alle functie-apps die zijn gekoppeld aan het account weergeven onder bestanden of Shares.</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Er bestaat al een bestand met de naam {{fileName}}.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>De functie met de naam {{name}} bestaat al.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Accountsleutel:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Accountnaam:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>U kunt nu de blobs, wachtrijen en tabellen weergeven die zijn gekoppeld aan deze opslagbinding.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Verbinding maken met uw opslagaccount</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>U kunt opslagverkenner hier downloaden:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Verbinding maken met deze referenties:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Meer informatie</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Header toevoegen</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Parameter toevoegen</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>HTTP-methode</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>De instelling Always On is ingesteld op Uit</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Opmerkingen bij de release van Azure Functions.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Beheersleutels (alle functies)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Nieuwe beheersleutel toevoegen</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Nieuwe functiesleutel toevoegen</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Klik om weer te geven</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Negeren</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(verplicht)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Optioneel) Leeg laten om automatisch een sleutel te genereren.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>Sleutelnaam</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>Sleutelwaarde</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Functiesleutels</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Verbindingsreeks:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Dagelijks gebruiksquotum (GB-sec)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>De functie-app is gestopt tot de volgende periode van 24 uur omdat het quotum voor het dagelijkse gebruik is bereikt.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Quotum verwijderen</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Quotum instellen</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende periode van 24 uur.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Are you sure you want to revoke {{name}} key?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Sleutels</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>De naam moet uniek zijn binnen een functie-app. De naam moet beginnen met een letter en mag alleen letters, cijfers (0-9), streepjes (-) en onderstrepingstekens (_) bevatten.</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Laden...</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Testen</value>
+  </data>
+  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
+    <value>Implementeren</value>
+  </data>
+  <data name="appFunctionSettings_develop" xml:space="preserve">
+    <value>Ontwikkelen</value>
+  </data>
+  <data name="appFunctionSettings_manage" xml:space="preserve">
+    <value>Beheren</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
+    <value>App Service-instellingen</value>
+  </data>
+  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
+    <value>Geavanceerde functies. Toegang tot alle onderliggende functies van Azure App Service</value>
+  </data>
+  <data name="appFunctionSettings_editor" xml:space="preserve">
+    <value>App Service-editor</value>
+  </data>
+  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
+    <value>Een editor in de portal met een geïntegreerde console en streaminglogboeken</value>
+  </data>
+  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
+    <value>Naar App Service-editor gaan</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Runtime-versi</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
 </root>
