@@ -112,7 +112,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates) {
                 this.functionContainer = functionContainer;
-                if (this.showTryView && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
+                if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
                     if (!appSettingsAccess) {
                         this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(PortalResources.error_NoPermissionToAccessApp) });
