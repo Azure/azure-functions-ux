@@ -84,6 +84,8 @@ export class FunctionMonitorComponent implements OnChanges {
                         this.rows = result;
                         this._globalStateService.clearBusyState();
                     });
+                } else {
+                    this._globalStateService.clearBusyState();
                 }
             });
         });
