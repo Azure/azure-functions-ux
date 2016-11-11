@@ -355,20 +355,20 @@ export class BindingComponent {
             var setting = this.bindingValue.settings.find((s) => {
                 return s.name == input.id;
             });
-
+            var isNotRequiredEmptyInput = (!input.required && !input.value && input.value !== false);
             if (setting) {
                 if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
                     selectedStorage = input.value;
                 }
                 setting.value = input.value;
 
-                if (setting.noSave || (!input.required && !input.value && input.value !== false)) {
+                if (setting.noSave || isNotRequiredEmptyInput) {
                     setting.noSave = true;
                 } else {
                     delete setting.noSave;
                 }
             } else {
-                if (!input.changeValue && !input.isHidden) {
+                if (!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput) {
                     setting = {
                         name: input.id,
                         value: input.value
