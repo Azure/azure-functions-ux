@@ -163,6 +163,7 @@ export class SideBarComponent implements OnDestroy, OnInit {
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.refreshClicked.emit(null);
             this._aiService.trackEvent('/actions/refresh');
+            this._functionsService.fireSyncTrigger();
         }
     }
 
