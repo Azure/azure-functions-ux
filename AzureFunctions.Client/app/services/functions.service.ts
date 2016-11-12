@@ -850,6 +850,12 @@ export class FunctionsService {
         }
     }
 
+    fireSyncTrigger() {
+        let url = `${this.scmUrl}/functions/synctriggers`;
+        this._http.post(url, '', { headers: this.getScmSiteHeaders() })
+            .subscribe(success => console.log(success), error => console.log(error));
+    }
+
     //to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
