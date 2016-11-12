@@ -655,8 +655,7 @@ export class FunctionsService {
         var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
             + (provider ? "&provider=" + provider : "")
             + "&templateId=" + encodeURIComponent(selectedTemplate.id)
-            + "&functionName=" + encodeURIComponent(functionName)
-            + ((typeof mixpanel !== 'undefined') ? "&correlationId="+ mixpanel.get_distinct_id():"") ;
+            + "&functionName=" + encodeURIComponent(functionName);
 
         var template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
