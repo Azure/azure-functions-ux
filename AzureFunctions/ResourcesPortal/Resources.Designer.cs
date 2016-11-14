@@ -1753,7 +1753,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Or create your own custom function.
+        ///   Looks up a localized string similar to Create your own custom function.
         /// </summary>
         internal static string intro_createYourOwn {
             get {
@@ -1798,7 +1798,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you&apos;d prefer another supported language, choose &quot;Create a function from scratch&quot;..
+        ///   Looks up a localized string similar to If you&apos;d prefer another supported language, choose.
         /// </summary>
         internal static string intro_ifYou {
             get {

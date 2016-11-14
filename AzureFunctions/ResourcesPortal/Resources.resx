@@ -241,7 +241,7 @@
     <value>Create this function</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Or create your own custom function</value>
+    <value>Create your own custom function</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Data processing</value>
@@ -256,7 +256,7 @@
     <value>Or get started on your own</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, choose "Create a function from scratch".</value>
+    <value>If you'd prefer another supported language, choose</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>start from source control.</value>

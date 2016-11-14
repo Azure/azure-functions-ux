@@ -40,7 +40,10 @@
         </div>
         <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
         {{ 'intro_ifYou' | translate }}
-        <div class class="intro-lang-container">
+        <span class="link" (click)='createFromScratch()'>
+            "{{ 'intro_createYourOwn' | translate }}".
+        </span>
+        <div class="intro-lang-container">
             <div class="intro-template-lang"
                  (click)="onLanguageCliked('CSharp')"
                  [class.intro-template-lang-selected]="selectedLanguage === 'CSharp'">
