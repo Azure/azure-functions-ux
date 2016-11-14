@@ -44,6 +44,7 @@ export class FunctionIntegrateV2Component {
     private _bindingManager: BindingManager = new BindingManager();
 
     set selectedFunction(fi: FunctionInfo) {
+        this.pickerType = TemplatePickerType.none;
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
 
         //if (!this._functionInfo || this._functionInfo.name !== fi.name) {
