@@ -69,12 +69,6 @@ export class AiService implements IAppInsights {
     addMixPanelProperties(properties?) {
         properties = properties || {};
         properties['sitename'] = 'functions';
-        //TODO:figure out why get_distinct_id() can sometimes not be defined. Swallow this for now
-        try {
-            properties["correlationId"] = mixpanel.get_distinct_id();
-        }
-        catch(ex){
-        }
     }
 
     /**
