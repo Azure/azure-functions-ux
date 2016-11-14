@@ -52,6 +52,12 @@ export class IntroComponent {
     }
 
     onCreateNewFunction() {
+        debugger;
+        if (this._globalStateService.IsBusy) {
+            return;
+        }
+
+        this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
             var selectedTemplate: FunctionTemplate = templates.find((t) => {
                 return t.id === this.selectedFunction + "-" + this.selectedLanguage;
@@ -64,7 +70,6 @@ export class IntroComponent {
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                    this._globalStateService.setBusyState();
                     this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
@@ -93,6 +98,8 @@ export class IntroComponent {
                     });
                     throw e;
                 }
+            } else {
+                this._globalStateService.clearBusyState();
             }
 
         });

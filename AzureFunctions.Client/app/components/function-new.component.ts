@@ -143,9 +143,10 @@ export class FunctionNewComponent {
     }
 
     onCreate() {
-        if (!this.functionName) {
+        if (!this.functionName || this._globalStateService.IsBusy) {
             return;
         }
+
         this.updateBindingsCount = this.model.config.bindings.length;
         if (this.updateBindingsCount === 0 || !this.hasConfigUI) {
             this.createFunction();
