@@ -9,7 +9,7 @@ function AiDefined() {
         let originalMethod = descriptor.value;
         descriptor.value = function(...args: any[]) {
             if (typeof (appInsights) !== 'undefined' && typeof (mixpanel) !== 'undefined' &&
-                typeof(appInsights[functionName]) !== 'undefined') {
+                typeof (appInsights[functionName]) !== 'undefined') {
                 return originalMethod.apply(this, args);
             } else {
                 return null;
@@ -69,7 +69,6 @@ export class AiService implements IAppInsights {
     addMixPanelProperties(properties?) {
         properties = properties || {};
         properties['sitename'] = 'functions';
-        properties["correlationId"] = mixpanel.get_distinct_id();
     }
 
     /**
