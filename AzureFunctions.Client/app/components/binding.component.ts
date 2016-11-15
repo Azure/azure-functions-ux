@@ -124,8 +124,8 @@ export class BindingComponent {
                 this.newFunction = true;
             }
 
+            this.model.actions = [];
             if (!this.newFunction && bindingSchema.actions) {
-                this.model.actions = [];
                 bindingSchema.actions.forEach((a) => {
                     if (a.templateId) {
                         this.model.actions.push(a);
