@@ -152,12 +152,10 @@
         </div>
     </div>
 
-    <div class="setting-wrapper" *ngIf="functionContainer?.properties?.sku === 'Dynamic'">
+    <!--<div class="setting-wrapper" *ngIf="functionContainer?.properties?.sku === 'Dynamic'">
         <label>{{ 'appFunctionSettings_memory' | translate }}</label>
-        <div class="features-wrapper">
-            <!-- TODO: move css -->
-            <div style="height: 60px">
-                <!-- TODO: move css -->
+        <div class="features-wrapper">            
+            <div style="height: 60px">                
                 <div style="flex-grow: 10">
                     <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
                 </div>
@@ -169,7 +167,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <tooltip-content #freeAccountTooltip>
     <p>
