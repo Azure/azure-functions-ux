@@ -16,7 +16,7 @@ export class BindingInputBase<T>
     isHidden: boolean = false;
     errorText: string;
     validators: Validator[] = [];
-    changeValue: () => void;
+    changeValue: (newValue?: any) => void;
     placeholder: string;
 }
 

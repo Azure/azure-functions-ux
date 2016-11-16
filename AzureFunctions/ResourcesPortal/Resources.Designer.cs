@@ -862,6 +862,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter name must be unique..
+        /// </summary>
+        internal static string errorUniqueParameterName {
+            get {
+                return ResourceManager.GetString("errorUniqueParameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Features.
         /// </summary>
         internal static string features {

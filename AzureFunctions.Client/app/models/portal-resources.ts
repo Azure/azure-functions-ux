@@ -282,5 +282,6 @@ export class PortalResources
     public static error_FunctionExceededQuota: string = "error_FunctionExceededQuota";
     public static error_siteStopped: string = "error_siteStopped";
     public static error_NoPermissionToAccessApp: string = "error_NoPermissionToAccessApp";
+    public static errorUniqueParameterName: string = "errorUniqueParameterName";
 }
 

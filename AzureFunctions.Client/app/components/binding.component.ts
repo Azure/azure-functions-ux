@@ -33,6 +33,7 @@ export class BindingComponent {
     @Input() canSave: boolean = true;
     @Input() canCancel: boolean = true;
     @Input() saveClick = new EventEmitter<void>();
+    @Input() allBindings: UIFunctionBinding[];
 
     @Output() remove = new EventEmitter<UIFunctionBinding>();
     @Output() update = new EventEmitter<UIFunctionBinding>();
@@ -124,8 +125,8 @@ export class BindingComponent {
                 this.newFunction = true;
             }
 
-            this.model.actions = [];
             if (!this.newFunction && bindingSchema.actions) {
+                this.model.actions = [];
                 bindingSchema.actions.forEach((a) => {
                     if (a.templateId) {
                         this.model.actions.push(a);
@@ -167,11 +168,11 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
-                                if (input.resource === ResourceType.Storage){ 
-                                    selectedStorage = settigValue ? settigValue: input.items[0];
+                                if (input.resource === ResourceType.Storage) {
+                                    selectedStorage = settigValue ? settigValue : input.items[0];
                                 }
                                 input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables)|| input.label;
+                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
                                 input.metadata = setting.metadata;
                                 this.model.inputs.push(input);
                             } else {
@@ -181,10 +182,31 @@ export class BindingComponent {
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settigValue;
-                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);                                
+                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                                 input.validators = setting.validators;
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
                                 this.model.inputs.push(input);
+
+                                if (setting.name === "name") {
+                                    input.changeValue = (newValue) => {
+                                        this.allBindings.forEach((b) => {
+                                            if (b !== this.bindingValue) {
+                                                var name = b.settings.find((s) => s.name === "name");
+
+                                                if (name) {
+                                                    if (name.value.toString().toLowerCase() === newValue) {
+                                                        setTimeout(() => {
+                                                            input.class = input.errorClass;
+                                                            input.isValid = false;
+                                                            input.errorText = this._translateService.instant(PortalResources.errorUniqueParameterName);
+                                                            this.areInputsValid = false;
+                                                        }, 0);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    };
+                                }
                             }
                             break;
                         case SettingType.enum:

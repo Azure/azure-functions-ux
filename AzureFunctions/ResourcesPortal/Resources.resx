@@ -958,4 +958,7 @@
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
     <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
   </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Parameter name must be unique.</value>
+  </data>
 </root>
