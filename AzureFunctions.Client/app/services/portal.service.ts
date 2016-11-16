@@ -40,10 +40,10 @@ export class PortalService {
         this.postMessage(Verbs.getStartupInfo, null);
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
-            if (error.details) {
-                this.logMessage(LogEntryLevel.Error, error.details);
+            if (error.details && error.message) {
+                this.logMessage(LogEntryLevel.Error, `${error.message} - ${error.details}`);
             }
-        });
+        }, undefined, undefined, 5000);
     }
 
     openBlade(name: string, source: string) : void{
