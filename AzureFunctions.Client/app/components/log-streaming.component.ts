@@ -75,7 +75,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
     clearLogs(){
         this.skipLength = this.skipLength + this.log.length;
-        this.log = '';
+        this.log = ' ';
     }
 
     copyLogs(event) {
