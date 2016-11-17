@@ -310,7 +310,7 @@ export class FunctionsService {
             name: "Settings",
             href: null,
             config: null,
-            script_href: `${this.scmUrl}/vfs/site/wwwroot/host.json`,
+            script_href: `${this.scmUrl}/functions/config`,
             template_id: null,
             clientOnly: true,
             isDeleted: false,
@@ -485,7 +485,7 @@ export class FunctionsService {
 
     @Cache()
     getHostJson() {
-        return this._http.get(`${this.azureScmServer}/vfs/site/wwwroot/host.json`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(`${this.azureScmServer}/functions/config`, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
