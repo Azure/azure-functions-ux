@@ -855,6 +855,12 @@ export class FunctionsService {
             .subscribe(success => console.log(success), error => console.log(error));
     }
 
+    @Cache()
+    getJson(uri: string) {
+        return this._http.get(uri, { headers: this.getMainSiteHeaders() })
+            .map<FunctionKeys>(r => r.json());
+    }
+
     //to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

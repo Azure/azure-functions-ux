@@ -1,6 +1,7 @@
 import {Directive, EventEmitter, ElementRef} from '@angular/core';
 import {MonacoModel} from '../models/monaco-model';
 import {GlobalStateService} from '../services/global-state.service';
+import {FunctionsService} from '../services/functions.service';
 
 declare var monaco;
 declare var require;
@@ -20,9 +21,11 @@ export class MonacoEditorDirective {
     private _editor: any;
     private _containerName: string;    
     private _silent: boolean = false;
+    private _fileName: string;
 
     constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _functionsService: FunctionsService
         ) {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -52,6 +55,7 @@ export class MonacoEditorDirective {
 
     set fileName(filename: string) {
         var extension = filename.split('.').pop().toLocaleLowerCase();
+        this._fileName = filename;
 
         switch (extension) {
 
@@ -120,7 +124,22 @@ export class MonacoEditorDirective {
                 if (that._editor) {
                     that._editor.dispose();
                 }
-                
+
+                if (that._fileName.toLowerCase() === "project.json") {
+                    that._functionsService.getJson("/schemas/" + that._fileName.toLowerCase()).subscribe((schema) => {
+                        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                            schemas: [{
+                                fileMatch: ["*"],
+                                schema: schema
+                            }]
+                        });
+                    });
+                } else {
+                    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                        schemas: []
+                    });
+                }
+
                 that._editor = monaco.editor.create(that.elementRef.nativeElement, {
                     value: that._content,
                     language: that._language,
