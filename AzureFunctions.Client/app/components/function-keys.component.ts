@@ -58,10 +58,13 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 }
                 this.keys = keys.keys;
                 let selectedKey = this.keys.find(k => k.selected);
-                if (this.enableKeySelect && this.autoSelect && !selectedKey) {
-                    this.selectKey(this.keys[0]);
+                if (this.enableKeySelect && this.autoSelect && !selectedKey && this.keys.length > 0) {
+                    var key = this.keys.find(k => k.name !== "_master") || this.keys[0];
+                    this.selectKey(key);
                 } else if (selectedKey) {
                     this.selectKey(selectedKey);
+                } else {
+                    this.selectKey(null);
                 }
             }, e => {
                 this.clearBusyState();
