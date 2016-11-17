@@ -7,12 +7,20 @@
    </label>
 
     <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
-        <input id="{{input.id}}"
+        <input *ngIf="input.type === 'string'" id="{{input.id}}"
                (ngModelChange)="inputChanged($event)"
                [(ngModel)]="input.value"
                type="text"
                placeholder="{{input.placeholder}}" [disabled]="disabled"
                [ngClass]="{'input-error':!!input.errorText}">
+
+        <input *ngIf="input.type === 'int'" id="{{input.id}}"
+               (ngModelChange)="inputChanged($event)"
+               [(ngModel)]="input.value"
+               type="text"
+               placeholder="{{input.placeholder}}" [disabled]="disabled"
+               [ngClass]="{'input-error':!!input.errorText}"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57' >
 
         <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
         </pop-over>

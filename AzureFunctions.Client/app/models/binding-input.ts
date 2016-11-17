@@ -38,6 +38,17 @@ export class TextboxInput extends BindingInputBase<string>{
     }
 }
 
+export class TextboxIntInput extends BindingInputBase<number>{
+
+    constructor() {
+        super();
+        this.type = SettingType.int;
+        this.noErrorClass = '';
+        this.errorClass = 'has-error';
+    }
+}
+
+
 export class LabelInput extends BindingInputBase<string>{
     constructor() {
         super();

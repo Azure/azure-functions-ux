@@ -22,7 +22,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\models\binding-input.js" />
     <Content Include="health.html" />
     <Content Include="images\arrow-right.svg" />
     <Content Include="images\azure-logo.svg" />

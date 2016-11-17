@@ -1,5 +1,5 @@
 ﻿import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../models/binding-input';
+import {BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../models/binding';
 import {BindingManager} from '../models/binding-manager';
 import {BindingInputComponent} from './binding-input.component'
@@ -157,8 +157,19 @@ export class BindingComponent {
                     }
 
                     switch (setting.value) {
-                        case SettingType.string:
                         case SettingType.int:
+                            let intInput = new TextboxIntInput();
+                            intInput.id = setting.name;
+                            intInput.isHidden = isHidden;
+                            intInput.label = this.replaceVariables(setting.label, bindings.variables);
+                            intInput.required = setting.required;
+                            intInput.value = settigValue;
+                            intInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            intInput.validators = setting.validators;
+                            intInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || intInput.label;
+                            this.model.inputs.push(intInput);
+                            break;
+                        case SettingType.string:
                             if (setting.value === SettingType.string && setting.resource) {
                                 let input = new PickerInput();
                                 input.resource = setting.resource;
@@ -373,6 +384,10 @@ export class BindingComponent {
         this.bindingValue.name = this.model.getInput("name").value;
         var selectedStorage;
         this.model.inputs.forEach((input) => {
+
+            if (input.type === SettingType.int && typeof input.value === 'string') {
+                input.value = isNaN(input.value) ? null : Number(input.value);
+            }
 
             var setting = this.bindingValue.settings.find((s) => {
                 return s.name == input.id;
