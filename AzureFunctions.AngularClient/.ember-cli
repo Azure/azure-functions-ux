@@ -1,0 +1,4 @@
+{
+   "output-path": "./../AzureFunctions/", // for asp.net
+   "proxy": "http://localhost:44200"
+}
