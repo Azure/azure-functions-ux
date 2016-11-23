@@ -238,6 +238,8 @@ AzureFunctions.Client/Web.config
 AzureFunctions.Client/global.asax
 AzureFunctions.Client/functions-*.txt
 AzureFunctions.Client/app_data
+AzureFunctions/app_data
+AzureFunctions/wwwroot
 jspm_packages/
 AzureFunctions.Client/bower_components/
 .DS_Store
