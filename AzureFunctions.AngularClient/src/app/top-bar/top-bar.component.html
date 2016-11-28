@@ -1,3 +1,37 @@
-<p>
-  top-bar works!
-</p>
+<dir class="top-bar-container">
+    <try-now *ngIf="_globalStateService?.showTryView && !gettingStarted"></try-now>
+    <div class="top-bar" [class.top-bar-getting-started]="gettingStarted"
+         *ngIf="(needUpdateExtensionVersion || (user && currentTenant && !inIFrame) || !_globalStateService.isAlwaysOn)">
+        <div class="azure-logo left">
+            <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+        </div>
+        <div class="top-bar-info left vertical-align-center">
+            <span *ngIf="!_globalStateService.isAlwaysOn" class="left" style="padding-right:20px;">
+                <i class="fa fa-exclamation-triangle"></i> {{ 'topBar_alwaysOn' | translate }}. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=830855">{{ 'topBar_learnMore' | translate }}</a>.
+            </span>
+            <span *ngIf="needUpdateExtensionVersion" class="left">
+                <i class="fa fa-info"></i> {{ 'topBar_newVersion' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+                <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=829530">{{ 'topBar_learnMore' | translate }}</a>.
+            </span>
+        </div>
+
+        <div class="top-bar-tools right vertical-align-center">
+            <span *ngIf="user && currentTenant && !inIFrame"
+                  class="top-bar-tool clickable"
+                  [class.top-bar-tool-selected]="showUserMenu"
+                  (click)="showUserMenu = !showUserMenu">
+
+                {{user.given_name}} {{user.family_name}} ({{currentTenant.DisplayName}})
+            </span>
+
+            <div *ngIf="showUserMenu" class="top-bar-drop-down left-most top-bar-drop-down-scrollviewer">
+                <ul *ngIf="tenants" class="tenants-list">
+                    <li *ngFor="let tenant of tenants" (click)="selectTenant(tenant)">
+                        <div>{{tenant.DisplayName}}</div>
+                        <div>{{tenant.DomainName}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</dir>

@@ -5,15 +5,6 @@ import { HttpModule } from '@angular/http';
 
 import {TranslateModule} from 'ng2-translate';
 
-import { AppComponent } from './app.component';
-import { GettingStartedComponent } from './getting-started/getting-started.component';
-import { BusyStateComponent } from './busy-state/busy-state.component';
-import { LocalDevelopmentInstructionsComponent } from './local-development-instructions/local-development-instructions.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-state.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { DropDownComponent } from './drop-down/drop-down.component';
-
 //import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {FunctionsService} from './shared/services/functions.service';
 import {UserService} from './shared/services/user.service';
@@ -28,6 +19,16 @@ import {BackgroundTasksService} from './shared/services/background-tasks.service
 import {GlobalStateService} from './shared/services/global-state.service';
 import {AiService} from './shared/services/ai.service';
 
+import { AppComponent } from './app.component';
+import { GettingStartedComponent } from './getting-started/getting-started.component';
+import { BusyStateComponent } from './busy-state/busy-state.component';
+import { LocalDevelopmentInstructionsComponent } from './local-development-instructions/local-development-instructions.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-state.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
+import { DropDownComponent } from './drop-down/drop-down.component';
+import { TryNowComponent } from './try-now/try-now.component';
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -39,6 +40,7 @@ import {AiService} from './shared/services/ai.service';
       TryNowBusyStateComponent,
       TopBarComponent,
       DropDownComponent,
+      TryNowComponent,
   ],
   imports: [
     BrowserModule,

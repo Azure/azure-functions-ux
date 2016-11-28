@@ -91,7 +91,27 @@
     <Content Include="src\app\top-bar\top-bar.component.html" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.css" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.html" />
+    <Content Include="src\app\try-now\try-now.component.css" />
+    <Content Include="src\app\try-now\try-now.component.html" />
     <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\images\arrow-right.svg" />
+    <Content Include="src\images\azure-logo.svg" />
+    <Content Include="src\images\bolt.svg" />
+    <Content Include="src\images\busy-image.png" />
+    <Content Include="src\images\data-process-template.svg" />
+    <Content Include="src\images\function-io.svg" />
+    <Content Include="src\images\Functions.svg" />
+    <Content Include="src\images\generic-template.svg" />
+    <Content Include="src\images\iot-template.svg" />
+    <Content Include="src\images\landing-page.png" />
+    <Content Include="src\images\Logins\facebook.png" />
+    <Content Include="src\images\Logins\google.png" />
+    <Content Include="src\images\Logins\microsoftaccount.png" />
+    <Content Include="src\images\Logins\vk.png" />
+    <Content Include="src\images\monitoring-coming-soon.png" />
+    <Content Include="src\images\stack.svg" />
+    <Content Include="src\images\timer-template.svg" />
+    <Content Include="src\images\webhook-api-template.svg" />
     <Content Include="src\tsconfig.json" />
     <Content Include="tslint.json" />
   </ItemGroup>
@@ -199,6 +219,8 @@
     <TypeScriptCompile Include="src\app\top-bar\top-bar.component.ts" />
     <TypeScriptCompile Include="src\app\try-now-busy-state\try-now-busy-state.component.spec.ts" />
     <TypeScriptCompile Include="src\app\try-now-busy-state\try-now-busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\try-now\try-now.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\try-now\try-now.component.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />

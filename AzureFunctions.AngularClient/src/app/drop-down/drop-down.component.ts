@@ -7,6 +7,7 @@ import {DropDownElement} from '../shared/models/drop-down-element';
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.css'],
   inputs: ['options', 'placeholder', 'resetOnChange', 'disabled', 'selectedValue'],
+  outputs: ['value']
 })
 export class DropDownComponent<T> {
 
