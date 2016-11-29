@@ -11,7 +11,7 @@
             <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue">
                 <div (click)="selectFunction(functionInfo)" class="function-item">
                     <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
-                        <img *ngIf="!functionInfo.clientOnly" src="wwwroot/images/functions.svg" class="function-icon" />
+                        <img *ngIf="!functionInfo.clientOnly" src="images/functions.svg" class="function-icon" />
                         <i *ngIf="functionInfo.clientOnly" class="fa fa-plus"></i>
                         {{functionInfo.name}}
                     </span>
