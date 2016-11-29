@@ -28,6 +28,18 @@ import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-stat
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { DropDownComponent } from './drop-down/drop-down.component';
 import { TryNowComponent } from './try-now/try-now.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarPipe } from './sidebar/pipes/sidebar.pipe';
+import { FunctionEditComponent } from './function-edit/function-edit.component';
+import { AppMonitoringComponent } from './app-monitoring/app-monitoring.component';
+import { AppSettingsComponent } from './app-settings/app-settings.component';
+import { TrialExpiredComponent } from './trial-expired/trial-expired.component';
+import { FunctionNewComponent } from './function-new/function-new.component';
+import { IntroComponent } from './intro/intro.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { SourceControlComponent } from './source-control/source-control.component';
+import { FunctionDevComponent } from './function-dev/function-dev.component';
+import { BindingComponent } from './binding/binding.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +53,18 @@ import { TryNowComponent } from './try-now/try-now.component';
       TopBarComponent,
       DropDownComponent,
       TryNowComponent,
+      SidebarComponent,
+      SidebarPipe,
+      FunctionEditComponent,
+      AppMonitoringComponent,
+      AppSettingsComponent,
+      TrialExpiredComponent,
+      FunctionNewComponent,
+      IntroComponent,
+      TutorialComponent,
+      SourceControlComponent,
+      FunctionDevComponent,
+      BindingComponent,
   ],
   imports: [
     BrowserModule,
