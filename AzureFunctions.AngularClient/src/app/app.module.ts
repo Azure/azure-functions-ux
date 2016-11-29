@@ -40,6 +40,8 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { SourceControlComponent } from './source-control/source-control.component';
 import { FunctionDevComponent } from './function-dev/function-dev.component';
 import { BindingComponent } from './binding/binding.component';
+import { TooltipContentComponent } from './tooltip-content/tooltip-content.component';
+import { TooltipDirective } from './tooltip-content/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { BindingComponent } from './binding/binding.component';
       SourceControlComponent,
       FunctionDevComponent,
       BindingComponent,
+      TooltipContentComponent,
+      TooltipDirective,
   ],
   imports: [
     BrowserModule,

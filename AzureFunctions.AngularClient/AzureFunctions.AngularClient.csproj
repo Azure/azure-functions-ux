@@ -34,7 +34,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -105,6 +105,8 @@
     <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
+    <Content Include="src\app\tooltip-content\tooltip-content.component.css" />
+    <Content Include="src\app\tooltip-content\tooltip-content.component.html" />
     <Content Include="src\app\top-bar\top-bar.component.css" />
     <Content Include="src\app\top-bar\top-bar.component.html" />
     <Content Include="src\app\trial-expired\trial-expired.component.css" />
@@ -257,6 +259,10 @@
     <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip.directive.ts" />
     <TypeScriptCompile Include="src\app\top-bar\top-bar.component.spec.ts" />
     <TypeScriptCompile Include="src\app\top-bar\top-bar.component.ts" />
     <TypeScriptCompile Include="src\app\trial-expired\trial-expired.component.spec.ts" />
@@ -280,6 +286,7 @@
   <ItemGroup>
     <Content Include=".ember-cli" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

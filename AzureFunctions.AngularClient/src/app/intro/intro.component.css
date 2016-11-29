@@ -1,0 +1,92 @@
+.intro-container{
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    text-align: center;
+}
+
+.intro-banner{
+    background-color: #0076DA;
+    color: #FFF;
+    margin-top: 20px;
+    padding: 10px 0px 40px 0px;
+
+}
+
+.intro-banner > div{
+    width: 800px;  /* Keeping small so that it fits for Mac Retina */
+    margin: auto;
+    text-align: left;
+}
+
+.intro-banner h1{
+    font-size: 60px;
+}
+
+.intro-banner p{
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+.intro-banner img{
+    float: right;
+    margin-left: 40px;
+}
+
+.intro-template{
+    padding: 10px;
+    display: inline-block;
+    border: 3px solid transparent;
+    font-size: 16px;
+}
+
+.intro-template:hover, .intro-template-lang:hover{
+    border: 3px solid #C2C5C9;
+}
+
+.intro-template-selected, .intro-template-selected:hover, .intro-template-lang-selected, .intro-template-lang-selected:hover{
+    border: 3px solid #419BF3;
+}
+
+
+.intro-template div:first-of-type{
+    background-color: #419BF3;
+    padding: 30px;
+}
+
+
+.intro-template div:nth-of-type(2){ 
+    margin-top: 15px;
+}
+
+.intro-template-lang{
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    width: 156px;
+}
+
+.intro-lang-container{
+    padding-top:10px;
+}
+
+.intro-body img{
+    width: 70px;
+    height: 70px;
+}
+
+.intro-footer{
+    padding: 10px 0 25px 0px;
+}
+
+.intro-footer span{
+    font-size: 16px;
+    color: #0076DA;
+}
+
+.custom-button{
+    margin: 30px 0px;
+}
+.link-disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
+}
