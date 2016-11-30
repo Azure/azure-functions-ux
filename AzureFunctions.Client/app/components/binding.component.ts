@@ -15,8 +15,10 @@ import {PortalResources} from '../models/portal-resources';
 import {Validator} from '../models/binding';
 import {SecretsBoxInput} from './secrets-box-input';
 import {SecretsBoxContainer} from './secrets-box-container';
-declare var jQuery: any;
 declare var marked: any;
+declare var jQuery: any;
+
+
 
 @Component({
     selector: 'binding',

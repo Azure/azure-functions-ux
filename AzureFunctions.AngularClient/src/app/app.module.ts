@@ -45,6 +45,10 @@ import { TooltipDirective } from './tooltip-content/tooltip.directive';
 import { ErrorListComponent } from './error-list/error-list.component';
 import { TemplatePickerComponent } from './template-picker/template-picker.component';
 import { PopOverComponent } from './pop-over/pop-over.component';
+import { BindingInputComponent } from './binding-input/binding-input.component';
+import { BindingDesignerComponent } from './binding-designer/binding-designer.component';
+import { SecretsBoxContainerComponent } from './secrets-box-container/secrets-box-container.component';
+import { SecretsBoxInputDirective } from './secrets-box-container/secrets-box-input.directive';
 
 @NgModule({
   declarations: [
@@ -75,6 +79,10 @@ import { PopOverComponent } from './pop-over/pop-over.component';
       ErrorListComponent,
       TemplatePickerComponent,
       PopOverComponent,
+      BindingInputComponent,
+      BindingDesignerComponent,
+      SecretsBoxContainerComponent,
+      SecretsBoxInputDirective,
   ],
   imports: [
     BrowserModule,

@@ -59,7 +59,6 @@ export class FunctionNewComponent {
     hasConfigUI: boolean = true;
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
-    hasInputsToShow: boolean;
     templateWarning: string;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
@@ -163,10 +162,6 @@ export class FunctionNewComponent {
             //Last binding update
             this.createFunction();
         }
-    }
-
-    onInputsToShowChanged(show: boolean) {
-        this.hasInputsToShow = show;
     }
 
     functionNameChanged(value: string) {

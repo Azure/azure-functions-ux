@@ -81,6 +81,10 @@
     <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
     <Content Include="src\app\app-settings\app-settings.component.css" />
     <Content Include="src\app\app-settings\app-settings.component.html" />
+    <Content Include="src\app\binding-designer\binding-designer.component.css" />
+    <Content Include="src\app\binding-designer\binding-designer.component.html" />
+    <Content Include="src\app\binding-input\binding-input.component.css" />
+    <Content Include="src\app\binding-input\binding-input.component.html" />
     <Content Include="src\app\binding\binding.component.css" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.css" />
@@ -105,6 +109,8 @@
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
+    <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
+    <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
     <Content Include="src\app\sidebar\sidebar.component.css" />
     <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
@@ -164,6 +170,10 @@
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.ts" />
+    <TypeScriptCompile Include="src\app\binding-input\binding-input.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-input\binding-input.component.ts" />
     <TypeScriptCompile Include="src\app\binding\binding.component.spec.ts" />
     <TypeScriptCompile Include="src\app\binding\binding.component.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.spec.ts" />
@@ -189,6 +199,10 @@
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\decorators\cache.decorator.ts" />
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
