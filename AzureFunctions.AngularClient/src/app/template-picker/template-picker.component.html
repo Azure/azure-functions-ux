@@ -1,0 +1,59 @@
+<div>
+    <div *ngIf="isTemplate">
+        <span>
+            {{ 'templatePicker_language' | translate }}
+            <drop-down [options]="languages"
+                       class="tpicker-dropdown"
+                       (value)="onLanguageChanged($event)"></drop-down>
+        </span>
+        <span style="margin-left:20px;">
+            {{ 'templatePicker_scenario' | translate }}
+            <drop-down [options]="categories"
+                       class="tpicker-dropdown"
+                       (value)="onScenarioChanged($event)"></drop-down>
+        </span>
+    </div>
+
+    <div class="tp-templates" *ngIf="showFooter">
+        <div *ngFor="let template of templates"
+             [ngClass]="showTryView && !template.enabledInTryMode ? 'tp-template-disabled' : 'tp-template'"
+             (click)="onTemplateClicked(template.value, showTryView && !template.enabledInTryMode)"
+             [class.tp-template-selected]="selectedTemplate == template.value">
+
+            <!--[leftOffset]=100 [topOffset]=100-->
+            <div class="tp-template-container" [tooltip]="freeAccountTooltip"
+                 [tooltipDisabled]="! (showTryView && !template.enabledInTryMode)" tooltipPlacement="bottom">
+                <div class="tp-template-content" [class.tp-template-icon-selected]="selectedTemplate === template.value">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
+                    <path fill="#808285" d="M6.4,10.7v2.1v42.9v2.1V60h34.3h2.1H45v-8.6h8.6V12.9L40.7,0H15v8.6H6.4V10.7z M47.5,12.9h-6.8V6.1
+                    L47.5,12.9z M19.3,4.3h17.1v12.9h12.9v30h-30V4.3z M40.7,51.4v4.3h-30V12.9H15v38.6H40.7z" />
+                    </svg>
+                    <div>{{template.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tp-templates" *ngIf="!showFooter">
+        <!--[leftOffset]=40 [topOffset]=-50-->
+        <div *ngFor="let template of templates"
+             [ngClass]="showTryView && !template.enabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
+             (click)="onTemplateClicked(template.value, showTryView && !template.enabledInTryMode)"
+             [class.tp-template-selected]="selectedTemplate == template.value" [tooltip]="freeAccountTooltip"
+             [tooltipDisabled]="!(showTryView && !template.enabledInTryMode)">
+
+            <div class="tp-template-func-title" [class.tp-template-icon-selected]="selectedTemplate === template.value">{{template.name}}</div>
+            <div class="tp-template-func-description">{{template.description}}</div>
+        </div>
+    </div>
+    <div *ngIf="showFooter" class="tp-footer">
+        <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">{{ 'select' | translate }}</button>
+        <button class="custom-button-invert" (click)="onCancelClicked()">{{ 'cancel' | translate }}</button>
+    </div>
+</div>
+<tooltip-content #freeAccountTooltip>
+    <p>
+        {{ 'tryNow_FreeAccountToolTip' | translate }}
+    </p>
+</tooltip-content>

@@ -89,6 +89,8 @@
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
+    <Content Include="src\app\error-list\error-list.component.css" />
+    <Content Include="src\app\error-list\error-list.component.html" />
     <Content Include="src\app\function-dev\function-dev.component.css" />
     <Content Include="src\app\function-dev\function-dev.component.html" />
     <Content Include="src\app\function-edit\function-edit.component.css" />
@@ -101,10 +103,14 @@
     <Content Include="src\app\intro\intro.component.html" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
+    <Content Include="src\app\pop-over\pop-over.component.css" />
+    <Content Include="src\app\pop-over\pop-over.component.html" />
     <Content Include="src\app\sidebar\sidebar.component.css" />
     <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
+    <Content Include="src\app\template-picker\template-picker.component.css" />
+    <Content Include="src\app\template-picker\template-picker.component.html" />
     <Content Include="src\app\tooltip-content\tooltip-content.component.css" />
     <Content Include="src\app\tooltip-content\tooltip-content.component.html" />
     <Content Include="src\app\top-bar\top-bar.component.css" />
@@ -166,6 +172,8 @@
     <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
     <TypeScriptCompile Include="src\app\function-dev\function-dev.component.spec.ts" />
     <TypeScriptCompile Include="src\app\function-dev\function-dev.component.ts" />
     <TypeScriptCompile Include="src\app\function-edit\function-edit.component.spec.ts" />
@@ -179,6 +187,8 @@
     <TypeScriptCompile Include="src\app\intro\intro.component.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.spec.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
+    <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
     <TypeScriptCompile Include="src\app\shared\decorators\cache.decorator.ts" />
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
@@ -259,6 +269,8 @@
     <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
+    <TypeScriptCompile Include="src\app\template-picker\template-picker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\template-picker\template-picker.component.ts" />
     <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.spec.ts" />
     <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.ts" />
     <TypeScriptCompile Include="src\app\tooltip-content\tooltip.directive.spec.ts" />

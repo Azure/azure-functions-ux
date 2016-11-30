@@ -42,6 +42,9 @@ import { FunctionDevComponent } from './function-dev/function-dev.component';
 import { BindingComponent } from './binding/binding.component';
 import { TooltipContentComponent } from './tooltip-content/tooltip-content.component';
 import { TooltipDirective } from './tooltip-content/tooltip.directive';
+import { ErrorListComponent } from './error-list/error-list.component';
+import { TemplatePickerComponent } from './template-picker/template-picker.component';
+import { PopOverComponent } from './pop-over/pop-over.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,9 @@ import { TooltipDirective } from './tooltip-content/tooltip.directive';
       BindingComponent,
       TooltipContentComponent,
       TooltipDirective,
+      ErrorListComponent,
+      TemplatePickerComponent,
+      PopOverComponent,
   ],
   imports: [
     BrowserModule,
