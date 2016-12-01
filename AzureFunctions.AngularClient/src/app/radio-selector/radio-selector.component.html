@@ -1,0 +1,25 @@
+<div class="switch" *ngIf="_options && _options.length === 2">
+    <input type="radio"
+           class="switch-input"
+           name="view"
+           [attr.id]="_options[0].id"
+           [checked]="_options[0].value === defaultValue"
+           (click)="select(_options[0])">
+
+    <label [attr.for]="_options[0].id" class="switch-label switch-label-off">
+        {{_options[0].displayLabel}}
+    </label>
+
+    <input type="radio"
+           class="switch-input"
+           name="view"
+           [attr.id]="_options[1].id"
+           [checked]="_options[1].value === defaultValue"
+           (click)="select(_options[1])">
+
+    <label [attr.for]="_options[1].id" class="switch-label switch-label-on">
+        {{_options[1].displayLabel}}
+    </label>
+
+    <span class="switch-selection"></span>
+</div>

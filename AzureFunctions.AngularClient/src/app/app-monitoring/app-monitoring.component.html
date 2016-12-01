@@ -1,3 +1,7 @@
-<p>
-  app-monitoring works!
-</p>
+<div class="wrapper">
+    <div id="heading">{{appMonitoring_functionAppUsage | translate}}</div>
+    <div>
+        <nvd3 [options]="usageChartOptions" [data]="usageChartData"></nvd3>
+        <nvd3 [options]="instancesChartOptions" [data]="instancesChartData"></nvd3>
+    </div>
+</div>

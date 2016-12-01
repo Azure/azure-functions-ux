@@ -1,0 +1,16 @@
+.clickable {
+    cursor: pointer;
+}
+
+#delete-function {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 7px;
+    color: #419BF3;
+}
+
+.tab-content{
+    padding: 20px;
+    background-color: #FFF;
+}

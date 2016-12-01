@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <div id="function-settings">
+        <div class="configure-wrapper">
+            <div>Function State </div>
+            <div *ngIf="selectedFunction">
+                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled" (value)="valueChange.next($event)"></radio-selector>
+            </div>
+        </div>
+    </div>
+
+    <div id="submit-delete">
+        <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
+    </div>
+
+    <function-keys *ngIf="_functionsService?.isMultiKeySupported" [functionInfo]="selectedFunction"></function-keys>
+    <div style="margin-bottom: 25px" *ngIf="_functionsService?.isMultiKeySupported"></div>
+    <function-keys *ngIf="_functionsService?.isMultiKeySupported"></function-keys>
+</div>

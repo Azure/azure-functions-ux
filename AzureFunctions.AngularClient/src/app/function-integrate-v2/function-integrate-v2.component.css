@@ -1,0 +1,40 @@
+
+.list-group-item{
+    border-radius: 0;
+}
+
+.list-group-item active{
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    cursor: pointer !important; 
+    /*cursor: hand;*/
+}
+
+.list-special .list-group-item:hover {
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    cursor: pointer !important; 
+}
+
+.list-special .list-group-item.active {
+    background-color: #BFC9D0 !important;
+    color: #0273D4 !important;
+    cursor: pointer !important; 
+}
+
+.column-title{
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#toggle-editor {    
+    top: 0;
+    right: 0;
+    padding: 7px;
+    color: #419BF3;
+}
+
+.button-title {
+    font-size: 12px !important;
+}

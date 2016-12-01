@@ -1,0 +1,50 @@
+.wrapper {
+    background-color: #539CF6;
+    height: 40px;
+    width: 100%;
+    font-size: medium;
+    display: block;
+    color: white;
+}
+
+.tryinfo-box {
+    height: 100%;
+    padding-left: 15px;
+}
+
+.tryinfo-box > div {
+    float: left;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 4%;
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+}
+
+#extendTrial {
+    text-decoration: underline;
+}
+
+#timer-text {
+    font-weight: 900;
+}
+.discover-more-button {
+    padding-left: 30px;   
+}
+.discover-more-wrapper {
+    float: right;
+    padding-right: 2%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.free-trial-wrapper {
+    padding-left: 13%;
+}
+.azure-logo-wrapper {
+    width: 235px
+}

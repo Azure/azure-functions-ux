@@ -22,13 +22,16 @@
       "styles": [
         "styles.css",
         "../node_modules/bootstrap/dist/css/bootstrap.css",
-        "../node_modules/font-awesome/css/font-awesome.css"
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/nvd3/build/nv.d3.min.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/tether/dist/js/tether.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/marked/marked.min.js"
+        "../node_modules/marked/marked.min.js",
+        "../node_modules/d3/d3.min.js",
+        "../node_modules/nvd3/build/nv.d3.min.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

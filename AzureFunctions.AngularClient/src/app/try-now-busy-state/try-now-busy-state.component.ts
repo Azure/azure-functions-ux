@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'try-now-busy-state',
@@ -6,10 +7,110 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./try-now-busy-state.component.css']
 })
 export class TryNowBusyStateComponent implements OnInit {
+    private inputBoltClass: string;
+    private inputStoreClass: string;
+    private leftBracketClass: string;
+    private rightBracketClass: string;
+    private outerFlashClass: string;
+    private innerFlashClass: string;
+    private inputArrowClass: string;
+    private outputArrowClass: string;
+    private outputStoreClass: string;
+    private frame: number;
+    private isIE: boolean;
 
-  constructor() { }
+    ngOnInit() {
+        this.isIE = navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;
+        this.inputBoltClass = "hide";
+        this.inputStoreClass = "whiteFill";
+        this.leftBracketClass = "fillNone";
+        this.rightBracketClass = "fillNone";
+        this.outerFlashClass = "fillNone";
+        this.innerFlashClass = "fillNone";
+        this.inputArrowClass = "whiteFill";
+        this.outputArrowClass = "whiteFill";
+        this.outputStoreClass = "whiteFill";
+        this.nextStep();
+    }
 
-  ngOnInit() {
-  }
+    nextStep() {
+        switch (this.frame) {
+            case 0:
+                {
+                    this.inputBoltClass = "yellowFill";
+                    this.inputStoreClass = "yellowFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 100);
+                    break;
+                }
+            case 1:
+                {
+                    this.inputBoltClass = "hide";
+                    this.inputStoreClass = "whiteFill";
+                    this.inputArrowClass = "yellowFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 100);
+                    break;
+                }
+            case 2:
+                {
+                    this.inputArrowClass = "whiteFill";
+                    this.innerFlashClass = "orangeFill";
+                    this.outerFlashClass = "yellowFill";
+                    this.leftBracketClass = "yellowFill";
+                    this.rightBracketClass = "orangeFill";
 
+                    this.leftBracketClass = "orangeFill";
+                    this.rightBracketClass = "yellowFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 150);
+                    break;
+                }
+            case 4:
+            case 6:
+                {
+                    this.innerFlashClass = "orangeFill";
+                    this.outerFlashClass = "yellowFill";
+
+                    this.leftBracketClass = "orangeFill";
+                    this.rightBracketClass = "yellowFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 150);
+                    break;
+                }
+            case 3:
+            case 5:
+                {
+                    this.innerFlashClass = "yellowFill";
+                    this.outerFlashClass = "orangeFill";
+
+                    this.leftBracketClass = "yellowFill";
+                    this.rightBracketClass = "orangeFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 150);
+                    break;
+                }
+            case 7:
+                {
+                    this.innerFlashClass = "fillNone";
+                    this.outerFlashClass = "fillNone";
+                    this.leftBracketClass = "fillNone";
+                    this.rightBracketClass = "fillNone";
+
+                    this.outputArrowClass = "orangeFill";
+                    this.outputStoreClass = "orangeFill";
+                    this.frame++;
+                    setTimeout(() => this.nextStep(), 150);
+                    break;
+                }
+            default:
+                {
+                    this.outputArrowClass = "whiteFill";
+                    this.outputStoreClass = "whiteFill";
+                    this.frame = 0;
+                    setTimeout(() => this.nextStep(), 5);
+                    break;
+                }
+        }
+    }
 }

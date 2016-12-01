@@ -3,7 +3,7 @@ import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 
 @Component({
-  selector: 'app-local-development-instructions',
+    selector: 'local-develop',
   templateUrl: './local-development-instructions.component.html',
   styleUrls: ['./local-development-instructions.component.css']
 })

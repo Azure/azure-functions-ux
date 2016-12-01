@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {TranslateModule} from 'ng2-translate';
+import { nvD3 } from 'ng2-nvd3';
+import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
 //import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {FunctionsService} from './shared/services/functions.service';
@@ -49,10 +51,30 @@ import { BindingInputComponent } from './binding-input/binding-input.component';
 import { BindingDesignerComponent } from './binding-designer/binding-designer.component';
 import { SecretsBoxContainerComponent } from './secrets-box-container/secrets-box-container.component';
 import { SecretsBoxInputDirective } from './secrets-box-container/secrets-box-input.directive';
+import { AggregateBlockComponent } from './aggregate-block/aggregate-block.component';
+import { CopyPreComponent } from './copy-pre/copy-pre.component';
+import { FileExplorerComponent } from './file-explorer/file-explorer.component';
+import { FunctionIntegrateV2Component } from './function-integrate-v2/function-integrate-v2.component';
+import { FunctionIntegrateComponent } from './function-integrate/function-integrate.component';
+import { FunctionKeysComponent } from './function-keys/function-keys.component';
+import { FunctionManageComponent } from './function-manage/function-manage.component';
+import { FunctionMonitorComponent } from './function-monitor/function-monitor.component';
+import { LogStreamingComponent } from './log-streaming/log-streaming.component';
+import { RadioSelectorComponent } from './radio-selector/radio-selector.component';
+import { RunHttpComponent } from './run-http/run-http.component';
+import { TableFunctionMonitorComponent } from './table-function-monitor/table-function-monitor.component';
+import { TryLandingComponent } from './try-landing/try-landing.component';
+import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
+import { FunctionDesignerComponent } from './function-designer/function-designer.component';
+import { MonacoEditorDirective } from './shared/directives/monaco-editor.directive';
+import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
 
 @NgModule({
   declarations: [
       AppComponent,
+      nvD3,
+      FileSelectDirective,
+      FileDropDirective,      
 
       GettingStartedComponent,
       BusyStateComponent,
@@ -83,6 +105,23 @@ import { SecretsBoxInputDirective } from './secrets-box-container/secrets-box-in
       BindingDesignerComponent,
       SecretsBoxContainerComponent,
       SecretsBoxInputDirective,
+      AggregateBlockComponent,
+      CopyPreComponent,
+      FileExplorerComponent,
+      FunctionIntegrateV2Component,
+      FunctionIntegrateComponent,
+      FunctionKeysComponent,
+      FunctionManageComponent,
+      FunctionMonitorComponent,
+      LogStreamingComponent,
+      RadioSelectorComponent,
+      RunHttpComponent,
+      TableFunctionMonitorComponent,
+      TryLandingComponent,
+      AggregateBlockPipe,
+      FunctionDesignerComponent,
+      MonacoEditorDirective,
+      TableFunctionMonitorPipe,
   ],
   imports: [
     BrowserModule,
