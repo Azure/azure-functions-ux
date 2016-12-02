@@ -158,6 +158,7 @@
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\assets\bootstrap.min.css" />
     <Content Include="src\assets\monaco\min\vs\base\worker\workerMain.js" />
     <Content Include="src\assets\monaco\min\vs\basic-languages\src\bat.js" />
     <Content Include="src\assets\monaco\min\vs\basic-languages\src\coffee.js" />
@@ -213,6 +214,7 @@
     <Content Include="src\assets\monaco\min\vs\language\typescript\src\mode.js" />
     <Content Include="src\assets\monaco\min\vs\language\typescript\src\worker.js" />
     <Content Include="src\assets\monaco\min\vs\loader.js" />
+    <Content Include="src\assets\nvd3Charts.css" />
     <Content Include="src\images\arrow-right.svg" />
     <Content Include="src\images\azure-logo.svg" />
     <Content Include="src\images\bolt.svg" />

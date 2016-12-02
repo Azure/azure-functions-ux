@@ -24,6 +24,7 @@
     "font-awesome": "^4.7.0",
     "marked": "^0.3.6",
     "monaco-editor": "^0.7.0",
+    "ng2-bootstrap": "^1.1.16",
     "ng2-cookies": "^1.0.3",
     "ng2-file-upload": "^1.1.4-2",
     "ng2-nvd3": "^1.1.3",
