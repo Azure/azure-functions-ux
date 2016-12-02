@@ -446,9 +446,7 @@
     <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-tw.js.map" />
     <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\fonts\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

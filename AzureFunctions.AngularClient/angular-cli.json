@@ -29,7 +29,8 @@
       "scripts": [
         "../node_modules/marked/marked.min.js",
         "../node_modules/d3/d3.min.js",
-        "../node_modules/nvd3/build/nv.d3.min.js"
+        "../node_modules/nvd3/build/nv.d3.min.js",
+        "../node_modules/moment/moment.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

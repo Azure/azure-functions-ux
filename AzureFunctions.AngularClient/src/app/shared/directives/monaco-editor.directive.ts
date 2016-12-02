@@ -129,7 +129,7 @@ export class MonacoEditorDirective {
                             that._editor.dispose();
                         }
 
-                        if (that._fileName.toLowerCase() === "project.json") {
+                        if (that._fileName && that._fileName.toLowerCase() === "project.json") {
                             that._functionsService.getJson("/schemas/" + that._fileName.toLowerCase()).subscribe((schema) => {
                                 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                                     schemas: [{
