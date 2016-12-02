@@ -158,7 +158,6 @@
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
-    <Content Include="src\assets\bootstrap.min.css" />
     <Content Include="src\assets\monaco\min\vs\base\worker\workerMain.js" />
     <Content Include="src\assets\monaco\min\vs\basic-languages\src\bat.js" />
     <Content Include="src\assets\monaco\min\vs\basic-languages\src\coffee.js" />
@@ -446,6 +445,9 @@
     <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-cn.js.map" />
     <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-tw.js.map" />
     <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\fonts\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

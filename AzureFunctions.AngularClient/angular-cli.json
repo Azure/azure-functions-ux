@@ -20,13 +20,13 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.css",
         "styles.css",
         "assets/nvd3Charts.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/nvd3/build/nv.d3.min.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
         "../node_modules/marked/marked.min.js",
         "../node_modules/d3/d3.min.js",
         "../node_modules/nvd3/build/nv.d3.min.js"
@@ -39,7 +39,9 @@
     }
   ],
   "addons": [
-    "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
+    "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)",
+    "../node_modules/bootstrap/dist/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
+
   ],
   "packages": [],
   "e2e": {

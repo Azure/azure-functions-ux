@@ -2,8 +2,6 @@ import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitte
 import {BindingList} from '../shared/models/binding-list';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
-//import {BindingComponent} from './binding.component';
-//import {TemplatePickerComponent} from './template-picker.component';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionInfo, FunctionInfoHelper} from '../shared/models/function-info';
 import {TemplatePickerType} from '../shared/models/template-picker';
@@ -14,9 +12,6 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {ErrorEvent} from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {PopOverComponent} from './shared/pop-over.component';
-
-declare var jQuery: any;
 
 @Component({
   selector: 'function-integrate-v2',
@@ -81,7 +76,6 @@ export class FunctionIntegrateV2Component {
 
                 this.model.setBindings();
 
-                jQuery(this._elementRef.nativeElement).find('[data-toggle="popover"]').popover({ html: true, container: 'body' });
             });
         });
 

@@ -2,7 +2,6 @@ import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit,
 import {BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../shared/models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
-//import {BindingInputComponent} from '../shared/binding-input.component'
 import {FunctionsService} from '../shared//services/functions.service';
 import {BindingInputList} from '../shared/models/binding-input-list';
 import {BroadcastService} from '../shared/services/broadcast.service';
@@ -13,9 +12,6 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Validator} from '../shared/models/binding';
-//import {SecretsBoxInput} from './../secrets-box-input';
-//import {SecretsBoxContainer} from './secrets-box-container';
-declare var jQuery: any;
 declare var marked: any;
 
 @Component({
