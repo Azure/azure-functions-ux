@@ -23,7 +23,7 @@ export class LocalDevelopmentInstructionsComponent implements OnInit {
 
     show() {
         this.shown = true;
-        this.downloadUrl = `${this._functionsService.getScmUrl()}/api/zip/site/wwwroot`;
+        this.downloadUrl = `${this._functionsService.getScmUrl()}/api/zip/site/ng2app`;
         this.checkLocalFunctionsServer();
     }
 
