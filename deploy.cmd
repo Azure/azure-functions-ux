@@ -30,6 +30,10 @@ IF NOT DEFINED DEPLOYMENT_TARGET (
   SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
 )
 
+IF NOT DEFINED DEPLOYMENT_TARGET_ANGULAR (
+  SET DEPLOYMENT_TARGET_ANGULAR=%ARTIFACTS%\wwwroot\AzureFunctions.AngulaClient
+)
+
 IF NOT DEFINED NEXT_MANIFEST_PATH (
   SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
 
@@ -106,7 +110,7 @@ echo Handling frontend Angular2 project.
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.Client" "%DEPLOYMENT_TARGET%" /E /IS
+  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngulaClient" "%DEPLOYMENT_TARGET_ANGULAR%" /E /IS
   :: http://ss64.com/nt/robocopy-exit.html
   IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
   IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
@@ -129,8 +133,8 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 
 
 :: 5. Install npm packages
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  pushd "%DEPLOYMENT_TARGET%"
+IF EXIST "%DEPLOYMENT_TARGET_ANGULAR%\package.json" (
+  pushd "%DEPLOYMENT_TARGET_ANGULAR%"
 
   call :ExecuteCmd npm install
   IF !ERRORLEVEL! NEQ 0 (
@@ -138,23 +142,23 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
     IF !ERRORLEVEL! NEQ 0 goto error
   )
 
-  call :ExecuteCmd npm run jspm:i
+  call :ExecuteCmd ng build --output-path="./../ng2app"
   IF !ERRORLEVEL! NEQ 0 (
     call :ExecuteCmd npm run jspm:i
     IF !ERRORLEVEL! NEQ 0 goto error
   )
+  
+  REM call :ExecuteCmd npm run typings install
+  REM IF !ERRORLEVEL! NEQ 0 goto error
 
-  call :ExecuteCmd npm run typings install
-  IF !ERRORLEVEL! NEQ 0 goto error
+  REM call :ExecuteCmd gulp
+  REM IF !ERRORLEVEL! NEQ 0 goto error
 
-  call :ExecuteCmd gulp
-  IF !ERRORLEVEL! NEQ 0 goto error
+  REM call :ExecuteCmd npm run tsc
+  REM IF !ERRORLEVEL! NEQ 0 goto error
 
-  call :ExecuteCmd npm run tsc
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  call :ExecuteCmd npm run jspm:bundle
-  IF !ERRORLEVEL! NEQ 0 goto error
+  REM call :ExecuteCmd npm run jspm:bundle
+  REM IF !ERRORLEVEL! NEQ 0 goto error
 
   ::call :ExecuteCmd npm run uglifyjs
   ::IF !ERRORLEVEL! NEQ 0 goto error
@@ -163,13 +167,13 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 )
 
 :: 7. Install bower
-IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
-  pushd "%DEPLOYMENT_TARGET%"
+REM IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
+  REM pushd "%DEPLOYMENT_TARGET%"
 
-  call :ExecuteCmd bower install
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
+  REM call :ExecuteCmd bower install
+  REM IF !ERRORLEVEL! NEQ 0 goto error
+  REM popd
+REM )
 
 :: 8. Copy templates-update webjob
 SET WEBJOB_PATH=%HOME%\site\wwwroot\App_Data\jobs\triggered\templates-update
