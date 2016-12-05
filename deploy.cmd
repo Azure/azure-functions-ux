@@ -31,7 +31,7 @@ IF NOT DEFINED DEPLOYMENT_TARGET (
 )
 
 IF NOT DEFINED DEPLOYMENT_TARGET_ANGULAR (
-  SET DEPLOYMENT_TARGET_ANGULAR=%ARTIFACTS%\wwwroot\AzureFunctions.AngulaClient
+  SET DEPLOYMENT_TARGET_ANGULAR=%ARTIFACTS%\wwwroot\AzureFunctions.AngularClient
 )
 
 IF NOT DEFINED NEXT_MANIFEST_PATH (
@@ -110,7 +110,7 @@ echo Handling frontend Angular2 project.
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngulaClient" "%DEPLOYMENT_TARGET_ANGULAR%" /E /IS
+  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%DEPLOYMENT_TARGET_ANGULAR%" /E /IS
   :: http://ss64.com/nt/robocopy-exit.html
   IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
   IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
