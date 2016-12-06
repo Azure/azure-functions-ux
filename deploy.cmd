@@ -142,9 +142,9 @@ IF EXIST "%DEPLOYMENT_TARGET_ANGULAR%\package.json" (
     IF !ERRORLEVEL! NEQ 0 goto error
   )
 
-  call :ExecuteCmd ng build --output-path="./../ng2app"
+  call :ExecuteCmd ng build --output-path="./../wwwroot/ng2app"
   IF !ERRORLEVEL! NEQ 0 (
-    call :ExecuteCmd npm run jspm:i
+    call :ExecuteCmd ng build --output-path="./../wwwroot/ng2app"
     IF !ERRORLEVEL! NEQ 0 goto error
   )
   
