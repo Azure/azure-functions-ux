@@ -187,6 +187,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (!this._functionsService.isMultiKeySupported) {
                     this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     this.setFunctionInvokeUrl();
+                    this.setFunctionKey(this.functionInfo);
                 }
             });
 
@@ -200,6 +201,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .subscribe(key => {
                 if (key) {
                     this.setFunctionInvokeUrl(key);
+                    this.setFunctionKey(this.functionInfo);
                } else {
                    this.autoSelectAdminKey = true;
                }
@@ -358,6 +360,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             delete this.runResult;
             this.functionSelectStream.next(changes['selectedFunction'].currentValue);
             }
+    }
+
+    private setFunctionKey(functionInfo) {
+        if (functionInfo) {
+            this._functionsService.getFunctionKeys(functionInfo)
+                .subscribe(keys => {
+                    if (keys && keys.keys && keys.keys.length > 0) {
+                        this.functionKey = keys.keys.find(k => k.name === "default").value || keys.keys[0].value;
+                    }
+                });
+        }
     }
 
     private setFunctionInvokeUrl(key?: string) {
