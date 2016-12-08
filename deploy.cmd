@@ -23,15 +23,12 @@ setlocal enabledelayedexpansion
 SET ARTIFACTS=%~dp0%..\artifacts
 
 IF NOT DEFINED DEPLOYMENT_SOURCE (
-  SET DEPLOYMENT_SOURCE=%~dp0%.
+	SET DEPLOYMENT_SOURCE=%~dp0%.
+	echo SET DEPLOYMENT_SOURCE
 )
 
 IF NOT DEFINED DEPLOYMENT_TARGET (
   SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
-)
-
-IF NOT DEFINED DEPLOYMENT_TARGET_ANGULAR (
-  SET DEPLOYMENT_TARGET_ANGULAR=%ARTIFACTS%\wwwroot\AzureFunctions.AngularClient
 )
 
 IF NOT DEFINED NEXT_MANIFEST_PATH (
@@ -53,8 +50,6 @@ IF NOT DEFINED NEXT_CLIENT_MANIFEST_PATH (
 
   IF NOT EXIST "%PREVIOUS_CLIENT_MANIFEST_PATH%" (MKDIR "%PREVIOUS_CLIENT_MANIFEST_PATH%")
 )
-
-
 
 IF NOT DEFINED KUDU_SYNC_CMD (
   :: Install kudu sync
@@ -83,13 +78,42 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-echo Handling backend WebApi project.
+echo Print variables
+echo dp0=%~dp0%
+echo ARTIFACTS=%ARTIFACTS%
+echo DEPLOYMENT_SOURCE=%DEPLOYMENT_SOURCE%
+echo DEPLOYMENT_TARGET=%DEPLOYMENT_TARGET%
+echo DEPLOYMENT_TARGET_ANGULAR=%DEPLOYMENT_TARGET_ANGULAR%
+echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
+echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
+echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
+echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
 
-:: 1. Restore NuGet packages
+echo Handling frontend Angular2 project.
+:: 1. Bundle angular2 app to the temporary path
+IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
+  pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
+  echo Restore npm packages
+  call :ExecuteCmd npm install
+  IF !ERRORLEVEL! NEQ 0 (
+	call :ExecuteCmd npm install
+	IF !ERRORLEVEL! NEQ 0 goto error
+  )
+  echo Bundle angular2 app to the temporary path
+  call :ExecuteCmd ng build --output-path="%DEPLOYMENT_TEMP%"
+  IF !ERRORLEVEL! NEQ 0 (
+      call :ExecuteCmd ng build --output-path="%DEPLOYMENT_TEMP%"
+      IF !ERRORLEVEL! NEQ 0 goto error
+  )
+)
+
+echo Handling backend WebApi project.
+echo Restore NuGet packages
 IF /I "AzureFunctions.sln" NEQ "" (
   call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureFunctions.sln"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
+
 
 :: 2. Build to the temporary path
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
@@ -106,76 +130,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-echo Handling frontend Angular2 project.
-
-:: 4. KuduSync
-IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%DEPLOYMENT_TARGET_ANGULAR%" /E /IS
-  :: http://ss64.com/nt/robocopy-exit.html
-  IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
-  IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
-  IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
-  IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
-  IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
-  IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
-  IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
-  IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
-  IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
-  IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
-  IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
-  IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
-  IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
-  IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
-  IF %ERRORLEVEL% EQU 2 echo XTRA
-  IF %ERRORLEVEL% EQU 1 echo OKCOPY
-  IF %ERRORLEVEL% EQU 0 echo No Change
-)
-
-
-:: 5. Install npm packages
-IF EXIST "%DEPLOYMENT_TARGET_ANGULAR%\package.json" (
-  pushd "%DEPLOYMENT_TARGET_ANGULAR%"
-
-  call :ExecuteCmd npm install
-  IF !ERRORLEVEL! NEQ 0 (
-    call :ExecuteCmd npm install
-    IF !ERRORLEVEL! NEQ 0 goto error
-  )
-
-  call :ExecuteCmd ng build --output-path="./../wwwroot/ng2app"
-  IF !ERRORLEVEL! NEQ 0 (
-    call :ExecuteCmd ng build --output-path="./../wwwroot/ng2app"
-    IF !ERRORLEVEL! NEQ 0 goto error
-  )
-  
-  REM call :ExecuteCmd npm run typings install
-  REM IF !ERRORLEVEL! NEQ 0 goto error
-
-  REM call :ExecuteCmd gulp
-  REM IF !ERRORLEVEL! NEQ 0 goto error
-
-  REM call :ExecuteCmd npm run tsc
-  REM IF !ERRORLEVEL! NEQ 0 goto error
-
-  REM call :ExecuteCmd npm run jspm:bundle
-  REM IF !ERRORLEVEL! NEQ 0 goto error
-
-  ::call :ExecuteCmd npm run uglifyjs
-  ::IF !ERRORLEVEL! NEQ 0 goto error
-
-  popd
-)
-
-:: 7. Install bower
-REM IF EXIST "%DEPLOYMENT_TARGET%\bower.json" (
-  REM pushd "%DEPLOYMENT_TARGET%"
-
-  REM call :ExecuteCmd bower install
-  REM IF !ERRORLEVEL! NEQ 0 goto error
-  REM popd
-REM )
-
-:: 8. Copy templates-update webjob
+:: 4. Copy templates-update webjob
 SET WEBJOB_PATH=%HOME%\site\wwwroot\App_Data\jobs\triggered\templates-update
 IF NOT EXIST "%WEBJOB_PATH%" (
   mkdir "%WEBJOB_PATH%"
@@ -188,7 +143,7 @@ IF EXIST %WEBJOB_PATH%\templates-update.cmd (
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\templates-update.ps1" "%WEBJOB_PATH%"
 copy "%DEPLOYMENT_SOURCE%\WebJobs\templates-update\settings.job" "%WEBJOB_PATH%"
 
-:: 9. update build.txt
+:: 5. update build.txt
 call :ExecuteCmd echo %SCM_COMMIT_ID% > %DEPLOYMENT_TARGET%\build.txt
 IF !ERRORLEVEL! NEQ 0 (
   call :ExecuteCmd echo %SCM_COMMIT_ID% > %DEPLOYMENT_TARGET%\build.txt
