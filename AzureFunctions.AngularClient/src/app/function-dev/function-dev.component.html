@@ -41,7 +41,7 @@
 
             <div #editorContainer class="dev-full">
                 <div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl" [label]="'functionDev_functionUrl' | translate"></copy-pre></div>
-                <div *ngIf="webHookType === 'github'"><copy-pre [content]="secrets?.key || functionKey || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>
+                <div *ngIf="webHookType === 'github'"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>
 
                 <div monacoEditor id="code" class="monaco dev-full"
                      (onSave)="saveScript()"

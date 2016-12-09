@@ -240,7 +240,7 @@ export class FunctionsService {
             console.error(e);
         }
 
-        return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
+        return this._http.get('api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
@@ -614,7 +614,7 @@ export class FunctionsService {
             console.error(e);
         }
 
-        return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+        return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<BindingConfig>(r => {
@@ -647,7 +647,7 @@ export class FunctionsService {
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(this.retryGetTrialResource)
             .map<UIResource>(r => r.json());
     }
 
@@ -665,7 +665,7 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(this.retryCreateTrialResource)
             .map<UIResource>(r => r.json());
     }
 
@@ -777,7 +777,7 @@ export class FunctionsService {
     }
 
     getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
+        return this._http.get('api/latestruntime', { headers: this.getPortalHeaders() })
             .map(r => {
                 return r.json();
             })
@@ -948,7 +948,7 @@ export class FunctionsService {
     }
 
     private getLocolizedResources(lang: string, runtime: string): Observable<any> {
-        return this._http.get(Constants.serviceHost + `api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
+        return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<any>(r => {
                 var resources = r.json();
@@ -965,6 +965,28 @@ export class FunctionsService {
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan<number>((errorCount, err: Response) => {
             if (errorCount >= 10) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+        }, 0).delay(1000);
+    }
+
+    private retryCreateTrialResource(error: Observable<any>): Observable<any> {
+        return error.scan<number>((errorCount, err: Response) => {
+            // 400 => you already have a resource, 403 => No login creds provided
+            if (err.status === 400 || err.status === 403 || errorCount >= 10) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+        }, 0).delay(1000);
+    }
+
+    private retryGetTrialResource(error: Observable<any>): Observable<any> {
+        return error.scan<number>((errorCount, err: Response) => {
+            // 403 => No login creds provided
+            if (err.status === 403 || errorCount >= 10) {
                 throw err;
             } else {
                 return errorCount + 1;
