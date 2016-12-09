@@ -96,7 +96,7 @@ IF /I "AzureFunctions.sln" NEQ "" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-:: 1. Build to the temporary path
+:: 1. Build backend WebApi to the temporary path
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   echo "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
   call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
@@ -105,45 +105,45 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 echo Handling frontend Angular2 project.
-:: 2. Bundle angular2 app
+:: 2. Bundle frontend angular2 app to the temporary path
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
-  pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
-  echo Restore npm packages
-  call :ExecuteCmd npm install
-  IF !ERRORLEVEL! NEQ 0 (
+	pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
+	echo Restore npm packages
 	call :ExecuteCmd npm install
-	IF !ERRORLEVEL! NEQ 0 goto error
-  )
-  echo Bundle angular2 app
-  call :ExecuteCmd ng build --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
-  IF !ERRORLEVEL! NEQ 0 (
-      call :ExecuteCmd ng build --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
-      IF !ERRORLEVEL! NEQ 0 goto error
-  )
+	IF !ERRORLEVEL! NEQ 0 (
+		call :ExecuteCmd npm install
+		IF !ERRORLEVEL! NEQ 0 goto error
+	)
+	echo Bundle angular2 app
+	call :ExecuteCmd ng build --target=production --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+	IF !ERRORLEVEL! NEQ 0 (
+		call :ExecuteCmd ng build --target=production --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+		IF !ERRORLEVEL! NEQ 0 goto error
+	)
   
-:: 3. Copy angular output to the temporary path
-IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
-    call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
-    :: http://ss64.com/nt/robocopy-exit.html
-    IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
-    IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
-    IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
-    IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
-    IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
-    IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
-    IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
-    IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
-    IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
-    IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
-    IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
-    IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
-    IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
-    IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
-    IF %ERRORLEVEL% EQU 2 echo XTRA
-    IF %ERRORLEVEL% EQU 1 echo OKCOPY
-    IF %ERRORLEVEL% EQU 0 echo No Change
-) 
+	each Copy angular output to the temporary path
+	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
+	echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		:: http://ss64.com/nt/robocopy-exit.html
+		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
+		IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
+		IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
+		IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
+		IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
+		IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
+		IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
+		IF %ERRORLEVEL% EQU 2 echo XTRA
+		IF %ERRORLEVEL% EQU 1 echo OKCOPY
+		IF %ERRORLEVEL% EQU 0 echo No Change
+	) 
 )
 
 :: 4. KuduSync
