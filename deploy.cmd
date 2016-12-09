@@ -115,9 +115,9 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd ng build --target=production --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+	call :ExecuteCmd ng build --environment=prod --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --target=production --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd ng build --environment=prod --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
   
