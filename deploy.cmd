@@ -89,8 +89,23 @@ echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
 
+echo Handling backend WebApi project.
+echo Restore NuGet packages
+IF /I "AzureFunctions.sln" NEQ "" (
+  call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureFunctions.sln"
+  IF !ERRORLEVEL! NEQ 0 goto error
+)
+
+:: 1. Build to the temporary path
+IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
+  echo "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+) ELSE (
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+)
+
 echo Handling frontend Angular2 project.
-:: 1. Bundle angular2 app to the temporary path
+:: 2. Bundle angular2 app
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
   pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
   echo Restore npm packages
@@ -99,36 +114,45 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 	call :ExecuteCmd npm install
 	IF !ERRORLEVEL! NEQ 0 goto error
   )
-  echo Bundle angular2 app to the temporary path
-  call :ExecuteCmd ng build --output-path="%DEPLOYMENT_TEMP%"
+  echo Bundle angular2 app
+  call :ExecuteCmd ng build --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
   IF !ERRORLEVEL! NEQ 0 (
-      call :ExecuteCmd ng build --output-path="%DEPLOYMENT_TEMP%"
+      call :ExecuteCmd ng build --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
       IF !ERRORLEVEL! NEQ 0 goto error
   )
-)
-
-echo Handling backend WebApi project.
-echo Restore NuGet packages
-IF /I "AzureFunctions.sln" NEQ "" (
-  call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureFunctions.sln"
-  IF !ERRORLEVEL! NEQ 0 goto error
-)
-
-
-:: 2. Build to the temporary path
+  
+:: 3. Copy angular output to the temporary path
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
-) ELSE (
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+    call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+    :: http://ss64.com/nt/robocopy-exit.html
+    IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
+    IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
+    IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
+    IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
+    IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
+    IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
+    IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
+    IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
+    IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
+    IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
+    IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
+    IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
+    IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
+    IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
+    IF %ERRORLEVEL% EQU 2 echo XTRA
+    IF %ERRORLEVEL% EQU 1 echo OKCOPY
+    IF %ERRORLEVEL% EQU 0 echo No Change
+) 
 )
 
-IF !ERRORLEVEL! NEQ 0 goto error
-
-:: 3. KuduSync
+:: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
+
+IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 4. Copy templates-update webjob
 SET WEBJOB_PATH=%HOME%\site\wwwroot\App_Data\jobs\triggered\templates-update
