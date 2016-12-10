@@ -647,7 +647,7 @@ export class FunctionsService {
             + (provider ? "&provider=" + provider : "");
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(this.retryGetTrialResource)
             .map<UIResource>(r => r.json());
     }
 
@@ -665,7 +665,7 @@ export class FunctionsService {
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(this.retryCreateTrialResource)
             .map<UIResource>(r => r.json());
     }
 
@@ -970,6 +970,28 @@ export class FunctionsService {
                     return errorCount + 1;
                 }
             }, 0).delay(1000);
+    }
+
+    private retryCreateTrialResource(error: Observable<any>): Observable<any> {
+        return error.scan<number>((errorCount, err: Response) => {
+            // 400 => you already have a resource, 403 => No login creds provided
+            if (err.status === 400 || err.status === 403 || errorCount >= 10) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+        }, 0).delay(1000);
+    }
+
+    private retryGetTrialResource(error: Observable<any>): Observable<any> {
+        return error.scan<number>((errorCount, err: Response) => {
+            // 403 => No login creds provided
+            if (err.status === 403 || errorCount >= 10) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+        }, 0).delay(1000);
     }
 
     private checkCorsOrDnsErrors(error: Response): Observable<Response> {

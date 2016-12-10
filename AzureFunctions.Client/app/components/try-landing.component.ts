@@ -157,18 +157,18 @@ export class TryLandingComponent implements OnInit {
         // TODO: find a better way to handle this
         var tryfunctionContainer = <FunctionContainer>{
             id: resource.csmId,
-            name: resource.csmId.substring(resource.csmId.lastIndexOf('/'), resource.csmId.length),
+            name: resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length),
             type: "Microsoft.Web/sites",
             kind: "functionapp",
             location: "West US",
             properties: {
                 hostNameSslStates: [
                     {
-                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/'), resource.csmId.length) + ".scm.azurewebsites.net"),
+                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".scm.azurewebsites.net"),
                         hostType: 1
                     },
                     {
-                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/'), resource.csmId.length) + ".azurewebsites.net"),
+                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net"),
                         hostType: 0
                     }],
                 sku: "Free",
