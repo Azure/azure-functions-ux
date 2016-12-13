@@ -79,22 +79,23 @@ export class BindingComponent {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
-            debugger;
-            this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
-            if (this.isDirty || this.isDirty === undefined) {
-                this.isDirty = false;
-            }
 
-
-            if (this.canDelete) {
-                if (this.isDirty) {
-                    this._broadcastService.setDirtyState("function_integrate");
-                    this._portalService.setDirtyState(true);
-                } else {
-                    this._broadcastService.clearDirtyState("function_integrate", true);
-                    this._portalService.setDirtyState(false);
+            setTimeout(() => {
+                this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
+                if (this.isDirty === undefined) {
+                    this.isDirty = false;
                 }
-            }
+
+                if (this.canDelete) {
+                    if (this.isDirty) {
+                        this._broadcastService.setDirtyState("function_integrate");
+                        this._portalService.setDirtyState(true);
+                    } else {
+                        this._broadcastService.clearDirtyState("function_integrate", true);
+                        this._portalService.setDirtyState(false);
+                    }
+                }
+            });
         });
     }
 
