@@ -88,7 +88,7 @@ export class TopBarComponent implements OnInit {
     }
 
     selectTenant(tenant: TenantInfo) {
-        window.location.href = `api/switchtenants/${tenant.TenantId}`;
+        window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
     }
 
     onAppMonitoringClicked() {

@@ -79,7 +79,12 @@ export class BindingComponent {
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
+            debugger;
             this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
+            if (this.isDirty || this.isDirty === undefined) {
+                this.isDirty = false;
+            }
+
 
             if (this.canDelete) {
                 if (this.isDirty) {
