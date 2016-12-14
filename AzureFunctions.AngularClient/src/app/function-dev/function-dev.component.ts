@@ -362,7 +362,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private setFunctionInvokeUrl(key?: string) {
-        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
+        setTimeout(() => {
+            this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
+        });
+
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
@@ -394,7 +397,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?');
 
-                this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + path;
+                setTimeout(() => {
+                    this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + path;
+                });
 
             });
         }
