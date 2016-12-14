@@ -87,50 +87,53 @@ export class FunctionNewComponent {
         this._bindingComponents = [];
         this._globalStateService.setBusyState();
         this._functionsService.getTemplates().subscribe((templates) => {
-            this.selectedTemplate = templates.find((t) => t.id === templateName);
+            setTimeout(() => {
+                this.selectedTemplate = templates.find((t) => t.id === templateName);
 
-            var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
-                return c === "Experimental";
-            });
-            this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
-
-            this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-            this._functionsService.getBindingConfig().subscribe((bindings) => {
-                this._globalStateService.clearBusyState();
-                this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-
-                this.model.config = this.bc.functionConfigToUI({
-                    disabled: false,
-                    bindings: this.selectedTemplate.function.bindings
-                }, bindings.bindings);
-
-                this.model.config.bindings.forEach((b) => {
-                    b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
+                var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
+                    return c === "Experimental";
                 });
+                this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
 
-                this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
+                this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                this._functionsService.getBindingConfig().subscribe((bindings) => {
+                    this._globalStateService.clearBusyState();
+                    this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                this.model.setBindings();
-                this.validate();
+                    this.model.config = this.bc.functionConfigToUI({
+                        disabled: false,
+                        bindings: this.selectedTemplate.function.bindings
+                    }, bindings.bindings);
 
-                var that = this;
-                if (this._action) {
-
-                    var binding = this.model.config.bindings.find((b) => {
-                        return b.type.toString() === this._action.binding;
+                    this.model.config.bindings.forEach((b) => {
+                        b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
                     });
 
-                    if (binding) {
-                        this._action.settings.forEach((s, index) => {
-                            var setting = binding.settings.find(bs => {
-                                return bs.name === s;
-                            });
-                            if (setting) {
-                                setting.value = this._action.settingValues[index];
-                            }
+                    this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
+
+                    this.model.setBindings();
+                    this.validate();
+
+                    var that = this;
+                    if (this._action) {
+
+                        var binding = this.model.config.bindings.find((b) => {
+                            return b.type.toString() === this._action.binding;
                         });
+
+                        if (binding) {
+                            this._action.settings.forEach((s, index) => {
+                                var setting = binding.settings.find(bs => {
+                                    return bs.name === s;
+                                });
+                                if (setting) {
+                                    setting.value = this._action.settingValues[index];
+                                }
+                            });
+                        }
                     }
-                }
+
+                });
             });
         });
     }

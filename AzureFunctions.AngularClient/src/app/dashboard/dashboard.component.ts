@@ -78,8 +78,7 @@ export class DashboardComponent implements OnChanges {
             }
 
             if (selectedTabId) {
-                this.tabId = selectedTabId;
-                this.onChangeTab(this.tabId);
+                this.onChangeTab(selectedTabId);
             }
         });
 
@@ -99,7 +98,9 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionSelected, fi => {
-            this.action = null;
+            if (fi.config) {
+                this.action = null;
+            }
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
 
@@ -171,7 +172,9 @@ export class DashboardComponent implements OnChanges {
     }
 
     onChangeTab(event: string) {
-        this.tabId = event;
+        setTimeout(() => {
+            this.tabId = event;
+        });
     }
 
     onAppMonitoringClicked() {
