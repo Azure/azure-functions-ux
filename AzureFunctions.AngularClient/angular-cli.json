@@ -10,7 +10,6 @@
       "assets": [
         "assets",
         "images",
-        "favicon.ico",
         "styles.css"
       ],
       "index": "index.html",
