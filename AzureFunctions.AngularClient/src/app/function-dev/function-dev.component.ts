@@ -11,7 +11,6 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalService} from '../shared/services/portal.service';
 import {BindingType} from '../shared/models/binding';
-//import {CopyPreComponent} from './copy-pre.component';
 import {RunFunctionResult} from '../shared/models/run-function-result';
 import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
@@ -24,7 +23,6 @@ import {AiService} from '../shared/services/ai.service';
 import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
 import {BindingManager} from '../shared/models/binding-manager';
 import {RunHttpComponent} from '../run-http/run-http.component';
-//import {FunctionKeysComponent} from './function-keys.component';
 
 
 @Component({

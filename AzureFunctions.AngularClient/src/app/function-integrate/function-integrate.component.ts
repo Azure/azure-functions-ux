@@ -9,7 +9,6 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {BindingManager} from '../shared/models/binding-manager';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {MonacoEditorDirective} from '../directives/monaco-editor.directive';
 
 @Component({
   selector: 'function-integrate',

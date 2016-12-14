@@ -1,5 +1,4 @@
 import {Component, Input, Inject, ElementRef} from '@angular/core';
-//import {PopOverComponent} from './pop-over.component';
 import {UtilitiesService} from '../shared/services/utilities.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 

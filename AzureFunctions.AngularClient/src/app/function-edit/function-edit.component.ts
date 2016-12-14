@@ -4,18 +4,12 @@ import {PortalService} from '../shared/services/portal.service';
 import {UserService} from '../shared/services/user.service';
 import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
-//import {FunctionDesignerComponent} from './/function-designer.component';
-//import {LogStreamingComponent} from './log-streaming.component';
 import {FunctionDevComponent} from '../function-dev/function-dev.component';
-//import {FunctionIntegrateComponent} from './function-integrate.component';
 import {FunctionConfig} from '../shared/models/function-config';
 import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../shared/models/function-secrets';
-//import {FunctionManageComponent} from './function-manage.component';
-//import {FunctionIntegrateV2Component} from './shared/function-integrate-v2.component';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-//import {FunctionMonitorComponent} from './function-monitor.component'
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 

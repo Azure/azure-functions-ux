@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FunctionConfig} from '../shared/models/function-config';
 import {FunctionsService} from '../shared/services/functions.service';
 import {DesignerSchema, Binding, BindingOption} from '../shared/models/designer-schema';
-//import {BindingDesignerComponent} from './binding-designer.component';
 
 @Component({
   selector: 'function-designer',

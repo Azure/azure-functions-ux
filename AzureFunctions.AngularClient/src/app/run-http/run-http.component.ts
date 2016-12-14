@@ -3,7 +3,6 @@ import {HttpRunModel, Param} from '../shared/models/http-run';
 import {BindingType} from '../shared/models/binding'
 import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-//import {PopOverComponent} from './pop-over.component';
 import {Constants} from '../shared/models/constants';
 
 

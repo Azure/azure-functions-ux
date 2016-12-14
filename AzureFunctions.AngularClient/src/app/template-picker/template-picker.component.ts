@@ -1,18 +1,14 @@
 import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import {TemplatePickerType, Template} from '../shared/models/template-picker';
-//import {BindingComponent} from './binding.component';
 import {DirectionType, Binding} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/models/template';
 import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-//import {DropDownComponent} from './shared/drop-down.component';
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {TooltipContentComponent} from './tooltip-content.component';
-//import {TooltipComponent} from './tooltip.component';
 
 @Component({
     selector: 'template-picker',

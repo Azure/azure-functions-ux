@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-//import {DashboardComponent} from './dashboard/dashboard.component';  //Com
-//import {GettingStartedComponent} from './getting-started.component';   //Com
 import {PortalService} from './shared/services/portal.service';
 import {FunctionsService} from './shared/services/functions.service';
 import {BroadcastService} from './shared/services/broadcast.service';
@@ -10,12 +8,10 @@ import {ArmService} from './shared/services/arm.service';
 import {FunctionContainer} from './shared/models/function-container';
 import {UserService} from './shared/services/user.service';
 import {Observable} from 'rxjs/Rx';
-//import {ErrorListComponent} from './error-list.component';  // Com
 import {MonitoringService} from './shared/services/app-monitoring.service';
 import {BackgroundTasksService} from './shared/services/background-tasks.service';
 import {GlobalStateService} from './shared/services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
-//import {TryLandingComponent} from './try-landing.component';  // Com
 import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 import {PortalResources} from './shared/models/portal-resources';
 

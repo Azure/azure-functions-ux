@@ -7,7 +7,6 @@ import {Observable, Subscription, Subject} from 'rxjs/Rx';
 import {UserService} from '../shared/services/user.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-//import {SideBarFilterPipe} from './pipes/sidebar.pipe';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';

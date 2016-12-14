@@ -1,11 +1,5 @@
 import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
 import {SidebarComponent} from '../sidebar/sidebar.component';
-//import {TopBarComponent} from './top-bar.component';
-//import {FunctionEditComponent} from './function-edit.component';
-//import {DropDownComponent} from './drop-down.component';
-//import {AppMonitoringComponent} from './app-monitoring.component';
-//import {AppSettingsComponent} from './app-settings.component';
-//import {TrialExpiredComponent} from './trial-expired.component';
 import {FunctionsService} from '../shared/services/functions.service';
 import {UserService} from '../shared/services/user.service';
 import {PortalService} from '../shared/services/portal.service';
@@ -20,17 +14,14 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 import {ServerFarm} from '../shared/models/server-farm';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-//import {FunctionNewComponent} from './function-new.component';
-//import {IntroComponent} from './intro.component';
-//import {TutorialComponent} from './tutorial.component';
 import {FunctionContainer} from '../shared/models/function-container';
 import {ErrorEvent} from '../shared/models/error-event';
-//import {SourceControlComponent} from './source-control.component';
+
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
-//import {TryNowComponent} from './try-now.component';
+
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {Response, ResponseType} from '@angular/http';
 import {ArmService} from '../shared/services/arm.service';

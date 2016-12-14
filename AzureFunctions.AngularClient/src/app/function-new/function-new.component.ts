@@ -2,7 +2,6 @@ import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, Afte
 import {NgClass} from '@angular/common';
 import {FunctionsService} from '../shared/services/functions.service';
 import {BindingComponent} from '../binding/binding.component';
-//import {TemplatePickerComponent} from './template-picker.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
 import {BindingList} from '../shared/models/binding-list';
@@ -15,7 +14,6 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {ErrorEvent} from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
-//import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';

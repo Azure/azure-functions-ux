@@ -4,7 +4,6 @@ import {Http, Headers } from '@angular/http';
 import {MonitoringService} from '../shared/services/app-monitoring.service';
 import {Observable} from 'rxjs/Rx';
 import {UsageVolume} from '../shared/models/app-monitoring-usage'
-//import {nvD3} from 'ng2-nvd3';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';

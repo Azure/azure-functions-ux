@@ -7,13 +7,9 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {SettingType, ResourceType} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
-//import {DropDownComponent} from './shared/drop-down.component';
-//import {PopOverComponent} from './pop-over.component';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
-//import {TooltipContentComponent} from './tooltip-content.component';
-//import {TooltipComponent} from './tooltip.component';
 
 
 @Component({

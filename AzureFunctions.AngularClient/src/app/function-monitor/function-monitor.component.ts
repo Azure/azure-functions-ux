@@ -1,9 +1,6 @@
 import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionsService} from '../shared/services/functions.service';
-//import {CORE_DIRECTIVES} from '@angular/common';
-//import {TableFunctionMonitor} from './table-function-monitor.component';
-//import {AggregateBlock} from './aggregate-block.component';
 import {FunctionMonitorService} from '../shared/services/function-monitor.service';
 import {FunctionInvocations} from '../shared/models/function-monitor';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';

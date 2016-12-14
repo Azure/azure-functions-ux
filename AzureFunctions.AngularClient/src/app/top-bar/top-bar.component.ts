@@ -11,7 +11,6 @@ import {Constants} from '../shared/models/constants';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {TryNowComponent} from './try-now.component'; Com
 
 enum TopbarButton {
     None = <any>"None",

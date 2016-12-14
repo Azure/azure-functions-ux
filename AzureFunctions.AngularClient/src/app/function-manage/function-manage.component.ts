@@ -6,12 +6,10 @@ import {FunctionConfig} from '../shared/models/function-config';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {SelectOption} from '../shared/models/select-option';
-//import {RadioSelectorComponent} from './shared/radio-selector.component';
 import {PortalService} from '../shared/services/portal.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {FunctionKeysComponent} from './function-keys.component';
 
 @Component({
   selector: 'function-manage',

@@ -8,8 +8,6 @@ import {FunctionsService} from '../shared/services/functions.service';
 import {Constants} from '../shared/models/constants';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
-//import {TooltipContentComponent} from './tooltip-content.component';
-//import {TooltipComponent} from './tooltip.component';
 import {AiService} from '../shared/services/ai.service';
 
 @Component({

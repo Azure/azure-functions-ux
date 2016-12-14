@@ -6,8 +6,6 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {User} from '../shared/models/user';
 import {Subscription} from '../shared/models/subscription';
 import {DropDownElement} from '../shared/models/drop-down-element';
-//import {DropDownComponent} from '../drop-down.component';
-//import {TopBarComponent} from '../top-bar.component';
 import {ArmService} from '../shared/services/arm.service';
 import {FunctionContainer} from '../shared/models/function-container';
 import {Observable} from 'rxjs/Rx';

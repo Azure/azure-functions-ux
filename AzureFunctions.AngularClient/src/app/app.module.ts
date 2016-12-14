@@ -7,7 +7,6 @@ import {TranslateModule} from 'ng2-translate';
 import { nvD3 } from 'ng2-nvd3';
 import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
-//import {FunctionsExceptionHandler} from './handlers/functions.exception-handler';
 import {FunctionsService} from './shared/services/functions.service';
 import {UserService} from './shared/services/user.service';
 import {PortalService} from './shared/services/portal.service';

@@ -12,8 +12,6 @@ import {ErrorEvent} from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {TooltipContentComponent} from './tooltip-content.component';
-//import {TooltipComponent} from './tooltip.component';
 
 @Component({
   selector: 'intro',

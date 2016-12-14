@@ -7,7 +7,6 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {ErrorEvent} from '../shared/models/error-event';
 import {UtilitiesService} from '../shared/services/utilities.service';
-//import {PopOverComponent} from './pop-over.component';
 import {Subscription} from 'Rxjs/rx';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {GlobalStateService} from '../shared/services/global-state.service';
