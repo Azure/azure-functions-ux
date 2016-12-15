@@ -60,6 +60,16 @@ IF NOT DEFINED KUDU_SYNC_CMD (
   :: Locally just running "kuduSync" would also work
   SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
 )
+
+IF NOT DEFINED ANGUALR_CLI (
+  :: Install angular-cli
+  echo Installing angular-cli Sync
+  call npm install -g angular-cli --silent
+  IF !ERRORLEVEL! NEQ 0 goto error
+  
+  SET ANGUALR_CLI=true
+)
+
 IF NOT DEFINED DEPLOYMENT_TEMP (
   SET DEPLOYMENT_TEMP=%temp%\___deployTemp%random%
   SET CLEAN_LOCAL_DEPLOYMENT_TEMP=true
