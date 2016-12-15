@@ -9,11 +9,10 @@
 > cd AzureFunctionsPortal
 > nuget restore
 > msbuild AzureFunctions.sln
-> cd AzureFunctions.Client
+> npm install -g angular-cli
+> cd AzureFunctions.AngularClient
 > npm install
-> npm run jspm:i
-> npm run bower install
-> npm run tsc:w
+> ng build
  ```
 
 2. Needed environment variables
@@ -24,15 +23,15 @@ AADClientId = <GUID>
 AADClientSecret = <string>
  ```
 
-3. Create a new IIS site from `inetmgr` with `https` binding on `44300` that points to `..\\AzureFunctionsPortal\\AzureFunctions.Client` for root path.
+3. Create a new IIS site from `inetmgr` with `https` binding on `44300` that points to `..\\AzureFunctionsPortal\\AzureFunctions` for root path.
 
-4. Create `App_Data\\Templates` folder under `..\\AzureFunctionsPortal\\AzureFunctions.Client` and clone `git@github.com:Azure/azure-webjobs-sdk-templates.git` in there.
+4. Create `App_Data\\Templates` folder under `..\\AzureFunctionsPortal\\AzureFunctions` and clone `git@github.com:Azure/azure-webjobs-sdk-templates.git` in there.
 
 5. Run `iisrest` from an elevated cmd.
 
 5. Visit `https://localhost:44300` (note that logins only work with accounts in your AAD tenant used above)
 
-6. **Optional**: You can run `npm run tsc:w` in `..\\AzureFunctionsPortal\\AzureFunctions.Client` to launch typescript compiler in watch mode.
+6. **Optional**: You can run `ng build --watch` in `..\\AzureFunctionsPortal\\AzureFunctions.AngularClient` to launch ng builder in watch mode.
 
 
 ## Code and branches
