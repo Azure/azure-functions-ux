@@ -131,7 +131,31 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 echo Handling frontend Angular2 project.
 :: 2. Bundle frontend angular2 app to the temporary path
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
-	pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
+
+	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
+	echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
+		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
+		:: http://ss64.com/nt/robocopy-exit.html
+		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
+		IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
+		IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
+		IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
+		IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
+		IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
+		IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
+		IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
+		IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
+		IF %ERRORLEVEL% EQU 2 echo XTRA
+		IF %ERRORLEVEL% EQU 1 echo OKCOPY
+		IF %ERRORLEVEL% EQU 0 echo No Change
+	) 
+
+	pushd "%ARTIFACTS%\AzureFunctions.AngularClient"
 	echo Restore npm packages
 	call :ExecuteCmd npm install
 	IF !ERRORLEVEL! NEQ 0 (
@@ -139,16 +163,16 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd ng build --environment=prod --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+	call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --environment=prod --output-path="%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
   
 	each Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-	echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
-		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
 		:: http://ss64.com/nt/robocopy-exit.html
 		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
 		IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
