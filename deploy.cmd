@@ -63,8 +63,9 @@ IF NOT DEFINED KUDU_SYNC_CMD (
 
 IF NOT DEFINED ANGUALR_CLI (
   :: Install angular-cli
-  echo Installing angular-cli Sync
-  call npm install -g angular-cli --silent
+  echo Installing angular-cli
+  call npm install -g angular-cli
+  
   IF !ERRORLEVEL! NEQ 0 goto error
   
   SET ANGUALR_CLI=true
