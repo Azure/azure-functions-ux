@@ -12,7 +12,7 @@
 > npm install -g angular-cli
 > cd AzureFunctions.AngularClient
 > npm install
-> ng build
+> ng build --watch
  ```
 
 2. Needed environment variables
