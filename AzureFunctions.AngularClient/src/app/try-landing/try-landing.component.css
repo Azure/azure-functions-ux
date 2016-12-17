@@ -203,7 +203,7 @@ button {
     }
 
 div.google-login {
-    background: url(/images/Logins/google.png) no-repeat top left;
+    background: url(images/Logins/google.png) no-repeat top left;
     display: inline-block;
 }
 div.google-login:hover {
@@ -232,7 +232,7 @@ div.google-login:hover {
 }
 
 div.microsoft-login {
-    background: url(/images/Logins/microsoftaccount.png) no-repeat top left;
+    background: url(images/Logins/microsoftaccount.png) no-repeat top left;
     background-position: 0 0;
     background-size: 80%;
     width: 265px;
@@ -250,7 +250,7 @@ div.microsoft-login:hover {
 	cursor: pointer;
 }
 div.facebook-login {
-    background: url(/images/Logins/facebook.png) no-repeat top left;
+    background: url(images/Logins/facebook.png) no-repeat top left;
     background-position: 0 0;
     background-size: 80%;
     width: 265px;
@@ -270,7 +270,7 @@ div.facebook-login:hover {
 }
 
 div.vk-login {
-    background: url(/images/Logins/vk.png) no-repeat top left;
+    background: url(images/Logins/vk.png) no-repeat top left;
     background-position: 0 0;
     background-size: 80%;
     width: 265px;
