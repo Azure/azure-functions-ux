@@ -1,9 +1,12 @@
 <div class="wrapper">
+    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'functionEdit_readOnly' | translate }}
+    </div>
     <div id="function-settings">
         <div class="configure-wrapper">
             <div>Function State </div>
             <div *ngIf="selectedFunction">
-                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled" (value)="valueChange.next($event)"></radio-selector>
+                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!selectedFunction.config.disabled" (value)="valueChange.next($event)"></radio-selector>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input} from '@angular/core';
 import {SelectOption} from '../shared/models/select-option';
 @Component({
   selector: 'radio-selector',
@@ -7,6 +7,7 @@ import {SelectOption} from '../shared/models/select-option';
   inputs: ['options', 'defaultValue']
 })
 export class RadioSelectorComponent<T> {
+    @Input() disabled: boolean;
     public value: EventEmitter<T>;
     public defaultValue: T;
     private _options: SelectOption<T>[];
@@ -27,7 +28,9 @@ export class RadioSelectorComponent<T> {
     }
 
     select(option: SelectOption<T>) {
-        this.defaultValue = option.value;
-        this.value.emit(option.value);
+        if (!this.disabled) {
+            this.defaultValue = option.value;
+            this.value.emit(option.value);
+        }
     }
 }
