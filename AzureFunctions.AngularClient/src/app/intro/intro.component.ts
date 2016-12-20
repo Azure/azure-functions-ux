@@ -23,6 +23,7 @@ export class IntroComponent {
     selectedFunction: string;
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
+    public disabled: boolean;
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -32,16 +33,17 @@ export class IntroComponent {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
+        this.disabled = this._broadcastService.getDirtyState("function_disabled");
     }
 
     onFunctionCliked(selectedFunction: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this.disabled) {
             this.selectedFunction = selectedFunction;
         }
     }
 
     onLanguageCliked(selectedLanguage: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this.disabled) {
             this.selectedLanguage = selectedLanguage;
         }
     }
