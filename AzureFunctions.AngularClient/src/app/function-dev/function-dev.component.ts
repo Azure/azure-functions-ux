@@ -186,11 +186,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.selectedKeyStream = new Subject<string>();
         this.selectedKeyStream
             .subscribe(key => {
+                if (this.authLevel.toLowerCase() === "admin") {
+                    this.autoSelectAdminKey = true;
+                }
+
                 if (key) {
                     this.setFunctionInvokeUrl(key);
                     this.setFunctionKey(this.functionInfo);
-                } else {
-                    this.autoSelectAdminKey = true;
                 }
             });
     }

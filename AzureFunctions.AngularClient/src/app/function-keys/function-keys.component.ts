@@ -47,6 +47,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     : this._functionsService.getFunctionHostKeys();
             })
             .subscribe(keys => {
+                debugger;
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {
@@ -58,7 +59,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.keys = keys.keys;
                 let selectedKey = this.keys.find(k => k.selected);
                 if (this.enableKeySelect && this.autoSelect && !selectedKey && this.keys.length > 0) {
-                    var key = this.keys.find(k => k.name !== "_master") || this.keys[0];
+                    var key = this.keys.find(k => k.name === "_master") || this.keys[0];
                     this.selectKey(key);
                 } else if (selectedKey) {
                     this.selectKey(selectedKey);
