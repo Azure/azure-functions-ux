@@ -860,7 +860,7 @@
     <value>Azure Functions release notes.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Admin Keys (All functions)</value>
+    <value>Host Keys (All functions)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Add new admin key</value>

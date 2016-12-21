@@ -70,7 +70,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin Keys (All functions).
+        ///   Looks up a localized string similar to Host Keys (All functions).
         /// </summary>
         internal static string adminKeys_title {
             get {
