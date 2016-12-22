@@ -4,7 +4,7 @@ import {PortalService} from './portal.service';
 import {UserService} from './user.service';
 import {FunctionsService} from '../services/functions.service';
 import {GlobalStateService} from '../services/global-state.service';
-import {FunctionInvocations, FunctionInvocationDetails, FunctionAggregates} from '../models/function-monitor'
+import {FunctionInvocations, FunctionInvocationDetails, FunctionAggregates, FunctionStats} from '../models/function-monitor';
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
@@ -37,12 +37,21 @@ export class FunctionMonitorService {
         return headers;
     }
 
-    getDataForSelectedFunction(funcName: string, host: string) {
-        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?host=" + host + "&limit=11";
+    getFunctionId(funcName: string, host: string, skipStats?: boolean) {
+        skipStats = !skipStats ? false : skipStats;
+        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/definitions?host=" + host + "&limit=11&skipStats=" + skipStats;
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
         })
             .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === funcName.toLowerCase()));
+    }
+
+    getSelectedFunctionAggregates(functionId: string) {
+        var url = this._functionsService.getScmUrl() + "/azurejobs/api/functions/invocations/" + functionId + "/timeline";
+        return this._http.get(url, {
+            headers: this.getHeadersForScmSite(this._globalStateService.ScmCreds)
+        })
+            .map<FunctionStats[]>(r => r.json())
     }
 
 

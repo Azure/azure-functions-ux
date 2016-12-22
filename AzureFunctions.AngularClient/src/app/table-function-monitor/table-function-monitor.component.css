@@ -94,3 +94,7 @@ textarea{
     background-color: lightgray;
     color: white;
 }
+
+.success{
+    color: green;
+}

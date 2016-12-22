@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionMonitorService} from '../shared/services/function-monitor.service';
-import {FunctionInvocations} from '../shared/models/function-monitor';
+import {FunctionInvocations, FunctionStats} from '../shared/models/function-monitor';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';
@@ -10,9 +10,9 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 
 @Component({
-  selector: 'function-monitor',
-  templateUrl: './function-monitor.component.html',
-  styleUrls: ['./function-monitor.component.css']
+    selector: 'function-monitor',
+    templateUrl: './function-monitor.component.html',
+    styleUrls: ['./function-monitor.component.css']
 })
 export class FunctionMonitorComponent implements OnChanges {
     @Input() selectedFunction: FunctionInfo;
@@ -67,12 +67,8 @@ export class FunctionMonitorComponent implements OnChanges {
         this._funcName = this.selectedFunction.name;
         this._functionsService.getFunctionAppId().subscribe(host => {
             var hostId = !!host ? host : "";
-            this._functionMonitorService.getDataForSelectedFunction(this._funcName, hostId).subscribe(data => {
+            this._functionMonitorService.getFunctionId(this._funcName, hostId).subscribe(data => {
                 this.functionId = !!data ? data.functionId : "";
-                this.successAggregate = !!data ? data.successCount.toString() :
-                    this._translateService.instant(PortalResources.appMonitoring_noData);
-                this.errorsAggregate = !!data ? data.failedCount.toString() :
-                    this._translateService.instant(PortalResources.appMonitoring_noData);
 
                 // if no data from function monitoring we don't call the Invocations API since this will return 404
                 if (!!data) {
@@ -80,7 +76,19 @@ export class FunctionMonitorComponent implements OnChanges {
                         this.rows = result;
                         this._globalStateService.clearBusyState();
                     });
+
+                    this._functionMonitorService.getSelectedFunctionAggregates(this.functionId).subscribe((aggregates: FunctionStats[]) => {
+                        var successStats = 0;
+                        var errorStats = 0;
+                        aggregates.forEach((statItem: FunctionStats) => {
+                            successStats += statItem.totalPass;
+                            errorStats += statItem.totalFail;
+                        });
+                        this.successAggregate = successStats.toString();
+                        this.errorsAggregate = errorStats.toString();
+                    });
                 } else {
+                    this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.appMonitoring_noData);
                     this._globalStateService.clearBusyState();
                 }
             });

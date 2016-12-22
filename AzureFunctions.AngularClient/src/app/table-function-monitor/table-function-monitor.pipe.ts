@@ -23,9 +23,16 @@ export class TableFunctionMonitorPipe implements PipeTransform {
             case 'text':
                 return input;
             case 'icon':
-                return input.toLowerCase() === "completedsuccess" ? `<i class="fa fa-check success" style="color: green"></i>` :
-                    input.toLowerCase() === "running" ? `<i class="fa fa-ellipsis-h" style="color: blue"></i>` :
-                        `<i class="fa fa-times" style="color: red"></i>`;
+                if (input.toLowerCase() === "completedsuccess") {
+                    return `<i style="color: green" class="fa fa-check success"></i>`;
+                }
+                if (input.toLowerCase() === "running") {
+                    return `<i class="fa fa-ellipsis-h" style="color: blue" ></i>`;
+                }
+                if (input.toLowerCase() === "neverfinished") {
+                    return `<i style="color: orange" class="fa fa-exclamation-circle"></i>`;
+                }
+                return `<i class="fa fa-times" style="color: red"></i>`;
             case 'number':
                 parsedFloat = !isNaN(parseFloat(input)) ? parseFloat(input) : 0;
                 format = pipeArgs.length > 1 ? pipeArgs[1] : null;

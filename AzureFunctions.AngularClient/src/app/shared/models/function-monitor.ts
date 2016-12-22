@@ -30,3 +30,11 @@ export interface FunctionAggregates {
     failedCount: number,
     isRunning: boolean
 }
+
+export interface FunctionStats {
+    startBucket: number,
+    start: string,
+    totalPass: number,
+    totalFail: number,
+    totalRun: number
+}
