@@ -1,0 +1,35 @@
+%button{
+    margin-left: 15px;
+    display: inline;
+    padding: 5px 45px 5px 45px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: $body-bg-color;
+    background-color: $button-bg-color;
+}
+
+.custom-button{
+    @extend %button;
+    border: 1px solid transparent;    
+}
+
+.custom-button-invert{
+    @extend %button;
+    border: 2px solid $button-bg-color;
+    background-color: $body-bg-color;
+    color: $button-bg-color;
+}
+
+.custom-button-danger{
+    @extend %button;
+    background-color: $danger-color;
+    color: $body-bg-color;
+}
+
+.custom-button-disabled{
+    @extend %button;
+    cursor: not-allowed;
+    background-color : darken($chrome-color, 10%);    
+}

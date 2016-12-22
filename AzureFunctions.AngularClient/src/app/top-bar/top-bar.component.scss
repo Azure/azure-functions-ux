@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 /* top-bar styles */
 .logo {
     color: #419BF3;
@@ -17,7 +19,7 @@
 
 .top-bar {
     background-color: #E6E7E8;
-    color: #419BF3;
+    color: $link-color;
     height: 40px;
     z-index: 100;
 }
@@ -26,7 +28,6 @@
     background-color: #FFF;
     color: #000
 }
-
 
 .top-bar .left {
     float: left;
@@ -103,13 +104,13 @@
 }
 
 .top-bar-tool:hover {
-    background-color: white;
+    background-color: $body-bg-color;
     color: black;
 }
 
 .top-bar-drop-down {
     width: 220px;
-    background-color: #FFFFFF;
+    background-color: $body-bg-color;
     color: black;
     border-color: #b3b3b3;
     box-shadow: 0 10px 20px -5px rgba(58,58,58,.25)
@@ -139,7 +140,7 @@
 }
 
 .tenants-list > li:hover {
-    background-color: #CCCCCC;
+    background-color: darken($chrome-color, 10%);
 }
 
 .tenants-list > li > div {

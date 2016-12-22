@@ -23,7 +23,7 @@ enum TopbarButton {
 @Component({
   selector: 'top-bar',
   templateUrl: './top-bar.component.html',
-  styleUrls: ['./top-bar.component.css'],
+  styleUrls: ['./top-bar.component.scss'],
   inputs: ['isFunctionSelected', 'quickStartSelected']
 })
 export class TopBarComponent implements OnInit {
