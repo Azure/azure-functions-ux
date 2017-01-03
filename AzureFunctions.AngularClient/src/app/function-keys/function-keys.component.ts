@@ -47,7 +47,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     : this._functionsService.getFunctionHostKeys();
             })
             .subscribe(keys => {
-                debugger;
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {

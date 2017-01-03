@@ -4,7 +4,8 @@ import {SelectOption} from '../shared/models/select-option';
   selector: 'radio-selector',
   templateUrl: './radio-selector.component.html',
   styleUrls: ['./radio-selector.component.css'],
-  inputs: ['options', 'defaultValue']
+  inputs: ['options', 'defaultValue'],
+  outputs: ['value']
 })
 export class RadioSelectorComponent<T> {
     @Input() disabled: boolean;

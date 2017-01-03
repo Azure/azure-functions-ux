@@ -5,7 +5,7 @@
            [attr.id]="_options[0].id"
            [checked]="_options[0].value === defaultValue"
            (click)="select(_options[0])"
-           [attr.disabled]="disabled">
+           [attr.disabled]="disabled ? true : null">
 
     <label [attr.for]="_options[0].id" class="switch-label switch-label-off">
         {{_options[0].displayLabel}}
@@ -17,7 +17,7 @@
            [attr.id]="_options[1].id"
            [checked]="_options[1].value === defaultValue"
            (click)="select(_options[1])"
-           [attr.disabled]="disabled">
+           [attr.disabled]="disabled ? true : null">
 
     <label [attr.for]="_options[1].id" class="switch-label switch-label-on">
         {{_options[1].displayLabel}}
