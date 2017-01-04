@@ -417,6 +417,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
         }
         this._globalStateService.setBusyState();
+
+        if (this.scriptFile.name.toLowerCase() === "function.json") {
+            this.functionInfo.config = JSON.parse(this.updatedContent);
+        }
+
         return this._functionsService.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
                 if (!dontClearBusy)
