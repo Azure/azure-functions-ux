@@ -3,8 +3,7 @@
 
         <div class="header">
             <div class="header-code">
-                <h2>{{ 'functionDev_code' | translate }}</h2>
-                <span>({{fileName}})</span>
+                <h2>{{fileName}}</h2>
                 <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
                 <span>
                     <button *ngIf="scriptFile.isDirty"
