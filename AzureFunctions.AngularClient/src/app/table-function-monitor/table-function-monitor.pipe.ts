@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser'
 import {DatePipe, DecimalPipe} from '@angular/common';
 
 declare let moment: any;
@@ -7,6 +8,8 @@ declare let moment: any;
     name: 'format'
 })
 export class TableFunctionMonitorPipe implements PipeTransform {
+
+    constructor(private sanitized: DomSanitizer) { }
 
     datePipe: DatePipe = new DatePipe("en-US");
     decimalPipe: DecimalPipe = new DecimalPipe("en-US");
@@ -24,15 +27,15 @@ export class TableFunctionMonitorPipe implements PipeTransform {
                 return input;
             case 'icon':
                 if (input.toLowerCase() === "completedsuccess") {
-                    return `<i style="color: green" class="fa fa-check success"></i>`;
+                    return this.sanitized.bypassSecurityTrustHtml(`<i style="color: green" class="fa fa-check success"></i>`);
                 }
                 if (input.toLowerCase() === "running") {
-                    return `<i class="fa fa-ellipsis-h" style="color: blue" ></i>`;
+                    return this.sanitized.bypassSecurityTrustHtml(`<i class="fa fa-ellipsis-h" style="color: blue" ></i>`);
                 }
                 if (input.toLowerCase() === "neverfinished") {
-                    return `<i style="color: orange" class="fa fa-exclamation-circle"></i>`;
+                    return this.sanitized.bypassSecurityTrustHtml(`<i style="color: orange" class="fa fa-exclamation-circle"></i>`);
                 }
-                return `<i class="fa fa-times" style="color: red"></i>`;
+                return this.sanitized.bypassSecurityTrustHtml(`<i class="fa fa-times" style="color: red"></i>`);
             case 'number':
                 parsedFloat = !isNaN(parseFloat(input)) ? parseFloat(input) : 0;
                 format = pipeArgs.length > 1 ? pipeArgs[1] : null;
