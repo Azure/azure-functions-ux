@@ -5,7 +5,7 @@ import {UserService} from '../shared/services/user.service';
 import {PickerInput} from '../shared/models/binding-input';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {SettingType, ResourceType} from '../shared/models/binding';
+import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
@@ -19,10 +19,12 @@ import {GlobalStateService} from '../shared/services/global-state.service';
   inputs: ["input"]
 })
 export class BindingInputComponent {
+    @Input() binding: UIFunctionBinding;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     public description: string;
+    public functionReturnValue: boolean;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     constructor(
@@ -51,6 +53,11 @@ export class BindingInputComponent {
             var enums: { display: string; value: any }[] = (<any>this._input).enum;
             this.enumInputs = enums
                 .map(e => ({ displayLabel: e.display, value: e.value, default: this._input.value === e.value }));
+        }
+
+        if ((input.id === 'name') && (input.value === '$return')) {
+            this.functionReturnValue = true;
+            this.disabled = true;
         }
     }
 
@@ -121,6 +128,14 @@ export class BindingInputComponent {
     onDropDownInputChanged(value: any) {
         this._input.value = value;
         this.inputChanged(value);
+    }
+
+    functionReturnValueChanged(value: any) {
+        if (value) {
+            this._input.value = '$return';
+            this.inputChanged('$return');
+        }
+        this.disabled = value;
     }
 
     private setClass(value: any) {
