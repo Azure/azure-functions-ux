@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, OnDestroy, Output, Input} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionConfig} from '../shared/models/function-config';
@@ -13,13 +13,15 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';
 import {AiService} from '../shared/services/ai.service';
+import {ApiProxy} from '../shared/models/api-proxy';
 
 enum TopbarButton {
     None = <any>"None",
     AppMonitoring = <any>"AppMonitoring",
     AppSettings = <any>"AppSettings",
     Quickstart = <any>"Quickstart",
-    SourceControl = <any>"SourceControl"
+    SourceControl = <any>"SourceControl",
+    ApiSettings = <any>"ApiSettings"
 }
 
 @Component({
@@ -29,6 +31,7 @@ enum TopbarButton {
   inputs: ['functionsInfo', 'tabId'],  
 })
 export class SidebarComponent implements OnDestroy, OnInit {
+    @Input() apiProxies: ApiProxy[]; 
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
     public inIFrame: boolean;
@@ -37,9 +40,11 @@ export class SidebarComponent implements OnDestroy, OnInit {
     public running: boolean;
     public dots = "";
     public ActiveButton: TopbarButton = TopbarButton.None;
+    public apiProxyEnabled: boolean;
 
     @Output() private appSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private quickstartClicked: EventEmitter<any> = new EventEmitter<any>();
+    @Output() private apiSettingsClicked: EventEmitter<any> = new EventEmitter<any>(); 
     @Output() refreshClicked = new EventEmitter<void>();
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
@@ -123,11 +128,18 @@ export class SidebarComponent implements OnDestroy, OnInit {
                 }, 900);
             }
         });
+
         document.addEventListener('keyup', (e: KeyboardEvent) => {
             if (this.interval) {
                 clearInterval(this.interval);
             }
         });
+
+        this._globalStateService.enabledApiProxy.subscribe((value) => {
+            this.apiProxyEnabled = value;
+        });
+
+        this.apiProxyEnabled = this._globalStateService.enabledApiProxy.getValue();
     }
 
     ngOnInit() {
@@ -190,6 +202,18 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     developLocally() {
         this._globalStateService.showLocalDevelopInstructions();
+    }
+
+    apiSettings(emit: boolean = true) {
+        if (this.canSwitchFunctions()) {
+            if (emit) {
+                this.apiSettingsClicked.emit(null);
+            }
+            this.resetView();
+            this.ActiveButton = TopbarButton.ApiSettings;
+            this.trackPage('apiSettings');
+            this.tabId = 'Develop';
+        }
     }
 
     private trackPage(pageName: string) {

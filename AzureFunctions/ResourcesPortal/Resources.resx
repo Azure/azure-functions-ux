@@ -961,4 +961,19 @@
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>Parameter name must be unique.</value>
   </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
 </root>

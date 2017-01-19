@@ -1,0 +1,37 @@
+<div class="wrapper">
+
+    <div class="setting-wrapper">
+        <label>API proxies</label>
+        <div class="features-wrapper">
+            <div>
+                <div>
+                    <h2>Use API proxies</h2>
+                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="valueChange.next($event)"></radio-selector>
+                </div>
+            </div>
+        </div>
+
+        <label *ngIf="apiProxiesEnabled">{{ 'runtimeVersion' | translate }}</label>
+        <div *ngIf="apiProxiesEnabled" class="features-wrapper">
+            <div>
+                <div *ngIf="!needUpdateRoutingExtensionVersion">
+                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
+                </div>
+                <div *ngIf="needUpdateRoutingExtensionVersion">
+                    <h2>
+                        {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <!--<div *ngIf="!_globalStateService?.GlobalDisabled" class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
+        </div>-->
+
+    <div class="setting-wrapper">
+        <label>Documentation</label>
+    </div>
+</div>

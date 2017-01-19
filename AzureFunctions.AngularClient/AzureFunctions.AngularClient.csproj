@@ -79,6 +79,8 @@
     <Content Include="README.md" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.css" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.html" />
+    <Content Include="src\app\api-details\api-details.component.html" />
+    <Content Include="src\app\api-settings\api-settings.component.html" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.css" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
     <Content Include="src\app\app-settings\app-settings.component.css" />
@@ -251,6 +253,10 @@
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.component.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.spec.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.ts" />
+    <TypeScriptCompile Include="src\app\api-settings\api-settings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-settings\api-settings.component.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.ts" />
     <TypeScriptCompile Include="src\app\app-settings\app-settings.component.spec.ts" />
@@ -319,6 +325,7 @@
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\api-proxy.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input-list.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-list.ts" />
@@ -446,7 +453,10 @@
     <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-tw.js.map" />
     <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="src\app\api-details\api-details.component.scss" />
+    <None Include="src\app\api-settings\api-settings.component.scss" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

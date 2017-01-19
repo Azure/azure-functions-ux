@@ -283,5 +283,10 @@ export class PortalResources
     public static error_siteStopped: string = "error_siteStopped";
     public static error_NoPermissionToAccessApp: string = "error_NoPermissionToAccessApp";
     public static errorUniqueParameterName: string = "errorUniqueParameterName";
+    public static binding_useFunctionReturnValue: string = "binding_useFunctionReturnValue";
+    public static functionEdit_functionState: string = "functionEdit_functionState";
+    public static off: string = "off";
+    public static on: string = "on";
+    public static topBar_functionApiSettings: string = "topBar_functionApiSettings";
 }
 

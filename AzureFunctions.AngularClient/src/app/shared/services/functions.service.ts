@@ -127,6 +127,12 @@ export class FunctionsService {
             });
         }
 
+        if (!Constants.routingExtensionVersion) {
+            this.getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
+                Constants.routingExtensionVersion = routingVersion;
+            });
+        }
+
         if (!_globalStateService.showTryView) {
             this._userService.getToken().subscribe(t => this.token = t);
             this._userService.getFunctionContainer().subscribe(fc => {
@@ -182,6 +188,18 @@ export class FunctionsService {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
                     return [];
                 }
+            });
+    }
+
+    @Cache()
+    getApiProxies() {
+        return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
+            //.retryWhen(this.retryAntares)
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<any>(r => {
+                return r.json();
             });
     }
 
@@ -778,6 +796,15 @@ export class FunctionsService {
 
     getLatestRuntime() {
         return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
+            .map(r => {
+                return r.json();
+            })
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
+    }
+
+    getLatestRoutingExtensionVersion() {
+        return this._http.get(Constants.serviceHost + 'api/latestrouting', { headers: this.getPortalHeaders() })
             .map(r => {
                 return r.json();
             })

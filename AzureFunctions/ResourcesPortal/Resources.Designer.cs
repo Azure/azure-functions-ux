@@ -601,6 +601,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use function return value.
+        /// </summary>
+        internal static string binding_useFunctionReturnValue {
+            get {
+                return ResourceManager.GetString("binding_useFunctionReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
         internal static string bindingInput_new {
@@ -1164,6 +1173,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionDev_viewFiles {
             get {
                 return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function State.
+        /// </summary>
+        internal static string functionEdit_functionState {
+            get {
+                return ResourceManager.GetString("functionEdit_functionState", resourceCulture);
             }
         }
         
@@ -1969,6 +1987,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        internal static string off {
+            get {
+                return ResourceManager.GetString("off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        internal static string on {
+            get {
+                return ResourceManager.GetString("on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         internal static string open {
@@ -2226,6 +2262,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_changeMade {
             get {
                 return ResourceManager.GetString("topBar_changeMade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API settings.
+        /// </summary>
+        internal static string topBar_functionApiSettings {
+            get {
+                return ResourceManager.GetString("topBar_functionApiSettings", resourceCulture);
             }
         }
         

@@ -61,6 +61,12 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage GetLatestRoutingExtensionVersion()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, "0.0.1");
+        }
+
+        [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             runtime = getClearRuntime(runtime);

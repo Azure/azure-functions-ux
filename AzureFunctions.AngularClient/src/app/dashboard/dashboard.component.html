@@ -10,7 +10,8 @@
     <div class="content">
         <sidebar [functionsInfo]="functionsInfo" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
                  (appSettingsClicked)="onAppSettingsClicked($event)"
-                 (quickstartClicked)="onQuickstartClicked($event)">
+                 (quickstartClicked)="onQuickstartClicked($event)"
+                 (apiSettingsClicked)="onApiSettingsClicked($event)">
         </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
@@ -38,6 +39,10 @@
 
                 <div *ngIf="openSourceControl">
                     <source-control></source-control>
+                </div>
+
+                <div *ngIf="openApiSettings">
+                    <api-settings [functionContainer]="functionContainer"></api-settings>
                 </div>
             </div>
         </div>

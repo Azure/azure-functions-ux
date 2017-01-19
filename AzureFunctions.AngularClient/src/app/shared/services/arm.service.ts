@@ -90,6 +90,17 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
+    @ClearCache('clearAllCachedData')
+    updateApiProxiesVesrion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }, value: string) {
+        if (appSettings[Constants.routingExtensionVersion]) {
+            delete appSettings[Constants.routingExtensionVersion];
+        }
+        appSettings[Constants.routingExtensionVersionAppSettingName] = value;
+        var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
+        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
+            .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
     getConfig(functionContainer: FunctionContainer) {
         var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
         return this._http.get(url, { headers: this.getHeaders() })

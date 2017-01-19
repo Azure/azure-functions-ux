@@ -25,6 +25,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {Response, ResponseType} from '@angular/http';
 import {ArmService} from '../shared/services/arm.service';
+import {ApiProxy} from '../shared/models/api-proxy';
+
 
 @Component({
   selector: 'functions-dashboard',
@@ -36,11 +38,13 @@ export class DashboardComponent implements OnChanges {
     @Input() functionContainer: FunctionContainer;
 
     public functionsInfo: FunctionInfo[];
+    public apiProxies: ApiProxy[];
     public selectedFunction: FunctionInfo;
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
+    public openApiSettings: boolean;
     public trialExpired: boolean;
     public action: Action;
     public tabId: string = "Develop";
@@ -155,6 +159,10 @@ export class DashboardComponent implements OnChanges {
             });
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
+
+        this._functionsService.getApiProxies().subscribe(proxies => {
+            this.apiProxies = ApiProxy.fromJson(proxies);
+        });
     }
 
     onRefreshClicked() {
@@ -189,11 +197,17 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = true;
     }
 
+    onApiSettingsClicked() {
+        this.resetView(true);
+        this.openApiSettings = true;
+    }
+
     private resetView(clearFunction: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
+        this.openApiSettings = false;
         if (clearFunction) {
             this.selectedFunction = null;
             if (this.sideBar) {
