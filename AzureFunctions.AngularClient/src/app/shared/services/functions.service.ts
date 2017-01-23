@@ -132,7 +132,7 @@ export class FunctionsService {
             this._userService.getFunctionContainer().subscribe(fc => {
                 this.functionContainer = fc;
                 this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-                this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+                this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
                 this.siteName = fc.name;
                 this.azureMainServer = this.mainSiteUrl;
                 this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
@@ -162,7 +162,7 @@ export class FunctionsService {
 
     setScmParams(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-        this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
+        this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
         this.siteName = fc.name;
         if (fc.tryScmCred != null) {
             this._globalStateService.ScmCreds = fc.tryScmCred;
