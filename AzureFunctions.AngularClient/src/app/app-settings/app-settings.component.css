@@ -134,19 +134,6 @@ input[type=range]::-ms-thumb {
     width: 75%;
 }
 
-input[type=text], select{
-    background: #fff;
-    border: 2px solid #dedede;
-    position: relative;
-    vertical-align: middle;
-    height: 29px;
-    width: 85%;
-    margin-right: 10px;
-    padding: 0 5px;
-}
-
-
-
 .features-wrapper > div {
     flex-grow: 1;
     border-top: none;
@@ -164,57 +151,55 @@ input[type=text], select{
     align-items: center;
     justify-content: center
 }
-.features-wrapper > div:first-child {
+
+.features-wrapper > div > div {
+    padding: 1px 10px 10px 0;
+    font-size: 13px;
 }
 
-    .features-wrapper > div > div {
-        padding: 1px 10px 10px 0;
-        font-size: 13px;
-    }
+.features-wrapper > div > div:first-child {
+    flex-grow: 3;
+    width: 60%;
+}
 
-    .features-wrapper > div > div:first-child {
-        flex-grow: 3;
-        width: 60%;
-    }
+.features-wrapper > div > div:last-child {
+    flex-grow: 1;
+    width: 35%;
+}
 
-    .features-wrapper > div > div:last-child {
-        flex-grow: 1;
-        width: 35%;
-    }
+.features-wrapper > div > div:last-child > div, .button-div {
+    margin-left: 15px;
+    padding: 6px 25px 6px 25px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: #428bca;
+    text-align: center;
+}
 
-    .features-wrapper > div > div:last-child > div, .button-div {
-        margin-left: 15px;
-        padding: 6px 25px 6px 25px;
-        font-size: 14px;
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: #428bca;
-        text-align: center;
-    }
+.features-wrapper-disabled > div > div {
+    padding: 1px 10px 10px 0;
+    font-size: 13px;
+}
 
-    .features-wrapper-disabled > div > div {
-        padding: 1px 10px 10px 0;
-        font-size: 13px;
-    }
+.features-wrapper-disabled > div > div:first-child {
+    flex-grow: 3;
+    width: 60%;
+}
 
-    .features-wrapper-disabled > div > div:first-child {
-        flex-grow: 3;
-        width: 60%;
-    }
-
-    .features-wrapper-disabled > div > div:last-child {
-        flex-grow: 1;
-        width: 35%;
-    }
-    .features-wrapper-disabled > div > div:last-child > div, .button-div {
-        margin-left: 15px;
-        padding: 6px 25px 6px 25px;
-        font-size: 14px;
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: lightgray;
-        text-align: center;
-    }
+.features-wrapper-disabled > div > div:last-child {
+    flex-grow: 1;
+    width: 35%;
+}
+.features-wrapper-disabled > div > div:last-child > div, .button-div {
+    margin-left: 15px;
+    padding: 6px 25px 6px 25px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    color: #fff;
+    background-color: lightgray;
+    text-align: center;
+}
 
 .button-div {
     width: 20%;

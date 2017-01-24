@@ -26,10 +26,7 @@ export class FunctionMonitorComponent implements OnChanges {
     public columns: any[];
     public functionId: string;
 
-    public _funcName: string;
-
     constructor(
-        private _functionsService: FunctionsService,
         private _functionMonitorService: FunctionMonitorService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -61,39 +58,30 @@ export class FunctionMonitorComponent implements OnChanges {
                 formatTo: "number"
             }
         ];
-        let site = this._functionsService.getSiteName();
+        let site = this.selectedFunction.functionApp.getSiteName();
         this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
         this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
-        this._funcName = this.selectedFunction.name;
-        this._functionsService.getFunctionAppId().subscribe(host => {
+        this.selectedFunction.functionApp.getFunctionAppId().subscribe(host => {
             var hostId = !!host ? host : "";
-            this._functionMonitorService.getFunctionId(this._funcName, hostId).subscribe(data => {
+            this._functionMonitorService.getDataForSelectedFunction(this.selectedFunction, hostId).subscribe(data => {
                 this.functionId = !!data ? data.functionId : "";
+                this.successAggregate = !!data ? data.successCount.toString() : 
+                    this._translateService.instant(PortalResources.appMonitoring_noData);
+                this.errorsAggregate = !!data ? data.failedCount.toString() : 
+                    this._translateService.instant(PortalResources.appMonitoring_noData);
 
                 // if no data from function monitoring we don't call the Invocations API since this will return 404
                 if (!!data) {
-                    this._functionMonitorService.getInvocationsDataForSelctedFunction(this.functionId).subscribe(result => {
+                    this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFunction.functionApp, this.functionId).subscribe(result => {
                         this.rows = result;
                         this._globalStateService.clearBusyState();
                     });
-
-                    this._functionMonitorService.getSelectedFunctionAggregates(this.functionId).subscribe((aggregates: FunctionStats[]) => {
-                        var successStats = 0;
-                        var errorStats = 0;
-                        aggregates.forEach((statItem: FunctionStats) => {
-                            successStats += statItem.totalPass;
-                            errorStats += statItem.totalFail;
-                        });
-                        this.successAggregate = successStats.toString();
-                        this.errorsAggregate = errorStats.toString();
-                    });
                 } else {
-                    this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.appMonitoring_noData);
                     this._globalStateService.clearBusyState();
                 }
             });
         });
 
-        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this._funcName}`;
+        this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.selectedFunction.name}`;
     }
 }

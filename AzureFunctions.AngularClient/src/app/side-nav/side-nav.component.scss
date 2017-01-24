@@ -1,0 +1,12 @@
+@import '../../sass/main';
+
+.sidenav {
+    width: $sidenav-width;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $chrome-color;
+    bottom: 0;
+    z-index: 100;
+}

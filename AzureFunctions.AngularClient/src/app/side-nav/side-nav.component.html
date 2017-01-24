@@ -1,0 +1,34 @@
+<div class="sidenav">
+
+    <div id="sidenav-menu">
+        <!--<input type="text" 
+            id="sidenav-search"
+            placeholder="Search"
+            [ngFormControl]="term"
+            [disabled]="!subscriptionId">
+        <span class="sidenav-search-clear-disabled">
+            <i class="fa fa-times"
+               aria-hidden="true"
+               [class.sidenav-search-clear-dirty]="!!term.value"
+               [class.clickable]="!!term.value"
+               (click)="clearSearch()"></i>
+        </span>-->
+
+        <div id="sidenav-subs">
+            <drop-down [options]="subscriptions"
+                    placeholder="Loading..."
+                    (value)="onSubscriptionSelect($event)"></drop-down>
+        </div>
+    </div>
+
+    <div *ngIf="!!subscriptionId">
+        <!--<div *ngIf="!term.value">-->
+            <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
+        <!--</div>-->
+        <!--<div *ngIf="!!term.value">
+            <div id="sidenav-search-header">Search Results</div>
+            <tree-view [node]="searchNode" [term]="term" [levelInput]="1" inSearchMode="true"></tree-view>
+        </div>-->
+    </div>
+
+</div>

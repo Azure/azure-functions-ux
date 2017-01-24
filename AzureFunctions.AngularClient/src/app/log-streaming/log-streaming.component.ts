@@ -36,11 +36,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _utilities: UtilitiesService,
         private _globalStateService: GlobalStateService) {
-        this.tokenSubscription = this._userService.getToken().subscribe(t => this.token = t);
+        this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
         this.log = '';
         this.timeouts = [];
     }
@@ -51,7 +50,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     ngOnDestroy() {
-        if (this.xhReq) {
+        if (this.xhReq){
             this.timeouts.forEach(window.clearTimeout);
             this.timeouts = [];
             this.xhReq.abort();
@@ -62,15 +61,15 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         }
     }
 
-    startLogs() {
+    startLogs(){
         this.stopped = false;
     }
 
-    stopLogs() {
+    stopLogs(){
         this.stopped = true;
     }
 
-    clearLogs() {
+    clearLogs(){
         this.skipLength = this.skipLength + this.log.length;
         this.log = ' ';
     }
@@ -134,7 +133,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             this.xhReq.setRequestHeader('FunctionsPortal', '1');
             this.xhReq.send(null);
             if (!clear) {
-                this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
+                this.functionInfo.functionApp.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
             }
 
             var callBack = () => {
@@ -145,7 +144,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                         this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
                     } else {
                         this.log = oldLogs
-                            ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
+                        ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
                             : this.xhReq.responseText;
                         if (this.skipLength > 0) {
                             this.log = this.log.substring(this.skipLength);

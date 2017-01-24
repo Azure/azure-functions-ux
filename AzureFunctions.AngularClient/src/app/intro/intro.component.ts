@@ -23,7 +23,6 @@ export class IntroComponent {
     selectedFunction: string;
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
-    public disabled: boolean;
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -33,22 +32,22 @@ export class IntroComponent {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
-        this.disabled = this._broadcastService.getDirtyState("function_disabled");
     }
 
     onFunctionCliked(selectedFunction: string) {
-        if (!this.disabled) {
+        if (!this._broadcastService.getDirtyState("function_disabled")) {
             this.selectedFunction = selectedFunction;
         }
     }
 
     onLanguageCliked(selectedLanguage: string) {
-        if (!this.disabled) {
+        if (!this._broadcastService.getDirtyState("function_disabled")) {
             this.selectedLanguage = selectedLanguage;
         }
     }
 
     onCreateNewFunction() {
+        debugger;
         if (this._globalStateService.IsBusy) {
             return;
         }
@@ -107,6 +106,6 @@ export class IntroComponent {
     }
 
     startFromSC() {
-        this._portalService.openBlade("ContinuousDeploymentListBlade", "intro");
+        // this._portalService.openBlade("ContinuousDeploymentListBlade", "intro");
     }
 }

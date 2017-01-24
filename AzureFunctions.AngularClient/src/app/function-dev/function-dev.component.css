@@ -1,3 +1,12 @@
+/* TODO: separate log-stream styles from function-dev styles */
+.log-stream {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    word-break: normal;
+    word-wrap: normal;
+}
+
 div.header {
     display: flex;
 }

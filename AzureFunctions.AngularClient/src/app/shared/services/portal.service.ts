@@ -1,32 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs/Rx';
-import {Event, Data, Verbs, Action, LogEntryLevel, Message, StartupInfo} from '../models/portal';
+import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
+import {Event, Data, Verbs, Action, LogEntryLevel, Message, StartupInfo, OpenBladeInfo} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
 import {UserService} from './user.service';
 import {AiService} from './ai.service';
+import {SetupOAuthRequest, SetupOAuthResponse} from '../../site/deployment-source/deployment';
 
 @Injectable()
 export class PortalService {
     public sessionId = "";
 
     private portalSignature: string = "FxAppBlade";
-    private resourceIdObservable: ReplaySubject<string>;
+    private startupInfoObservable : ReplaySubject<StartupInfo>;
+    private setupOAuthObservable : Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
 
-    constructor(private _broadcastService: BroadcastService,
-        private _userService: UserService,
-        private _aiService: AiService) {
-        this.resourceIdObservable = new ReplaySubject<string>(1);
-        if (this.inIFrame()) {
+    constructor(private _broadcastService : BroadcastService,
+     private _aiService: AiService) {
+
+        this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
+        this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
+
+        if (this.inIFrame()){
             this.initializeIframe();
         }
     }
 
-    getResourceId() {
-        return this.resourceIdObservable;
+    getStartupInfo(){
+        return this.startupInfoObservable;
+    }
+
+    setupOAuth(input : SetupOAuthRequest){
+        this.postMessage(Verbs.setupOAuth, JSON.stringify(input));
+        return this.setupOAuthObservable;
     }
 
     initializeIframe(): void {
@@ -46,9 +55,9 @@ export class PortalService {
         });
     }
 
-    openBlade(name: string, source: string): void {
-        this.logAction(source, "open blade " + name, null);
-        this.postMessage(Verbs.openBlade, name);
+    openBlade(bladeInfo : OpenBladeInfo, source : string){
+        this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
+        this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
     openCollectorBlade(name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
@@ -57,7 +66,7 @@ export class PortalService {
         this.postMessage(Verbs.openBlade, name);
     }
 
-    openCollectorBladeWithInputs(obj: any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+    openCollectorBladeWithInputs(obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.logAction(source, "open-blade-input" + obj.bladeName, null);
         this.getAppSettingCallback = getAppSettingCallback;
 
@@ -66,7 +75,11 @@ export class PortalService {
         this.postMessage(Verbs.openBladeWithInputs, inputStr);
     }
 
-    logAction(subcomponent: string, action: string, data?: any): void {
+    closeBlades(){
+        this.postMessage(Verbs.closeBlades, "");
+    }
+
+    logAction(subcomponent: string, action: string, data?: any): void{
         let actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
             action: action,
@@ -76,15 +89,15 @@ export class PortalService {
         this.postMessage(Verbs.logAction, actionStr);
     }
 
-    setDirtyState(dirty: boolean): void {
+    setDirtyState(dirty : boolean) : void{
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
     }
 
-    logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
+    logMessage(level : LogEntryLevel, message : string, ...restArgs: any[]){
         let messageStr = JSON.stringify(<Message>{
-            level: level,
-            message: message,
-            restArgs: restArgs
+            level : level,
+            message : message,
+            restArgs : restArgs
         });
 
         this.postMessage(Verbs.logMessage, messageStr);
@@ -92,7 +105,7 @@ export class PortalService {
 
     private iframeReceivedMsg(event: Event): void {
 
-        if (!event || !event.data || event.data.signature !== this.portalSignature) {
+        if (!event || !event.data || event.data.signature !== this.portalSignature){
             return;
         }
 
@@ -101,40 +114,36 @@ export class PortalService {
 
         console.log("[iFrame] Received mesg: " + methodName);
 
-        if (methodName === Verbs.sendResourceId) {
-            this.resourceIdObservable.next(data);
-        }
-        else if (methodName === Verbs.sendStartupInfo) {
+        if(methodName === Verbs.sendStartupInfo){
             let startupInfo = <StartupInfo>data;
             this.sessionId = startupInfo.sessionId;
-            this._userService.setToken(startupInfo.token);
+            // this._userService.setToken(startupInfo.token);
             this._aiService.setSessionId(this.sessionId);
 
-            // Effective language has language and formatting information eg: "en.en-us"
-            let lang = startupInfo.effectiveLocale.split(".")[0];
-            this._userService.setLanguage(lang);
-
+            this.startupInfoObservable.next(startupInfo);
         } else if (methodName === Verbs.sendAppSettingName) {
-            if (this.getAppSettingCallback) {
+            if(this.getAppSettingCallback){
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
-        } else if (methodName === Verbs.sendToken) {
-            this._userService.setToken(data);
+        }
+        else if(methodName === Verbs.sendOAuthInfo){
+            let info = <SetupOAuthResponse>data;
+            this.setupOAuthObservable.next(info);
         }
     }
 
-    private postMessage(verb: string, data: string) {
-        if (this.inIFrame()) {
+    private postMessage(verb: string, data: string){
+        if(this.inIFrame()){
             window.parent.postMessage(<Data>{
-                signature: this.portalSignature,
+                signature : this.portalSignature,
                 kind: verb,
                 data: data
             }, this.shellSrc);
         }
     }
 
-    private inIFrame(): boolean {
+    private inIFrame() : boolean{
         return window.parent !== window;
     }
 }

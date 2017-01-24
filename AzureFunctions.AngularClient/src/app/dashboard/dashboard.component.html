@@ -1,7 +1,6 @@
 <div [class.container-full]="!_globalStateService.showTopbar" [class.container-full-topbar]="_globalStateService.showTopbar" [class.try-container-full]="_globalStateService?.showTryView">
     <!-- TODO: move padding to css -->
-    <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
-             (sourceControlClicked)='onSourceControlClicked($event)'
+    <top-bar (sourceControlClicked)='onSourceControlClicked($event)'
              (functionAppSettingsClicked)='onAppSettingsClicked($event)'
              [isFunctionSelected]="!!selectedFunction"
              [quickStartSelected]="openIntro"></top-bar>
@@ -23,9 +22,6 @@
                     <div *ngIf="selectedFunction.clientOnly && selectedFunction.name === ('sideBar_newFunction' | translate )">
                         <function-new [functionsInfo]="functionsInfo" [action]="action"></function-new>
                     </div>
-                </div>
-                <div *ngIf="openAppMonitoring">
-                    <app-monitoring></app-monitoring>
                 </div>
 
                 <div *ngIf="openAppSettings">

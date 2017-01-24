@@ -1,0 +1,12 @@
+<!--<top-bar></top-bar>-->
+<div class="content">
+    <busy-state name='global'></busy-state>
+    <side-nav (treeViewInfoEvent)="updateViewInfo($event)"></side-nav>
+
+    <div *ngIf="!!viewInfo" class="dashboard">
+
+        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
+        <!--<function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>-->
+
+    </div>
+</div>

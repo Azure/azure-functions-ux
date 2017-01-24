@@ -13,7 +13,9 @@ import {PortalService} from './shared/services/portal.service';
 import {BroadcastService} from './shared/services/broadcast.service';
 import {FunctionMonitorService} from './shared/services/function-monitor.service'
 import {ArmService} from './shared/services/arm.service';
-import {MonitoringService} from './shared/services/app-monitoring.service';
+import {CacheService} from './shared/services/cache.service';
+import {RBACService} from './shared/services/rbac.service';
+import {LocalStorageService} from './shared/services/local-storage.service';
 import {TelemetryService} from './shared/services/telemetry.service';
 import {UtilitiesService} from './shared/services/utilities.service';
 import {BackgroundTasksService} from './shared/services/background-tasks.service';
@@ -32,7 +34,6 @@ import { TryNowComponent } from './try-now/try-now.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SidebarPipe } from './sidebar/pipes/sidebar.pipe';
 import { FunctionEditComponent } from './function-edit/function-edit.component';
-import { AppMonitoringComponent } from './app-monitoring/app-monitoring.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { TrialExpiredComponent } from './trial-expired/trial-expired.component';
 import { FunctionNewComponent } from './function-new/function-new.component';
@@ -67,6 +68,21 @@ import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
 import { FunctionDesignerComponent } from './function-designer/function-designer.component';
 import { MonacoEditorDirective } from './shared/directives/monaco-editor.directive';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
+import { MainComponent } from './main/main.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { TreeViewComponent } from './tree-view/tree-view.component';
+import { SiteDashboardComponent } from './site/site-dashboard/site-dashboard.component';
+import { TabsComponent } from './tabs/tabs.component';
+import { TabComponent } from './tab/tab.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { SiteSummaryComponent } from './site/site-summary/site-summary.component';
+import { SiteEnabledFeaturesComponent } from './site/site-enabled-features/site-enabled-features.component';
+import { SiteNotificationsComponent } from './site/site-notifications/site-notifications.component';
+import { AccordionComponent } from './accordion/accordion.component';
+import { SiteManageComponent } from './site/site-manage/site-manage.component';
+import { FeatureGroupComponent } from './feature-group/feature-group.component';
+import { DeploymentSourceComponent } from './site/deployment-source/deployment-source.component';
+import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/deployment-source-setup.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +102,6 @@ import { TableFunctionMonitorPipe } from './table-function-monitor/table-functio
       SidebarComponent,
       SidebarPipe,
       FunctionEditComponent,
-      AppMonitoringComponent,
       AppSettingsComponent,
       TrialExpiredComponent,
       FunctionNewComponent,
@@ -121,6 +136,21 @@ import { TableFunctionMonitorPipe } from './table-function-monitor/table-functio
       FunctionDesignerComponent,
       MonacoEditorDirective,
       TableFunctionMonitorPipe,
+      MainComponent,
+      SideNavComponent,
+      TreeViewComponent,
+      SiteDashboardComponent,
+      TabsComponent,
+      TabComponent,
+      BreadcrumbsComponent,
+      SiteSummaryComponent,
+      SiteEnabledFeaturesComponent,
+      SiteNotificationsComponent,
+      AccordionComponent,
+      SiteManageComponent,
+      FeatureGroupComponent,
+      DeploymentSourceComponent,
+      DeploymentSourceSetupComponent
   ],
   imports: [
     BrowserModule,
@@ -135,7 +165,9 @@ import { TableFunctionMonitorPipe } from './table-function-monitor/table-functio
       BroadcastService,
       FunctionMonitorService,
       ArmService,
-      MonitoringService,
+      CacheService,
+      RBACService,
+      LocalStorageService,
       TelemetryService,
       UtilitiesService,
       BackgroundTasksService,

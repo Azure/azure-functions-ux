@@ -37,7 +37,6 @@ export class DashboardComponent implements OnChanges {
 
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
-    public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
@@ -168,11 +167,6 @@ export class DashboardComponent implements OnChanges {
         });
     }
 
-    onAppMonitoringClicked() {
-        this.resetView(true);
-        this.openAppMonitoring = true;
-    }
-
     onAppSettingsClicked() {
         this.resetView(true);
         this.openAppSettings = true;
@@ -191,7 +185,6 @@ export class DashboardComponent implements OnChanges {
 
     private resetView(clearFunction: boolean) {
         this.openAppSettings = false;
-        this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
         if (clearFunction) {

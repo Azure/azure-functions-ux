@@ -31,6 +31,25 @@ pre {
     border-radius: 0;
 }
 
+h1, h2, h3, h4{
+    // font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-family: 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
+    font-weight: normal;
+    color:#333333;
+}
+
 .error-output {
+    color: $danger-color;
+}
+
+.success{
+    color: $success-color;
+}
+
+.warning{
+    color: $warning-color;
+}
+
+.danger{
     color: $danger-color;
 }

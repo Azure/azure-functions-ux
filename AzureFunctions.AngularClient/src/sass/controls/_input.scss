@@ -1,0 +1,10 @@
+input[type=text], select{
+    background: $body-bg-color;
+    border: 2px solid $border-color;
+    position: relative;
+    vertical-align: middle;
+    height: 29px;
+    width: 85%;
+    margin-right: 10px;
+    padding: 0 5px;
+}

@@ -1,3 +1,23 @@
+@import 'common/variables';
+
+@import 'base/base',
+        'base/typography';
+
+@import 'controls/buttons',
+        // 'controls/log-streaming',
+        'controls/monaco',
+        'controls/radio',
+        'controls/feature-group',
+        'controls/input';
+        
+
+@import 'layout/dashboard';
+        // 'layout/sidenav',
+        // 'layout/treeview';
+
+@import 'pages/binding-designer',
+        'pages/deployment-source';
+
 // common
 // vendors
 // base
@@ -5,13 +25,3 @@
 // layout
 // pages
 // themes
-
-@import 'common/variables';
-
-@import 'base/base',
-        'base/typography';
-
-@import 'controls/buttons', 
-        'controls/log-streaming',
-        'controls/monaco',
-        'controls/radio';

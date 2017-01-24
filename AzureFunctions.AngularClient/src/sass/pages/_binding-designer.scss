@@ -1,0 +1,72 @@
+.fn-binding-designer-new-function {
+    height: 34px;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.fn-binding-designer-select-container {
+    background: #fff;
+    border: 2px solid #dedede;
+    display: inline-block;
+    padding-right: 30px;
+    position: relative;
+    vertical-align: middle;
+}
+
+.fn-binding-designer-select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    filter: alpha(opacity=0);
+    height: 25px;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+}
+
+.fn-binding-designer-selected-value {
+    display: inline-block;
+    line-height: 25px;
+    overflow: hidden;
+    padding-left: 10px;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.fn-binding-designer-selected-arrow {
+    display: block;
+    font-size: 0;
+    height: 25px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+    zoom: 1;
+}
+
+.fn-binding-designer-selected-arrow:before {
+    border-color: #dedede;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    height: 7px;
+    left: 50%;
+    margin: 0;
+    margin-left: -5px;
+    margin-top: -5px;
+    padding: 0;
+    position: relative;
+    top: 50%;
+    width: 7px;
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

@@ -1,0 +1,54 @@
+<div class="site-summary-actions">
+    <span class="link">Stop</span> | 
+    <span class="link">Restart</span> | 
+    <span class="link">Download Publish Profile</span> | 
+    <span class="link">Reset Publish Credentials</span> | 
+    <span class="link">Swap</span> | 
+    <span class="link">Delete</span>
+</div>
+
+<div class="site-row-container">
+    <div class="site-row-block">
+        <h2>Information</h2>
+        <div class="box box-site-summary">
+            <div class="site-summary-left">
+                <label>Subscription</label>
+                <div>{{subscription}}</div>
+
+                <label>Resource Group</label>
+                <div>{{resourceGroup}}</div>
+                
+                <label>Location</label>
+                <div>{{location}}</div>
+            </div>
+
+            <div class="site-summary-right">
+                <label>URL</label>
+                <div>{{url}}</div>
+                
+                <label>App service plan/pricing tier</label>
+                <div>{{plan}}</div>
+                
+                <label>Deployment username</label>
+                <div [class.site-hidden-text]="!hasWriteAccess">{{publishingUserName}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-row-block" style="margin-left: 10px">
+        <h2>Notifications</h2>
+        <div class="box box-site-summary box-site-notifications">
+            <site-notifications [siteInput]="site"></site-notifications>
+        </div>
+    </div>
+</div>
+
+<!-- Ideally this and any other blocks should be able to add to the flex-box
+     and have it automatically wrap to the next row but this works for now -->
+<div class="site-row-block">
+    <h2>Enabled Features</h2>
+    <div class="box box-site-summary">
+        <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
+    </div>
+</div>
+

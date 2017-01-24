@@ -8,13 +8,15 @@ import {FunctionsService} from '../shared/services/functions.service';
 import {Constants} from '../shared/models/constants';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TooltipContentComponent} from '../tooltip-content/tooltip-content.component';
+import {TooltipDirective} from '../tooltip-content/tooltip.directive';
 import {AiService} from '../shared/services/ai.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './app-settings.component.html',
-  styleUrls: ['./app-settings.component.css'],
-  inputs: ['functionContainer']
+    selector: 'app-settings',
+    templateUrl: './app-settings.component.html',
+    styleUrls: ['./app-settings.component.css'],
+    inputs: ['functionContainer']
 })
 export class AppSettingsComponent implements OnInit {
     private _functionContainer: FunctionContainer;
@@ -49,12 +51,12 @@ export class AppSettingsComponent implements OnInit {
         return this._functionContainer;
     }
 
-    constructor(private _armService: ArmService,
-        private _portalService: PortalService,
-        private _broadcastService: BroadcastService,
-        private _functionsService: FunctionsService,
-        private _globalStateService: GlobalStateService,
-        private _aiService: AiService) {
+    constructor(private _armService : ArmService,
+                private _portalService : PortalService,
+                private _broadcastService: BroadcastService,
+                private _functionsService: FunctionsService,
+                private _globalStateService: GlobalStateService,
+                private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -74,8 +76,8 @@ export class AppSettingsComponent implements OnInit {
         this.latestExtensionVersion = Constants.runtimeVersion;
     }
 
-    openBlade(name: string) {
-        this._portalService.openBlade(name, "app-settings");
+    openBlade(name : string) {
+        // this._portalService.openBlade(name, "app-settings");
         this._aiService.trackEvent(`/actions/app_settings/open_${name}_blade`);
     }
 
@@ -102,10 +104,6 @@ export class AppSettingsComponent implements OnInit {
             this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
-                this._functionsService.getResources().subscribe(() => {
-                    this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
-                });
             });
         });
     }

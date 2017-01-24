@@ -22,3 +22,11 @@ export class Constants {
     public static azureJobsExtensionVersion = "AZUREJOBS_EXTENSION_VERSION";
     public static httpMethods = new HttpMethods();
 }
+
+export class SiteTabNames{
+    public static summary = "Summary";
+    public static monitor = "Monitor";
+    public static manage = "Manage";
+    public static troubleshoot = "Troubleshoot";
+    public static deploymentSource = "Deployment Source";
+}

@@ -3,7 +3,7 @@
         <div>
             <h1>{{ 'intro_fasterWay' | translate }}</h1>
             <p>
-                <img src="images/function-io.svg" width="210px" />
+                <img src="images/function-io.svg" width="210px"/>
                 {{ 'intro_writeAny' | translate }}
             </p>
         </div>
@@ -61,36 +61,36 @@
                  [class.intro-template-lang-selected]="selectedLanguage === 'Powershell'">
 
                 <div>PowerShell</div>-->
-        </div>
+            </div>
         <div>
             <button class="custom-button"
                     (click)="onCreateNewFunction()"
-                    [disabled]="disabled">
+                    [disabled]="!selectedFunction">
                 {{ 'intro_createThisFunction' | translate }}
             </button>
 
         </div>
     </div>
 
-    <div class="intro-footer">
-        <h3>{{ 'intro_getStartedOn' | translate }}</h3>
-        <div>
-            <span class="link" (click)='createFromScratch()'>
-                {{ 'intro_createYourOwn' | translate }}
-            </span>
-            {{ 'or' | translate }}
-            <span *ngIf="!_globalStateService.showTryView" class="link" (click)='startFromSC()'>
-                {{ 'intro_startSC' | translate }}
-            </span>
-            <label *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip" tooltipPlacement="right" class="link-disabled">
-                {{ 'intro_startSC' | translate }}
-            </label>
-            <tooltip-content #freeAccountTooltip>
-                <p>
-                    {{ 'tryNow_FreeAccountToolTip' | translate }}
-                </p>
-            </tooltip-content>
-        </div>
-    </div>
+            <div class="intro-footer">
+                <h3>{{ 'intro_getStartedOn' | translate }}</h3>
+                <div>
+                    <span class="link" (click)='createFromScratch()'>
+                        {{ 'intro_createYourOwn' | translate }}
+                    </span>
+                    {{ 'or' | translate }}
+                    <span *ngIf="!_globalStateService.showTryView" class="link" (click)='startFromSC()'>
+                        {{ 'intro_startSC' | translate }}
+                    </span>
+                    <label *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip" tooltipPlacement="right" class="link-disabled">
+                        {{ 'intro_startSC' | translate }}
+                    </label>
+                    <tooltip-content #freeAccountTooltip>
+                        <p>
+                            {{ 'tryNow_FreeAccountToolTip' | translate }}
+                        </p>
+                    </tooltip-content>
+                </div>
+            </div>
 
-</div> <!-- /intro-container -->
+        </div> <!-- /intro-container -->

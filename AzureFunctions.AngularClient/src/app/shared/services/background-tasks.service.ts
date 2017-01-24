@@ -16,7 +16,7 @@ export class BackgroundTasksService {
 
     private _preIFrameTasks: RxSubscription;
     private _tasks: RxSubscription;
-    private _isResourcesReceived = false;
+    // private _isResourcesReceived = false;
     constructor(private _http: Http,
         private _userService: UserService,
         private _functionsService: FunctionsService,
@@ -25,13 +25,13 @@ export class BackgroundTasksService {
         private _armService: ArmService,
         private _aiService: AiService,
         private _applicationRef: ApplicationRef) {
-        if (!this._userService.inIFrame) {
-            this.runPreIFrameTasks();
-        }
-        if (this.isIE()) {
-            console.log('Detected IE, running zone.js workaround');
-            setInterval(() => this._applicationRef.tick(), 1000)
-        }
+            if (!this._userService.inIFrame) {
+                this.runPreIFrameTasks();
+            }
+            if (this.isIE()) {
+                console.log('Detected IE, running zone.js workaround');
+                setInterval(() => this._applicationRef.tick(), 1000)
+            }
     }
 
     runPreIFrameTasks() {
@@ -39,9 +39,9 @@ export class BackgroundTasksService {
             this._preIFrameTasks.unsubscribe();
         }
         if (!this._globalStateService.showTryView)
-            this._preIFrameTasks = Observable.timer(1, 60000)
-                .concatMap<string>(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map<string>(r => r.text()))
-                .subscribe(t => this._userService.setToken(t));
+        this._preIFrameTasks = Observable.timer(1, 60000)
+            .concatMap<string>(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map<string>(r => r.text()))
+            .subscribe(t => this._userService.setToken(t));
     }
 
     runTasks() {
@@ -52,28 +52,28 @@ export class BackgroundTasksService {
 
         if (!this._globalStateService.showTryView && !this._globalStateService.GlobalDisabled) {
             let tasks = () => Observable.zip(
-                this._functionsService.getHostErrors().catch(e => Observable.of([])),
-                this._armService.getConfig(this._globalStateService.FunctionContainer),
-                this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
-                this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
-                (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
+                        this._functionsService.getHostErrors().catch(e => Observable.of([])),
+                        this._armService.getConfig(this._globalStateService.FunctionContainer.id),
+                        this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
+                        this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
+                        (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
             let handleResult = result => {
                 result.errors.forEach(e => {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
-                    this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
-                });
-                this.setDisabled(result.config);
-                let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
-                this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
-                    (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
-                this._functionsService.setEasyAuth(result.authSettings);
-                this._globalStateService.AppSettings = result.appSettings;
-                if (!this._isResourcesReceived) {
-                    this._functionsService.getResources().subscribe(() => {
-                        this._isResourcesReceived = true;
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+                        this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
                     });
-                }
-                this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+                    this.setDisabled(result.config);
+                    let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
+                    this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
+                        (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
+                    this._functionsService.setEasyAuth(result.authSettings);
+                    this._globalStateService.AppSettings = result.appSettings;
+                    // if (!this._isResourcesReceived) {
+                    //     this._functionsService.getResources().subscribe(() => {
+                    //         this._isResourcesReceived = true;
+                    //     });
+                    // }
+                   this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
             };
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() => tasks())
@@ -87,7 +87,7 @@ export class BackgroundTasksService {
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
                     Observable.zip(
                         this._functionsService.getHostErrors().catch(e => Observable.of([])),
-                        (e) => ({ errors: e })
+                        (e) => ({ errors: e})
                     )
                 )
                 .subscribe(result => {

@@ -1,0 +1,112 @@
+.deploy-setup-col{
+    float: left;
+
+    button{
+        margin-left: 0px;
+    }
+}
+
+.deploy-setup-col:first-child{
+    margin-right: 50px;
+}
+
+.deploy-setup-option{
+    width: 300px;
+    height: 65px;
+    padding: 5px;
+    border: $body-bg-color solid 3px;
+
+    &:hover{
+        background-color: $chrome-color;
+    }
+}
+
+#deploy-setup-provider-loading{
+    margin-top: 30px;
+}
+
+.deploy-setup-option-selected{
+    border: $border-selection-color solid 3px;
+}
+
+.deploy-setup-option > img{
+    float: left;
+    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+}
+
+.deploy-setup-option > div{
+    float: left;
+    margin-top: 4px;
+}
+
+.deploy-setup-ctrl{
+    margin-bottom: 25px;
+}
+
+.deploy-setup-ctrl > button{
+    margin-top: 5px;
+}
+
+.deploy-header{
+    margin: 10px 0px 20px 10px;
+
+    h2{
+        margin: 5px 0px;
+    }
+}
+
+.deploy-deployment{
+    width: 75%;
+    max-width: 900px;
+    margin-bottom: 5px;
+
+    &:hover{
+        background-color: $chrome-color;
+    }
+}
+
+.deploy-summary-selected{
+    background-color: $chrome-color;
+    border: $border-selection-color solid 3px;
+}
+
+.deploy-summary-left{
+    float: left;
+    margin: 10px;
+}
+
+.deploy-summary-middle{
+    float: left;
+    margin: 5px;
+
+    >div{
+        margin-bottom: 3px;
+    }
+}
+
+.deploy-summary-right{
+    float: right;
+    margin:10px;
+}
+
+.deploy-summary-commit-info{
+    >span{
+        margin-right: 20px;
+    }
+}
+
+.deployment-logs{
+    padding: 10px;
+
+    table{
+        border-top: darken($chrome-color, 10%) solid 2px;
+        border-spacing: 0px;
+    }
+
+    td{
+        padding: 5px 30px 5px 5px;
+        border-bottom: darken($chrome-color, 10%) solid 1px;
+    }
+}

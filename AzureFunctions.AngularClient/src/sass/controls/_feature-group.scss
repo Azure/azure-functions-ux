@@ -1,0 +1,39 @@
+﻿.feature-group-header{
+    margin-bottom: 10px;
+}
+
+.feature-group-items{
+    border: 2px solid $border-color;
+}
+
+.feature-group-item{
+    padding: 5px 10px;
+    position: relative;
+
+    &:hover{
+        background-color: $chrome-color;
+    }
+}
+
+.feature-group-info{
+    position: absolute;
+    right: 15px;
+    top: 7px;
+
+    i{
+        font-size: 15px;
+    }
+}
+
+.feature-group-warning{
+    margin-right: 5px;
+
+    .pop-over-container{
+        top: -5px;
+    }
+}
+
+
+.feature-group-disabled{
+    color: darken($chrome-color, 30%);
+}

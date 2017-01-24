@@ -11,6 +11,7 @@ import {GlobalStateService} from '../shared/services/global-state.service';
   templateUrl: './table-function-monitor.component.html',
   styleUrls: ['./table-function-monitor.component.css']
 })
+
 export class TableFunctionMonitorComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() columns: any[];
@@ -19,6 +20,7 @@ export class TableFunctionMonitorComponent implements OnChanges {
     @Input() invocation: any;
     @Input() pulseUrl: string;
     @Input() selectedFuncId: string;
+    @Input() selectedFunction: FunctionInfo;
 
     public outputLog: string;
     public selectedRowId: string;
@@ -29,7 +31,9 @@ export class TableFunctionMonitorComponent implements OnChanges {
         private _globalStateService: GlobalStateService) { }
 
     showDetails(rowData: FunctionInvocations) {
-        this._functionMonitorService.getInvocationDetailsForSelectedInvocation(rowData.id).subscribe(results => {
+        this._functionMonitorService.getInvocationDetailsForSelectedInvocation(this.selectedFunction.functionApp, rowData.id)
+            .subscribe(results => {
+
             if (!!results) {
                 this.invocation = results.invocation;
                 this.details = results.parameters;
@@ -41,7 +45,8 @@ export class TableFunctionMonitorComponent implements OnChanges {
     }
 
     setOutputLogInfo(rowId: string) {
-        this._functionMonitorService.getOutputDetailsForSelectedInvocation(rowId).subscribe(outputData => {
+        this._functionMonitorService.getOutputDetailsForSelectedInvocation(this.selectedFunction.functionApp, rowId)
+        .subscribe(outputData => {
             this.outputLog = outputData;
         });
     }
@@ -54,7 +59,9 @@ export class TableFunctionMonitorComponent implements OnChanges {
 
     refreshFuncMonitorGridData() {
         this.setBusyState();
-        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFuncId).subscribe(result => {
+        this._functionMonitorService.getInvocationsDataForSelctedFunction(this.selectedFunction.functionApp, this.selectedFuncId)
+        .subscribe(result => {
+
             this.data = result;
             this.clearBusyState();
         });

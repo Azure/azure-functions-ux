@@ -32,19 +32,19 @@ export class GlobalStateService {
     public isAlwaysOn: boolean = true;
 
     constructor(private _userService: UserService,
-        private _armService: ArmService,
-        private _aiService: AiService) {
+      private _armService: ArmService,
+      private _aiService: AiService) {
         this._appSettings = {};
         this.showTryView = window.location.pathname.endsWith('/try');
-        this._userService.getFunctionContainer()
-            .subscribe(fc => {
-                this._functionContainer = fc;
-                if (!this.showTryView && !this.GlobalDisabled) {
-                    this._armService.getFunctionContainerAppSettings(this._functionContainer)
-                        .subscribe(a => this._appSettings = a);
-                }
-            });
-        this._userService.getToken().subscribe(t => this._token = t);
+        // this._userService.getFunctionContainer()
+        //     .subscribe(fc => {
+        //         this._functionContainer = fc;
+        //         if (!this.showTryView && !this.GlobalDisabled) {
+        //             this._armService.getFunctionContainerAppSettings(this._functionContainer)
+        //               .subscribe(a => this._appSettings = a);
+        //       }
+        //     });
+        this._userService.getStartupInfo().subscribe(info => this._token = info.token);
     }
 
     get FunctionContainer(): FunctionContainer {
@@ -100,7 +100,8 @@ export class GlobalStateService {
         }
     }
 
-    get IsBusy(): boolean {
+    get IsBusy(): boolean
+    {
         return (this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy) ? true : false;
     }
 
@@ -116,25 +117,25 @@ export class GlobalStateService {
         this._scmCreds = scmCreds;
     }
 
-    get TryAppServiceToken(): string {
+   get TryAppServiceToken(): string {
         return this._tryAppServicetoken;
     }
 
-    set TryAppServiceToken(tryAppServiceToken: string) {
-        this._tryAppServicetoken = tryAppServiceToken;
-    }
+   set TryAppServiceToken(tryAppServiceToken : string) {
+       this._tryAppServicetoken = tryAppServiceToken ;
+   }
 
-    get GlobalDisabled(): boolean {
-        return this._globalDisabled;
-    }
+   get GlobalDisabled(): boolean {
+       return this._globalDisabled;
+   }
 
-    set GlobalDisabled(value: boolean) {
-        this._globalDisabled = value;
-    }
+   set GlobalDisabled(value: boolean) {
+       this._globalDisabled = value;
+   }
 
-    getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
-        var value = this._appSettings[settingName];
-        if (value) {
+   getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
+       var value = this._appSettings[settingName];
+       if (value) {
             var account = [];
             var accountName;
             var accountKey;
@@ -152,78 +153,78 @@ export class GlobalStateService {
             if (accountKey) account.push(accountKey);
             if (accountName) account.push(accountName);
             return account;
-        } else {
-            return [];
-        }
-    }
+       } else {
+           return [];
+       }
+   }
 
     getResourceAppSettings(type: ResourceType): string[] {
-        var result = [];
-        switch (type) {
-            case ResourceType.Storage:
-                for (var key in this._appSettings) {
-                    var value = this._appSettings[key].toLowerCase();
-                    if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1) {
-                        result.push(key);
-                    }
-                }
-                break;
-            case ResourceType.EventHub:
-            case ResourceType.ServiceBus:
-                for (var key in this._appSettings) {
+       var result = [];
+       switch (type) {
+           case ResourceType.Storage:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1 ) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.EventHub:
+           case ResourceType.ServiceBus:
+               for (var key in this._appSettings) {
 
-                    var value = this._appSettings[key].toLowerCase();
-                    if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
-                        result.push(key);
-                    }
-                }
-                break;
-            case ResourceType.ApiHub:
-                for (var key in this._appSettings) {
-                    var value = this._appSettings[key].toLowerCase();
-                    if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
-                        result.push(key);
-                    }
-                }
-                break;
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.ApiHub:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
 
-            case ResourceType.DocumentDB:
-                for (var key in this._appSettings) {
-                    var value = this._appSettings[key].toLowerCase();
-                    if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
-                        result.push(key);
-                    }
-                }
-                break;
-        }
-        return result;
-    }
+           case ResourceType.DocumentDB:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+       }
+       return result;
+   }
 
-    showLocalDevelopInstructions() {
-        this._localDevelopmentInstructions.show();
-    }
+   showLocalDevelopInstructions() {
+       this._localDevelopmentInstructions.show();
+   }
 
-    set LocalDevelopmentInstructionsComponent(value: LocalDevelopmentInstructionsComponent) {
-        this._localDevelopmentInstructions = value;
-    }
+   set LocalDevelopmentInstructionsComponent(value: LocalDevelopmentInstructionsComponent) {
+       this._localDevelopmentInstructions = value;
+   }
 
-    set DashboardComponent(value: DashboardComponent) {
-        this._dashboardComponent = value;
-    }
+   set DashboardComponent(value: DashboardComponent) {
+       this._dashboardComponent = value;
+   }
 
-    checkLocalFunctionsServer() {
-        return this._functionsService.checkLocalFunctionsServer();
-    }
+   checkLocalFunctionsServer() {
+       return this._functionsService.checkLocalFunctionsServer();
+   }
 
-    switchToLocalServer() {
-        this.isRunningLocal = true;
-        this._functionsService.switchToLocalServer();
-        //this._dashboardComponent.onRefreshClicked();  //Com
-    }
+   switchToLocalServer() {
+       this.isRunningLocal = true;
+       this._functionsService.switchToLocalServer();
+       this._dashboardComponent.onRefreshClicked();
+   }
 
-    switchToAzure() {
-        this.isRunningLocal = false;
-        this._functionsService.switchToAzure();
-        ///this._dashboardComponent.onRefreshClicked();  // Com
-    }
+   switchToAzure() {
+       this.isRunningLocal = false;
+       this._functionsService.switchToAzure();
+       this._dashboardComponent.onRefreshClicked();
+   }
 }

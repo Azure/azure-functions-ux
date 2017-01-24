@@ -1,0 +1,52 @@
+<ul class="tree" [class.tree-root]="level === 0">
+  <li *ngFor="let child of node.children" [class.tree-node-root]="level === 0 && !inSearchMode">
+
+    <div (mouseenter)="child.showMenu = true"
+         (mouseleave)="child.showMenu = false"
+         class="tree-node"
+         [class.clickable]="!child.disabled"
+         [class.tree-node-selected]="child.sideNav && child.sideNav.resourceId === child.resourceId"
+         (click)="child.select()">
+
+        <span *ngIf="!child.isNewNode" class="tree-node-content" [style.margin-left]="margin">
+
+            <i *ngIf="!child.isLoading"
+                class="fa"
+                [class.fa-caret-right]="child.showExpandIcon && !child.isExpanded"
+                [class.fa-caret-down]="child.showExpandIcon && child.isExpanded"
+                (click)="child.toggle($event)"></i>
+
+            <i *ngIf="child.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+
+            <i *ngIf="child.iconClass" [class]="child.iconClass"></i>
+
+            <span [class.tree-node-disabled]="child.disabled">
+                  {{ child.title }}
+            </span>
+
+            <span class="tree-node-menu"
+                  *ngIf="child.showMenu || (child.sideNav && child.sideNav.resourceId === child.resourceId)">
+
+              <!--<i *ngIf="child.supportsAdvanced"
+                 (click)="child.toggleAdvanced($event)"
+                 class="fa fa-cog"
+                 [class.tree-node-advanced-enabled]="child.inAdvancedMode"
+                 title="Explore API"></i>-->
+
+              <i *ngIf="child.disabled"
+                 class="fa fa-info-circle warning"
+                 title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+
+              <i *ngIf="!!child.newDashboardType"
+                 (click)="child.openCreateNew($event)"
+                 class="fa fa-plus-square-o"
+                 title="New"></i>
+            </span>
+        </span>
+    </div>
+
+    <div *ngIf="child.isExpanded" class="tree-node-children">
+      <tree-view [node]="child" [levelInput]="level + 1"></tree-view>
+    </div>
+  </li>
+</ul>

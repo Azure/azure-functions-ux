@@ -154,8 +154,8 @@
 
     <!--<div class="setting-wrapper" *ngIf="functionContainer?.properties?.sku === 'Dynamic'">
         <label>{{ 'appFunctionSettings_memory' | translate }}</label>
-        <div class="features-wrapper">
-            <div style="height: 60px">
+        <div class="features-wrapper">            
+            <div style="height: 60px">                
                 <div style="flex-grow: 10">
                     <input type="range" min="128" max="1536" step="64" [(ngModel)]="memorySize" (change)="onChange(memorySize, $event)">
                 </div>

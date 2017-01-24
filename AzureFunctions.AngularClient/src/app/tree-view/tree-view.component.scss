@@ -1,0 +1,81 @@
+@import '../../sass/main';
+
+.tree{
+    margin: 0px;
+    list-style-type: none;
+    padding-left: 0px;
+    font-size: 14px;
+    line-height: 25px;
+
+    li{
+        list-style-type: none;
+    }
+}
+
+.tree-root{
+    border-top: 1px solid darken($border-color, 10%);
+}
+
+.tree-node-root{
+    border-bottom: 1px solid darken($border-color, 10%);
+
+    >.tree-node{
+        height: 40px;
+        font-size: 20px;
+        background-color: #d6dbe0;
+
+        .tree-node-content{
+            position: relative;
+            top: 12%;
+
+            .tree-node-menu{
+                margin-top: 10px;
+                margin-right: 15px;
+            }
+        }
+    }
+}
+
+.tree-node{
+    height: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    .tree-node-content{
+        position: relative;
+        top: 2px;
+
+        .tree-node-menu{
+                float: right;
+                margin-top: 7px;
+                margin-right: 10px;
+        }
+    }
+}
+
+.tree-node:hover{
+    background-color: darken($border-color, 10%);
+}
+
+.tree-node-selected{
+    background-color: darken($border-color, 20%);
+}
+
+.tree-node-advanced-enabled{
+    color : $button-bg-color;
+}
+
+.tree-node-children{
+    // max-height: calc(100% - #{$sidebar-menu-height} - #{$topbar-height} - 3*#{$treeview-root-height} - 7px);
+    overflow-y: auto;
+}
+
+.tree-node-disabled{
+    color : darken($border-color, 30%);
+}
+
+.tree-node-function-icon{
+    width: 15px;
+    color: $button-bg-color;
+}

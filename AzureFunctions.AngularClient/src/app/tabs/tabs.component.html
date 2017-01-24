@@ -1,0 +1,13 @@
+<nav class="tabs">
+    <!--<tutorial></tutorial>-->
+
+    <ul>
+      <li *ngFor="let tab of tabs" [class.tab-inactive]="!tab.active" [class.tab-active]="tab.active">
+        <span (click)="selectTab(tab)" class="clickable">{{tab.title}}</span>
+        <span *ngIf="tab.closeable" (click)="closeTab(tab)"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </li>
+    </ul>
+    <div class="tab-content">
+        <ng-content></ng-content>
+    </div>
+</nav>

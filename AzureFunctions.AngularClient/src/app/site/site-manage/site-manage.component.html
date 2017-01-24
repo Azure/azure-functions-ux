@@ -1,0 +1,30 @@
+<input id="site-manage-search"
+       type="text"
+       [(ngModel)]="searchTerm"
+       placeholder="Search features" />
+
+<div>
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups1">
+            <feature-group [inputGroup]="group"
+                        [searchTerm]="searchTerm"
+                        (openTab)="openTab($event)">
+            </feature-group>
+        </div>
+    </div>
+
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups2">
+            <feature-group [inputGroup]="group" [searchTerm]="searchTerm"></feature-group>
+        </div>
+    </div>
+
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups3">
+            <feature-group [inputGroup]="group" [searchTerm]="searchTerm"></feature-group>
+        </div>
+    </div>
+
+
+    <div style="clear: both" ></div>
+</div>
