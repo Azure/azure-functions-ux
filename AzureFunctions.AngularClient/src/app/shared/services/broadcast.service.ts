@@ -1,6 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
+import {ApiProxy} from '../models/api-proxy';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastEvent} from '../models/broadcast-event';
@@ -19,6 +20,9 @@ export class BroadcastService {
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
     private refreshPortal: EventEmitter<void>;
+    private apiProxyAddedEvent: EventEmitter<ApiProxy>;
+    private apiProxyDeletedEvent: EventEmitter<ApiProxy>;
+    private apiProxySelectedEvent: EventEmitter<ApiProxy>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -35,6 +39,9 @@ export class BroadcastService {
         this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.refreshPortal = new EventEmitter<void>();
+        this.apiProxyAddedEvent = new EventEmitter<ApiProxy>();
+        this.apiProxyDeletedEvent = new EventEmitter<ApiProxy>();
+        this.apiProxySelectedEvent = new EventEmitter<ApiProxy>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -127,6 +134,17 @@ export class BroadcastService {
 
             case BroadcastEvent.RefreshPortal:
                 return this.refreshPortal;
+
+            case BroadcastEvent.ApiProxyAdded:
+                return this.apiProxyAddedEvent;
+
+            case BroadcastEvent.ApiProxyDeleted:
+                return this.apiProxyDeletedEvent;
+
+            case BroadcastEvent.ApiProxySelected:
+                return this.apiProxySelectedEvent;
+
+
         }
     }
 }

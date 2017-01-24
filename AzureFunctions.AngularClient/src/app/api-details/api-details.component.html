@@ -1,3 +1,99 @@
-<p>
-  api-details works!
-</p>
+<div class="newfunc-container">
+<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
+
+    <div>
+        <div>
+            <label class="control-label">
+                Name
+            </label>
+        </div>
+
+            <input type="text"
+                    [formControl]="complexForm.controls['name']"
+                    placeholder="{{ 'functionNew_functionName' | translate }}"
+                    [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
+
+        <pop-over *ngIf="!complexForm.controls['name'].valid" 
+                  [message]="complexForm.controls['name'].errors['required'] ? requireMessage : 'API proxy with that name already exsists.'" 
+                  [isInputError]="true">
+        </pop-over>
+    </div>
+
+    <div style="display: flex;">
+        <div style="flex-grow:1">
+            <label class="control-label" name="for1">
+                Route template
+            </label>
+
+            <div>
+                <input type="text" name="routeTemplate"
+                        [formControl]="complexForm.controls['routeTemplate']"
+                        placeholder="{{ 'functionNew_functionName' | translate }}">
+            </div>
+        </div>
+
+        <div style="flex-grow:1">
+            <label class="control-label" name="for2">
+                Allowed HTTP methods
+            </label>
+
+            <div>
+                <select name="methodSelectionType"
+                        [formControl]="complexForm.controls['methodSelectionType']">
+                    <option value="All">All methods</option>
+                    <option value="Selected">Selected methods</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isMethodsVisible" class="methods-list">
+        <div>
+            <input [formControl]="complexForm.controls['method_get']" type="checkbox" name="get"> GET
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_post']" type="checkbox" name="post"> POST
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_delete']" type="checkbox" name="delete"> DELETE
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_head']" type="checkbox" name="head"> HEAD
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_patch']" type="checkbox" name="patch"> PATCH
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_put']" type="checkbox" name="put"> PUT
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_options']" type="checkbox" name="options"> OPTIONS
+        </div>
+        <div>
+            <input [formControl]="complexForm.controls['method_trace']" type="checkbox" name="trace"> TRACE
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <label class="control-label">
+                Backend URL
+            </label>
+        </div>
+
+        <input type="text" name="backendUri"
+                [formControl]="complexForm.controls['backendUri']"
+                placeholder="{{ 'functionNew_functionName' | translate }}"
+                [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
+
+        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="requireMessage" [isInputError]="true">
+        </pop-over>
+    </div>
+
+    <div>
+        <button type="submit" [disabled]="!complexForm.valid" class="custom-button">{{ 'save' | translate }}</button>
+    </div>
+
+</form>
+</div>
+

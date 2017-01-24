@@ -34,6 +34,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     @Input() apiProxies: ApiProxy[]; 
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
+    public selectedApiProxy: ApiProxy;
     public inIFrame: boolean;
     private showTryView: boolean;
     public pullForStatus = false;
@@ -45,6 +46,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     @Output() private appSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private quickstartClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private apiSettingsClicked: EventEmitter<any> = new EventEmitter<any>(); 
+    @Output() private newApiProxyClicked: EventEmitter<any> = new EventEmitter<any>(); 
     @Output() refreshClicked = new EventEmitter<void>();
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
@@ -89,6 +91,14 @@ export class SidebarComponent implements OnDestroy, OnInit {
                     return f1.name.localeCompare(f2.name);
                 });
                 this.selectFunction(fi);
+            }
+        }));
+
+        this.subscriptions.push(this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyAdded, apiProxy => {
+            if (apiProxy) {
+                this.apiProxies.push(apiProxy);
+                this.selectApiProxy(apiProxy);
+
             }
         }));
 
@@ -167,6 +177,37 @@ export class SidebarComponent implements OnDestroy, OnInit {
         }
     }
 
+    selectApiProxy(p: ApiProxy) {
+        //if (this.canSwitchFunctions()) {
+        //    this._portalService.logAction('side-azure-functions-link', 'click');
+        //    this.resetView();
+        //    this.newApiProxyClicked.emit(null);
+        //    this.ActiveButton = TopbarButton.None;
+        //    this.trackPage('newProxy');
+        //    this.tabId = 'Develop';
+        //}
+
+        if (this.canSwitchFunctions()) {
+            this.resetView();
+            this._broadcastService.clearDirtyState('function', true);
+            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.selectedApiProxy = p;
+            this._broadcastService.broadcast(BroadcastEvent.ApiProxySelected, p);
+            //this.trackPage('NewFunction');
+        }
+    }
+
+    //newApiProxy() {
+    //    if (this.canSwitchFunctions()) {
+    //        this._portalService.logAction('sidebar-azure-functions-link', 'click');
+    //        this.resetView();
+    //        this.newApiProxyClicked.emit(null);
+    //        this.ActiveButton = TopbarButton.None;
+    //        this.trackPage('newApiProxy');
+    //        this.tabId = 'Develop';
+    //    }
+    //}
+
     refresh() {
         if (this.canSwitchFunctions()) {
             this._broadcastService.clearDirtyState('function', true);
@@ -191,7 +232,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     quickstart() {
         if (this.canSwitchFunctions()) {
-            this._portalService.logAction('top-bar-azure-functions-link', 'click');
+            this._portalService.logAction('side-azure-functions-link', 'click');
             this.resetView();
             this.quickstartClicked.emit(null);
             this.ActiveButton = TopbarButton.Quickstart;

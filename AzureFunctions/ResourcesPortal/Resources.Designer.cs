@@ -2104,6 +2104,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New API Proxy.
+        /// </summary>
+        internal static string sidebar_newApiProxy {
+            get {
+                return ResourceManager.GetString("sidebar_newApiProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Function.
         /// </summary>
         internal static string sideBar_newFunction {

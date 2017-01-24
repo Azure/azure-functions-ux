@@ -40,11 +40,13 @@ export class DashboardComponent implements OnChanges {
     public functionsInfo: FunctionInfo[];
     public apiProxies: ApiProxy[];
     public selectedFunction: FunctionInfo;
+    public selectedApiProxy: ApiProxy;
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
     public openApiSettings: boolean;
+    public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
     public tabId: string = "Develop";
@@ -113,6 +115,12 @@ export class DashboardComponent implements OnChanges {
 
         });
 
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxySelected, apiProxy => {
+            debugger;
+            this.resetView(false);            
+            this.selectedApiProxy = apiProxy;
+        });
+
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
             this.trialExpired = true;
         });
@@ -162,6 +170,15 @@ export class DashboardComponent implements OnChanges {
 
         this._functionsService.getApiProxies().subscribe(proxies => {
             this.apiProxies = ApiProxy.fromJson(proxies);
+
+            this.apiProxies.unshift({
+                name: this._translateService.instant(PortalResources.sidebar_newApiProxy),
+                backendUri: '',
+                matchCondition: {
+                    methods: [],
+                    route: ''
+                }
+            });
         });
     }
 
@@ -202,12 +219,18 @@ export class DashboardComponent implements OnChanges {
         this.openApiSettings = true;
     }
 
+    onNewApiProxyClicked() {
+        this.resetView(true);
+        this.openNewApiProxy = true;
+    }
+
     private resetView(clearFunction: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
         this.openApiSettings = false;
+        this.openNewApiProxy = false;
         if (clearFunction) {
             this.selectedFunction = null;
             if (this.sideBar) {

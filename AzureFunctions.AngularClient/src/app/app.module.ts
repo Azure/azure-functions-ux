@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {TranslateModule} from 'ng2-translate';
@@ -69,6 +69,7 @@ import { MonacoEditorDirective } from './shared/directives/monaco-editor.directi
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
 import { ApiSettingsComponent } from './api-settings/api-settings.component';
 import { ApiDetailsComponent } from './api-details/api-details.component';
+import { ApiNewComponent } from './api-new/api-new.component';
 
 @NgModule({
   declarations: [
@@ -125,8 +126,12 @@ import { ApiDetailsComponent } from './api-details/api-details.component';
       TableFunctionMonitorPipe,
       ApiSettingsComponent,
       ApiDetailsComponent,
+      ApiNewComponent,
   ],
   imports: [
+      FormsModule,
+      ReactiveFormsModule,
+
     BrowserModule,
     FormsModule,
       HttpModule,

@@ -80,6 +80,7 @@
     <Content Include="src\app\aggregate-block\aggregate-block.component.css" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.html" />
     <Content Include="src\app\api-details\api-details.component.html" />
+    <Content Include="src\app\api-new\api-new.component.html" />
     <Content Include="src\app\api-settings\api-settings.component.html" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.css" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
@@ -255,6 +256,8 @@
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.ts" />
     <TypeScriptCompile Include="src\app\api-details\api-details.component.spec.ts" />
     <TypeScriptCompile Include="src\app\api-details\api-details.component.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.ts" />
     <TypeScriptCompile Include="src\app\api-settings\api-settings.component.spec.ts" />
     <TypeScriptCompile Include="src\app\api-settings\api-settings.component.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.spec.ts" />
@@ -454,7 +457,8 @@
     <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\app\api-details\api-details.component.scss" />
+    <Content Include="src\app\api-details\api-details.component.css" />
+    <Content Include="src\app\api-new\api-new.component.css" />
     <None Include="src\app\api-settings\api-settings.component.scss" />
   </ItemGroup>
   <PropertyGroup>

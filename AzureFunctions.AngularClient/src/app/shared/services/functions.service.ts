@@ -203,6 +203,14 @@ export class FunctionsService {
             });
     }
 
+    saveApiProxy(jsonString: string) {
+        var headers = this.getScmSiteHeaders();
+        //https://github.com/projectkudu/kudu/wiki/REST-API
+        headers.append("If-Match", "*");
+
+        return this._http.put(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
+    }
+
     @Cache('href')
     getFileContent(file: VfsObject | string) {
         return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getScmSiteHeaders() })

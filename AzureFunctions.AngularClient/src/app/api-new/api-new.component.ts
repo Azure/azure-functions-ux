@@ -9,11 +9,13 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 
 @Component({
-    selector: 'api-details',
-    templateUrl: './api-details.component.html',
-    styleUrls: ['./api-details.component.css', '../binding-input/binding-input.component.css']
+  selector: 'api-new',
+  templateUrl: './api-new.component.html',
+  //styleUrls: ['./api-new.component.scss']
+  styleUrls: ['./api-new.component.css', '../binding-input/binding-input.component.css']
 })
-export class ApiDetailsComponent implements OnInit {
+export class ApiNewComponent implements OnInit {
+
     @Input() apiProxies: ApiProxy[];
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
@@ -36,7 +38,7 @@ export class ApiDetailsComponent implements OnInit {
             method_post: true,
             method_delete: true,
             method_head: true,
-            method_patch: true, 
+            method_patch: true,
             method_put: true,
             method_options: true,
             method_trace: true
@@ -49,7 +51,7 @@ export class ApiDetailsComponent implements OnInit {
         this.requireMessage = this._translateService.instant(PortalResources.filedRequired);
     }
 
-    validateName(that: ApiDetailsComponent): ValidatorFn {        
+    validateName(that: ApiNewComponent): ValidatorFn {
 
         return (control: AbstractControl): { [key: string]: any } => {
             var existingProxy = null;
@@ -117,7 +119,7 @@ export class ApiDetailsComponent implements OnInit {
             });
 
         }
-        
+
     }
 
 }

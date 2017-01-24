@@ -288,5 +288,6 @@ export class PortalResources
     public static off: string = "off";
     public static on: string = "on";
     public static topBar_functionApiSettings: string = "topBar_functionApiSettings";
+    public static sidebar_newApiProxy: string = "sidebar_newApiProxy";
 }
 

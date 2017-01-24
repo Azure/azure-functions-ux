@@ -1,8 +1,8 @@
 ﻿export class ApiProxy
 {
     name: string;
-    matchCondition: MatchCondition;
-    backendUri: string;    
+    matchCondition: MatchCondition = new MatchCondition();
+    backendUri: string;
 
     public static fromJson(obj: any): ApiProxy[] {
         var result: ApiProxy[] = [];
@@ -22,6 +22,7 @@
         var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies)); // clone
         var result = {};
 
+        // name
         cloneProxies.forEach((p) => {
             var name = p.name;
             delete p.name;
@@ -35,4 +36,15 @@
 export class MatchCondition {
     methods: string[];
     route: string;
+}
+
+export class Methods {
+    get: boolean = true;
+    post: boolean = true;
+    delete: boolean = true;
+    head: boolean = true;
+    patch: boolean = true;
+    put: boolean = true;
+    options: boolean = true;
+    trace: boolean = true;
 }

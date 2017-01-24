@@ -8,10 +8,11 @@
     <div *ngIf="disabled" class="content-disabled">
     </div>
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
+        <sidebar [functionsInfo]="functionsInfo" [apiProxies]="apiProxies" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
                  (appSettingsClicked)="onAppSettingsClicked($event)"
                  (quickstartClicked)="onQuickstartClicked($event)"
-                 (apiSettingsClicked)="onApiSettingsClicked($event)">
+                 (apiSettingsClicked)="onApiSettingsClicked($event)"
+                 (newApiProxyClicked)="onNewApiProxyClicked($event)">
         </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
@@ -43,6 +44,19 @@
 
                 <div *ngIf="openApiSettings">
                     <api-settings [functionContainer]="functionContainer"></api-settings>
+                </div>
+
+                <div *ngIf="apiProxySelected">
+
+                </div>
+
+                <div *ngIf="selectedApiProxy">
+                    <div *ngIf="selectedApiProxy.name !== ('sidebar_newApiProxy' | translate)">
+                        <api-details [apiProxies]="apiProxies"></api-details>
+                    </div>
+                    <div *ngIf="selectedApiProxy.name === ('sidebar_newApiProxy' | translate)">
+                        <api-new [apiProxies]="apiProxies"></api-new>
+                    </div>
                 </div>
             </div>
         </div>

@@ -976,4 +976,7 @@
   <data name="topBar_functionApiSettings" xml:space="preserve">
     <value>API settings</value>
   </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
 </root>
