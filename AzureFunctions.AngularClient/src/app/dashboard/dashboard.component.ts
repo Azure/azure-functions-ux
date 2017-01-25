@@ -116,9 +116,14 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxySelected, apiProxy => {
-            debugger;
-            this.resetView(false);            
+            this.resetView(false);
             this.selectedApiProxy = apiProxy;
+        });
+
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
+            if (this.selectedApiProxy === apiProxy) {
+                delete this.selectedApiProxy;
+            }
         });
 
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
@@ -165,8 +170,6 @@ export class DashboardComponent implements OnChanges {
             (error: Response) => {
                 this.functionsInfo = [];
             });
-        this._functionsService.warmupMainSite();
-        this._functionsService.getHostSecrets();
 
         this._functionsService.getApiProxies().subscribe(proxies => {
             this.apiProxies = ApiProxy.fromJson(proxies);
@@ -180,6 +183,10 @@ export class DashboardComponent implements OnChanges {
                 }
             });
         });
+
+        this._functionsService.warmupMainSite();
+        this._functionsService.getHostSecrets();
+
     }
 
     onRefreshClicked() {
@@ -224,17 +231,19 @@ export class DashboardComponent implements OnChanges {
         this.openNewApiProxy = true;
     }
 
-    private resetView(clearFunction: boolean) {
+    private resetView(clearSelected: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
         this.openApiSettings = false;
         this.openNewApiProxy = false;
-        if (clearFunction) {
+        if (clearSelected) {
             this.selectedFunction = null;
+            this.selectedApiProxy = null;
             if (this.sideBar) {
                 this.sideBar.selectedFunction = null;
+                this.sideBar.selectedApiProxy = null;
             }
         }
     }

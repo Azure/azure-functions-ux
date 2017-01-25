@@ -1,7 +1,7 @@
 import {Component, OnInit, Input } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {ApiProxy, Methods} from '../shared/models/api-proxy';
+import {ApiProxy} from '../shared/models/api-proxy';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import {PortalResources} from '../shared/models/portal-resources';
@@ -103,7 +103,7 @@ export class ApiNewComponent implements OnInit {
                         for (var control in this.complexForm.controls) {
                             if (control.startsWith("method_")) {
                                 if (this.complexForm.controls[control].value) {
-                                    newApiProxy.matchCondition.methods.push(control.toLocaleLowerCase());
+                                    newApiProxy.matchCondition.methods.push(control.replace("method_", "").toLocaleLowerCase());
                                 }
                             }
                         }

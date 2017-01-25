@@ -1,23 +1,21 @@
 <div class="newfunc-container">
-<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
 
-    <div>
+
+<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value, type)">
+
+    <div *ngIf="type === 'details'">
         <div>
             <label class="control-label">
-                Name
+                Proxy URL
             </label>
         </div>
 
-            <input type="text"
-                    [formControl]="complexForm.controls['name']"
-                    placeholder="{{ 'functionNew_functionName' | translate }}"
-                    [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
-
-        <pop-over *ngIf="!complexForm.controls['name'].valid" 
-                  [message]="complexForm.controls['name'].errors['required'] ? requireMessage : 'API proxy with that name already exsists.'" 
-                  [isInputError]="true">
-        </pop-over>
+        <input type="text"
+               [formControl]="complexForm.controls['proxyUrl']"
+               placeholder="{{ 'functionNew_functionName' | translate }}"
+               [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
     </div>
+
 
     <div style="display: flex;">
         <div style="flex-grow:1">
@@ -90,10 +88,18 @@
         </pop-over>
     </div>
 
-    <div>
-        <button type="submit" [disabled]="!complexForm.valid" class="custom-button">{{ 'save' | translate }}</button>
+    <div style="display: flex">
+        <div style="flex-grow:1;align-items:center;">
+            <button type="submit" [disabled]="!complexForm.valid" class="custom-button">{{ 'save' | translate }}</button>
+            <button class="custom-button" (click)="onCancelClick()">{{ 'cancel' | translate }}</button>
+        </div>
+
+        <div class="link" style="flex-grow:0" (click)="deleteProxyClicked()">
+            <i class="fa fa-remove"></i> Delete proxy
+        </div>
     </div>
 
 </form>
+
 </div>
 

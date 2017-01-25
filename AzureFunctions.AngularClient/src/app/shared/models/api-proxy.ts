@@ -27,7 +27,12 @@
             var name = p.name;
             delete p.name;
             result[name] = p;
+
+            if ((!p.matchCondition.methods) || (p.matchCondition.methods.length === 0)) {
+                delete p.matchCondition.methods;
+            }
         });
+
 
         return JSON.stringify(result);
     }
@@ -36,15 +41,4 @@
 export class MatchCondition {
     methods: string[];
     route: string;
-}
-
-export class Methods {
-    get: boolean = true;
-    post: boolean = true;
-    delete: boolean = true;
-    head: boolean = true;
-    patch: boolean = true;
-    put: boolean = true;
-    options: boolean = true;
-    trace: boolean = true;
 }

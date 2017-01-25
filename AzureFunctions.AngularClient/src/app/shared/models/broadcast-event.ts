@@ -14,5 +14,6 @@ export enum BroadcastEvent {
     RefreshPortal,
     ApiProxyAdded,
     ApiProxyDeleted,
-    ApiProxySelected
+    ApiProxySelected,
+    ApiProxyUpdated
 }

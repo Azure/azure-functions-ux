@@ -102,6 +102,16 @@ export class SidebarComponent implements OnDestroy, OnInit {
             }
         }));
 
+        this.subscriptions.push(this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
+            if (this.selectedApiProxy.name === apiProxy.name) delete this.selectApiProxy;
+            for (var i = 0; i < this.apiProxies.length; i++) {
+                if (this.apiProxies[i].name === apiProxy.name) {
+                    this.apiProxies.splice(i, 1);
+                    break;
+                }
+            }
+        }));
+
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
             if (event && event.step === TutorialStep.NextSteps) {
                 let selectedFi = this.functionsInfo.find(fi => fi === event.functionInfo);
