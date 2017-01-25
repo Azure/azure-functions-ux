@@ -15,6 +15,7 @@
         enabled?: boolean;
         siteDisabledReason?: number;
         state?: string;
+        defaultHostName?: string;
     }
     tryScmCred?: string;
 }
