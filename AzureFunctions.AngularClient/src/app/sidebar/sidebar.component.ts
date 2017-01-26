@@ -103,7 +103,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
         }));
 
         this.subscriptions.push(this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
-            if (this.selectedApiProxy.name === apiProxy.name) delete this.selectApiProxy;
+            if (this.selectedApiProxy && this.selectedApiProxy.name === apiProxy.name) delete this.selectApiProxy;
             for (var i = 0; i < this.apiProxies.length; i++) {
                 if (this.apiProxies[i].name === apiProxy.name) {
                     this.apiProxies.splice(i, 1);
@@ -177,6 +177,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
             this._broadcastService.clearDirtyState('function', true);
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedFunction = fi;
+            this.selectedApiProxy = null;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
             if (fi.clientOnly) {
                 this.trackPage('NewFunction');
@@ -202,6 +203,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
             this._broadcastService.clearDirtyState('function', true);
             this._broadcastService.clearDirtyState('function_integrate', true);
             this.selectedApiProxy = p;
+            this.selectedFunction = null;
             this._broadcastService.broadcast(BroadcastEvent.ApiProxySelected, p);
             //this.trackPage('NewFunction');
         }

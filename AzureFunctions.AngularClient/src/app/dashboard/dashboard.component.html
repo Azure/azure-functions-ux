@@ -48,7 +48,7 @@
 
                 <div *ngIf="selectedApiProxy">
                     <div *ngIf="selectedApiProxy.name !== ('sidebar_newApiProxy' | translate)">
-                        <api-details [apiProxies]="apiProxies" [apiProxyEdit]="selectedApiProxy"></api-details>
+                        <api-details [functionContainer]="functionContainer" [apiProxies]="apiProxies" [apiProxyEdit]="selectedApiProxy"></api-details>
                     </div>
                     <div *ngIf="selectedApiProxy.name === ('sidebar_newApiProxy' | translate)">
                         <api-new [apiProxies]="apiProxies"></api-new>

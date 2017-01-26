@@ -1,14 +1,14 @@
 <div class="newfunc-container">
     <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
 
-        <div>
+        <div class="edit">
             <div>
                 <label class="control-label">
                     Name
                 </label>
             </div>
 
-            <input type="text"
+            <input type="text" class="long"
                    [formControl]="complexForm.controls['name']"
                    placeholder="{{ 'functionNew_functionName' | translate }}"
                    [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
@@ -19,7 +19,7 @@
             </pop-over>
         </div>
 
-        <div style="display: flex;">
+        <div style="display: flex;" class="edit">
             <div style="flex-grow:1">
                 <label class="control-label" name="for1">
                     Route template
@@ -81,7 +81,7 @@
                 </label>
             </div>
 
-            <input type="text" name="backendUri"
+            <input type="text" name="backendUri" class="long"
                    [formControl]="complexForm.controls['backendUri']"
                    placeholder="{{ 'functionNew_functionName' | translate }}"
                    [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">

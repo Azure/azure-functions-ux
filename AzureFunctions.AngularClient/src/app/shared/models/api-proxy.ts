@@ -24,12 +24,14 @@
 
         // name
         cloneProxies.forEach((p) => {
-            var name = p.name;
-            delete p.name;
-            result[name] = p;
+            if (p.backendUri) {
+                var name = p.name;
+                delete p.name;
+                result[name] = p;
 
-            if ((!p.matchCondition.methods) || (p.matchCondition.methods.length === 0)) {
-                delete p.matchCondition.methods;
+                if ((!p.matchCondition.methods) || (p.matchCondition.methods.length === 0)) {
+                    delete p.matchCondition.methods;
+                }
             }
         });
 

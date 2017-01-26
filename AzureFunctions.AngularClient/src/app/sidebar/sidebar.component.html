@@ -39,7 +39,7 @@
             </li>
             <li *ngFor="let apiProxy of apiProxies">
                 <div (click)="selectApiProxy(apiProxy)" class="function-item">
-                    <span class="function-item clickable" href="#">
+                    <span class="function-item clickable" [class.selected]="apiProxy === selectedApiProxy" href="#">
                         <i *ngIf="apiProxy.name === ('sidebar_newApiProxy' | translate)" class="fa fa-plus"></i>
                         <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/functions.svg" class="function-icon" />
                         {{apiProxy.name}}

@@ -100,6 +100,7 @@ export class DashboardComponent implements OnChanges {
             }
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
+            this.selectedApiProxy = null;
 
             this._globalStateService.setBusyState();
 
@@ -118,6 +119,7 @@ export class DashboardComponent implements OnChanges {
         this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxySelected, apiProxy => {
             this.resetView(false);
             this.selectedApiProxy = apiProxy;
+            this.selectedFunction = null;
         });
 
         this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {

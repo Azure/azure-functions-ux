@@ -7,20 +7,27 @@ import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractCo
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
+import {FunctionContainer} from '../shared/models/function-container';
 
 @Component({
     selector: 'api-details',
     templateUrl: './api-details.component.html',
-    styleUrls: ['./api-details.component.css', '../binding-input/binding-input.component.css'],
-    inputs: ['apiProxyEdit']
+    styleUrls: [/*'./api-details.component.css',*/ '../api-new/api-new.component.css', '../binding-input/binding-input.component.css'],
+    inputs: ['apiProxyEdit', 'functionContainer']
 })
 export class ApiDetailsComponent implements OnInit {
-    @Input() apiProxies: ApiProxy[];
-    //@Input() type: string;
+    @Input() apiProxies: ApiProxy[];    
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     requireMessage: string;
+    proxyUrl: string;
     private _apiProxyEdit: ApiProxy;
+    private _functionContainer: FunctionContainer;
+
+    set functionContainer(value: FunctionContainer) {
+        this._functionContainer = value;
+        this.setProxyUrl();
+    }
 
     set apiProxyEdit(value: ApiProxy) {
         this._apiProxyEdit = value;
@@ -29,8 +36,9 @@ export class ApiDetailsComponent implements OnInit {
             backendUri: this._apiProxyEdit.backendUri,
             routeTemplate: this._apiProxyEdit.matchCondition.route,
             methodSelectionType: !this._apiProxyEdit.matchCondition.methods || this._apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
-            proxyUrl: "proxy URL"
         });
+
+        this.setProxyUrl();
 
         if (this._apiProxyEdit.matchCondition.methods) {
             var methods = {};
@@ -56,17 +64,16 @@ export class ApiDetailsComponent implements OnInit {
         this.complexForm = fb.group({
             routeTemplate: '',
             methodSelectionType: 'All',
-            //name: [null, Validators.compose([Validators.required, this.validateName(this)])],
             backendUri: [null, Validators.required],
             proxyUrl: '',
-            method_get: true,
-            method_post: true,
-            method_delete: true,
-            method_head: true,
-            method_patch: true, 
-            method_put: true,
-            method_options: true,
-            method_trace: true
+            method_get: false,
+            method_post: false,
+            method_delete: false,
+            method_head: false,
+            method_patch: false, 
+            method_put: false,
+            method_options: false,
+            method_trace: false
         });
 
         this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
@@ -76,26 +83,18 @@ export class ApiDetailsComponent implements OnInit {
         this.requireMessage = this._translateService.instant(PortalResources.filedRequired);
     }
 
-    //validateName(that: ApiDetailsComponent): ValidatorFn {        
+    private setProxyUrl() {
+        if (this._apiProxyEdit && this._functionContainer) {
 
-    //    return (control: AbstractControl): { [key: string]: any } => {
-    //        var existingProxy = null;
-    //        if (that.complexForm) {
-    //            var name = control.value;
-    //            if (that.apiProxies && name) {
-    //                existingProxy = that.apiProxies.find((p) => {
-    //                    return p.name === name;
-    //                });
-    //            }
-    //        }
+            var route = (this._apiProxyEdit.matchCondition.route) ? this._apiProxyEdit.matchCondition.route : '/api/' + this._apiProxyEdit.name;
+            if (!route.startsWith('/')) {
+                route = '/' + route;
+            }
 
-    //        return existingProxy ? {
-    //            validateName: {
-    //                valid: false
-    //            }
-    //        } : null;
-    //    };
-    //};
+            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route;
+            
+        }
+    }
 
     ngOnInit() {
     }
@@ -131,79 +130,30 @@ export class ApiDetailsComponent implements OnInit {
             this._apiProxyEdit.matchCondition.methods = [];
 
             this._functionsService.getApiProxies().subscribe(proxies => {
-
                 this.apiProxies = ApiProxy.fromJson(proxies);
-                var existingProxy = this.apiProxies.find((p) => {
+                var index = this.apiProxies.findIndex((p) => {
                     return p.name === this._apiProxyEdit.name;
                 });
 
-                if (existingProxy) {
+                if (index > -1) {
                     if (this.complexForm.controls["methodSelectionType"].value !== "All") {
                         for (var control in this.complexForm.controls) {
                             if (control.startsWith("method_")) {
                                 if (this.complexForm.controls[control].value) {
-                                    this._apiProxyEdit.matchCondition.methods.push(control.toLocaleLowerCase());
+                                    this._apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toLocaleLowerCase());
                                 }
                             }
                         }
                     }
+                    this.apiProxies[index] = this._apiProxyEdit;
                 }
-
-                existingProxy = this._apiProxyEdit;
 
                 this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this._apiProxyEdit);
+                    this.setProxyUrl();
                 });
             });
         }
     }
-
-    //submitFormNew(value: any) {
-    //    if (this.complexForm.valid) {
-    //        this._globalStateService.setBusyState();
-
-    //        var newApiProxy: ApiProxy = {
-    //            name: this.complexForm.controls["name"].value,
-    //            backendUri: this.complexForm.controls["backendUri"].value,
-    //            matchCondition: {
-    //                route: this.complexForm.controls["routeTemplate"].value,
-    //                methods: []
-    //            }
-    //        };
-
-    //        this._functionsService.getApiProxies().subscribe(proxies => {
-
-    //            this.apiProxies = ApiProxy.fromJson(proxies);
-    //            var existingProxy = this.apiProxies.find((p) => {
-    //                return p.name === newApiProxy.name;
-    //            });
-
-    //            if (existingProxy) {
-    //                this._globalStateService.clearBusyState();
-    //                throw `Proxy with name '${newApiProxy.name}' already exists`;
-    //            } else {
-    //                if (this.complexForm.controls["methodSelectionType"].value !== "All") {
-    //                    for (var control in this.complexForm.controls) {
-    //                        if (control.startsWith("method_")) {
-    //                            if (this.complexForm.controls[control].value) {
-    //                                newApiProxy.matchCondition.methods.push(control.toLocaleLowerCase());
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-
-    //            this.apiProxies.push(newApiProxy);
-
-    //            this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
-    //                this._globalStateService.clearBusyState();
-    //                this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
-    //            });
-    //        });
-
-    //    }
-        
-    //}
-
 }

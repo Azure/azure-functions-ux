@@ -1,8 +1,15 @@
 form {
-    padding-top:30px;
-    padding-left:30px;
+    padding:30px;
 }
 
 form > div {
     padding-bottom: 20px;
+}
+
+.long {
+    width: 720px !important;
+}
+
+.edit {
+    width: 740px;
 }

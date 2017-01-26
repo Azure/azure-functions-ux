@@ -3,21 +3,17 @@
 
 <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value, type)">
 
-    <div *ngIf="type === 'details'">
-        <div>
+    <div class="edit">
+        
             <label class="control-label">
                 Proxy URL
             </label>
-        </div>
 
-        <input type="text"
-               [formControl]="complexForm.controls['proxyUrl']"
-               placeholder="{{ 'functionNew_functionName' | translate }}"
-               [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
+        <div><copy-pre [content]="proxyUrl"></copy-pre></div>
     </div>
 
 
-    <div style="display: flex;">
+    <div style="display: flex;" class="edit">
         <div style="flex-grow:1">
             <label class="control-label" name="for1">
                 Route template
@@ -79,7 +75,7 @@
             </label>
         </div>
 
-        <input type="text" name="backendUri"
+        <input type="text" name="backendUri" style="width: 720px"
                 [formControl]="complexForm.controls['backendUri']"
                 placeholder="{{ 'functionNew_functionName' | translate }}"
                 [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
@@ -88,7 +84,7 @@
         </pop-over>
     </div>
 
-    <div style="display: flex">
+    <div style="display: flex;">
         <div style="flex-grow:1;align-items:center;">
             <button type="submit" [disabled]="!complexForm.valid" class="custom-button">{{ 'save' | translate }}</button>
             <button class="custom-button" (click)="onCancelClick()">{{ 'cancel' | translate }}</button>
