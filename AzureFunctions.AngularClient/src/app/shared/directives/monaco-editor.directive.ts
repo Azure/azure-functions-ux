@@ -1,14 +1,15 @@
-import {Directive, EventEmitter, ElementRef, AfterViewInit } from '@angular/core';
+import {Directive, EventEmitter, ElementRef} from '@angular/core';
 import {MonacoModel} from '../models/monaco-model';
 import {GlobalStateService} from '../services/global-state.service';
-import {FunctionsService} from '../services/functions.service';
+import {FunctionApp} from '../function-app';
+import {Observable, Subject} from 'rxjs/Rx';
 
 declare var monaco;
 declare var require;
 
 @Directive({
     selector: '[monacoEditor]',
-    inputs: ['content', 'fileName', 'disabled'],
+    inputs: ['content', 'fileName', 'disabled', 'functionAppInput'],
     outputs: ['onContentChanged', 'onSave']
 })
 export class MonacoEditorDirective {
@@ -19,18 +20,30 @@ export class MonacoEditorDirective {
     private _content: string;
     private _disabled: boolean;
     private _editor: any;
-    private _containerName: string;
+    private _containerName: string;    
     private _silent: boolean = false;
     private _fileName: string;
+    private _functionAppStream : Subject<FunctionApp>;
+    private _functionApp : FunctionApp;
 
     constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService,
-        private _functionsService: FunctionsService
-    ) {
+        private _globalStateService: GlobalStateService
+        ) {
+
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
 
-        this.init();
+        this._functionAppStream = new Subject<FunctionApp>();
+        this._functionAppStream
+            .distinctUntilChanged()
+            .subscribe(functionApp =>{
+                this._functionApp = functionApp;
+                this.init();
+            });
+    }
+
+    set functionAppInput(functionApp : FunctionApp){
+        this._functionAppStream.next(functionApp);
     }
 
     set content(str: string) {
@@ -112,7 +125,7 @@ export class MonacoEditorDirective {
 
 
     private init() {
-        //https://gist.github.com/chrisber/ef567098216319784c0596c5dac8e3aa
+         //https://gist.github.com/chrisber/ef567098216319784c0596c5dac8e3aa
         //require.config({ paths: { 'vs': 'assets/monaco-editor/min/vs' } });
         this._globalStateService.setBusyState();
 
@@ -134,40 +147,40 @@ export class MonacoEditorDirective {
                         }
 
                         if (that._fileName && that._fileName.toLowerCase() === "project.json") {
-                            that._functionsService.getJson("/schemas/" + that._fileName.toLowerCase()).subscribe((schema) => {
+                            that._functionApp.getJson("/schemas/" + that._fileName.toLowerCase()).subscribe((schema) => {
                                 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                                    schemas: [{
-                                        fileMatch: ["*"],
-                                        schema: schema
-                                    }]
-                                });
-                            });
-                        } else {
-                            monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                                schemas: []
-                            });
-                        }
-
-                        that._editor = monaco.editor.create(that.elementRef.nativeElement, {
-                            value: that._content,
-                            language: that._language,
-                            readOnly: that._disabled,
-                            lineHeight: 17
+                            schemas: [{
+                                fileMatch: ["*"],
+                                schema: schema
+                            }]
                         });
-
-                        that._editor.onDidChangeModelContent(() => {
-                            if (!that._silent) {
-                                that.onContentChanged.emit(that._editor.getValue());
-                            }
-                        });
-
-                        // TODO: test with MAC
-                        that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-                            that.onSave.emit(that._editor.getValue());
-                        });
-                        that._globalStateService.clearBusyState();
-
                     });
+                } else {
+                    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                        schemas: []
+                    });
+                }
+
+                that._editor = monaco.editor.create(that.elementRef.nativeElement, {
+                    value: that._content,
+                    language: that._language,
+                    readOnly: that._disabled,
+                    lineHeight: 17
+                });
+
+                that._editor.onDidChangeModelContent(() => {
+                    if (!that._silent) {
+                        that.onContentChanged.emit(that._editor.getValue());
+                    }
+                });
+
+                // TODO: test with MAC
+                that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+                    that.onSave.emit(that._editor.getValue());
+                });
+                that._globalStateService.clearBusyState();
+
+            });
                 //}, 0);
                 
             //});

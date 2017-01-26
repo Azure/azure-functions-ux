@@ -4,12 +4,13 @@ import {FunctionInvocations} from '../shared/models/function-monitor';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
+import {BusyStateComponent} from '../busy-state/busy-state.component';
+
 @Component({
-  selector: 'table-function-monitor',
-  templateUrl: './table-function-monitor.component.html',
-  styleUrls: ['./table-function-monitor.component.css']
+    selector: 'table-function-monitor',
+    templateUrl: './table-function-monitor.component.html',
+    styleUrls: ['./table-function-monitor.component.css'],
 })
 
 export class TableFunctionMonitorComponent implements OnChanges {

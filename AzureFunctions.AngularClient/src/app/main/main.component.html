@@ -6,7 +6,7 @@
     <div *ngIf="!!viewInfo" class="dashboard">
 
         <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
-        <!--<function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>-->
+        <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>
 
     </div>
 </div>

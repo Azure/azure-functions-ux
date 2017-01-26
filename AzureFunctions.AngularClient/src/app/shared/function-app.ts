@@ -117,7 +117,7 @@ export class FunctionApp {
     // private functionContainer: FunctionContainer;
 
     constructor(
-        private _site : ArmObj<Site>,
+        public site : ArmObj<Site>,
         private _http: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
@@ -138,11 +138,11 @@ export class FunctionApp {
 
             // this._userService.getFunctionContainer().subscribe(fc => {
                 // this.functionContainer = fc;
-                this.scmUrl = `https://${this._site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-                this.mainSiteUrl = `https://${this._site.properties.defaultHostName}`;
-                this.siteName = this._site.name;
+                this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+                this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+                this.siteName = this.site.name;
                 this.azureMainServer = this.mainSiteUrl;
-                this.azureScmServer = `https://${this._site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+                this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
                 this.localServer = 'https://localhost:6061';
             // });
         }
@@ -262,7 +262,7 @@ export class FunctionApp {
              console.error(e);
          }
 
-         return this._http.get('api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
+         return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
                 var object = r.json();
@@ -471,7 +471,7 @@ export class FunctionApp {
 
     @Cache()
     getDesignerSchema() {
-        return this._http.get('mocks/function-json-schema.json')
+        return this._http.get(Constants.serviceHost + 'mocks/function-json-schema.json')
             .retryWhen(this.retryAntares)
             .map<DesignerSchema>(r => r.json());
     }
@@ -638,7 +638,7 @@ export class FunctionApp {
              console.error(e);
          }
 
-        return this._http.get('api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+        return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<BindingConfig>(r => {
@@ -1031,7 +1031,7 @@ export class FunctionApp {
 
     private checkCorsOrDnsErrors(error: Response): Observable<Response> {
         if (error.status < 404 && error.type === ResponseType.Error) {
-            this._armService.getConfig(this._site.id)
+            this._armService.getConfig(this.site.id)
                 .subscribe(config => {
                     let cors: {allowedOrigins: string[]} = <any>config['cors'];
                     let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
@@ -1053,7 +1053,7 @@ export class FunctionApp {
                 }, (error: Response) => {
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this._site.name}), details: JSON.stringify(error) }
+                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.site.name}), details: JSON.stringify(error) }
                         );
                 });
         } else {

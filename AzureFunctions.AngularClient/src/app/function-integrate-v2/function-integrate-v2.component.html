@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <div class="text-center">
             <div class="column-title">
-                {{ 'input' | translate }}
+            {{ 'input' | translate }}
                 <pop-over [position]="'bottom'" [message]="'integrate_inputsHelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
@@ -23,12 +23,12 @@
         <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('advanced')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_advancedEditor' | translate }}</div>
         <div class="text-center">
             <div class="column-title">
-                {{ 'output' | translate }}
+            {{ 'output' | translate }}
                 <pop-over [position]="'bottom'" [message]="'integrate_outputsHelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
             </div>
-        </div>
+        </div>        
     </div>
 </div>
 
@@ -69,7 +69,21 @@
 <br />
 
 <div>
-    <binding *ngIf="currentBinding" [allBindings]="model.config.bindings" [binding]="currentBinding" (remove)="onRemoveBinding($event)" (update)="onUpdateBinding($event)" (go)="onGo($event)" (cancel)="onCancel($event)"></binding>
+    <binding
+        *ngIf="currentBinding"
+        [selectedFunction]="functionInfo"
+        [allBindings]="model.config.bindings"
+        [binding]="currentBinding"
+        (remove)="onRemoveBinding($event)"
+        (update)="onUpdateBinding($event)"
+        (go)="onGo($event)"
+        (cancel)="onCancel($event)"></binding>
 </div>
 
-<template-picker *ngIf="pickerType!==4" [type]="pickerType" [showFooter]="true" (complete)="onBindingCreateComplete(behavior, $event)" (cancel)="onBindingCreateCancel($event)"></template-picker>
+<template-picker
+    *ngIf="pickerType!==4"
+    [selectedFunction]="functionInfo"
+    [type]="pickerType"
+    [showFooter]="true"
+    (complete)="onBindingCreateComplete(behavior, $event)"
+    (cancel)="onBindingCreateCancel($event)"></template-picker>

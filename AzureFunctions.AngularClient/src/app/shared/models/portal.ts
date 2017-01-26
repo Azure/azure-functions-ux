@@ -38,8 +38,11 @@ export class Verbs{
     // Requests from iframe
     public static getStartupInfo = "get-startup-info";
     public static openBlade = "open-blade";
+
+    public static openBladeCollector = "open-blade-collector";                // Deprecated
+    public static openBladeCollectorInputs = "open-blade-collector-inputs";   // Deprecated
+
     public static closeBlades = "close-blades";
-    public static openBladeWithInputs = "open-blade-inputs";
     public static logAction = "log-action";
     public static logMessage = "log-message";
     public static setDirtyState = "set-dirtystate";

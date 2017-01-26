@@ -1,6 +1,5 @@
 import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
-import {FunctionsService} from '../shared/services/functions.service';
 import {PortalService} from '../shared/services/portal.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
@@ -11,10 +10,10 @@ import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 
 @Component({
-  selector: 'function-integrate',
-  templateUrl: './function-integrate.component.html',
-  styleUrls: ['./function-integrate.component.css'],
-  inputs: ['selectedFunction']
+    selector: 'function-integrate',
+    templateUrl: './function-integrate.component.html',
+    styleUrls: ['./function-integrate.component.css'],
+    inputs: ['selectedFunction']
 })
 export class FunctionIntegrateComponent implements OnDestroy {
     @Output() changeEditor = new EventEmitter<string>();
@@ -28,7 +27,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
     private _bindingManager: BindingManager = new BindingManager();
 
     constructor(
-        private _functionsService: FunctionsService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
@@ -47,7 +45,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
         try {
             this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });                        
         }
     }
 
@@ -76,23 +74,17 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
-                this._functionsService.updateFunction(this._selectedFunction)
-                    .subscribe(fi => {
-                        this._originalContent = this.configContent;
-                        this.clearDirty();
-                        this._globalStateService.clearBusyState();
-                        this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
-                    });
+                this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
+                .subscribe(fi => {
+                    this._originalContent = this.configContent;
+                    this.clearDirty();
+                    this._globalStateService.clearBusyState();
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
+                });
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
             }
         }
-    }
-
-    openCollectorBlade(name: string) {
-        this._portalService.openCollectorBlade(name, "function-integrate", (appSettingName: string) => {
-            console.log(this._translateService.instant(PortalResources.functionIntegrate_settingName) + " " + appSettingName);
-        });
     }
 
     ngOnDestroy() {

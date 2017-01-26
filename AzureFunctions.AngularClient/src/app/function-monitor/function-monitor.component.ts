@@ -1,8 +1,7 @@
 import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
-import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionMonitorService} from '../shared/services/function-monitor.service';
-import {FunctionInvocations, FunctionStats} from '../shared/models/function-monitor';
+import {FunctionInvocations} from '../shared/models/function-monitor';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';

@@ -54,9 +54,8 @@ export class BackgroundTasksService {
             let tasks = () => Observable.zip(
                         this._functionsService.getHostErrors().catch(e => Observable.of([])),
                         this._armService.getConfig(this._globalStateService.FunctionContainer.id),
-                        this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
                         this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
-                        (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
+                        (e, c, auth) => ({ errors: e, config: c, authSettings: auth }));
             let handleResult = result => {
                 result.errors.forEach(e => {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
@@ -67,7 +66,6 @@ export class BackgroundTasksService {
                     this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
                         (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
                     this._functionsService.setEasyAuth(result.authSettings);
-                    this._globalStateService.AppSettings = result.appSettings;
                     // if (!this._isResourcesReceived) {
                     //     this._functionsService.getResources().subscribe(() => {
                     //         this._isResourcesReceived = true;
@@ -76,7 +74,7 @@ export class BackgroundTasksService {
                    this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
             };
             this._tasks = Observable.timer(1, 60000)
-                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() => tasks())
+                .concatMap<{ errors: string[], config: { [key: string]: string } }>(() => tasks())
                 .subscribe(result => handleResult(result));
 
             this._broadcastService.subscribe(BroadcastEvent.RefreshPortal, () => {

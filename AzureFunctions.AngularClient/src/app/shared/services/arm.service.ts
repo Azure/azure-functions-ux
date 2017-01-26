@@ -71,7 +71,7 @@ export class ArmService {
             method : method,
             search : null,
             headers :  headers ? headers : this.getHeaders(etag),
-            body : body
+            body : body ? body : null
         });
 
         return this._http.request(request);
@@ -125,23 +125,23 @@ export class ArmService {
             .map<PublishingCredentials>(r => r.json());
     }
 
-    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
-        var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
-        return this._http.post(url, '', { headers: this.getHeaders() })
-            .map<{ [key: string]: string }>(r => r.json().properties);
-    }
+    // getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
+    //     var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
+    //     return this._http.post(url, '', { headers: this.getHeaders() })
+    //         .map<{ [key: string]: string }>(r => r.json().properties);
+    // }
 
-    @ClearCache('clearAllCachedData')
-    updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
-        if (appSettings[Constants.azureJobsExtensionVersion]) {
-            delete appSettings[Constants.azureJobsExtensionVersion];
-        }
-        appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
-        appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
-        var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
-        return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
-                .map<{ [key: string]: string }>(r => r.json().properties);
-    }
+    // @ClearCache('clearAllCachedData')
+    // updateFunctionContainerVersion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }) {
+    //     if (appSettings[Constants.azureJobsExtensionVersion]) {
+    //         delete appSettings[Constants.azureJobsExtensionVersion];
+    //     }
+    //     appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+    //     appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+    //     var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
+    //     return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
+    //             .map<{ [key: string]: string }>(r => r.json().properties);
+    // }
 
     getConfig(resourceId : string) {
         var url = `${this.armUrl}${resourceId}/config/web?api-version=${this.websiteApiVersion}`;

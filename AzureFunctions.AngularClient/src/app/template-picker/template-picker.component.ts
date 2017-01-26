@@ -2,19 +2,20 @@ import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@an
 import {TemplatePickerType, Template} from '../shared/models/template-picker';
 import {DirectionType, Binding} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
+import {FunctionInfo} from '../shared/models/function-info';
 import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/models/template';
-import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
+import {Subject} from 'rxjs/Rx';
 
 @Component({
     selector: 'template-picker',
     templateUrl: './template-picker.component.html',
-    inputs: ['type', 'template'],
-    styleUrls: ['./template-picker.component.css'],        
+    inputs: ['selectedFunction', 'type', 'template'],
+    styleUrls: ['./template-picker.component.css']
 })
 
 export class TemplatePickerComponent {
@@ -27,12 +28,13 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
-    isTemplate: boolean = false;
     private category: string = "";
     private _language: string = "";
     private _type: TemplatePickerType;
     private _initialized = false;
     private _orderedCategoties = [];
+    private _selectedFunctionStream = new Subject<FunctionInfo>();
+    private _functionInfo : FunctionInfo;
 
     set template(value: string) {
         if (value) {
@@ -44,12 +46,18 @@ export class TemplatePickerComponent {
     @Output() complete: EventEmitter<string> = new EventEmitter<string>();
     @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
-    constructor(private _functionsService: FunctionsService,
+    constructor(
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
 
+        this._selectedFunctionStream
+            .distinctUntilChanged()
+            .subscribe(fi =>{
+                this._functionInfo = fi;
+            })
+
         this.showTryView = this._globalStateService.showTryView;
-        this._language = this._translateService.instant("temp_category_all");
+        this._language = this._translateService.instant("temp_category_api");
 
         this._orderedCategoties = [
             this._translateService.instant("temp_category_core"),
@@ -61,13 +69,16 @@ export class TemplatePickerComponent {
         ];
     }
 
+    set selectedFunction(fi : FunctionInfo){
+        this._selectedFunctionStream.next(fi);
+    }
+
     set type(type: TemplatePickerType) {
-        this.isTemplate = (type === TemplatePickerType.template);
         var that = this;
         this._type = type;
         this._globalStateService.setBusyState();
-        this._functionsService.getTemplates().subscribe((templates) => {
-            this._functionsService.getBindingConfig().subscribe((config) => {
+        this._functionInfo.functionApp.getTemplates().subscribe((templates) => {
+            this._functionInfo.functionApp.getBindingConfig().subscribe((config) => {
                 var that = this;
                 this._globalStateService.clearBusyState();
                 this.bindings = config.bindings;
@@ -206,7 +217,7 @@ export class TemplatePickerComponent {
         this.cancel.emit(""); // this fires an eventClicked
     }
 
-    onTemplateClicked(template: string, templateDisabled: boolean) {
+    onTemplateClicked(template: string, templateDisabled:boolean) {
         if (!templateDisabled) {
             this.selectedTemplate = template;
             if (!this.showFooter) {
@@ -227,10 +238,10 @@ export class TemplatePickerComponent {
 
     onScenarioChanged(category: string) {
         if (this.category !== category) {
-            this.category = category;            
+            this.category = category;
             if (this._language && this.category) {
                 this.type = this._type;
-            }            
+            }
         }
     }
 
@@ -247,8 +258,8 @@ export class TemplatePickerComponent {
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
-                    enabledInTryMode: binding.enabledInTryMode
-                });
+                    enabledInTryMode: binding.enabledInTryMode 
+            });
 
             }
         });
@@ -256,7 +267,7 @@ export class TemplatePickerComponent {
         return result;
     }
 
-    private getFilterMatach(filters: string[]): boolean {
+    private getFilterMatach(filters: string[]) : boolean {
         var isFilterMatch = true;
         if (filters && filters.length > 0) {
             isFilterMatch = false;

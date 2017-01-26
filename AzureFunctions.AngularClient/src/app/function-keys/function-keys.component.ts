@@ -1,6 +1,5 @@
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Rx';
-import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {FunctionKey} from '../shared/models/function-key';
@@ -11,11 +10,12 @@ import {PortalResources} from '../shared/models/portal-resources';
 
 
 @Component({
-  selector: 'function-keys',
-  templateUrl: './function-keys.component.html',
-  styleUrls: ['./function-keys.component.css', '../table-function-monitor/table-function-monitor.component.css']
+    selector: 'function-keys',
+    templateUrl: './function-keys.component.html',
+    styleUrls: ['./function-keys.component.css', '../table-function-monitor/table-function-monitor.component.css']
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
+    @Input() getAdminKeys : boolean;
     @Input() functionInfo: FunctionInfo;
     @Input() enableKeySelect: boolean;
     @Input() autoSelect: boolean;
@@ -32,7 +32,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     private newKeyValue: string;
     private validKey: boolean;
 
-    constructor(private _functionsService: FunctionsService,
+    constructor(
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService) {
         this.validKey = false;
@@ -42,9 +42,9 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             .switchMap(fi => {
                 this.setBusyState();
                 this.resetState();
-                return fi
-                    ? this._functionsService.getFunctionKeys(fi)
-                    : this._functionsService.getFunctionHostKeys();
+                return !this.getAdminKeys
+                 ? fi.functionApp.getFunctionKeys(fi)
+                 : fi.functionApp.getFunctionHostKeys();
             })
             .subscribe(keys => {
                 this.clearBusyState();
@@ -80,7 +80,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.handleInitAndChanges();
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges(changes: {[key: string]: SimpleChange}) {
         this.handleInitAndChanges();
     }
 
@@ -130,8 +130,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
     saveNewKey() {
         this.setBusyState();
-        this._functionsService
-            .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
+        this.functionInfo.functionApp
+            .createKey(this.newKeyName, this.newKeyValue, this.getAdminKeys ? null : this.functionInfo)
             .subscribe(key => {
                 this.clearBusyState();
                 this.functionStream.next(this.functionInfo)
@@ -139,10 +139,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     revokeKey(key: FunctionKey) {
-        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, {name: key.name}))) {
             this.setBusyState();
-            this._functionsService
-                .deleteKey(key, this.functionInfo)
+            this.functionInfo.functionApp
+                .deleteKey(key, this.getAdminKeys ? null : this.functionInfo)
                 .subscribe(r => {
                     this.clearBusyState();
                     this.functionStream.next(this.functionInfo)
@@ -152,8 +152,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
     renewKey(key: FunctionKey) {
         this.setBusyState();
-        this._functionsService
-            .renewKey(key, this.functionInfo)
+        this.functionInfo.functionApp
+            .renewKey(key, this.getAdminKeys ? null : this.functionInfo)
             .subscribe(r => {
                 this.clearBusyState();
                 this.functionStream.next(this.functionInfo)

@@ -18,7 +18,7 @@ export class Cache{
 @Injectable()
 export class CacheService {
     private _cache : Cache;
-    private _expireMS = 70000;
+    private _expireMS = 30000;
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 
@@ -48,6 +48,17 @@ export class CacheService {
         return this.send(url, "POST", false, force);
     }
 
+    putArmResource(resourceId : string, apiVersion? : string, content? : any){
+        let url : string = this._getArmUrl(resourceId, apiVersion);
+        return this.send(url, "PUT", false, true, null, content)
+        .map(result =>{
+            
+            // Clear the cache after a PUT request.
+            delete this._cache[url.toLowerCase()];
+            return result;
+        });
+    }
+
     get(url : string, force? : boolean, headers? : Headers){
         return this.send(url, "GET", false, force);
     }
@@ -74,7 +85,8 @@ export class CacheService {
         method : string,
         isArmCollection : boolean,
         force : boolean,
-        headers? : Headers) {
+        headers? : Headers,
+        content? : any) {
 
         let key = url.toLowerCase();
 
@@ -100,7 +112,7 @@ export class CacheService {
                 headers.append('If-None-Match', etag);
             }
 
-            let responseObs = this._armService.send(method, url, null, etag, headers)
+            let responseObs = this._armService.send(method, url, content, etag, headers)
             .map(response =>{
                 return this.mapAndCacheResponse(response, key, isArmCollection);
             })

@@ -60,19 +60,27 @@ export class PortalService {
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
-    openCollectorBlade(name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-" + name, null);
+    openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.logAction(source, "open-blade-collector" + name, null);
         this.getAppSettingCallback = getAppSettingCallback;
-        this.postMessage(Verbs.openBlade, name);
+        let payload = {
+            resourceId : resourceId,
+            bladeName : name
+        };
+
+        this.postMessage(Verbs.openBladeCollector, JSON.stringify(payload));
     }
 
-    openCollectorBladeWithInputs(obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-input" + obj.bladeName, null);
+    openCollectorBladeWithInputs(resourceId : string, obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.logAction(source, "open-blade-collector-inputs" + obj.bladeName, null);
         this.getAppSettingCallback = getAppSettingCallback;
 
-        let inputStr = JSON.stringify(obj);
+        let payload = {
+            resourceId : resourceId,
+            input : obj
+        };
 
-        this.postMessage(Verbs.openBladeWithInputs, inputStr);
+        this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
     }
 
     closeBlades(){

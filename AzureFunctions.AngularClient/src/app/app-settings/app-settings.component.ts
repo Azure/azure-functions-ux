@@ -11,6 +11,8 @@ import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {TooltipContentComponent} from '../tooltip-content/tooltip-content.component';
 import {TooltipDirective} from '../tooltip-content/tooltip.directive';
 import {AiService} from '../shared/services/ai.service';
+import {CacheService} from '../shared/services/cache.service';
+import {ArmObj} from '../shared/models/arm/arm-obj';
 
 @Component({
     selector: 'app-settings',
@@ -56,6 +58,7 @@ export class AppSettingsComponent implements OnInit {
                 private _broadcastService: BroadcastService,
                 private _functionsService: FunctionsService,
                 private _globalStateService: GlobalStateService,
+                private _cacheService : CacheService,
                 private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
     }
@@ -100,8 +103,9 @@ export class AppSettingsComponent implements OnInit {
     updateVersion() {
         this._aiService.trackEvent('/actions/app_settings/update_version');
         this._globalStateService.setBusyState();
-        this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
-            this._armService.updateFunctionContainerVersion(this.functionContainer, appSettings).subscribe((r) => {
+        this._cacheService.postArmResource(`${this.functionContainer.id}/config/appsettings/list`, true)
+        .subscribe((appSettingsArm : ArmObj<any>) =>{
+            this._updateFunctionContainerVersion(this.functionContainer.id, appSettingsArm.properties).subscribe((r) => {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
             });
@@ -130,5 +134,24 @@ export class AppSettingsComponent implements OnInit {
             this._functionContainer.properties.dailyMemoryTimeQuota = 0;
             this._globalStateService.clearBusyState();
         });
+    }
+
+    private _updateFunctionContainerVersion(resourceId : string, appSettings: { [key: string]: string }) {
+        if (appSettings[Constants.azureJobsExtensionVersion]) {
+            delete appSettings[Constants.azureJobsExtensionVersion];
+        }
+        appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+        appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+
+        return this._cacheService.putArmResource(
+            `${resourceId}/config/appsettings`,
+            this._armService.websiteApiVersion,
+            {properties: appSettings})
+            .map<{ [key: string]: string }>(r => r.json().properties);
+
+
+        // var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
+        // return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
+        //         .map<{ [key: string]: string }>(r => r.json().properties);
     }
 }

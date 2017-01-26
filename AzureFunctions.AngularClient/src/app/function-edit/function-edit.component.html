@@ -1,20 +1,20 @@
-<tutorial></tutorial>
-<div *ngIf="tabId === 'Develop'" class="tab-content">
+<!--<tutorial></tutorial>-->
+<div *ngIf="tabId === 'develop'" class="tab-content">
     <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
         {{ 'functionEdit_readOnly' | translate }}
     </div>
     <function-dev [selectedFunction]="selectedFunction"></function-dev>
 </div>
-<div *ngIf="tabId === 'Integrate'" class="tab-content">
+<div *ngIf="tabId === 'integrate'" class="tab-content">
     <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
         {{ 'functionEdit_readOnly' | translate }}
     </div>
     <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
-<div *ngIf="tabId === 'Manage'" class="tab-content">
-    <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
+<div *ngIf="tabId === 'manage'" class="tab-content">
+    <function-manage [selectedFunction]="selectedFunction"></function-manage>    
 </div>
-<div *ngIf="tabId === 'Monitor'" class="tab-content">
-    <function-manage [selectedFunction]="selectedFunction"></function-manage>
+<div *ngIf="tabId === 'monitor'" class="tab-content">
+    <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
 </div>
