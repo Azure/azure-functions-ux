@@ -22,8 +22,8 @@ export class ApiSettingsComponent implements OnInit {
     public functionStatusOptions: SelectOption<boolean>[];
     public disabled: boolean;
     public needUpdateRoutingExtensionVersion: boolean;
-    public extensionVersion: string;
-    public latestExtensionVersion: string;
+    public routingExtensionVersion: string;
+    public latestRoutingExtensionVersion: string;
     public apiProxiesEnabled: boolean;
     private valueChange: Subject<boolean>;
 
@@ -67,10 +67,10 @@ export class ApiSettingsComponent implements OnInit {
     ngOnInit() {
         this._globalStateService.clearBusyState();
         this.needUpdateRoutingExtensionVersion = !this._globalStateService.IsLatestRoutingVersion;
-        this.extensionVersion = this._globalStateService.RoutingExtensionVersion;
-        this.latestExtensionVersion = Constants.routingExtensionVersion;
+        this.routingExtensionVersion = this._globalStateService.RoutingExtensionVersion;
+        this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
 
-        this.apiProxiesEnabled = ((this.extensionVersion) && (this.extensionVersion !== Constants.disabled));
+        this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
     }
 
 }

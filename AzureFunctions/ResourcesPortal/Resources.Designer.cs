@@ -88,6 +88,78 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All methods.
+        /// </summary>
+        internal static string apiProxy_allMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_allMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allowed HTTP methods.
+        /// </summary>
+        internal static string apiProxy_allowedHttpMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_allowedHttpMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backend URL.
+        /// </summary>
+        internal static string apiProxy_backendUrl {
+            get {
+                return ResourceManager.GetString("apiProxy_backendUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API proxy with that name already exsists..
+        /// </summary>
+        internal static string apiProxy_errorExists {
+            get {
+                return ResourceManager.GetString("apiProxy_errorExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string apiProxy_name {
+            get {
+                return ResourceManager.GetString("apiProxy_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy URL.
+        /// </summary>
+        internal static string apiProxy_proxyUrl {
+            get {
+                return ResourceManager.GetString("apiProxy_proxyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route template.
+        /// </summary>
+        internal static string apiProxy_routeTemplate {
+            get {
+                return ResourceManager.GetString("apiProxy_routeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected methods.
+        /// </summary>
+        internal static string apiProxy_seectedMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_seectedMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Settings.
         /// </summary>
         internal static string appFunctionSettings_AdvancedSettings {
@@ -120,6 +192,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_apiDefiition {
             get {
                 return ResourceManager.GetString("appFunctionSettings_apiDefiition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API proxies (preview).
+        /// </summary>
+        internal static string appFunctionSettings_apiProxies {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_apiProxies", resourceCulture);
             }
         }
         
@@ -412,6 +493,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
+        /// </summary>
+        internal static string appFunctionSettings_proxyRuntimeVersion1 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy runtime version: latest ({{latestExtensionVersion}}).
+        /// </summary>
+        internal static string appFunctionSettings_proxyRuntimeVersion2 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Runtime version: Latest ({{latestExtensionVersion}}).
         /// </summary>
         internal static string appFunctionSettings_runtimeVersion1 {
@@ -426,6 +525,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_runtimeVersion2 {
             get {
                 return ResourceManager.GetString("appFunctionSettings_runtimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use API proxies.
+        /// </summary>
+        internal static string appFunctionSettings_useApiProxies {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_useApiProxies", resourceCulture);
             }
         }
         
@@ -2104,6 +2212,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string sideBar_changeMadeApiProxy {
+            get {
+                return ResourceManager.GetString("sideBar_changeMadeApiProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New API Proxy.
         /// </summary>
         internal static string sidebar_newApiProxy {
@@ -2131,7 +2248,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search my functions.
+        ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string sideBar_searchMyFunction {
             get {

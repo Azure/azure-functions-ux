@@ -37,11 +37,11 @@
                     </span>
                 </div>
             </li>
-            <li *ngFor="let apiProxy of apiProxies">
+            <li *ngFor="let apiProxy of apiProxies | sidebarFilter:searchValue">
                 <div (click)="selectApiProxy(apiProxy)" class="function-item">
                     <span class="function-item clickable" [class.selected]="apiProxy === selectedApiProxy" href="#">
                         <i *ngIf="apiProxy.name === ('sidebar_newApiProxy' | translate)" class="fa fa-plus"></i>
-                        <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/functions.svg" class="function-icon" />
+                        <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/api-proxy.svg" class="function-icon" />
                         {{apiProxy.name}}
                     </span>
                 </div>
@@ -57,12 +57,6 @@
                 <i class="tab fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
                 <i *ngIf="ActiveButton.toString() === 'AppSettings'" class="tab fa fa-chevron-right pull-right"></i>
             </div>
-            <div (click)="apiSettings()"
-                 class="tab-item link clickable button"
-                 [class.tab-item-selected]="ActiveButton.toString() === 'ApiSettings'">
-                <i class="tab fa fa-wrench"></i> {{ 'topBar_functionApiSettings' | translate }}
-                <i *ngIf="ActiveButton.toString() === 'ApiSettings'" class="tab fa fa-chevron-right pull-right"></i>
-            </div>
             <div *ngIf="!_globalStateService?.GlobalDisabled" (click)="quickstart()"
                  class="tab-item link clickable button"
                  [class.tab-item-selected]="ActiveButton.toString() === 'Quickstart'">
@@ -73,8 +67,5 @@
                 <i class="tab fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
             </div>
         </div>
-        <!--<div class="buttons-section">
-            <label>Functions</label>
-        </div>-->
     </div>
 </div>

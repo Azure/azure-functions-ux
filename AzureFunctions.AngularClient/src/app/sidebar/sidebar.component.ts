@@ -21,7 +21,6 @@ enum TopbarButton {
     AppSettings = <any>"AppSettings",
     Quickstart = <any>"Quickstart",
     SourceControl = <any>"SourceControl",
-    ApiSettings = <any>"ApiSettings"
 }
 
 @Component({
@@ -174,8 +173,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     selectFunction(fi: FunctionInfo) {
         if (this.canSwitchFunctions()) {
             this.resetView();
-            this._broadcastService.clearDirtyState('function', true);
-            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.clearDirtyStates();
             this.selectedFunction = fi;
             this.selectedApiProxy = null;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
@@ -189,41 +187,24 @@ export class SidebarComponent implements OnDestroy, OnInit {
     }
 
     selectApiProxy(p: ApiProxy) {
-        //if (this.canSwitchFunctions()) {
-        //    this._portalService.logAction('side-azure-functions-link', 'click');
-        //    this.resetView();
-        //    this.newApiProxyClicked.emit(null);
-        //    this.ActiveButton = TopbarButton.None;
-        //    this.trackPage('newProxy');
-        //    this.tabId = 'Develop';
-        //}
 
         if (this.canSwitchFunctions()) {
             this.resetView();
-            this._broadcastService.clearDirtyState('function', true);
-            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.clearDirtyStates();
             this.selectedApiProxy = p;
             this.selectedFunction = null;
             this._broadcastService.broadcast(BroadcastEvent.ApiProxySelected, p);
-            //this.trackPage('NewFunction');
+            if (p.name === this._translateService.instant(PortalResources.sidebar_newApiProxy)) {
+                this.trackPage('NewApiProxy');
+            } else {
+                this.trackPage('DetailsFunction');
+            }
         }
     }
 
-    //newApiProxy() {
-    //    if (this.canSwitchFunctions()) {
-    //        this._portalService.logAction('sidebar-azure-functions-link', 'click');
-    //        this.resetView();
-    //        this.newApiProxyClicked.emit(null);
-    //        this.ActiveButton = TopbarButton.None;
-    //        this.trackPage('newApiProxy');
-    //        this.tabId = 'Develop';
-    //    }
-    //}
-
     refresh() {
         if (this.canSwitchFunctions()) {
-            this._broadcastService.clearDirtyState('function', true);
-            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.clearDirtyStates();
             this.refreshClicked.emit(null);
             this._aiService.trackEvent('/actions/refresh');
             this._functionsService.fireSyncTrigger();
@@ -257,18 +238,6 @@ export class SidebarComponent implements OnDestroy, OnInit {
         this._globalStateService.showLocalDevelopInstructions();
     }
 
-    apiSettings(emit: boolean = true) {
-        if (this.canSwitchFunctions()) {
-            if (emit) {
-                this.apiSettingsClicked.emit(null);
-            }
-            this.resetView();
-            this.ActiveButton = TopbarButton.ApiSettings;
-            this.trackPage('apiSettings');
-            this.tabId = 'Develop';
-        }
-    }
-
     private trackPage(pageName: string) {
         this._aiService.stopTrackPage(this._currentViewName, '/tabs');
         this._aiService.startTrackPage(pageName);
@@ -289,8 +258,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     onTabClicked(tabId: string) {
         if (this.canSwitchFunctions()) {
-            this._broadcastService.clearDirtyState('function');
-            this._broadcastService.clearDirtyState('function_integrate');
+            this.clearDirtyStates();
             this._globalStateService.clearBusyState();
             this._portalService.logAction("tabs", "click " + tabId, null);
             this._tabId = tabId;
@@ -304,6 +272,15 @@ export class SidebarComponent implements OnDestroy, OnInit {
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
             switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name }));
         }
+        if (this._broadcastService.getDirtyState('api-proxy') && this.selectedApiProxy) {
+            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMadeApiProxy, { name: this.selectedApiProxy.name }));
+        }
         return switchFunction;
+    }
+
+    private clearDirtyStates() {
+        this._broadcastService.clearDirtyState('function', true);
+        this._broadcastService.clearDirtyState('function_integrate', true);
+        this._broadcastService.clearDirtyState('api-proxy', true);
     }
 }

@@ -45,7 +45,6 @@ export class DashboardComponent implements OnChanges {
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
-    public openApiSettings: boolean;
     public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
@@ -223,11 +222,6 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = true;
     }
 
-    onApiSettingsClicked() {
-        this.resetView(true);
-        this.openApiSettings = true;
-    }
-
     onNewApiProxyClicked() {
         this.resetView(true);
         this.openNewApiProxy = true;
@@ -238,7 +232,6 @@ export class DashboardComponent implements OnChanges {
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
-        this.openApiSettings = false;
         this.openNewApiProxy = false;
         if (clearSelected) {
             this.selectedFunction = null;

@@ -217,6 +217,7 @@
     <Content Include="src\assets\monaco\min\vs\language\typescript\src\worker.js" />
     <Content Include="src\assets\monaco\min\vs\loader.js" />
     <Content Include="src\assets\nvd3Charts.css" />
+    <Content Include="src\images\api-proxy.svg" />
     <Content Include="src\images\arrow-right.svg" />
     <Content Include="src\images\azure-logo.svg" />
     <Content Include="src\images\bolt.svg" />

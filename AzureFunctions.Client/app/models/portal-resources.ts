@@ -289,5 +289,18 @@ export class PortalResources
     public static on: string = "on";
     public static topBar_functionApiSettings: string = "topBar_functionApiSettings";
     public static sidebar_newApiProxy: string = "sidebar_newApiProxy";
+    public static apiProxy_allMethods: string = "apiProxy_allMethods";
+    public static apiProxy_allowedHttpMethods: string = "apiProxy_allowedHttpMethods";
+    public static apiProxy_backendUrl: string = "apiProxy_backendUrl";
+    public static apiProxy_errorExists: string = "apiProxy_errorExists";
+    public static apiProxy_name: string = "apiProxy_name";
+    public static apiProxy_proxyUrl: string = "apiProxy_proxyUrl";
+    public static apiProxy_routeTemplate: string = "apiProxy_routeTemplate";
+    public static apiProxy_seectedMethods: string = "apiProxy_seectedMethods";
+    public static appFunctionSettings_apiProxies: string = "appFunctionSettings_apiProxies";
+    public static appFunctionSettings_proxyRuntimeVersion1: string = "appFunctionSettings_proxyRuntimeVersion1";
+    public static appFunctionSettings_proxyRuntimeVersion2: string = "appFunctionSettings_proxyRuntimeVersion2";
+    public static appFunctionSettings_useApiProxies: string = "appFunctionSettings_useApiProxies";
+    public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
 }
 

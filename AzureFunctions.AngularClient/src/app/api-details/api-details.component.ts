@@ -19,7 +19,6 @@ export class ApiDetailsComponent implements OnInit {
     @Input() apiProxies: ApiProxy[];    
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
-    requireMessage: string;
     proxyUrl: string;
     private _apiProxyEdit: ApiProxy;
     private _functionContainer: FunctionContainer;
@@ -80,7 +79,12 @@ export class ApiDetailsComponent implements OnInit {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this.requireMessage = this._translateService.instant(PortalResources.filedRequired);
+        this.complexForm.valueChanges.subscribe(() => {
+            if (this.complexForm.dirty) {
+                this._broadcastService.setDirtyState('api-proxy');
+            }
+        });
+
     }
 
     private setProxyUrl() {
@@ -91,8 +95,7 @@ export class ApiDetailsComponent implements OnInit {
                 route = '/' + route;
             }
 
-            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route;
-            
+            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route; 
         }
     }
 
@@ -109,11 +112,11 @@ export class ApiDetailsComponent implements OnInit {
             });
 
             this.apiProxies.splice(indexToDelete, 1);
-        });
 
-        this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
-            this._globalStateService.clearBusyState();
-            this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this._apiProxyEdit);
+            this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
+                this._globalStateService.clearBusyState();
+                this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this._apiProxyEdit);
+            });
         });
     }
 

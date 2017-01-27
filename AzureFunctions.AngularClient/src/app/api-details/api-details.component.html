@@ -6,7 +6,7 @@
     <div class="edit">
         
             <label class="control-label">
-                Proxy URL
+                {{ 'apiProxy_proxyUrl' | translate }}
             </label>
 
         <div><copy-pre [content]="proxyUrl"></copy-pre></div>
@@ -16,7 +16,7 @@
     <div style="display: flex;" class="edit">
         <div style="flex-grow:1">
             <label class="control-label" name="for1">
-                Route template
+                {{ 'apiProxy_routeTemplate' | translate }}
             </label>
 
             <div>
@@ -28,14 +28,14 @@
 
         <div style="flex-grow:1">
             <label class="control-label" name="for2">
-                Allowed HTTP methods
+                {{ 'apiProxy_allowedHttpMethods' | translate }}
             </label>
 
             <div>
                 <select name="methodSelectionType"
                         [formControl]="complexForm.controls['methodSelectionType']">
-                    <option value="All">All methods</option>
-                    <option value="Selected">Selected methods</option>
+                    <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
+                    <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
                 </select>
             </div>
         </div>
@@ -71,7 +71,7 @@
     <div>
         <div>
             <label class="control-label">
-                Backend URL
+                {{ 'apiProxy_backendUrl' | translate }}
             </label>
         </div>
 
@@ -80,14 +80,13 @@
                 placeholder="{{ 'functionNew_functionName' | translate }}"
                 [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="requireMessage" [isInputError]="true">
+        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
         </pop-over>
     </div>
 
     <div style="display: flex;">
         <div style="flex-grow:1;align-items:center;">
-            <button type="submit" [disabled]="!complexForm.valid" class="custom-button">{{ 'save' | translate }}</button>
-            <button class="custom-button" (click)="onCancelClick()">{{ 'cancel' | translate }}</button>
+            <button type="submit" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
         </div>
 
         <div class="link" style="flex-grow:0" (click)="deleteProxyClicked()">

@@ -19,8 +19,6 @@ export class ApiNewComponent implements OnInit {
     @Input() apiProxies: ApiProxy[];
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
-    requireMessage: string;
-
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -34,21 +32,19 @@ export class ApiNewComponent implements OnInit {
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
             backendUri: [null, Validators.required],
-            method_get: true,
-            method_post: true,
-            method_delete: true,
-            method_head: true,
-            method_patch: true,
-            method_put: true,
-            method_options: true,
-            method_trace: true
+            method_get: false,
+            method_post: false,
+            method_delete: false,
+            method_head: false,
+            method_patch: false,
+            method_put: false,
+            method_options: false,
+            method_trace: false
         });
 
         this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
             this.isMethodsVisible = !(value === 'All');
         });
-
-        this.requireMessage = this._translateService.instant(PortalResources.filedRequired);
     }
 
     validateName(that: ApiNewComponent): ValidatorFn {
