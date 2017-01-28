@@ -1,5 +1,12 @@
 <div class="newfunc-container">
+
+
+
     <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
+
+        <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
+            {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+        </div>
 
         <div class="edit">
             <div>

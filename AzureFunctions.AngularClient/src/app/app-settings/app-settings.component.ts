@@ -80,20 +80,21 @@ export class AppSettingsComponent implements OnInit {
                 value: true
             }];
 
-
-        this.needUpdateRoutingExtensionVersion = true;
         this.valueChange = new Subject<boolean>();
         this.valueChange.subscribe((value: boolean) => {
             this._globalStateService.setBusyState();
             var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
             this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
                 this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, appSettingValue).subscribe((r) => {
-                    this._globalStateService.AppSettings = r;
-                    this._globalStateService.clearBusyState();
-                    this.apiProxiesEnabled = value;
+                    //this._armService.syncTriggers(this.functionContainer).subscribe(() => {
+                        this._globalStateService.AppSettings = r;
+                        this._globalStateService.clearBusyState();
+                        this.apiProxiesEnabled = value;
+                    //});
                 });
             });
         });
+
     }
 
     onChange(value: string | number, event?: any) {
@@ -151,6 +152,21 @@ export class AppSettingsComponent implements OnInit {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
+            });
+        });
+    }
+
+    updateRouingExtensionVersion() {
+        this._aiService.trackEvent('/actions/app_settings/update_routing_version');
+        this._globalStateService.setBusyState();
+        
+        this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
+            this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, Constants.routingExtensionVersion).subscribe((r) => {
+                //this._armService.syncTriggers(this.functionContainer).subscribe(() => {
+                this.needUpdateRoutingExtensionVersion = false;
+                this._globalStateService.AppSettings = r;
+                this._globalStateService.clearBusyState();
+                //});
             });
         });
     }

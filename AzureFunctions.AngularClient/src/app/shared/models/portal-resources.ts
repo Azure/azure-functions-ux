@@ -301,6 +301,8 @@ export class PortalResources
     public static appFunctionSettings_proxyRuntimeVersion1: string = "appFunctionSettings_proxyRuntimeVersion1";
     public static appFunctionSettings_proxyRuntimeVersion2: string = "appFunctionSettings_proxyRuntimeVersion2";
     public static appFunctionSettings_useApiProxies: string = "appFunctionSettings_useApiProxies";
+    public static apiProxies_warningOff: string = "apiProxies_warningOff";
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
+    public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
 }
 

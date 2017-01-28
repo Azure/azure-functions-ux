@@ -1,4 +1,4 @@
-import {Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {ApiProxy} from '../shared/models/api-proxy';
@@ -20,39 +20,10 @@ export class ApiDetailsComponent implements OnInit {
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     proxyUrl: string;
+    isEnabled: boolean;
     private _apiProxyEdit: ApiProxy;
     private _functionContainer: FunctionContainer;
-
-    set functionContainer(value: FunctionContainer) {
-        this._functionContainer = value;
-        this.setProxyUrl();
-    }
-
-    set apiProxyEdit(value: ApiProxy) {
-        this._apiProxyEdit = value;
-
-        this.complexForm.patchValue({
-            backendUri: this._apiProxyEdit.backendUri,
-            routeTemplate: this._apiProxyEdit.matchCondition.route,
-            methodSelectionType: !this._apiProxyEdit.matchCondition.methods || this._apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
-        });
-
-        this.setProxyUrl();
-
-        if (this._apiProxyEdit.matchCondition.methods) {
-            var methods = {};
-
-            this._apiProxyEdit.matchCondition.methods.forEach((m) => {
-                methods["method_" + m.toLocaleLowerCase()] = true;
-            });
-
-            this.complexForm.patchValue(methods);
-        }
-    }
-
-    get apiProxyEdit(): ApiProxy {
-        return this._apiProxyEdit;
-    }
+    @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -85,18 +56,42 @@ export class ApiDetailsComponent implements OnInit {
             }
         });
 
+        this.isEnabled = this._globalStateService.IsRoutingEnabled;
     }
 
-    private setProxyUrl() {
-        if (this._apiProxyEdit && this._functionContainer) {
+    onFunctionAppSettingsClicked(event: any) {
+        this.functionAppSettingsClicked.emit(event);
+    }
 
-            var route = (this._apiProxyEdit.matchCondition.route) ? this._apiProxyEdit.matchCondition.route : '/api/' + this._apiProxyEdit.name;
-            if (!route.startsWith('/')) {
-                route = '/' + route;
-            }
+    set functionContainer(value: FunctionContainer) {
+        this._functionContainer = value;
+        this.setProxyUrl();
+    }
 
-            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route; 
+    set apiProxyEdit(value: ApiProxy) {
+        this._apiProxyEdit = value;
+
+        this.complexForm.patchValue({
+            backendUri: this._apiProxyEdit.backendUri,
+            routeTemplate: this._apiProxyEdit.matchCondition.route,
+            methodSelectionType: !this._apiProxyEdit.matchCondition.methods || this._apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
+        });
+
+        this.setProxyUrl();
+
+        if (this._apiProxyEdit.matchCondition.methods) {
+            var methods = {};
+
+            this._apiProxyEdit.matchCondition.methods.forEach((m) => {
+                methods["method_" + m.toLocaleLowerCase()] = true;
+            });
+
+            this.complexForm.patchValue(methods);
         }
+    }
+
+    get apiProxyEdit(): ApiProxy {
+        return this._apiProxyEdit;
     }
 
     ngOnInit() {
@@ -159,4 +154,17 @@ export class ApiDetailsComponent implements OnInit {
             });
         }
     }
+
+    private setProxyUrl() {
+        if (this._apiProxyEdit && this._functionContainer) {
+
+            var route = (this._apiProxyEdit.matchCondition.route) ? this._apiProxyEdit.matchCondition.route : '/api/' + this._apiProxyEdit.name;
+            if (!route.startsWith('/')) {
+                route = '/' + route;
+            }
+
+            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route;
+        }
+    }
+
 }

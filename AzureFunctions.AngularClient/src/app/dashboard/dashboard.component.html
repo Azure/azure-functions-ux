@@ -41,16 +41,14 @@
                     <source-control></source-control>
                 </div>
 
-                <div *ngIf="openApiSettings">
-                    <api-settings [functionContainer]="functionContainer"></api-settings>
-                </div>
-
                 <div *ngIf="selectedApiProxy">
                     <div *ngIf="selectedApiProxy.name !== ('sidebar_newApiProxy' | translate)">
-                        <api-details [functionContainer]="functionContainer" [apiProxies]="apiProxies" [apiProxyEdit]="selectedApiProxy"></api-details>
+                        <api-details [functionContainer]="functionContainer" [apiProxies]="apiProxies" [apiProxyEdit]="selectedApiProxy"
+                            (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-details>
                     </div>
                     <div *ngIf="selectedApiProxy.name === ('sidebar_newApiProxy' | translate)">
-                        <api-new [apiProxies]="apiProxies"></api-new>
+                        <api-new [apiProxies]="apiProxies"
+                            (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-new>
                     </div>
                 </div>
             </div>

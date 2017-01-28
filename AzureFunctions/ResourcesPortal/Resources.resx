@@ -1015,7 +1015,13 @@
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Use API proxies</value>
   </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>Using API proxies is disabled. To enbale API proxies visit </value>
+  </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
   </data>
 </root>

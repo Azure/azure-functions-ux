@@ -90,15 +90,19 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
-    @ClearCache('clearAllCachedData')
+    //@ClearCache('clearAllCachedData')
     updateApiProxiesVesrion(functionContainer: FunctionContainer, appSettings: { [key: string]: string }, value: string) {
-        if (appSettings[Constants.routingExtensionVersion]) {
-            delete appSettings[Constants.routingExtensionVersion];
+        if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
+            delete appSettings[Constants.routingExtensionVersionAppSettingName];
         }
         appSettings[Constants.routingExtensionVersionAppSettingName] = value;
         var putUrl = `${this.armUrl}${functionContainer.id}/config/appsettings?api-version=${this.websiteApiVersion}`;
         return this._http.put(putUrl, JSON.stringify({ properties: appSettings }), { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
+    syncTriggers(functionContainer: FunctionContainer) {
+        return this._http.post(`${this.armUrl}${functionContainer.id}/api/functions/synctriggers`, { headers: this.getHeaders() });
     }
 
     getConfig(functionContainer: FunctionContainer) {

@@ -88,6 +88,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using API proxies is disabled. To enbale API proxies visit .
+        /// </summary>
+        internal static string apiProxies_warningOff {
+            get {
+                return ResourceManager.GetString("apiProxies_warningOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All methods.
         /// </summary>
         internal static string apiProxy_allMethods {
@@ -102,6 +111,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string apiProxy_allowedHttpMethods {
             get {
                 return ResourceManager.GetString("apiProxy_allowedHttpMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy with name &apos;{{name}}&apos; already exists.
+        /// </summary>
+        internal static string apiProxy_alreadyExists {
+            get {
+                return ResourceManager.GetString("apiProxy_alreadyExists", resourceCulture);
             }
         }
         

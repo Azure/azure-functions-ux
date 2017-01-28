@@ -67,7 +67,6 @@ import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
 import { FunctionDesignerComponent } from './function-designer/function-designer.component';
 import { MonacoEditorDirective } from './shared/directives/monaco-editor.directive';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
-import { ApiSettingsComponent } from './api-settings/api-settings.component';
 import { ApiDetailsComponent } from './api-details/api-details.component';
 import { ApiNewComponent } from './api-new/api-new.component';
 
@@ -124,7 +123,6 @@ import { ApiNewComponent } from './api-new/api-new.component';
       FunctionDesignerComponent,
       MonacoEditorDirective,
       TableFunctionMonitorPipe,
-      ApiSettingsComponent,
       ApiDetailsComponent,
       ApiNewComponent,
   ],

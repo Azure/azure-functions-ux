@@ -1,4 +1,4 @@
-import {Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {ApiProxy} from '../shared/models/api-proxy';
@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractCo
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
+import {ErrorEvent} from '../shared/models/error-event';
 
 @Component({
   selector: 'api-new',
@@ -19,6 +20,8 @@ export class ApiNewComponent implements OnInit {
     @Input() apiProxies: ApiProxy[];
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
+    @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
+    isEnabled: boolean;
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -45,6 +48,12 @@ export class ApiNewComponent implements OnInit {
         this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
             this.isMethodsVisible = !(value === 'All');
         });
+
+        this.isEnabled = this._globalStateService.IsRoutingEnabled;
+    }
+
+    onFunctionAppSettingsClicked(event: any) {
+        this.functionAppSettingsClicked.emit(event);
     }
 
     validateName(that: ApiNewComponent): ValidatorFn {
@@ -72,6 +81,7 @@ export class ApiNewComponent implements OnInit {
     }
 
     submitForm(value: any) {
+
         if (this.complexForm.valid) {
             this._globalStateService.setBusyState();
 
@@ -93,6 +103,7 @@ export class ApiNewComponent implements OnInit {
 
                 if (existingProxy) {
                     this._globalStateService.clearBusyState();
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }) });
                     throw `Proxy with name '${newApiProxy.name}' already exists`;
                 } else {
                     if (this.complexForm.controls["methodSelectionType"].value !== "All") {
