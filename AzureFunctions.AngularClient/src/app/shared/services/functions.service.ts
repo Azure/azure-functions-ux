@@ -134,27 +134,27 @@ export class FunctionsService {
             });
         }
 
-        if (!_globalStateService.showTryView) {
-            this._userService.getStartupInfo()
-            .flatMap(info =>{
-                this.token = info.token;
+        // if (!_globalStateService.showTryView) {
+            // this._userService.getStartupInfo()
+            // .flatMap(info =>{
+            //     this.token = info.token;
                 
-                let runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
-                if (this._userService.inIFrame) {
-                    return this._userService.getStartupInfo()
-                        .flatMap((info : StartupInfo) => {
+            //     let runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
+            //     if (this._userService.inIFrame) {
+            //         return this._userService.getStartupInfo()
+            //             .flatMap((info : StartupInfo) => {
 
-                            // TODO: ellhamai Need to update language whenever you choose a different function app
-                            // Effective language has language and formatting information eg: "en.en-us"
-                            let lang = info.effectiveLocale.split(".")[0];
-                            return this.getLocolizedResources(lang, runtime);
-                        });
+            //                 // TODO: ellhamai Need to update language whenever you choose a different function app
+            //                 // Effective language has language and formatting information eg: "en.en-us"
+            //                 let lang = info.effectiveLocale.split(".")[0];
+            //                 return this.getLocolizedResources(lang, runtime);
+            //             });
 
-                } else {
-                    return this.getLocolizedResources("en", runtime);
-                }
+            //     } else {
+            //         return this.getLocolizedResources("en", runtime);
+            //     }
 
-            }).subscribe(result => {});
+            // }).subscribe(result => {});
             // this._userService.getFunctionContainer().subscribe(fc => {
             //     this.functionContainer = fc;
             //     this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
@@ -164,7 +164,7 @@ export class FunctionsService {
             //     this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
             //     this.localServer = 'https://localhost:6061';
             // });
-        }
+        // }
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
             var templateId = Cookie.get('templateId');
@@ -193,20 +193,20 @@ export class FunctionsService {
     //     })
     // }
 
-    getFunctions2(fc : ArmObj<Site>) : Observable<FunctionInfo[]>{
-        let functionsScmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api/functions`;
-        return this._cacheService.get(functionsScmUrl, false, this.getScmSiteHeaders())
-            .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<FunctionInfo[]>((r : any) => {
-                try {
-                    return r;
-                } catch (e) {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
-                    return [];
-                }
-            });
-    }
+    // getFunctions2(fc : ArmObj<Site>) : Observable<FunctionInfo[]>{
+    //     let functionsScmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api/functions`;
+    //     return this._cacheService.get(functionsScmUrl, false, this.getScmSiteHeaders())
+    //         .retryWhen(this.retryAntares)
+    //         .catch(e => this.checkCorsOrDnsErrors(e))
+    //         .map<FunctionInfo[]>((r : any) => {
+    //             try {
+    //                 return r;
+    //             } catch (e) {
+    //                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
+    //                 return [];
+    //             }
+    //         });
+    // }
 ///////////////
 
     getParameterByName(url, name) {
@@ -300,13 +300,14 @@ export class FunctionsService {
              console.error(e);
          }
 
-         return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
-            .retryWhen(this.retryAntares)
-            .map<FunctionTemplate[]>(r => {
-                var object = r.json();
-                this.localize(object);
-                return object;
-            });
+         return null;
+        //  return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
+        //     .retryWhen(this.retryAntares)
+        //     .map<FunctionTemplate[]>(r => {
+        //         var object = r.json();
+        //         this.localize(object);
+        //         return object;
+        //     });
     }
 
     @ClearCache('getFunctions')
@@ -676,14 +677,15 @@ export class FunctionsService {
              console.error(e);
          }
 
-        return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
-            .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<BindingConfig>(r => {
-                var object = r.json();
-                this.localize(object);
-                return object;
-            });
+         return null;
+        // return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
+        //     .retryWhen(this.retryAntares)
+        //     .catch(e => this.checkCorsOrDnsErrors(e))
+        //     .map<BindingConfig>(r => {
+        //         var object = r.json();
+        //         this.localize(object);
+        //         return object;
+        //     });
     }
 
     // getResources(): Observable<any> {
@@ -779,9 +781,9 @@ export class FunctionsService {
          }
      }
 
-    setEasyAuth(config: { [key: string]: any }) {
-        this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
-    }
+    // setEasyAuth(config: { [key: string]: any }) {
+    //     this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
+    // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })

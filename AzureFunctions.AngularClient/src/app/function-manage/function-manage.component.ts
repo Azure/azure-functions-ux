@@ -32,12 +32,15 @@ export class FunctionManageComponent {
         this._functionStream = new Subject<FunctionInfo>();
         this._functionStream
             .distinctUntilChanged()
-            .subscribe(fi =>{
+            .switchMap(fi =>{
                 this.functionInfo = fi;
                 this.functionApp = fi.functionApp;
+                return fi.functionApp.checkIfDisabled();
+            })
+            .subscribe(disabled =>{
+                this.disabled = disabled;
             });
 
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
         this.functionStatusOptions = [
             {
                 displayLabel: this._translateService.instant(PortalResources.enabled),

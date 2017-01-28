@@ -35,7 +35,11 @@ export class FunctionIntegrateV2Component {
 
     set selectedFunction(fi: FunctionInfo) {
         this.pickerType = TemplatePickerType.none;
-        this.disabled = this._broadcastService.getDirtyState("function_disabled");
+
+        fi.functionApp.checkIfDisabled()
+        .subscribe(disabled =>{
+            this.disabled = disabled;
+        })
 
         this.currentBinding = null;
         this.currentBindingId = "";

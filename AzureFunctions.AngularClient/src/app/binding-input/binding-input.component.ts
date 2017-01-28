@@ -38,12 +38,15 @@ export class BindingInputComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService) {
         this.showTryView = this._globalStateService.showTryView;
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._functionSelectStream
             .distinctUntilChanged()
-            .subscribe(fi =>{
+            .switchMap(fi =>{
                 this._functionInfo = fi;
+                return this._functionInfo.functionApp.checkIfDisabled();
+            })
+            .subscribe(disabled =>{
+                this.disabled = disabled;
             })
     }
 

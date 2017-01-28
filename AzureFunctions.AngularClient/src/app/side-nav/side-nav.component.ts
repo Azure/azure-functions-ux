@@ -10,6 +10,7 @@ import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
+import {AiService} from '../shared/services/ai.service';
 import {DropDownComponent} from '../drop-down/drop-down.component';
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
@@ -30,7 +31,7 @@ export class SideNavComponent{
     public subscriptionId : string;
     public resourceId : string;
 
-    private _viewInfo : TreeViewInfo;
+    private _selectedNode : TreeNode;
 
     constructor(
         public armService : ArmService,
@@ -40,7 +41,8 @@ export class SideNavComponent{
         public globalStateService : GlobalStateService,
         public broadcastService : BroadcastService,
         public translateService : TranslateService,
-        public userService : UserService){
+        public userService : UserService,
+        public aiService : AiService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
         this.rootNode = new TreeNode(this, null);
@@ -52,9 +54,21 @@ export class SideNavComponent{
         })
     }
 
-    updateViewInfo(viewInfo : TreeViewInfo){
-        this._viewInfo = viewInfo;
-        this.resourceId = viewInfo.resourceId;
+    updateView(newSelectedNode : TreeNode){
+        if(this._selectedNode){
+            this._selectedNode.destroy();
+        }
+
+        this._selectedNode = newSelectedNode;
+
+        this.resourceId = newSelectedNode.resourceId;
+
+        let viewInfo = <TreeViewInfo>{
+            resourceId : newSelectedNode.resourceId,
+            dashboardType : newSelectedNode.dashboardType,
+            data : newSelectedNode.getViewData()
+        };
+
         this.treeViewInfoEvent.emit(viewInfo);
     }
 

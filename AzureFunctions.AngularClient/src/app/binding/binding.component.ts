@@ -71,12 +71,16 @@ export class BindingComponent{
             .distinctUntilChanged()
             .switchMap(fi =>{
                 this.functionInfo = fi;
-                return this._cacheService.postArmResource(`${fi.functionApp.site.id}/config/appsettings/list`);
+                return Observable.zip(
+                    this._cacheService.postArmResource(`${fi.functionApp.site.id}/config/appsettings/list`),
+                    this.functionInfo.functionApp.checkIfDisabled(),
+                    (a, d) => ({appSettings : a, disabled : d}));
             });
 
-        Observable.zip(funcStream, this._bindingStream, (a, b) => ({appSettings: a, binding: b}))
+        Observable.zip(funcStream, this._bindingStream, (c, b) => ({config: c, binding: b}))
          .subscribe(res =>{
-             this._appSettings = res.appSettings.properties;
+             this._appSettings = res.config.appSettings.properties;
+             this.disabled = res.config.disabled;
              this._updateBinding(res.binding);
          });
 
@@ -96,8 +100,6 @@ export class BindingComponent{
         });
 
         this._elementRef = elementRef;
-
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
 

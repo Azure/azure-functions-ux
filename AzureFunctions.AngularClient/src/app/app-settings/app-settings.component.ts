@@ -25,7 +25,7 @@ export class AppSettingsComponent implements OnInit {
     public memorySize: number | string;
     public dirty: boolean;
     public needUpdateExtensionVersion;
-    public extensionVersion: string;
+    // public extensionVersion: string;
     public latestExtensionVersion: string;
     public debugConsole: string;
     public appServiceEditor: string;
@@ -74,8 +74,8 @@ export class AppSettingsComponent implements OnInit {
     ngOnInit() {
         this._globalStateService.clearBusyState();
         this.memorySize = this.functionContainer.properties.containerSize;
-        this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
-        this.extensionVersion = this._globalStateService.ExtensionVersion;
+        // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
+        // this.extensionVersion = this._globalStateService.ExtensionVersion;
         this.latestExtensionVersion = Constants.runtimeVersion;
     }
 

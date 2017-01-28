@@ -72,10 +72,10 @@ export class DeploymentSourceComponent implements OnDestroy {
         this.logs = [];
         this.loadingLogs = true;
         this._cacheService.get(deployment.log_url)
-            .subscribe(logs =>{
+            .subscribe(result =>{
                 this.loadingLogs = false;
-                this.logs = logs;
-                (<DeploymentLog[]>logs).forEach(log =>{
+                this.logs = result.json();
+                (<DeploymentLog[]>this.logs).forEach(log =>{
                     let date = new Date(log.log_time);
                     log.log_time = this._getTime(date.getHours(), date.getMinutes(), date.getSeconds());
                 });
@@ -121,7 +121,7 @@ export class DeploymentSourceComponent implements OnDestroy {
         this._cacheService.get(url, true)
             .subscribe(result =>{
 
-                let deployments = <Deployment[]>result;
+                let deployments = <Deployment[]>result.json();
                 deployments.forEach(deployment =>{
                     let date = new Date(deployment.end_time);
 

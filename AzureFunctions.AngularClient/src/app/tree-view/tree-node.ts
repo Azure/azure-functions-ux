@@ -30,12 +30,7 @@ export class TreeNode{
             return;
         }
 
-        this.sideNav.updateViewInfo(<TreeViewInfo>{
-            resourceId : this.resourceId,
-            dashboardType : this.dashboardType,
-            data : this._getViewData()
-        });
-
+        this.sideNav.updateView(this);
         this.toggle(null);
     }
 
@@ -69,7 +64,7 @@ export class TreeNode{
     }
 
     // Abstract
-    protected _getViewData() : any{
+    public getViewData() : any{
         return null;
     }
 
@@ -80,6 +75,9 @@ export class TreeNode{
         if(this.children && this.children.length === 1){
             this.children[0].toggle(null);
         }
+    }
+
+    public destroy(){
     }
 }
 

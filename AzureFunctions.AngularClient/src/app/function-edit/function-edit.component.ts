@@ -53,8 +53,6 @@ export class FunctionEditComponent {
         private _translateService: TranslateService) {        
         this.inIFrame = this._userService.inIFrame;
 
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
-
         this.DevelopTab = _translateService.instant("tabNames_develop");
         this.IntegrateTab = _translateService.instant("tabNames_integrate");
         this.MonitorTab = _translateService.instant("tabNames_monitor");
@@ -63,11 +61,15 @@ export class FunctionEditComponent {
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
             .distinctUntilChanged()
-            .subscribe(viewInfo =>{
+            .switchMap(viewInfo =>{
                 this.selectedFunction = viewInfo.data;
-
                 let lastSlashIndex = viewInfo.resourceId.lastIndexOf("/");
                 this._tabId = viewInfo.resourceId.substr(lastSlashIndex + 1);
+
+                return this.selectedFunction.functionApp.checkIfDisabled();
+            })
+            .subscribe(disabled =>{
+                this.disabled = disabled;
             })
     }
 

@@ -8,7 +8,8 @@ export interface CacheItem{
     value : any,
     expireTime : number,
     etag : string,
-    responseObservable : Observable<any>
+    responseObservable : Observable<any>,
+    isRawResponse : boolean   // Used to represent whether the cached object is a raw response, or an optimized JSON object that needs cloning
 }
 
 export class Cache{
@@ -30,27 +31,27 @@ export class CacheService {
 
     getArmResource(resourceId : string, force? : boolean, apiVersion? : string){
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this.send(url, "GET", false, force);
+        return this._send(url, "GET", true, force);
     }
 
-    getArmResourceWithQueryString(resourceId : string, queryString : string, force? : boolean){
-        let url = this._getArmUrlWithQueryString(resourceId, queryString);
-        return this.send(url, "GET", false, force);
-    }
+    // getArmResourceWithQueryString(resourceId : string, queryString : string, force? : boolean){
+    //     let url = this._getArmUrlWithQueryString(resourceId, queryString);
+    //     return this._send(url, "GET", true, force);
+    // }
 
     getArmResources(resourceId : string, force? : boolean, apiVersion? : string){
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this.send(url, "GET", true, force);
+        return this._send(url, "GET", true, force);
     }
 
     postArmResource(resourceId : string, force? : boolean, apiVersion? : string){
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this.send(url, "POST", false, force);
+        return this._send(url, "POST", true, force);
     }
 
     putArmResource(resourceId : string, apiVersion? : string, content? : any){
         let url : string = this._getArmUrl(resourceId, apiVersion);
-        return this.send(url, "PUT", false, true, null, content)
+        return this._send(url, "PUT", true, true, null, content)
         .map(result =>{
             
             // Clear the cache after a PUT request.
@@ -60,7 +61,7 @@ export class CacheService {
     }
 
     get(url : string, force? : boolean, headers? : Headers){
-        return this.send(url, "GET", false, force);
+        return this._send(url, "GET", false, force);
     }
 
     private _cleanUp(){
@@ -80,10 +81,10 @@ export class CacheService {
         setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
     }
 
-    public send(
+    public _send(
         url : string,
         method : string,
-        isArmCollection : boolean,
+        isArmRequest : boolean,
         force : boolean,
         headers? : Headers,
         content? : any) {
@@ -102,7 +103,7 @@ export class CacheService {
             return item.responseObservable;
         }
         else if(!force && item && Date.now() < item.expireTime){
-            return Observable.of(this._clone(item.value));
+            return Observable.of(item.isRawResponse ? item.value : this._clone(item.value));
         }
         else{
 
@@ -114,18 +115,19 @@ export class CacheService {
 
             let responseObs = this._armService.send(method, url, content, etag, headers)
             .map(response =>{
-                return this.mapAndCacheResponse(response, key, isArmCollection);
+                return this._mapAndCacheResponse(response, key, isArmRequest);
             })
             .share()
             .catch(error =>{
                 if(error.status === 304){
                     this._cache[key] = this.createCacheItem(
                         key,
-                        item.value,
+                        item.value,  // We're assuming that if we have a 304, that item will not be null
                         error.headers.get("ETag"),
-                        null);
+                        null,
+                        item.isRawResponse);
 
-                    return Observable.of(this._clone(item.value));
+                    return Observable.of(item.isRawResponse ? item.value : this._clone(item.value));
                 }
                 else{
                     return Observable.throw(error);
@@ -136,24 +138,33 @@ export class CacheService {
                 key,
                 item && item.value,
                 etag,
-                responseObs);
+                responseObs,
+                false);
 
             return responseObs;
         }
     }
 
-    public mapAndCacheResponse(response : Response, key : string, isArmCollection : boolean){
+    public _mapAndCacheResponse(response : Response, key : string, isArmRequest : boolean){
         let responseETag = response.headers.get("ETag");
-        let value = null;
-        if(isArmCollection){
-            value = response.json().value;
+
+        if(isArmRequest){
+            // For arm requests, we cache the JSON body and then return a COPY of the object
+
+            let value = response.json();
+            if(value.value){
+                value = value.value;
+            }
+            
+            this._cache[key] = this.createCacheItem(key, value, responseETag, null, false);
+            return this._clone(value);
         }
         else{
-            value = response.json();
-        }
+            // For non-arm requests, we just cache and return the ORIGINAL response
 
-        this._cache[key] = this.createCacheItem(key, value, responseETag, null);
-        return this._clone(value);
+            this._cache[key] = this.createCacheItem(key, response, responseETag, null, true);
+            return response;
+        }
     }
 
     private _clone(obj : any){
@@ -164,14 +175,16 @@ export class CacheService {
         id : string,
         value : any,
         etag : string,
-        responseObs : Observable<Response>){
+        responseObs : Observable<Response>,
+        isRawResponse : boolean) : CacheItem{
 
-        return {
+        return{
             id : id,
             value : value,
             expireTime : Date.now() + this._expireMS,
             etag : etag,
-            responseObservable : responseObs
+            responseObservable : responseObs,
+            isRawResponse : isRawResponse
         };
     }
 
@@ -183,9 +196,14 @@ export class CacheService {
             apiVersion ? apiVersion : this._armService.websiteApiVersion);
     }
 
-    private _getArmUrlWithQueryString(resourceId : string, queryString : string){
-        return `${this._armService.armUrl}${resourceId}?${queryString}`;
-    }
+    // private _getArmUrlWithQueryString(resourceId : string, queryString : string){
+    //     if(queryString.startsWith("?")){
+    //         return `${this._armService.armUrl}${resourceId}${queryString}`;
+    //     }
+    //     else{
+    //         return `${this._armService.armUrl}${resourceId}?${queryString}`;
+    //     }
+    // }
 
     // http://stackoverflow.com/questions/5999118/add-or-update-query-string-parameter
     private _updateQueryString(uri, key, value) {

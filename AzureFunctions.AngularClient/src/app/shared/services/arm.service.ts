@@ -149,11 +149,11 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
-    getAuthSettings(functionContainer: FunctionContainer) {
-        let url = `${this.armUrl}${functionContainer.id}/config/authsettings/list?api-version=${this.websiteApiVersion}`;
-        return this._http.post(url, '', { headers: this.getHeaders() })
-            .map<{[key: string]: any}>(r => r.json().properties);
-    }
+    // getAuthSettings(functionContainer: FunctionContainer) {
+    //     let url = `${this.armUrl}${functionContainer.id}/config/authsettings/list?api-version=${this.websiteApiVersion}`;
+    //     return this._http.post(url, '', { headers: this.getHeaders() })
+    //         .map<{[key: string]: any}>(r => r.json().properties);
+    // }
 
     updateMemorySize(functionContainer: FunctionContainer, memorySize: string | number) {
         var nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize) : memorySize;

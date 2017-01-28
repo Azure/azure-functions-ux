@@ -51,35 +51,35 @@ export class BackgroundTasksService {
         }
 
         if (!this._globalStateService.showTryView && !this._globalStateService.GlobalDisabled) {
-            let tasks = () => Observable.zip(
-                        this._functionsService.getHostErrors().catch(e => Observable.of([])),
-                        this._armService.getConfig(this._globalStateService.FunctionContainer.id),
-                        this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
-                        (e, c, auth) => ({ errors: e, config: c, authSettings: auth }));
-            let handleResult = result => {
-                result.errors.forEach(e => {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
-                        this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
-                    });
-                    this.setDisabled(result.config);
-                    let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
-                    this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
-                        (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
-                    this._functionsService.setEasyAuth(result.authSettings);
+            // let tasks = () => Observable.zip(
+            //             this._functionsService.getHostErrors().catch(e => Observable.of([])),
+            //             // this._armService.getConfig(this._globalStateService.FunctionContainer.id),
+            //             // this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
+            //             (e) => ({ errors: e}));
+            // let handleResult = result => {
+            //     result.errors.forEach(e => {
+            //             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+            //             this._aiService.trackEvent('/errors/host', {error: e, app: this._globalStateService.FunctionContainer.id});
+            //         });
+                    // this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
+                    //     (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
+
+                    // this._functionsService.setEasyAuth(result.authSettings);
+
                     // if (!this._isResourcesReceived) {
                     //     this._functionsService.getResources().subscribe(() => {
                     //         this._isResourcesReceived = true;
                     //     });
                     // }
-                   this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
-            };
-            this._tasks = Observable.timer(1, 60000)
-                .concatMap<{ errors: string[], config: { [key: string]: string } }>(() => tasks())
-                .subscribe(result => handleResult(result));
+                //    this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+            // };
+            // this._tasks = Observable.timer(1, 60000)
+            //     .concatMap<{ errors: string[] }>(() => tasks())
+            //     .subscribe(result => handleResult(result));
 
-            this._broadcastService.subscribe(BroadcastEvent.RefreshPortal, () => {
-                tasks().subscribe(r => handleResult(r));
-            });
+            // this._broadcastService.subscribe(BroadcastEvent.RefreshPortal, () => {
+            //     tasks().subscribe(r => handleResult(r));
+            // });
         } else if (this._globalStateService.FunctionContainer.tryScmCred !== null) {
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() =>
@@ -93,14 +93,6 @@ export class BackgroundTasksService {
                         { message: e, details: `Host Error: ${e}` }));
 
                 });
-        }
-    }
-
-    private setDisabled(config: any) {
-        if (!config["scmType"] || config["scmType"] !== "None") {
-            this._broadcastService.setDirtyState("function_disabled");
-        } else {
-            this._broadcastService.clearDirtyState("function_disabled", true);
         }
     }
 

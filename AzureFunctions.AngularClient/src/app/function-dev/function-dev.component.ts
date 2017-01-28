@@ -109,15 +109,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
-                this.disabled = _broadcastService.getDirtyState("function_disabled");
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
+
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
-                    (s, f) => ({ secrets: s, functionInfo: f}))
+                    this.functionApp.checkIfDisabled(),
+                    (s, f, d) => ({ secrets: s, functionInfo: f, disabled: d}))
             })
-            .subscribe((res: { secrets: any, functionInfo: FunctionInfo }) => {
+            .subscribe((res: { secrets: any, functionInfo: FunctionInfo, disabled : boolean }) => {
+                this.disabled = res.disabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
                 this.runValid = true;

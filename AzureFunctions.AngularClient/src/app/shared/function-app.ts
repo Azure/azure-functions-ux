@@ -45,7 +45,6 @@ export class FunctionApp {
     private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
-    private isEasyAuthEnabled: boolean;
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -133,8 +132,13 @@ export class FunctionApp {
         }
 
         if (!_globalStateService.showTryView) {
-            this._userService.getStartupInfo().subscribe(info => this.token = info.token);
-
+            this._userService.getStartupInfo()
+            .flatMap(info =>{
+                this.token = info.token;
+                return this.getResources(info);
+            })
+            .subscribe(info => {
+            });
 
             // this._userService.getFunctionContainer().subscribe(fc => {
                 // this.functionContainer = fc;
@@ -177,9 +181,9 @@ export class FunctionApp {
         }
     }
 
-    @Cache()
+    // @Cache()
     getFunctions() {
-        return this._http.get(`${this.scmUrl}/functions`, { headers: this.getScmSiteHeaders() })
+        return this._cacheService.get(`${this.scmUrl}/functions`, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo[]>((r) => {
@@ -199,7 +203,7 @@ export class FunctionApp {
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo[]>((r : any) => {
                 try {
-                    return r;
+                    return r.json();
                 } catch (e) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
                     return [];
@@ -249,8 +253,6 @@ export class FunctionApp {
         ClearAllFunctionCache(functionInfo);
     }
 
-    // This function is special cased in the Cache() decorator by name to allow for dev scenarios.
-    @Cache()
     getTemplates() {
          try {
             if (localStorage.getItem('dev-templates')) {
@@ -262,13 +264,19 @@ export class FunctionApp {
              console.error(e);
          }
 
-         return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
-            .retryWhen(this.retryAntares)
-            .map<FunctionTemplate[]>(r => {
-                var object = r.json();
-                this.localize(object);
-                return object;
-            });
+         return this.getExtensionVersion()
+         .flatMap(extensionVersion =>{
+             return this._cacheService.get(
+                 Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
+                 true,
+                 this.getPortalHeaders())
+         })
+        .retryWhen(this.retryAntares)
+        .map<FunctionTemplate[]>(r => {
+            var object = r.json();
+            this.localize(object);
+            return object;
+        });
     }
 
     @ClearCache('getFunctions')
@@ -481,7 +489,7 @@ export class FunctionApp {
             httpMethod: 'GET',
             url: this.scmUrl.replace('.scm.', '.')
         };
-        var observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
+        var observable = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string>(r => r.statusText);
@@ -626,7 +634,6 @@ export class FunctionApp {
         return hostKeys;
     }
 
-    @Cache()
     getBindingConfig(): Observable<BindingConfig> {
         try {
             if (localStorage.getItem('dev-bindings')) {
@@ -634,35 +641,37 @@ export class FunctionApp {
                 this.localize(devBindings);
                 return Observable.of(devBindings);
             }
-         } catch (e) {
-             console.error(e);
-         }
+        } catch (e) {
+            console.error(e);
+        }
 
-        return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
-            .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<BindingConfig>(r => {
-                var object = r.json();
-                this.localize(object);
-                return object;
-            });
+        return this.getExtensionVersion()
+        .flatMap(extensionVersion =>{
+            return this._cacheService.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + extensionVersion, false, this.getPortalHeaders());
+        })
+        .retryWhen(this.retryAntares)
+        .catch(e => this.checkCorsOrDnsErrors(e))
+        .map<BindingConfig>(r => {
+            var object = r.json();
+            this.localize(object);
+            return object;
+        });
     }
 
-    getResources(): Observable<any> {
-        var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
+    private getResources(info : StartupInfo): Observable<any> {
+        return this.getExtensionVersion()
+        .flatMap(extensionVersion =>{
+            var runtime = extensionVersion ? extensionVersion : "default";
+            if (this._userService.inIFrame) {
 
-        if (this._userService.inIFrame) {
-            return this._userService.getStartupInfo()
-                .flatMap((info : StartupInfo) => {
-
-                    // Effective language has language and formatting information eg: "en.en-us"
-                    let lang = info.effectiveLocale.split(".")[0];
-                    return this.getLocolizedResources(lang, runtime);
-                });
-
-        } else {
-            return this.getLocolizedResources("en", runtime);
-        }
+                // Effective language has language and formatting information eg: "en.en-us"
+                let lang = info.effectiveLocale.split(".")[0];
+                return this.getLocalizedResources(lang, runtime);
+            }
+            else{
+                return this.getLocalizedResources("en", runtime);
+            }
+        });
     }
 
     get HostSecrets() {
@@ -713,45 +722,57 @@ export class FunctionApp {
     }
 
     getFunctionErrors(fi: FunctionInfo) {
-        return this.isEasyAuthEnabled
-            ? Observable.of([])
-            : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(this.retryAntares)
-                .map<string[]>(r => r.json().errors || [])
-                .catch<string[]>(e => Observable.of(null));
+        return this.checkIfEasyAuthEnabled()
+        .flatMap((isEasyAuthEnabled : boolean) =>{
+            if(isEasyAuthEnabled){
+                return Observable.of(<any>[]);
+            }
+            else{
+                return this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+                    .retryWhen(this.retryAntares)
+                    .map<string[]>(r => r.json().errors || [])
+                    .catch<string[]>(e => Observable.of(null));
+            }
+        })
+
     }
 
     getHostErrors() {
-        if (this.isEasyAuthEnabled || !this.masterKey) {
-            return Observable.of([]);
-        } else {
-            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err) => {
-                // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
-                if (errorCount >= 12) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(5000))
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<string[]>(r => r.json().errors || []);
-        }
+        return this.checkIfEasyAuthEnabled()
+        .flatMap(isEasyAuthEnabled =>{
+            if(isEasyAuthEnabled || !this.masterKey){
+                return Observable.of(<any>[]);
+            }
+            else{
+                return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    .retryWhen(e => e.scan<number>((errorCount, err) => {
+                        // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
+                        if (errorCount >= 12) {
+                            throw err;
+                        }
+                        return errorCount + 1;
+                    }, 0).delay(5000))
+                    .catch(e => this.checkCorsOrDnsErrors(e))
+                    .map<string[]>(r => r.json().errors || []);                
+            }
+        })
+
     }
 
     @Cache()
     getFunctionAppId() {
-         if (this.isEasyAuthEnabled || !this.masterKey) {
-             return Observable.of([]);
-        } else {
-            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                 .map<string>(r => r.json().id)
-                 .catch(e => Observable.of(null));
-         }
+        return this.checkIfEasyAuthEnabled()
+        .flatMap(isEasyAuthEnabled =>{
+            if (isEasyAuthEnabled || !this.masterKey) {
+                return Observable.of(<any>[]);
+            }
+            else{
+                return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    .map<string>(r => r.json().id)
+                    .catch(e => Observable.of(null));
+            }
+        })
      }
-
-    setEasyAuth(config: { [key: string]: any }) {
-        this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
-    }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })
@@ -896,6 +917,31 @@ export class FunctionApp {
             .map<FunctionKeys>(r => r.json());
     }
 
+    checkIfDisabled() {
+        return this._cacheService.getArmResource(`${this.site.id}/config/web`)
+        .map(r => {
+            if (!r.properties["scmType"] || r.properties["scmType"] !== "None") {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
+    private checkIfEasyAuthEnabled(){
+        return this._cacheService.postArmResource(`${this.site.id}/config/authsettings/list`)
+        .map(r =>{
+            return r.properties['enabled'] && r.properties['unauthenticatedClientAction'] !== 1;
+        });
+    }
+
+    private getExtensionVersion(){
+        return this._cacheService.postArmResource(`${this.site.id}/config/appsettings/list`)
+        .map((appSettingsArm : ArmObj<any>) =>{
+            return appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
+        });
+    }
+
     //to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
@@ -982,8 +1028,12 @@ export class FunctionApp {
         }
     }
 
-    private getLocolizedResources(lang: string, runtime: string): Observable<any> {
-        return this._http.get(`api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
+    private getLocalizedResources(lang: string, runtime: string): Observable<any> {
+        return this._cacheService.get(
+            `${Constants.serviceHost}api/resources?name=${lang}&runtime=${runtime}`,
+            false,
+            this.getPortalHeaders())
+
             .retryWhen(this.retryAntares)
             .map<any>(r => {
                 var resources = r.json();
@@ -1068,25 +1118,30 @@ export class FunctionApp {
     private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {
          return response
             .catch((e: Response) => {
-                if (this.isEasyAuthEnabled) {
-                    return Observable.of({
-                        status: 401,
-                        statusText: this.statusCodeToText(401),
-                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
-                    });
-                } else if (e.status === 200 && e.type === ResponseType.Error) {
-                    return Observable.of({
-                        status: 502,
-                        statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
-                    });
-                } else {
-                    return Observable.of({
-                        status: e.status,
-                        statusText: this.statusCodeToText(e.status),
-                        text: () => e.text()
-                    });
-                }
+
+                return this.checkIfEasyAuthEnabled()
+                .flatMap(isEasyAuthEnabled =>{
+
+                    if (isEasyAuthEnabled) {
+                        return Observable.of({
+                            status: 401,
+                            statusText: this.statusCodeToText(401),
+                            text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                        });
+                    } else if (e.status === 200 && e.type === ResponseType.Error) {
+                        return Observable.of({
+                            status: 502,
+                            statusText: this.statusCodeToText(502),
+                            text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
+                        });
+                    } else {
+                        return Observable.of({
+                            status: e.status,
+                            statusText: this.statusCodeToText(e.status),
+                            text: () => e.text()
+                        });
+                    }
+                });
             })
             .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }

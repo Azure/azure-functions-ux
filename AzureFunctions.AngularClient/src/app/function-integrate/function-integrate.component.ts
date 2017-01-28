@@ -32,10 +32,14 @@ export class FunctionIntegrateComponent implements OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this.isDirty = false;
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
     set selectedFunction(value: FunctionInfo) {
+        value.functionApp.checkIfDisabled()
+        .subscribe(disabled =>{
+            this.disabled = disabled;
+        })
+
         this._selectedFunction = value;
         this._originalContent = JSON.stringify(value.config, undefined, 2);;
         this._currentConent = this._originalContent;

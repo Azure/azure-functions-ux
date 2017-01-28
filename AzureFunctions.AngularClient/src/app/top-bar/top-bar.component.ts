@@ -12,19 +12,11 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 
-enum TopbarButton {
-    None = <any>"None",
-    AppMonitoring = <any>"AppMonitoring",
-    AppSettings = <any>"AppSettings",
-    Quickstart = <any>"Quickstart",
-    SourceControl = <any>"SourceControl"
-}
-
 @Component({
   selector: 'top-bar',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss'],
-  inputs: ['isFunctionSelected', 'quickStartSelected']
+  inputs: ['isFunctionSelected']
 })
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
@@ -32,13 +24,10 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
-    public ActiveButton: TopbarButton;
     public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
     private showTryView; boolean;
 
-    @Output() private appMonitoringClicked: EventEmitter<any>;
-    @Output() private sourceControlClicked: EventEmitter<any>;
     @Output() private functionAppSettingsClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
@@ -48,13 +37,11 @@ export class TopBarComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService
     ) {
-        this.appMonitoringClicked = new EventEmitter<any>();
-        this.sourceControlClicked = new EventEmitter<any>();
         this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
 
         this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
-            this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
+            // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
             this.setVisible();
         });
     }
@@ -62,7 +49,6 @@ export class TopBarComponent implements OnInit {
     ngOnInit() {
         this.showTryView = this._globalStateService.showTryView;
         if (!this.showTryView) {
-            this.ActiveButton = TopbarButton.Quickstart;
 
             // nothing to do if we're running in an iframe
             if (this.inIFrame) return;
@@ -80,7 +66,6 @@ export class TopBarComponent implements OnInit {
                     this.setVisible();
                 });
         } else {
-            this.ActiveButton = TopbarButton.None;
             this.setVisible();
         }
 
@@ -90,45 +75,18 @@ export class TopBarComponent implements OnInit {
         window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
     }
 
-    onAppMonitoringClicked() {
-        if (this.canLeaveFunction()) {
-            this.resetView();
-            this.appMonitoringClicked.emit(null);
-            this.ActiveButton = TopbarButton.AppMonitoring;
-        }
-    }
 
     set isFunctionSelected(selected: boolean) {
-        this.ActiveButton = TopbarButton.None;
         this._isFunctionSelected = true;
-    }
-
-    set quickStartSelected(selected: boolean) {
-        if (selected) {
-            this.ActiveButton = TopbarButton.Quickstart;
-        }
     }
 
     get isFunctionSelected() {
         return this._isFunctionSelected;
     }
 
-    private resetView() {
-        this.ActiveButton = TopbarButton.None;
-    }
-
     private setVisible() {
         this._globalStateService.showTopbar = !this._globalStateService.isAlwaysOn || (this.showTryView && !this.gettingStarted)
             || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
-    }
-
-    onSourceControlClicked() {
-        if (this.canLeaveFunction()) {
-            this._portalService.logAction('top-bar-source-control-link', 'click');
-            this.resetView();
-            this.sourceControlClicked.emit(null);
-            this.ActiveButton = TopbarButton.SourceControl;
-        }
     }
 
     onFunctionAppSettingsClicked(event: any) {

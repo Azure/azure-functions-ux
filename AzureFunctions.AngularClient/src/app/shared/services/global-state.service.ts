@@ -60,13 +60,13 @@ export class GlobalStateService {
         return '';
     }
 
-    get ExtensionVersion(): string {
-        return this._appSettings[Constants.runtimeVersionAppSettingName];
-    }
+    // get ExtensionVersion(): string {
+    //     return this._appSettings[Constants.runtimeVersionAppSettingName];
+    // }
 
-    get IsLatest(): boolean {
-        return this.showTryView || (this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false);
-    }
+    // get IsLatest(): boolean {
+    //     return this.showTryView || (this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false);
+    // }
 
     set AppSettings(value: { [key: string]: string }) {
         if (value) {
