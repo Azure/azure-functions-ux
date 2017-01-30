@@ -1,7 +1,7 @@
 <div class="newfunc-container">
 
 
-<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value, type)">
+<form [formGroup]="complexForm">
 
     <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
         {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
@@ -90,9 +90,9 @@
 
     <div style="display: flex;">
         <div style="flex-grow:1;align-items:center;">
-            <button type="submit" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+            <button (click)="submitForm(complexForm.value, type)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+            <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
         </div>
-
         <div class="link" style="flex-grow:0" (click)="deleteProxyClicked()">
             <i class="fa fa-remove"></i> Delete proxy
         </div>

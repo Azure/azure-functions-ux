@@ -304,5 +304,6 @@ export class PortalResources
     public static apiProxies_warningOff: string = "apiProxies_warningOff";
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
+    public static discrard: string = "discrard";
 }
 

@@ -25,39 +25,15 @@ export class ApiDetailsComponent implements OnInit {
     private _functionContainer: FunctionContainer;
     @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor(fb: FormBuilder,
+    constructor(private _fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
-
-        this.complexForm = fb.group({
-            routeTemplate: '',
-            methodSelectionType: 'All',
-            backendUri: [null, Validators.required],
-            proxyUrl: '',
-            method_get: false,
-            method_post: false,
-            method_delete: false,
-            method_head: false,
-            method_patch: false, 
-            method_put: false,
-            method_options: false,
-            method_trace: false
-        });
-
-        this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
-            this.isMethodsVisible = !(value === 'All');
-        });
-
-        this.complexForm.valueChanges.subscribe(() => {
-            if (this.complexForm.dirty) {
-                this._broadcastService.setDirtyState('api-proxy');
-            }
-        });
-
-        this.isEnabled = this._globalStateService.IsRoutingEnabled;
+        this.initComplexFrom();
     }
+
+   
 
     onFunctionAppSettingsClicked(event: any) {
         this.functionAppSettingsClicked.emit(event);
@@ -119,7 +95,14 @@ export class ApiDetailsComponent implements OnInit {
         this.apiProxyEdit = this._apiProxyEdit;
     }
 
+    onReset() {
+        this.initComplexFrom();
+        this.apiProxyEdit = this.apiProxyEdit;
+        this._broadcastService.clearDirtyState('api-proxy', true);
+     }
+
     submitForm(value: any) {
+
         if (this.complexForm.valid) {
             this._globalStateService.setBusyState();
 
@@ -149,7 +132,7 @@ export class ApiDetailsComponent implements OnInit {
                 this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this._apiProxyEdit);
-                    this.setProxyUrl();
+                    this.onReset();
                 });
             });
         }
@@ -167,4 +150,33 @@ export class ApiDetailsComponent implements OnInit {
         }
     }
 
+    private initComplexFrom() {
+
+        this.complexForm = this._fb.group({
+            routeTemplate: '',
+            methodSelectionType: 'All',
+            backendUri: [null, Validators.required],
+            proxyUrl: '',
+            method_get: false,
+            method_post: false,
+            method_delete: false,
+            method_head: false,
+            method_patch: false,
+            method_put: false,
+            method_options: false,
+            method_trace: false
+        });
+
+        this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
+            this.isMethodsVisible = !(value === 'All');
+        });
+
+        this.complexForm.valueChanges.subscribe(() => {
+            if (this.complexForm.dirty) {
+                this._broadcastService.setDirtyState('api-proxy');
+            }
+        });
+
+        this.isEnabled = this._globalStateService.IsRoutingEnabled;
+    }
 }

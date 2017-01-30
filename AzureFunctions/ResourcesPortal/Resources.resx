@@ -1024,4 +1024,7 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy with name '{{name}}' already exists</value>
   </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
 </root>

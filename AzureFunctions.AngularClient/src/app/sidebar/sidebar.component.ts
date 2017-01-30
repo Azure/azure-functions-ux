@@ -74,6 +74,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
                     break;
                 }
             }
+            this.clearDirtyStates();
         }));
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
@@ -109,6 +110,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
                     break;
                 }
             }
+            this.clearDirtyStates();
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
