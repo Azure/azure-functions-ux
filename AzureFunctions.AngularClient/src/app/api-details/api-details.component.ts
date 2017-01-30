@@ -146,7 +146,7 @@ export class ApiDetailsComponent implements OnInit {
                 route = '/' + route;
             }
 
-            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 1).name}` + route;
+            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 0).name}` + route;
         }
     }
 

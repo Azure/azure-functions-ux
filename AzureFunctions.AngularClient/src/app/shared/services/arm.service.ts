@@ -101,10 +101,6 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
-    syncTriggers(functionContainer: FunctionContainer) {
-        return this._http.post(`${this.armUrl}${functionContainer.id}/api/functions/synctriggers`, { headers: this.getHeaders() });
-    }
-
     getConfig(functionContainer: FunctionContainer) {
         var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
         return this._http.get(url, { headers: this.getHeaders() })

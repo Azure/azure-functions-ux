@@ -86,11 +86,10 @@ export class AppSettingsComponent implements OnInit {
             var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
             this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
                 this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, appSettingValue).subscribe((r) => {
-                    //this._armService.syncTriggers(this.functionContainer).subscribe(() => {
-                        this._globalStateService.AppSettings = r;
-                        this._globalStateService.clearBusyState();
-                        this.apiProxiesEnabled = value;
-                    //});
+                    this._functionsService.fireSyncTrigger();
+                    this._globalStateService.AppSettings = r;
+                    this._globalStateService.clearBusyState();
+                    this.apiProxiesEnabled = value;
                 });
             });
         });
