@@ -14,6 +14,7 @@ import {AiService} from '../shared/services/ai.service';
 import {DropDownComponent} from '../drop-down/drop-down.component';
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {DashboardType} from '../tree-view/models/dashboard-type';
 import {Subscription} from '../shared/models/subscription';
 import {Http, Headers, Response, Request} from '@angular/http';
 
@@ -54,10 +55,8 @@ export class SideNavComponent{
         })
     }
 
-    updateView(newSelectedNode : TreeNode){
-        if(this._selectedNode){
-            this._selectedNode.destroy();
-        }
+    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
+        this._cleanUp();
 
         this._selectedNode = newSelectedNode;
 
@@ -65,11 +64,22 @@ export class SideNavComponent{
 
         let viewInfo = <TreeViewInfo>{
             resourceId : newSelectedNode.resourceId,
-            dashboardType : newSelectedNode.dashboardType,
-            data : newSelectedNode.getViewData()
+            dashboardType : dashboardType,
+            node : newSelectedNode
         };
 
         this.treeViewInfoEvent.emit(viewInfo);
+    }
+
+    clearView(){
+        this._cleanUp();
+        this.treeViewInfoEvent.emit(null);
+    }
+
+    private _cleanUp(){
+        if(this._selectedNode){
+            this._selectedNode.destroy();
+        }        
     }
 
     onSubscriptionSelect(subscription: Subscription) {

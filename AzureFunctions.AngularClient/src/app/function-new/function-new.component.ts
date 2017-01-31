@@ -1,6 +1,5 @@
 import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import {NgClass} from '@angular/common';
-import {FunctionsService} from '../shared/services/functions.service';
 import {BindingComponent} from '../binding/binding.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
@@ -17,29 +16,41 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {FunctionsNode} from '../tree-view/functions-node';
+import {FunctionApp} from '../shared/function-app';
 
 @Component({
   selector: 'function-new',
   templateUrl: './function-new.component.html',
-  styleUrls: ['./function-new.component.css'],
+  styleUrls: ['./function-new.component.scss'],
   outputs: ['functionAdded'],
-  inputs: ['action', 'functionsInfo']
+  inputs: ['action', 'viewInfoInput']
 })
 export class FunctionNewComponent {
-    set functionsInfo(value: FunctionInfo[]) {
-        this._functionsInfo = value;
-        if (this._action && this._functionsInfo && !this.selectedTemplate) {
-            this.selectedTemplateId = this._action.templateId;
-        }
-    }
 
-    get functionsInfo() {
-        return this._functionsInfo;
+    public functionApp : FunctionApp;
+    private selectedNode : FunctionsNode;
+    private functionsInfo : FunctionInfo[];
+
+    set viewInfoInput(viewInfoInput : TreeViewInfo){
+        this._globalStateService.setBusyState();
+        this.selectedNode = <FunctionsNode>viewInfoInput.node;
+        this.functionApp = this.selectedNode.functionApp;
+        this.functionApp.getFunctions()
+        .subscribe(fcs =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = fcs;
+
+            if (this._action && this.functionsInfo && !this.selectedTemplate) {
+                this.selectedTemplateId = this._action.templateId;
+            }
+        })
     }
 
     set action(action: Action) {
         this._action = action;
-        if (this._action && this._functionsInfo && !this.selectedTemplate) {
+        if (this._action && this.functionsInfo && !this.selectedTemplate) {
             //this.onTemplatePickUpComplete(this._action.templateId);
             this.selectedTemplateId = this._action.templateId;
         }
@@ -67,11 +78,9 @@ export class FunctionNewComponent {
         "metadata.json"
     ];
     private _action: Action;
-    private _functionsInfo: FunctionInfo[];
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -84,7 +93,7 @@ export class FunctionNewComponent {
     onTemplatePickUpComplete(templateName: string) {
         this._bindingComponents = [];
         this._globalStateService.setBusyState();
-        this._functionsService.getTemplates().subscribe((templates) => {
+        this.functionApp.getTemplates().subscribe((templates) => {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
 
@@ -94,7 +103,7 @@ export class FunctionNewComponent {
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
 
                 this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                this._functionsService.getBindingConfig().subscribe((bindings) => {
+                this.functionApp.getBindingConfig().subscribe((bindings) => {
                     this._globalStateService.clearBusyState();
                     this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
@@ -195,7 +204,7 @@ export class FunctionNewComponent {
         if (!this.areInputsValid) {
             this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.functionNew_nameError);
         } else {
-            var nameMatch = this._functionsInfo.find((f) => {
+            var nameMatch = this.functionsInfo.find((f) => {
                 return f.name.toLowerCase() === this.functionName.toLowerCase();
             });
             if (nameMatch) {
@@ -221,11 +230,12 @@ export class FunctionNewComponent {
         });
 
         this._globalStateService.setBusyState();
-        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+        this.functionApp.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "success", first: "false" });
-                this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                // this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                this.selectedNode.addChild(res);
                 this._globalStateService.clearBusyState();
             },
             e => {

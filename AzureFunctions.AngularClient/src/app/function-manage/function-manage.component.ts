@@ -10,32 +10,36 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionApp} from '../shared/function-app';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {FunctionManageNode} from '../tree-view/function-node';
 
 @Component({
     selector: 'function-manage',
     templateUrl: './function-manage.component.html',
     styleUrls: ['./function-manage.component.css'],
-    inputs: ['selectedFunction']
+    inputs: ['viewInfoInput']
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
     public disabled: boolean;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
-    private _functionStream : Subject<FunctionInfo>;
+    private _viewInfoStream : Subject<TreeViewInfo>;
+    private _functionNode : FunctionManageNode;
 
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService) {
 
-        this._functionStream = new Subject<FunctionInfo>();
-        this._functionStream
+        this._viewInfoStream = new Subject<TreeViewInfo>();
+        this._viewInfoStream
             .distinctUntilChanged()
-            .switchMap(fi =>{
-                this.functionInfo = fi;
-                this.functionApp = fi.functionApp;
-                return fi.functionApp.checkIfDisabled();
+            .switchMap(viewInfo =>{
+                this._functionNode = <FunctionManageNode>viewInfo.node;
+                this.functionInfo = this._functionNode.functionInfo;
+                this.functionApp = this.functionInfo.functionApp;
+                return this.functionApp.checkIfDisabled();
             })
             .subscribe(disabled =>{
                 this.disabled = disabled;
@@ -51,8 +55,8 @@ export class FunctionManageComponent {
             }];
     }
 
-    set selectedFunction(functionInfo : FunctionInfo){
-        this._functionStream.next(functionInfo);
+    set viewInfoInput(viewInfo : TreeViewInfo){
+        this._viewInfoStream.next(viewInfo);
     }
 
     deleteFunction() {
@@ -62,7 +66,8 @@ export class FunctionManageComponent {
             this._portalService.logAction("edit-component", "delete");
             this.functionApp.deleteFunction(this.functionInfo)
                 .subscribe(r => {
-                    this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
+                    this._functionNode.remove();
+                    // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
                     this._globalStateService.clearBusyState();
                 });
         }

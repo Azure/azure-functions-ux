@@ -13,7 +13,7 @@
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
 <div *ngIf="tabId === 'manage'" class="tab-content">
-    <function-manage [selectedFunction]="selectedFunction"></function-manage>    
+    <function-manage [viewInfoInput]="viewInfo"></function-manage>    
 </div>
 <div *ngIf="tabId === 'monitor'" class="tab-content">
     <function-monitor [selectedFunction]="selectedFunction"></function-monitor>

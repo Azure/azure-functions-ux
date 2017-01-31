@@ -11,7 +11,7 @@ import {Subscription, Subject, ReplaySubject} from 'rxjs/Rx';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Validator} from '../shared/models/binding';
-import {FunctionInfo} from '../shared/models/function-info';
+import {FunctionApp} from '../shared/function-app';
 import {CacheService} from '../shared/services/cache.service';
 import {ArmObj} from '../shared/models/arm/arm-obj';
 
@@ -22,7 +22,7 @@ declare var marked: any;
     selector: 'binding',
     templateUrl: './binding.component.html',
     styleUrls: ['./binding.component.css'],
-    inputs: ['selectedFunction', 'binding', 'clickSave']
+    inputs: ['functionAppInput', 'binding', 'clickSave']
 })
 
 export class BindingComponent{
@@ -50,9 +50,9 @@ export class BindingComponent{
     public hasInputsToShow = false;
     public isDirty: boolean = false;
     public isDocShown: boolean = false;
-    public functionInfo : FunctionInfo;
+    public functionApp : FunctionApp;
 
-    private _functionSelectStream = new Subject<any>();
+    private _functionAppStream = new Subject<any>();
     private _bindingStream = new Subject<any>();
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
@@ -67,13 +67,13 @@ export class BindingComponent{
         private _translateService: TranslateService) {
         var renderer = new marked.Renderer();
 
-        let funcStream = this._functionSelectStream
+        let funcStream = this._functionAppStream
             .distinctUntilChanged()
-            .switchMap(fi =>{
-                this.functionInfo = fi;
+            .switchMap(functionApp =>{
+                this.functionApp = functionApp;
                 return Observable.zip(
-                    this._cacheService.postArmResource(`${fi.functionApp.site.id}/config/appsettings/list`),
-                    this.functionInfo.functionApp.checkIfDisabled(),
+                    this._cacheService.postArmResource(`${functionApp.site.id}/config/appsettings/list`),
+                    this.functionApp.checkIfDisabled(),
                     (a, d) => ({appSettings : a, disabled : d}));
             });
 
@@ -126,8 +126,8 @@ export class BindingComponent{
         this._subscription.unsubscribe();
     }
 
-    set selectedFunction(fi : FunctionInfo){
-        this._functionSelectStream.next(fi);
+    set functionAppInput(functionApp : FunctionApp){
+        this._functionAppStream.next(functionApp);
     }
 
     set clickSave(value: boolean) {
@@ -143,7 +143,7 @@ export class BindingComponent{
     private _updateBinding(value : UIFunctionBinding){
         this.isDirty = false;
         var that = this;
-        this.functionInfo.functionApp.getBindingConfig().subscribe((bindings) => {
+        this.functionApp.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
             this.setDirtyIfNewBinding();
             // Convert settings to input conotrls

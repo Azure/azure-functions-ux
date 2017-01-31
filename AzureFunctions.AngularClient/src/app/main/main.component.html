@@ -7,6 +7,7 @@
 
         <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
         <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>
+        <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
 
     </div>
 </div>

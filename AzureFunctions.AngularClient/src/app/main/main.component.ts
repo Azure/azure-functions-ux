@@ -27,7 +27,11 @@ export class MainComponent implements AfterViewInit {
     }
 
     updateViewInfo(viewInfo : TreeViewInfo){
-        if(viewInfo.dashboardType === DashboardType.collection){
+        if(!viewInfo){
+            this.viewInfo = viewInfo;
+            return;
+        }
+        else if(viewInfo.dashboardType === DashboardType.collection){
             return;
         }
 

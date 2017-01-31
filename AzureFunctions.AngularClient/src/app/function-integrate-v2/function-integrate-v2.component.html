@@ -71,7 +71,7 @@
 <div>
     <binding
         *ngIf="currentBinding"
-        [selectedFunction]="functionInfo"
+        [functionAppInput]="functionInfo.functionApp"
         [allBindings]="model.config.bindings"
         [binding]="currentBinding"
         (remove)="onRemoveBinding($event)"
@@ -82,7 +82,7 @@
 
 <template-picker
     *ngIf="pickerType!==4"
-    [selectedFunction]="functionInfo"
+    [functionAppInput]="functionInfo.functionApp"
     [type]="pickerType"
     [showFooter]="true"
     (complete)="onBindingCreateComplete(behavior, $event)"

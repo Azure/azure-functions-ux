@@ -19,7 +19,7 @@ export class Cache{
 @Injectable()
 export class CacheService {
     private _cache : Cache;
-    private _expireMS = 30000;
+    private _expireMS = 60000;
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 

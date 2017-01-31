@@ -14,6 +14,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {FunctionNode} from '../tree-view/function-node';
 
 @Component({
     selector: 'function-edit',
@@ -25,6 +26,7 @@ export class FunctionEditComponent {
 
     @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
+    public viewInfo : TreeViewInfo;
     public inIFrame: boolean;
     public editorType: string = "standard";
     public disabled: boolean;
@@ -62,7 +64,8 @@ export class FunctionEditComponent {
         this._viewInfoStream
             .distinctUntilChanged()
             .switchMap(viewInfo =>{
-                this.selectedFunction = viewInfo.data;
+                this.viewInfo = viewInfo;
+                this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
                 let lastSlashIndex = viewInfo.resourceId.lastIndexOf("/");
                 this._tabId = viewInfo.resourceId.substr(lastSlashIndex + 1);
 

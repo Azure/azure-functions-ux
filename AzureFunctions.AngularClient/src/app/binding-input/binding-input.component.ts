@@ -10,14 +10,14 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {FunctionInfo} from '../shared/models/function-info';
+import {FunctionApp} from '../shared/function-app';
 import {Subscription, Subject} from 'rxjs/Rx';
 
 @Component({
   selector: 'binding-input',
   templateUrl: './binding-input.component.html',
   styleUrls: ['./binding-input.component.css'],
-  inputs: ["selectedFunction", "input"]
+  inputs: ["functionAppInput", "input"]
 })
 export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
@@ -28,8 +28,8 @@ export class BindingInputComponent {
     public functionReturnValue: boolean;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
-    private _functionSelectStream = new Subject<FunctionInfo>();
-    private _functionInfo : FunctionInfo;
+    private _functionAppStream = new Subject<FunctionApp>();
+    public functionApp : FunctionApp;
 
     constructor(
         private _portalService: PortalService,
@@ -39,19 +39,19 @@ export class BindingInputComponent {
         private _globalStateService: GlobalStateService) {
         this.showTryView = this._globalStateService.showTryView;
 
-        this._functionSelectStream
+        this._functionAppStream
             .distinctUntilChanged()
             .switchMap(fi =>{
-                this._functionInfo = fi;
-                return this._functionInfo.functionApp.checkIfDisabled();
+                this.functionApp = fi;
+                return this.functionApp.checkIfDisabled();
             })
             .subscribe(disabled =>{
                 this.disabled = disabled;
             })
     }
 
-    set selectedFunction(fi : FunctionInfo){
-        this._functionSelectStream.next(fi);
+    set functionAppInput(functionApp : FunctionApp){
+        this._functionAppStream.next(functionApp);
     }
 
     set input(input: BindingInputBase<any>) {
@@ -123,7 +123,7 @@ export class BindingInputComponent {
 
         if (bladeInput) {
             this._portalService.openCollectorBladeWithInputs(
-                this._functionInfo.functionApp.site.id,
+                this.functionApp.site.id,
                 bladeInput,
                 "binding-input",
                 (appSettingName: string) => {
@@ -131,7 +131,7 @@ export class BindingInputComponent {
             });
         } else {
             this._portalService.openCollectorBlade(
-                this._functionInfo.functionApp.site.id,
+                this.functionApp.site.id,
                 name,
                 "binding-input",
                 (appSettingName: string) => {

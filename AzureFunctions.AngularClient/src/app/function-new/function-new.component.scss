@@ -1,5 +1,8 @@
+@import '../../sass/main';
+
 .newfunc-container{
     padding: 20px;
+    background-color: $body-bg-color;
 }
 
 .newfunc-container > div{
@@ -7,11 +10,8 @@
 }
 
 input{
-    background: #fff;
-    border: 2px solid #dedede;
-    position: relative;
-    vertical-align: middle;
-    height: 29px;
+    background: $body-bg-color;
+    border: 2px solid $border-color;
     width: 300px;
     padding-left: 5px;
     margin-right: 10px;

@@ -30,7 +30,7 @@ export class TreeNode{
             return;
         }
 
-        this.sideNav.updateView(this);
+        this.sideNav.updateView(this, this.dashboardType);
         this.toggle(null);
     }
 
@@ -51,21 +51,18 @@ export class TreeNode{
         // this.sideNav.nodeExpanded(this.resourceId);
     }
 
-    // public openCreateNew(event){
-    //     this.sideNav.updateViewInfo(<TreeViewInfo>{
-    //         resourceId : this.resourceId,
-    //         dashboardType : this.newDashboardType,
-    //     });
-    // }
+    public openCreateNew(event){
+        this.sideNav.updateView(this, this.newDashboardType);
+
+        // this.sideNav.updateViewInfo(<TreeViewInfo>{
+        //     resourceId : this.resourceId,
+        //     dashboardType : this.newDashboardType,
+        // });
+    }
 
     // Abstract
     protected _loadChildren(){
         this._doneLoading();
-    }
-
-    // Abstract
-    public getViewData() : any{
-        return null;
     }
 
     protected _doneLoading(){
