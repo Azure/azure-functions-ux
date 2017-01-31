@@ -512,7 +512,7 @@ export class FunctionsService {
 
     @Cache()
     getHostJson() {
-        return this._http.get(`${this.azureScmServer}/functions/config`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(`${this.azureScmServer}/api/functions/config`, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
