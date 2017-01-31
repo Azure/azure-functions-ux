@@ -1027,4 +1027,7 @@
   <data name="discrard" xml:space="preserve">
     <value>Discard</value>
   </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
 </root>

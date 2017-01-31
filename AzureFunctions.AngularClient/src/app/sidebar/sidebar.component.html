@@ -8,10 +8,11 @@
                     <input type="text" id="search-box" placeholder="{{ 'sideBar_searchMyFunction' | translate }}" [(ngModel)]="searchValue" />
                 </span>
             </li>
-            <li *ngIf="functionsInfo">
+            <li>
                 <div class="function-item item-type">
                     <span class="function-item item-type">
-                        Functions
+                        <i *ngIf="!functionsInfo" class="fa fa-spinner"></i>
+                        {{'sidebar_Functions' | translate }}
                     </span>
                 </div>
             </li>
@@ -30,9 +31,10 @@
                     <div class="tab-item" (click)="onTabClicked('Manage')" [class.tab-item-selected]="tabId === 'Manage'"><i class="fa fa-search tab"></i> {{ 'tabNames_monitor' | translate }}<i *ngIf="tabId === 'Manage'" class="fa fa-chevron-right pull-right"></i></div>
                 </div>
             </li>
-            <li *ngIf="apiProxies">
+            <li>
                 <div class="function-item item-type">
                     <span class="function-item item-type">
+                        <i *ngIf="!apiProxies" class="fa fa-spinner"></i>
                         {{'appFunctionSettings_apiProxies' | translate }}
                     </span>
                 </div>
