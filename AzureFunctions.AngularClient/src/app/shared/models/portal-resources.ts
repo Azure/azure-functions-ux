@@ -306,5 +306,9 @@ export class PortalResources
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
     public static discrard: string = "discrard";
     public static sidebar_Functions: string = "sidebar_Functions";
+    public static intro_signInWithFacebook: string = "intro_signInWithFacebook";
+    public static intro_signInWithGitHub: string = "intro_signInWithGitHub";
+    public static intro_signInWithGoogle: string = "intro_signInWithGoogle";
+    public static intro_signInWithMicrosoft: string = "intro_signInWithMicrosoft";
 }
 
