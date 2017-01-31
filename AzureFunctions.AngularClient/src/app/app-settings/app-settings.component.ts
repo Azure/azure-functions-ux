@@ -9,6 +9,10 @@ import {Constants} from '../shared/models/constants';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {AiService} from '../shared/services/ai.service';
+import {SelectOption} from '../shared/models/select-option';
+import {Subject} from 'rxjs/Rx';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+import {PortalResources} from '../shared/models/portal-resources';
 
 @Component({
   selector: 'app-settings',
@@ -28,6 +32,15 @@ export class AppSettingsComponent implements OnInit {
     public dailyMemoryTimeQuota: string;
     public showDailyMemoryWarning: boolean = false;
     public showDailyMemoryInfo: boolean = false;
+
+    public functionStatusOptions: SelectOption<boolean>[];
+    public disabled: boolean;
+    public needUpdateRoutingExtensionVersion: boolean;
+    public routingExtensionVersion: string;
+    public latestRoutingExtensionVersion: string;
+    public apiProxiesEnabled: boolean;
+    private valueChange: Subject<boolean>;
+
     private showTryView: boolean;
 
     set functionContainer(value: FunctionContainer) {
@@ -54,8 +67,33 @@ export class AppSettingsComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
         private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
+
+        this.functionStatusOptions = [
+            {
+                displayLabel: this._translateService.instant(PortalResources.off),
+                value: false
+            }, {
+                displayLabel: this._translateService.instant(PortalResources.on),
+                value: true
+            }];
+
+        this.valueChange = new Subject<boolean>();
+        this.valueChange.subscribe((value: boolean) => {
+            this._globalStateService.setBusyState();
+            var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+            this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
+                this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, appSettingValue).subscribe((r) => {
+                    this._functionsService.fireSyncTrigger();
+                    this._globalStateService.AppSettings = r;
+                    this._globalStateService.clearBusyState();
+                    this.apiProxiesEnabled = value;
+                });
+            });
+        });
+
     }
 
     onChange(value: string | number, event?: any) {
@@ -72,6 +110,13 @@ export class AppSettingsComponent implements OnInit {
         this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
         this.extensionVersion = this._globalStateService.ExtensionVersion;
         this.latestExtensionVersion = Constants.runtimeVersion;
+
+        this._globalStateService.clearBusyState();
+        this.needUpdateRoutingExtensionVersion = !this._globalStateService.IsLatestRoutingVersion;
+        this.routingExtensionVersion = this._globalStateService.RoutingExtensionVersion;
+        this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
+
+        this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
     }
 
     openBlade(name: string) {
@@ -106,6 +151,21 @@ export class AppSettingsComponent implements OnInit {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
                 });
+            });
+        });
+    }
+
+    updateRouingExtensionVersion() {
+        this._aiService.trackEvent('/actions/app_settings/update_routing_version');
+        this._globalStateService.setBusyState();
+        
+        this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
+            this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, Constants.routingExtensionVersion).subscribe((r) => {
+                //this._armService.syncTriggers(this.functionContainer).subscribe(() => {
+                this.needUpdateRoutingExtensionVersion = false;
+                this._globalStateService.AppSettings = r;
+                this._globalStateService.clearBusyState();
+                //});
             });
         });
     }

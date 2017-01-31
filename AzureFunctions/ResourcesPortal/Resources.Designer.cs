@@ -88,6 +88,96 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using API proxies is disabled. To enbale API proxies visit .
+        /// </summary>
+        internal static string apiProxies_warningOff {
+            get {
+                return ResourceManager.GetString("apiProxies_warningOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All methods.
+        /// </summary>
+        internal static string apiProxy_allMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_allMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allowed HTTP methods.
+        /// </summary>
+        internal static string apiProxy_allowedHttpMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_allowedHttpMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy with name &apos;{{name}}&apos; already exists.
+        /// </summary>
+        internal static string apiProxy_alreadyExists {
+            get {
+                return ResourceManager.GetString("apiProxy_alreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backend URL.
+        /// </summary>
+        internal static string apiProxy_backendUrl {
+            get {
+                return ResourceManager.GetString("apiProxy_backendUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API proxy with that name already exsists..
+        /// </summary>
+        internal static string apiProxy_errorExists {
+            get {
+                return ResourceManager.GetString("apiProxy_errorExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string apiProxy_name {
+            get {
+                return ResourceManager.GetString("apiProxy_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy URL.
+        /// </summary>
+        internal static string apiProxy_proxyUrl {
+            get {
+                return ResourceManager.GetString("apiProxy_proxyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route template.
+        /// </summary>
+        internal static string apiProxy_routeTemplate {
+            get {
+                return ResourceManager.GetString("apiProxy_routeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected methods.
+        /// </summary>
+        internal static string apiProxy_seectedMethods {
+            get {
+                return ResourceManager.GetString("apiProxy_seectedMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Settings.
         /// </summary>
         internal static string appFunctionSettings_AdvancedSettings {
@@ -120,6 +210,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_apiDefiition {
             get {
                 return ResourceManager.GetString("appFunctionSettings_apiDefiition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API proxies (preview).
+        /// </summary>
+        internal static string appFunctionSettings_apiProxies {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_apiProxies", resourceCulture);
             }
         }
         
@@ -412,6 +511,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
+        /// </summary>
+        internal static string appFunctionSettings_proxyRuntimeVersion1 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxy runtime version: latest ({{latestExtensionVersion}}).
+        /// </summary>
+        internal static string appFunctionSettings_proxyRuntimeVersion2 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Runtime version: Latest ({{latestExtensionVersion}}).
         /// </summary>
         internal static string appFunctionSettings_runtimeVersion1 {
@@ -426,6 +543,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_runtimeVersion2 {
             get {
                 return ResourceManager.GetString("appFunctionSettings_runtimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use API proxies.
+        /// </summary>
+        internal static string appFunctionSettings_useApiProxies {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_useApiProxies", resourceCulture);
             }
         }
         
@@ -601,6 +727,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use function return value.
+        /// </summary>
+        internal static string binding_useFunctionReturnValue {
+            get {
+                return ResourceManager.GetString("binding_useFunctionReturnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
         internal static string bindingInput_new {
@@ -759,6 +894,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string disabled {
             get {
                 return ResourceManager.GetString("disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard.
+        /// </summary>
+        internal static string discrard {
+            get {
+                return ResourceManager.GetString("discrard", resourceCulture);
             }
         }
         
@@ -1164,6 +1308,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionDev_viewFiles {
             get {
                 return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function State.
+        /// </summary>
+        internal static string functionEdit_functionState {
+            get {
+                return ResourceManager.GetString("functionEdit_functionState", resourceCulture);
             }
         }
         
@@ -1969,6 +2122,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        internal static string off {
+            get {
+                return ResourceManager.GetString("off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        internal static string on {
+            get {
+                return ResourceManager.GetString("on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         internal static string open {
@@ -2068,6 +2239,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?.
+        /// </summary>
+        internal static string sideBar_changeMadeApiProxy {
+            get {
+                return ResourceManager.GetString("sideBar_changeMadeApiProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Functions.
+        /// </summary>
+        internal static string sidebar_Functions {
+            get {
+                return ResourceManager.GetString("sidebar_Functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New API Proxy.
+        /// </summary>
+        internal static string sidebar_newApiProxy {
+            get {
+                return ResourceManager.GetString("sidebar_newApiProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Function.
         /// </summary>
         internal static string sideBar_newFunction {
@@ -2086,7 +2284,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search my functions.
+        ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string sideBar_searchMyFunction {
             get {
@@ -2226,6 +2424,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_changeMade {
             get {
                 return ResourceManager.GetString("topBar_changeMade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API settings.
+        /// </summary>
+        internal static string topBar_functionApiSettings {
+            get {
+                return ResourceManager.GetString("topBar_functionApiSettings", resourceCulture);
             }
         }
         

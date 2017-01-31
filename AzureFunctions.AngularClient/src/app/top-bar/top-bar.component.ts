@@ -141,12 +141,13 @@ export class TopBarComponent implements OnInit {
     private canLeaveFunction() {
         var leaveFunction = true;
         if (this.isFunctionSelected &&
-            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
-            if (leaveFunction) {
-                this._broadcastService.clearDirtyState('function', true);
-                this._broadcastService.clearDirtyState('function_integrate', true);
-            }
+            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate') || this._broadcastService.getDirtyState('api-proxy'))) {
+                leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
+                if (leaveFunction) {
+                    this._broadcastService.clearDirtyState('function', true);
+                    this._broadcastService.clearDirtyState('function_integrate', true);
+                    this._broadcastService.clearDirtyState('api-proxy', true);
+                }
         }
         return leaveFunction;
     }

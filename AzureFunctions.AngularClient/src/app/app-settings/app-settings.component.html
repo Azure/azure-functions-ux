@@ -168,6 +168,33 @@
             </div>
         </div>
     </div>-->
+
+    <div class="setting-wrapper">
+        <label>{{ 'appFunctionSettings_apiProxies' | translate }}</label>
+        <div class="features-wrapper">
+            <div>
+                <div>
+                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
+                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="valueChange.next($event)"></radio-selector>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="apiProxiesEnabled" class="features-wrapper">
+            <div>
+                <div *ngIf="!needUpdateRoutingExtensionVersion">
+                    <h2>{{ 'appFunctionSettings_proxyRuntimeVersion2' | translate: {latestExtensionVersion:latestRoutingExtensionVersion} }}</h2>
+                </div>
+                <div *ngIf="needUpdateRoutingExtensionVersion">
+                    <h2>
+                        {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRouingExtensionVersion()">{{ 'update' | translate }}</button>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 <tooltip-content #freeAccountTooltip>
     <p>

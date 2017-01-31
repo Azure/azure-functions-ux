@@ -9,10 +9,17 @@ import {AiService} from './ai.service';
 import {LocalDevelopmentInstructionsComponent} from '../../local-development-instructions/local-development-instructions.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {FunctionsService} from './functions.service';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
+import {Observable, Subscription as RxSubscription, BehaviorSubject} from 'rxjs/Rx';
 
 @Injectable()
 export class GlobalStateService {
+    public _functionsService: FunctionsService;
+    public showTryView: boolean;
+    public isRunningLocal: boolean = false;
+    public showTopbar: boolean;
+    public isAlwaysOn: boolean = true;
+    public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
     private _globalBusyStateComponent: BusyStateComponent;
@@ -23,13 +30,7 @@ export class GlobalStateService {
     private _tryAppServicetoken: string;
     private _scmCreds: string;
     private _localMode: boolean = false;
-    public _functionsService: FunctionsService;
     private _globalDisabled: boolean = false;
-
-    public showTryView: boolean;
-    public isRunningLocal: boolean = false;
-    public showTopbar: boolean;
-    public isAlwaysOn: boolean = true;
 
     constructor(private _userService: UserService,
         private _armService: ArmService,
@@ -45,6 +46,8 @@ export class GlobalStateService {
                 }
             });
         this._userService.getToken().subscribe(t => this._token = t);
+
+        this.enabledApiProxy.next(false);
     }
 
     get FunctionContainer(): FunctionContainer {
@@ -64,14 +67,28 @@ export class GlobalStateService {
         return this._appSettings[Constants.runtimeVersionAppSettingName];
     }
 
+    get RoutingExtensionVersion(): string {
+        return this._appSettings[Constants.routingExtensionVersionAppSettingName];
+    }
+
     get IsLatest(): boolean {
         return this.showTryView || (this.ExtensionVersion ? Constants.runtimeVersion === this.ExtensionVersion || Constants.latest === this.ExtensionVersion.toLowerCase() : false);
+    }
+
+    get IsLatestRoutingVersion(): boolean {
+        return (this.RoutingExtensionVersion ? Constants.routingExtensionVersion === this.RoutingExtensionVersion || Constants.latest === this.RoutingExtensionVersion.toLowerCase() : false);
+    }
+
+    get IsRoutingEnabled() {
+        return this.RoutingExtensionVersion && this.RoutingExtensionVersion.toLowerCase() !== Constants.disabled;
     }
 
     set AppSettings(value: { [key: string]: string }) {
         if (value) {
             this._appSettings = value;
         }
+
+        this.enabledApiProxy.next(this.RoutingExtensionVersion && this.RoutingExtensionVersion !== Constants.disabled);
     }
 
     set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {

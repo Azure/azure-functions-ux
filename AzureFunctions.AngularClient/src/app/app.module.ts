@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {TranslateModule} from 'ng2-translate';
@@ -67,6 +67,8 @@ import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
 import { FunctionDesignerComponent } from './function-designer/function-designer.component';
 import { MonacoEditorDirective } from './shared/directives/monaco-editor.directive';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
+import { ApiDetailsComponent } from './api-details/api-details.component';
+import { ApiNewComponent } from './api-new/api-new.component';
 
 @NgModule({
   declarations: [
@@ -121,8 +123,13 @@ import { TableFunctionMonitorPipe } from './table-function-monitor/table-functio
       FunctionDesignerComponent,
       MonacoEditorDirective,
       TableFunctionMonitorPipe,
+      ApiDetailsComponent,
+      ApiNewComponent,
   ],
   imports: [
+      FormsModule,
+      ReactiveFormsModule,
+
     BrowserModule,
     FormsModule,
       HttpModule,

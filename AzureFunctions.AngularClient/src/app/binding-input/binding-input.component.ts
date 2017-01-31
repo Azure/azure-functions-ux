@@ -4,7 +4,7 @@ import {PortalService} from '../shared/services/portal.service';
 import {UserService} from '../shared/services/user.service';
 import {PickerInput} from '../shared/models/binding-input';
 import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
+import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';

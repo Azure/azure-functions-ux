@@ -3,14 +3,15 @@
     <top-bar (appMonitoringClicked)='onAppMonitoringClicked($event)'
              (sourceControlClicked)='onSourceControlClicked($event)'
              (functionAppSettingsClicked)='onAppSettingsClicked($event)'
-             [isFunctionSelected]="!!selectedFunction"
+             [isFunctionSelected]="!!selectedFunction || !!selectedApiProxy"
              [quickStartSelected]="openIntro"></top-bar>
     <div *ngIf="disabled" class="content-disabled">
     </div>
     <div class="content">
-        <sidebar [functionsInfo]="functionsInfo" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
+        <sidebar [functionsInfo]="functionsInfo" [apiProxies]="apiProxies" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
                  (appSettingsClicked)="onAppSettingsClicked($event)"
-                 (quickstartClicked)="onQuickstartClicked($event)">
+                 (quickstartClicked)="onQuickstartClicked($event)"
+                 (apiSettingsClicked)="onApiSettingsClicked($event)">
         </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
             <tutorial></tutorial>
@@ -38,6 +39,17 @@
 
                 <div *ngIf="openSourceControl">
                     <source-control></source-control>
+                </div>
+
+                <div *ngIf="selectedApiProxy">
+                    <div *ngIf="selectedApiProxy.name !== ('sidebar_newApiProxy' | translate)">
+                        <api-details [functionContainer]="functionContainer" [apiProxies]="apiProxies" [apiProxyEdit]="selectedApiProxy"
+                            (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-details>
+                    </div>
+                    <div *ngIf="selectedApiProxy.name === ('sidebar_newApiProxy' | translate)">
+                        <api-new [apiProxies]="apiProxies"
+                            (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-new>
+                    </div>
                 </div>
             </div>
         </div>

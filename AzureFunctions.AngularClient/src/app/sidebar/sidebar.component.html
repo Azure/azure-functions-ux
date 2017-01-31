@@ -8,6 +8,14 @@
                     <input type="text" id="search-box" placeholder="{{ 'sideBar_searchMyFunction' | translate }}" [(ngModel)]="searchValue" />
                 </span>
             </li>
+            <li>
+                <div class="function-item item-type">
+                    <span class="function-item item-type">
+                        <i *ngIf="!functionsInfo" class="fa fa-spinner"></i>
+                        {{'sidebar_Functions' | translate }}
+                    </span>
+                </div>
+            </li>
             <li *ngFor="let functionInfo of functionsInfo | sidebarFilter:searchValue">
                 <div (click)="selectFunction(functionInfo)" class="function-item">
                     <span class="function-item clickable" [class.selected]="functionInfo === selectedFunction" href="#">
@@ -21,6 +29,23 @@
                     <div class="tab-item" (click)="onTabClicked('Integrate')" [class.tab-item-selected]="tabId === 'Integrate'"><i class="fa fa-flash tab"></i> {{ 'tabNames_integrate' | translate }}<i *ngIf="tabId === 'Integrate'" class="fa fa-chevron-right pull-right"></i></div>
                     <div class="tab-item" (click)="onTabClicked('Monitor')" [class.tab-item-selected]="tabId === 'Monitor'"><i class="fa fa-cog tab"></i> {{ 'tabNames_manage' | translate }}<i *ngIf="tabId === 'Monitor'" class="fa fa-chevron-right pull-right"></i></div>
                     <div class="tab-item" (click)="onTabClicked('Manage')" [class.tab-item-selected]="tabId === 'Manage'"><i class="fa fa-search tab"></i> {{ 'tabNames_monitor' | translate }}<i *ngIf="tabId === 'Manage'" class="fa fa-chevron-right pull-right"></i></div>
+                </div>
+            </li>
+            <li>
+                <div class="function-item item-type">
+                    <span class="function-item item-type">
+                        <i *ngIf="!apiProxies" class="fa fa-spinner"></i>
+                        {{'appFunctionSettings_apiProxies' | translate }}
+                    </span>
+                </div>
+            </li>
+            <li *ngFor="let apiProxy of apiProxies | sidebarFilter:searchValue">
+                <div (click)="selectApiProxy(apiProxy)" class="function-item">
+                    <span class="function-item clickable" [class.selected]="apiProxy === selectedApiProxy" href="#">
+                        <i *ngIf="apiProxy.name === ('sidebar_newApiProxy' | translate)" class="fa fa-plus"></i>
+                        <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/api-proxy.svg" class="function-icon" />
+                        {{apiProxy.name}}
+                    </span>
                 </div>
             </li>
         </ul>
@@ -44,6 +69,5 @@
                 <i class="tab fa fa-refresh"></i> {{ 'sideBar_refresh' | translate }}
             </div>
         </div>
-
     </div>
 </div>

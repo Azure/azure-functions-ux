@@ -7,7 +7,7 @@ import {FunctionInfo} from '../../shared/models/function-info';
 })
 @Injectable()
 export class SidebarPipe implements PipeTransform {
-    transform(items: FunctionInfo[], args: string[] | string): any {
+    transform(items: any[], args: string[] | string): any {
         if (args && args.length > 0) {
             var query = typeof args === 'string' ? args : args[0];
             if (query) {

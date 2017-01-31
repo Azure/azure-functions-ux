@@ -25,6 +25,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {Response, ResponseType} from '@angular/http';
 import {ArmService} from '../shared/services/arm.service';
+import {ApiProxy} from '../shared/models/api-proxy';
+
 
 @Component({
   selector: 'functions-dashboard',
@@ -36,11 +38,14 @@ export class DashboardComponent implements OnChanges {
     @Input() functionContainer: FunctionContainer;
 
     public functionsInfo: FunctionInfo[];
+    public apiProxies: ApiProxy[];
     public selectedFunction: FunctionInfo;
+    public selectedApiProxy: ApiProxy;
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: any;
+    public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
     public tabId: string = "Develop";
@@ -94,6 +99,7 @@ export class DashboardComponent implements OnChanges {
             }
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
+            this.selectedApiProxy = null;
 
             this._globalStateService.setBusyState();
 
@@ -107,6 +113,18 @@ export class DashboardComponent implements OnChanges {
                 this._globalStateService.clearBusyState();
             }
 
+        });
+
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxySelected, apiProxy => {
+            this.resetView(false);
+            this.selectedApiProxy = apiProxy;
+            this.selectedFunction = null;
+        });
+
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
+            if (this.selectedApiProxy === apiProxy) {
+                delete this.selectedApiProxy;
+            }
         });
 
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
@@ -153,8 +171,23 @@ export class DashboardComponent implements OnChanges {
             (error: Response) => {
                 this.functionsInfo = [];
             });
+
+        this._functionsService.getApiProxies().subscribe(proxies => {
+            this.apiProxies = ApiProxy.fromJson(proxies);
+
+            this.apiProxies.unshift({
+                name: this._translateService.instant(PortalResources.sidebar_newApiProxy),
+                backendUri: '',
+                matchCondition: {
+                    methods: [],
+                    route: ''
+                }
+            });
+        });
+
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
+
     }
 
     onRefreshClicked() {
@@ -189,15 +222,23 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = true;
     }
 
-    private resetView(clearFunction: boolean) {
+    onNewApiProxyClicked() {
+        this.resetView(true);
+        this.openNewApiProxy = true;
+    }
+
+    private resetView(clearSelected: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
         this.openIntro = null;
         this.openSourceControl = false;
-        if (clearFunction) {
+        this.openNewApiProxy = false;
+        if (clearSelected) {
             this.selectedFunction = null;
+            this.selectedApiProxy = null;
             if (this.sideBar) {
                 this.sideBar.selectedFunction = null;
+                this.sideBar.selectedApiProxy = null;
             }
         }
     }

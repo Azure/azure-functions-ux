@@ -127,6 +127,12 @@ export class FunctionsService {
             });
         }
 
+        if (!Constants.routingExtensionVersion) {
+            this.getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
+                Constants.routingExtensionVersion = routingVersion;
+            });
+        }
+
         if (!_globalStateService.showTryView) {
             this._userService.getToken().subscribe(t => this.token = t);
             this._userService.getFunctionContainer().subscribe(fc => {
@@ -183,6 +189,27 @@ export class FunctionsService {
                     return [];
                 }
             });
+    }
+
+    //@Cache()
+    getApiProxies() {
+        return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
+            .retryWhen(this.retryAntares)
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<any>(r => {
+                return r.json();
+            });
+    }
+
+    //@ClearCache('getApiProxies')
+    saveApiProxy(jsonString: string) {
+        var headers = this.getScmSiteHeaders();
+        //https://github.com/projectkudu/kudu/wiki/REST-API
+        headers.append("If-Match", "*");
+
+        return this._http.put(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
     }
 
     @Cache('href')
@@ -778,6 +805,15 @@ export class FunctionsService {
 
     getLatestRuntime() {
         return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
+            .map(r => {
+                return r.json();
+            })
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
+    }
+
+    getLatestRoutingExtensionVersion() {
+        return this._http.get(Constants.serviceHost + 'api/latestrouting', { headers: this.getPortalHeaders() })
             .map(r => {
                 return r.json();
             })
