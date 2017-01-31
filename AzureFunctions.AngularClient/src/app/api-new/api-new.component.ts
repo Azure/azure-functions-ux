@@ -35,14 +35,14 @@ export class ApiNewComponent implements OnInit {
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
             backendUri: [null, Validators.required],
-            method_get: false,
-            method_post: false,
-            method_delete: false,
-            method_head: false,
-            method_patch: false,
-            method_put: false,
-            method_options: false,
-            method_trace: false
+            method_GET: false,
+            method_POST: false,
+            method_DELETE: false,
+            method_HEAD: false,
+            method_PATCH: false,
+            method_PUT: false,
+            method_OPTIONS: false,
+            method_TRACE: false
         });
 
         this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
@@ -110,7 +110,7 @@ export class ApiNewComponent implements OnInit {
                         for (var control in this.complexForm.controls) {
                             if (control.startsWith("method_")) {
                                 if (this.complexForm.controls[control].value) {
-                                    newApiProxy.matchCondition.methods.push(control.replace("method_", "").toLocaleLowerCase());
+                                    newApiProxy.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
                                 }
                             }
                         }

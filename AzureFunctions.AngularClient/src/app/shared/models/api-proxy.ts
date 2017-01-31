@@ -7,9 +7,11 @@
     public static fromJson(obj: any): ApiProxy[] {
         var result: ApiProxy[] = [];
 
-        for (var property in obj) {
-            if (obj.hasOwnProperty(property)) {
-                var proxy = <ApiProxy>obj[property];
+        var proxies = obj.proxies;
+
+        for (var property in proxies) {
+            if (proxies.hasOwnProperty(property)) {
+                var proxy = <ApiProxy>proxies[property];
                 proxy.name = property;
                 result.push(proxy);
             }
@@ -36,7 +38,9 @@
         });
 
 
-        return JSON.stringify(result);
+        return JSON.stringify({
+            proxies: result
+        });
     }
 }
 

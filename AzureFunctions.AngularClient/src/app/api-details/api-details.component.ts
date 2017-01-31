@@ -59,7 +59,7 @@ export class ApiDetailsComponent implements OnInit {
             var methods = {};
 
             this._apiProxyEdit.matchCondition.methods.forEach((m) => {
-                methods["method_" + m.toLocaleLowerCase()] = true;
+                methods["method_" + m.toUpperCase()] = true;
             });
 
             this.complexForm.patchValue(methods);
@@ -121,7 +121,7 @@ export class ApiDetailsComponent implements OnInit {
                         for (var control in this.complexForm.controls) {
                             if (control.startsWith("method_")) {
                                 if (this.complexForm.controls[control].value) {
-                                    this._apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toLocaleLowerCase());
+                                    this._apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
                                 }
                             }
                         }
@@ -157,14 +157,14 @@ export class ApiDetailsComponent implements OnInit {
             methodSelectionType: 'All',
             backendUri: [null, Validators.required],
             proxyUrl: '',
-            method_get: false,
-            method_post: false,
-            method_delete: false,
-            method_head: false,
-            method_patch: false,
-            method_put: false,
-            method_options: false,
-            method_trace: false
+            method_GET: false,
+            method_POST: false,
+            method_DELETE: false,
+            method_HEAD: false,
+            method_PATCH: false,
+            method_PUT: false,
+            method_OPTIONS: false,
+            method_TRACE: false
         });
 
         this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
