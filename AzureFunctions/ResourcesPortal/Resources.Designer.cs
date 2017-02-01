@@ -1978,6 +1978,42 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign in with Facebook.
+        /// </summary>
+        internal static string intro_signInWithFacebook {
+            get {
+                return ResourceManager.GetString("intro_signInWithFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in with GitHub.
+        /// </summary>
+        internal static string intro_signInWithGitHub {
+            get {
+                return ResourceManager.GetString("intro_signInWithGitHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in with Google.
+        /// </summary>
+        internal static string intro_signInWithGoogle {
+            get {
+                return ResourceManager.GetString("intro_signInWithGoogle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in with Microsoft.
+        /// </summary>
+        internal static string intro_signInWithMicrosoft {
+            get {
+                return ResourceManager.GetString("intro_signInWithMicrosoft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to start from source control..
         /// </summary>
         internal static string intro_startSC {

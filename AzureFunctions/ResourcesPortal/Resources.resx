@@ -1030,6 +1030,17 @@
   <data name="sidebar_Functions" xml:space="preserve">
     <value>Functions</value>
   </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
