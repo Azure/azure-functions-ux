@@ -90,6 +90,8 @@ export class AppSettingsComponent implements OnInit {
                     this._globalStateService.AppSettings = r;
                     this._globalStateService.clearBusyState();
                     this.apiProxiesEnabled = value;
+                    this.needUpdateRoutingExtensionVersion = false;
+                    this.routingExtensionVersion = Constants.routingExtensionVersion;
                 });
             });
         });
@@ -161,11 +163,9 @@ export class AppSettingsComponent implements OnInit {
         
         this._armService.getFunctionContainerAppSettings(this.functionContainer).subscribe((appSettings) => {
             this._armService.updateApiProxiesVesrion(this.functionContainer, appSettings, Constants.routingExtensionVersion).subscribe((r) => {
-                //this._armService.syncTriggers(this.functionContainer).subscribe(() => {
                 this.needUpdateRoutingExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
-                this._globalStateService.clearBusyState();
-                //});
+                this._globalStateService.clearBusyState();                
             });
         });
     }

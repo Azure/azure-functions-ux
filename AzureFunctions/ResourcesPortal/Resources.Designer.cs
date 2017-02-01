@@ -88,7 +88,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Using API proxies is disabled. To enbale API proxies visit .
+        ///   Looks up a localized string similar to API proxies are currently disabled. To enable, visit.
         /// </summary>
         internal static string apiProxies_warningOff {
             get {
@@ -124,6 +124,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backend URL must start with &apos;http://&apos; or &apos;https://&apos;.
+        /// </summary>
+        internal static string apiProxy_backanrUrlStart {
+            get {
+                return ResourceManager.GetString("apiProxy_backanrUrlStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backend URL.
         /// </summary>
         internal static string apiProxy_backendUrl {
@@ -133,7 +142,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API proxy with that name already exsists..
+        ///   Looks up a localized string similar to API proxy or function with that name already exsists..
         /// </summary>
         internal static string apiProxy_errorExists {
             get {
@@ -412,7 +421,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function App Settings.
+        ///   Looks up a localized string similar to function app settings.
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings {
             get {

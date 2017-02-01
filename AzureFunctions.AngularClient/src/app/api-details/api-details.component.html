@@ -19,15 +19,22 @@
 
     <div style="display: flex;" class="edit">
         <div style="flex-grow:1">
-            <label class="control-label" name="for1">
-                {{ 'apiProxy_routeTemplate' | translate }}
-            </label>
-
             <div>
-                <input type="text" name="routeTemplate"
-                        [formControl]="complexForm.controls['routeTemplate']"
-                        placeholder="{{ 'functionNew_functionName' | translate }}">
+                <label class="control-label" name="for1">
+                    {{ 'apiProxy_routeTemplate' | translate }}
+                </label>
             </div>
+
+            <input type="text" name="routeTemplate"
+                   [formControl]="complexForm.controls['routeTemplate']"
+                   placeholder="{{ 'apiProxy_routeTemplate' | translate }}"
+                   [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
+
+
+            <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid"
+                      [message]="('filedRequired' | translate)"
+                      [isInputError]="true">
+            </pop-over>
         </div>
 
         <div style="flex-grow:1">
@@ -81,11 +88,13 @@
 
         <input type="text" name="backendUri" style="width: 720px"
                 [formControl]="complexForm.controls['backendUri']"
-                placeholder="{{ 'functionNew_functionName' | translate }}"
+                placeholder="{{ 'apiProxy_backendUrl' | translate }}"
                 [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-        <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+        <pop-over *ngIf="!complexForm.controls['backendUri'].valid"
+                  [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)" [isInputError]="true">
         </pop-over>
+
     </div>
 
     <div style="display: flex;">

@@ -310,5 +310,6 @@ export class PortalResources
     public static intro_signInWithGitHub: string = "intro_signInWithGitHub";
     public static intro_signInWithGoogle: string = "intro_signInWithGoogle";
     public static intro_signInWithMicrosoft: string = "intro_signInWithMicrosoft";
+    public static apiProxy_backanrUrlStart: string = "apiProxy_backanrUrlStart";
 }
 
