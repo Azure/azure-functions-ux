@@ -191,10 +191,14 @@ export class FunctionsService {
             });
     }
 
-    //@Cache()
     getApiProxies() {
         return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (err.status === 404 || errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(200))
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
@@ -203,7 +207,6 @@ export class FunctionsService {
             });
     }
 
-    //@ClearCache('getApiProxies')
     saveApiProxy(jsonString: string) {
         var headers = this.getScmSiteHeaders();
         //https://github.com/projectkudu/kudu/wiki/REST-API
