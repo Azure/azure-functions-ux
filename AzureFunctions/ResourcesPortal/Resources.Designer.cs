@@ -124,6 +124,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backend URL must start with &apos;http://&apos; or &apos;https://&apos;.
+        /// </summary>
+        internal static string apiProxy_backanrUrlStart {
+            get {
+                return ResourceManager.GetString("apiProxy_backanrUrlStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backend URL.
         /// </summary>
         internal static string apiProxy_backendUrl {

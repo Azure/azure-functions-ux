@@ -306,5 +306,6 @@ export class PortalResources
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
     public static discrard: string = "discrard";
     public static sidebar_Functions: string = "sidebar_Functions";
+    public static apiProxy_backanrUrlStart: string = "apiProxy_backanrUrlStart";
 }
 

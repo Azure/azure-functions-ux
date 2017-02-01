@@ -8,6 +8,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {FunctionContainer} from '../shared/models/function-container';
+import {ApiNewComponent} from '../api-new/api-new.component';
 
 @Component({
     selector: 'api-details',
@@ -84,7 +85,7 @@ export class ApiDetailsComponent implements OnInit {
 
             this.apiProxies.splice(indexToDelete, 1);
 
-            this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
+            this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this._apiProxyEdit);
             });
@@ -129,7 +130,7 @@ export class ApiDetailsComponent implements OnInit {
                     this.apiProxies[index] = this._apiProxyEdit;
                 }
 
-                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
+                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this._apiProxyEdit);
                     this.onReset();
@@ -155,7 +156,7 @@ export class ApiDetailsComponent implements OnInit {
         this.complexForm = this._fb.group({
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
-            backendUri: [null, Validators.required],
+            backendUri: [null, Validators.compose([Validators.required, ApiNewComponent.validateUrl()])],
             proxyUrl: '',
             method_GET: false,
             method_POST: false,

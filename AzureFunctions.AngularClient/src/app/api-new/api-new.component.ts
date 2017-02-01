@@ -36,7 +36,7 @@ export class ApiNewComponent implements OnInit {
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
-            backendUri: [null, Validators.required],
+            backendUri: [null, Validators.compose([Validators.required, ApiNewComponent.validateUrl()])],
             method_GET: false,
             method_POST: false,
             method_DELETE: false,
@@ -56,6 +56,24 @@ export class ApiNewComponent implements OnInit {
 
     onFunctionAppSettingsClicked(event: any) {
         this.functionAppSettingsClicked.emit(event);
+    }
+
+    static validateUrl(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } => {
+
+            if (control.value) {
+
+                var url: string = <string>control.value.toLowerCase();
+
+                return url.startsWith("http://") || url.startsWith("https://") ? null : {
+                    validateName: {
+                        valid: false
+                    }
+                };
+            } else {
+                return null;
+            }
+        }
     }
 
     validateName(that: ApiNewComponent): ValidatorFn {
@@ -130,7 +148,7 @@ export class ApiNewComponent implements OnInit {
 
                 this.apiProxies.push(newApiProxy);
 
-                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies)).subscribe(() => {
+                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
                 });

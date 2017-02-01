@@ -100,7 +100,8 @@
                    placeholder="{{ 'apiProxy_backendUrl' | translate }}"
                    [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-            <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+            <pop-over *ngIf="!complexForm.controls['backendUri'].valid" 
+                       [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)" [isInputError]="true">
             </pop-over>
         </div>
 
