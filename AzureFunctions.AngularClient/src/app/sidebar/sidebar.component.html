@@ -9,8 +9,8 @@
                 </span>
             </li>
             <li>
-                <div class="function-item item-type">
-                    <span class="function-item item-type">
+                <div class="function-item title">
+                    <span class="function-item title">
                         <i *ngIf="!functionsInfo" class="fa fa-spinner"></i>
                         {{'sidebar_Functions' | translate }}
                     </span>
@@ -31,9 +31,15 @@
                     <div class="tab-item" (click)="onTabClicked('Manage')" [class.tab-item-selected]="tabId === 'Manage'"><i class="fa fa-search tab"></i> {{ 'tabNames_monitor' | translate }}<i *ngIf="tabId === 'Manage'" class="fa fa-chevron-right pull-right"></i></div>
                 </div>
             </li>
+            <!--<li>
+                <div class="title" >
+                </div>
+            </li>-->
             <li>
-                <div class="function-item item-type">
-                    <span class="function-item item-type">
+                <div class="function-item title">
+                    <div style="min-height: 20px">
+                    </div>
+                    <span class="function-item title">
                         <i *ngIf="!apiProxies" class="fa fa-spinner"></i>
                         {{'appFunctionSettings_apiProxies' | translate }}
                     </span>

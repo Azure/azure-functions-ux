@@ -47,7 +47,7 @@
                             (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-details>
                     </div>
                     <div *ngIf="selectedApiProxy.name === ('sidebar_newApiProxy' | translate)">
-                        <api-new [apiProxies]="apiProxies"
+                        <api-new [apiProxies]="apiProxies" [functionsInfo]="functionsInfo"
                             (functionAppSettingsClicked)='onAppSettingsClicked($event)'></api-new>
                     </div>
                 </div>

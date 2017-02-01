@@ -380,7 +380,7 @@
     <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Go to App Service Settings</value>
@@ -989,7 +989,7 @@
     <value>Backend URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy with that name already exsists.</value>
+    <value>API proxy or function with that name already exsists.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Name</value>
@@ -1016,7 +1016,7 @@
     <value>Use API proxies</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Using API proxies is disabled. To enbale API proxies visit </value>
+    <value>API proxies are currently disabled. To enable, visit</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>

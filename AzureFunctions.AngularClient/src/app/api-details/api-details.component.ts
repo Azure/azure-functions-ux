@@ -153,7 +153,7 @@ export class ApiDetailsComponent implements OnInit {
     private initComplexFrom() {
 
         this.complexForm = this._fb.group({
-            routeTemplate: '',
+            routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             backendUri: [null, Validators.required],
             proxyUrl: '',

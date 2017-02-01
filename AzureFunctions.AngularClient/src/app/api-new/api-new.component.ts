@@ -8,6 +8,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
+import {FunctionInfo} from '../shared/models/function-info';
 
 @Component({
   selector: 'api-new',
@@ -18,6 +19,7 @@ import {ErrorEvent} from '../shared/models/error-event';
 export class ApiNewComponent implements OnInit {
 
     @Input() apiProxies: ApiProxy[];
+    @Input() functionsInfo: FunctionInfo[];
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
@@ -31,7 +33,7 @@ export class ApiNewComponent implements OnInit {
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
-            routeTemplate: '',
+            routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
             backendUri: [null, Validators.required],
@@ -60,16 +62,25 @@ export class ApiNewComponent implements OnInit {
 
         return (control: AbstractControl): { [key: string]: any } => {
             var existingProxy = null;
+            var existingFunction = null;
             if (that.complexForm) {
                 var name = control.value;
-                if (that.apiProxies && name) {
-                    existingProxy = that.apiProxies.find((p) => {
-                        return p.name === name;
-                    });
+
+                if (name) {
+                    if (that.apiProxies && name) {
+                        existingProxy = that.apiProxies.find((p) => {
+                            return p.name.toLowerCase() === name.toLowerCase();
+                        });
+                    }
+                    if (!existingProxy) {
+                        existingFunction = that.functionsInfo.find((f) => {
+                            return f.name.toLowerCase() === name.toLowerCase();
+                        });
+                    }
                 }
             }
 
-            return existingProxy ? {
+            return existingProxy || existingFunction ? {
                 validateName: {
                     valid: false
                 }

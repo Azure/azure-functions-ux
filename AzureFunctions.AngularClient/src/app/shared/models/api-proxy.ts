@@ -40,7 +40,7 @@
 
         return JSON.stringify({
             proxies: result
-        });
+        }, null, 4);
     }
 }
 
