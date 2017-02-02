@@ -734,13 +734,21 @@ export class FunctionsService {
     }
 
     @Cache()
-    getFunctionAppId() {
+    getFunctionHostId() {
         if (this.isEasyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
                 .map<string>(r => r.json().id)
                 .catch(e => Observable.of(null));
+        }
+    }
+
+    getFunctionAppArmId() {
+        if (this.functionContainer) {
+            return this.functionContainer.id;
+        } else {
+            return 'Unknown';
         }
     }
 
