@@ -53,10 +53,18 @@
         }
     }
     <app-root>Loading...</app-root>
+    @if (isAzure)
+    {
+    <script type="text/javascript" src="@cdn/inline.js"></script>
+    <script type="text/javascript" src="@cdn/styles.bundle.js"></script>
+    <script type="text/javascript" src="@cdn/main.bundle.js"></script>
+    <script type="text/javascript" src="@cdn/scripts.bundle.js"></script>
+    } else {
     <script type="text/javascript" src="inline.js"></script>
     <script type="text/javascript" src="styles.bundle.js"></script>
     <script type="text/javascript" src="main.bundle.js"></script>
     <script type="text/javascript" src="scripts.bundle.js"></script>
+    }
     <script src="assets/monaco/min/vs/loader.js"></script>
 </body>
 </html>
