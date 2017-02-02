@@ -28,6 +28,7 @@ echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
+echo ANGUALR_CLI=%ANGUALR_CLI%
 
 setlocal enabledelayedexpansion
 
@@ -70,6 +71,16 @@ IF NOT DEFINED KUDU_SYNC_CMD (
 
   :: Locally just running "kuduSync" would also work
   SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
+)
+
+IF NOT DEFINED ANGUALR_CLI (
+  :: Install angular-cli
+  echo Installing angular-cli
+  call npm install -g angular-cli
+  
+  IF !ERRORLEVEL! NEQ 0 goto error
+  
+  SET ANGUALR_CLI=true
 )
 
 IF NOT DEFINED DEPLOYMENT_TEMP (
