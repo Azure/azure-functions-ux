@@ -241,7 +241,7 @@
     <value>Skapa den här funktionen</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Eller skapa en egen funktion</value>
+    <value>Skapa en egen funktion</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Databearbetning</value>
@@ -256,7 +256,7 @@
     <value>Eller sätt igång på egen hand</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Om du föredrar något annat språk som stöds väljer du Skapa en funktion från scratch.</value>
+    <value>Om du föredrar något annat språk som stöds väljer du</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>starta från källkontroll.</value>
@@ -320,7 +320,7 @@
     <value>Uppdatera</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Sök mina funktioner</value>
+    <value>Sök</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Prenumeration</value>
@@ -380,7 +380,7 @@
     <value>För funktioner som använder HTTP-utlösaren kan du kräva att anrop ska autentiseras</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Funktionsappinställningar</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Gå till App Service-inställningar</value>
@@ -860,7 +860,7 @@
     <value>Viktig information om Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Administratörsnycklar (alla funktioner)</value>
+    <value>Värdtangenter (alla funktioner)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Lägg till ny administratörsnyckel</value>
@@ -950,12 +950,99 @@
     <value>Körningsversion</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Funktionsappen har inaktiverats eftersom den överskred den angivna kvoten. Det kan du ändra i funktionsappens inställningsvy i vänster sidopanel.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Funktionsappen har stoppats. Du kan inte använda funktionsportalen när appen har stoppats. Det kan du ändra genom att först gå till funktionsappens inställningsvy i vänster sidopanel och sedan gå till apptjänstinställningsbladet.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Du har inte åtkomstbehörighet till den här funktionsappen. Du kan möjligtvis visa grundläggande inställningar på apptjänstinställningsbladet som du når via funktionsappinställningslänken i vänster sidopanel.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Parameternamnet måste vara unikt.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Använd funktionsreturvärde</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Funktionstillstånd</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>På</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API-inställningar</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Ny API-proxyserver</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Alla metoder</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Tillåtna HTTP-metoder</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>URL för serverdel</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Namn</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>URL för proxyserver</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Flödesmall</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Valda metoder</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API-proxyservrar (förhandsgranskning)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Körningsversion av proxyserver: {{extensionVersion}}. En senare version är tillgänglig ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Körningsversion av proxyserver: senaste ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Använd API-proxyservrar</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Ändringar i API-proxyservern {{name}} går förlorade. Vill du fortsätta?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>En proxyserver med namnet {{name}} finns redan</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Funktioner</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

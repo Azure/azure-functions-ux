@@ -1,0 +1,27 @@
+.clickable {
+    cursor: pointer;
+}
+
+.link{
+    cursor: pointer;
+    color: $link-color;
+}
+
+.row {
+    display: table-row;
+}
+
+.row > .left {
+    width: 150px;
+    padding: 0;
+    display: table-cell;
+}
+
+.row > .right {
+    width: 250px;
+    display: table-cell;
+}
+
+.row-group {
+    display: table-row-group;
+}

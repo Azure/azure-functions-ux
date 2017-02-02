@@ -58,12 +58,26 @@
             <div *ngIf="loginOptions" [class.login-box-ru]="currentCulture == 'ru'" [class.login-box]="currentCulture != 'ru'">
                 <div style="display: block; margin-left: 10px">
                     <div class="wa-heading5">{{ 'tryLanding_chooseAnAuthProvider' | translate }}</div>
-                    <div class="login-option"><a (click)="handleLoginClick('aad')" class="create-site-action"><div class="microsoft-login "></div></a></div>
-                    <div class="login-option"><a (click)="handleLoginClick('google')" class="create-site-action"><div class="google-login sprite-google"></div></a></div>
-                    <div class="login-option"><a (click)="handleLoginClick('facebook')" class="create-site-action"><div class="facebook-login "></div></a></div>
+                    <a (click)="handleLoginClick('github')" class="btn btn-block btn-social btn-github">
+                        <span class="fa fa-github"></span>
+                        {{ 'intro_signInWithGitHub' | translate }}
+                    </a>
+                    <a (click)="handleLoginClick('aad')" class="btn btn-block btn-social btn-microsoft">
+                        <span class="fa fa-windows"></span>
+                        {{ 'intro_signInWithMicrosoft' | translate }}
+                    </a>
+                    <a (click)="handleLoginClick('facebook')" class="btn btn-block btn-social btn-facebook">
+                        <span class="fa fa-facebook"></span>
+                        {{ 'intro_signInWithFacebook' | translate }}
+                    </a>
+                    <a (click)="handleLoginClick('google')" class="btn btn-block btn-social btn-google">
+                        <span class="fa fa-google"></span>
+                        {{ 'intro_signInWithGoogle' | translate }}
+                    </a>
                     <div *ngIf="currentCulture == 'ru'" class="login-option">
-                        <a (click)="handleLoginClick('vk')" class="create-site-action">
-                            <div class="vk-login"></div>
+                        <a (click)="handleLoginClick('vk')" class="btn btn-block btn-social btn-vk">
+                            <span class="fa fa-vk"></span>
+                            Sign in with VK
                         </a>
                     </div>
                 </div>

@@ -241,7 +241,7 @@
     <value>Bu işlevi oluşturun</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Ya da kendi özel işlevinizi oluşturun</value>
+    <value>Kendi özel işlevinizi oluşturun</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Veri işleme</value>
@@ -256,7 +256,7 @@
     <value>Ya da kendi işlevinizle çalışmaya başlayın</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Desteklenen başka bir dili tercih ediyorsanız "Baştan bir işlev oluştur" öğesini seçin.</value>
+    <value>Desteklenen başka bir dili tercih ediyorsanız, seçin</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>kaynak denetiminden başlayın.</value>
@@ -320,7 +320,7 @@
     <value>Yenile</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>İşlevlerimi ara</value>
+    <value>Ara</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Abonelik</value>
@@ -347,10 +347,10 @@
     <value>Gelişmiş Ayarlar</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
+    <value>İstemcilerin HTTP ile tetiklenen işlevleri daha kolay kullanmasına izin ver</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
+    <value>HTTP ile tetiklenen işlevlerinizin bir web tarayıcısı içinden çağrılmasına izin verir.</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API tanımı</value>
@@ -374,13 +374,13 @@
     <value>CORS'yi yapılandır</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
+    <value>İşlev kodunuzu GitHub, Visual Studio Team Services ve diğer hizmetlerden dağıtın.</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
+    <value>HTTP tetikleyicisi kullanan işlevler için çağrıların kimliğinin doğrulanmasını isteyebilirsiniz.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>İşlev Uygulaması Ayarları</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>App Service Ayarlarına git</value>
@@ -743,7 +743,7 @@
     <value>İşlev uygulamanız için ortam değişkenlerini ve bağlantı dizilerini yönetin</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev Console</value>
+    <value>Geliştirici Konsolu</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
     <value>İşlev uygulamanızın dosya sistemine erişmek için portal içi konsol</value>
@@ -860,7 +860,7 @@
     <value>Azure İşlevleri sürüm notları.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Yönetici Anahtarları (Tüm işlevler)</value>
+    <value>Ana Bilgisayar Anahtarları (Tüm işlevler)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Yeni yönetici anahtarı ekle</value>
@@ -932,30 +932,117 @@
     <value>Yönet</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service Settings</value>
+    <value>App Service Ayarları</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+    <value>Gelişmiş Ayarlar. Azure App Service'in tüm temel özelliklerine erişin.</value>
   </data>
   <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service Editor</value>
+    <value>App Service Düzenleyicisi</value>
   </data>
   <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>In portal editor with an integrated console and streaming logs</value>
+    <value>Tümleşik bir konsol ve akış günlükleri içeren, portal içi düzenleyici</value>
   </data>
   <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Go to App Service Editor</value>
+    <value>App Service Düzenleyicisi'ne git</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
-    <value>Runtime version</value>
+    <value>Çalışma zamanı sürümü</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>İşlev uygulamanız ayarlanan kotayı aştığından devre dışı bırakıldı. Kotayı sol kenar çubuğundaki işlev uygulaması ayarları görünümünden değiştirebilirsiniz.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>İşlev uygulamanız durduruldu. Uygulama durdurulduğunda işlevler portalını kullanamazsınız. Bunu sol kenar çubuğundaki işlev uygulaması ayarları görünümünden uygulama hizmeti ayarları dikey penceresine giderek değiştirebilirsiniz.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Bu işlev uygulamasına erişmek için yeterli izniniz yok. Sol kenar çubuğundaki işlev uygulaması ayarları bağlantısını kullanarak erişebileceğiniz uygulama hizmeti ayarları dikey penceresinde temel ayarları görmeye devam edebilirsiniz.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Parametre adı benzersiz olmalıdır.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>İzin verilen HTTP metotları</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Yol şablonu</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Use API proxies</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>At</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>İşlevler</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

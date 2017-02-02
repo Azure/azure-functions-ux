@@ -1,0 +1,85 @@
+<!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
+<div class="form-group">
+    <label [attr.for]="input.id" class="control-label">
+        {{input.label}}
+        <pop-over [message]="input.help">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </pop-over>
+    </label>
+
+    <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
+        <input *ngIf="input.type === 'string'" id="{{input.id}}"
+               (ngModelChange)="inputChanged($event)"
+               [(ngModel)]="input.value"
+               type="text"
+               placeholder="{{input.placeholder}}" [disabled]="disabled"
+               [ngClass]="{'input-error':!!input.errorText}">
+
+        <input *ngIf="input.type === 'int'" id="{{input.id}}"
+               (ngModelChange)="inputChanged($event)"
+               [(ngModel)]="input.value"
+               type="text"
+               placeholder="{{input.placeholder}}" [disabled]="disabled"
+               [ngClass]="{'input-error':!!input.errorText}"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+
+        <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
+        </pop-over>
+
+        <div *ngIf="description && !input.errorText">{{description}}</div>
+
+        <div *ngIf="binding.direction.toString() === 'out' && input.id === 'name'">
+            <input id="{{input.id}}" (ngModelChange)="functionReturnValueChanged($event)" [(ngModel)]="functionReturnValue" type="checkbox" style="margin-left:0px;">
+            <label [attr.for]="input.id" class="control-label" style="color: black;">
+                {{'binding_useFunctionReturnValue' | translate }}
+            </label>
+        </div>
+
+        </div>
+
+    <div *ngIf="input.type === 'picker'" [ngClass]="input.class" class="picker-container">
+        <select id="{{input.id}}"
+                (ngModelChange)="inputChanged($event)"
+                [(ngModel)]="input.value"
+                [ngClass]="{'input-error':!!input.errorText}">
+            <option *ngFor="let item of input.items" [value]="item">{{item}}</option>
+        </select>
+
+
+
+        <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
+        </pop-over>
+        <!--[leftOffset]=20 [topOffset]=10-->
+        <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openCollectorBlade(input)"> {{ 'bindingInput_new' | translate }}</i>
+        <span *ngIf="!input.inProcess && showTryView" class="button-go-disabled" [class.select]="input.errorText" [tooltip]="freeAccountTooltip"
+              tooltipPlacement="bottom">{{ 'bindingInput_new' | translate }}</span>
+        <tooltip-content #freeAccountTooltip>
+            <p>
+                {{ 'tryNow_FreeAccountToolTip' | translate }}
+            </p>
+        </tooltip-content>
+    </div>
+
+    <div *ngIf="input.type === 'boolean'" class="checkbox">
+        <!-- TODO: move this to css -->
+        <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [disabled]="disabled">
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
+    </div>
+
+    <div *ngIf="input.type === 'label'">
+        <input id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
+    </div>
+
+    <div *ngIf="input.type === 'enum'" id="enum-list">
+        <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [disabled]="disabled"></drop-down>
+        <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
+    </div>
+
+    <div *ngIf="input.type === 'checkBoxList'" class="methods-list">
+        <div *ngFor="let item of input.enum">
+            <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [disabled]="disabled"> {{ item.display }}
+        </div>
+    </div>
+
+</div>

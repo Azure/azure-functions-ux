@@ -1,0 +1,28 @@
+.content {
+    padding-left: 230px;
+
+    .work-space{
+        position: relative;
+        padding: 0;
+    }
+}
+
+.content-iframe{
+    /*
+       Header margins are offset beyond the top of the iframe
+       unless you specify a non-zero padding on the container
+    */
+    padding-top: 1px;
+}
+
+.container-full-topbar {
+    margin: 39px 0px 0px 20px;
+}
+
+.container-full {
+    margin-left: 20px;
+}
+
+.try-container-full {
+    margin: 39px 0px 0px 20px;
+}

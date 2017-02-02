@@ -1,0 +1,10 @@
+<div class="container" [class.try-functions-busy]="name === 'try-functions'" [class.global]="isGlobal" *ngIf="busy">
+    <div class="fxs-progress" *ngIf="name !== 'try-functions'">
+        <div class="fxs-progress-dots">
+            <div></div><div></div><div></div>
+            <div *ngIf="message">{{ message }}</div>
+        </div>
+    </div>
+    <try-now-busy-state *ngIf="name == 'try-functions'">
+    </try-now-busy-state>
+</div>

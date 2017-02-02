@@ -1,15 +1,11 @@
-﻿using AzureFunctions.Common;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Web;
+using AzureFunctions.Common;
 using static AzureFunctions.Authentication.ClaimTypes;
 
 namespace AzureFunctions.Authentication
@@ -26,9 +22,7 @@ namespace AzureFunctions.Authentication
 
             if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
-                if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
-                    request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.MsPortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
-                    request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.RcPortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                if (request.UrlReferrer?.Host.EndsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }

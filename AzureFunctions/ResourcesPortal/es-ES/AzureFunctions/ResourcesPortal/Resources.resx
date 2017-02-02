@@ -241,7 +241,7 @@
     <value>Crear esta función</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>O crear una función propia personalizada</value>
+    <value>Crear su propia función personalizada</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Procesamiento de datos</value>
@@ -256,7 +256,7 @@
     <value>O empiece a trabajar por su cuenta</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Si prefiere usar otro lenguaje compatible, elija "Crear una función desde cero".</value>
+    <value>Si prefiere usar otro lenguaje compatible, elija</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>Abrir desde el control de código fuente.</value>
@@ -320,7 +320,7 @@
     <value>Actualizar</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Buscar en mis funciones</value>
+    <value>Buscar</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Suscripción</value>
@@ -380,7 +380,7 @@
     <value>Puede requerir que se autentiquen las llamadas para las funciones que usan el desencadenador HTTP</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Configuración de Function App</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Ir a Configuración de App Service</value>
@@ -860,7 +860,7 @@
     <value>Notas de la versión de Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Claves de administrador (todas las funciones)</value>
+    <value>Claves de host (todas las funciones)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Agregar nueva clave de administrador</value>
@@ -950,12 +950,99 @@
     <value>Versión en tiempo de ejecución</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Function App se ha deshabilitado porque ha superado la cuota establecida. Puede cambiar esta opción en la vista de configuración de Function App en la barra lateral izquierda.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Function App se ha detenido. No puede usar el portal de funciones si la aplicación se ha detenido. Para cambiar esto, vaya a la vista de configuración de Function App en la barra lateral izquierda y luego a la hoja de configuración de App Service.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>No tiene suficientes permisos para acceder a esta Function App. Es posible que aún pueda ver la configuración básica en la hoja de configuración de App Service a la que puede tener acceso desde el vínculo de configuración de Function App en la barra lateral de la izquierda.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>El nombre del parámetro debe ser único.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Usar el valor devuelto de la función</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Estado de la función</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Activado</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Configuración de API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Nuevo servidor proxy de API</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Todos los métodos</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Métodos HTTP permitidos</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Dirección URL de backend</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Dirección URL del proxy</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Plantilla de ruta</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Métodos seleccionados</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Servidores proxy de API (versión preliminar)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Entorno en tiempo de ejecución del proxy: {{extensionVersion}}. Hay disponible una versión más reciente ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Versión del proxy en entorno de ejecución: más reciente ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Usar servidores proxy API</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Los cambios en el servidor proxy de la API {{nombre}} se perderán. ¿Está seguro de que desea continuar?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>El proxy con nombre "{{nombre}}" ya existen</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Descartar</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Funciones</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

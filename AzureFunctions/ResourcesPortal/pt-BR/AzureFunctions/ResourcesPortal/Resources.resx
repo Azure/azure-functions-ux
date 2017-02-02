@@ -241,7 +241,7 @@
     <value>Crie esta função</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Ou crie sua própria função personalizada</value>
+    <value>Criar sua própria função personalizada</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Processamento de dados</value>
@@ -256,7 +256,7 @@
     <value>Ou comece por conta própria</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Se você preferir outra linguagem com suporte, escolha "Criar uma função do zero".</value>
+    <value>Se você preferir outra linguagem com suporte, escolha</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>iniciar do controle do código-fonte.</value>
@@ -320,7 +320,7 @@
     <value>Atualizar</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Pesquisar minhas funções</value>
+    <value>Pesquisar</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Assinatura</value>
@@ -347,10 +347,10 @@
     <value>Configurações Avançadas</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
+    <value>Permita que os clientes consumam suas funções disparadas por HTTP mais facilmente</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
+    <value>Permita que suas funções disparadas por HTTP sejam chamadas de um navegador da Web</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>Definição de API</value>
@@ -374,13 +374,13 @@
     <value>Configurar CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
+    <value>Implante seu código de função do GitHub, do Visual Studio Team Services e muito mais</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
+    <value>Para funções que usam o gatilho HTTP, você pode exigir que as chamadas sejam autenticadas</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Configurações do Aplicativo de Funções</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Acesse as Configurações do Serviço de Aplicativo</value>
@@ -743,7 +743,7 @@
     <value>Gerenciar variáveis de ambiente e cadeia de conexão para seu aplicativo de função</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev Console</value>
+    <value>Console de Desenvolvimento</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
     <value>Console no portal para acessar seu sistema de arquivos do aplicativo de função</value>
@@ -860,7 +860,7 @@
     <value>Notas de versão do Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Chaves de Administração (Todas as Funções)</value>
+    <value>Chaves de Host (Todas as Funções)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Adicionar nova chave de administração</value>
@@ -932,30 +932,117 @@
     <value>Gerenciar</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service Settings</value>
+    <value>Configurações do Serviço de Aplicativo</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+    <value>Recursos Avançados. Acesse todos os recursos subjacentes do Serviço de Aplicativo do Azure</value>
   </data>
   <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service Editor</value>
+    <value>Editor do Serviço de Aplicativo</value>
   </data>
   <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>In portal editor with an integrated console and streaming logs</value>
+    <value>No editor do portal com um console integrado e logs de streaming</value>
   </data>
   <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Go to App Service Editor</value>
+    <value>Ir para o Editor do Serviço de Aplicativo</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
-    <value>Runtime version</value>
+    <value>Versão de tempo de execução</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>O seu aplicativo de função está desabilitado porque ele excedeu a cota de configuração. Você pode alterar isso na exibição de configurações do aplicativo de função na barra esquerda.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>O seu aplicativo de função está parado. Você não pode usar o portal de funções quando o aplicativo estiver parado. Você pode alterar isso acessando a exibição de configurações do aplicativo de funções na barra esquerda e então acessando a folha de configurações do serviço de aplicativo.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Você não tem permissões suficientes para acessar este aplicativo de funções. Você ainda pode visualizar as configurações básicas na folha configurações do serviço de aplicativo, que podem ser acessadas pelo link das configurações do aplicativo de funções na barra lateral esquerda.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>O nome do parâmetro deve ser exclusivo.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Usar valor de retorno de função</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Estado da Função</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Desativado</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Ligar</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Configurações de API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Nova Proxy de API</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Todos os métodos</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Métodos HTTP permitidos</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>URL de Back-end</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>URL do Proxy</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Modelo de rota</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Métodos selecionados</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Proxies de API (visualização)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Versão de tempo de execução do proxy: {{extensionVersion}}. Uma versão mais recente está disponível ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Versão de tempo de execução do proxy: última versão ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Usar proxies de API</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>As alterações feitas ao proxy de API {{name}} serão perdidas. Tem certeza de que deseja continuar?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>O proxy com o nome '{{name}}' já existe</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Descartar</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Funções</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

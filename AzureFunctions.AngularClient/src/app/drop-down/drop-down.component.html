@@ -1,0 +1,9 @@
+<div class="drop-down-container" *ngIf="_options">
+    <select (change)="onSelect($event.target.value)" class="drop-down-select" [disabled]="disabled">
+        <option selected disabled hidden style='display: none' value=''></option>
+        <option *ngFor="let option of _options" [value]="option.id">{{option.displayLabel}}</option>
+    </select>
+    <span *ngIf="!selectedElement" class="drop-down-selected-value">{{placeholder}}</span>
+    <span *ngIf="selectedElement" class="drop-down-selected-value">{{selectedElement.displayLabel}}</span>
+    <span class="drop-down-selected-arrow"></span>
+</div>

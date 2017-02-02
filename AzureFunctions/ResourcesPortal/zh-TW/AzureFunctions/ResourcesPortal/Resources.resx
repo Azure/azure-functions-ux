@@ -241,7 +241,7 @@
     <value>建立此函式</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>或是建立您自己的自訂函式</value>
+    <value>建立您自己的自訂函式</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>資料處理</value>
@@ -256,7 +256,7 @@
     <value>或是自行開始使用</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>若您偏好其他支援的語言，請選擇 [從頭建立函式]。</value>
+    <value>若您偏好其他支援的語言，請選擇</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>從原始檔控制開始。</value>
@@ -320,7 +320,7 @@
     <value>重新整理</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>搜尋我的函式</value>
+    <value>搜尋</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>訂用帳戶</value>
@@ -380,7 +380,7 @@
     <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>函數應用程式設定</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>前往 App Service 設定</value>
@@ -860,7 +860,7 @@
     <value>Azure Functions 版本資訊。</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>管理金鑰 (所有功能)</value>
+    <value>主機金鑰 (所有功能)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>新增管理金鑰</value>
@@ -950,12 +950,99 @@
     <value>Run-time 版本</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>已停用您的函數應用程式，因為其已超過設定配額。您可於左側邊欄上的 [函數應用程式設定] 檢視加以變更。</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>您的函數應用程式已停止。您無法在應用程式停止時使用函式入口網站。您可依序前往左側邊欄上的 [函數應用程式設定] 檢視及 [應用程式服務設定] 刀鋒視窗，進而變更函式。</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>您沒有足夠的權限，無法存取此函數應用程式。您或許仍可從左側邊欄上的 [函數應用程式設定] 連結存取 [應用程式服務設定] 刀鋒視窗，並於其中查看基本設定。</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>參數名稱必須為唯一。</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>開啟</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>允許的 HTTP 方法</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>路由範本</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Use API proxies</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>捨棄</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>函式</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

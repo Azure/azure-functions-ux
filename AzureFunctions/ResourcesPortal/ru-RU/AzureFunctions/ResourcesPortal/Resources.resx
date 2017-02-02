@@ -241,7 +241,7 @@
     <value>Создайте эту функцию</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Или создайте настраиваемую функцию</value>
+    <value>Создайте настраиваемую функцию</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Обработка данных</value>
@@ -256,7 +256,7 @@
     <value>Или создайте свою собственную</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Если вы хотите использовать другой поддерживаемый язык, выберите "Создать новую функцию".</value>
+    <value>Если вы хотите использовать другой поддерживаемый язык, выберите</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>начало с управления версиями.</value>
@@ -320,7 +320,7 @@
     <value>Обновить</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Искать мои функции</value>
+    <value>Поиск</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Подписка</value>
@@ -380,7 +380,7 @@
     <value>Для функций, использующих триггер HTTP, можно настроить проверку подлинности вызовов.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Параметры приложения-функции</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Перейти к параметрам службы приложений</value>
@@ -860,7 +860,7 @@
     <value>Заметки о выпуске для функций Azure.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Ключи администратора (все функции)</value>
+    <value>Ключи узла (все функции)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Добавить ключ администратора</value>
@@ -950,12 +950,99 @@
     <value>Версия среды выполнения</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Ваше приложение-функция отключено, так как оно превысило заданную квоту. Изменить ее можно в представлении параметров приложения-функции на панели слева.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Ваше приложение-функция остановлено. Пока оно остановлено, использовать портал функций невозможно. Чтобы запустить приложение-функцию, перейдите в ее представление параметров на панели слева, а затем — в колонку параметров службы приложений.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>У вас недостаточно разрешений, чтобы получить доступ к этому приложению-функции. Возможно, вы сможете увидеть базовые параметры в колонке службы приложений, к которой можно получить доступ по ссылке на параметры приложения-функции на боковой панели слева.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Имя параметра должно быть уникальным.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Использовать возвращаемое значение функции</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Состояние функции</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Откл.</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Включен</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Параметры API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Создать прокси-сервер для API-интерфейсов</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Все методы</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Разрешенные методы HTTP</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Внутренний URL-адрес</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>URL-адрес прокси-сервера</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Шаблон маршрута</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Выбранные методы</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Прокси-серверы для API-интерфейсов (предварительная версия)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Версия среды выполнения прокси-сервера: {{extensionVersion}}. Доступна новая версия ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Версия среды выполнения прокси-сервера: последняя ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Использовать прокси-серверы для API-интерфейсов</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Изменения, внесенные в прокси-сервер для API-интерфейсов {{name}}, будут потеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Прокси-сервер "{{name}}" уже существует.</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

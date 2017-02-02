@@ -1,0 +1,96 @@
+<div class="intro-container">
+    <div class="intro-banner">
+        <div>
+            <h1>{{ 'intro_fasterWay' | translate }}</h1>
+            <p>
+                <img src="images/function-io.svg" width="210px" />
+                {{ 'intro_writeAny' | translate }}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="intro-body">
+        <h2>{{ 'intro_getStarted' | translate }}</h2>
+        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
+        <div>
+            <div class="intro-template"
+                 (click)="onFunctionCliked('TimerTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
+
+                <div><img src="images/timer-template.svg" /></div>
+                <div>{{ 'intro_timer' | translate }}</div>
+            </div>
+
+            <div class="intro-template"
+                 (click)="onFunctionCliked('QueueTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'QueueTrigger'">
+
+                <div><img src="images/data-process-template.svg" /></div>
+                <div>{{ 'intro_dataProcessing' | translate}}</div>
+            </div>
+
+            <div class="intro-template"
+                 (click)="onFunctionCliked('HttpTrigger')"
+                 [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
+
+                <div><img src="images/webhook-api-template.svg" /></div>
+                <div>{{ 'intro_webHook' | translate }}</div>
+            </div>
+        </div>
+        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
+        {{ 'intro_ifYou' | translate }}
+        <span class="link" (click)='createFromScratch()'>
+            "{{ 'intro_createYourOwn' | translate }}".
+        </span>
+        <div class="intro-lang-container">
+            <div class="intro-template-lang"
+                 (click)="onLanguageCliked('CSharp')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'CSharp'">
+
+                <div>C#</div>
+            </div>
+            <div class="intro-template-lang"
+                 (click)="onLanguageCliked('JavaScript')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'JavaScript'">
+
+                <div>JavaScript</div>
+            </div>
+            <!--<div class="intro-template-lang"
+                 (click)="onLanguageCliked('Powershell')"
+                 [class.intro-template-lang-selected]="selectedLanguage === 'Powershell'">
+
+                <div>PowerShell</div>-->
+        </div>
+        <div>
+            <button class="custom-button"
+                    (click)="onCreateNewFunction()"
+                    [disabled]="disabled">
+                {{ 'intro_createThisFunction' | translate }}
+            </button>
+
+        </div>
+    </div>
+
+    <div class="intro-footer">
+        <h3>{{ 'intro_getStartedOn' | translate }}</h3>
+        <div>
+            <span class="link" (click)='createFromScratch()'>
+                {{ 'intro_createYourOwn' | translate }}
+            </span>
+            {{ 'or' | translate }}
+            <span *ngIf="!_globalStateService.showTryView" class="link" (click)='startFromSC()'>
+                {{ 'intro_startSC' | translate }}
+            </span>
+            <label *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip" tooltipPlacement="right" class="link-disabled">
+                {{ 'intro_startSC' | translate }}
+            </label>
+            <tooltip-content #freeAccountTooltip>
+                <p>
+                    {{ 'tryNow_FreeAccountToolTip' | translate }}
+                </p>
+            </tooltip-content>
+        </div>
+    </div>
+
+</div> <!-- /intro-container -->

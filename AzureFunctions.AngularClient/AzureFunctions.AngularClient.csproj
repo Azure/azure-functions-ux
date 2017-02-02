@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{731F862C-9A37-4D2A-8C62-F01E94333AA5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AzureFunctions.AngularClient</RootNamespace>
+    <AssemblyName>AzureFunctions.AngularClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".editorconfig" />
+    <Content Include=".gitignore" />
+    <Content Include="angular-cli.json" />
+    <Content Include="e2e\tsconfig.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\app\aggregate-block\aggregate-block.component.css" />
+    <Content Include="src\app\aggregate-block\aggregate-block.component.html" />
+    <Content Include="src\app\api-details\api-details.component.html" />
+    <Content Include="src\app\api-new\api-new.component.html" />
+    <Content Include="src\app\app-monitoring\app-monitoring.component.css" />
+    <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
+    <Content Include="src\app\app-settings\app-settings.component.css" />
+    <Content Include="src\app\app-settings\app-settings.component.html" />
+    <Content Include="src\app\binding-designer\binding-designer.component.css" />
+    <Content Include="src\app\binding-designer\binding-designer.component.html" />
+    <Content Include="src\app\binding-input\binding-input.component.css" />
+    <Content Include="src\app\binding-input\binding-input.component.html" />
+    <Content Include="src\app\binding\binding.component.css" />
+    <Content Include="src\app\binding\binding.component.html" />
+    <Content Include="src\app\busy-state\busy-state.component.css" />
+    <Content Include="src\app\busy-state\busy-state.component.html" />
+    <Content Include="src\app\copy-pre\copy-pre.component.css" />
+    <Content Include="src\app\copy-pre\copy-pre.component.html" />
+    <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\drop-down\drop-down.component.css" />
+    <Content Include="src\app\drop-down\drop-down.component.html" />
+    <Content Include="src\app\error-list\error-list.component.css" />
+    <Content Include="src\app\error-list\error-list.component.html" />
+    <Content Include="src\app\file-explorer\file-explorer.component.css" />
+    <Content Include="src\app\file-explorer\file-explorer.component.html" />
+    <Content Include="src\app\function-designer\function-designer.component.css" />
+    <Content Include="src\app\function-designer\function-designer.component.html" />
+    <Content Include="src\app\function-dev\function-dev.component.css" />
+    <Content Include="src\app\function-dev\function-dev.component.html" />
+    <Content Include="src\app\function-edit\function-edit.component.css" />
+    <Content Include="src\app\function-edit\function-edit.component.html" />
+    <Content Include="src\app\function-integrate-v2\function-integrate-v2.component.css" />
+    <Content Include="src\app\function-integrate-v2\function-integrate-v2.component.html" />
+    <Content Include="src\app\function-integrate\function-integrate.component.css" />
+    <Content Include="src\app\function-integrate\function-integrate.component.html" />
+    <Content Include="src\app\function-keys\function-keys.component.css" />
+    <Content Include="src\app\function-keys\function-keys.component.html" />
+    <Content Include="src\app\function-manage\function-manage.component.css" />
+    <Content Include="src\app\function-manage\function-manage.component.html" />
+    <Content Include="src\app\function-monitor\function-monitor.component.css" />
+    <Content Include="src\app\function-monitor\function-monitor.component.html" />
+    <Content Include="src\app\function-new\function-new.component.css" />
+    <Content Include="src\app\function-new\function-new.component.html" />
+    <Content Include="src\app\getting-started\getting-started.component.css" />
+    <Content Include="src\app\getting-started\getting-started.component.html" />
+    <Content Include="src\app\intro\intro.component.css" />
+    <Content Include="src\app\intro\intro.component.html" />
+    <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
+    <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
+    <Content Include="src\app\log-streaming\log-streaming.component.css" />
+    <Content Include="src\app\log-streaming\log-streaming.component.html" />
+    <Content Include="src\app\pop-over\pop-over.component.css" />
+    <Content Include="src\app\pop-over\pop-over.component.html" />
+    <Content Include="src\app\radio-selector\radio-selector.component.css" />
+    <Content Include="src\app\radio-selector\radio-selector.component.html" />
+    <Content Include="src\app\run-http\run-http.component.css" />
+    <Content Include="src\app\run-http\run-http.component.html" />
+    <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
+    <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
+    <Content Include="src\app\sidebar\sidebar.component.css" />
+    <Content Include="src\app\sidebar\sidebar.component.html" />
+    <Content Include="src\app\source-control\source-control.component.css" />
+    <Content Include="src\app\source-control\source-control.component.html" />
+    <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
+    <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
+    <Content Include="src\app\template-picker\template-picker.component.css" />
+    <Content Include="src\app\template-picker\template-picker.component.html" />
+    <Content Include="src\app\tooltip-content\tooltip-content.component.css" />
+    <Content Include="src\app\tooltip-content\tooltip-content.component.html" />
+    <Content Include="src\app\top-bar\top-bar.component.html" />
+    <Content Include="src\app\trial-expired\trial-expired.component.css" />
+    <Content Include="src\app\trial-expired\trial-expired.component.html" />
+    <Content Include="src\app\try-landing\try-landing.component.css" />
+    <Content Include="src\app\try-landing\try-landing.component.html" />
+    <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.css" />
+    <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.html" />
+    <Content Include="src\app\try-now\try-now.component.css" />
+    <Content Include="src\app\try-now\try-now.component.html" />
+    <Content Include="src\app\tutorial\tutorial.component.css" />
+    <Content Include="src\app\tutorial\tutorial.component.html" />
+    <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\assets\monaco\min\vs\base\worker\workerMain.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\bat.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\coffee.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\cpp.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\csharp.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\css.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\dockerfile.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\fsharp.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\go.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\handlebars.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\html.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\ini.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\jade.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\java.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\less.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\lua.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\markdown.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\objective-c.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\php.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\postiats.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\powershell.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\python.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\r.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\razor.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\ruby.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\scss.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\sql.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\swift.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\vb.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\xml.js" />
+    <Content Include="src\assets\monaco\min\vs\basic-languages\src\yaml.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\contrib\quickOpen\browser\symbol-sprite.svg" />
+    <Content Include="src\assets\monaco\min\vs\editor\contrib\suggest\browser\symbol-sprite.svg" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.css" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.de.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.es.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.fr.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.it.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ja.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ko.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ru.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.zh-cn.js" />
+    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.zh-tw.js" />
+    <Content Include="src\assets\monaco\min\vs\language\css\cssMode.js" />
+    <Content Include="src\assets\monaco\min\vs\language\css\cssWorker.js" />
+    <Content Include="src\assets\monaco\min\vs\language\html\htmlMode.js" />
+    <Content Include="src\assets\monaco\min\vs\language\html\htmlWorker.js" />
+    <Content Include="src\assets\monaco\min\vs\language\json\jsonMode.js" />
+    <Content Include="src\assets\monaco\min\vs\language\json\jsonWorker.js" />
+    <Content Include="src\assets\monaco\min\vs\language\typescript\lib\typescriptServices.js" />
+    <Content Include="src\assets\monaco\min\vs\language\typescript\src\mode.js" />
+    <Content Include="src\assets\monaco\min\vs\language\typescript\src\worker.js" />
+    <Content Include="src\assets\monaco\min\vs\loader.js" />
+    <Content Include="src\assets\nvd3Charts.css" />
+    <Content Include="src\images\api-proxy.svg" />
+    <Content Include="src\images\arrow-right.svg" />
+    <Content Include="src\images\azure-logo.svg" />
+    <Content Include="src\images\bolt.svg" />
+    <Content Include="src\images\busy-image.png" />
+    <Content Include="src\images\data-process-template.svg" />
+    <Content Include="src\images\function-io.svg" />
+    <Content Include="src\images\Functions.svg" />
+    <Content Include="src\images\generic-template.svg" />
+    <Content Include="src\images\iot-template.svg" />
+    <Content Include="src\images\landing-page.png" />
+    <Content Include="src\images\Logins\facebook.png" />
+    <Content Include="src\images\Logins\google.png" />
+    <Content Include="src\images\Logins\microsoftaccount.png" />
+    <Content Include="src\images\Logins\vk.png" />
+    <Content Include="src\images\monitoring-coming-soon.png" />
+    <Content Include="src\images\stack.svg" />
+    <Content Include="src\images\timer-template.svg" />
+    <Content Include="src\images\webhook-api-template.svg" />
+    <Content Include="src\tsconfig.json" />
+    <Content Include="tslint.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="karma.conf.js" />
+    <Content Include="protractor.conf.js" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\styles.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\app.po.ts" />
+    <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.component.ts" />
+    <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.spec.ts" />
+    <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.ts" />
+    <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.ts" />
+    <TypeScriptCompile Include="src\app\app-settings\app-settings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app-settings\app-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.ts" />
+    <TypeScriptCompile Include="src\app\binding-input\binding-input.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-input\binding-input.component.ts" />
+    <TypeScriptCompile Include="src\app\binding\binding.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding\binding.component.ts" />
+    <TypeScriptCompile Include="src\app\busy-state\busy-state.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\busy-state\busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.ts" />
+    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\drop-down\drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
+    <TypeScriptCompile Include="src\app\file-explorer\file-explorer.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\file-explorer\file-explorer.component.ts" />
+    <TypeScriptCompile Include="src\app\function-designer\function-designer.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-designer\function-designer.component.ts" />
+    <TypeScriptCompile Include="src\app\function-dev\function-dev.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-dev\function-dev.component.ts" />
+    <TypeScriptCompile Include="src\app\function-edit\function-edit.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-edit\function-edit.component.ts" />
+    <TypeScriptCompile Include="src\app\function-integrate-v2\function-integrate-v2.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-integrate-v2\function-integrate-v2.component.ts" />
+    <TypeScriptCompile Include="src\app\function-integrate\function-integrate.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-integrate\function-integrate.component.ts" />
+    <TypeScriptCompile Include="src\app\function-keys\function-keys.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-keys\function-keys.component.ts" />
+    <TypeScriptCompile Include="src\app\function-manage\function-manage.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-manage\function-manage.component.ts" />
+    <TypeScriptCompile Include="src\app\function-monitor\function-monitor.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-monitor\function-monitor.component.ts" />
+    <TypeScriptCompile Include="src\app\function-new\function-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-new\function-new.component.ts" />
+    <TypeScriptCompile Include="src\app\getting-started\getting-started.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\getting-started\getting-started.component.ts" />
+    <TypeScriptCompile Include="src\app\index.ts" />
+    <TypeScriptCompile Include="src\app\intro\intro.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\intro\intro.component.ts" />
+    <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
+    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.ts" />
+    <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
+    <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.ts" />
+    <TypeScriptCompile Include="src\app\run-http\run-http.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\run-http\run-http.component.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.ts" />
+    <TypeScriptCompile Include="src\app\shared\decorators\cache.decorator.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\api-proxy.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\binding-input-list.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\binding-input.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\binding-list.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\binding-manager.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\binding.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\broadcast-event.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\constants.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\create-function-info.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\designer-schema.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\drop-down-element.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\DropDownElement.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\error-event.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\error-item.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-config.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-container.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-info.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-key.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-monitor.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-secrets.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\function-template.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\host-secrets.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\http-run.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\monaco-model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\new-function-model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\passthrough-info.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\portal-resources.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\portal.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\publishing-credentials.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\resource-group.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\run-function-result.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\run-response.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\scm-info.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\select-option.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\server-farm.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\source-control-state.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\storage-account.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\subscription.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\template-input.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\template-picker.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\template.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\tenant-info.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\tutorial.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\tutorialInfo.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\ui-resource.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\user.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\vfs-object.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\ai.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\ai.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\app-monitoring.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\app-monitoring.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\broadcast.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\functions.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\functions.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\global-state.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\global-state.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\telemetry.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\telemetry.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\utilities.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\utilities.service.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.spec.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
+    <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
+    <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.ts" />
+    <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.pipe.spec.ts" />
+    <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.pipe.ts" />
+    <TypeScriptCompile Include="src\app\template-picker\template-picker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\template-picker\template-picker.component.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip-content.component.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\tooltip-content\tooltip.directive.ts" />
+    <TypeScriptCompile Include="src\app\top-bar\top-bar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\top-bar\top-bar.component.ts" />
+    <TypeScriptCompile Include="src\app\trial-expired\trial-expired.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\trial-expired\trial-expired.component.ts" />
+    <TypeScriptCompile Include="src\app\try-landing\try-landing.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\try-landing\try-landing.component.ts" />
+    <TypeScriptCompile Include="src\app\try-now-busy-state\try-now-busy-state.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\try-now-busy-state\try-now-busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\try-now\try-now.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\try-now\try-now.component.ts" />
+    <TypeScriptCompile Include="src\app\tutorial\tutorial.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\tutorial\tutorial.component.ts" />
+    <TypeScriptCompile Include="src\assets\monaco\monaco.d.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+    <TypeScriptCompile Include="src\typings.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".ember-cli" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\assets\monaco\min-maps\vs\base\worker\workerMain.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.de.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.es.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.fr.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.it.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ja.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ko.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ru.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-cn.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-tw.js.map" />
+    <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\app\api-details\api-details.component.css" />
+    <Content Include="src\app\api-new\api-new.component.css" />
+    <Content Include="src\app\dashboard\dashboard.component.scss" />
+    <Content Include="src\app\top-bar\top-bar.component.scss" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9928</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:9928/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
