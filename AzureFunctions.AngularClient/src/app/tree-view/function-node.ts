@@ -17,17 +17,21 @@ export class FunctionNode extends TreeNode{
     constructor(
         sideNav : SideNavComponent,
         private _functionsNode : FunctionsNode,
-        public functionInfo : FunctionInfo){
+        public functionInfo : FunctionInfo,
+        parentNode : TreeNode){
 
-        super(sideNav, functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/develop");
+        super(sideNav,
+            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/develop",
+            parentNode);
+
         this.title = functionInfo.name;
     }
 
     protected _loadChildren(){
         this.children = [
-            new FunctionIntegrateNode(this.sideNav, this.functionInfo),
-            new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo),
-            new FunctionMonitorNode(this.sideNav, this.functionInfo)
+            new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
+            new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
+            new FunctionMonitorNode(this.sideNav, this.functionInfo, this)
         ]
 
         this._doneLoading();
@@ -45,9 +49,10 @@ export class FunctionEditBaseNode extends TreeNode{
     constructor(
         sideNav : SideNavComponent,
         public functionInfo : FunctionInfo,
-        resourceId : string){
+        resourceId : string,
+        parentNode : TreeNode){
 
-        super(sideNav, resourceId);
+        super(sideNav, resourceId, parentNode);
     }
 
     public getViewData() : any{
@@ -60,9 +65,13 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
 
     constructor(
         sideNav : SideNavComponent,
-        functionInfo : FunctionInfo){
+        functionInfo : FunctionInfo,
+        parentNode : TreeNode){
 
-        super(sideNav, functionInfo, functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/integrate");
+        super(sideNav,
+            functionInfo,
+            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/integrate",
+            parentNode);
 
         this.iconClass = "fa fa-flash tree-node-function-icon";
     }
@@ -74,9 +83,13 @@ export class FunctionManageNode extends FunctionEditBaseNode{
     constructor(
         sideNav : SideNavComponent,
         private _functionsNode : FunctionsNode,
-        functionInfo : FunctionInfo){
+        functionInfo : FunctionInfo,
+        parentNode : TreeNode){
 
-        super(sideNav, functionInfo, functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/manage");
+        super(sideNav,
+            functionInfo,
+            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/manage",
+            parentNode);
 
         this.iconClass = "fa fa-cog tree-node-function-icon";
     }
@@ -92,9 +105,13 @@ export class FunctionMonitorNode extends FunctionEditBaseNode{
 
     constructor(
         sideNav : SideNavComponent,
-        functionInfo : FunctionInfo){
+        functionInfo : FunctionInfo,
+        parentNode : TreeNode){
 
-        super(sideNav, functionInfo, functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/monitor");
+        super(sideNav,
+            functionInfo,
+            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/monitor",
+            parentNode);
 
         this.iconClass = "fa fa-search tree-node-function-icon";
     }

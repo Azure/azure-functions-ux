@@ -15,11 +15,12 @@ export class FunctionsNode extends TreeNode{
     public title = "Functions";
     public dashboardType = DashboardType.collection;
     public newDashboardType = DashboardType.createFunction;
-    // private _functionApp : FunctionApp;
-    // private _functions : FunctionInfo[]; 
 
-    constructor(sideNav : SideNavComponent, public functionApp : FunctionApp){
-        super(sideNav, functionApp.site.id + "/functions");
+    constructor(
+        sideNav : SideNavComponent,
+        public functionApp : FunctionApp,
+        public parentNode : TreeNode){
+        super(sideNav, functionApp.site.id + "/functions", parentNode);
     }
 
     protected _loadChildren(){
@@ -28,7 +29,7 @@ export class FunctionsNode extends TreeNode{
             let fcNodes = <FunctionNode[]>[];
             fcs.forEach(fc => {
                 fc.functionApp = this.functionApp;
-                fcNodes.push(new FunctionNode(this.sideNav, this, fc))
+                fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
             });
 
             this.children = fcNodes;
@@ -39,7 +40,7 @@ export class FunctionsNode extends TreeNode{
     public addChild(functionInfo : FunctionInfo){
         functionInfo.functionApp = this.functionApp;
         
-        let newNode = new FunctionNode(this.sideNav, this, functionInfo);
+        let newNode = new FunctionNode(this.sideNav, this, functionInfo, this);
         this.children.push(newNode);
         newNode.select();
     }

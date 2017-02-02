@@ -21,7 +21,6 @@ import {Site} from '../../shared/models/arm/site';
 export class SiteDashboardComponent {
     public selectedTabTitle: string = SiteTabNames.summary;
     public site : ArmObj<Site>;
-    public descriptor : Descriptor;
     private _viewInfo : Subject<TreeViewInfo>;
     @ViewChild(TabsComponent) tabs : TabsComponent;
 
@@ -47,7 +46,6 @@ export class SiteDashboardComponent {
     }
 
     set viewInfoInput(viewInfo : TreeViewInfo){
-        this.descriptor = new SiteDescriptor(viewInfo.resourceId);
         this._viewInfo.next(viewInfo);
     }
 

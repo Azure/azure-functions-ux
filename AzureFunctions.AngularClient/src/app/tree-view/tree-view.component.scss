@@ -16,6 +16,7 @@
     border-top: 1px solid darken($border-color, 10%);
 }
 
+// Styles for the root node
 .tree-node-root{
     border-bottom: 1px solid darken($border-color, 10%);
 
@@ -36,6 +37,7 @@
     }
 }
 
+// Styles for regular nodes
 .tree-node{
     height: 28px;
     overflow: hidden;
@@ -48,7 +50,7 @@
 
         .tree-node-menu{
                 float: right;
-                margin-top: 7px;
+                margin-top: 3px;
                 margin-right: 10px;
         }
     }

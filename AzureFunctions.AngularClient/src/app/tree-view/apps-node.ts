@@ -79,12 +79,12 @@ export class AppsNode extends RootNode {
                         }
 
                         if (!foundExistingAppNode) {
-                            appNodes.push(new AppNode(this.sideNav, disabledSite, false, true));
+                            appNodes.push(new AppNode(this.sideNav, disabledSite, false, this, true));
                         }
                     }
                 }
                 else {
-                    appNodes.push(new AppNode(this.sideNav, r1, false));
+                    appNodes.push(new AppNode(this.sideNav, r1, false, this));
                 }
             }
         })

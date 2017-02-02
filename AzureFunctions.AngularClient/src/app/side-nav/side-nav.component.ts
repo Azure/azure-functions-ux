@@ -46,7 +46,7 @@ export class SideNavComponent{
         public aiService : AiService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
-        this.rootNode = new TreeNode(this, null);
+        this.rootNode = new TreeNode(this, null, null);
         this.rootNode.children = [new AppsNode(this, null, this.subscriptionIdObs)];
 
         this.armService.subscriptions.subscribe(subs =>{

@@ -23,8 +23,9 @@ export class AppNode extends TreeNode{
     constructor(sideBar : SideNavComponent,
                 private _siteArmCacheObj : ArmObj<Site>,
                 isSearchResult : boolean,
+                parentNode : TreeNode,
                 disabled? : boolean){
-        super(sideBar, _siteArmCacheObj.id);
+        super(sideBar, _siteArmCacheObj.id, parentNode);
 
         this.disabled = !!disabled;
         if(disabled){
@@ -63,8 +64,8 @@ export class AppNode extends TreeNode{
             })
 
             this.children = [
-                new FunctionsNode(this.sideNav, this._functionApp),
-                new SlotsNode(this.sideNav, this._siteArmCacheObj)
+                new FunctionsNode(this.sideNav, this._functionApp, this),
+                new SlotsNode(this.sideNav, this._siteArmCacheObj, this)
             ];
 
             this._doneLoading();

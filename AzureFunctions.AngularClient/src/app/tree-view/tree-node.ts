@@ -18,8 +18,11 @@ export class TreeNode{
     public newDashboardType : DashboardType;
     public supportsAdvanced : boolean = false;
     public disabled = false;
-    
-    constructor(public sideNav : SideNavComponent, public resourceId : string){}
+
+    constructor(
+        public sideNav : SideNavComponent,
+        public resourceId : string,
+        public parent : TreeNode){}
 
     public select(){
         if(!this.resourceId){
@@ -31,7 +34,10 @@ export class TreeNode{
         }
 
         this.sideNav.updateView(this, this.dashboardType);
-        this.toggle(null);
+        
+        if(!this.isExpanded){
+            this.toggle(null);
+        }
     }
 
     public toggle(event){
@@ -76,6 +82,18 @@ export class TreeNode{
 
     public destroy(){
     }
+
+    public getTreePathNames(){
+        let path : string[] = [];
+        let curNode : TreeNode = this;
+        
+        while(curNode){
+            path.splice(0, 0, curNode.title);
+            curNode = curNode.parent;
+        }
+
+        return path;
+    }
 }
 
 export class RootNode extends TreeNode{
@@ -84,10 +102,10 @@ export class RootNode extends TreeNode{
 
     constructor(sideBar : SideNavComponent,
                 resourceId : string,
-                subscriptionIdObs : Subject<string>){
-        super(sideBar, resourceId);
+                subscriptionIdStream : Subject<string>){
+        super(sideBar, resourceId, null);
 
-        subscriptionIdObs.subscribe(id =>{
+        subscriptionIdStream.subscribe(id =>{
             this._subscriptionId = id;
 
             if(this.isExpanded || this._firstTimeLoad){

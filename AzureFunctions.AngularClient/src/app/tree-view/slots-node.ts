@@ -9,8 +9,8 @@ export class SlotsNode extends TreeNode{
     public dashboardType = DashboardType.collection;
     public title = "Slots";
     
-    constructor(sideNav : SideNavComponent, private _siteArmObj : ArmObj<Site>){
-        super(sideNav, _siteArmObj.id + "/slots");
+    constructor(sideNav : SideNavComponent, private _siteArmObj : ArmObj<Site>, parentNode : TreeNode){
+        super(sideNav, _siteArmObj.id + "/slots", parentNode);
     }
     
     protected _loadChildren(){

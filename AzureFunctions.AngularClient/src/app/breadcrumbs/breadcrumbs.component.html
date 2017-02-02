@@ -1,6 +1,1 @@
-<h1 class="breadcrumbs-header" style="margin-left: 30px" *ngIf="!!descriptor && descriptor.parts.length > 7">
-    {{descriptor.parts[6]}} 
-    <span *ngFor="let part of descriptor.parts | slice:7">
-        &gt; {{part}}
-    </span>
-</h1>
+<div class="breadcrumbs-header">{{path}}</div>

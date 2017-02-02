@@ -1,4 +1,3 @@
-<breadcrumbs [descriptorInput]="descriptor"></breadcrumbs>
 <tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'onTabClosed($event)'>
     <tab [tabTitle]="TabNames.summary">
         <site-summary *ngIf="selectedTabTitle === TabNames.summary"

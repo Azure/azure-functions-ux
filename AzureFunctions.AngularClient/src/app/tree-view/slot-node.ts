@@ -8,8 +8,13 @@ export class SlotNode extends TreeNode{
     public showExpandIcon = false;
     public dashboardType = DashboardType.app;
 
-    constructor(sideBar : SideNavComponent, slot : ArmObj<Site>, isSearchResult : boolean){
-        super(sideBar, slot.id);
+    constructor(
+        sideBar : SideNavComponent,
+        slot : ArmObj<Site>,
+        isSearchResult : boolean,
+        parentNode : TreeNode){
+
+        super(sideBar, slot.id, parentNode);
         this.title = isSearchResult ? `${slot.name} (App Slot)` : slot.name;
     }
 }
