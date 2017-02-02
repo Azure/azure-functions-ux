@@ -256,7 +256,7 @@
     <value>Iniziare da zero</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Per usare un altro linguaggio supportato, scegliere "Creare una funzione da zero".</value>
+    <value>Per usare un altro linguaggio supportato, scegliere</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>iniziare dal controllo del codice sorgente.</value>
@@ -320,7 +320,7 @@
     <value>Aggiorna</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Cerca nelle funzioni</value>
+    <value>Cerca</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Sottoscrizione</value>
@@ -380,7 +380,7 @@
     <value>Per le funzioni che usano il trigger HTTP, è possibile richiedere l'autenticazione delle chiamate</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Impostazioni dell'app per le funzioni</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Passa a Impostazioni del servizio app</value>
@@ -860,7 +860,7 @@
     <value>note sulla versione di Funzioni di Azure.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Chiavi amministratore (tutte le funzioni)</value>
+    <value>Chiavi host (tutte le funzioni)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Aggiungi nuova chiave amministratore</value>
@@ -950,12 +950,99 @@
     <value>Versione runtime</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>L'app per le funzioni è disabilitata perché ha superato la quota impostata. È possibile modificare la quota nella visualizzazione delle impostazioni dell'app per le funzioni nella barra laterale sinistra.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>L'app per le funzioni è arrestata. Quando l'app è arrestata non è possibile usare il portale di Funzioni di Azure. Per modificare questo comportamento, passare alla visualizzazione delle impostazioni dell'app per le funzioni nella barra laterale sinistra e quindi passare al pannello Impostazioni del servizio app.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Le autorizzazioni non sono sufficienti per accedere a questa app per le funzioni. Potrebbe essere comunque possibile visualizzare le impostazioni di base nel pannello delle impostazioni del servizio app a cui si può accedere dal collegamento alle impostazioni dell'app per le funzioni nella barra laterale sinistra.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Il nome del parametro deve essere univoco.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Usa valore restituito della funzione</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Stato funzione</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Disattivato</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Impostazioni API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Nuovo proxy API</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Tutti i metodi</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Metodi HTTP consentiti</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>URL back-end</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>URL proxy</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Modello di route</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Metodi selezionati</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Proxy API (anteprima)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Versione runtime del proxy: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Versione runtime proxy: più recente ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Usa proxy API</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Le modifiche apportate al proxy API {{name}} andranno perse. Continuare?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Un proxy con il nome '{{name}}' esiste già</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Rimuovi</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Funzioni</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

@@ -241,7 +241,7 @@
     <value>Maak deze functie</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Of maak uw eigen functie</value>
+    <value>Uw eigen aangepaste functie maken</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Gegevensverwerking</value>
@@ -256,7 +256,7 @@
     <value>Of ga aan de slag met uw eigen functie</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Als u liever een andere, ondersteunde taal gebruikt, kiest u Een volledig nieuwe functie maken.</value>
+    <value>Als u liever een andere ondersteunde taal gebruikt, kiest u</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>begin bij broncodebeheer.</value>
@@ -320,7 +320,7 @@
     <value>Vernieuwen</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Zoeken in mijn functies</value>
+    <value>Zoeken</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Abonnement</value>
@@ -380,7 +380,7 @@
     <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Instellingen voor functie-apps</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Ga naar App Service-instellingen</value>
@@ -860,7 +860,7 @@
     <value>Opmerkingen bij de release van Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Beheersleutels (alle functies)</value>
+    <value>Hostsleutels (alle functies)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Nieuwe beheersleutel toevoegen</value>
@@ -908,7 +908,7 @@
     <value>Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende periode van 24 uur.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
-    <value>Are you sure you want to revoke {{name}} key?</value>
+    <value>Weet u zeker dat u  de sleutel {{name}} wilt intrekken?</value>
   </data>
   <data name="keys" xml:space="preserve">
     <value>Sleutels</value>
@@ -950,12 +950,99 @@
     <value>Runtime-versi</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>De functie-app is uitgeschakeld omdat het ingestelde quotum is overschreden. U kunt dit wijzigen in de instellingenweergave van de functie-app in de linkerzijbalk.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>De functie-app is gestopt. U kunt de functieportal niet gebruiken wanneer de app is gestopt. U kunt dit wijzigen door naar de instellingenweergave van de functie-app in de linkerzijbalk te gaan en vervolgens naar de instellingenblade van de App Service te gaan.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>U hebt onvoldoende machtigingen om deze functie-app te openen. U kunt mogelijk de basisinstellingen bekijken op de instellingenblade van de app-service. U opent deze via de koppeling naar de instellingen van de functie-app op de linkerzijbalk.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>De naam van de parameter moet uniek zijn.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Aan</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API-instellingen</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Toegestane HTTP-methoden</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Routesjabloon</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Use API proxies</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Negeren</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Functies</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

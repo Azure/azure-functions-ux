@@ -241,7 +241,7 @@
     <value>Vytvořte tuto funkci.</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Nebo vytvořte svoji vlastní funkci.</value>
+    <value>Vytvořit svoji vlastní funkci</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Zpracování dat</value>
@@ -256,7 +256,7 @@
     <value>Nebo začněte vlastními silami.</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Pokud dáváte přednost jinému podporovanému jazyku, vyberte Vytvořit funkci od základu.</value>
+    <value>Pokud dáváte přednost jinému podporovanému jazyku, zvolte</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>začít ze správy zdrojového kódu</value>
@@ -320,7 +320,7 @@
     <value>Aktualizovat</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Prohledat moje funkce</value>
+    <value>Hledat</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Předplatné</value>
@@ -380,7 +380,7 @@
     <value>U funkcí, které používají aktivační událost HTTP, můžete vyžadovat, aby se volání nejdříve ověřila.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Nastavení Function App</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Přejít na nastavení App Service</value>
@@ -860,7 +860,7 @@
     <value>Zpráva k vydání verze Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Klíče správce (všechny funkce)</value>
+    <value>Klíče hostitele (všechny funkce)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Přidat nový klíč správce</value>
@@ -950,12 +950,99 @@
     <value>Verze modulu runtime</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Vaše aplikace Function App je zakázaná, protože překročila nastavenou kvótu. Pokud ji chcete změnit, dá se to provést v zobrazení nastavení aplikace Function App na levém bočním panelu.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Vaše aplikace je zastavená. Dokud se nespustí, nemůžete používat portál funkcí. Změnit se to dá tak, že přejdete na zobrazení nastavení aplikace Function App na levém bočním panelu a pak na okno nastavení App Service.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Pro přístup k této Function App nemáte dostatečná oprávnění. Přesto ale může být pro vás viditelné základní nastavení v okně nastavení App Service, do kterého můžete přejít z odkazu na nastavení Function App na levém postranním panelu.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Název parametru musí být jedinečný.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Používat návratovou hodnotu funkce</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Stav funkce</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Nastavení rozhraní API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Nový proxy server rozhraní API</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Všechny metody</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Povolené metody HTTP</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Adresa URL back-endu</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Adresa URL proxy serveru</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Šablona trasy</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Vybrané metody</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Proxy servery rozhraní API (Preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Verze modulu runtime proxy serveru: {{extensionVersion}}. K dispozici je novější verze ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Verze modulu runtime proxy serveru: nejnovější ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Používat proxy servery rozhraní API</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Změny provedené v proxy serveru rozhraní API {{name}} se ztratí. Opravdu chcete pokračovat?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy server s názvem {{name}} už existuje.</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Zahodit</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>
