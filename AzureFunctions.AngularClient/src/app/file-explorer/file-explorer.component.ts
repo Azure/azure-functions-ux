@@ -232,13 +232,7 @@ export class FileExplorerComponent implements OnChanges {
             }
 
         } else if (event.keyCode === 27) {
-            // ESC
-            delete this.newFileName;
-            this.creatingNewFile = false;
-            if (this.renamingFile) {
-                this.files.push(this.selectedFile);
-                this.renamingFile = false;
-            }
+            this.escape();
         }
     }
 
@@ -290,6 +284,20 @@ export class FileExplorerComponent implements OnChanges {
 
     close() {
         this.closeClicked.emit(null);
+    }
+
+    onBlur() {
+        this.escape();
+    }
+
+    private escape() {
+        // ESC
+        delete this.newFileName;
+        this.creatingNewFile = false;
+        if (this.renamingFile) {
+            this.files.push(this.selectedFile);
+            this.renamingFile = false;
+        }
     }
 
     private getFiles(arr: VfsObject[]) {

@@ -25,7 +25,8 @@
                (keyup)="handleKeyUp($event)"
                placeholder="File name"
                [class.hidden]="!creatingNewFile && !renamingFile"
-               #focusable />
+               #focusable 
+               (blur)="onBlur()"/>
     </div>
 
     <div class="bottom-toolbar">
