@@ -19,6 +19,7 @@
                     <div id="operations-bar">
                         <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> Renew</span>
                         <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> Revoke</span>
+                        <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> Copy</span>
                     </div>
                 </td>
             </tr>

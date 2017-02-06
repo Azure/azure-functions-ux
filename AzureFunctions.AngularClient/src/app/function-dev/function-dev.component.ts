@@ -117,7 +117,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f) => ({ secrets: s, functionInfo: f }))
             })
             .subscribe((res: { secrets: any, functionInfo: FunctionInfo }) => {
-                debugger;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
                 this.runValid = true;

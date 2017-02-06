@@ -8,6 +8,7 @@ import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalResources} from '../shared/models/portal-resources';
+import {UtilitiesService} from '../shared/services/utilities.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _utilities: UtilitiesService) {
         this.validKey = false;
         this.keys = [];
         this.functionStream = new Subject<FunctionInfo>();
@@ -158,6 +160,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.clearBusyState();
                 this.functionStream.next(this.functionInfo)
             }, e => this.clearBusyState());
+    }
+
+    copyKey(key: FunctionKey) {
+        this._utilities.copyContentToClipboard(key.value);
     }
 
     resetState() {
