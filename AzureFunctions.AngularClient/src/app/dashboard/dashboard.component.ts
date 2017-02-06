@@ -44,7 +44,7 @@ export class DashboardComponent implements OnChanges {
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
-    public openIntro: any;
+    public openIntro: boolean = true;
     public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
