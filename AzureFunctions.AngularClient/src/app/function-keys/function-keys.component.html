@@ -17,9 +17,9 @@
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
                 <td>
                     <div id="operations-bar">
-                        <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> Renew</span>
-                        <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> Revoke</span>
-                        <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> Copy</span>
+                        <span *ngIf="key.show" class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</span>
+                        <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}</span>
                     </div>
                 </td>
             </tr>

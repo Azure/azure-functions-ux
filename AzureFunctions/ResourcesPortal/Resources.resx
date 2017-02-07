@@ -1045,4 +1045,13 @@
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Revoke</value>
+  </data>
 </root>

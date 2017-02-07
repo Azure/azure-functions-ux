@@ -1411,6 +1411,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string functionKeys_copy {
+            get {
+                return ResourceManager.GetString("functionKeys_copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
         internal static string functionKeys_discard {
@@ -1452,6 +1461,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionKeys_keyValue {
             get {
                 return ResourceManager.GetString("functionKeys_keyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renew.
+        /// </summary>
+        internal static string functionKeys_renew {
+            get {
+                return ResourceManager.GetString("functionKeys_renew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Revoke.
+        /// </summary>
+        internal static string functionKeys_revoke {
+            get {
+                return ResourceManager.GetString("functionKeys_revoke", resourceCulture);
             }
         }
         
