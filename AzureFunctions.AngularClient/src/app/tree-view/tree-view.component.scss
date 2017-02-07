@@ -21,7 +21,7 @@
     border-bottom: 1px solid darken($border-color, 10%);
 
     >.tree-node{
-        height: 40px;
+        height: $treeview-root-height;
         font-size: 20px;
         background-color: #d6dbe0;
 
@@ -69,8 +69,11 @@
 }
 
 .tree-node-children{
-    // max-height: calc(100% - #{$sidebar-menu-height} - #{$topbar-height} - 3*#{$treeview-root-height} - 7px);
+    max-height: calc(100% - 30px - #{$treeview-root-height});
+    width: $sidenav-width;
     overflow-y: auto;
+    position: fixed;
+    margin-top: 1px;
 }
 
 .tree-node-disabled{

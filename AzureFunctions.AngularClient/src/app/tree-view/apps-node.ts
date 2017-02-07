@@ -1,32 +1,66 @@
-import { RootNode } from './tree-node';
+import { Subscription } from './../shared/models/subscription';
+import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
+import { TreeNode } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject } from 'rxjs/Rx';
+import { Subject, Subscription as RxSubscription, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
-import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AppNode } from './app-node';
 
-export class AppsNode extends RootNode {
+export class AppsNode extends TreeNode {
     public title = "Function Apps";
     public dashboardType = DashboardType.collection;
 
     constructor(
         sideNav: SideNavComponent,
         resourceId: string,
-        subscriptionIdObs: Subject<string>) {
+        private _subscriptionsStream : Subject<Subscription[]>) {
 
-        super(sideNav, resourceId, subscriptionIdObs);
+        super(sideNav, resourceId, null);
+
+        this._subscriptionsStream
+        .distinctUntilChanged()
+        .switchMap(subscriptions =>{
+            if(!subscriptions || subscriptions.length === 0){
+                return Observable.of(null);
+            }
+            
+            this.isLoading = true;
+            return this._getAllFunctionApps(subscriptions, null, null);
+        })
+        .subscribe(appsAndSlots =>{
+            this.children = appsAndSlots;
+            this._doneLoading();
+        });
+
     }
 
-    protected _loadChildren() {
-        this.sideNav.armService.getArmCacheResources(this._subscriptionId, "Microsoft.Web/sites", "Microsoft.Web/sites/slots")
-            .subscribe(appsAndSlots => {
-                this.children = this._getAppNodes(appsAndSlots);
-                this._doneLoading();
-            })
+    private _getAllFunctionApps(subscriptions: Subscription[], allApps : ArmObj<any>[], nextLink : string) : Observable<AppNode[]>{
+        
+        // TODO: ellhamai - Need to add back searching for slots.  I removed it for now since querying for slots in parallel is expensive, especially
+        // now that we support multiple subscriptions.  Instead, querying for slots should come after we've already built the tree for sites.
+        // return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites", "Microsoft.Web/sites/slots")
+
+        return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites")
+        .switchMap((arrayResult :ArmArrayResult) =>{
+            
+            if(allApps){
+                allApps = allApps.concat(arrayResult.value);
+            }
+            else{
+                allApps = arrayResult.value;
+            }
+
+            if(arrayResult.nextLink){
+                return this._getAllFunctionApps(subscriptions, allApps, arrayResult.nextLink);
+            }
+            else{
+                return this._getAppNodes(allApps);
+            }
+        });
     }
 
-    private _getAppNodes(appsAndSlots: ArmObj<Site>[]): AppNode[] {
+    private _getAppNodes(appsAndSlots: ArmObj<Site>[]): Observable<AppNode[]> {
         let appNodes: AppNode[] = [];
         appsAndSlots.forEach((r1, index1) => {
             if (r1.kind === "functionapp") {
@@ -89,6 +123,6 @@ export class AppsNode extends RootNode {
             }
         })
 
-        return appNodes;
+        return Observable.of(appNodes);
     }
 }

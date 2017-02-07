@@ -83,6 +83,7 @@ import { SiteManageComponent } from './site/site-manage/site-manage.component';
 import { FeatureGroupComponent } from './feature-group/feature-group.component';
 import { DeploymentSourceComponent } from './site/deployment-source/deployment-source.component';
 import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/deployment-source-setup.component';
+import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +151,8 @@ import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/d
       SiteManageComponent,
       FeatureGroupComponent,
       DeploymentSourceComponent,
-      DeploymentSourceSetupComponent
+      DeploymentSourceSetupComponent,
+      MultiDropDownComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,6 @@
+import { WebsiteId } from './../shared/models/portal';
+import { StorageItem } from './../shared/models/localStorage/local-storage';
+import { LocalStorageService } from './../shared/services/local-storage.service';
 import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {TreeNode} from '../tree-view/tree-node';
@@ -27,12 +30,14 @@ export class SideNavComponent{
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
 
     public rootNode : TreeNode;
-    public subscriptions: DropDownElement<Subscription>[] = [];
-    public subscriptionIdObs = new ReplaySubject<string>(1);
-    public subscriptionId : string;
+    public subscriptionOptions: DropDownElement<Subscription>[] = [];
+    public subscriptionsStream = new ReplaySubject<Subscription[]>(1);
+    public selectedSubscriptions : Subscription[] = [];
+    public subscriptionsDisplayText = "";
     public resourceId : string;
 
     private _selectedNode : TreeNode;
+    private _savedSubsKey = "/subscriptions/selectedIds";
 
     constructor(
         public armService : ArmService,
@@ -47,11 +52,25 @@ export class SideNavComponent{
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
         this.rootNode = new TreeNode(this, null, null);
-        this.rootNode.children = [new AppsNode(this, null, this.subscriptionIdObs)];
+        this.rootNode.children = [new AppsNode(this, null, this.subscriptionsStream)];
+
+        let savedSelectedSubscriptionIds : string[] = JSON.parse(localStorage.getItem(this._savedSubsKey));
+        if(!savedSelectedSubscriptionIds){
+            savedSelectedSubscriptionIds = [];
+        }
 
         this.armService.subscriptions.subscribe(subs =>{
-            this.subscriptions = subs.map(e =>({displayLabel: e.displayName, value: e}))
-                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+            this.subscriptionOptions =
+            subs.map(e =>{
+                let selectedSub = savedSelectedSubscriptionIds.find(s => s === e.subscriptionId);
+
+                return {
+                    displayLabel: e.displayName,
+                    value: e,
+                    isSelected : !!selectedSub
+                };
+            })
+            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
         })
     }
 
@@ -82,9 +101,30 @@ export class SideNavComponent{
         }        
     }
 
-    onSubscriptionSelect(subscription: Subscription) {
-        this.subscriptionId = subscription.subscriptionId;
-        this.subscriptionIdObs.next(this.subscriptionId);
+    onSubscriptionsSelect(subscriptions: Subscription[]) {
+
+        let subsString : string;
+        if(subscriptions.length === this.subscriptionOptions.length){
+            subsString = JSON.stringify([]);
+        }
+        else{
+            subsString = JSON.stringify(subscriptions.map<string>(s => s.subscriptionId));
+        }
+
+        localStorage.setItem("/subscriptions/selectedIds", subsString);
+        this.selectedSubscriptions = subscriptions;
+        this.subscriptionsStream.next(subscriptions);
+
+        if(subscriptions.length === this.subscriptionOptions.length){
+            this._updateSubDisplayText("All subscriptions");
+        }
+        else if(subscriptions.length > 1){
+            this._updateSubDisplayText(`${subscriptions.length} subscriptions`);
+        }
+        else{
+            this._updateSubDisplayText(`${subscriptions[0].displayName}`);
+        }
+
         // if(this.term.value){
         //     return this.armService.search(this.term.value, this.subscriptionId)
         //         .map<TreeNode[]>(response =>{
@@ -106,7 +146,16 @@ export class SideNavComponent{
         //             this.searchNode.children = <TreeNode[]>items;
         //         });
         // }
-        
+    }
+
+    // The multi-dropdown component has its own default display text values,
+    // so we need to make sure we're always overwriting them.  But if we simply
+    // set the value to the same value twice, no change notification will happen.
+    private _updateSubDisplayText(displayText : string){
+        this.subscriptionsDisplayText = "";
+        setTimeout(() =>{ 
+            this.subscriptionsDisplayText = displayText; 
+        }, 10);
     }
 
 }

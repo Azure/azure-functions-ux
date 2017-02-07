@@ -1,0 +1,80 @@
+@import '../../sass/main';
+
+.multi-select-container{
+    position : relative;
+    cursor: pointer;
+
+    input{
+        cursor: pointer;
+    }
+
+    >input[type=text]{
+        width: 100%;
+        margin-right: 1px;  // Not sure why, but you need at least a 1px margin or the layout gets crazy
+        // cursor: pointer;
+    }
+}
+
+.multi-select-content{
+    border: $border-input;
+    position: absolute;
+    width: 100%;
+    background-color: $body-bg-color;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+
+    ul{
+        list-style: none;
+        padding: 0px;
+
+        input{
+            margin: 0px 5px;
+        }
+
+        li{
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        li:hover{
+            background-color: darken($border-color, 10%);
+        }
+    }
+}
+
+.multi-select-arrow {
+    display: block;
+    font-size: 0;
+    height: 25px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+    zoom: 1;
+}
+
+.multi-select-arrow:before {
+    border-color: #dedede;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    box-sizing: border-box;
+    content: "";
+    display: block;
+    height: 7px;
+    left: 50%;
+    margin: 0;
+    margin-left: -5px;
+    margin-top: -5px;
+    padding: 0;
+    position: relative;
+    top: 50%;
+    width: 7px;
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

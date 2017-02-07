@@ -12,7 +12,7 @@ import {ClearCache} from '../decorators/cache.decorator';
 import {AiService} from './ai.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
-import {ArmObj} from '../models/arm/arm-obj';
+import {ArmObj, ArmArrayResult} from '../models/arm/arm-obj';
 
 @Injectable()
 export class ArmService {
@@ -50,18 +50,34 @@ export class ArmService {
         .map<Subscription[]>(r => r.json().value);
     }
 
-    getArmCacheResources(sub: string, type1 : string, type2? : string) {
+    getArmCacheResources(subs: Subscription[], nextLink : string, type1 : string, type2? : string) {
         let url : string;
-        if(!type2){
-            url = `${this.armUrl}/subscriptions/${sub}/resources?api-version=${this.armApiVersion}&$filter=resourceType eq '${type1}'`;
+
+        if(nextLink){
+            url = nextLink;
         }
         else{
-            url = `${this.armUrl}/subscriptions/${sub}/resources?api-version=${this.armApiVersion}&$filter=resourceType eq '${type1}' or resourceType eq '${type2}'`;
+            url = `${this.armUrl}/resources?api-version=${this.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (resourceType eq '${type1}'`;
+
+            if(type2){
+                url += ` or resourceType eq '${type2}'`;
+            }
+
+            url += `)`;
         }
 
         return this._http.get(url, { headers: this.getHeaders() })
-        .map<ArmObj<any>[]>(r => {
-            return r.json().value;
+        .map<ArmArrayResult>(r => {
+            return r.json();
         });
     }
 

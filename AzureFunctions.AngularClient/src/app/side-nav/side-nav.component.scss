@@ -10,3 +10,7 @@
     bottom: 0;
     z-index: 100;
 }
+
+:host /deep/ multi-drop-down .multi-drop-down-container{
+    width: $sidenav-width;
+}

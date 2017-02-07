@@ -3,13 +3,19 @@
     <busy-state name='global'></busy-state>
     <side-nav (treeViewInfoEvent)="updateViewInfo($event)"></side-nav>
 
-    <div *ngIf="!!viewInfo" class="dashboard">
+    <div class="dashboard">
 
-        <breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>
+        <!-- A simple hack to force the body to always be filled.  Otherwise controls in the side side-nav
+            could get weird highlighting when you click on an empty dashboard.  This shouldn't be
+            necessary once we get default content to fill always the right dashboard. -->
+        <div *ngIf="!viewInfo" id="dashboard-blank">&nbsp;</div>
 
-        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
-        <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>
-        <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
+        <div *ngIf="!!viewInfo">
+            <breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>
 
+            <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
+            <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>
+            <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
+        </div>
     </div>
 </div>

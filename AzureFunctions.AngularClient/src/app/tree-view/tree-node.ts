@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Rx';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
+import {Subscription} from '../shared/models/subscription';
 
 export class TreeNode{
     public isExpanded : boolean;
@@ -25,11 +26,7 @@ export class TreeNode{
         public parent : TreeNode){}
 
     public select(){
-        if(!this.resourceId){
-            throw "resourceId is not defined";
-        }
-
-        if(this.disabled){
+        if(this.disabled || !this.resourceId){
             return;
         }
 
@@ -93,27 +90,6 @@ export class TreeNode{
         }
 
         return path;
-    }
-}
-
-export class RootNode extends TreeNode{
-    protected _subscriptionId : string;
-    private _firstTimeLoad = true;
-
-    constructor(sideBar : SideNavComponent,
-                resourceId : string,
-                subscriptionIdStream : Subject<string>){
-        super(sideBar, resourceId, null);
-
-        subscriptionIdStream.subscribe(id =>{
-            this._subscriptionId = id;
-
-            if(this.isExpanded || this._firstTimeLoad){
-                this._firstTimeLoad = false;
-                this.isLoading = true;
-                this._loadChildren();
-            }
-        })
     }
 }
 

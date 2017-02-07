@@ -6,3 +6,8 @@ export interface ArmObj<T> {
     location: string;
     properties: T
 }
+
+export interface ArmArrayResult{
+    value : ArmObj<any>[];
+    nextLink : string;
+}

@@ -1,0 +1,11 @@
+<div class="multi-select-container">
+  <input type="text" [value]="displayText" readonly (click)="click()" />
+  <span class="multi-select-arrow" (click)="click()"></span>
+  <div class="multi-select-content" *ngIf="opened">
+    <ul>
+      <li *ngFor="let option of options" (click)="handleChecked(option)">
+        <input type="checkbox" [checked]="option.isSelected"/>{{option.displayLabel}}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -15,13 +15,15 @@
         </span>-->
 
         <div id="sidenav-subs">
-            <drop-down [options]="subscriptions"
-                    placeholder="Loading..."
-                    (value)="onSubscriptionSelect($event)"></drop-down>
+            <multi-drop-down
+                [inputOptions]="subscriptionOptions"
+                [displayText]="subscriptionsDisplayText"
+                (selectedValues)="onSubscriptionsSelect($event)"></multi-drop-down>
         </div>
+
     </div>
 
-    <div *ngIf="!!subscriptionId">
+    <div *ngIf="selectedSubscriptions.length > 0">
         <!--<div *ngIf="!term.value">-->
             <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
         <!--</div>-->

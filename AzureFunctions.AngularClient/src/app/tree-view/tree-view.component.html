@@ -45,7 +45,7 @@
         </span>
     </div>
 
-    <div *ngIf="child.isExpanded" class="tree-node-children">
+    <div *ngIf="child.isExpanded" [class.tree-node-children]="level === 0">
       <tree-view [node]="child" [levelInput]="level + 1"></tree-view>
     </div>
   </li>
