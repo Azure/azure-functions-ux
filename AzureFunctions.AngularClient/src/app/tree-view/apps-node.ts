@@ -21,21 +21,22 @@ export class AppsNode extends TreeNode {
         this._subscriptionsStream
         .distinctUntilChanged()
         .switchMap(subscriptions =>{
+            this.children = [];
+
             if(!subscriptions || subscriptions.length === 0){
                 return Observable.of(null);
             }
             
             this.isLoading = true;
-            return this._getAllFunctionApps(subscriptions, null, null);
+            return this._getAllFunctionApps(subscriptions, null);
         })
-        .subscribe(appsAndSlots =>{
-            this.children = appsAndSlots;
+        .subscribe(() =>{
             this._doneLoading();
         });
 
     }
 
-    private _getAllFunctionApps(subscriptions: Subscription[], allApps : ArmObj<any>[], nextLink : string) : Observable<AppNode[]>{
+    private _getAllFunctionApps(subscriptions: Subscription[], nextLink : string) : Observable<AppNode[]>{
         
         // TODO: ellhamai - Need to add back searching for slots.  I removed it for now since querying for slots in parallel is expensive, especially
         // now that we support multiple subscriptions.  Instead, querying for slots should come after we've already built the tree for sites.
@@ -44,23 +45,18 @@ export class AppsNode extends TreeNode {
         return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites")
         .switchMap((arrayResult :ArmArrayResult) =>{
             
-            if(allApps){
-                allApps = allApps.concat(arrayResult.value);
-            }
-            else{
-                allApps = arrayResult.value;
-            }
+            this.children = this.children.concat(this._getAppNodes(arrayResult.value));
 
             if(arrayResult.nextLink){
-                return this._getAllFunctionApps(subscriptions, allApps, arrayResult.nextLink);
+                return this._getAllFunctionApps(subscriptions, arrayResult.nextLink);
             }
             else{
-                return this._getAppNodes(allApps);
+                return Observable.of(null);
             }
         });
     }
 
-    private _getAppNodes(appsAndSlots: ArmObj<Site>[]): Observable<AppNode[]> {
+    private _getAppNodes(appsAndSlots: ArmObj<Site>[]): AppNode[] {
         let appNodes: AppNode[] = [];
         appsAndSlots.forEach((r1, index1) => {
             if (r1.kind === "functionapp") {
@@ -123,6 +119,6 @@ export class AppsNode extends TreeNode {
             }
         })
 
-        return Observable.of(appNodes);
+        return appNodes;
     }
 }

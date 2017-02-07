@@ -59,6 +59,11 @@ export class SideNavComponent{
             savedSelectedSubscriptionIds = [];
         }
 
+        // Need to set an initial value to force the tree to render with an initial list first.
+        // Otherwise the tree won't load in batches of objects for long lists until the entire
+        // observable sequence has completed.
+        this.subscriptionsStream.next([]);
+
         this.armService.subscriptions.subscribe(subs =>{
             this.subscriptionOptions =
             subs.map(e =>{
