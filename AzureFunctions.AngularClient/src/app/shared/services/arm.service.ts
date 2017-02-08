@@ -20,7 +20,7 @@ export class ArmService {
     public armUrl = 'https://management.azure.com';
 
     private token: string;
-    private armApiVersion = '2014-04-01'
+    public armApiVersion = '2014-04-01'
     private armLocksApiVersion = '2015-01-01';
     private storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';
@@ -48,58 +48,6 @@ export class ArmService {
         var url = `${this.armUrl}/subscriptions?api-version=2014-04-01`;
         return this._http.get(url, { headers: this.getHeaders() })
         .map<Subscription[]>(r => r.json().value);
-    }
-
-    getArmCacheResources(subs: Subscription[], nextLink : string, type1 : string, type2? : string) {
-        let url : string;
-
-        if(nextLink){
-            url = nextLink;
-        }
-        else{
-            url = `${this.armUrl}/resources?api-version=${this.armApiVersion}&$filter=(`;
-            
-            for(let i = 0; i < subs.length; i++){
-                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
-                if(i < subs.length - 1){
-                    url += ` or `;
-                }
-            }
-
-            url += `) and (resourceType eq '${type1}'`;
-
-            if(type2){
-                url += ` or resourceType eq '${type2}'`;
-            }
-
-            url += `)`;
-        }
-
-        return this._http.get(url, { headers: this.getHeaders() })
-        .map<ArmArrayResult>(r => {
-            return r.json();
-        });
-    }
-
-    search(term : string, subs: Subscription[], nextLink : string){
-        let url : string;
-        if(nextLink){
-            url = nextLink;
-        }
-        else{
-            url = `${this.armUrl}/resources?api-version=${this.armApiVersion}&$filter=(`;
-            
-            for(let i = 0; i < subs.length; i++){
-                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
-                if(i < subs.length - 1){
-                    url += ` or `;
-                }
-            }
-
-            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
-        }
-
-        return this._http.get(url, { headers: this.getHeaders() }).map<ArmArrayResult>(r => r.json());
     }
 
     send(method : string, url : string, body? : any, etag? : string, headers? : Headers){

@@ -45,7 +45,7 @@ export class SearchNode extends TreeNode {
     }
 
     private _doSearch(term : string, subscriptions : Subscription[], nextLink : string){
-        return this.sideNav.armService.search(term, subscriptions, nextLink)
+        return this.sideNav.cacheService.searchArm(term, subscriptions, nextLink)
         .switchMap<ArmArrayResult>((result : ArmArrayResult) =>{
             let nodes = result.value
             .filter(armObj =>{

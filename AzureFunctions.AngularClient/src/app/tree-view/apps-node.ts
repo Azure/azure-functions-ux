@@ -42,7 +42,7 @@ export class AppsNode extends TreeNode {
         // now that we support multiple subscriptions.  Instead, querying for slots should come after we've already built the tree for sites.
         // return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites", "Microsoft.Web/sites/slots")
 
-        return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites")
+        return this.sideNav.cacheService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites")
         .switchMap((arrayResult :ArmArrayResult) =>{
             
             this.children = this.children.concat(this._getAppNodes(arrayResult.value));

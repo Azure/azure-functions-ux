@@ -1,3 +1,5 @@
+import { ArmArrayResult } from './../models/arm/arm-obj';
+import { Subscription } from './../models/subscription';
 import {Injectable, EventEmitter} from '@angular/core';
 import {ArmService} from './arm.service';
 import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from 'rxjs/Rx';
@@ -62,6 +64,58 @@ export class CacheService {
 
     get(url : string, force? : boolean, headers? : Headers){
         return this._send(url, "GET", false, force);
+    }
+
+    getArmCacheResources(subs: Subscription[], nextLink : string, type1 : string, type2? : string) {
+        let url : string;
+
+        if(nextLink){
+            url = nextLink;
+        }
+        else{
+            url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (resourceType eq '${type1}'`;
+
+            if(type2){
+                url += ` or resourceType eq '${type2}'`;
+            }
+
+            url += `)`;
+        }
+
+        return this.get(url)
+        .map<ArmArrayResult>(r => {
+            return r.json();
+        });
+    }
+
+    searchArm(term : string, subs: Subscription[], nextLink : string){
+        let url : string;
+        if(nextLink){
+            url = nextLink;
+        }
+        else{
+            url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
+        }
+
+        return this.get(url).map<ArmArrayResult>(r => r.json());
     }
 
     private _cleanUp(){
