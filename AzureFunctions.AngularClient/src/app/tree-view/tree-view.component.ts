@@ -6,14 +6,13 @@ import {TreeNode} from './tree-node';
     selector: 'tree-view',
     templateUrl: './tree-view.component.html',
     styleUrls: ['./tree-view.component.scss'],
-    inputs: ['node', 'levelInput', 'inSearchMode']
+    inputs: ['node', 'levelInput']
 })
 
 export class TreeViewComponent{
     node : TreeNode;
     margin : string;
     level : number;
-    inSearchMode : boolean;
 
     constructor(private _armService : ArmService) {
     }

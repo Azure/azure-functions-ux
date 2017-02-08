@@ -65,7 +65,7 @@ export class AppNode extends TreeNode{
 
             this.children = [
                 new FunctionsNode(this.sideNav, this._functionApp, this),
-                new SlotsNode(this.sideNav, this._siteArmCacheObj, this)
+                // new SlotsNode(this.sideNav, this._siteArmCacheObj, this)
             ];
 
             this._doneLoading();

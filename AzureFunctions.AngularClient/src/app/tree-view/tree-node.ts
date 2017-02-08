@@ -41,6 +41,8 @@ export class TreeNode{
         
         if(!this.isExpanded){
             this.isLoading = true;
+            this.isExpanded = true;
+
             this._loadChildren();
         }
         else{
@@ -70,7 +72,6 @@ export class TreeNode{
 
     protected _doneLoading(){
         this.isLoading = false;
-        this.isExpanded = true;
         this.showExpandIcon = !!this.children && this.children.length > 0;
         if(this.children && this.children.length === 1){
             this.children[0].toggle(null);

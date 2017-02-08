@@ -1,3 +1,5 @@
+import { ArmArrayResult } from './../shared/models/arm/arm-obj';
+import { FormControl } from '@angular/forms';
 import { WebsiteId } from './../shared/models/portal';
 import { StorageItem } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -5,6 +7,8 @@ import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core'
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {TreeNode} from '../tree-view/tree-node';
 import {AppsNode} from '../tree-view/apps-node';
+import {AppNode} from '../tree-view/app-node';
+import {SearchNode} from '../tree-view/search-node';
 import {TreeViewComponent} from '../tree-view/tree-view.component';
 import {ArmService} from '../shared/services/arm.service';
 import {CacheService} from '../shared/services/cache.service';
@@ -30,14 +34,17 @@ export class SideNavComponent{
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
 
     public rootNode : TreeNode;
+    public searchNode : TreeNode;
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     public selectedSubscriptions : Subscription[] = [];
     public subscriptionsDisplayText = "";
     public resourceId : string;
+    public searchTerm = "";
 
     private _selectedNode : TreeNode;
     private _savedSubsKey = "/subscriptions/selectedIds";
+    private _searchTermStream = new Subject<string>();
 
     constructor(
         public armService : ArmService,
@@ -53,30 +60,10 @@ export class SideNavComponent{
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
         this.rootNode = new TreeNode(this, null, null);
         this.rootNode.children = [new AppsNode(this, null, this.subscriptionsStream)];
+        this.searchNode =new TreeNode(this, null, null);
+        this.searchNode.children = [new SearchNode(this, this._searchTermStream, this.subscriptionsStream)];
 
-        let savedSelectedSubscriptionIds : string[] = JSON.parse(localStorage.getItem(this._savedSubsKey));
-        if(!savedSelectedSubscriptionIds){
-            savedSelectedSubscriptionIds = [];
-        }
-
-        // Need to set an initial value to force the tree to render with an initial list first.
-        // Otherwise the tree won't load in batches of objects for long lists until the entire
-        // observable sequence has completed.
-        this.subscriptionsStream.next([]);
-
-        this.armService.subscriptions.subscribe(subs =>{
-            this.subscriptionOptions =
-            subs.map(e =>{
-                let selectedSub = savedSelectedSubscriptionIds.find(s => s === e.subscriptionId);
-
-                return {
-                    displayLabel: e.displayName,
-                    value: e,
-                    isSelected : !!selectedSub
-                };
-            })
-            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-        })
+        this._setupInitialSubscriptions();
     }
 
     updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
@@ -100,10 +87,9 @@ export class SideNavComponent{
         this.treeViewInfoEvent.emit(null);
     }
 
-    private _cleanUp(){
-        if(this._selectedNode){
-            this._selectedNode.destroy();
-        }        
+    search(event : any){
+        this.searchTerm = event.target.value;
+        this._searchTermStream.next(event.target.value);
     }
 
     onSubscriptionsSelect(subscriptions: Subscription[]) {
@@ -129,28 +115,12 @@ export class SideNavComponent{
         else{
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);
         }
+    }
 
-        // if(this.term.value){
-        //     return this.armService.search(this.term.value, this.subscriptionId)
-        //         .map<TreeNode[]>(response =>{
-        //             return response.json().value.map(armObj =>{
-        //                 switch(armObj.type){
-        //                     case "Microsoft.Web/sites":
-        //                         return new AppNode(this, armObj, true);
-        //                     case "Microsoft.Web/sites/slots":
-        //                         return new SlotNode(this, armObj, true);
-        //                     case "Microsoft.Web/serverFarms":
-        //                         return new PlanNode(this, armObj, true);
-        //                     case "Microsoft.Web/hostingEnvironments":
-        //                         return new EnvironmentNode(this, armObj, true);
-        //                     default:
-        //                         return new TreeNode(this, armObj.id);
-        //                 }
-        //             })
-        //         }).subscribe(items =>{
-        //             this.searchNode.children = <TreeNode[]>items;
-        //         });
-        // }
+    private _cleanUp(){
+        if(this._selectedNode){
+            this._selectedNode.destroy();
+        }        
     }
 
     // The multi-dropdown component has its own default display text values,
@@ -163,4 +133,29 @@ export class SideNavComponent{
         }, 10);
     }
 
+    private _setupInitialSubscriptions(){
+        let savedSelectedSubscriptionIds : string[] = JSON.parse(localStorage.getItem(this._savedSubsKey));
+        if(!savedSelectedSubscriptionIds){
+            savedSelectedSubscriptionIds = [];
+        }
+
+        // Need to set an initial value to force the tree to render with an initial list first.
+        // Otherwise the tree won't load in batches of objects for long lists until the entire
+        // observable sequence has completed.
+        this.subscriptionsStream.next([]);
+
+        this.armService.subscriptions.subscribe(subs =>{
+            this.subscriptionOptions =
+            subs.map(e =>{
+                let selectedSub = savedSelectedSubscriptionIds.find(s => s === e.subscriptionId);
+
+                return {
+                    displayLabel: e.displayName,
+                    value: e,
+                    isSelected : !!selectedSub
+                };
+            })
+            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+        })
+    }
 }

@@ -81,6 +81,27 @@ export class ArmService {
         });
     }
 
+    search(term : string, subs: Subscription[], nextLink : string){
+        let url : string;
+        if(nextLink){
+            url = nextLink;
+        }
+        else{
+            url = `${this.armUrl}/resources?api-version=${this.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
+        }
+
+        return this._http.get(url, { headers: this.getHeaders() }).map<ArmArrayResult>(r => r.json());
+    }
+
     send(method : string, url : string, body? : any, etag? : string, headers? : Headers){
         let request = new Request({
             url : url,

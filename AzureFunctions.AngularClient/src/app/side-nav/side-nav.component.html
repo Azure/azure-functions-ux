@@ -1,17 +1,22 @@
 <div class="sidenav">
 
     <div id="sidenav-menu">
-        <!--<input type="text" 
+        <input type="text"
             id="sidenav-search"
             placeholder="Search"
-            [ngFormControl]="term"
-            [disabled]="!subscriptionId">
-        <span class="sidenav-search-clear-disabled">
+            [value]="searchTerm"
+            (keyup)="search($event)" />
+
+        <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="searchTerm = ''">
+            <i class="fa fa-times"></i>
+        </span>
+
+        <!--<span class="sidenav-search-clear-disabled">
             <i class="fa fa-times"
                aria-hidden="true"
-               [class.sidenav-search-clear-dirty]="!!term.value"
-               [class.clickable]="!!term.value"
-               (click)="clearSearch()"></i>
+               [class.sidenav-search-clear-dirty]="!!searchTerm"
+               [class.clickable]="!!searchTerm"
+               (click)="searchTerm = ''"></i>
         </span>-->
 
         <div id="sidenav-subs">
@@ -24,13 +29,13 @@
     </div>
 
     <div *ngIf="selectedSubscriptions.length > 0">
-        <!--<div *ngIf="!term.value">-->
+        <div *ngIf="!searchTerm">
             <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
-        <!--</div>-->
-        <!--<div *ngIf="!!term.value">
-            <div id="sidenav-search-header">Search Results</div>
-            <tree-view [node]="searchNode" [term]="term" [levelInput]="1" inSearchMode="true"></tree-view>
-        </div>-->
+        </div>
+        <div *ngIf="!!searchTerm">
+            <!--<div id="sidenav-search-header">Search Results</div>-->
+            <tree-view [node]="searchNode" [levelInput]="0"></tree-view>
+        </div>
     </div>
 
 </div>

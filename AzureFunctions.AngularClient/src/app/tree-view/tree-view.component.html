@@ -1,5 +1,5 @@
 <ul class="tree" [class.tree-root]="level === 0">
-  <li *ngFor="let child of node.children" [class.tree-node-root]="level === 0 && !inSearchMode">
+  <li *ngFor="let child of node.children" [class.tree-node-root]="level === 0">
 
     <div (mouseenter)="child.showMenu = true"
          (mouseleave)="child.showMenu = false"
@@ -10,20 +10,24 @@
 
         <span *ngIf="!child.isNewNode" class="tree-node-content" [style.margin-left]="margin">
 
-            <i *ngIf="!child.isLoading"
+            <!-- Expand node icon -->
+            <i *ngIf="level !== 0"
                 class="fa"
                 [class.fa-caret-right]="child.showExpandIcon && !child.isExpanded"
                 [class.fa-caret-down]="child.showExpandIcon && child.isExpanded"
                 (click)="child.toggle($event)"></i>
 
-            <i *ngIf="child.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-
+            <!-- Custom icon per node -->
             <i *ngIf="child.iconClass" [class]="child.iconClass"></i>
 
             <span [class.tree-node-disabled]="child.disabled">
                   {{ child.title }}
             </span>
 
+            <!-- Loading icon right.  Only shows if expanded or root -->
+            <i *ngIf="child.isLoading && (child.isExpanded || level === 0)" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+
+            <!-- Optional menu icons that show up on right side of each node -->
             <span class="tree-node-menu"
                   *ngIf="child.showMenu || (child.sideNav && child.sideNav.resourceId === child.resourceId)">
 
@@ -45,6 +49,7 @@
         </span>
     </div>
 
+    <!-- Child nodes in the tree if the current node expands -->
     <div *ngIf="child.isExpanded" [class.tree-node-children]="level === 0">
       <tree-view [node]="child" [levelInput]="level + 1"></tree-view>
     </div>

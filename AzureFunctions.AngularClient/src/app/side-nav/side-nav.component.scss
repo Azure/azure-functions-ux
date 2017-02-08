@@ -11,6 +11,24 @@
     z-index: 100;
 }
 
+#sidenav-menu{
+    padding: 5px;
+
+    >input[type=text]{
+        width: 100%;
+    }
+}
+
+#sidenav-search-clear{
+    position: absolute;
+    top: 9px;
+    right: 13px;
+}
+
+#sidenav-subs{
+    margin-top: 5px;
+}
+
 :host /deep/ multi-drop-down .multi-drop-down-container{
     width: $sidenav-width;
 }

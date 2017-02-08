@@ -28,12 +28,12 @@ export class AppsNode extends TreeNode {
             }
             
             this.isLoading = true;
+            this.isExpanded = true;
             return this._getAllFunctionApps(subscriptions, null);
         })
         .subscribe(() =>{
             this._doneLoading();
         });
-
     }
 
     private _getAllFunctionApps(subscriptions: Subscription[], nextLink : string) : Observable<AppNode[]>{
