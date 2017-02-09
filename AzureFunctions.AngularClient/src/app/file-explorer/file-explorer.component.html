@@ -25,7 +25,7 @@
                (keyup)="handleKeyUp($event)"
                placeholder="File name"
                [class.hidden]="!creatingNewFile && !renamingFile"
-               #focusable 
+               #focusable
                (blur)="onBlur()"/>
     </div>
 
@@ -45,13 +45,6 @@
                 {{ 'fileExplorer_delete' | translate }}
             </span>
         </span>
-        <!--        <span>
-                    <span [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" class="clickable link-action" (click)="renameCurrentFile($event, focusable)">
-                        <i class="fa fa-pencil"></i>
-                        {{ 'fileExplorer_edit' | translate }}
-                    </span>
-                </span>
-        -->
         <span>
             <span class="clickable link-action close-right" (click)="close()">
                 <i class="fa fa-times"></i>
