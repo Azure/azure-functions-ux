@@ -178,7 +178,6 @@
     <Content Include="src\images\stack.svg" />
     <Content Include="src\images\timer-template.svg" />
     <Content Include="src\images\webhook-api-template.svg" />
-    <Content Include="src\tsconfig.json" />
     <Content Include="tslint.json" />
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +397,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\assets\monaco\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\tsconfig.vs.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
