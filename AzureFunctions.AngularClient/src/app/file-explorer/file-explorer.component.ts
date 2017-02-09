@@ -102,13 +102,15 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 
     refresh() {
@@ -121,18 +123,22 @@ export class FileExplorerComponent implements OnChanges {
 
     selectVfsObject(vfsObject: VfsObject | string, skipHistory?: boolean, name?: string) {
         this._aiService.trackEvent('/actions/file_explorer/select_item');
-        if (!this.switchFiles() || (typeof vfsObject !== 'string' && vfsObject.isBinary)) return;
+        if (!this.switchFiles() || (typeof vfsObject !== 'string' && vfsObject.isBinary)) {
+            return;
+        }
         if (typeof vfsObject === 'string' || (typeof vfsObject !== 'string' && vfsObject.mime === 'inode/directory')) {
             this.setBusyState();
             if (typeof vfsObject !== 'string' && !skipHistory) {
-                if (this.currentVfsObject) this.history.push(this.currentVfsObject);
+                if (this.currentVfsObject) {
+                    this.history.push(this.currentVfsObject);
+                }
                 this.currentVfsObject = vfsObject;
             }
 
             this._functionsService.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
                 .subscribe(r => {
                     this.folders = this.getFolders(r);
-                    this.files = this.getFiles(r)
+                    this.files = this.getFiles(r);
                     this.currentTitle = name || '..';
                     this.clearBusyState();
                 }, () => this.clearBusyState());
@@ -155,7 +161,9 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     addnewInput(event: Event, element: any) {
-        if (!this.switchFiles()) return;
+        if (!this.switchFiles()) {
+            return;
+        }
         this.creatingNewFile = true;
         setTimeout(() => element.focus(), 50);
     }
@@ -173,7 +181,7 @@ export class FileExplorerComponent implements OnChanges {
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        var saveFileObservable = this._functionsService.saveFile(href, content || '', this.functionInfo);
+        let saveFileObservable = this._functionsService.saveFile(href, content || '', this.functionInfo);
         saveFileObservable
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
@@ -197,7 +205,7 @@ export class FileExplorerComponent implements OnChanges {
                     this._broadcastService.broadcast(BroadcastEvent.Error, {
                         message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorCreatingFile, { fileName: this.newFileName })
                     });
-                    var error = new Error(body.ExceptionMessage);
+                    let error = new Error(body.ExceptionMessage);
                     this._aiService.trackException(error);
                 }
                 this.clearBusyState();
@@ -209,7 +217,7 @@ export class FileExplorerComponent implements OnChanges {
         this.setBusyState();
         this._functionsService.getFileContent(this.selectedFile)
             .subscribe(content => {
-                var bypassConfirm = true;
+                let bypassConfirm = true;
                 this.addFile(content)
                     .subscribe(s => this.deleteCurrentFile(bypassConfirm), e => this.clearBusyState());
             }, e => this.clearBusyState());
@@ -243,15 +251,21 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     deleteCurrentFile(bypassConfirm?: boolean) {
-        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) return;
-        if (bypassConfirm !== true && !confirm(this._translateService.instant(PortalResources.fileExplorer_deletePromt, { fileName: this.selectedFile.name }))) return;
+        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
+            return;
+        }
+
+        if (bypassConfirm !== true && !confirm(this._translateService.instant(PortalResources.fileExplorer_deletePromt, { fileName: this.selectedFile.name }))) {
+            return;
+        }
+
         this.setBusyState();
         this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
             .subscribe((deleted: VfsObject) => {
                 this._functionsService.ClearAllFunctionCache(this.functionInfo);
                 this.clearBusyState();
-                var fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
-                if (fileIndex === -1 || this.files.length == 1) {
+                let fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
+                if (fileIndex === -1 || this.files.length === 1) {
                     this.refresh();
                 } else {
                     this.files.splice(fileIndex, 1);
@@ -268,10 +282,12 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     renameCurrentFile(event: Event, element: any) {
-        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase() || !this.switchFiles()) return;
+        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase() || !this.switchFiles()) {
+            return;
+        }
         this.newFileName = this.selectedFile.name;
         this.renamingFile = true;
-        var fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
+        let fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
         if (fileIndex !== -1) {
             this.files.splice(fileIndex, 1);
         }
@@ -315,7 +331,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     private switchFiles(): boolean {
-        var switchFiles = true;
+        let switchFiles = true;
         if (this._broadcastService.getDirtyState('function')) {
             switchFiles = confirm(this._translateService.instant(PortalResources.fileExplorer_changesLost));
             if (switchFiles) {
