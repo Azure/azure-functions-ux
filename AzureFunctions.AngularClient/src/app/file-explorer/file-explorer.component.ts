@@ -57,7 +57,8 @@ export class FileExplorerComponent implements OnChanges {
             });
 
         this.history = [];
-        this.uploader = new FileUploader({ url: '' });
+        // Kudu doesn't handle multipleparts upload correctly.
+        this.uploader = new FileUploader({ url: '', disableMultipart: true});
         this.uploader.onAfterAddingAll = (files: any[]) => {
             this.setBusyState();
             let url = this.currentVfsObject ? this.currentVfsObject.href : this.functionInfo.script_root_path_href;
