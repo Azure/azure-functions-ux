@@ -24,17 +24,12 @@ export class FunctionsNode extends TreeNode{
     }
 
     protected _loadChildren(){
-        this.functionApp.getFunctions()
-        .subscribe(fcs =>{
-            let fcNodes = <FunctionNode[]>[];
-            fcs.forEach(fc => {
-                fc.functionApp = this.functionApp;
-                fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
-            });
-
-            this.children = fcNodes;
-            this._doneLoading();
-        });
+        if(this.functionApp.site.properties.state === "Running"){
+            this.handleStartedSite();
+        }
+        else{
+            this.handleStoppedSite();
+        }
     }
 
     public addChild(functionInfo : FunctionInfo){
@@ -56,4 +51,27 @@ export class FunctionsNode extends TreeNode{
         }
     }
     
+    public handleStoppedSite(){
+        this.newDashboardType = null;
+        this.children = [];
+        this.title = "Functions (Stopped)";
+        this._doneLoading();
+    }
+
+    public handleStartedSite(){
+        this.title = "Functions";
+        this.newDashboardType = DashboardType.createFunction;
+        this.isLoading = true;
+        this.functionApp.getFunctions()
+        .subscribe(fcs =>{
+            let fcNodes = <FunctionNode[]>[];
+            fcs.forEach(fc => {
+                fc.functionApp = this.functionApp;
+                fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
+            });
+
+            this.children = fcNodes;
+            this._doneLoading();
+        });        
+    }
 }

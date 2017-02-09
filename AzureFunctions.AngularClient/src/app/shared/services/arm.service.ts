@@ -63,7 +63,7 @@ export class ArmService {
     }
 
 
-    deleteArmResource(resourceId : string, apiVersion? : string){
+    delete(resourceId : string, apiVersion? : string){
         var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
         return this._http.delete(url, {headers : this.getHeaders()});
     }
@@ -72,6 +72,12 @@ export class ArmService {
         var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
         return this._http.put(url, JSON.stringify(body), {headers : this.getHeaders()})
             .map<ArmObj<any>>(r => r.json());
+    }
+
+    post(resourceId : string, body : any, apiVersion? : string){
+        let content = !!body ? JSON.stringify(body) : null;
+        var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.post(url, content, {headers : this.getHeaders()});
     }
 
     ///////////////////

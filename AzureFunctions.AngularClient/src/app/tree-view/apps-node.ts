@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode } from './tree-node';
@@ -36,15 +37,29 @@ export class AppsNode extends TreeNode {
         });
     }
 
+    public removeChild(appNode : AppNode){        
+        let removeIndex = this.children.findIndex((childNode : AppNode) =>{
+            return childNode === appNode;
+        })
+
+        if(removeIndex > -1){
+            this.children.splice(removeIndex, 1);
+        }
+
+        this.sideNav.cacheService.clearCache(this._getArmCacheUrl(this.sideNav.selectedSubscriptions, null, "Microsoft.Web/sites"));
+        appNode.destroy();
+    }
+
     private _getAllFunctionApps(subscriptions: Subscription[], nextLink : string) : Observable<AppNode[]>{
         
         // TODO: ellhamai - Need to add back searching for slots.  I removed it for now since querying for slots in parallel is expensive, especially
         // now that we support multiple subscriptions.  Instead, querying for slots should come after we've already built the tree for sites.
         // return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites", "Microsoft.Web/sites/slots")
 
-        return this.sideNav.cacheService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites")
-        .switchMap((arrayResult :ArmArrayResult) =>{
-            
+        let url = this._getArmCacheUrl(subscriptions, nextLink, "Microsoft.Web/sites");
+        return this.sideNav.cacheService.get(url)
+        .switchMap((response : Response) =>{
+            let arrayResult : ArmArrayResult = response.json();
             this.children = this.children.concat(this._getAppNodes(arrayResult.value));
 
             if(arrayResult.nextLink){
@@ -120,5 +135,33 @@ export class AppsNode extends TreeNode {
         })
 
         return appNodes;
+    }
+
+    private _getArmCacheUrl(subs: Subscription[], nextLink : string, type1 : string, type2? : string){
+        let url : string;
+
+        if(nextLink){
+            url = nextLink;
+        }
+        else{
+            url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (resourceType eq '${type1}'`;
+
+            if(type2){
+                url += ` or resourceType eq '${type2}'`;
+            }
+
+            url += `)`;
+        }
+
+        return url;
     }
 }

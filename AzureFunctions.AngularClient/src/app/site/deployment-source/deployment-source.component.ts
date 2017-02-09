@@ -101,7 +101,7 @@ export class DeploymentSourceComponent implements OnDestroy {
 
     disconnect(){
         this._globalStateService.setBusyState();
-        this._armService.deleteArmResource(`${this.site.id}/sourceControls/web`)
+        this._armService.delete(`${this.site.id}/sourceControls/web`)
         .flatMap(result =>{
             return this._cacheService.getArmResource(`${this.site.id}/config/web`, true);
         })

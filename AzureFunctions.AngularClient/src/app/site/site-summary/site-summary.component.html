@@ -1,10 +1,18 @@
 <div class="site-summary-actions">
-    <span class="link">Stop</span> | 
-    <span class="link">Restart</span> | 
-    <span class="link">Download Publish Profile</span> | 
-    <span class="link">Reset Publish Credentials</span> | 
-    <span class="link">Swap</span> | 
-    <span class="link">Delete</span>
+    <span class="link" (click)="toggleState()">
+        <span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">Stop</span>
+        <span *ngIf="site?.properties.state === 'Stopped'">Start</span>
+    </span> | 
+    <span class="link" [class.disabled]="site?.properties.state !== 'Running'" (click)="restart()">Restart</span> | 
+
+    <span class="link" [class.disabled]="!hasWriteAccess" (click)="downloadPublishProfile($event)">Download Publish Profile</span> |
+    <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
+        [href]="publishProfileLink"
+        [download]="site?.name + '.PublishSettings'"></a>
+
+    <span class="link" [class.disabled]="!hasWriteAccess" (click)="resetPublishCredentials()">Reset Publish Credentials</span> | 
+    
+    <span class="link" [class.disabled]="!hasWriteAccess" (click)="delete()">Delete</span>
 </div>
 
 <div class="site-row-container">

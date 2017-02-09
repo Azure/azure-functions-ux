@@ -18,6 +18,7 @@ export class AppNode extends TreeNode{
     public disabled = false;
     private _hiddenChildren : TreeNode[];
     private _functionApp : FunctionApp;
+    private _functionsNode : FunctionsNode;
     private _checkErrorsTask : RxSubscription;
 
     constructor(sideBar : SideNavComponent,
@@ -37,7 +38,7 @@ export class AppNode extends TreeNode{
 
     protected _loadChildren(){
         this.sideNav.cacheService.getArmResource(this._siteArmCacheObj.id)
-        .subscribe(site =>{
+        .subscribe((site : ArmObj<Site>) =>{
             this._functionApp = new FunctionApp(
                 site,
                 this.sideNav.http,
@@ -49,24 +50,19 @@ export class AppNode extends TreeNode{
                 this.sideNav.cacheService
             );
 
-            this._functionApp.warmupMainSite();
-            this._functionApp.getHostSecrets();
-
-            this._checkErrorsTask = Observable.timer(1, 60000)
-                .concatMap<string>(() => this._functionApp.getHostErrors())
-                .catch(e => Observable.of([]))
-                .subscribe(errors =>{
-                    errors.forEach( e=>{
-                        this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
-                        this.sideNav.aiService.trackEvent('/errors/host', {error: e, app: this._functionApp.site.id});
-                        
-                    })
-            })
+            this._functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
 
             this.children = [
-                new FunctionsNode(this.sideNav, this._functionApp, this),
+                this._functionsNode,
                 // new SlotsNode(this.sideNav, this._siteArmCacheObj, this)
             ];
+
+            if(site.properties.state === "Running"){
+                this.handleStartedSite();
+            }
+            else{
+                this.handleStoppedSite();
+            }
 
             this._doneLoading();
         })
@@ -77,6 +73,32 @@ export class AppNode extends TreeNode{
             this._checkErrorsTask.unsubscribe();
             this._checkErrorsTask = null;
         }
+    }
+
+    public handleStoppedSite(){
+        this._functionsNode.handleStoppedSite();
+        this.destroy();
+    }
+
+    public handleStartedSite(){
+        this._functionApp.warmupMainSite()
+        .catch((err : any) => Observable.of(null))
+        .subscribe(() =>{
+            this._functionsNode.handleStartedSite();
+
+            if(!this._checkErrorsTask){
+                this._checkErrorsTask = Observable.timer(1, 60000)
+                    .concatMap<string>(() => this._functionApp.getHostErrors())
+                    .catch(e => Observable.of([]))
+                    .subscribe(errors =>{
+                        errors.forEach( e=>{
+                            this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+                            this.sideNav.aiService.trackEvent('/errors/host', {error: e, app: this._functionApp.site.id});
+                            
+                        })
+                })
+            }
+        })
     }
 
     // toggleAdvanced(){

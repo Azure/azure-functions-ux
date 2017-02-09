@@ -21,7 +21,8 @@ import {Site} from '../../shared/models/arm/site';
 export class SiteDashboardComponent {
     public selectedTabTitle: string = SiteTabNames.summary;
     public site : ArmObj<Site>;
-    private _viewInfo : Subject<TreeViewInfo>;
+    public viewInfoStream : Subject<TreeViewInfo>;
+    public viewInfo : TreeViewInfo;
     @ViewChild(TabsComponent) tabs : TabsComponent;
 
     public TabNames = SiteTabNames;
@@ -32,10 +33,11 @@ export class SiteDashboardComponent {
         private _cacheService : CacheService,
         private _globalStateService : GlobalStateService
      ) {
-        this._viewInfo = new Subject<TreeViewInfo>();
-        this._viewInfo
+        this.viewInfoStream = new Subject<TreeViewInfo>();
+        this.viewInfoStream
             .distinctUntilChanged()
             .switchMap(viewInfo =>{
+                this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArmResource(viewInfo.resourceId);
             })
@@ -46,7 +48,7 @@ export class SiteDashboardComponent {
     }
 
     set viewInfoInput(viewInfo : TreeViewInfo){
-        this._viewInfo.next(viewInfo);
+        this.viewInfoStream.next(viewInfo);
     }
 
     onTabSelected(selectedTab: TabComponent) {

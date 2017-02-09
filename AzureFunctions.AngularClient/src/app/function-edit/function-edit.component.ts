@@ -48,7 +48,6 @@ export class FunctionEditComponent {
     }
 
     constructor(
-        private _functionsService: FunctionsService,
         private _userService: UserService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,

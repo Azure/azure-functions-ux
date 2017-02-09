@@ -181,7 +181,6 @@ export class FunctionApp {
         }
     }
 
-    // @Cache()
     getFunctions() {
         return this._cacheService.get(`${this.scmUrl}/functions`, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
