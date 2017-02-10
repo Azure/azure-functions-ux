@@ -1,4 +1,4 @@
-import { TreeNode } from './tree-node';
+import { TreeNode, Removable } from './tree-node';
 import {FunctionsNode} from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
@@ -21,7 +21,7 @@ export class FunctionNode extends TreeNode{
         parentNode : TreeNode){
 
         super(sideNav,
-            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/develop",
+            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
             parentNode);
 
         this.title = functionInfo.name;
@@ -77,7 +77,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
     }
 }
 
-export class FunctionManageNode extends FunctionEditBaseNode{
+export class FunctionManageNode extends FunctionEditBaseNode implements Removable{
     public title = "Manage";
 
     constructor(
@@ -95,8 +95,7 @@ export class FunctionManageNode extends FunctionEditBaseNode{
     }
 
     public remove(){
-        this._functionsNode.removeChild(this.functionInfo);
-        this.sideNav.clearView();
+        this._functionsNode.removeChild(this.functionInfo, false);
     }
 }
 

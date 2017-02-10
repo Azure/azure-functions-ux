@@ -35,17 +35,9 @@ export class FunctionEditComponent {
     public IntegrateTab: string;
     public MonitorTab: string;
     public ManageTab: string;
+    public tabId: string = "";
 
     private _viewInfoStream : Subject<TreeViewInfo>;
-    private _tabId: string = "";
-
-    set tabId(value: string) {
-        this._tabId = value;
-    }
-
-    get tabId() {
-        return this._tabId;
-    }
 
     constructor(
         private _userService: UserService,
@@ -65,8 +57,14 @@ export class FunctionEditComponent {
             .switchMap(viewInfo =>{
                 this.viewInfo = viewInfo;
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
-                let lastSlashIndex = viewInfo.resourceId.lastIndexOf("/");
-                this._tabId = viewInfo.resourceId.substr(lastSlashIndex + 1);
+
+                let segments = viewInfo.resourceId.split("/");
+                if(segments.length === 11){
+                    this.tabId = "develop";
+                }
+                else{
+                    this.tabId = segments[segments.length - 1];
+                }
 
                 return this.selectedFunction.functionApp.checkIfDisabled();
             })

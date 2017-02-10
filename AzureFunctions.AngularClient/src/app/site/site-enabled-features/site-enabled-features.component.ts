@@ -206,8 +206,9 @@ export class SiteEnabledFeaturesComponent {
 
     private _getConfig(site : ArmObj<Site>){
         let configId = `${site.id}/config/web`;
-        return this._cacheService.getArmResource(configId)
-            .map((config : ArmObj<SiteConfig>)=>{
+        return this._cacheService.getArm(configId)
+            .map(r =>{
+                let config : ArmObj<SiteConfig> = r.json();
                 if(config.properties.scmType !== 'None'){
                     this._addFeatureWithTitleFormat(Feature.DeploymentSource, config.properties.scmType);
                 }
@@ -225,8 +226,10 @@ export class SiteEnabledFeaturesComponent {
 
     private _getWebJobs(site : ArmObj<Site>){
         let webJobsId = `${site.id}/webjobs`;
-        return this._cacheService.getArmResources(webJobsId)
-            .map((jobs : any[]) =>{
+        return this._cacheService.getArm(webJobsId)
+            .map(r =>{
+                let jobs : any[] = r.json().value;
+
                 if(jobs && jobs.length > 0){
                     this._addFeatureWithTitleFormat(Feature.WebJobs, jobs.length);
                 }
@@ -237,8 +240,9 @@ export class SiteEnabledFeaturesComponent {
 
     private _getSiteExtensions(site : ArmObj<Site>){
         let extensionsId = `${site.id}/siteExtensions`;
-        return this._cacheService.getArmResources(extensionsId)
-            .map((extensions : any[]) =>{
+        return this._cacheService.getArm(extensionsId)
+            .map(r =>{
+                let extensions : any[] = r.json().value;
                 if(extensions && extensions.length > 0){
                     this._addFeatureWithTitleFormat(Feature.SiteExtensions, extensions.length);
                 }

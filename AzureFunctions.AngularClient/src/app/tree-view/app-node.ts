@@ -1,4 +1,6 @@
-import {TreeNode} from './tree-node';
+import { SearchNode } from './search-node';
+import { AppsNode } from './apps-node';
+import { TreeNode, Disposable, Removable } from './tree-node';
 import {DashboardType} from './models/dashboard-type';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {ArmObj} from '../shared/models/arm/arm-obj';
@@ -11,7 +13,7 @@ import {Constants} from '../shared/models/constants';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
 
-export class AppNode extends TreeNode{
+export class AppNode extends TreeNode implements Disposable, Removable{
     public supportsAdvanced = true;
     public inAdvancedMode = false;
     public dashboardType = DashboardType.app;
@@ -37,8 +39,10 @@ export class AppNode extends TreeNode{
     }
 
     protected _loadChildren(){
-        this.sideNav.cacheService.getArmResource(this._siteArmCacheObj.id)
-        .subscribe((site : ArmObj<Site>) =>{
+        this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
+        .subscribe(r =>{
+            let site : ArmObj<Site> = r.json();
+
             this._functionApp = new FunctionApp(
                 site,
                 this.sideNav.http,
@@ -68,7 +72,12 @@ export class AppNode extends TreeNode{
         })
     }
 
-    public destroy(){
+    public remove(){
+        this.sideNav.deletedNodeStream.next(this);
+        this.dispose();
+    }
+
+    public dispose(){
         if(this._checkErrorsTask && !this._checkErrorsTask.closed){
             this._checkErrorsTask.unsubscribe();
             this._checkErrorsTask = null;
@@ -77,7 +86,7 @@ export class AppNode extends TreeNode{
 
     public handleStoppedSite(){
         this._functionsNode.handleStoppedSite();
-        this.destroy();
+        this.dispose();
     }
 
     public handleStartedSite(){

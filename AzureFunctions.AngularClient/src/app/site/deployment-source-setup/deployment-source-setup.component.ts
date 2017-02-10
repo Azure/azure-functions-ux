@@ -194,9 +194,10 @@ export class DeploymentSourceSetupComponent {
 
         this._armService.putArmResource(`${this._site.id}/sourceControls/web`, body)
         .flatMap(response =>{
-            return this._cacheService.getArmResource(`${this._site.id}/config/web`, true);
+            return this._cacheService.getArm(`${this._site.id}/config/web`, true);
         })
-        .subscribe((config : ArmObj<SiteConfig>) =>{
+        .subscribe(r =>{
+            let config : ArmObj<SiteConfig> = r.json();
             this.configOutput.next(config);
             this._globalStateService.clearBusyState();
         });

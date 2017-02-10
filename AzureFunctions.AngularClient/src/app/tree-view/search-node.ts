@@ -1,3 +1,4 @@
+import { AppsNode } from './apps-node';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode } from './tree-node';
@@ -14,9 +15,11 @@ export class SearchNode extends TreeNode {
     constructor(
         sideNav: SideNavComponent,
         private _searchTermStream : Subject<string>,
-        private _subscriptionsStream : Subject<Subscription[]>) {
+        private _subscriptionsStream : Subject<Subscription[]>,
+        private _deletedNodeStream : Subject<TreeNode>) {
 
         super(sideNav, null, null);
+            this.children = [];
 
             this._searchTermStream
             .debounceTime(400)
@@ -42,11 +45,27 @@ export class SearchNode extends TreeNode {
             }).subscribe(() =>{
                 this._doneLoading();
             });
+
+            this._deletedNodeStream
+            .subscribe(node =>{
+                this._removeChild(node);
+            })
+    }
+    
+    private _removeChild(child : TreeNode){        
+        let removeIndex = this.children.findIndex((childNode : TreeNode) =>{
+            return childNode.resourceId === child.resourceId;
+        })
+
+        this._removeHelper(removeIndex, false);
+        this.sideNav.cacheService.clearCachePrefix(`${this.sideNav.armService.armUrl}/resources`);
     }
 
     private _doSearch(term : string, subscriptions : Subscription[], nextLink : string){
-        return this.sideNav.cacheService.searchArm(term, subscriptions, nextLink)
-        .switchMap<ArmArrayResult>((result : ArmArrayResult) =>{
+        let url = this._getArmSearchUrl(term, subscriptions, nextLink);
+        return this.sideNav.cacheService.get(url)
+        .switchMap<ArmArrayResult>(r =>{
+            let result : ArmArrayResult = r.json();
             let nodes = result.value
             .filter(armObj =>{
                 return armObj.kind === "functionapp";
@@ -64,5 +83,26 @@ export class SearchNode extends TreeNode {
                 return Observable.of(null);
             }
         })
+    }
+
+    private _getArmSearchUrl(term : string, subs: Subscription[], nextLink : string){
+        let url : string;
+        if(nextLink){
+            url = nextLink;
+        }
+        else{
+            url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
+            
+            for(let i = 0; i < subs.length; i++){
+                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+                if(i < subs.length - 1){
+                    url += ` or `;
+                }
+            }
+
+            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
+        }
+
+        return url;
     }
 }

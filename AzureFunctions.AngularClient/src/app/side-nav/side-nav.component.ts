@@ -41,6 +41,7 @@ export class SideNavComponent{
     public subscriptionsDisplayText = "";
     public resourceId : string;
     public searchTerm = "";
+    public deletedNodeStream = new Subject<TreeNode>();
 
     private _selectedNode : TreeNode;
     private _savedSubsKey = "/subscriptions/selectedIds";
@@ -58,10 +59,22 @@ export class SideNavComponent{
         public aiService : AiService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
+
         this.rootNode = new TreeNode(this, null, null);
-        this.rootNode.children = [new AppsNode(this, null, this.subscriptionsStream)];
-        this.searchNode =new TreeNode(this, null, null);
-        this.searchNode.children = [new SearchNode(this, this._searchTermStream, this.subscriptionsStream)];
+        this.rootNode.children = [
+            new AppsNode(
+                this,
+                this.subscriptionsStream,
+                this.deletedNodeStream)];
+
+        this.searchNode = new TreeNode(this, null, null);
+        this.searchNode.children = [
+            new SearchNode(
+                this,
+                this._searchTermStream,
+                this.subscriptionsStream,
+                this.deletedNodeStream)
+        ];
 
         this._setupInitialSubscriptions();
     }
@@ -82,9 +95,12 @@ export class SideNavComponent{
         this.treeViewInfoEvent.emit(viewInfo);
     }
 
-    clearView(){
-        this._cleanUp();
-        this.treeViewInfoEvent.emit(null);
+    clearView(resourceId : string){
+        // We only want to clear the view if the user is currently looking at something
+        // under the tree path being deleted
+        if(this.resourceId.startsWith(resourceId)){
+            this.treeViewInfoEvent.emit(null);
+        }
     }
 
     search(event : any){
@@ -119,7 +135,7 @@ export class SideNavComponent{
 
     private _cleanUp(){
         if(this._selectedNode){
-            this._selectedNode.destroy();
+            this._selectedNode.dispose();
         }        
     }
 

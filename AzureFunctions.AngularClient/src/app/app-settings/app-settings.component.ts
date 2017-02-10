@@ -103,8 +103,10 @@ export class AppSettingsComponent implements OnInit {
     updateVersion() {
         this._aiService.trackEvent('/actions/app_settings/update_version');
         this._globalStateService.setBusyState();
-        this._cacheService.postArmResource(`${this.functionContainer.id}/config/appsettings/list`, true)
-        .subscribe((appSettingsArm : ArmObj<any>) =>{
+        this._cacheService.postArm(`${this.functionContainer.id}/config/appsettings/list`, true)
+        .subscribe(r =>{
+            let appSettingsArm : ArmObj<any> = r.json();
+
             this._updateFunctionContainerVersion(this.functionContainer.id, appSettingsArm.properties).subscribe((r) => {
                 this.needUpdateExtensionVersion = false;
                 this._globalStateService.AppSettings = r;
@@ -143,7 +145,7 @@ export class AppSettingsComponent implements OnInit {
         appSettings[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
         appSettings[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
 
-        return this._cacheService.putArmResource(
+        return this._cacheService.putArm(
             `${resourceId}/config/appsettings`,
             this._armService.websiteApiVersion,
             {properties: appSettings})

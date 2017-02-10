@@ -39,9 +39,10 @@ export class SiteDashboardComponent {
             .switchMap(viewInfo =>{
                 this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
-                return this._cacheService.getArmResource(viewInfo.resourceId);
+                return this._cacheService.getArm(viewInfo.resourceId);
             })
-            .subscribe((site : ArmObj<Site>) =>{
+            .subscribe(r =>{
+                let site : ArmObj<Site> = r.json();
                 this._globalStateService.clearBusyState();
                 this.site = site;
             })

@@ -31,29 +31,19 @@ export class CacheService {
         setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
     }
 
-    getArmResource(resourceId : string, force? : boolean, apiVersion? : string){
+    getArm(resourceId : string, force? : boolean, apiVersion? : string) : Observable<Response>{
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "GET", true, force);
+        return this._send(url, "GET", force);
     }
 
-    // getArmResourceWithQueryString(resourceId : string, queryString : string, force? : boolean){
-    //     let url = this._getArmUrlWithQueryString(resourceId, queryString);
-    //     return this._send(url, "GET", true, force);
-    // }
-
-    getArmResources(resourceId : string, force? : boolean, apiVersion? : string){
+    postArm(resourceId : string, force? : boolean, apiVersion? : string) : Observable<Response>{
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "GET", true, force);
+        return this._send(url, "POST", force);
     }
 
-    postArmResource(resourceId : string, force? : boolean, apiVersion? : string){
-        let url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "POST", true, force);
-    }
-
-    putArmResource(resourceId : string, apiVersion? : string, content? : any){
+    putArm(resourceId : string, apiVersion? : string, content? : any){
         let url : string = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "PUT", true, true, null, content)
+        return this._send(url, "PUT", true, null, content)
         .map(result =>{
             
             // Clear the cache after a PUT request.
@@ -62,38 +52,46 @@ export class CacheService {
         });
     }
 
+    get(url : string, force? : boolean, headers? : Headers){
+        return this._send(url, "GET", force);
+    }
+
+    post(url : string, force? : boolean, headers? : Headers, content? : any){
+        return this._send(url, "POST", force, headers, content);
+    }
+
     clearCache(url : string){
         delete this._cache[url.toLowerCase()];
     }
 
-    get(url : string, force? : boolean, headers? : Headers){
-        return this._send(url, "GET", false, force);
-    }
-
-    post(url : string, force? : boolean, headers? : Headers, content? : any){
-        return this._send(url, "POST", false, force, headers, content);
-    }
-
-    searchArm(term : string, subs: Subscription[], nextLink : string){
-        let url : string;
-        if(nextLink){
-            url = nextLink;
-        }
-        else{
-            url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
-            
-            for(let i = 0; i < subs.length; i++){
-                url += `subscriptionId eq '${subs[i].subscriptionId}'`;
-                if(i < subs.length - 1){
-                    url += ` or `;
-                }
+    clearCachePrefix(prefix : string){
+        for(let key in this._cache){
+            if(key.startsWith(prefix.toLowerCase()) && this._cache.hasOwnProperty(key)){
+                delete this._cache[key];
             }
-
-            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
         }
-
-        return this.get(url).map<ArmArrayResult>(r => r.json());
     }
+
+    // searchArm(term : string, subs: Subscription[], nextLink : string){
+    //     let url : string;
+    //     if(nextLink){
+    //         url = nextLink;
+    //     }
+    //     else{
+    //         url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
+            
+    //         for(let i = 0; i < subs.length; i++){
+    //             url += `subscriptionId eq '${subs[i].subscriptionId}'`;
+    //             if(i < subs.length - 1){
+    //                 url += ` or `;
+    //             }
+    //         }
+
+    //         url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
+    //     }
+
+    //     return this.get(url).map<ArmArrayResult>(r => r.json());
+    // }
 
     private _cleanUp(){
         if(!this.cleanUpEnabled){
@@ -115,7 +113,6 @@ export class CacheService {
     public _send(
         url : string,
         method : string,
-        isArmRequest : boolean,
         force : boolean,
         headers? : Headers,
         content? : any) {
@@ -146,7 +143,7 @@ export class CacheService {
 
             let responseObs = this._armService.send(method, url, content, etag, headers)
             .map(response =>{
-                return this._mapAndCacheResponse(response, key, isArmRequest);
+                return this._mapAndCacheResponse(response, key);
             })
             .share()
             .catch(error =>{
@@ -176,26 +173,10 @@ export class CacheService {
         }
     }
 
-    public _mapAndCacheResponse(response : Response, key : string, isArmRequest : boolean){
+    public _mapAndCacheResponse(response : Response, key : string){
         let responseETag = response.headers.get("ETag");
-
-        if(isArmRequest){
-            // For arm requests, we cache the JSON body and then return a COPY of the object
-
-            let value = response.json();
-            if(value.value){
-                value = value.value;
-            }
-            
-            this._cache[key] = this.createCacheItem(key, value, responseETag, null, false);
-            return this._clone(value);
-        }
-        else{
-            // For non-arm requests, we just cache and return the ORIGINAL response
-
-            this._cache[key] = this.createCacheItem(key, response, responseETag, null, true);
-            return response;
-        }
+        this._cache[key] = this.createCacheItem(key, response, responseETag, null, true);
+        return response;
     }
 
     private _clone(obj : any){

@@ -76,8 +76,8 @@ export class SiteNotificationsComponent {
                 this.isLoadingStatus = false;
 
                 //async calls for availability, alerts, and recommendations
-                let availabilityCall = this._cacheService.getArmResource(site.id + "/providers/Microsoft.ResourceHealth/availabilityStatuses/current", false, "2015-01-01");
-                let recommendationsCall = this._cacheService.getArmResources(site.id + "/recommendations", false, "2015-01-01");
+                let availabilityCall = this._cacheService.getArm(site.id + "/providers/Microsoft.ResourceHealth/availabilityStatuses/current", false, "2015-01-01");
+                let recommendationsCall = this._cacheService.getArm(site.id + "/recommendations", false, "2015-01-01");
 
                 this._resourceGroupId = site.id.replace(/\/providers\/Microsoft\.Web\/sites.*/gi, "");
                 this.hasResourceGroupPermission = false;
@@ -96,9 +96,9 @@ export class SiteNotificationsComponent {
                     return Observable.of([]);
                 }
 
-                this.availability = <Availability>r[0];
+                this.availability = <Availability>r[0].json();
 
-                this.recommendationItems = <ArmObj<RecommendationItem>[]>r[1];
+                this.recommendationItems = <ArmObj<RecommendationItem>[]>r[1].json().value;
                 this.recommendationDisplayElements = this.recommendationItems
                     .map(i => ({ label: i.properties.message, details: i.properties.message }));
 
@@ -177,8 +177,9 @@ export class SiteNotificationsComponent {
     }
 
     private _getAlertRulesFiltered() {
-        return this._cacheService.getArmResources(this._resourceGroupId + "/providers/microsoft.insights/alertrules", false, "2016-03-01")
-            .map((alertRulesResults: ArmObj<AlertRule>[]) => {
+        return this._cacheService.getArm(this._resourceGroupId + "/providers/microsoft.insights/alertrules", false, "2016-03-01")
+            .map(r => {
+                let alertRulesResults: ArmObj<AlertRule>[] = r.json().value;
                 let alertRulesResultsFiltered: ArmObj<AlertRule>[] = [];
                 alertRulesResults.forEach(alertRuleResult => {
                     if (alertRuleResult.properties.condition && alertRuleResult.properties.condition.dataSource && alertRuleResult.properties.condition.dataSource.resourceUri) {
@@ -192,8 +193,9 @@ export class SiteNotificationsComponent {
     }
 
     private _getAlertIncidents(alertRule: ArmObj<AlertRule>) {
-        return this._cacheService.getArmResources(alertRule.id + "/incidents", false, "2016-03-01")
-            .map((incidentResults: AlertIncident[]) => {
+        return this._cacheService.getArm(alertRule.id + "/incidents", false, "2016-03-01")
+            .map(r => {
+                let incidentResults: AlertIncident[] = r.json().value;
                 let alertItem = <AlertItem>alertRule;
                 alertItem.incidents = incidentResults;
                 return alertItem;

@@ -1,3 +1,4 @@
+import { SiteConfig } from './models/arm/site-config';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {FunctionInfo} from './models/function-info';
@@ -917,9 +918,10 @@ export class FunctionApp {
     }
 
     checkIfDisabled() {
-        return this._cacheService.getArmResource(`${this.site.id}/config/web`)
+        return this._cacheService.getArm(`${this.site.id}/config/web`)
         .map(r => {
-            if (!r.properties["scmType"] || r.properties["scmType"] !== "None") {
+            let config : ArmObj<SiteConfig> = r.json();
+            if (!config.properties["scmType"] || config.properties["scmType"] !== "None") {
                 return true;
             } else {
                 return false;
@@ -928,15 +930,17 @@ export class FunctionApp {
     }
 
     private checkIfEasyAuthEnabled(){
-        return this._cacheService.postArmResource(`${this.site.id}/config/authsettings/list`)
+        return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
         .map(r =>{
-            return r.properties['enabled'] && r.properties['unauthenticatedClientAction'] !== 1;
+            let auth : ArmObj<any> = r.json();
+            return auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1;
         });
     }
 
     private getExtensionVersion(){
-        return this._cacheService.postArmResource(`${this.site.id}/config/appsettings/list`)
-        .map((appSettingsArm : ArmObj<any>) =>{
+        return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`)
+        .map(r =>{
+            let appSettingsArm : ArmObj<any> = r.json();
             return appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
         });
     }

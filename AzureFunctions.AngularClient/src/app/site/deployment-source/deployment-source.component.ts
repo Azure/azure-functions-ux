@@ -46,9 +46,10 @@ export class DeploymentSourceComponent implements OnDestroy {
 
                 this._globalStateService.setBusyState();
                 let configId = `${site.id}/config/web`;
-                return this._cacheService.getArmResource(configId);
+                return this._cacheService.getArm(configId);
             })
-            .subscribe((config : ArmObj<SiteConfig>) =>{
+            .subscribe(r =>{
+                let config : ArmObj<SiteConfig> = r.json();
                 this._globalStateService.clearBusyState();
                 this.config = <ArmObj<SiteConfig>>config;
 
@@ -103,9 +104,10 @@ export class DeploymentSourceComponent implements OnDestroy {
         this._globalStateService.setBusyState();
         this._armService.delete(`${this.site.id}/sourceControls/web`)
         .flatMap(result =>{
-            return this._cacheService.getArmResource(`${this.site.id}/config/web`, true);
+            return this._cacheService.getArm(`${this.site.id}/config/web`, true);
         })
-        .subscribe(config =>{
+        .subscribe(r =>{
+            let config : ArmObj<SiteConfig> = r.json();
             this._globalStateService.clearBusyState();
             this.updateConfig(config);
         });

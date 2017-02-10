@@ -1,4 +1,4 @@
-import { TreeNode } from './tree-node';
+import { TreeNode, MutableCollection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
@@ -11,7 +11,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
 
-export class FunctionsNode extends TreeNode{
+export class FunctionsNode extends TreeNode implements MutableCollection{
     public title = "Functions";
     public dashboardType = DashboardType.collection;
     public newDashboardType = DashboardType.createFunction;
@@ -40,15 +40,13 @@ export class FunctionsNode extends TreeNode{
         newNode.select();
     }
 
-    public removeChild(functionInfo : FunctionInfo){
+    public removeChild(functionInfo : FunctionInfo, callRemoveOnChild? : boolean){
         
         let removeIndex = this.children.findIndex((childNode : FunctionNode) =>{
             return childNode.functionInfo.name === functionInfo.name;
         })
 
-        if(removeIndex > -1){
-            this.children.splice(removeIndex, 1);
-        }
+        this._removeHelper(removeIndex, callRemoveOnChild);
     }
     
     public handleStoppedSite(){

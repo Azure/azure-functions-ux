@@ -57,9 +57,10 @@ export class SiteSummaryComponent {
             .switchMap(viewInfo =>{
                 this._viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
-                return this._cacheService.getArmResource(viewInfo.resourceId);
+                return this._cacheService.getArm(viewInfo.resourceId);
             })
-            .switchMap(site =>{
+            .switchMap(r =>{
+                let site : ArmObj<Site> = r.json();
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
 
@@ -81,15 +82,15 @@ export class SiteSummaryComponent {
 
                 return Observable.zip(
                     rbacService.hasPermission(site.id, [rbacService.writeScope]),
-                    this._cacheService.getArmResource(configId),
-                    (hasPermission, config) =>({ hasPermission : hasPermission, config : config}))
+                    this._cacheService.getArm(configId),
+                    (hasPermission, configResponse) =>({ hasPermission : hasPermission, config : configResponse.json() }))
             })
             .flatMap(res =>{
                 if(res.hasPermission){
-                    return this._cacheService.postArmResource(`${this.site.id}/config/publishingcredentials/list`)
-                    .map(creds =>{
+                    return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
+                    .map(r =>{
                         return {
-                            publishCreds : creds,
+                            publishCreds : r.json(),
                             config : res.config,
                             hasPermission : res.hasPermission
                         }
@@ -194,8 +195,7 @@ export class SiteSummaryComponent {
             this._armService.delete(`${site.id}`, null)
             .subscribe(response =>{
                 this._globalStateService.clearBusyState();
-                let appsNode = <AppsNode>appNode.parent;
-                appsNode.removeChild(appNode);
+                (<AppNode>appNode).remove();
             });
         }
     }
@@ -224,9 +224,11 @@ export class SiteSummaryComponent {
         this._armService.post(`${site.id}/${action}`, null)
         .switchMap(()=>{
             stop ? appNode.handleStoppedSite() : appNode.handleStartedSite();
-            return this._cacheService.getArmResource(`${site.id}`, true);
+            return this._cacheService.getArm(`${site.id}`, true);
         })
-        .subscribe((refreshedSite) =>{
+        .subscribe(r =>{
+            let refreshedSite : ArmObj<Site> = r.json();
+
             // Current site could have changed if user clicked away
             if(refreshedSite.id === this.site.id){
                 this.site = refreshedSite;

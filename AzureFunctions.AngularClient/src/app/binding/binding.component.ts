@@ -72,9 +72,9 @@ export class BindingComponent{
             .switchMap(functionApp =>{
                 this.functionApp = functionApp;
                 return Observable.zip(
-                    this._cacheService.postArmResource(`${functionApp.site.id}/config/appsettings/list`),
+                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.checkIfDisabled(),
-                    (a, d) => ({appSettings : a, disabled : d}));
+                    (a, d) => ({appSettings : a.json(), disabled : d}));
             });
 
         Observable.zip(funcStream, this._bindingStream, (c, b) => ({config: c, binding: b}))

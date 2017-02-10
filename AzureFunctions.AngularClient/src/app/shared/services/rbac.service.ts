@@ -20,9 +20,10 @@ export class RBACService {
     hasPermission(resourceId : string, requestedActions : string[]){
         let authId = `${resourceId}/providers/microsoft.authorization/permissions?api-version=2015-07-01`;
         // let authUrl = `${this._armService.armUrl}${authId}`;
-        return this._cacheService.getArmResources(authId, false, "2015-07-01")
-        .map(result =>{
-            return this._checkPermissions(resourceId, requestedActions, result);
+        return this._cacheService.getArm(authId, false, "2015-07-01")
+        .map(r =>{
+            let permissionsSet = r.json().value;
+            return this._checkPermissions(resourceId, requestedActions, permissionsSet);
         })
     }
 

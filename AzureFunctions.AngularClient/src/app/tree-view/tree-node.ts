@@ -1,14 +1,25 @@
-// import {ArmService} from '../../services/arm.service';
-// import {ArmObj} from '../armObj';
-// import {Site} from '../site';
+import { Disposable } from './tree-node';
 import {Subject} from 'rxjs/Rx';
-// import {SideBarComponent} from '../../components/main/sidebar.component';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
 import {Subscription} from '../shared/models/subscription';
 
-export class TreeNode{
+
+export interface Disposable{
+    dispose();
+}
+
+export interface Removable{
+    remove();
+}
+
+export interface MutableCollection{
+    addChild(child : any);
+    removeChild(child : any, callRemoveOnChild? : boolean);
+}
+
+export class TreeNode implements Disposable, Removable{
     public isExpanded : boolean;
     public showExpandIcon : boolean = true;
     public iconClass : string;
@@ -78,7 +89,23 @@ export class TreeNode{
         }
     }
 
-    public destroy(){
+    public dispose(){
+    }
+
+    public remove(){
+    }
+
+    protected _removeHelper(removeIndex : number, callRemoveOnChild? : boolean){
+        if(removeIndex > -1){
+            let child = this.children[removeIndex];
+            this.children.splice(removeIndex, 1);
+            
+            if(callRemoveOnChild){
+                child.remove();
+            }
+
+            this.sideNav.clearView(child.resourceId);
+        }
     }
 
     public getTreePathNames(){

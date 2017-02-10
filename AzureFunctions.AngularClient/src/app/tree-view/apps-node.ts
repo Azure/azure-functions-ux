@@ -1,3 +1,4 @@
+import { SearchNode } from './search-node';
 import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
@@ -14,10 +15,11 @@ export class AppsNode extends TreeNode {
 
     constructor(
         sideNav: SideNavComponent,
-        resourceId: string,
-        private _subscriptionsStream : Subject<Subscription[]>) {
+        private _subscriptionsStream : Subject<Subscription[]>,
+        private _deletedNodeStream : Subject<TreeNode>) {
 
-        super(sideNav, resourceId, null);
+        super(sideNav, null, null);
+        this.children = [];
 
         this._subscriptionsStream
         .distinctUntilChanged()
@@ -35,19 +37,20 @@ export class AppsNode extends TreeNode {
         .subscribe(() =>{
             this._doneLoading();
         });
+
+        this._deletedNodeStream
+        .subscribe(node =>{
+            this._removeChild(node);
+        })
     }
 
-    public removeChild(appNode : AppNode){        
-        let removeIndex = this.children.findIndex((childNode : AppNode) =>{
-            return childNode === appNode;
+    private _removeChild(child : TreeNode){        
+        let removeIndex = this.children.findIndex((childNode : TreeNode) =>{
+            return childNode.resourceId === child.resourceId;
         })
 
-        if(removeIndex > -1){
-            this.children.splice(removeIndex, 1);
-        }
-
-        this.sideNav.cacheService.clearCache(this._getArmCacheUrl(this.sideNav.selectedSubscriptions, null, "Microsoft.Web/sites"));
-        appNode.destroy();
+        this._removeHelper(removeIndex, false);
+        this.sideNav.cacheService.clearCachePrefix(`${this.sideNav.armService.armUrl}/resources`);
     }
 
     private _getAllFunctionApps(subscriptions: Subscription[], nextLink : string) : Observable<AppNode[]>{
