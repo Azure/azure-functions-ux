@@ -131,9 +131,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
+                var href = res.functionInfo.script_href;
+                if (this.fileName.toLowerCase().endsWith("dll")) {
+                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
+                    href = res.functionInfo.config_href;
+                }
+
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
-                    : { name: this.fileName, href: res.functionInfo.script_href, mime: 'file' };
+                    : { name: this.fileName, href: href, mime: 'file' };
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();

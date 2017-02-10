@@ -44,7 +44,7 @@ export class DashboardComponent implements OnChanges {
     public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
-    public openIntro: any;
+    public openIntro: boolean = true;
     public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
@@ -142,7 +142,7 @@ export class DashboardComponent implements OnChanges {
         }
     }
 
-    initFunctions(selectedFunctionName?: string) {
+    initFunctions() {
         this._globalStateService.setBusyState();
         this._functionsService.clearAllCachedData();
 
@@ -152,11 +152,7 @@ export class DashboardComponent implements OnChanges {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._globalStateService.clearBusyState();
-                if (!this.openAppSettings) {
-                    this.resetView(true);
-                    this.openIntro = true;
-                }
-                selectedFunctionName = selectedFunctionName || Cookie.get('functionName');;
+                var selectedFunctionName = (this.selectedFunction ?  this.selectedFunction.name : null ) || Cookie.get('functionName');
                 if (selectedFunctionName) {
                     var findSelected = this.functionsInfo.find((f) => {
                         return f.name === selectedFunctionName;
@@ -183,6 +179,19 @@ export class DashboardComponent implements OnChanges {
                     route: ''
                 }
             });
+
+            var selectedApiName = this.selectedApiProxy ? this.selectedApiProxy.name : null;
+            if (selectedApiName) {
+                var findSelected = this.apiProxies.find((f) => {
+                    return f.name === selectedApiName;
+                });
+                if (selectedApiName) {
+                    this.openIntro = false;
+                    this.selectedApiProxy = findSelected;
+                    this.sideBar.selectedApiProxy = findSelected;
+                }
+            }
+
         });
 
         this._functionsService.warmupMainSite();
@@ -191,7 +200,7 @@ export class DashboardComponent implements OnChanges {
     }
 
     onRefreshClicked() {
-        this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
+        this.initFunctions();
         this._broadcastService.broadcast(BroadcastEvent.RefreshPortal);
     }
 

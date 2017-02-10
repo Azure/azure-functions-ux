@@ -311,5 +311,8 @@ export class PortalResources
     public static intro_signInWithGoogle: string = "intro_signInWithGoogle";
     public static intro_signInWithMicrosoft: string = "intro_signInWithMicrosoft";
     public static apiProxy_backanrUrlStart: string = "apiProxy_backanrUrlStart";
+    public static functionKeys_copy: string = "functionKeys_copy";
+    public static functionKeys_renew: string = "functionKeys_renew";
+    public static functionKeys_revoke: string = "functionKeys_revoke";
 }
 

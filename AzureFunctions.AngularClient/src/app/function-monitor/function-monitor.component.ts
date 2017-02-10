@@ -65,7 +65,7 @@ export class FunctionMonitorComponent implements OnChanges {
         this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
         this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
         this._funcName = this.selectedFunction.name;
-        this._functionsService.getFunctionAppId().subscribe(host => {
+        this._functionsService.getFunctionHostId().subscribe(host => {
             var hostId = !!host ? host : "";
             this._functionMonitorService.getFunctionId(this._funcName, hostId).subscribe(data => {
                 this.functionId = !!data ? data.functionId : "";

@@ -1,8 +1,8 @@
+import {FunctionsService} from './../shared/services/functions.service';
 import {Component} from '@angular/core';
 import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
+import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalService} from '../shared/services/portal.service';
-import {UserService} from '../shared/services/user.service';
 import {ErrorItem} from '../shared/models/error-item';
 import {ErrorEvent} from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -21,23 +21,37 @@ export class ErrorListComponent {
     constructor(private _broadcastService: BroadcastService,
         public _portalService: PortalService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _functionsService: FunctionsService) {
         this.errorList = [];
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (error) => {
-            var errorItem: ErrorItem;
+            let errorItem: ErrorItem;
 
             if (error && error.message && !error.message.startsWith('<!DOC')) {
                 errorItem = { message: error.message, dateTime: new Date().toISOString(), date: new Date() };
-                this._aiService.trackEvent('/errors/portal', { error: error.details, message: error.message, displayedGeneric: false.toString() });
+                this._aiService.trackEvent('/errors/portal', {
+                    error: error.details,
+                    message: error.message,
+                    displayedGeneric: false.toString(),
+                    appName: this._functionsService.getFunctionAppArmId()
+                 });
                 if (!this.errorList.find(e => e.message === errorItem.message)) {
                     this.errorList.push(errorItem);
                 }
             } else {
                 errorItem = this.getGenericError();
                 if (error) {
-                    this._aiService.trackEvent('/errors/portal', { error: error.details, displayedGeneric: true.toString() });
+                    this._aiService.trackEvent('/errors/portal', {
+                        error: error.details,
+                        appName: this._functionsService.getFunctionAppArmId(),
+                        displayedGeneric: true.toString()
+                    });
                 } else {
-                    this._aiService.trackEvent('/errors/portal', { error: 'no error info', displayedGeneric: true.toString() });
+                    this._aiService.trackEvent('/errors/portal', {
+                        error: 'no error info',
+                        appName: this._functionsService.getFunctionAppArmId(),
+                        displayedGeneric: true.toString()
+                    });
                 }
             }
         });
