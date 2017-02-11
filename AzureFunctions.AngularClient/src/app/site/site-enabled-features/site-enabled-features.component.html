@@ -1,8 +1,8 @@
-<div *ngIf="featureItems1.length === 0 && !isLoading" class="site-enabled-feature">
+<div *ngIf="featureItems.length === 0 && !isLoading" class="site-enabled-feature">
     No features found.  Enable features from the "Manage" tab.
 </div>
 
-<div *ngFor="let featureItem of featureItems1" class="site-enabled-feature">
+<div *ngFor="let featureItem of featureItems" class="site-enabled-feature">
     <span class="link" (click)="openFeature(featureItem)">{{featureItem.title}}</span>
 </div>
 
