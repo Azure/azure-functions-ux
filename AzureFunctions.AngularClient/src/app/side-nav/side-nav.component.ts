@@ -1,7 +1,7 @@
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { FormControl } from '@angular/forms';
 import { WebsiteId } from './../shared/models/portal';
-import { StorageItem, StoredSubscriptions } from './../shared/models/localStorage/local-storage';
+import { StorageItem } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
@@ -56,8 +56,7 @@ export class SideNavComponent{
         public broadcastService : BroadcastService,
         public translateService : TranslateService,
         public userService : UserService,
-        public aiService : AiService,
-        public localStorageService : LocalStorageService){
+        public aiService : AiService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
@@ -111,21 +110,15 @@ export class SideNavComponent{
 
     onSubscriptionsSelect(subscriptions: Subscription[]) {
 
-        let subIds : string[];
-
+        let subsString : string;
         if(subscriptions.length === this.subscriptionOptions.length){
-            subIds = [];  // Equivalent of all subs
+            subsString = JSON.stringify([]);
         }
         else{
-            subIds = subscriptions.map<string>(s => s.subscriptionId);
+            subsString = JSON.stringify(subscriptions.map<string>(s => s.subscriptionId));
         }
 
-        let storedSelectedSubIds : StoredSubscriptions ={
-            id : this._savedSubsKey,
-            subscriptions : subIds
-        }
-
-        this.localStorageService.setItem(storedSelectedSubIds.id, storedSelectedSubIds);
+        localStorage.setItem("/subscriptions/selectedIds", subsString);
         this.selectedSubscriptions = subscriptions;
         this.subscriptionsStream.next(subscriptions);
 
@@ -157,8 +150,10 @@ export class SideNavComponent{
     }
 
     private _setupInitialSubscriptions(){
-        let savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
-        let savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        let savedSelectedSubscriptionIds : string[] = JSON.parse(localStorage.getItem(this._savedSubsKey));
+        if(!savedSelectedSubscriptionIds){
+            savedSelectedSubscriptionIds = [];
+        }
 
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire

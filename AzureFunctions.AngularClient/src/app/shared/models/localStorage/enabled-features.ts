@@ -1,19 +1,9 @@
-import { OpenBladeInfo } from './../portal';
-import { StorageItem } from './local-storage';
-
-// If you change the order of this enum, make sure you update the storage API version.
-// Appending new enum values shouldn't require an API change.
 export enum Feature{
     DeploymentSource,
-    Cors,
-    Authentication,
-    CustomDomains,
-    SSLBinding,
-    ApiDefinition
-}
-
-export interface EnabledFeatures extends StorageItem{
-    enabledFeatures : EnabledFeature[];
+    WebJobs,
+    Backups,
+    SiteExtensions,
+    Cors
 }
 
 export interface EnabledFeature{
@@ -22,6 +12,6 @@ export interface EnabledFeature{
 }
 
 export interface EnabledFeatureItem extends EnabledFeature{
-    componentName? : string,
-    bladeInfo? : OpenBladeInfo
+    componentName : string,
+    isBlade : boolean
 }
