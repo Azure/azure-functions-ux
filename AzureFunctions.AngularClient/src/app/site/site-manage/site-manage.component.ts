@@ -72,12 +72,25 @@ export class SiteManageComponent {
 
     private _initCol1Groups(site : ArmObj<Site>){
         let devFeatures = [
-            new TabFeature(
+            new BladeFeature(
                 "Deployment source",
                 "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
                 "Deployment source info",
-                "deployment-source",
-                this.openTabEvent),
+                {
+                        detailBlade : "ContinuousDeploymentListBlade",
+                        detailBladeInputs : {
+                            id : this._descriptor.resourceId,
+                            ResourceId : this._descriptor.resourceId
+                        }
+                },
+                this._portalService),
+
+            // new TabFeature(
+            //     "Deployment source",
+            //     "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
+            //     "Deployment source info",
+            //     "deployment-source",
+            //     this.openTabEvent),
 
             new BladeFeature(
                 "Performance Testing",
