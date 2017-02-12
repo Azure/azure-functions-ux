@@ -8,7 +8,6 @@ import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {TreeNode} from '../tree-view/tree-node';
 import {AppsNode} from '../tree-view/apps-node';
 import {AppNode} from '../tree-view/app-node';
-import {SearchNode} from '../tree-view/search-node';
 import {TreeViewComponent} from '../tree-view/tree-view.component';
 import {ArmService} from '../shared/services/arm.service';
 import {CacheService} from '../shared/services/cache.service';
@@ -34,17 +33,15 @@ export class SideNavComponent{
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
 
     public rootNode : TreeNode;
-    public searchNode : TreeNode;
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
-    public subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     public selectedSubscriptions : Subscription[] = [];
     public subscriptionsDisplayText = "";
     public resourceId : string;
     public searchTerm = "";
-    public deletedNodeStream = new Subject<TreeNode>();
 
     private _selectedNode : TreeNode;
     private _savedSubsKey = "/subscriptions/selectedIds";
+    private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
 
     constructor(
@@ -65,17 +62,10 @@ export class SideNavComponent{
         this.rootNode.children = [
             new AppsNode(
                 this,
-                this.subscriptionsStream,
-                this.deletedNodeStream)];
+                this._subscriptionsStream,
+                this._searchTermStream)];
 
-        this.searchNode = new TreeNode(this, null, null);
-        this.searchNode.children = [
-            new SearchNode(
-                this,
-                this._searchTermStream,
-                this.subscriptionsStream,
-                this.deletedNodeStream)
-        ];
+        this._searchTermStream.next("");
 
         this._setupInitialSubscriptions();
     }
@@ -109,6 +99,11 @@ export class SideNavComponent{
         this._searchTermStream.next(event.target.value);
     }
 
+    clearSearch(){
+        this.searchTerm = "";
+        this._searchTermStream.next("");
+    }
+
     onSubscriptionsSelect(subscriptions: Subscription[]) {
 
         let subIds : string[];
@@ -127,7 +122,7 @@ export class SideNavComponent{
 
         this.localStorageService.setItem(storedSelectedSubIds.id, storedSelectedSubIds);
         this.selectedSubscriptions = subscriptions;
-        this.subscriptionsStream.next(subscriptions);
+        this._subscriptionsStream.next(subscriptions);
 
         if(subscriptions.length === this.subscriptionOptions.length){
             this._updateSubDisplayText("All subscriptions");
@@ -163,7 +158,7 @@ export class SideNavComponent{
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
-        this.subscriptionsStream.next([]);
+        this._subscriptionsStream.next([]);
 
         this.armService.subscriptions.subscribe(subs =>{
             this.subscriptionOptions =

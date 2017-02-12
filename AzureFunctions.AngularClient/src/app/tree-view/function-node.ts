@@ -96,6 +96,13 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 
     public remove(){
         this._functionsNode.removeChild(this.functionInfo, false);
+
+        let defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
+        let scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
+
+        this.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
+        this.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
+
     }
 }
 

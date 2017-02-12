@@ -1,4 +1,3 @@
-import { SearchNode } from './search-node';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable } from './tree-node';
 import {DashboardType} from './models/dashboard-type';
@@ -73,7 +72,10 @@ export class AppNode extends TreeNode implements Disposable, Removable{
     }
 
     public remove(){
-        this.sideNav.deletedNodeStream.next(this);
+        (<AppsNode>this.parent).removeChild(this, false);
+
+        let clearUrl = `${this.sideNav.armService.armUrl}${this.resourceId}`;
+        this.sideNav.cacheService.clearCachePrefix(clearUrl);
         this.dispose();
     }
 

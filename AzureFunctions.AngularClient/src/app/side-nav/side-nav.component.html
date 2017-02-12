@@ -7,7 +7,7 @@
             [value]="searchTerm"
             (keyup)="search($event)" />
 
-        <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="searchTerm = ''">
+        <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="clearSearch()">
             <i class="fa fa-times"></i>
         </span>
 
@@ -29,13 +29,10 @@
     </div>
 
     <div *ngIf="selectedSubscriptions.length > 0">
-        <div *ngIf="!searchTerm">
-            <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
-        </div>
-        <div *ngIf="!!searchTerm">
-            <!--<div id="sidenav-search-header">Search Results</div>-->
+        <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
+        <!--<div *ngIf="!!searchTerm">
             <tree-view [node]="searchNode" [levelInput]="0"></tree-view>
-        </div>
+        </div>-->
     </div>
 
 </div>

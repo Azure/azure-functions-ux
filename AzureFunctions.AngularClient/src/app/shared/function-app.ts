@@ -196,21 +196,6 @@ export class FunctionApp {
             });
     }
 
-    getFunctions2(fc : ArmObj<Site>) : Observable<FunctionInfo[]>{
-        let functionsScmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api/functions`;
-        return this._cacheService.get(functionsScmUrl, false, this.getScmSiteHeaders())
-            .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<FunctionInfo[]>((r : any) => {
-                try {
-                    return r.json();
-                } catch (e) {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
-                    return [];
-                }
-            });
-    }
-
     @Cache('href')
     getFileContent(file: VfsObject | string) {
         return this._http.get(typeof file === 'string' ? file : file.href, { headers: this.getScmSiteHeaders() })
