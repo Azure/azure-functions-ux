@@ -791,7 +791,7 @@
     <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
-    <value>Just a few more seconds...</value>
+    <value>We are experiencing a small hiccup, you might not have full functionality available</value>
   </data>
   <data name="tryNow_hangOn" xml:space="preserve">
     <value>Hang on while we put the 'fun' in functions...</value>

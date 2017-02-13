@@ -2662,7 +2662,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Just a few more seconds....
+        ///   Looks up a localized string similar to We are experiencing a small hiccup, you might not have full functionality available.
         /// </summary>
         internal static string tryNow_fewMoreSeconds {
             get {
