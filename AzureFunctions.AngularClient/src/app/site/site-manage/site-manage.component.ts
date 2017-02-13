@@ -1,3 +1,5 @@
+import { FeatureGroup } from './../../feature-group/feature-group';
+import { OpenBrowserWindowFeature } from './../../feature-group/feature-item';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {ArmService} from '../../shared/services/arm.service';
@@ -8,7 +10,6 @@ import {ArmObj} from '../../shared/models/arm/arm-obj';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PopOverComponent} from '../../pop-over/pop-over.component';
 import {FeatureGroupComponent} from '../../feature-group/feature-group.component';
-import {FeatureGroup} from '../../feature-group/feature-group';
 import {FeatureItem, RBACFeature, RBACBladeFeature, TabFeature, BladeFeature, ResourceUriBladeFeature} from '../../feature-group/feature-item';
 import {WebsiteId} from '../../shared/models/portal';
 
@@ -71,7 +72,7 @@ export class SiteManageComponent {
     }
 
     private _initCol1Groups(site : ArmObj<Site>){
-        let devFeatures = [
+        let codeDeployFeatures = [
             new BladeFeature(
                 "Deployment source",
                 "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
@@ -85,153 +86,89 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            // new TabFeature(
-            //     "Deployment source",
-            //     "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
-            //     "Deployment source info",
-            //     "deployment-source",
-            //     this.openTabEvent),
-
             new BladeFeature(
-                "Performance Testing",
-                "vso visual studio performance testing",
+                "Deployment credentials",
+                "deployment credentials",
                 "Info",
                 {
-                   detailBlade : "CreateLoadTestBlade",
-                   detailBladeInputs : {
-                       websiteUri : site.id
-                   },
-                   extension : "AzureTfsExtension"
+                    detailBlade : "FtpCredentials",
+                    detailBladeInputs :{
+                        WebsiteId : this._descriptor.getWebsiteId()
+                    }
                 },
-                this._portalService),
+                this._portalService)            
+        ];
 
+        let developmentToolFeatures = [
             new ResourceUriBladeFeature(
                 "Console",
                 "console debug",
                 "Info",
                 site.id,
                 "ConsoleBlade",
-                this._portalService),
+                this._portalService), 
+           
+            new OpenKuduFeature(site),
 
-            new BladeFeature(
-                "Data Connections",
-                "data connection string",
-                "Info",
-                {
-                    detailBlade : "DataConnectionList",
-                    detailBladeInputs : {
-                        webSite : {
-                            webSiteResourceUri : site.id,
-                            webSiteLocation : site.location
-                        }
-                    },
-                    extension : "Microsoft_Azure_MobileServices"
-                },
-                this._portalService),
+            new OpenEditorFeature(site), 
 
+            new OpenResourceExplorer(),
+        ]
+
+        let generalFeatures = [
             new ResourceUriBladeFeature(
-                "CORS",
-                "cors api",
+                "Application settings",
+                "application settings connection strings java php .net",
                 "Info",
                 site.id,
-                "ApiCors",
-                this._portalService),
+                "WebsiteConfigSiteSettings",
+                this._portalService),   
 
             new BladeFeature(
-                "Zend Z-Ray",
-                "php zend z-ray",
+                "Properties",
+                "properties",
                 "Info",
                 {
-                    detailBlade : "ZendZRayBlade",
+                    detailBlade : "PropertySheetBlade",
                     detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId()
+                        resourceId : this._descriptor.resourceId,
                     }
                 },
-                this._portalService),
-
-            new ResourceUriBladeFeature(
-                "API Definition",
-                "api definition swagger",
-                "Info",
-                site.id,
-                "ApiDefinition",
-                this._portalService),
-
-            new ResourceUriBladeFeature(
-                "Web Jobs",
-                "web jobs",
-                "Info",
-                site.id,
-                "webjobsNewBlade",
-                this._portalService),
-
-            new ResourceUriBladeFeature(
-                "Visual Studio Online",
-                "visual studio online code",
-                "Info",
-                site.id,
-                "MonacoBlade",
-                this._portalService)
+                this._portalService),         
         ]
 
-        let devGroup = new FeatureGroup("Development", devFeatures);
-
-        let mobileFeatures = [
-            new BladeFeature(
-                "Easy tables",
-                "easy tables",
-                "Info",
-                {
-                    detailBlade : "TableListBlade",
-                    detailBladeInputs :{
-                        websiteId : site.id
-                    },
-                    extension : "Microsoft_Azure_MobileServices"
-                },
-                this._portalService),
-
-            new BladeFeature(
-                "Easy APIs",
-                "easy apis",
-                "Info",
-                {
-                    detailBlade : "ApiListBlade",
-                    detailBladeInputs :{
-                        websiteId : site.id
-                    },
-                    extension : "Microsoft_Azure_MobileServices"
-                },
-                this._portalService),
-
-            new FeatureItem("Push notifications", "push notifications", "Info")
-        ]
-
-        let mobileGroup = new FeatureGroup("Mobile", mobileFeatures);
-
-        this.groups1 = [devGroup, mobileGroup];
+        this.groups1 = [
+            new FeatureGroup("Code deployment", codeDeployFeatures),
+            new FeatureGroup("Development tools", developmentToolFeatures),
+            new FeatureGroup("General", generalFeatures)];
     }
 
     private _initCol2Groups(site : ArmObj<Site>){
+        
         let networkFeatures = [
             new BladeFeature(
-                "Custom domains & SSL",
-                "custom domains ssl",
+                "SSL",
+                "ssl",
                 "Info",
                 {
-                    detailBlade : "WebsiteConfigSSLSettings",
+                    detailBlade : "CertificatesBlade",
                     detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId(),
-                        BuyDomainSelected : false
+                        resourceUri : this._descriptor.resourceId,
                     }
                 },
                 this._portalService),
 
-            new ResourceUriBladeFeature(
-                "Networking",
-                "virtual network",
+            new BladeFeature(
+                "Custom domains",
+                "custom domains",
                 "Info",
-                site.id,
-                "NetworkSummaryBlade",
+                {                
+                    detailBlade : "CustomDomainsAndSSL",
+                    detailBladeInputs : {
+                        resourceUri : this._descriptor.resourceId,
+                        BuyDomainSelected : false
+                    }
+                },
                 this._portalService),
 
             new ResourceUriBladeFeature(
@@ -243,137 +180,19 @@ export class SiteManageComponent {
                 this._portalService),
 
             new BladeFeature(
-                "Traffic manager",
-                "traffic manager",
+                "Push notifications",
+                "push",
                 "Info",
                 {
-                    detailBlade : "NoticeBlade",
+                    detailBlade : "PushRegistrationBlade",
                     detailBladeInputs : {
-                        info: {
-                            RedirectionUrl: "#create/Microsoft.TrafficManagerProfile-ARM",
-                            ComingSoonTitle: "Traffic Manager",
-                            ComingSoonDescription: "Monitor your applications so you can keep your critical workloads up and running, with automatic fail-over in case a service goes down. Deep integration between Azure App Service and Azure Traffic Manager is coming soon. If you want to get started right away, you can now create Traffic Manager profiles in the Azure portal.",
-                            ComingSoonBladeHeader: "Coming soon",
-                            WebsiteId: this._descriptor.getWebsiteId()
-                        }
+                        resourceUri : this._descriptor.resourceId,
                     }
                 },
                 this._portalService),
-
-            new BladeFeature(
-                "Traffic routing",
-                "traffic routing test production",
-                "Info",
-                {
-                    detailBlade : "WebsiteRoutingRulesBlade",
-                    detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId()
-                    }
-                },
-                this._portalService)
         ]
-        
-        let networkGroup = new FeatureGroup("Networking", networkFeatures);
 
-        let aspFeatures = [
-            new RBACBladeFeature(
-                "App Service plan",
-                "app service plan scale",
-                "Info",
-                site.properties.serverFarmId,
-                ["./read"],
-                "You do not have read permissions for the associated plan",
-                this._rbacService,
-                {
-                    detailBlade : "AppServicePlanMenuBlade",
-                    detailBladeInputs : {
-                        resourceId : site.properties.serverFarmId
-                    }
-                },
-                this._portalService),
-
-            new RBACFeature(
-                "Scale up",
-                "app service plan scale",
-                "Info",
-                site.properties.serverFarmId,
-                ["./write"],
-                "You do not have write permissions to perform a scale operation on the associated plan",
-                this._rbacService),
-
-            new RBACBladeFeature(
-                "Scale out",
-                "app service plan scale",
-                "Info",
-                site.properties.serverFarmId,
-                ["./write"],
-                "You do not have write permissions to perform a scale operation on the associated plan",
-                this._rbacService,
-                {
-                    detailBlade : "AppServiceScaleSettingBlade",
-                    detailBladeInputs : {
-                        WebHostingPlanId: site.properties.serverFarmId,
-                        resourceId: site.properties.serverFarmId,
-                        apiVersion: "2015-08-01",
-                        options: null
-                    }
-                },
-                this._portalService),
-
-            new RBACFeature(
-                "Change plan",
-                "app service plan",
-                "Info",
-                site.id,
-                ["./write"],
-                "You do not have write permissions to change the plan associated with this app",
-                this._rbacService)
-        ]
-        
-        let aspGroup = new FeatureGroup("App Service Plan", aspFeatures);
-
-        this.groups2 = [networkGroup, aspGroup];
-    }
-
-    private _initCol3Groups(site : ArmObj<Site>){
-
-        let observeFeatures = [
-            new BladeFeature(
-                "Log streaming",
-                "log streaming",
-                "Info",
-                {
-                    detailBlade : "LogStreamBlade",
-                    detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId()
-                    }
-                },
-                this._portalService),
-
-            new ResourceUriBladeFeature(
-                "Process Explorer",
-                "process explorer",
-                "Info",
-                site.id,
-                "ProcExpNewBlade",
-                this._portalService),
-
-            new BladeFeature(
-                "Audit logs",
-                "audit logs",
-                "Info",
-                {
-                    detailBlade : "AzureDiagnosticsBladeWithParameter",
-                    detailBladeInputs : {
-                        defaultFilter : {
-                            resourceId : site.id
-                        },
-                        options : {}
-                    },
-                    extension : "Microsoft_Azure_Insights"
-                },
-                this._portalService),
-
+        let monitoringFeatures = [
             new BladeFeature(
                 "Diagnostic logs",
                 "diagnostic logs",
@@ -386,59 +205,86 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new FeatureItem("Alerts", "alerts", "Info")
-        ]
-
-        let observeGroup = new FeatureGroup("Observe", observeFeatures);
-
-        let generalFeatures = [
             new ResourceUriBladeFeature(
-                "Application settings",
-                "application settings connection strings java php .net",
+                "Log streaming",
+                "log streaming",
                 "Info",
                 site.id,
-                "WebsiteConfigSiteSettings",
+                "LogStreamBlade",
                 this._portalService),
 
             new ResourceUriBladeFeature(
-                "Backups",
-                "backups",
+                "Process Explorer",
+                "process explorer",
                 "Info",
                 site.id,
-                "Backup",
-                this._portalService),
-
-            new FeatureItem("Clone app", "clone app", "Info"),
+                "ProcExpNewBlade",
+                this._portalService),            
 
             new BladeFeature(
-                "Tinfoil Security",
-                "tinfoil security",
+                "Security scanning",
+                "security scanning tinfoil",
                 "Info",
                 {
                     detailBlade : "TinfoilSecurityBlade",
                     detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId()
+                        WebsiteId : this._descriptor.getWebsiteId(),
                     }
                 },
-                this._portalService)
+                this._portalService),
         ]
 
-        let generalGroup = new FeatureGroup("General", generalFeatures);
+        this.groups2 = [
+            new FeatureGroup("Networking", networkFeatures),
+            new FeatureGroup("Monitoring", monitoringFeatures)];
+    }
 
-        let resourceFeatures = [
-            new BladeFeature(
-                "Tags",
-                "tags",
+    private _initCol3Groups(site : ArmObj<Site>){
+        let apiManagementFeatures = [
+            new ResourceUriBladeFeature(
+                "CORS",
+                "cors api",
                 "Info",
+                site.id,
+                "ApiCors",
+                this._portalService),
+
+            new ResourceUriBladeFeature(
+                "API Definition",
+                "api definition swagger",
+                "Info",
+                site.id,
+                "ApiDefinition",
+                this._portalService),            
+        ]
+
+        let appServicePlanFeatures = [
+            new RBACBladeFeature(
+                "App Service plan",
+                "app service plan scale",
+                "Info",
+                site.properties.serverFarmId,
+                ["./read"],
+                "You do not have read permissions for the associated plan",
+                this._rbacService,
                 {
-                    detailBlade : "ResourceTagsListBlade",
+                    detailBlade : "WebHostingPlanBlade",
                     detailBladeInputs : {
-                        resourceId : site.id
-                    },
-                    extension : "HubsExtension"
+                        id : site.properties.serverFarmId
+                    }
                 },
                 this._portalService),
 
+            new ResourceUriBladeFeature(
+                "Quotas",
+                "quotas",
+                "Info",
+                site.id,
+                "QuotasBlade",
+                this._portalService),
+        ]
+
+        let resourceManagementFeatures = [
             new BladeFeature(
                 "Locks",
                 "locks",
@@ -452,21 +298,10 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new BladeFeature(
-                "Users",
-                "users rbac role base authorization",
-                "Info",
-                {
-                    detailBlade : "UserAssignmentsBlade",
-                    detailBladeInputs : {
-                        scope : site.id
-                    },
-                    extension : "Microsoft_Azure_AD"
-                },
-                this._portalService),
+            new NotImplementedFeature("Clone app", "clone app", "Info"),  // TODO: ellhamai - Need to implent
 
             new BladeFeature(
-                "Export template",
+                "Automation script",
                 "export template arm azure resource manager api",
                 "Info",
                 {
@@ -480,15 +315,68 @@ export class SiteManageComponent {
                     },
                     extension : "HubsExtension"
                 },
-                this._portalService)
+                this._portalService),
+
+            new NotImplementedFeature(  // TODO: ellhamai - Need to implement
+                "New support request",
+                "support request",
+                "Info"),
         ]
 
-        let resourceGroup = new FeatureGroup("Resource Management", resourceFeatures);
-
-        this.groups3 = [observeGroup, generalGroup, resourceGroup];
+        this.groups3 = [
+            new FeatureGroup("API management", apiManagementFeatures),
+            new FeatureGroup("App Service Plan", appServicePlanFeatures),
+            new FeatureGroup("Resource management", resourceManagementFeatures)];
     }
 
     openTab(tabName : string){
         this.openTabEvent.next(tabName);
+    }
+}
+
+export class OpenKuduFeature extends FeatureItem{
+        constructor(private _site : ArmObj<Site>){
+        super("Advanced tools", "kudu advanced tools", "Info");
+    }
+
+    click(){
+        let scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+        window.open(`https://${scmHostName}`);
+    }
+}
+
+export class OpenEditorFeature extends FeatureItem{
+        constructor(private _site : ArmObj<Site>){
+
+        super("App service editor", "app service editor visual studio online", "Info");
+    }
+
+    click(){
+        let scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+        window.open(`https://${scmHostName}/dev`);
+    }
+}
+
+export class OpenResourceExplorer extends FeatureItem{
+        constructor(){
+        super("Resource Explorer", "resource explorer", "Info");
+    }
+
+    click(){
+        window.open("https://resources.azure.com")
+    }
+}
+
+export class NotImplementedFeature extends FeatureItem{
+        constructor(
+        title : string,
+        keywords : string,
+        info : string){
+
+        super(title, keywords, info);
+    }
+
+    click(){
+        alert("Not implemented");
     }
 }

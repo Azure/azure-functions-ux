@@ -5,7 +5,7 @@
 
 <div>
     <div class="site-manage-col">
-        <div *ngFor="let group of groups1">
+        <div *ngFor="let group of groups1" class="feature-group">
             <feature-group [inputGroup]="group"
                         [searchTerm]="searchTerm"
                         (openTab)="openTab($event)">

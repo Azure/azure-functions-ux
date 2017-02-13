@@ -107,6 +107,21 @@ export class ResourceUriBladeFeature extends BladeFeature{
     };
 }
 
+export class OpenBrowserWindowFeature extends FeatureItem{
+        constructor(
+        title : string,
+        keywords : string,
+        info : string,
+        private _url : string){
+
+        super(title, keywords, info);
+    }
+
+    click(){
+        window.open(this._url);
+    }
+}
+
 export class TabFeature extends FeatureItem{
     constructor(
         title : string,
