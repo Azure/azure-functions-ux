@@ -172,7 +172,8 @@ export class TryLandingComponent implements OnInit {
                 sku: "Free",
                 containerSize: 128,
                 enabled: true,
-                state: "Running"
+                state: "Running",
+                defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net")
             },
             tryScmCred: encryptedCreds
         };
