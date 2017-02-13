@@ -12,6 +12,7 @@
 
         <div *ngIf="!!viewInfo">
             <breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>
+            <top-right-menu></top-right-menu>
 
             <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
             <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>

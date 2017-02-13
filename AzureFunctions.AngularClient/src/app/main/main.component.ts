@@ -1,3 +1,4 @@
+import { TopRightMenuComponent } from './../top-right-menu/top-right-menu.component';
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {ResourceType, Descriptor, SiteDescriptor} from '../shared/resourceDescriptors';

@@ -84,6 +84,7 @@ import { FeatureGroupComponent } from './feature-group/feature-group.component';
 import { DeploymentSourceComponent } from './site/deployment-source/deployment-source.component';
 import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/deployment-source-setup.component';
 import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.component';
+import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 
 @NgModule({
   declarations: [
@@ -152,7 +153,8 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
       FeatureGroupComponent,
       DeploymentSourceComponent,
       DeploymentSourceSetupComponent,
-      MultiDropDownComponent
+      MultiDropDownComponent,
+      TopRightMenuComponent
   ],
   imports: [
     BrowserModule,
