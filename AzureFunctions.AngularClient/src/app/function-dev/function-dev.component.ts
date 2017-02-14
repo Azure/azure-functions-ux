@@ -214,14 +214,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             TOP += 40;
         }
 
-        var LEFT = 300;
+        var LEFT = this.rightTab ? 300 : 340;
         var GLOBAL_PADDING = 20;
         var EDIT_TOP = 0;
 
-        if (this.codeEditor && this.functionContainer) {
-            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
-                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
-        }
+        //if (this.codeEditor && this.functionContainer) {
+        //    EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
+        //        this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
+        //}
 
 
 
@@ -232,12 +232,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
         var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
 
+        //if (this.functionContainer) {
+        //    var playgroundContainer = this.functionContainer.nativeElement;
+        //    playgroundContainer.style.width = WIDTH + 'px';
+        //    playgroundContainer.style.height = HEIGHT + 'px';
+        //}
+
         if (this.functionContainer) {
             var playgroundContainer = this.functionContainer.nativeElement;
-            playgroundContainer.style.width = WIDTH + 'px';
-            playgroundContainer.style.height = HEIGHT + 'px';
+            //playgroundContainer.style.width = WIDTH + 'px';
+            playgroundContainer.style.height = this.functionContainer.nativeElement.getBoundingClientRect().top - this.functionContainer.nativeElement.getBoundingClientRect().bottom;
         }
-
 
         if (this.editorContainer) {
             var typingContainer = this.editorContainer.nativeElement;

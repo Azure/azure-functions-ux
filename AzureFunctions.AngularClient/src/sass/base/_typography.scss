@@ -34,3 +34,16 @@ pre {
 .error-output {
     color: $danger-color;
 }
+
+.text {
+    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+.text-level1-heading {
+    @extend .text;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 200/300;
+}
