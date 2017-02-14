@@ -13,8 +13,7 @@ export class SidebarPipe implements PipeTransform {
         if (args && args.length > 0) {
             var query = typeof args === 'string' ? args : args[0];
             if (query) {
-                return items.filter(item => !item.clientOnly && item.name.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()
-                    && item.name !== PortalResources.sidebar_newApiProxy) !== -1);
+                return items.filter(item => !item.clientOnly && item.name.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1 && item.name !== PortalResources.sidebar_newApiProxy);
             }
         }
         return items;
