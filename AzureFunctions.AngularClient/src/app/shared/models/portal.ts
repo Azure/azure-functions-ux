@@ -15,7 +15,8 @@ export interface StartupInfo{
     subscriptions : Subscription[];
     sessionId: string;
     acceptLanguage : string,
-    effectiveLocale : string
+    effectiveLocale : string,
+    resourceId : string
 }
 
 export interface Action {
@@ -50,7 +51,6 @@ export class Verbs{
 
     // Requests from Ibiza
     public static sendStartupInfo = "send-startup-info";
-    public static sendResourceId = "send-resourceId";
     public static sendAppSettingName = "send-appSettingName";
     public static sendToken = "send-token";
     public static sendOAuthInfo = "send-oauth-info";

@@ -15,7 +15,8 @@ export class AppsNode extends TreeNode implements MutableCollection {
     constructor(
         sideNav: SideNavComponent,
         private _subscriptionsStream : Subject<Subscription[]>,
-        private _searchTermStream : Subject<string>) {
+        private _searchTermStream : Subject<string>,
+        private _resourceId : string) {
 
         super(sideNav, null, null);
         this.children = [];
@@ -23,10 +24,13 @@ export class AppsNode extends TreeNode implements MutableCollection {
         let searchStream = this._searchTermStream
         .debounceTime(400)
         .distinctUntilChanged()
-        .switchMap((term) =>{
+        .switchMap((searchTerm) =>{
             return this._subscriptionsStream.distinctUntilChanged()
-            .map(subs =>{
-                return { searchTerm : term, subscriptions : subs};
+            .map(subscriptions =>{
+                return {
+                    searchTerm : searchTerm,
+                    subscriptions : subscriptions
+                };
             });
         })
         .switchMap(result =>{
@@ -44,23 +48,6 @@ export class AppsNode extends TreeNode implements MutableCollection {
         .subscribe(() =>{
             this._doneLoading();
         })
-
-        // this._subscriptionsStream
-        // .distinctUntilChanged()
-        // .switchMap(subscriptions =>{
-        //     this.children = [];
-
-        //     if(!subscriptions || subscriptions.length === 0){
-        //         return Observable.of(null);
-        //     }
-            
-        //     this.isLoading = true;
-        //     this.isExpanded = true;
-        //     return this._getAllFunctionApps(subscriptions, null);
-        // })
-        // .subscribe(() =>{
-        //     this._doneLoading();
-        // });
     }
 
     private _doSearch(term : string, subscriptions : Subscription[], nextLink : string){
@@ -80,7 +67,12 @@ export class AppsNode extends TreeNode implements MutableCollection {
                 return armObj.kind === "functionapp";
             })
             .map(armObj =>{
-                return new AppNode(this.sideNav, armObj, true, this);                
+                let newNode = new AppNode(this.sideNav, armObj, this);
+                if(newNode.resourceId === this._resourceId){
+                    newNode.select();
+                }
+
+                return newNode;
             })
 
             this.children = this.children.concat(nodes);
@@ -181,12 +173,12 @@ export class AppsNode extends TreeNode implements MutableCollection {
                         }
 
                         if (!foundExistingAppNode) {
-                            appNodes.push(new AppNode(this.sideNav, disabledSite, false, this, true));
+                            appNodes.push(new AppNode(this.sideNav, disabledSite, this, true));
                         }
                     }
                 }
                 else {
-                    appNodes.push(new AppNode(this.sideNav, r1, false, this));
+                    appNodes.push(new AppNode(this.sideNav, r1, this));
                 }
             }
         })

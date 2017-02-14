@@ -1,3 +1,5 @@
+import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { PortalService } from './../shared/services/portal.service';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { FormControl } from '@angular/forms';
 import { WebsiteId } from './../shared/models/portal';
@@ -54,20 +56,29 @@ export class SideNavComponent{
         public translateService : TranslateService,
         public userService : UserService,
         public aiService : AiService,
-        public localStorageService : LocalStorageService){
+        public localStorageService : LocalStorageService,
+        public portalService : PortalService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
-        this.rootNode = new TreeNode(this, null, null);
-        this.rootNode.children = [
-            new AppsNode(
-                this,
-                this._subscriptionsStream,
-                this._searchTermStream)];
+        portalService.getStartupInfo().subscribe(info =>{
+            this.resourceId = info.resourceId;
 
-        this._searchTermStream.next("");
+            this.rootNode = new TreeNode(this, null, null);
+            this.rootNode.children = [
+                new AppsNode(
+                    this,
+                    this._subscriptionsStream,
+                    this._searchTermStream,
+                    this.resourceId)];
 
-        this._setupInitialSubscriptions();
+            // Get the streams in the top-level nodes moving 
+            this._searchTermStream.next(""); 
+
+            if(this.subscriptionOptions.length === 0){
+                this._setupInitialSubscriptions(info.resourceId);
+            }
+        });
     }
 
     updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
@@ -151,9 +162,14 @@ export class SideNavComponent{
         }, 10);
     }
 
-    private _setupInitialSubscriptions(){
+    private _setupInitialSubscriptions(resourceId : string){
         let savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
         let savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        let descriptor : SiteDescriptor;
+
+        if(resourceId){
+            descriptor = new SiteDescriptor(resourceId);
+        }
 
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
@@ -163,12 +179,19 @@ export class SideNavComponent{
         this.armService.subscriptions.subscribe(subs =>{
             this.subscriptionOptions =
             subs.map(e =>{
-                let selectedSub = savedSelectedSubscriptionIds.find(s => s === e.subscriptionId);
+                let selectSub :boolean;
+
+                if(descriptor){
+                    selectSub = descriptor.subscription === e.subscriptionId;
+                }
+                else{
+                    selectSub = savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
+                }
 
                 return {
                     displayLabel: e.displayName,
                     value: e,
-                    isSelected : !!selectedSub
+                    isSelected : selectSub
                 };
             })
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));

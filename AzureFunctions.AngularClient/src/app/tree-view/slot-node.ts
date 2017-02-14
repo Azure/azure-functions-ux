@@ -11,10 +11,9 @@ export class SlotNode extends TreeNode{
     constructor(
         sideBar : SideNavComponent,
         slot : ArmObj<Site>,
-        isSearchResult : boolean,
         parentNode : TreeNode){
 
         super(sideBar, slot.id, parentNode);
-        this.title = isSearchResult ? `${slot.name} (App Slot)` : slot.name;
+        this.title = slot.name;
     }
 }

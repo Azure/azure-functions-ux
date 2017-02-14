@@ -24,7 +24,6 @@ export class AppNode extends TreeNode implements Disposable, Removable{
 
     constructor(sideBar : SideNavComponent,
                 private _siteArmCacheObj : ArmObj<Site>,
-                isSearchResult : boolean,
                 parentNode : TreeNode,
                 disabled? : boolean){
         super(sideBar, _siteArmCacheObj.id, parentNode);
@@ -34,7 +33,7 @@ export class AppNode extends TreeNode implements Disposable, Removable{
             this.supportsAdvanced = false;
         }
 
-        this.title = isSearchResult ? `${_siteArmCacheObj.name} (App)` : _siteArmCacheObj.name;
+        this.title = _siteArmCacheObj.name;
     }
 
     protected _loadChildren(){

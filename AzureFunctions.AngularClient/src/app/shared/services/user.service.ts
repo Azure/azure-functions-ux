@@ -32,7 +32,8 @@ export class UserService {
             subscriptions : null,
             sessionId : null,
             acceptLanguage : null,
-            effectiveLocale : null
+            effectiveLocale : null,
+            resourceId : null
         };
 
         this._portalService.getStartupInfo().subscribe(info => this.startupInfoSubject.next(info));
@@ -58,7 +59,8 @@ export class UserService {
                 subscriptions : this.currentStartupInfo.subscriptions,
                 sessionId : this.currentStartupInfo.sessionId,
                 acceptLanguage : this.currentStartupInfo.acceptLanguage,
-                effectiveLocale : this.currentStartupInfo.effectiveLocale
+                effectiveLocale : this.currentStartupInfo.effectiveLocale,
+                resourceId : this.currentStartupInfo.resourceId
             }
             
             this.startupInfoSubject.next(this.currentStartupInfo);
