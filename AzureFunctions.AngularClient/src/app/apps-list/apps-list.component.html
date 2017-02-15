@@ -1,0 +1,25 @@
+<div id="apps-list-container">
+<table id="apps-list-table">
+  <tr>
+    <th class="sortableCol" (click)="sortByColumn('name')">Name
+      <i class="fa"
+        [class.fa-chevron-up]="sortedColumn === 'name' && sortAscending"
+        [class.fa-chevron-down]="sortedColumn === 'name' && !sortAscending"></i>
+    </th>
+    <th class="sortableCol" (click)="sortByColumn('subscription')">Subscription 
+      <i class="fa"
+        [class.fa-chevron-up]="sortedColumn === 'subscription' && sortAscending"
+        [class.fa-chevron-down]="sortedColumn === 'subscription' && !sortAscending"></i>
+    </th>
+    <th class="notSortableCol">Resource Group</th>
+    <th class="notSortableCol">Location</th>
+  </tr>
+
+  <tr *ngFor="let item of items" (click)="clickRow(item)">
+    <td class="link">{{item.title}}</td>
+    <td>{{item.subscription}}</td>
+    <td>{{item.resourceGroup}}</td>
+    <td>{{item.location}}</td>
+  </tr>
+</table>
+</div>

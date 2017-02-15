@@ -1,25 +1,35 @@
+import { StorageAccount } from './../shared/models/storage-account';
 import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
-import { TreeNode, MutableCollection } from './tree-node';
+import { TreeNode, MutableCollection, Disposable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Subscription as RxSubscription, Observable } from 'rxjs/Rx';
+import { Subject, Subscription as RxSubscription, Observable, ReplaySubject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 
-export class AppsNode extends TreeNode implements MutableCollection {
+export class AppsNode extends TreeNode implements MutableCollection, Disposable {
     public title = "Function Apps";
-    public dashboardType = DashboardType.collection;
+    public dashboardType = DashboardType.apps;
+    public resourceId = "/apps";
+    public childrenStream = new ReplaySubject<AppNode[]>(1);
+
+    private _exactAppSearchExp = 'app:\"(.+)\"';
 
     constructor(
         sideNav: SideNavComponent,
         private _subscriptionsStream : Subject<Subscription[]>,
         private _searchTermStream : Subject<string>,
-        private _resourceId : string) {
+        private _initialResourceId : string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, null);
-        this.children = [];
+
+        this.childrenStream.subscribe(children =>{
+            this.children = children;
+        })
+
+        this.childrenStream.next([]);
 
         let searchStream = this._searchTermStream
         .debounceTime(400)
@@ -34,54 +44,94 @@ export class AppsNode extends TreeNode implements MutableCollection {
             });
         })
         .switchMap(result =>{
-            this.children = [];
+            this.childrenStream.next([]);
 
             if(!result.subscriptions || result.subscriptions.length === 0){
                 return Observable.of(null);
             }
 
             this.isLoading = true;
-            this.isExpanded = true;
 
-            return this._doSearch(result.searchTerm, result.subscriptions, null);
+            return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, null);
         })
-        .subscribe(() =>{
+        .subscribe((result : { term : string, children : TreeNode[]}) =>{
+            
+            let regex = new RegExp(this._exactAppSearchExp, "i");
+            let exactMatchResult = regex.exec(result.term);
+            if(exactMatchResult && exactMatchResult.length > 1){
+                let filteredChildren = result.children.filter(c =>{
+                    return c.title.toLowerCase() === exactMatchResult[1].toLowerCase();
+                })
+
+                // Purposely don't update the stream with the filtered list of children.
+                // This is because we only want the exact matching to affect the tree view,
+                // not any other listeners.
+                this.childrenStream.next(<AppNode[]>result.children);
+                this.children = filteredChildren;
+            }
+
             this._doneLoading();
-        })
+        });
     }
 
-    private _doSearch(term : string, subscriptions : Subscription[], nextLink : string){
+    // Overwrite the default load children behavior.
+    protected _loadChildren(){
+        this.isLoading = false;
+    }
+
+    public dispose(){
+        this._initialResourceId = "";
+    }
+
+    private _doSearch(children : AppNode[], term : string, subscriptions : Subscription[], nextLink : string){
         let url : string = null;
-        if(term){
-            url = this._getArmSearchUrl(term, subscriptions, nextLink);
+
+        let regex = new RegExp(this._exactAppSearchExp, "i");
+        let exactMatchResult = regex.exec(term);
+
+        // If the user wants an exact match, then we'll query everything and then filter to that
+        // item.  This would be slower for some scenario's where you do an exact search and there
+        // is already a filtered list.  But it will be much faster if the full list is already cached.
+        if(!term || exactMatchResult && exactMatchResult.length > 1){
+            url = this._getArmCacheUrl(subscriptions, nextLink, "Microsoft.Web/sites");
         }
         else{
-            url = this._getArmCacheUrl(subscriptions, nextLink, "Microsoft.Web/sites");
+            url = this._getArmSearchUrl(term, subscriptions, nextLink);
         }
 
         return this.sideNav.cacheService.get(url)
-        .switchMap<ArmArrayResult>(r =>{
+        .switchMap<{ term : string, children : TreeNode[]}>(r =>{
+
             let result : ArmArrayResult = r.json();
             let nodes = result.value
             .filter(armObj =>{
                 return armObj.kind === "functionapp";
             })
             .map(armObj =>{
-                let newNode = new AppNode(this.sideNav, armObj, this);
-                if(newNode.resourceId === this._resourceId){
+                let newNode = new AppNode(this.sideNav, armObj, this, subscriptions);
+                if(newNode.resourceId === this._initialResourceId){
                     newNode.select();
                 }
 
                 return newNode;
             })
 
-            this.children = this.children.concat(nodes);
+            children = children.concat(nodes);
+
+            // Only update children if we're not doing an exact match.  For exact matches, we
+            // wait until everything is done loading and then show the final result
+            if(!exactMatchResult || exactMatchResult.length < 1){
+                this.childrenStream.next(children);
+            }
 
             if(result.nextLink){
-                return this._doSearch(term, subscriptions, result.nextLink);
+                return this._doSearch(children, term, subscriptions, result.nextLink);
             }
             else{
-                return Observable.of(null);
+                return Observable.of({
+                    term : term,
+                    children : children
+                });
             }
         })
     }
@@ -96,94 +146,8 @@ export class AppsNode extends TreeNode implements MutableCollection {
         })
 
         this._removeHelper(removeIndex, callRemoveOnChild);
+        this.childrenStream.next(<AppNode[]>this.children);
         this.sideNav.cacheService.clearCachePrefix(`${this.sideNav.armService.armUrl}/resources`);
-    }
-
-    private _getAllFunctionApps(subscriptions: Subscription[], nextLink : string) : Observable<AppNode[]>{
-        
-        // TODO: ellhamai - Need to add back searching for slots.  I removed it for now since querying for slots in parallel is expensive, especially
-        // now that we support multiple subscriptions.  Instead, querying for slots should come after we've already built the tree for sites.
-        // return this.sideNav.armService.getArmCacheResources(subscriptions, nextLink, "Microsoft.Web/sites", "Microsoft.Web/sites/slots")
-
-        let url = this._getArmCacheUrl(subscriptions, nextLink, "Microsoft.Web/sites");
-        return this.sideNav.cacheService.get(url)
-        .switchMap((response : Response) =>{
-            let arrayResult : ArmArrayResult = response.json();
-            this.children = this.children.concat(this._getAppNodes(arrayResult.value));
-
-            if(arrayResult.nextLink){
-                return this._getAllFunctionApps(subscriptions, arrayResult.nextLink);
-            }
-            else{
-                return Observable.of(null);
-            }
-        });
-    }
-
-    private _getAppNodes(appsAndSlots: ArmObj<Site>[]): AppNode[] {
-        let appNodes: AppNode[] = [];
-        appsAndSlots.forEach((r1, index1) => {
-            if (r1.kind === "functionapp") {
-                if (r1.type === "Microsoft.Web/sites/slots") {
-                    let slotParts = r1.id.split('/');
-                    slotParts.length = slotParts.length - 2;
-                    let siteName = slotParts[slotParts.length - 1];
-                    let siteId = slotParts.join('/');
-                    let siteIdLowerCase = siteId.toLowerCase();
-
-                    let hostSite: ArmObj<Site> = null;
-
-                    // In all the cases I've seen, when the container app exists in the list, it will
-                    // be right before the slot.  So this optimizes the scenario where the container
-                    // app does exist.
-                    for (var i = index1 - 1; i >= 0; i--) {
-                        let app = appsAndSlots[i];
-                        if (app.id.toLowerCase() === siteIdLowerCase) {
-                            hostSite = app;
-                            break;
-                        }
-                    }
-
-                    if (!hostSite) {
-                        // If we haven't found the container, then we'll search up just in case.
-                        for (var i = index1 + 1; i < appsAndSlots.length; i++) {
-                            let app = appsAndSlots[i];
-                            if (app.id.toLowerCase() === siteIdLowerCase) {
-                                hostSite = app;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!hostSite) {
-                        // add a disabled app
-                        let disabledSite = <ArmObj<Site>>{
-                            id: siteId,
-                            type: "Microsoft.Web/sites",
-                            name: siteName
-                        }
-
-                        // Check for the case where an app has multiple slots
-                        let foundExistingAppNode = false;
-                        for (let i = appNodes.length - 1; i >= 0; i--) {
-                            if (appNodes[i].resourceId.toLowerCase() === siteIdLowerCase) {
-                                foundExistingAppNode = true;
-                                break;
-                            }
-                        }
-
-                        if (!foundExistingAppNode) {
-                            appNodes.push(new AppNode(this.sideNav, disabledSite, this, true));
-                        }
-                    }
-                }
-                else {
-                    appNodes.push(new AppNode(this.sideNav, r1, this));
-                }
-            }
-        })
-
-        return appNodes;
     }
 
     private _getArmCacheUrl(subs: Subscription[], nextLink : string, type1 : string, type2? : string){
@@ -220,7 +184,7 @@ export class AppsNode extends TreeNode implements MutableCollection {
             url = nextLink;
         }
         else{
-            url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
+            url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(resourceType eq 'microsoft.web/sites') and (`;
             
             for(let i = 0; i < subs.length; i++){
                 url += `subscriptionId eq '${subs[i].subscriptionId}'`;
@@ -229,7 +193,13 @@ export class AppsNode extends TreeNode implements MutableCollection {
                 }
             }
 
-            url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
+            // let regexResult = this._exactAppSearchExp.exec(term);
+            // if(regexResult && regexResult.length > 1){
+            //     url += `) and (name eq '${regexResult[1]}')`;
+            // }
+            // else{
+            url += `) and (substringof('${term}', name))`;
+            // }
         }
 
         return url;

@@ -6,7 +6,7 @@ import {Site} from '../shared/models/arm/site';
 import {SlotNode} from './slot-node';
 
 export class SlotsNode extends TreeNode{
-    public dashboardType = DashboardType.collection;
+    public dashboardType = DashboardType.none;
     public title = "Slots";
     
     constructor(sideNav : SideNavComponent, private _siteArmObj : ArmObj<Site>, parentNode : TreeNode){

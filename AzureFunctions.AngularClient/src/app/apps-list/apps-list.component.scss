@@ -1,0 +1,37 @@
+@import '../../sass/main';
+
+#apps-list-container{
+    padding: 25px;
+    background-color: $body-bg-color;
+}
+
+#apps-list-table{
+    // border: 2px solid $border-color;
+    width: 100%;
+    font-size: 14px;
+
+    tr{
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+
+        &:hover{
+            background-color: lighten($border-color, 5%);
+        }
+
+        .sortableCol{
+            text-decoration: underline;
+        }
+
+        .notSortableCol{
+            cursor: text;
+        }
+    }
+
+    th{
+        background-color: $border-color;
+    }
+
+    th, td{
+        padding: 1px;
+    }
+}

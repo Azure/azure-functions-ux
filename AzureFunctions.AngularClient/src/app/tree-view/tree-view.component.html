@@ -1,5 +1,5 @@
-<ul class="tree" [class.tree-root]="level === 0">
-  <li *ngFor="let child of node.children" [class.tree-node-root]="level === 0">
+<ul class="tree">
+  <li *ngFor="let child of node.children">
 
     <div (mouseenter)="child.showMenu = true"
          (mouseleave)="child.showMenu = false"
@@ -11,8 +11,7 @@
         <span *ngIf="!child.isNewNode" class="tree-node-content" [style.margin-left]="margin">
 
             <!-- Expand node icon -->
-            <i *ngIf="level !== 0"
-                class="fa"
+            <i class="fa"
                 [class.fa-caret-right]="child.showExpandIcon && !child.isExpanded"
                 [class.fa-caret-down]="child.showExpandIcon && child.isExpanded"
                 (click)="child.toggle($event)"></i>
@@ -25,17 +24,11 @@
             </span>
 
             <!-- Loading icon right.  Only shows if expanded or root -->
-            <i *ngIf="child.isLoading && (child.isExpanded || level === 0)" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <i *ngIf="child.isLoading && (child.isExpanded)" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
 
             <!-- Optional menu icons that show up on right side of each node -->
             <span class="tree-node-menu"
-                  *ngIf="child.showMenu || (child.sideNav && child.sideNav.resourceId === child.resourceId)">
-
-              <!--<i *ngIf="child.supportsAdvanced"
-                 (click)="child.toggleAdvanced($event)"
-                 class="fa fa-cog"
-                 [class.tree-node-advanced-enabled]="child.inAdvancedMode"
-                 title="Explore API"></i>-->
+                  *ngIf="child.showMenu || child.sideNav?.resourceId?.startsWith(child.resourceId)">
 
               <i *ngIf="child.disabled"
                  class="fa fa-info-circle warning"
@@ -45,6 +38,12 @@
                  (click)="child.openCreateNew($event)"
                  class="fa fa-plus-square-o"
                  title="New"></i>
+
+              <i *ngIf="child.supportsScope"
+                class="fa fa-angle-double-right"
+                (click)="child.scopeToNode()"
+                style="vertical-align: top"
+                title="Scope to this app"></i>
             </span>
         </span>
     </div>

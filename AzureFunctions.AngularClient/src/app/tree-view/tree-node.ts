@@ -5,7 +5,6 @@ import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
 import {Subscription} from '../shared/models/subscription';
 
-
 export interface Disposable{
     dispose();
 }
@@ -29,6 +28,7 @@ export class TreeNode implements Disposable, Removable{
     public dashboardType : DashboardType;
     public newDashboardType : DashboardType;
     public supportsAdvanced : boolean = false;
+    public supportsScope = false;
     public disabled = false;
 
     constructor(
@@ -118,6 +118,10 @@ export class TreeNode implements Disposable, Removable{
         }
 
         return path;
+    }
+
+    public scopeToNode(){
+        this.sideNav.searchExact(this.title);
     }
 }
 

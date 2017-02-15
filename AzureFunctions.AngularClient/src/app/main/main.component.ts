@@ -1,7 +1,6 @@
 import { TopRightMenuComponent } from './../top-right-menu/top-right-menu.component';
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {SideNavComponent} from '../side-nav/side-nav.component';
-import {ResourceType, Descriptor, SiteDescriptor} from '../shared/resourceDescriptors';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {DashboardType} from '../tree-view/models/dashboard-type';
 import {UserService} from '../shared/services/user.service';
@@ -17,7 +16,6 @@ import {BusyStateComponent} from '../busy-state/busy-state.component';
 })
 export class MainComponent implements AfterViewInit {
     public viewInfo : TreeViewInfo;
-    public descriptor : Descriptor;
     public dashboardType : string;
     public inIFrame : boolean;
 
@@ -32,16 +30,12 @@ export class MainComponent implements AfterViewInit {
             this.viewInfo = viewInfo;
             return;
         }
-        else if(viewInfo.dashboardType === DashboardType.collection){
+        else if(viewInfo.dashboardType === DashboardType.none){
             return;
         }
 
         this.viewInfo = viewInfo;
         this.dashboardType = DashboardType[viewInfo.dashboardType];
-
-        if(viewInfo.dashboardType !== DashboardType.createApp){
-            this.descriptor = Descriptor.getDescriptor(viewInfo.resourceId);
-        }
      }
 
     ngAfterViewInit() {

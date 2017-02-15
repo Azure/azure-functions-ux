@@ -85,6 +85,7 @@ import { DeploymentSourceComponent } from './site/deployment-source/deployment-s
 import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/deployment-source-setup.component';
 import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.component';
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
+import { AppsListComponent } from './apps-list/apps-list.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component
       DeploymentSourceComponent,
       DeploymentSourceSetupComponent,
       MultiDropDownComponent,
-      TopRightMenuComponent
+      TopRightMenuComponent,
+      AppsListComponent
   ],
   imports: [
     BrowserModule,

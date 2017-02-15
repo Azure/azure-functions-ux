@@ -1,3 +1,5 @@
+import { Subscription } from './../shared/models/subscription';
+import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable } from './tree-node';
 import {DashboardType} from './models/dashboard-type';
@@ -17,6 +19,14 @@ export class AppNode extends TreeNode implements Disposable, Removable{
     public inAdvancedMode = false;
     public dashboardType = DashboardType.app;
     public disabled = false;
+    public supportsScope = true;
+
+    public title : string;
+    // public subscriptionId : string;
+    public subscription : string;
+    public resourceGroup : string;
+    public location : string;
+
     private _hiddenChildren : TreeNode[];
     private _functionApp : FunctionApp;
     private _functionsNode : FunctionsNode;
@@ -25,6 +35,7 @@ export class AppNode extends TreeNode implements Disposable, Removable{
     constructor(sideBar : SideNavComponent,
                 private _siteArmCacheObj : ArmObj<Site>,
                 parentNode : TreeNode,
+                subscriptions : Subscription[],
                 disabled? : boolean){
         super(sideBar, _siteArmCacheObj.id, parentNode);
 
@@ -34,6 +45,16 @@ export class AppNode extends TreeNode implements Disposable, Removable{
         }
 
         this.title = _siteArmCacheObj.name;
+        this.location = _siteArmCacheObj.location;
+        
+        let descriptor = new SiteDescriptor(_siteArmCacheObj.id);
+        this.resourceGroup = descriptor.resourceGroup;
+
+        let sub = subscriptions.find(sub =>{
+            return sub.subscriptionId === descriptor.subscription;
+        })
+
+        this.subscription = sub && sub.displayName;
     }
 
     protected _loadChildren(){

@@ -11,14 +11,6 @@
             <i class="fa fa-times"></i>
         </span>
 
-        <!--<span class="sidenav-search-clear-disabled">
-            <i class="fa fa-times"
-               aria-hidden="true"
-               [class.sidenav-search-clear-dirty]="!!searchTerm"
-               [class.clickable]="!!searchTerm"
-               (click)="searchTerm = ''"></i>
-        </span>-->
-
         <div id="sidenav-subs">
             <multi-drop-down
                 [inputOptions]="subscriptionOptions"
@@ -30,9 +22,6 @@
 
     <div *ngIf="selectedSubscriptions.length > 0">
         <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
-        <!--<div *ngIf="!!searchTerm">
-            <tree-view [node]="searchNode" [levelInput]="0"></tree-view>
-        </div>-->
     </div>
 
 </div>

@@ -13,7 +13,7 @@ import {FunctionApp} from '../shared/function-app';
 
 export class FunctionsNode extends TreeNode implements MutableCollection{
     public title = "Functions";
-    public dashboardType = DashboardType.collection;
+    public dashboardType = DashboardType.none;
     public newDashboardType = DashboardType.createFunction;
 
     constructor(

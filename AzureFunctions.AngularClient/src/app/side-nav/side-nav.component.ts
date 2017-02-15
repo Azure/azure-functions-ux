@@ -62,15 +62,27 @@ export class SideNavComponent{
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
         portalService.getStartupInfo().subscribe(info =>{
-            this.resourceId = info.resourceId;
+            this.resourceId = !!info.resourceId ? info.resourceId : this.resourceId;
+
+            let appsNode = new AppsNode(
+                this,
+                this._subscriptionsStream,
+                this._searchTermStream,
+                this.resourceId);
 
             this.rootNode = new TreeNode(this, null, null);
-            this.rootNode.children = [
-                new AppsNode(
-                    this,
-                    this._subscriptionsStream,
-                    this._searchTermStream,
-                    this.resourceId)];
+            this.rootNode.children = [appsNode];
+
+            // Need to allow the appsNode to wire up its subscriptions
+            setTimeout(() =>{
+                appsNode.select();
+            }, 10);
+
+
+            this._searchTermStream
+            .subscribe(term =>{
+                this.searchTerm = term;
+            })
 
             // Get the streams in the top-level nodes moving 
             this._searchTermStream.next(""); 
@@ -106,12 +118,27 @@ export class SideNavComponent{
     }
 
     search(event : any){
-        this.searchTerm = event.target.value;
+        let startPos = event.target.selectionStart;
+        let endPos = event.target.selectionEnd;
+
+        // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
+        // the searchTerm, we end up resetting the cursor.  It's better than before, but
+        // it's still not great because if the user types really fast, the cursor still moves.
         this._searchTermStream.next(event.target.value);
+        
+        if(event.target.value.length !== startPos){
+            setTimeout(() =>{
+                event.target.selectionStart = startPos;
+                event.target.selectionEnd = endPos;
+            });
+        }
+    }
+
+    searchExact(term : string){
+        this._searchTermStream.next(`app:"${term}"`);
     }
 
     clearSearch(){
-        this.searchTerm = "";
         this._searchTermStream.next("");
     }
 
