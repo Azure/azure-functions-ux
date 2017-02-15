@@ -482,10 +482,10 @@
     <value>Loading ...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Recent success count</value>
+    <value>Success count since</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Recent errors count</value>
+    <value>Error count since</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Invocation log</value>
