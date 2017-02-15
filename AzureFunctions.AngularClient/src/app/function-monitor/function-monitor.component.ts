@@ -66,8 +66,8 @@ export class FunctionMonitorComponent implements OnChanges {
 
         let firstOfMonth = moment().startOf('month');
         let site = this._functionsService.getSiteName();
-        this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM, Do")}`;
-        this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM, Do")}`;
+        this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM Do")}`;
+        this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM Do")}`;
         this._funcName = this.selectedFunction.name;
         this._functionsService.getFunctionHostId().subscribe(host => {
             var hostId = !!host ? host : "";
