@@ -9,6 +9,8 @@ import {PortalService} from '../shared/services/portal.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 
+declare let moment: any;
+
 @Component({
     selector: 'function-monitor',
     templateUrl: './function-monitor.component.html',
@@ -61,9 +63,11 @@ export class FunctionMonitorComponent implements OnChanges {
                 formatTo: "number"
             }
         ];
+
+        let firstOfMonth = moment().startOf('month');
         let site = this._functionsService.getSiteName();
-        this.successAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_successAggregate);
-        this.errorsAggregateHeading = this._translateService.instant(PortalResources.functionMonitor_errorsAggregate);
+        this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM, Do")}`;
+        this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM, Do")}`;
         this._funcName = this.selectedFunction.name;
         this._functionsService.getFunctionHostId().subscribe(host => {
             var hostId = !!host ? host : "";
