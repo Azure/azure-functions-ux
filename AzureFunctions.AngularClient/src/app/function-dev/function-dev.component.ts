@@ -209,20 +209,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var TOP = 100;
+        var TOP = 120;
         if (this._globalStateService.showTopbar) {
             TOP += 40;
         }
 
-        var LEFT = this.rightTab ? 300 : 340;
+        var LEFT = this.rightTab ? 300 : 360;
         var GLOBAL_PADDING = 20;
         var EDIT_TOP = 0;
 
-        //if (this.codeEditor && this.functionContainer) {
-        //    EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
-        //        this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
-        //}
-
+        if (this.codeEditor && this.functionContainer) {
+            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
+                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
+        }
 
 
         var WIDTH = window.innerWidth - LEFT;
@@ -272,16 +271,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }, 0);
         }
 
-        if (this.rightContainer) {
-            var editorContainer = this.rightContainer.nativeElement;
-            editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
-            editorContainer.style.height = HEIGHT + 'px';
-        }
+        //if (this.rightContainer) {
+        //    var editorContainer = this.rightContainer.nativeElement;
+        //    editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
+        //    editorContainer.style.height = HEIGHT + 'px';
+        //}
 
-        if (this.bottomContainer) {
-            var bottomContainer = this.bottomContainer.nativeElement;
-            bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
-        }
+        //if (this.bottomContainer) {
+        //    var bottomContainer = this.bottomContainer.nativeElement;
+        //    bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
+        //    bottomContainer.style.width = ((this.rightTab ? CODEEDITOR_WIDTH : WIDTH) + 50) + 'px';
+        //}
     }
 
     clickRightTab(tab: string) {

@@ -153,3 +153,19 @@ div.right-block {
 .bubble-label {
     padding: 4px;
 }
+
+
+.line-vertical {
+    border-left: 1px solid #ccc; 
+    flex-grow: 1;
+}
+
+/*.line-horizontal {
+    border-top: 1px solid #ccc; 
+    flex-grow: 1;
+}*/
+
+/*https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow*/
+.pre-fix div, log-streaming {
+    min-width: 0;
+}

@@ -1,4 +1,4 @@
-<div #functionContainer (window:resize)="onResize($event)">
+<div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
     <div *ngIf="scriptFile" class="dev-full">
 
         <!--<div class="header">
@@ -31,53 +31,63 @@
 
         <div>
 
+            <div style="display: flex">
 
-            <div style="display: flex;" >
+                <!-- Head, Code editor, logs -->
+                <div style="display: flex; flex-direction: column">
 
-                <div style="padding: 5px 25px 25px 25px">
-                    <div style="display:flex; flex-direction:row;">
-                        <span class="text-level1-heading">{{fileName}}</span>
-                        <span>
-                            <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
-                        </span>
-                        <span>
-                            <button *ngIf="scriptFile.isDirty"
-                                    [class.custom-button]="runValid"
-                                    [class.custom-button-disabled]="!runValid"
-                                    [class.dirty]="scriptFile.isDirty"
-                                    (click)="runFunction()">
-                                {{ 'functionDev_saveAndRun' | translate }}
-                            </button>
-                            <button *ngIf="!scriptFile.isDirty"
-                                    [class.custom-button]="runValid"
-                                    [class.custom-button-disabled]="!runValid"
-                                    [class.dirty]="scriptFile.isDirty"
-                                    (click)="runFunction()">
-                                {{ 'run' | translate }}
-                            </button>
-                            <button *ngIf="running"
-                                    class="custom-button cancel-button"
-                                    (click)="cancelCurrentRun()">
-                                {{ 'cancel' | translate }}
-                            </button>
-                        </span>
+                    <!-- Head, code editor  -->
+                    <div style="padding: 5px 25px 25px 25px; flex-grow: 1">
+                        <div style="display:flex; flex-direction:row;">
+                            <span class="text-level1-heading">{{fileName}}</span>
+                            <span>
+                                <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
+                            </span>
+                            <span>
+                                <button *ngIf="scriptFile.isDirty"
+                                        [class.custom-button]="runValid"
+                                        [class.custom-button-disabled]="!runValid"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'functionDev_saveAndRun' | translate }}
+                                </button>
+                                <button *ngIf="!scriptFile.isDirty"
+                                        [class.custom-button]="runValid"
+                                        [class.custom-button-disabled]="!runValid"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'run' | translate }}
+                                </button>
+                                <button *ngIf="running"
+                                        class="custom-button cancel-button"
+                                        (click)="cancelCurrentRun()">
+                                    {{ 'cancel' | translate }}
+                                </button>
+                            </span>
+                        </div>
+
+                        <div #editorContainer class="dev-full">
+                            <!--<div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl" [label]="'functionDev_functionUrl' | translate"></copy-pre></div>
+                            <div *ngIf="webHookType === 'github'"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>-->
+
+                            <div monacoEditor id="code"
+                                 class="monaco dev-full"
+                                 style="margin-top: 9px"
+                                 (onSave)="saveScript()"
+                                 (onContentChanged)="contentChanged($event)"
+                                 [content]="content"
+                                 [fileName]="fileName"
+                                 [disabled]="disabled">
+                            </div>
+
+                        </div>
+
                     </div>
 
+                    <!-- Logs -->
+                    <div style="display: flex; flex-direction: column">
 
-                    <div #editorContainer class="dev-full">
-                        <!--<div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl" [label]="'functionDev_functionUrl' | translate"></copy-pre></div>
-                        <div *ngIf="webHookType === 'github'"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>-->
-
-                        <div monacoEditor id="code" 
-                             class="monaco dev-full"
-                             (onSave)="saveScript()"
-                             (onContentChanged)="contentChanged($event)"
-                             [content]="content"
-                             [fileName]="fileName"
-                             [disabled]="disabled">
-                        </div>
-                
-                        <div *ngIf="!bottomTab">
+                        <div *ngIf="!bottomTab" style="flex-basis:50px; border-top: 1px solid #ccc; ">
                             <span class="link bubble-label" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i>&nbsp;</span>
                         </div>
 
@@ -87,108 +97,112 @@
                                            (expandClicked)="expandLogsClicked($event)">
                             </log-streaming>
                         </div>
-
                     </div>
 
                 </div>
 
-                <div *ngIf="!rightTab" style="border-left: 1px solid #ccc; flex-grow: 1;">
-                </div>
-
-                <div *ngIf="!rightTab" style="width: 0px">
-
-                    <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px;">
-                        <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
-
-                        <span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
-                        <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                        <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
-                        <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
-                    </div>
-                </div>
-
-                <div #rightContainer id="sidebar" class="right-block">
-
-                    <div *ngIf="rightTab">
-                        <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
-                        <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                        <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
-                        <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
-                        <span class="link bubble-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i>&nbsp;</span>
+                <!-- Right bar-->
+                <div style="display: flex; flex-grow: 1;">
+                    <div *ngIf="!rightTab" class="line-vertical">
                     </div>
 
+                    <div *ngIf="!rightTab" style="width: 0px">
 
-                    <div [hidden]="rightTab!=='files'" *ngIf="functionInfo" class="dev-full">
-                        <file-explorer [functionInfo]="functionInfo"
-                                       [selectedFile]="scriptFile"
-                                       (selectedFileChange)="selectedFileStream.next($event)"
-                                       (closeClicked)="clickRightTab('files')">
-                        </file-explorer>
-                    </div>
+                        <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px; height: 50px;">
+                            <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
 
-                    <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container" [class.run-container-http]="isHttpFunction">
-                        <busy-state name="run-busy"></busy-state>
-
-                        <div class="dev-full dev-flex-column" *ngIf="functionInfo">
-                            <run-http *ngIf="isHttpFunction"
-                                      [functionInvokeUrl]="functionInvokeUrl"
-                                      [functionInfo]="functionInfo"
-                                      (validChange)="onRunValid($event)">
-                            </run-http>
-
-                            <div>
-                                <div class="run-label">{{ 'functionDev_requestBody' | translate }}</div>
-                                <div id="test_data" monacoEditor class="monaco"
-                                     (onSave)="saveTestData()"
-                                     (onContentChanged)="testContentChanged($event)"
-                                     [content]="testContent"
-                                     fileName="sample.dat">
-                                </div>
-                            </div>
-
-                            <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1;">
-                                <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
-                                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-
-                                <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
-
-                            </div>
-
-                            <div *ngIf="isHttpFunction">
-                                <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
-                                <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-
-                                <pre style="margin-bottom: 0px;" class="height-fixed">{{runResult?.content}}</pre>
-                            </div>
-
-                            <div *ngIf="isHttpFunction">
-
-                                <div class="run-label">{{ 'logStreaming_logs' | translate }}</div>
-
-                                <log-streaming [functionInfo]="functionInfo"
-                                               [isHttpLogs]="true"
-                                               (closeClicked)="clickRightTab('logs')">
-                                </log-streaming>
-                            </div>
-
-                            <span style="padding: 5px;line-height: 25px;">
-                                <span class="clickable link-action close-right" (click)="clickRightTab('run')">
-                                    <i class="fa fa-times"></i>
-                                    {{ 'close' | translate }}
-                                </span>
-                            </span>
-
+                            <span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
+                            <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
+                            <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
+                            <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
                         </div>
                     </div>
 
-                    <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
-                        <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
-                        <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
-                        <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>
-                    </div>
-                </div>
+                    <!--class="right-block"-->
+                    <div #rightContainer id="sidebar" style="display: flex; flex-direction: column; flex-grow: 1">
 
+                        <div *ngIf="rightTab">
+                            <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
+                            <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
+                            <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
+                            <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
+                            <span class="link bubble-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i>&nbsp;</span>
+                        </div>
+
+
+                        <div [hidden]="rightTab!=='files'" *ngIf="functionInfo" class="dev-full">
+                            <file-explorer [functionInfo]="functionInfo"
+                                           [selectedFile]="scriptFile"
+                                           (selectedFileChange)="selectedFileStream.next($event)"
+                                           (closeClicked)="clickRightTab('files')">
+                            </file-explorer>
+                        </div>
+
+                        <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container" [class.run-container-http]="isHttpFunction">
+                            <busy-state name="run-busy"></busy-state>
+
+                            <div class="dev-full dev-flex-column" *ngIf="functionInfo">
+                                <run-http *ngIf="isHttpFunction"
+                                          [functionInvokeUrl]="functionInvokeUrl"
+                                          [functionInfo]="functionInfo"
+                                          (validChange)="onRunValid($event)">
+                                </run-http>
+
+                                <div>
+                                    <div class="run-label">{{ 'functionDev_requestBody' | translate }}</div>
+                                    <div id="test_data" monacoEditor class="monaco"
+                                         (onSave)="saveTestData()"
+                                         (onContentChanged)="testContentChanged($event)"
+                                         [content]="testContent"
+                                         fileName="sample.dat">
+                                    </div>
+                                </div>
+
+                                <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1;">
+                                    <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                                    <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+
+                                    <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
+
+                                </div>
+
+                                <div *ngIf="isHttpFunction">
+                                    <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                                    <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+
+                                    <pre style="margin-bottom: 0px;" class="height-fixed">{{runResult?.content}}</pre>
+                                </div>
+
+                                <div *ngIf="isHttpFunction">
+
+                                    <div class="run-label">{{ 'logStreaming_logs' | translate }}</div>
+
+                                    <log-streaming [functionInfo]="functionInfo"
+                                                   [isHttpLogs]="true"
+                                                   (closeClicked)="clickRightTab('logs')">
+                                    </log-streaming>
+                                </div>
+
+                                <span style="padding: 5px;line-height: 25px;">
+                                    <span class="clickable link-action close-right" (click)="clickRightTab('run')">
+                                        <i class="fa fa-times"></i>
+                                        {{ 'close' | translate }}
+                                    </span>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
+                            <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
+                            <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
+                            <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
 
         </div>
     </div>
