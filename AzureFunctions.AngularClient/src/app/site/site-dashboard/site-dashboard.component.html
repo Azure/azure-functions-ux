@@ -10,10 +10,23 @@
     <tab [tabTitle]="TabNames.manage">
         <site-manage *ngIf="selectedTabTitle === TabNames.manage" [siteInput]="site" (openTabEvent)="openTab($event)"></site-manage>
     </tab>
-    <tab [tabTitle]="TabNames.troubleshoot">
-        Troubleshoot
+    <tab [tabTitle]="TabNames.functionRuntime">
+        <div style="margin-left: 15px">
+            <div>
+                <h3>Quota Usage Quota (GB-Sec)</h3>
+                <input style="margin-left: 15px" type="text" placeholder="Enter value in GB-sec"/> <input type="button" class="custom-button" value="Set quota" />
+            </div>
+
+            <div>
+                <h3>Runtime version</h3>
+                <div style="margin-left: 15px">Runtime version: latest (~1.Foo)</div>
+            </div>
+        </div>
+    </tab>    
+    <tab [tabTitle]="TabNames.apiDefinition">
+        API Definition
     </tab>
-    <tab *ngIf="activeComponent === 'deployment-source'" [tabTitle]="TabNames.deploymentSource" [closeable]="true">
+    <!--<tab *ngIf="activeComponent === 'deployment-source'" [tabTitle]="TabNames.deploymentSource" [closeable]="true">
         <deployment-source *ngIf="selectedTabTitle === TabNames.deploymentSource" [siteInput]="site"></deployment-source>
-    </tab>
+    </tab>-->
 </tabs>

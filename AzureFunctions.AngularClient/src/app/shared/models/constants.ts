@@ -27,6 +27,8 @@ export class SiteTabNames{
     public static summary = "Summary";
     public static monitor = "Monitor";
     public static manage = "Manage";
+    public static functionRuntime = "Function Runtime";
+    public static apiDefinition = "API Definition";
     public static troubleshoot = "Troubleshoot";
     public static deploymentSource = "Deployment Source";
 }
