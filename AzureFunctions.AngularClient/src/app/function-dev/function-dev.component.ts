@@ -209,78 +209,144 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var TOP = 120;
-        if (this._globalStateService.showTopbar) {
-            TOP += 40;
-        }
+        var warningTopBarHeight = 39;
+        var functionNameHeight = 46;
+        var editorPadding = 25;
 
-        var LEFT = this.rightTab ? 300 : 360;
-        var GLOBAL_PADDING = 20;
-        var EDIT_TOP = 0;
-
-        if (this.codeEditor && this.functionContainer) {
-            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
-                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
-        }
-
-
-        var WIDTH = window.innerWidth - LEFT;
-        var HEIGHT = window.innerHeight - TOP;
-
-        var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
-        var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
-        var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
-
-        //if (this.functionContainer) {
-        //    var playgroundContainer = this.functionContainer.nativeElement;
-        //    playgroundContainer.style.width = WIDTH + 'px';
-        //    playgroundContainer.style.height = HEIGHT + 'px';
-        //}
-
+        var functionContainerWidth;
+        var functionContainaerHeight;
         if (this.functionContainer) {
-            var playgroundContainer = this.functionContainer.nativeElement;
-            //playgroundContainer.style.width = WIDTH + 'px';
-            playgroundContainer.style.height = this.functionContainer.nativeElement.getBoundingClientRect().top - this.functionContainer.nativeElement.getBoundingClientRect().bottom;
+            functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
+            functionContainaerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
+        }
+        var rigthContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
+        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainaerHeight / 3)) : 50;
+
+        var editorContainerWidth = functionContainerWidth - rigthContainerWidth - 50;
+        var editorContainerHeight = functionContainaerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+
+        if (this.expandLogs) {
+            editorContainerHeight = 0;
+            //editorContainerWidth = 0;
+
+            bottomContainerHeight = functionContainaerHeight - functionNameHeight;
+
+            this.editorContainer.nativeElement.style.visibility = "hidden";
+            this.bottomContainer.nativeElement.style.marginTop = "0px";
+        } else {
+            this.editorContainer.nativeElement.style.visibility = "visible";
+            this.bottomContainer.nativeElement.style.marginTop = "25px";
         }
 
-        if (this.editorContainer) {
-            var typingContainer = this.editorContainer.nativeElement;
-            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px";
-            typingContainer.style.height = this.bottomTab ? (HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT) + "px" : (HEIGHT - EDIT_TOP) + 'px';
+
+        if (this.editorContainer) {            
+            this.editorContainer.nativeElement.style.width = editorContainerWidth + "px";
+            this.editorContainer.nativeElement.style.height = editorContainerHeight + "px";
         }
 
         if (this.codeEditor) {
-            if (this.expandLogs === true) {
-                this.codeEditor.setLayout(1, 1);
-            } else {
                 this.codeEditor.setLayout(
-                    this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                    this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
+                    editorContainerWidth - 2,
+                    editorContainerHeight - 2
                 );
-            }
+        }
+
+        if (this.rightContainer) {
+            this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
+        }
+
+        if (this.bottomContainer) {
+            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + "px";
+            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + "px";
+
+            //this.bottomContainer.nativeElement.style.height = "200px";
+            //this.bottomContainer.nativeElement.style.width = "200px";
         }
 
         if (this.testDataEditor) {
-            var widthDataEditor = RIGHTBAR_WIDTH - 34;
+            var widthDataEditor = rigthContainerWidth - 34;
 
             setTimeout(() => {
                 this.testDataEditor.setLayout(
                     this.rightTab ? widthDataEditor : 0,
-                    this.isHttpFunction ? 150 : HEIGHT / 2
+                    this.isHttpFunction ? 150 : functionContainaerHeight / 2
                 )
             }, 0);
         }
 
+
+        //debugger;
+        //var TOP = 120;
+        //if (this._globalStateService.showTopbar) {
+        //    TOP += 40;
+        //}
+
+        //var LEFT = this.rightTab ? 300 : 360;
+        //var EDIT_TOP = 0;
+
+        //if (this.codeEditor && this.functionContainer) {
+        //    EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
+        //        this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
+        //}
+
+
+        //var WIDTH = window.innerWidth - LEFT;
+        //var HEIGHT = window.innerHeight - TOP;
+
+        //var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
+        //var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
+        //var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
+
+        ////if (this.functionContainer) {
+        ////    var playgroundContainer = this.functionContainer.nativeElement;
+        ////    playgroundContainer.style.width = WIDTH + 'px';
+        ////    playgroundContainer.style.height = HEIGHT + 'px';
+        ////}
+
+        //if (this.functionContainer) {
+        //    var playgroundContainer = this.functionContainer.nativeElement;
+        //    //playgroundContainer.style.width = WIDTH + 'px';
+        //    playgroundContainer.style.height = this.functionContainer.nativeElement.getBoundingClientRect().top - this.functionContainer.nativeElement.getBoundingClientRect().bottom;
+        //}
+
+        //if (this.editorContainer) {
+        //    var typingContainer = this.editorContainer.nativeElement;
+        //    typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px";
+        //    typingContainer.style.height = this.bottomTab ? (HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT) + "px" : (HEIGHT - EDIT_TOP) + 'px';
+        //}
+
+        //if (this.codeEditor) {
+        //    if (this.expandLogs === true) {
+        //        this.codeEditor.setLayout(1, 1);
+        //    } else {
+        //        this.codeEditor.setLayout(
+        //            this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
+        //            this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
+        //        );
+        //    }
+        //}
+
+        //if (this.testDataEditor) {
+        //    var widthDataEditor = RIGHTBAR_WIDTH - 34;
+
+        //    setTimeout(() => {
+        //        this.testDataEditor.setLayout(
+        //            this.rightTab ? widthDataEditor : 0,
+        //            this.isHttpFunction ? 150 : HEIGHT / 2
+        //        )
+        //    }, 0);
+        //}
+
         //if (this.rightContainer) {
         //    var editorContainer = this.rightContainer.nativeElement;
         //    editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
-        //    editorContainer.style.height = HEIGHT + 'px';
+        //    //editorContainer.style.height = HEIGHT + 'px';
         //}
 
         //if (this.bottomContainer) {
         //    var bottomContainer = this.bottomContainer.nativeElement;
-        //    bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
-        //    bottomContainer.style.width = ((this.rightTab ? CODEEDITOR_WIDTH : WIDTH) + 50) + 'px';
+        //    bottomContainer.style.height = (BOTTOMBAR_HEIGHT + 49) + 'px';
+        //    bottomContainer.style.width = ((this.rightTab ? CODEEDITOR_WIDTH : WIDTH) + 50 - 6) + 'px';
         //}
     }
 

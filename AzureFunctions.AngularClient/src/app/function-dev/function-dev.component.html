@@ -37,7 +37,7 @@
                 <div style="display: flex; flex-direction: column">
 
                     <!-- Head, code editor  -->
-                    <div style="padding: 5px 25px 25px 25px; flex-grow: 1">
+                    <div style="padding: 5px 25px 0px 25px; flex-grow: 1">
                         <div style="display:flex; flex-direction:row;">
                             <span class="text-level1-heading">{{fileName}}</span>
                             <span>
@@ -85,13 +85,13 @@
                     </div>
 
                     <!-- Logs -->
-                    <div style="display: flex; flex-direction: column">
+                    <div style="display: flex; flex-direction: column;">
 
-                        <div *ngIf="!bottomTab" style="flex-basis:50px; border-top: 1px solid #ccc; ">
+                        <div *ngIf="!bottomTab" style="border-top: 1px solid #ccc; height: 50px; margin-top: 25px;">
                             <span class="link bubble-label" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i>&nbsp;</span>
                         </div>
 
-                        <div #bottomContainer [hidden]="bottomTab!=='logs'" *ngIf="functionInfo">
+                        <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
                             <log-streaming [functionInfo]="functionInfo"
                                            (closeClicked)="clickRightTab('logs')"
                                            (expandClicked)="expandLogsClicked($event)">
@@ -108,7 +108,7 @@
 
                     <div *ngIf="!rightTab" style="width: 0px">
 
-                        <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px; height: 50px;">
+                        <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px; height: 50px;margin-left: 30px;">
                             <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
 
                             <span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
