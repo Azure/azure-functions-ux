@@ -1,3 +1,4 @@
+import { Arm } from './../shared/models/constants';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
@@ -204,21 +205,31 @@ export class SideNavComponent{
         this._subscriptionsStream.next([]);
 
         this.armService.subscriptions.subscribe(subs =>{
+            let count = 0;
+
             this.subscriptionOptions =
             subs.map(e =>{
-                let selectSub :boolean;
+                let subSelected :boolean;
 
                 if(descriptor){
-                    selectSub = descriptor.subscription === e.subscriptionId;
+                    subSelected = descriptor.subscription === e.subscriptionId;
                 }
                 else{
-                    selectSub = savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
+                    // Multi-dropdown defaults to all of none is selected.  So setting it here
+                    // helps us figure out whether we need to limit the # of initial subscriptions
+                    subSelected =
+                        savedSelectedSubscriptionIds.length === 0
+                        || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
+                }
+
+                if(subSelected){
+                    count++;
                 }
 
                 return {
                     displayLabel: e.displayName,
                     value: e,
-                    isSelected : selectSub
+                    isSelected : subSelected && count <= Arm.MaxSubscriptionBatchSize
                 };
             })
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));

@@ -1,3 +1,4 @@
+import { Arm } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
 import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
@@ -8,6 +9,8 @@ import { Subject, Subscription as RxSubscription, Observable, ReplaySubject } fr
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
+import {BroadcastEvent} from '../shared/models/broadcast-event';
+import {ErrorEvent} from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable {
     public title = "Function Apps";
@@ -52,15 +55,20 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable 
 
             this.isLoading = true;
 
-            return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, null);
+            return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
         })
         .subscribe((result : { term : string, children : TreeNode[]}) =>{
-            
+            if(!result){
+                this._doneLoading();
+                return;
+            }
+
             let regex = new RegExp(this._exactAppSearchExp, "i");
-            let exactMatchResult = regex.exec(result.term);
-            if(exactMatchResult && exactMatchResult.length > 1){
+            let exactSearchResult = regex.exec(result.term);
+
+            if(exactSearchResult && exactSearchResult.length > 1){
                 let filteredChildren = result.children.filter(c =>{
-                    return c.title.toLowerCase() === exactMatchResult[1].toLowerCase();
+                    return c.title.toLowerCase() === exactSearchResult[1].toLowerCase();
                 })
 
                 // Purposely don't update the stream with the filtered list of children.
@@ -83,24 +91,47 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable 
         this._initialResourceId = "";
     }
 
-    private _doSearch(children : AppNode[], term : string, subscriptions : Subscription[], nextLink : string){
+    private _doSearch(
+        children : AppNode[],
+        term : string,
+        subscriptions : Subscription[],
+        subsIndex : number,
+        nextLink : string) : Observable<{ term : string, children : TreeNode[]}>{
+
         let url : string = null;
 
         let regex = new RegExp(this._exactAppSearchExp, "i");
-        let exactMatchResult = regex.exec(term);
+        let exactSearchResult = regex.exec(term);
+        let exactSearch = !!exactSearchResult && exactSearchResult.length > 1;
+
+        let subsBatch = subscriptions.slice(subsIndex, subsIndex + Arm.MaxSubscriptionBatchSize);
 
         // If the user wants an exact match, then we'll query everything and then filter to that
         // item.  This would be slower for some scenario's where you do an exact search and there
         // is already a filtered list.  But it will be much faster if the full list is already cached.
-        if(!term || exactMatchResult && exactMatchResult.length > 1){
-            url = this._getArmCacheUrl(subscriptions, nextLink, "Microsoft.Web/sites");
+        if(!term || exactSearch){
+            url = this._getArmCacheUrl(subsBatch, nextLink, "Microsoft.Web/sites");
         }
         else{
-            url = this._getArmSearchUrl(term, subscriptions, nextLink);
+            url = this._getArmSearchUrl(term, subsBatch, nextLink);
         }
 
         return this.sideNav.cacheService.get(url)
+        .catch(e =>{
+            let err = e && e.json && e.json().error;
+
+            if(!err){
+                err = { message : "Failed to query for resources."}
+            }
+
+            this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: err.message, details: err.code });
+            return Observable.of(null);
+        })
         .switchMap<{ term : string, children : TreeNode[]}>(r =>{
+
+            if(!r){
+                return Observable.of(r);
+            }
 
             let result : ArmArrayResult = r.json();
             let nodes = result.value
@@ -120,17 +151,22 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable 
 
             // Only update children if we're not doing an exact match.  For exact matches, we
             // wait until everything is done loading and then show the final result
-            if(!exactMatchResult || exactMatchResult.length < 1){
+            if(!exactSearch){
                 this.childrenStream.next(children);
             }
 
-            if(result.nextLink){
-                return this._doSearch(children, term, subscriptions, result.nextLink);
+            if(result.nextLink || (subsIndex + Arm.MaxSubscriptionBatchSize < subscriptions.length)){
+                return this._doSearch(
+                    children,
+                    term,
+                    subscriptions,
+                    subsIndex + Arm.MaxSubscriptionBatchSize,
+                    result.nextLink);
             }
             else{
                 return Observable.of({
                     term : term,
-                    children : children
+                    children : children,
                 });
             }
         })

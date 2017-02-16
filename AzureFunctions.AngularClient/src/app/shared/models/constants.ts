@@ -30,3 +30,7 @@ export class SiteTabNames{
     public static troubleshoot = "Troubleshoot";
     public static deploymentSource = "Deployment Source";
 }
+
+export class Arm{
+    public static MaxSubscriptionBatchSize = 40;
+}
