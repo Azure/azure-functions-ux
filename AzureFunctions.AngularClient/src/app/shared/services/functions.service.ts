@@ -753,8 +753,10 @@ export class FunctionsService {
     }
 
     getFunctionAppArmId() {
-        if (this.functionContainer) {
+        if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
             return this.functionContainer.id;
+        } else if (this.scmUrl) {
+            return this.scmUrl;
         } else {
             return 'Unknown';
         }
