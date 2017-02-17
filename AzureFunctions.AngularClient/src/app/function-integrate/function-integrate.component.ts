@@ -1,3 +1,4 @@
+import { FunctionApp } from './../shared/function-app';
 import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {PortalService} from '../shared/services/portal.service';
@@ -25,6 +26,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     private _originalContent: string;
     private _currentConent: string;
     private _bindingManager: BindingManager = new BindingManager();
+    public functionApp : FunctionApp;
 
     constructor(
         private _portalService: PortalService,
@@ -35,7 +37,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     set selectedFunction(value: FunctionInfo) {
-        value.functionApp.checkIfDisabled()
+        this.functionApp = value.functionApp;
+        this.functionApp.checkIfDisabled()
         .subscribe(disabled =>{
             this.disabled = disabled;
         })
