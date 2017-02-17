@@ -46,7 +46,7 @@ export class FunctionsService {
 
     private localAdminKey: string = '';
     private azureAdminKey: string;
-    public isMultiKeySupported: boolean = false;
+    public isMultiKeySupported: boolean = true;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
