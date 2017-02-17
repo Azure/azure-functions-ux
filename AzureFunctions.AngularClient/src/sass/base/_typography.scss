@@ -47,3 +47,10 @@ pre {
     font-size: 18px;
     font-weight: 200/300;
 }
+
+.text-level2-heading {
+    @extend .text;
+    color: #000000;
+    font-size: 15px;
+    font-weight: 200/300;
+}

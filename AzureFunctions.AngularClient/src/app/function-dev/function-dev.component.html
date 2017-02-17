@@ -106,27 +106,26 @@
                     <div *ngIf="!rightTab" class="line-vertical">
                     </div>
 
-                    <div *ngIf="!rightTab" style="width: 0px">
+                    <div *ngIf="!rightTab" style="width: 0px; align-content: flex-end;">
 
-                        <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px; height: 50px;margin-left: 30px;">
-                            <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
-
-                            <span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
-                            <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                            <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
-                            <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
+                        <div style="transform: rotate(90deg);transform-origin: left top 0; margin-top: 20px; width: 500px; margin-left: 50px; display: flex; align-items:flex-start;">
+                            <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
+                            <span class="tab-label-rotate-right text-level2-heading" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
+                            <span class="tab-label-rotate text-level2-heading" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
+                            <span class="tab-label-rotate text-level2-heading" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                            <span class="tab-label-rotate text-level2-heading" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
                         </div>
                     </div>
 
                     <!--class="right-block"-->
-                    <div #rightContainer id="sidebar" style="display: flex; flex-direction: column; flex-grow: 1">
+                    <div #rightContainer id="sidebar" style="display: flex; flex-direction: column; flex-grow: 1;">
 
-                        <div *ngIf="rightTab">
-                            <!--<span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>-->
-                            <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
-                            <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
-                            <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
-                            <span class="link bubble-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i>&nbsp;</span>
+                        <div *ngIf="rightTab" style="height: 50px; display: flex; align-items: flex-end; border-left: 1px solid #ccc; padding-left: 10px;">
+                            <span class="text-level2-heading" [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
+                            <span class="text-level2-heading" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                            <span class="text-level2-heading" [class.tab-label-selected]="rightTab==='keys'" [class.tab-label]="rightTab!=='keys'" *ngIf="_functionsService?.isMultiKeySupported" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
+                            <span style="flex-grow: 1;"></span>
+                            <span style="padding-right: 10px;" class="tab-label text-level2-heading" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
                         </div>
 
 

@@ -60,23 +60,17 @@ div.right-block {
     overflow: auto;
 }
 
-.bottom-toolbar {
+.top-toolbar {
     flex-grow: 1;
-    border: 1px solid #ccc;
-    border-top: 0px;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
     margin: 0px;
     margin-left: 0px;
     line-height: 25px;
     padding: 5px;
-}
-
-.bottom-toolbar > span  {
-    margin-right: 30px;
-}
-
-.close-right {
-    float:right;
-    padding-top:3px;
+    height: 50px;
+    display: flex;
+    align-content: center;
 }
 
 .cancel-button {
@@ -114,46 +108,38 @@ div.right-block {
     display: none;
 }
 
-.bubble {
-    position: relative;
-    padding: 4px;
-    -webkit-border-radius: 1px;
-    -moz-border-radius: 1px;
-    background-color: #D1D2D4;
+.tab-label {
+    padding-bottom: 9px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
-/*.bubble:after {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 0px 6px 27px 6px;
-    border-color: #FFFFFF transparent;
-    display: block;
-    width: 0;
-    z-index: 1;
-    margin-left: -6px;
-    bottom: -27px;
-    left: 50%;
+.tab-label-selected {
+    padding: 5px;
+    border-bottom: 4px solid #0058ad;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #0058ad;
 }
 
-.bubble:before {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 0px 6px 27px 6px;
-    border-color: #7F7F7F transparent;
-    display: block;
-    width: 0;
-    z-index: 0;
-    margin-left: -6px;
-    bottom: -27px;
-    left: 50%;
-}*/
-
-.bubble-label {
-    padding: 4px;
+.tab-label-rotate-right {
+    padding-top: 9px; 
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
+.tab-label-rotate {
+    padding: 5px;
+    border-top: 4px solid #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+}
 
 .line-vertical {
     border-left: 1px solid #ccc; 
