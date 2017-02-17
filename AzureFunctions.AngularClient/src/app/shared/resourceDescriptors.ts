@@ -100,3 +100,22 @@ export class SiteDescriptor extends Descriptor{
         return new SiteDescriptor(siteId);
     }
 }
+
+export class FunctionDescriptor extends Descriptor{
+    public functionName;
+    
+    constructor(resourceId : string){
+        super(resourceId);
+
+        if(this.parts.length < 10){
+            throw "Not enough segments in function id";
+        }
+
+        if(this.parts[6].toLowerCase() !== "sites" || this.parts[8].toLowerCase() !== "functions"){
+            throw "Not a function id";
+        }
+
+        this.functionName = this.parts[9];
+    }
+
+}

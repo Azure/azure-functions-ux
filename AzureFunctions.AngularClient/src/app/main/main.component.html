@@ -8,10 +8,10 @@
         <!-- A simple hack to force the body to always be filled.  Otherwise controls in the side side-nav
             could get weird highlighting when you click on an empty dashboard.  This shouldn't be
             necessary once we get default content to fill always the right dashboard. -->
-        <div *ngIf="!viewInfo" id="dashboard-blank">&nbsp;</div>
+        <!--<div *ngIf="!viewInfo" id="dashboard-blank">&nbsp;</div>-->
 
         <div *ngIf="!!viewInfo">
-            <breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>
+            <!--<breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>-->
             <!--<top-right-menu></top-right-menu>-->
 
             <apps-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'apps'"></apps-list>

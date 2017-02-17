@@ -33,8 +33,8 @@
               <i *ngIf="child.disabled"
                  class="fa fa-info-circle warning"
                  title="You either do not have access to this app or there are orphaned slots associated with it"></i>
-              <i 
-                *ngIf="!!child.newDashboardType"
+
+              <i *ngIf="!!child.newDashboardType"
                  (click)="child.openCreateNew($event)"
                  class="fa fa-plus-square-o"
                  title="New"></i>

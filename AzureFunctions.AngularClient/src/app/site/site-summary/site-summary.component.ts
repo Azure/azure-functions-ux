@@ -1,3 +1,4 @@
+import { AiService } from './../../shared/services/ai.service';
 import { AppsNode } from './../../tree-view/apps-node';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Response } from '@angular/http';
@@ -49,6 +50,7 @@ export class SiteSummaryComponent {
         rbacService : RBACService,
         private _armService : ArmService,
         private _globalStateService : GlobalStateService,
+        private _aiService : AiService,
         private _domSanitizer : DomSanitizer) {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
@@ -211,6 +213,13 @@ export class SiteSummaryComponent {
                 this._globalStateService.clearBusyState();
             });
         }
+    }
+
+    syncTriggers(){
+        this._aiService.trackEvent('/actions/refresh');
+        (<AppNode>this._viewInfo.node).functionApp.fireSyncTrigger();
+        this._cacheService.clearCache();
+        this._viewInfo.node.refresh();
     }
 
     private _stopOrStartSite(stop : boolean){

@@ -1,10 +1,12 @@
+import { Response } from '@angular/http';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { SiteConfig } from './../shared/models/arm/site-config';
 import { Subscription } from './../shared/models/subscription';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable } from './tree-node';
 import {DashboardType} from './models/dashboard-type';
 import {SideNavComponent} from '../side-nav/side-nav.component';
-import {ArmObj} from '../shared/models/arm/arm-obj';
 import {Site} from '../shared/models/arm/site';
 import {SlotsNode} from './slots-node';
 import {FunctionsNode} from './functions-node';
@@ -27,10 +29,11 @@ export class AppNode extends TreeNode implements Disposable, Removable{
     public resourceGroup : string;
     public location : string;
 
+    public functionApp : FunctionApp;
+
     private _hiddenChildren : TreeNode[];
-    private _functionApp : FunctionApp;
     private _functionsNode : FunctionsNode;
-    private _checkErrorsTask : RxSubscription;
+    private _pollingTask : RxSubscription;
 
     constructor(sideBar : SideNavComponent,
                 private _siteArmCacheObj : ArmObj<Site>,
@@ -62,7 +65,7 @@ export class AppNode extends TreeNode implements Disposable, Removable{
         .subscribe(r =>{
             let site : ArmObj<Site> = r.json();
 
-            this._functionApp = new FunctionApp(
+            this.functionApp = new FunctionApp(
                 site,
                 this.sideNav.http,
                 this.sideNav.userService,
@@ -73,7 +76,7 @@ export class AppNode extends TreeNode implements Disposable, Removable{
                 this.sideNav.cacheService
             );
 
-            this._functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+            this._functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);
 
             this.children = [
                 this._functionsNode,
@@ -99,10 +102,13 @@ export class AppNode extends TreeNode implements Disposable, Removable{
         this.dispose();
     }
 
-    public dispose(){
-        if(this._checkErrorsTask && !this._checkErrorsTask.closed){
-            this._checkErrorsTask.unsubscribe();
-            this._checkErrorsTask = null;
+    public dispose(newSelectedNode? : TreeNode){
+        if(newSelectedNode && newSelectedNode.resourceId.startsWith(this.resourceId)){
+            return;
+        }
+        else if(this._pollingTask && !this._pollingTask.closed){
+            this._pollingTask.unsubscribe();
+            this._pollingTask = null;
         }
     }
 
@@ -112,49 +118,36 @@ export class AppNode extends TreeNode implements Disposable, Removable{
     }
 
     public handleStartedSite(){
-        this._functionApp.warmupMainSite()
+        this.functionApp.warmupMainSite()
         .catch((err : any) => Observable.of(null))
         .subscribe(() =>{
             this._functionsNode.handleStartedSite();
 
-            if(!this._checkErrorsTask){
-                this._checkErrorsTask = Observable.timer(1, 60000)
-                    .concatMap<string>(() => this._functionApp.getHostErrors())
-                    .catch(e => Observable.of([]))
-                    .subscribe(errors =>{
-                        errors.forEach( e=>{
-                            this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
-                            this.sideNav.aiService.trackEvent('/errors/host', {error: e, app: this._functionApp.site.id});
-                            
-                        })
-                })
+            if(!this._pollingTask){
+
+                this._pollingTask = Observable.timer(1, 60000)
+                    .concatMap<{ errors: string[], configResponse: Response}>(() => {
+                        return Observable.zip(
+                            this.functionApp.getHostErrors().catch(e => Observable.of([])),
+                            this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
+                            (e : string[], c : Response) => ({ errors: e, configResponse: c }));
+                    })
+                    .catch(e => Observable.of({}))
+                    .subscribe((result : {errors : string[], configResponse : Response}) => {
+                        if(result && result.errors){
+                            result.errors.forEach(e => {
+                                this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+                                this.sideNav.aiService.trackEvent('/errors/host', { error: e, app: this.resourceId });
+                            });
+                        }
+
+                        if(result && result.configResponse){
+                            let config = result.configResponse.json();
+                            this.functionApp.isAlwaysOn =
+                                config.properties.alwaysOn === true || this.functionApp.site.properties.sku === "Dynamic" ? true : false;
+                        }
+                    });
             }
         })
     }
-
-    // toggleAdvanced(){
-    //     this.isExpanded = true;
-
-    //     let children = this._hiddenChildren;
-    //     this._hiddenChildren = this.children;
-
-    //     if(!this.inAdvancedMode){
-    //         this.inAdvancedMode = !this.inAdvancedMode;
-    //         if(!children || children.length === 0){
-    //             children = [new AppConfigNode(this.sideBar, this.resourceId + '/config')];
-    //             if(children.length === 1){
-    //                 children[0].toggle(null);
-    //             }
-    //         }
-    //     }
-    //     else{
-    //         this.inAdvancedMode = !this.inAdvancedMode;
-    //         if(!children || children.length === 0){
-    //             this._loadChildren();
-    //             return;
-    //         }
-    //     }
-
-    //     this.children = children;
-    // }
 }

@@ -95,7 +95,13 @@ export class SideNavComponent{
     }
 
     updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
-        this._cleanUp();
+        if(this._selectedNode){
+            if(this._selectedNode.shouldBlockNavChange()){
+                return;
+            }
+
+            this._selectedNode.dispose(newSelectedNode);
+        }            
 
         this._selectedNode = newSelectedNode;
 
@@ -172,12 +178,6 @@ export class SideNavComponent{
         else{
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);
         }
-    }
-
-    private _cleanUp(){
-        if(this._selectedNode){
-            this._selectedNode.dispose();
-        }        
     }
 
     // The multi-dropdown component has its own default display text values,

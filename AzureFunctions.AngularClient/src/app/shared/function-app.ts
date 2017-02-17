@@ -58,6 +58,7 @@ export class FunctionApp {
     private localAdminKey: string = '';
     private azureAdminKey: string;
     public isMultiKeySupported: boolean = false;
+    public isAlwaysOn : boolean = false;
     
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -141,15 +142,12 @@ export class FunctionApp {
             .subscribe(info => {
             });
 
-            // this._userService.getFunctionContainer().subscribe(fc => {
-                // this.functionContainer = fc;
-                this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-                this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
-                this.siteName = this.site.name;
-                this.azureMainServer = this.mainSiteUrl;
-                this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-                this.localServer = 'https://localhost:6061';
-            // });
+            this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+            this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+            this.siteName = this.site.name;
+            this.azureMainServer = this.mainSiteUrl;
+            this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            this.localServer = 'https://localhost:6061';
         }
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');

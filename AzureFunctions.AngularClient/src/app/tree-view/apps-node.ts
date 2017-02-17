@@ -3,7 +3,7 @@ import { StorageAccount } from './../shared/models/storage-account';
 import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
-import { TreeNode, MutableCollection, Disposable } from './tree-node';
+import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject, Subscription as RxSubscription, Observable, ReplaySubject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
@@ -12,7 +12,7 @@ import { AppNode } from './app-node';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
 
-export class AppsNode extends TreeNode implements MutableCollection, Disposable {
+export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = "Function Apps";
     public dashboardType = DashboardType.apps;
     public resourceId = "/apps";
@@ -89,6 +89,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable 
 
     public dispose(){
         this._initialResourceId = "";
+    }
+
+    public refresh(){
+        
     }
 
     private _doSearch(

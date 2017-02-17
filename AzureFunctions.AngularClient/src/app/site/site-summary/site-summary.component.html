@@ -12,7 +12,9 @@
 
     <span class="link" [class.disabled]="!hasWriteAccess" (click)="resetPublishCredentials()">Reset Publish Credentials</span> | 
     
-    <span class="link" [class.disabled]="!hasWriteAccess" (click)="delete()">Delete</span>
+    <span class="link" [class.disabled]="!hasWriteAccess" (click)="delete()">Delete </span> | 
+
+    <span class="link" [class.disabled]="!hasWriteAccess"(click)="syncTriggers()">Sync Triggers</span>
 </div>
 
 <div class="site-row-container">
@@ -54,7 +56,7 @@
 <!-- Ideally this and any other blocks should be able to add to the flex-box
      and have it automatically wrap to the next row but this works for now -->
 <div class="site-row-block">
-    <h2>Enabled Features</h2>
+    <h2>Configured Features</h2>
     <div class="box box-site-summary">
         <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
     </div>

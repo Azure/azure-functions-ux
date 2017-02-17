@@ -1,4 +1,5 @@
-import { TreeNode, Removable } from './tree-node';
+import { FunctionDescriptor } from './../shared/resourceDescriptors';
+import { TreeNode, Removable, CanBlockNavChange, Disposable } from './tree-node';
 import {FunctionsNode} from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
@@ -10,7 +11,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
 
-export class FunctionNode extends TreeNode{
+export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable{
     public title = "";
     public dashboardType = DashboardType.function;
 
@@ -18,7 +19,7 @@ export class FunctionNode extends TreeNode{
         sideNav : SideNavComponent,
         private _functionsNode : FunctionsNode,
         public functionInfo : FunctionInfo,
-        parentNode : TreeNode){
+        public parentNode : TreeNode){
 
         super(sideNav,
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
@@ -40,9 +41,35 @@ export class FunctionNode extends TreeNode{
     public getViewData() : any{
         return this.functionInfo;
     }
+
+    public shouldBlockNavChange() : boolean{
+        return FunctionNode.blockNavChangeHelper(this);
+    }
+
+    public dispose(newSelectedNode? : TreeNode){
+        this.sideNav.broadcastService.clearAllDirtyStates();
+        this.parentNode.dispose(newSelectedNode);
+    }
+
+    public static blockNavChangeHelper(currentNode : TreeNode){
+        var canSwitchFunction = true;
+        if (currentNode.sideNav.broadcastService.getDirtyState('function')
+            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')) {
+
+            let descriptor = new FunctionDescriptor(currentNode.resourceId);
+
+            canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
+                PortalResources.sideBar_changeMade,
+                { 
+                    name: descriptor.functionName
+                }));
+        }
+
+        return !canSwitchFunction;
+    }
 }
 
-export class FunctionEditBaseNode extends TreeNode{
+export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable{
     public dashboardType = DashboardType.function;
     public showExpandIcon = false;
     
@@ -50,13 +77,21 @@ export class FunctionEditBaseNode extends TreeNode{
         sideNav : SideNavComponent,
         public functionInfo : FunctionInfo,
         resourceId : string,
-        parentNode : TreeNode){
+        public parentNode : TreeNode){
 
         super(sideNav, resourceId, parentNode);
     }
 
     public getViewData() : any{
         return this.functionInfo;
+    }
+
+    public shouldBlockNavChange() : boolean{
+        return FunctionNode.blockNavChangeHelper(this);
+    }
+
+    public dispose(newSelectedNode? : TreeNode){
+        this.parentNode.dispose(newSelectedNode);
     }
 }
 

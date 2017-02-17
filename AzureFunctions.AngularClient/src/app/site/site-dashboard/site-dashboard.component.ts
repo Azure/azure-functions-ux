@@ -19,7 +19,7 @@ import {Site} from '../../shared/models/arm/site';
 })
 
 export class SiteDashboardComponent {
-    public selectedTabTitle: string = SiteTabNames.summary;
+    public selectedTabTitle: string = SiteTabNames.overview;
     public site : ArmObj<Site>;
     public viewInfoStream : Subject<TreeViewInfo>;
     public viewInfo : TreeViewInfo;

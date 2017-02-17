@@ -6,11 +6,20 @@ import {TreeViewInfo} from './models/tree-view-info';
 import {Subscription} from '../shared/models/subscription';
 
 export interface Disposable{
-    dispose();
+    dispose(newSelectedNode? : TreeNode);
 }
 
 export interface Removable{
     remove();
+}
+
+export interface Refreshable{
+    refresh();
+}
+
+export interface CanBlockNavChange{
+    // Give a node a chance to prevent a user from navigating away
+    shouldBlockNavChange() : boolean;
 }
 
 export interface MutableCollection{
@@ -18,7 +27,7 @@ export interface MutableCollection{
     removeChild(child : any, callRemoveOnChild? : boolean);
 }
 
-export class TreeNode implements Disposable, Removable{
+export class TreeNode implements Disposable, Removable, CanBlockNavChange{
     public isExpanded : boolean;
     public showExpandIcon : boolean = true;
     public iconClass : string;
@@ -27,7 +36,7 @@ export class TreeNode implements Disposable, Removable{
     public title : string;
     public dashboardType : DashboardType;
     public newDashboardType : DashboardType;
-    public supportsAdvanced : boolean = false;
+    public supportsAdvanced = false;
     public supportsScope = false;
     public disabled = false;
 
@@ -48,6 +57,14 @@ export class TreeNode implements Disposable, Removable{
         }
     }
 
+    public refresh(){
+        if(this.isExpanded){
+            this._loadChildren();
+        }
+
+        this.sideNav.updateView(this, this.dashboardType);
+    }
+
     public toggle(event){
         
         if(!this.isExpanded){
@@ -63,20 +80,16 @@ export class TreeNode implements Disposable, Removable{
         if(event){
             event.stopPropagation();
         }
-
-        // this.sideNav.nodeExpanded(this.resourceId);
     }
 
     public openCreateNew(event){
         this.sideNav.updateView(this, this.newDashboardType);
-
-        // this.sideNav.updateViewInfo(<TreeViewInfo>{
-        //     resourceId : this.resourceId,
-        //     dashboardType : this.newDashboardType,
-        // });
     }
 
-    // Abstract
+    public shouldBlockNavChange() : boolean{
+        return false;
+    }
+
     protected _loadChildren(){
         this._doneLoading();
     }
@@ -89,7 +102,7 @@ export class TreeNode implements Disposable, Removable{
         }
     }
 
-    public dispose(){
+    public dispose(newSelectedNode? : TreeNode){
     }
 
     public remove(){
@@ -124,21 +137,3 @@ export class TreeNode implements Disposable, Removable{
         this.sideNav.searchExact(this.title);
     }
 }
-
-// export class AdvancedNode extends TreeNode{
-//     public dashboardType = DashboardType.advanced;
-//     public showExpandIcon = false;
-
-//     constructor(sideBar : SideBarComponent, resourceId : string){
-//         super(sideBar, resourceId);
-//     }
-// }
-
-// export class AdvancedWriteNode extends TreeNode{
-//     public dashboardType = DashboardType.advancedWrite;
-//     public showExpandIcon = false;
-
-//     constructor(sideBar : SideBarComponent, resourceId : string){
-//         super(sideBar, resourceId);
-//     }
-// }

@@ -4,6 +4,7 @@ import {Injectable, EventEmitter} from '@angular/core';
 import {ArmService} from './arm.service';
 import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from 'rxjs/Rx';
 import {Http, Headers, Response} from '@angular/http';
+import { ClearCache } from '../decorators/cache.decorator';
 
 export interface CacheItem{
     id : string,
@@ -60,8 +61,9 @@ export class CacheService {
         return this._send(url, "POST", force, headers, content);
     }
 
-    clearCache(url : string){
-        delete this._cache[url.toLowerCase()];
+    @ClearCache('clearAllCachedData')
+    clearCache(){
+        this._cache = new Cache();
     }
 
     clearCachePrefix(prefix : string){

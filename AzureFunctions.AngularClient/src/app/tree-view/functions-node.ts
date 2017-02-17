@@ -1,4 +1,5 @@
-import { TreeNode, MutableCollection } from './tree-node';
+import { FunctionDescriptor } from './../shared/resourceDescriptors';
+import { TreeNode, MutableCollection, Disposable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
@@ -11,7 +12,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
 
-export class FunctionsNode extends TreeNode implements MutableCollection{
+export class FunctionsNode extends TreeNode implements MutableCollection, Disposable{
     public title = "Functions";
     public dashboardType = DashboardType.none;
     public newDashboardType = DashboardType.createFunction;
@@ -49,6 +50,10 @@ export class FunctionsNode extends TreeNode implements MutableCollection{
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
     
+    public dispose(newSelectedNode? : TreeNode){
+        this.parentNode.dispose(newSelectedNode);
+    }
+
     public handleStoppedSite(){
         this.newDashboardType = null;
         this.children = [];

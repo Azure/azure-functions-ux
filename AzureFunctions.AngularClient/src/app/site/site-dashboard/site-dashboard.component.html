@@ -1,14 +1,14 @@
 <tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'onTabClosed($event)'>
-    <tab [tabTitle]="TabNames.summary">
-        <site-summary *ngIf="selectedTabTitle === TabNames.summary"
+    <tab [tabTitle]="TabNames.overview">
+        <site-summary *ngIf="selectedTabTitle === TabNames.overview"
                       [viewInfoInput]="viewInfo"
                       (openTabEvent)="openTab($event)"></site-summary>
     </tab>
     <!--<tab [tabTitle]="TabNames.monitor">
         <site-monitor *ngIf="selectedTabTitle === TabNames.monitor" [siteInput]="site"></site-monitor>
     </tab>-->
-    <tab [tabTitle]="TabNames.manage">
-        <site-manage *ngIf="selectedTabTitle === TabNames.manage" [siteInput]="site" (openTabEvent)="openTab($event)"></site-manage>
+    <tab [tabTitle]="TabNames.features">
+        <site-manage *ngIf="selectedTabTitle === TabNames.features" [siteInput]="site" (openTabEvent)="openTab($event)"></site-manage>
     </tab>
     <tab [tabTitle]="TabNames.functionRuntime">
         <div style="margin-left: 15px">

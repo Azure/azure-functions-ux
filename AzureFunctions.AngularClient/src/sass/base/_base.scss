@@ -3,6 +3,11 @@ body {
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
 }
 
+.content{
+    position: absolute;
+    width: 100%;
+}
+
 .clickable {
     cursor: pointer;
 }
