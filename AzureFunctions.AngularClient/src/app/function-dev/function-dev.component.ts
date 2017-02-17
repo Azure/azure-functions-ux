@@ -178,7 +178,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }, 0);
 
                 if (!this._functionsService.isMultiKeySupported) {
-                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
                 }
@@ -299,24 +298,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         setTimeout(() => {
             this.onResize();
         }, 0);
-    }
-
-    private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
-        if (!secrets.key) {
-            if (this.isHttpFunction) {
-                //http://stackoverflow.com/a/8084248/3234163
-                let secret = '';
-                do {
-                    secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                } while (secret.length < 32 || secret.length > 128);
-                this._functionsService.setSecrets(fi, { key: secret })
-                    .subscribe(r => this.secrets = r);
-            } else {
-                this.secrets = secrets;
-            }
-        } else {
-            this.secrets = secrets;
-        }
     }
 
     ngOnDestroy() {
