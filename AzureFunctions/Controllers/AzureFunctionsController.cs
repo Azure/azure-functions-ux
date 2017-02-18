@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -109,6 +110,26 @@ namespace AzureFunctions.Controllers
             }
             resxFiles.Add(templateResourcesPath);
             result["en"] = ConvertResxToJObject(resxFiles);
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetConfig()
+        {
+            const string AppSettingsPrefix = "$";
+            var result = new JObject();
+
+            foreach (string key in ConfigurationManager.AppSettings.Keys)
+            {
+                if (key.StartsWith(AppSettingsPrefix))
+                {
+                    string friendlyKey = key.Substring(AppSettingsPrefix.Length);
+                    string value = ConfigurationManager.AppSettings[key];
+                                       
+                    result[friendlyKey] = value;
+                }                
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }

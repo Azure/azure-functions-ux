@@ -325,6 +325,8 @@
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\config.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\config.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\functions.service.spec.ts" />

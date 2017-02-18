@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,13 @@ namespace AzureFunctions.Authentication
 {
     public class FrontEndAuthProvider : IAuthProvider
     {
+        public FrontEndAuthProvider()
+        {
+            this.AzureResourceManagementEndpoint = ConfigurationManager.AppSettings["$AzureResourceManagerEndpoint"];
+        }
+
+        public string AzureResourceManagementEndpoint { get; private set; }
+
         public bool TryAuthenticateRequest(HttpContextBase context)
         {
             IPrincipal principal = null;
@@ -86,7 +94,7 @@ namespace AzureFunctions.Authentication
         private bool TryGetTenantForSubscription(string subscriptionId, out string tenantId)
         {
             tenantId = string.Empty;
-            var requestUri = string.Format(Constants.SubscriptionTemplate, Constants.CSMUrl, subscriptionId, Constants.CSMApiVersion);
+            var requestUri = string.Format(Constants.SubscriptionTemplate, this.AzureResourceManagementEndpoint, subscriptionId, Constants.CSMApiVersion);
             var request = WebRequest.CreateHttp(requestUri);
             using (var response = request.GetResponseWithoutExceptions())
             {

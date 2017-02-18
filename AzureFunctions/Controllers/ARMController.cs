@@ -1,6 +1,7 @@
 ﻿using AzureFunctions.Common;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +18,13 @@ namespace AzureFunctions.Controllers
         private const char base64Character63 = '/';
         private const char base64UrlCharacter62 = '-';
         private const char base64UrlCharacter63 = '_';
+
+        public ARMController()
+        {
+            this.AzureResourceManagementEndpoint = ConfigurationManager.AppSettings["$AzureResourceManagerEndpoint"];
+        }
+
+        public string AzureResourceManagementEndpoint { get; private set; }
 
         [Authorize]
         [HttpGet]
@@ -61,7 +69,7 @@ namespace AzureFunctions.Controllers
             }
             else
             {
-                using (var client = GetClient("https://management.azure.com/"))
+                using (var client = GetClient(this.AzureResourceManagementEndpoint))
                 {
                     var response = await client.GetAsync("tenants?api-version=2014-04-01");
                     if (!response.IsSuccessStatusCode)
