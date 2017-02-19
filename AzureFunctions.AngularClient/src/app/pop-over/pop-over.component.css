@@ -7,9 +7,6 @@
 .pop-over-container {
   cursor: default;
   display: inline-block;
-  font-family: 'Helvetica',sans-serif;
-  font-size: 18px;
-  font-weight: bold;
   position: relative;
   text-align: center;
 }

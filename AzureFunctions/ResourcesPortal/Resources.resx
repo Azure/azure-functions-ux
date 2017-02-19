@@ -1054,4 +1054,10 @@
   <data name="functionKeys_revoke" xml:space="preserve">
     <value>Revoke</value>
   </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
 </root>

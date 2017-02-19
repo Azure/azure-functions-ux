@@ -245,10 +245,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.codeEditor) {
-                this.codeEditor.setLayout(
-                    editorContainerWidth - 2,
-                    editorContainerHeight - 2
-                );
+            this.codeEditor.setLayout(
+                editorContainerWidth - 2,
+                editorContainerHeight - 2
+            );
         }
 
         if (this.rightContainer) {

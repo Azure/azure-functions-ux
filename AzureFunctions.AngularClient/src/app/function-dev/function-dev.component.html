@@ -87,8 +87,10 @@
                     <!-- Logs -->
                     <div style="display: flex; flex-direction: column;">
 
-                        <div *ngIf="!bottomTab" style="border-top: 1px solid #ccc; height: 50px; margin-top: 25px;">
-                            <span class="link bubble-label" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i>&nbsp;</span>
+                        <div *ngIf="!bottomTab" style="border-top: 1px solid #ccc; height: 50px; margin-top: 25px;display: flex; align-items: flex-end;padding-left: 10px;">
+                            <span class="text-level2-heading tab-label-disabled" (click)="clickRightTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+                            <span style="flex-grow: 1;"></span>
+                            <span style="padding-right: 10px;" class="tab-label text-level2-heading" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i></span>
                         </div>
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">

@@ -39,18 +39,15 @@ pre {
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
     padding: 0px;
     margin: 0px;
+    color: #000000;
 }
 
 .text-level1-heading {
     @extend .text;
-    color: #000000;
     font-size: 18px;
-    font-weight: 200/300;
 }
 
 .text-level2-heading {
     @extend .text;
-    color: #000000;
     font-size: 15px;
-    font-weight: 200/300;
 }

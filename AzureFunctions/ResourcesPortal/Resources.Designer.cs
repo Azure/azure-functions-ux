@@ -2095,6 +2095,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Compress.
+        /// </summary>
+        internal static string logStreaming_compress {
+            get {
+                return ResourceManager.GetString("logStreaming_compress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copied!.
         /// </summary>
         internal static string logStreaming_copied {
@@ -2109,6 +2118,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string logStreaming_copyLogs {
             get {
                 return ResourceManager.GetString("logStreaming_copyLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand.
+        /// </summary>
+        internal static string logStreaming_expand {
+            get {
+                return ResourceManager.GetString("logStreaming_expand", resourceCulture);
             }
         }
         
