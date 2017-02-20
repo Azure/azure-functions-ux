@@ -94,11 +94,11 @@ export class SideNavComponent{
         });
     }
 
-    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
+    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType) : boolean{
         if(this._selectedNode){
             if(this._selectedNode !== newSelectedNode){
                 if(this._selectedNode.shouldBlockNavChange()){
-                    return;
+                    return false;
                 }
 
                 this._selectedNode.dispose(newSelectedNode);
@@ -116,6 +116,7 @@ export class SideNavComponent{
         };
 
         this.treeViewInfoEvent.emit(viewInfo);
+        return true;
     }
 
     clearView(resourceId : string){

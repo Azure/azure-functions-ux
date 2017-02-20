@@ -28,11 +28,18 @@
 
             <!-- Optional menu icons that show up on right side of each node -->
             <span class="tree-node-menu"
-                  *ngIf="child.showMenu || child.sideNav?.resourceId?.startsWith(child.resourceId)">
+                  *ngIf="child.showMenu
+                        || child.sideNav?.resourceId === child.resourceId
+                        || child.sideNav?.resourceId?.startsWith(child.resourceId + '/')">
 
               <i *ngIf="child.disabled"
                  class="fa fa-info-circle warning"
                  title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+
+              <i *ngIf="child.supportsRefresh"
+                 (click)="child.refresh($event)"
+                 class="fa fa-refresh tree-node-refresh-icon"
+                 title="Refresh"></i>
 
               <i *ngIf="!!child.newDashboardType"
                  (click)="child.openCreateNew($event)"

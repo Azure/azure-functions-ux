@@ -215,13 +215,6 @@ export class SiteSummaryComponent {
         }
     }
 
-    syncTriggers(){
-        this._aiService.trackEvent('/actions/refresh');
-        (<AppNode>this._viewInfo.node).functionApp.fireSyncTrigger();
-        this._cacheService.clearCache();
-        this._viewInfo.node.refresh();
-    }
-
     private _stopOrStartSite(stop : boolean){
         // Save reference to current values in case user clicks away
         let site = this.site;

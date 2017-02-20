@@ -24,6 +24,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public dashboardType = DashboardType.app;
     public disabled = false;
     public supportsScope = true;
+    public supportsRefresh = false;
 
     public title : string;
     // public subscriptionId : string;
@@ -70,12 +71,15 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public configureBackgroundTasks(forceLoadChildren : boolean){
+
+        if(this._pollingTask){
+            return;
+        }
+
+        this.supportsRefresh = false;
+
         this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
-        .distinctUntilChanged()
         .subscribe(r =>{
-            if(this._pollingTask){
-                return;
-            }
 
             let site : ArmObj<Site> = r.json();
             
@@ -110,8 +114,26 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this.updateTreeForStoppedSite();
             }
 
+            this.supportsRefresh = true;
             this._doneLoading();
         })
+    }
+
+    public refresh(event){
+
+        // Calling select won't actually reload any children because the node needs to
+        // be disposed first.  This is useful because we don't want to clean up if the user
+        // gets a dirty state pop-up and cancels the refresh.  If they agree, then we call dispose
+        // and then can call configureBackgroundTasks to reload all children and setup background tasks.
+        if(this.select()){
+            this.sideNav.aiService.trackEvent('/actions/refresh');
+            this.functionApp.fireSyncTrigger();
+            this.sideNav.cacheService.clearCache();
+            this.dispose();
+            this.configureBackgroundTasks(true);
+        }
+
+        event.stopPropagation();
     }
 
     public remove(){

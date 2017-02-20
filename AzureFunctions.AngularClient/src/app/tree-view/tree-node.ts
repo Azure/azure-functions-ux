@@ -40,6 +40,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public title : string;
     public dashboardType : DashboardType;
     public newDashboardType : DashboardType;
+    public supportsRefresh = false;
     public supportsAdvanced = false;
     public supportsScope = false;
     public disabled = false;
@@ -49,28 +50,26 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         public resourceId : string,
         public parent : TreeNode){}
 
-    public select(){
+    public select() : boolean{
         if(this.disabled || !this.resourceId){
             return;
         }
 
-        this.sideNav.updateView(this, this.dashboardType);
+        let viewUpdated = this.sideNav.updateView(this, this.dashboardType);
         
-        if(!this.isExpanded){
+        if(viewUpdated && !this.isExpanded){
             this.toggle(null);
         }
+
+        return viewUpdated;
     }
 
     // Virtual
     public handleSelection(){
     }
 
-    public refresh(){
-        if(this.isExpanded){
-            this._loadChildren();
-        }
-
-        this.sideNav.updateView(this, this.dashboardType);
+    // Virtual
+    public refresh(event){
     }
 
     public toggle(event){
