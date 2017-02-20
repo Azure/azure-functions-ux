@@ -96,15 +96,17 @@ export class SideNavComponent{
 
     updateView(newSelectedNode : TreeNode, dashboardType : DashboardType){
         if(this._selectedNode){
-            if(this._selectedNode.shouldBlockNavChange()){
-                return;
-            }
+            if(this._selectedNode !== newSelectedNode){
+                if(this._selectedNode.shouldBlockNavChange()){
+                    return;
+                }
 
-            this._selectedNode.dispose(newSelectedNode);
+                this._selectedNode.dispose(newSelectedNode);
+            }
         }            
 
+        newSelectedNode.handleSelection();
         this._selectedNode = newSelectedNode;
-
         this.resourceId = newSelectedNode.resourceId;
 
         let viewInfo = <TreeViewInfo>{

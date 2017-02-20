@@ -1,5 +1,6 @@
+import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { TreeNode, Removable, CanBlockNavChange, Disposable } from './tree-node';
+import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import {FunctionsNode} from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
@@ -11,7 +12,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
 
-export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable{
+export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
     public title = "";
     public dashboardType = DashboardType.function;
 
@@ -19,13 +20,19 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         sideNav : SideNavComponent,
         private _functionsNode : FunctionsNode,
         public functionInfo : FunctionInfo,
-        public parentNode : TreeNode){
+        parentNode : TreeNode){
 
         super(sideNav,
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
             parentNode);
 
         this.title = functionInfo.name;
+    }
+
+    public handleSelection(){
+        if(!this.disabled){
+            (<AppNode>this.parent.parent).configureBackgroundTasks(false);
+        }
     }
 
     protected _loadChildren(){
@@ -48,7 +55,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
     public dispose(newSelectedNode? : TreeNode){
         this.sideNav.broadcastService.clearAllDirtyStates();
-        this.parentNode.dispose(newSelectedNode);
+        this.parent.dispose(newSelectedNode);
     }
 
     public static blockNavChangeHelper(currentNode : TreeNode){
@@ -69,7 +76,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 }
 
-export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable{
+export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
     public dashboardType = DashboardType.function;
     public showExpandIcon = false;
     
@@ -80,6 +87,12 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
         public parentNode : TreeNode){
 
         super(sideNav, resourceId, parentNode);
+    }
+
+    public handleSelection(){
+        if(!this.disabled){
+            (<AppNode>this.parent.parent.parent).configureBackgroundTasks(false);
+        }
     }
 
     public getViewData() : any{

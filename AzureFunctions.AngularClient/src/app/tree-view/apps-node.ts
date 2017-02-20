@@ -68,7 +68,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
             if(exactSearchResult && exactSearchResult.length > 1){
                 let filteredChildren = result.children.filter(c =>{
-                    return c.title.toLowerCase() === exactSearchResult[1].toLowerCase();
+                    if(c.title.toLowerCase() === exactSearchResult[1].toLowerCase()){
+                        c.select();
+                        return true;
+                    }
+
+                    return false;
                 })
 
                 // Purposely don't update the stream with the filtered list of children.

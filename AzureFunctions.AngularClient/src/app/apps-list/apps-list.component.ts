@@ -50,7 +50,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   clickRow(item : AppNode){
-    item.select();
     item.sideNav.searchExact(item.title);
   }
 

@@ -1,3 +1,4 @@
+import { TopBarNotification } from './top-bar-models';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
 import {User} from '../shared/models/user';
@@ -24,11 +25,14 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
-    public needUpdateExtensionVersion;
+    // public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
     private showTryView; boolean;
 
-    @Output() private functionAppSettingsClicked: EventEmitter<any>;
+    public visible = false;
+    public topBarNotifications : TopBarNotification[] = [];
+
+    // @Output() private functionAppSettingsClicked: EventEmitter<any>;
 
     constructor(private _userService: UserService,
         private _broadcastService: BroadcastService,
@@ -37,13 +41,19 @@ export class TopBarComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService
     ) {
-        this.functionAppSettingsClicked = new EventEmitter<any>();
+        // this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
 
-        this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
+        this._globalStateService.topBarNotificationsStream
+        .subscribe(topBarNotifications =>{
+            this.visible = this.inIFrame && topBarNotifications && topBarNotifications.length > 0;
+            this.topBarNotifications = topBarNotifications;
+        })
+
+        // this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
             // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
-            this.setVisible();
-        });
+            // this.setVisible();
+        // });
     }
 
     ngOnInit() {
@@ -56,17 +66,17 @@ export class TopBarComponent implements OnInit {
             this._userService.getUser()
                 .subscribe((u) => {
                     this.user = u;
-                    this.setVisible();
+                    // this.setVisible();
                 });
 
             this._userService.getTenants()
                 .subscribe(t => {
                     this.tenants = t;
                     this.currentTenant = this.tenants.find(e => e.Current);
-                    this.setVisible();
+                    // this.setVisible();
                 });
         } else {
-            this.setVisible();
+            // this.setVisible();
         }
 
     }
@@ -75,37 +85,42 @@ export class TopBarComponent implements OnInit {
         window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
     }
 
-
-    set isFunctionSelected(selected: boolean) {
-        this._isFunctionSelected = true;
-    }
-
-    get isFunctionSelected() {
-        return this._isFunctionSelected;
-    }
-
-    private setVisible() {
-        this._globalStateService.showTopbar = !this._globalStateService.isAlwaysOn || (this.showTryView && !this.gettingStarted)
-            || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
-    }
-
-    onFunctionAppSettingsClicked(event: any) {
-        if (this.canLeaveFunction()) {
-            this.functionAppSettingsClicked.emit(event);
+    notificationClick(notification : TopBarNotification){
+        if(notification.clickCallback){
+            notification.clickCallback();
         }
     }
+
+    // set isFunctionSelected(selected: boolean) {
+    //     this._isFunctionSelected = true;
+    // }
+
+    // get isFunctionSelected() {
+    //     return this._isFunctionSelected;
+    // }
+
+    // private setVisible() {
+    //     this._globalStateService.showTopbar = !this._globalStateService.isAlwaysOn || (this.showTryView && !this.gettingStarted)
+    //         || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
+    // }
+
+    // onFunctionAppSettingsClicked(event: any) {
+    //     if (this.canLeaveFunction()) {
+    //         this.functionAppSettingsClicked.emit(event);
+    //     }
+    // }
 
     // TODO: Remove duplicated code between here and SitebarComponent
-    private canLeaveFunction() {
-        var leaveFunction = true;
-        if (this.isFunctionSelected &&
-            (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
-            if (leaveFunction) {
-                this._broadcastService.clearDirtyState('function', true);
-                this._broadcastService.clearDirtyState('function_integrate', true);
-            }
-        }
-        return leaveFunction;
-    }
+    // private canLeaveFunction() {
+    //     var leaveFunction = true;
+    //     if (this.isFunctionSelected &&
+    //         (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
+    //         leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
+    //         if (leaveFunction) {
+    //             this._broadcastService.clearDirtyState('function', true);
+    //             this._broadcastService.clearDirtyState('function_integrate', true);
+    //         }
+    //     }
+    //     return leaveFunction;
+    // }
 }

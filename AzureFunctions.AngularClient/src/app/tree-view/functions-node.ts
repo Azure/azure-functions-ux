@@ -1,5 +1,6 @@
+import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { TreeNode, MutableCollection, Disposable } from './tree-node';
+import { TreeNode, MutableCollection, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
@@ -12,7 +13,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
 
-export class FunctionsNode extends TreeNode implements MutableCollection, Disposable{
+export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection{
     public title = "Functions";
     public dashboardType = DashboardType.none;
     public newDashboardType = DashboardType.createFunction;
@@ -20,16 +21,22 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     constructor(
         sideNav : SideNavComponent,
         public functionApp : FunctionApp,
-        public parentNode : TreeNode){
+        parentNode : TreeNode){
         super(sideNav, functionApp.site.id + "/functions", parentNode);
     }
 
     protected _loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            this.handleStartedSite();
+            this.updateTreeForStartedSite(true);
         }
         else{
-            this.handleStoppedSite();
+            this.updateTreeForStoppedSite();
+        }
+    }
+
+    public handleSelection(){
+        if(!this.disabled){
+            (<AppNode>this.parent).configureBackgroundTasks(false);
         }
     }
 
@@ -51,30 +58,36 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     }
     
     public dispose(newSelectedNode? : TreeNode){
-        this.parentNode.dispose(newSelectedNode);
+        this.parent.dispose(newSelectedNode);
     }
 
-    public handleStoppedSite(){
+    public updateTreeForStoppedSite(){
         this.newDashboardType = null;
         this.children = [];
         this.title = "Functions (Stopped)";
         this._doneLoading();
     }
 
-    public handleStartedSite(){
+    public updateTreeForStartedSite(forceLoadChildren : boolean){
         this.title = "Functions";
         this.newDashboardType = DashboardType.createFunction;
         this.isLoading = true;
-        this.functionApp.getFunctions()
-        .subscribe(fcs =>{
-            let fcNodes = <FunctionNode[]>[];
-            fcs.forEach(fc => {
-                fc.functionApp = this.functionApp;
-                fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
-            });
 
-            this.children = fcNodes;
-            this._doneLoading();
-        });        
+        if(forceLoadChildren || !this.children || this.children.length === 0){
+            this.functionApp.getFunctions()
+            .subscribe(fcs =>{
+                let fcNodes = <FunctionNode[]>[];
+                fcs.forEach(fc => {
+                    fc.functionApp = this.functionApp;
+                    fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
+                });
+
+                this.children = fcNodes;
+                this._doneLoading();
+            });        
+        }
+        else{
+            this._doneLoading();            
+        }
     }
 }

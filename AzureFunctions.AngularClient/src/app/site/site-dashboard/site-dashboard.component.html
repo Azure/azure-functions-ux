@@ -1,3 +1,4 @@
+<div id="site-dashboard-container">
 <tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'onTabClosed($event)'>
     <tab [tabTitle]="TabNames.overview">
         <site-summary *ngIf="selectedTabTitle === TabNames.overview"
@@ -30,3 +31,4 @@
         <deployment-source *ngIf="selectedTabTitle === TabNames.deploymentSource" [siteInput]="site"></deployment-source>
     </tab>-->
 </tabs>
+</div>

@@ -1,3 +1,4 @@
+import { TopBarNotification } from './../../top-bar/top-bar-models';
 import {Injectable} from '@angular/core';
 import {FunctionContainer} from '../models/function-container';
 import {ResourceType} from '../models/binding';
@@ -9,7 +10,7 @@ import {AiService} from './ai.service';
 import {LocalDevelopmentInstructionsComponent} from '../../local-development-instructions/local-development-instructions.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {FunctionsService} from './functions.service';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
+import { Observable, Subscription as RxSubscription, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class GlobalStateService {
@@ -30,6 +31,7 @@ export class GlobalStateService {
     public isRunningLocal: boolean = false;
     public showTopbar: boolean;
     public isAlwaysOn: boolean = true;
+    public topBarNotificationsStream = new Subject<TopBarNotification[]>();
 
     constructor(private _userService: UserService,
       private _armService: ArmService,
@@ -103,6 +105,10 @@ export class GlobalStateService {
     get IsBusy(): boolean
     {
         return (this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy) ? true : false;
+    }
+
+    setTopBarNotifications(items : TopBarNotification[]){
+        this.topBarNotificationsStream.next(items);
     }
 
     get CurrentToken(): string {

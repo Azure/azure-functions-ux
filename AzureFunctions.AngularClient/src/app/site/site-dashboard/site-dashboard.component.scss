@@ -1,5 +1,9 @@
 @import '../../../sass/main';
 
+#site-dashboard-container{
+    padding-top: 5px;
+}
+
 .site-hidden-text{
     font-style: italic;
     color: darken($chrome-color, 30%);

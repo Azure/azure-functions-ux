@@ -1,8 +1,9 @@
-import {Component, OnInit, EventEmitter, Input, ViewChild} from '@angular/core';
+import { SiteTabNames } from './../../shared/models/constants';
+import { AppNode } from './../../tree-view/app-node';
+import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {TabsComponent} from '../../tabs/tabs.component';
 import {TabComponent} from '../../tab/tab.component';
-import {SiteTabNames} from '../../shared/models/constants';
 import {CacheService} from '../../shared/services/cache.service';
 import {GlobalStateService} from '../../shared/services/global-state.service';
 import {TreeViewInfo} from '../../tree-view/models/tree-view-info';
@@ -45,6 +46,23 @@ export class SiteDashboardComponent {
                 let site : ArmObj<Site> = r.json();
                 this._globalStateService.clearBusyState();
                 this.site = site;
+
+                // Is a bit hacky but seems to work well enough in waiting for the tabs to load.
+                // AfterContentInit doesn't work and even if it did, it only gets called on the first
+                // time the component is loaded.
+                setTimeout(() =>{
+                    let appNode = <AppNode>this.viewInfo.node;
+                    if(appNode.openFunctionTab && this.tabs && this.tabs.tabs){
+                        let tabs = this.tabs.tabs.toArray();
+                        let functionTab = tabs.find(t => t.title === SiteTabNames.functionRuntime);
+                        if(functionTab){
+                            this.tabs.selectTab(functionTab);
+                        }
+
+                        appNode.openFunctionTab = false;
+                    }
+                },
+                100);
             })
     }
 

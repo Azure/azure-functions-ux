@@ -232,7 +232,7 @@ export class SiteSummaryComponent {
         this._globalStateService.setBusyState();
         this._armService.post(`${site.id}/${action}`, null)
         .switchMap(()=>{
-            stop ? appNode.handleStoppedSite() : appNode.handleStartedSite();
+            stop ? appNode.updateTreeForStoppedSite() : appNode.updateTreeForStartedSite();
             return this._cacheService.getArm(`${site.id}`, true);
         })
         .subscribe(r =>{

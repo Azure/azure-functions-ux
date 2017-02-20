@@ -5,6 +5,10 @@ import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
 import {Subscription} from '../shared/models/subscription';
 
+export interface CustomSelection{
+    handleSelection();
+}
+
 export interface Disposable{
     dispose(newSelectedNode? : TreeNode);
 }
@@ -27,12 +31,12 @@ export interface MutableCollection{
     removeChild(child : any, callRemoveOnChild? : boolean);
 }
 
-export class TreeNode implements Disposable, Removable, CanBlockNavChange{
+export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection{
     public isExpanded : boolean;
     public showExpandIcon : boolean = true;
     public iconClass : string;
     public isLoading : boolean;
-    public children : TreeNode[];
+    public children : TreeNode[] = [];
     public title : string;
     public dashboardType : DashboardType;
     public newDashboardType : DashboardType;
@@ -55,6 +59,10 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange{
         if(!this.isExpanded){
             this.toggle(null);
         }
+    }
+
+    // Virtual
+    public handleSelection(){
     }
 
     public refresh(){
@@ -96,8 +104,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange{
 
     protected _doneLoading(){
         this.isLoading = false;
-        this.showExpandIcon = !!this.children && this.children.length > 0;
-        if(this.children && this.children.length === 1){
+        // this.showExpandIcon = !!this.children && this.children.length > 0;
+        if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
             this.children[0].toggle(null);
         }
     }

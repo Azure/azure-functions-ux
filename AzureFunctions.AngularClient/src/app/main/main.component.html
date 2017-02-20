@@ -1,4 +1,5 @@
-<!--<top-bar></top-bar>-->
+<top-bar></top-bar>    
+
 <div class="content">
     <busy-state name='global'></busy-state>
     <side-nav (treeViewInfoEvent)="updateViewInfo($event)"></side-nav>
@@ -11,6 +12,7 @@
         <!--<div *ngIf="!viewInfo" id="dashboard-blank">&nbsp;</div>-->
 
         <div *ngIf="!!viewInfo">
+            
             <!--<breadcrumbs [viewInfoInput]="viewInfo"></breadcrumbs>-->
             <!--<top-right-menu></top-right-menu>-->
 
