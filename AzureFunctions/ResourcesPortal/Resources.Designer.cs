@@ -88,7 +88,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API proxies are currently disabled. To enable, visit.
+        ///   Looks up a localized string similar to Azure Functions Proxies are currently disabled. To enable, visit.
         /// </summary>
         internal static string apiProxies_warningOff {
             get {
@@ -142,7 +142,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API proxy or function with that name already exsists..
+        ///   Looks up a localized string similar to Proxy or function with that name already exsists..
         /// </summary>
         internal static string apiProxy_errorExists {
             get {
@@ -223,7 +223,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API proxies (preview).
+        ///   Looks up a localized string similar to Proxies (preview).
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
             get {
@@ -556,7 +556,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use API proxies.
+        ///   Looks up a localized string similar to Enable Azure Functions Proxies (preview).
         /// </summary>
         internal static string appFunctionSettings_useApiProxies {
             get {
@@ -2311,7 +2311,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?.
+        ///   Looks up a localized string similar to Changes made to proxy {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
         internal static string sideBar_changeMadeApiProxy {
             get {
@@ -2329,7 +2329,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New API Proxy.
+        ///   Looks up a localized string similar to New proxy.
         /// </summary>
         internal static string sidebar_newApiProxy {
             get {
