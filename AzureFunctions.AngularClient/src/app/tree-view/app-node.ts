@@ -64,22 +64,31 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.subscription = sub && sub.displayName;
     }
 
-    public handleSelection(){
+    public handleSelection() : Observable<any>{
         if(!this.disabled){
-            this.configureBackgroundTasks(false);
+            return this.configureBackgroundTasks(false);
         }
+
+        return Observable.of({});
     }
 
-    public configureBackgroundTasks(forceLoadChildren : boolean){
+    protected _loadChildren(){
+        this.handleSelection()
+        .subscribe(() =>{
+            this._doneLoading();
+        });
+    }
+
+    public configureBackgroundTasks(forceLoadChildren : boolean) : Observable<any>{
 
         if(this._pollingTask){
-            return;
+            return Observable.of({});
         }
 
         this.supportsRefresh = false;
 
-        this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
-        .subscribe(r =>{
+        return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
+        .map(r =>{
 
             let site : ArmObj<Site> = r.json();
             
@@ -125,13 +134,18 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         // be disposed first.  This is useful because we don't want to clean up if the user
         // gets a dirty state pop-up and cancels the refresh.  If they agree, then we call dispose
         // and then can call configureBackgroundTasks to reload all children and setup background tasks.
-        if(this.select()){
-            this.sideNav.aiService.trackEvent('/actions/refresh');
-            this.functionApp.fireSyncTrigger();
-            this.sideNav.cacheService.clearCache();
-            this.dispose();
-            this.configureBackgroundTasks(true);
-        }
+        this.selectAsync()
+        .subscribe(viewUpdated =>{
+            if(viewUpdated){
+                this.sideNav.aiService.trackEvent('/actions/refresh');
+                this.functionApp.fireSyncTrigger();
+                this.sideNav.cacheService.clearCache();
+                this.dispose();
+                
+                this.configureBackgroundTasks(true)
+                .subscribe(() =>{})
+            }
+        })
 
         event.stopPropagation();
     }

@@ -3,7 +3,7 @@ import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import {FunctionsNode} from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject } from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -29,10 +29,12 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.title = functionInfo.name;
     }
 
-    public handleSelection(){
+    public handleSelection() : Observable<any>{
         if(!this.disabled){
-            (<AppNode>this.parent.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent.parent).configureBackgroundTasks(false);
         }
+
+        return Observable.of({});
     }
 
     protected _loadChildren(){
@@ -89,10 +91,12 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
         super(sideNav, resourceId, parentNode);
     }
 
-    public handleSelection(){
+    public handleSelection() : Observable<any>{
         if(!this.disabled){
-            (<AppNode>this.parent.parent.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent.parent.parent).configureBackgroundTasks(false);
         }
+
+        return Observable.of({});
     }
 
     public getViewData() : any{

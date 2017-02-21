@@ -1,5 +1,5 @@
 import { Disposable } from './tree-node';
-import {Subject} from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
@@ -50,22 +50,37 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         public resourceId : string,
         public parent : TreeNode){}
 
-    public select() : boolean{
+    public select() : void {
         if(this.disabled || !this.resourceId){
             return;
         }
 
-        let viewUpdated = this.sideNav.updateView(this, this.dashboardType);
-        
-        if(viewUpdated && !this.isExpanded){
-            this.toggle(null);
+        this.sideNav.updateView(this, this.dashboardType)
+        .subscribe(viewUpdated =>{
+            if(viewUpdated && !this.isExpanded){
+                this.toggle(null);
+            }        
+        })        
+    }
+
+    public selectAsync() : Observable<boolean>{
+        if(this.disabled || !this.resourceId){
+            return;
         }
 
-        return viewUpdated;
+        return this.sideNav.updateView(this, this.dashboardType)
+        .map(viewUpdated =>{
+            if(viewUpdated && !this.isExpanded){
+                this.toggle(null);
+            }
+
+            return viewUpdated;
+        })
     }
 
     // Virtual
-    public handleSelection(){
+    public handleSelection() : Observable<any>{
+        return Observable.of(null);
     }
 
     // Virtual
@@ -90,7 +105,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public openCreateNew(event){
-        this.sideNav.updateView(this, this.newDashboardType);
+        this.sideNav.updateView(this, this.newDashboardType)
+        .subscribe(() =>{});
     }
 
     public shouldBlockNavChange() : boolean{

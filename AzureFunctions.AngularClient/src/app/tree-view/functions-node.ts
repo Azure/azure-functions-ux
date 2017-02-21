@@ -2,7 +2,7 @@ import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject } from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -34,10 +34,12 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         }
     }
 
-    public handleSelection(){
+    public handleSelection() : Observable<any>{
         if(!this.disabled){
-            (<AppNode>this.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent).configureBackgroundTasks(false);
         }
+
+        return Observable.of({});
     }
 
     public addChild(functionInfo : FunctionInfo){

@@ -94,18 +94,17 @@ export class SideNavComponent{
         });
     }
 
-    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType) : boolean{
+    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType) : Observable<boolean>{
         if(this._selectedNode){
             if(this._selectedNode !== newSelectedNode){
                 if(this._selectedNode.shouldBlockNavChange()){
-                    return false;
+                    return Observable.of(false);
                 }
 
                 this._selectedNode.dispose(newSelectedNode);
             }
         }            
 
-        newSelectedNode.handleSelection();
         this._selectedNode = newSelectedNode;
         this.resourceId = newSelectedNode.resourceId;
 
@@ -116,7 +115,11 @@ export class SideNavComponent{
         };
 
         this.treeViewInfoEvent.emit(viewInfo);
-        return true;
+
+        return newSelectedNode.handleSelection()
+        .map(complete =>{
+            return true;
+        })
     }
 
     clearView(resourceId : string){
