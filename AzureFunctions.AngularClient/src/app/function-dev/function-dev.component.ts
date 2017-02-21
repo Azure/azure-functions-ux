@@ -209,7 +209,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var warningTopBarHeight = 39;
+
         var functionNameHeight = 46;
         var editorPadding = 25;
 
@@ -253,6 +253,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         if (this.rightContainer) {
             this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
+            //this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
         }
 
         if (this.bottomContainer) {
@@ -264,10 +265,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             var widthDataEditor = rigthContainerWidth - 34;
 
             setTimeout(() => {
-                this.testDataEditor.setLayout(
-                    this.rightTab ? widthDataEditor : 0,
-                    this.isHttpFunction ? 150 : functionContainaerHeight / 2
-                )
+                if (this.testDataEditor) {
+                    this.testDataEditor.setLayout(
+                        this.rightTab ? widthDataEditor : 0,
+                        this.isHttpFunction ? 150 : functionContainaerHeight / 2
+                    )
+                }
             }, 0);
         }
     }
@@ -468,7 +471,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.onResize();
         }
         var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
-        busyComponent.setBusyState();
+
+        if (busyComponent) {
+            busyComponent.setBusyState();
+        }
 
         this.saveTestData();
 
@@ -582,7 +588,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             this.running = result.subscribe(r => {
                 this.runResult = r;
-                busyComponent.clearBusyState();
+                if (busyComponent) {
+                    busyComponent.clearBusyState();
+                }
                 delete this.running;
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);

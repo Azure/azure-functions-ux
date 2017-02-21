@@ -1,35 +1,8 @@
 <div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
     <div *ngIf="scriptFile" class="dev-full">
-
-        <!--<div class="header">
-            <div class="header-code">
-                <h2>{{fileName}}</h2>
-                <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
-                <span>
-                    <button *ngIf="scriptFile.isDirty"
-                            [class.custom-button]="runValid"
-                            [class.custom-button-disabled]="!runValid"
-                            [class.dirty]="scriptFile.isDirty"
-                            (click)="runFunction()">
-                        {{ 'functionDev_saveAndRun' | translate }}
-                    </button>
-                    <button *ngIf="!scriptFile.isDirty"
-                            [class.custom-button]="runValid"
-                            [class.custom-button-disabled]="!runValid"
-                            [class.dirty]="scriptFile.isDirty"
-                            (click)="runFunction()">
-                        {{ 'run' | translate }}
-                    </button>
-                    <button *ngIf="running"
-                            class="custom-button cancel-button"
-                            (click)="cancelCurrentRun()">
-                        {{ 'cancel' | translate }}
-                    </button>
-                </span>
-            </div>
-        </div>-->
-
         <div>
+
+            <busy-state name="run-busy"></busy-state>
 
             <div style="display: flex">
 
@@ -45,17 +18,19 @@
                             </span>
                             <span>
                                 <button *ngIf="scriptFile.isDirty"
-                                        [class.custom-button]="runValid"
+                                        [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
+                                    <i class="fa fa-remove"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
                                 <button *ngIf="!scriptFile.isDirty"
-                                        [class.custom-button]="runValid"
+                                        [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
+                                    <i class="fa fa-remove"></i>
                                     {{ 'run' | translate }}
                                 </button>
                                 <button *ngIf="running"
@@ -103,8 +78,11 @@
 
                 </div>
 
+                <!--<busy-state name="run-busy"></busy-state>-->
+
                 <!-- Right bar-->
                 <div style="display: flex; flex-grow: 1;">
+
                     <div *ngIf="!rightTab" class="line-vertical">
                     </div>
 
@@ -131,7 +109,7 @@
                         </div>
 
 
-                        <div [hidden]="rightTab!=='files'" *ngIf="functionInfo" class="dev-full">
+                        <div *ngIf="rightTab==='files' && functionInfo" class="dev-full">
                             <file-explorer [functionInfo]="functionInfo"
                                            [selectedFile]="scriptFile"
                                            (selectedFileChange)="selectedFileStream.next($event)"
@@ -139,10 +117,11 @@
                             </file-explorer>
                         </div>
 
-                        <div [hidden]="rightTab!=='run'" class="dev-full dev-border run-container" [class.run-container-http]="isHttpFunction">
-                            <busy-state name="run-busy"></busy-state>
+                        <div *ngIf="rightTab==='run'" style="display: flex; flex-direction: column;" class="dev-full dev-border" [class.run-container-http]="isHttpFunction">
 
-                            <div class="dev-full dev-flex-column" *ngIf="functionInfo">
+
+                            <div style="flex-grow:1;padding-left: 10px; padding-right: 10px;" class="dev-full dev-flex-column" *ngIf="functionInfo">
+
                                 <run-http *ngIf="isHttpFunction"
                                           [functionInvokeUrl]="functionInvokeUrl"
                                           [functionInfo]="functionInfo"
@@ -192,9 +171,33 @@
                                 </span>
 
                             </div>
+
+                            <div style="height: 60px; border-top: 1px solid #ccc; padding-top: 10px;">
+                                <!--<button *ngIf="scriptFile.isDirty"
+                                        [class.custom-button]="runValid"
+                                        [class.custom-button-disabled]="!runValid"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'functionDev_saveAndRun' | translate }}
+                                </button>
+                                <button *ngIf="!scriptFile.isDirty"
+                                        [class.custom-button]="runValid"
+                                        [class.custom-button-disabled]="!runValid"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'run' | translate }}
+                                </button>-->
+                                <button 
+                                        [class.custom-button]="runValid"
+                                        [class.custom-button-disabled]="!runValid"
+                                        [class.dirty]="scriptFile.isDirty"
+                                        (click)="runFunction()">
+                                    {{ 'run' | translate }}
+                                </button>
+                            </div>
                         </div>
 
-                        <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
+                        <div *ngIf="rightTab==='keys' && functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
                             <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
                             <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
                             <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>

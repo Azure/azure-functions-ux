@@ -35,11 +35,11 @@ div.right-block {
     flex-direction:column;
 }
 
-.run-container {
+/*.run-container {
     padding-left: 10px;
     padding-right: 10px;
     position: relative;
-}
+}*/
 
 .run-label {
     padding-top: 5px;

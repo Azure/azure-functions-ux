@@ -42,8 +42,10 @@
     </div>-->
     <pre id="log-stream" class="log-stream" tabindex="1"
          (keydown)="handleKeyPress($event)"
-         style="margin: 0px 25px 10px 25px;"
-         [class.height-fixed]="isHttpLogs">{{log}}</pre>
+         [class.height-fixed]="isHttpLogs"
+         [class.http-logs]="isHttpLogs"
+         [class.bottom-logs]="!isHttpLogs">{{log}}</pre>
+
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
         {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
     </div>
