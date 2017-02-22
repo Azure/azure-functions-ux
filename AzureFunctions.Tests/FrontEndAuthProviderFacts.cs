@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Web;
 using Xunit;
+using AzureFunctions.Code;
 
 namespace AzureFunctions.Tests
 {
@@ -32,7 +33,7 @@ namespace AzureFunctions.Tests
             request.UrlReferrer.Returns(new Uri("http://example.com"));
             context.Request.Returns(request);
 
-            var frontEndAuth = new FrontEndAuthProvider();
+            var frontEndAuth = new FrontEndAuthProvider(new Settings());
             Assert.True(frontEndAuth.TryAuthenticateRequest(context), $"Assert TryAuthenticate is successful. {email}, {firstName}, {lastName}");
             Assert.NotNull(context.User);
             Assert.True(context.User is AzureFunctionsPrincipal);
