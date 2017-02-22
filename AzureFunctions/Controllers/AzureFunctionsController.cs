@@ -21,8 +21,6 @@ namespace AzureFunctions.Controllers
 
         private readonly ISettings _settings;
 
-        private readonly IClientConfigurationManager _clientConfig;
-
         private Dictionary<string, string> _languageMap = new Dictionary<string, string>()
         {
             { "ja", "ja-JP"},
@@ -33,11 +31,10 @@ namespace AzureFunctions.Controllers
             { "zh-hant", "zh-CN"}
         };
 
-        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IClientConfigurationManager clientConfig)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
         {
             this._templatesManager = templatesManager;
             this._settings = settings;
-            this._clientConfig = clientConfig;
         }
 
         [HttpGet]
@@ -119,7 +116,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetClientConfiguration()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, _clientConfig.GetClientConfiguration());
+            return Request.CreateResponse(HttpStatusCode.OK, this._settings.GetClientConfiguration());
         }
 
         [Authorize]

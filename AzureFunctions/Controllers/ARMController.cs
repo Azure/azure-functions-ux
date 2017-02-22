@@ -20,13 +20,11 @@ namespace AzureFunctions.Controllers
         private const char base64UrlCharacter62 = '-';
         private const char base64UrlCharacter63 = '_';
 
-        private readonly IClientConfigurationManager _clientConfigManager;
-        private readonly ClientConfiguration _clientConfig;
+        private readonly ISettings _settings;
 
-        public ARMController(IClientConfigurationManager clientConfigManager)
+        public ARMController(ISettings settings)
         {
-            this._clientConfigManager = clientConfigManager;
-            this._clientConfig = _clientConfigManager.GetClientConfiguration();
+            this._settings = settings;
         }
 
         [Authorize]
@@ -72,7 +70,7 @@ namespace AzureFunctions.Controllers
             }
             else
             {
-                using (var client = GetClient(this._clientConfig.AzureResourceManagerEndpoint))
+                using (var client = GetClient(this._settings.AzureResourceManagerEndpoint))
                 {
                     var response = await client.GetAsync("tenants?api-version=2014-04-01");
                     if (!response.IsSuccessStatusCode)

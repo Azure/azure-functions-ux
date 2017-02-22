@@ -229,7 +229,6 @@
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Authentication\SecuritySettings.cs" />
-    <Compile Include="Code\ClientConfigurationManager.cs" />
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\FileSystemHelpers.cs" />
@@ -240,7 +239,6 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
-    <Compile Include="Contracts\IClientConfigurationManager.cs" />
     <Compile Include="Contracts\ISettings.cs" />
     <Compile Include="Contracts\ITemplatesManager.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />

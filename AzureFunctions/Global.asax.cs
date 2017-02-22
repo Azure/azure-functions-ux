@@ -191,10 +191,6 @@ namespace AzureFunctions
                 .As<ISettings>()
                 .SingleInstance();
 
-            builder.RegisterType<ClientConfigurationManager>()
-                .As<IClientConfigurationManager>()
-                .SingleInstance();
-
             builder.Register(c =>
             {
                 var userSettings = c.Resolve<IUserSettings>();

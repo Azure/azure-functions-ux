@@ -1,24 +1,24 @@
-﻿using System;
-using System.Configuration;
+﻿using AzureFunctions.Common;
+using AzureFunctions.Contracts;
+using System;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using System.Threading;
 using System.Web;
-using AzureFunctions.Common;
 using static AzureFunctions.Authentication.ClaimTypes;
 
 namespace AzureFunctions.Authentication
 {
     public class FrontEndAuthProvider : IAuthProvider
     {
-        public FrontEndAuthProvider()
-        {
-            this.AzureResourceManagementEndpoint = ConfigurationManager.AppSettings["$AzureResourceManagerEndpoint"];
-        }
+        private readonly ISettings _settings;
 
-        public string AzureResourceManagementEndpoint { get; private set; }
+        public FrontEndAuthProvider(ISettings settings)
+        {
+            this._settings = settings;
+        }
 
         public bool TryAuthenticateRequest(HttpContextBase context)
         {
@@ -94,7 +94,7 @@ namespace AzureFunctions.Authentication
         private bool TryGetTenantForSubscription(string subscriptionId, out string tenantId)
         {
             tenantId = string.Empty;
-            var requestUri = string.Format(Constants.SubscriptionTemplate, this.AzureResourceManagementEndpoint, subscriptionId, Constants.CSMApiVersion);
+            var requestUri = string.Format(Constants.SubscriptionTemplate, _settings.AzureResourceManagerEndpoint, subscriptionId, Constants.CSMApiVersion);
             var request = WebRequest.CreateHttp(requestUri);
             using (var response = request.GetResponseWithoutExceptions())
             {
