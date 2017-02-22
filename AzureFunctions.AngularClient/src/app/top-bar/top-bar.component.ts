@@ -46,14 +46,25 @@ export class TopBarComponent implements OnInit {
 
         this._globalStateService.topBarNotificationsStream
         .subscribe(topBarNotifications =>{
-            this.visible = this.inIFrame && topBarNotifications && topBarNotifications.length > 0;
             this.topBarNotifications = topBarNotifications;
+            this._setVisible();
         })
+
+        this._setVisible();
 
         // this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
             // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
             // this.setVisible();
         // });
+    }
+
+    private _setVisible(){
+        if(this.inIFrame){
+            this.visible = this.topBarNotifications && this.topBarNotifications.length > 0;
+        }
+        else{
+            this.visible = true;
+        }
     }
 
     ngOnInit() {

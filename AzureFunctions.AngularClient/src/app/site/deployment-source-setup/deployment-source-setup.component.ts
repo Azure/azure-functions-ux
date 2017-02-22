@@ -192,7 +192,7 @@ export class DeploymentSourceSetupComponent {
             }
         }
 
-        this._armService.putArmResource(`${this._site.id}/sourceControls/web`, body)
+        this._armService.put(`${this._site.id}/sourceControls/web`, body)
         .flatMap(response =>{
             return this._cacheService.getArm(`${this._site.id}/config/web`, true);
         })

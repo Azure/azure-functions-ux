@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { WebsiteId } from './../shared/models/portal';
 import { StorageItem, StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
-import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy, Output, Input } from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {TreeNode} from '../tree-view/tree-node';
 import {AppsNode} from '../tree-view/apps-node';
@@ -39,7 +39,7 @@ export class SideNavComponent{
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public selectedSubscriptions : Subscription[] = [];
     public subscriptionsDisplayText = "";
-    public resourceId : string;
+    @Input() public resourceId : string;
     public searchTerm = "";
 
     private _selectedNode : TreeNode;
@@ -62,7 +62,7 @@ export class SideNavComponent{
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
-        portalService.getStartupInfo().subscribe(info =>{
+        userService.getStartupInfo().subscribe(info =>{
             this.resourceId = !!info.resourceId ? info.resourceId : this.resourceId;
 
             let appsNode = new AppsNode(

@@ -1,3 +1,4 @@
+import { Constants } from './../models/constants';
 import {Http, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
@@ -40,13 +41,13 @@ export class UserService {
     }
 
     getTenants() {
-        return this._http.get('api/tenants')
+        return this._http.get(Constants.serviceHost + 'api/tenants')
             .catch(e => Observable.of({ json: () => [] }))
             .map<TenantInfo[]>(r => r.json());
     }
 
     getUser() {
-        return this._http.get('api/token')
+        return this._http.get(Constants.serviceHost + 'api/token')
             .map<User>(r => r.json());
     }
 
@@ -78,18 +79,10 @@ export class UserService {
 
     getStartupInfo(){
         return this.startupInfoSubject;
+    }
 
-        // if (this.inIFrame) {
-        //     return this._portalService.getStartupInfo();
-        // } else {
-        //     return this._http.get('api/token?plaintext=true').map(r => {
-        //         return <StartupInfo>{
-        //             sessionId : null,
-        //             token : r.text(),
-        //             subscriptions : null
-        //         }
-        //     });
-        // }
+    updateStartupInfo(startupInfo : StartupInfo){
+        this.startupInfoSubject.next(startupInfo);
     }
 
     setTryUserName(userName: string) {

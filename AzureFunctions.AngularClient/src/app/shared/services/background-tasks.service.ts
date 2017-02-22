@@ -26,7 +26,7 @@ export class BackgroundTasksService {
         private _aiService: AiService,
         private _applicationRef: ApplicationRef) {
             if (!this._userService.inIFrame) {
-                this.runPreIFrameTasks();
+                this.runNonIFrameTasks();
             }
             if (this.isIE()) {
                 console.log('Detected IE, running zone.js workaround');
@@ -34,11 +34,13 @@ export class BackgroundTasksService {
             }
     }
 
-    runPreIFrameTasks() {
+    runNonIFrameTasks() {
         if (this._preIFrameTasks && this._preIFrameTasks.closed) {
             this._preIFrameTasks.unsubscribe();
         }
+
         if (!this._globalStateService.showTryView)
+        
         this._preIFrameTasks = Observable.timer(1, 60000)
             .concatMap<string>(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map<string>(r => r.text()))
             .subscribe(t => this._userService.setToken(t));

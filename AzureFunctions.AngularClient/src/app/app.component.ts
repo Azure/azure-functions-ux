@@ -1,4 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import { BusyStateComponent } from './busy-state/busy-state.component';
+import { environment } from './../environments/environment.prod';
+import { StartupInfo } from './shared/models/portal';
+import { BroadcastService } from './shared/services/broadcast.service';
+import { FunctionContainer } from './shared/models/function-container';
+import { GlobalStateService } from './shared/services/global-state.service';
+import { LanguageService } from './shared/services/language.service';
+import { BackgroundTasksService } from './shared/services/background-tasks.service';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {PortalService} from './shared/services/portal.service';
 import {ArmService} from './shared/services/arm.service';
@@ -13,18 +21,26 @@ import {MainComponent} from './main/main.component';
     templateUrl: './app.component.html',
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
-    public currentResourceId: string;
+    private _startupInfo : StartupInfo;
+    // public currentResourceId: string;
+
+    @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     constructor(
         private _portalService: PortalService,
         private _armService: ArmService,
         private _userService: UserService,
-        private _functionsService : FunctionsService
+        private _functionsService : FunctionsService,
+        private _backgroundTasksService : BackgroundTasksService,
+        private _languageService : LanguageService,
+        private _globalStateService : GlobalStateService,
+        private _broadcastService : BroadcastService
     ) {
         this.ready = false;
+
         if (_userService.inIFrame ||
             window.location.protocol === 'http:') {
             this.gettingStarted = false;
@@ -37,194 +53,58 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this._userService.getStartupInfo()
             .subscribe(info => {
+                this._startupInfo = info;
                 this.ready = true;
-                // TODO: Initialize token for all services.
-                //this._broadcastService.clearBusyState();
+                this._languageService.getResources(null);
             });
     }
 
+    ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
+        // this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
+    }
+
+    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean) {
+        this._globalStateService.setBusyState();
+        // if (typeof functionContainer !== 'string')
+        //     //TODO: investigate this
+        //     this.showTryView = functionContainer.tryScmCred === null;
+
+        if (this.redirectToIbizaIfNeeded(functionContainer)) return;
+
+        if (typeof functionContainer !== 'string') {
+            this._broadcastService.clearAllDirtyStates();
+
+            this._startupInfo.resourceId = functionContainer.id;
+            this._userService.updateStartupInfo(this._startupInfo);
+            this.gettingStarted = false;
+        }
+    }
+
+    private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
+        if (!this._userService.inIFrame &&
+            window.location.hostname !== "localhost" &&
+            window.location.search.indexOf("ibiza=disabled") === -1) {
+
+            var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
+            this._globalStateService.setBusyState();
+            this._userService.getTenants()
+                .retry(10)
+                .subscribe(tenants => {
+                    var currentTenant = tenants.find(t => t.Current);
+                    var portalHostName = 'https://portal.azure.com';
+                    var environment = '';
+                    if (window.location.host.indexOf('staging') !== -1) {
+                        environment = '?websitesextension_functionsstaged=true';
+                    } else if (window.location.host.indexOf('next') !== -1) {
+                        environment = '?websitesextension_functionsnext=true';
+                    }
+
+                    window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);
+                });
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
-
-// import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-// import {MainComponent} from './main/main.component';
-// // import {DashboardComponent} from './dashboard.component';
-// import {GettingStartedComponent} from './getting-started.component';
-// import {PortalService} from '../services/portal.service';
-// import {FunctionsService} from '../services/functions.service';
-// import {BroadcastService} from '../services/broadcast.service';
-// import {BroadcastEvent} from '../models/broadcast-event'
-// import {BusyStateComponent} from './busy-state.component';
-// import {ArmService} from '../services/arm.service';
-// import {FunctionContainer} from '../models/function-container';
-// import {UserService} from '../services/user.service';
-// import {Observable} from 'rxjs/Rx';
-// import {ErrorListComponent} from './error-list.component';
-// import {MonitoringService} from '../services/app-monitoring.service';
-// import {BackgroundTasksService} from '../services/background-tasks.service';
-// import {GlobalStateService} from '../services/global-state.service';
-// import {TranslateService} from 'ng2-translate/ng2-translate';
-// import {TryLandingComponent} from './try-landing.component';
-// import {LocalDevelopmentInstructionsComponent} from './local-development-instructions.component';
-// import {PortalResources} from '../models/portal-resources';
-
-// @Component({
-//     selector: 'azure-functions-app',
-//     templateUrl: 'templates/app.component.html',
-//     directives: [BusyStateComponent, MainComponent, GettingStartedComponent, ErrorListComponent, TryLandingComponent, LocalDevelopmentInstructionsComponent]
-// })
-// export class AppComponent implements OnInit, AfterViewInit {
-//     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-//     @ViewChild(LocalDevelopmentInstructionsComponent) localDevelopment: LocalDevelopmentInstructionsComponent;
-//     //@ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
-
-//     public gettingStarted: boolean;
-//     public ready: boolean = false;
-//     public showTryView:boolean;
-//     public functionContainer: FunctionContainer;
-//     public currentResourceId: string;
-//     private _readyFunction: boolean = false;
-//     private _readyResources: boolean = false;
-
-//     get readyFunction(): boolean {
-//         return this._readyFunction;
-//     }
-
-//     set readyFunction(value:boolean) {
-//         this._readyFunction = value;
-//         this.ready = this._readyFunction && this._readyResources;
-//     }
-
-//     get readyResources(): boolean {
-//         return this._readyResources;
-//     }
-
-//     set readyResources(value: boolean) {
-//         this._readyResources = value;
-//         this.ready = this._readyFunction && this._readyResources;
-//     }
-
-//     constructor(
-//         private _portalService: PortalService,
-//         private _functionsService: FunctionsService,
-//         private _broadcastService: BroadcastService,
-//         private _armService: ArmService,
-//         private _userService: UserService,
-//         private _monitoringService: MonitoringService,
-//         private _backgroundTasksService: BackgroundTasksService,
-//         private _globalStateService: GlobalStateService,
-//         private _trnaslateService: TranslateService
-//     ) {
-//         this.gettingStarted = !_userService.inIFrame;
-//         this.showTryView = this._globalStateService.showTryView;
-//         this._functionsService.getResources().subscribe(() => {
-//             this.readyResources = true;
-//         });
-//         this._globalStateService._functionsService = this._functionsService;
-//     }
-
-//     ngOnInit() {
-//         this._globalStateService.setBusyState();
-//         if (!this.gettingStarted && !this.showTryView ) {
-//             this._portalService.getResourceId()
-//                 .distinctUntilChanged()
-//                 .debounceTime(500)
-//                 .subscribe((resourceId: string) => {
-//                     // Not sure why distinctUntilChanged() isn't taking care of this.
-//                     if (!this.currentResourceId || this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
-//                         this.currentResourceId = resourceId;
-//                         this.initializeDashboard(resourceId);
-//                     }
-//                 });
-//         } else {
-//             this.readyFunction = true;
-//             this._globalStateService.clearBusyState();
-//         }
-//     }
-
-//     ngAfterViewInit() {
-//         this._globalStateService.GlobalBusyStateComponent  = this.busyState;
-//         this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
-//     }
-
-
-//     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean) {
-//         this._globalStateService.setBusyState();
-//         if (typeof functionContainer !== 'string')
-//             //TODO: investigate this
-//             this.showTryView = functionContainer.tryScmCred === null;
-
-//         if (this.redirectToIbizaIfNeeded(functionContainer)) return;
-
-//         if (typeof functionContainer !== 'string') {
-//             this._broadcastService.clearAllDirtyStates();
-//             if (functionContainer.properties &&
-//                 functionContainer.properties.hostNameSslStates) {
-//                 this.functionContainer = functionContainer;
-//                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
-//                     this._globalStateService.GlobalDisabled = true;
-//                     if (!appSettingsAccess) {
-//                         this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(PortalResources.error_NoPermissionToAccessApp) });
-//                     } else {
-//                         let error = functionContainer.properties.siteDisabledReason === 1
-//                             ? PortalResources.error_FunctionExceededQuota
-//                            : PortalResources.error_siteStopped;
-//                         this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(error) });
-//                     }
-//                 }
-//                 this._userService.setFunctionContainer(functionContainer);
-//                 this._functionsService.setScmParams(functionContainer);
-//                 this.gettingStarted = false;
-//                 this._globalStateService.clearBusyState();
-//                 this.readyFunction = true;
-//                 this._backgroundTasksService.runTasks();
-
-//             } else {
-//                 this._globalStateService.setBusyState();
-//                 this._userService.getToken().first().subscribe(() =>
-//                      Observable.zip(
-//                         this._armService.getFunctionContainer(functionContainer.id),
-//                         this._armService.getCanAccessAppSettings(functionContainer.id),
-//                         (fc, access) => ({functionContainer: fc, access: access}))
-//                         .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
-//             }
-//         } else {
-//             this._globalStateService.setBusyState();
-//             this._userService.getToken().first().subscribe(() =>
-//                 Observable.zip(
-//                     this._armService.getFunctionContainer(functionContainer),
-//                     this._armService.getCanAccessAppSettings(functionContainer),
-//                     (fc, access) => ({functionContainer: fc, access: access}))
-//                     .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
-//         }
-//     }
-
-//     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
-//         if (!this._userService.inIFrame &&
-//             window.location.hostname !== "localhost" &&
-//             window.location.search.indexOf("ibiza=disabled") === -1
-//             && (this._globalStateService.ScmCreds === undefined || this._globalStateService.ScmCreds === null)) {
-//             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
-//             this._globalStateService.setBusyState();
-//             this._userService.getTenants()
-//                 .retry(10)
-//                 .subscribe(tenants => {
-//                     var currentTenant = tenants.find(t => t.Current);
-//                     var portalHostName = 'https://portal.azure.com';
-//                     var environment = '';
-//                     if (window.location.host.indexOf('staging') !== -1) {
-//                         environment = '?websitesextension_functionsstaged=true';
-//                     } else if (window.location.host.indexOf('next') !== -1) {
-//                         environment = '?websitesextension_functionsnext=true';
-//                     }
-//                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);
-//                 });
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-
-//     private updateReady() {
-//         this.ready = this._readyResources && this._readyFunction;
-//     }
-// }

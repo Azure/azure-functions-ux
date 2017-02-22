@@ -21,6 +21,7 @@ import {UtilitiesService} from './shared/services/utilities.service';
 import {BackgroundTasksService} from './shared/services/background-tasks.service';
 import {GlobalStateService} from './shared/services/global-state.service';
 import {AiService} from './shared/services/ai.service';
+import {LanguageService} from './shared/services/language.service';
 
 import { AppComponent } from './app.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
@@ -167,6 +168,7 @@ import { AppsListComponent } from './apps-list/apps-list.component';
   providers: [
       FunctionsService,
       UserService,
+      LanguageService,
       PortalService,
       BroadcastService,
       FunctionMonitorService,
