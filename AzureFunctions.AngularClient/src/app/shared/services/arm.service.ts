@@ -112,8 +112,9 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
-    getAuthSettings(functionContainer: FunctionContainer) {
-        let url = `${this.armUrl}${functionContainer.id}/config/authsettings/list?api-version=${this.websiteApiVersion}`;
+    getAuthSettings(functionContainer: FunctionContainer | string) {
+        let armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
+        let url = `${this.armUrl}${armId}/config/authsettings/list?api-version=${this.websiteApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
             .map<{ [key: string]: any }>(r => r.json().properties);
     }

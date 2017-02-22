@@ -15,7 +15,7 @@
         <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
     </div>
 
-    <function-keys *ngIf="_functionsService?.isMultiKeySupported" [functionInfo]="selectedFunction"></function-keys>
+    <function-keys *ngIf="_functionsService?.isMultiKeySupported  && !this._functionsService?.isEasyAuthEnabled" [functionInfo]="selectedFunction"></function-keys>
     <div style="margin-bottom: 25px" *ngIf="_functionsService?.isMultiKeySupported"></div>
-    <function-keys *ngIf="_functionsService?.isMultiKeySupported"></function-keys>
+    <function-keys *ngIf="_functionsService?.isMultiKeySupported && !this._functionsService?.isEasyAuthEnabled"></function-keys>
 </div>

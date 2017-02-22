@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean) {
+    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
         this._globalStateService.setBusyState();
         if (typeof functionContainer !== 'string')
             //TODO: investigate this
@@ -106,7 +106,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
-                functionContainer.properties.hostNameSslStates) {
+                functionContainer.properties.hostNameSslStates &&
+                authSettings) {
                 this.functionContainer = functionContainer;
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
@@ -119,6 +120,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                         this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(error) });
                     }
                 }
+                this._functionsService.setEasyAuth(authSettings);
                 this._userService.setFunctionContainer(functionContainer);
                 this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
@@ -132,8 +134,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                     Observable.zip(
                         this._armService.getFunctionContainer(functionContainer.id),
                         this._armService.getCanAccessAppSettings(functionContainer.id),
-                        (fc, access) => ({ functionContainer: fc, access: access }))
-                        .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
+                         this._armService.getAuthSettings(functionContainer.id),
+                        (fc, access, auth) => ({ functionContainer: fc, access: access, auth: auth}))
+                        .subscribe(result => this.initializeDashboard(result.functionContainer, result.access, result.auth)));
             }
         } else {
             this._globalStateService.setBusyState();
@@ -141,8 +144,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                 Observable.zip(
                     this._armService.getFunctionContainer(functionContainer),
                     this._armService.getCanAccessAppSettings(functionContainer),
-                    (fc, access) => ({ functionContainer: fc, access: access }))
-                    .subscribe(result => this.initializeDashboard(result.functionContainer, result.access)));
+                    this._armService.getAuthSettings(functionContainer),
+                    (fc, access, auth) => ({ functionContainer: fc, access: access, auth: auth }))
+                    .subscribe(result => this.initializeDashboard(result.functionContainer, result.access, result.auth)));
         }
     }
 

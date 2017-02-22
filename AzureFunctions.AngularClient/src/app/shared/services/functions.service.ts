@@ -34,7 +34,7 @@ export class FunctionsService {
     private scmUrl: string;
     private siteName: string;
     private mainSiteUrl: string;
-    private isEasyAuthEnabled: boolean;
+    public isEasyAuthEnabled: boolean;
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -485,6 +485,9 @@ export class FunctionsService {
     }
 
     warmupMainSite() {
+        if (this.isEasyAuthEnabled) {
+            return Observable.of({});
+        }
         let observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
@@ -603,6 +606,10 @@ export class FunctionsService {
     }
 
     getFunctionHostKeys(): Observable<FunctionKeys> {
+        if (this.isEasyAuthEnabled) {
+            return Observable.of({keys: [], links: []});
+        }
+
         let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
                 if (err.status === 404) {

@@ -31,7 +31,7 @@
                 <span class="link bubble-label" [class.bubble]="bottomTab==='logs'" [class.active]="bottomTab==='logs'" (click)="clickRightTab('logs')" style="margin-right:30px;"><i class="fa fa-list-alt"></i> {{ 'logStreaming_logs' | translate }}</span>
                 <span class="link bubble-label" [class.bubble]="rightTab==='files'" [class.active]="rightTab==='files'" (click)="clickRightTab('files')"><i class="fa fa-folder"></i> {{ 'functionDev_viewFiles' | translate }}</span>
                 <span class="link bubble-label" [class.bubble]="rightTab==='run'" [class.active]="rightTab==='run'" (click)="clickRightTab('run')"><i class="fa fa-flask"></i> {{ 'test' | translate }}</span>
-                <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
+                <span class="link bubble-label" *ngIf="_functionsService?.isMultiKeySupported && !this._functionsService?.isEasyAuthEnabled" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')"><i class="fa fa-key"></i> {{ 'keys' | translate }}</span>
             </div>
         </div>
 
@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
+                <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported && !this._functionsService.isEasyAuthEnabled" class="dev-full dev-border">
                     <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
                     <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
                     <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>

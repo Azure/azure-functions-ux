@@ -180,6 +180,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (!this._functionsService.isMultiKeySupported) {
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
+                } else if (this._functionsService.isEasyAuthEnabled) {
+                    this.setFunctionInvokeUrl();
                 }
             });
 
@@ -361,7 +363,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 code = `?code=${key}`;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = `?code=${this.secrets.key}`;
-            } else if (this.isHttpFunction && this._functionsService.HostSecrets) {
+            } else if (this.isHttpFunction && this._functionsService.HostSecrets && !this._functionsService.isEasyAuthEnabled) {
                 code = `?code=${this._functionsService.HostSecrets}`;
             }
 
