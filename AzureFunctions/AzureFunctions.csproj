@@ -229,6 +229,7 @@
     <Compile Include="Authentication\OpenIdConfiguration.cs" />
     <Compile Include="Authentication\SecurityManager.cs" />
     <Compile Include="Authentication\SecuritySettings.cs" />
+    <Compile Include="Code\ClientConfigurationManager.cs" />
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\FileSystemHelpers.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Code\Utils.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FailedRequestException.cs" />
+    <Compile Include="Contracts\IClientConfigurationManager.cs" />
     <Compile Include="Contracts\ISettings.cs" />
     <Compile Include="Contracts\ITemplatesManager.cs" />
     <Compile Include="Contracts\IUserSettings.cs" />
@@ -248,6 +250,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AppService.cs" />
+    <Compile Include="Models\ClientConfiguration.cs" />
     <Compile Include="Models\ClientError.cs" />
     <Compile Include="Models\FunctionTemplate.cs" />
     <Compile Include="Authentication\Extensions.cs" />

@@ -102,7 +102,7 @@ namespace AzureFunctions.Authentication
                 {
                     if (!token.IsValid())
                     {
-                        token = AADOAuth2AccessToken.GetAccessTokenByRefreshToken(token.TenantId, token.refresh_token, ManagementResource);                        
+                        token = AADOAuth2AccessToken.GetAccessTokenByRefreshToken(token.TenantId, token.refresh_token, ManagementResource);
                         WriteOAuthTokenCookie(context, token);
                     }
 
@@ -206,7 +206,7 @@ namespace AzureFunctions.Authentication
             strb.AppendFormat("?response_type={0}", WebUtility.UrlEncode(response_type));
             strb.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(redirect_uri));
             strb.AppendFormat("&client_id={0}", WebUtility.UrlEncode(client_id));
-            strb.AppendFormat("&resource={0}", WebUtility.UrlEncode(ManagementResource));            
+            strb.AppendFormat("&resource={0}", WebUtility.UrlEncode(ManagementResource));
             strb.AppendFormat("&scope={0}", WebUtility.UrlEncode(scope));
             strb.AppendFormat("&nonce={0}", WebUtility.UrlEncode(nonce));
             strb.AppendFormat("&site_id={0}", WebUtility.UrlEncode(site_id));

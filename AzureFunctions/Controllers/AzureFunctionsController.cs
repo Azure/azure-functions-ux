@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +21,8 @@ namespace AzureFunctions.Controllers
 
         private readonly ISettings _settings;
 
+        private readonly IClientConfigurationManager _clientConfig;
+
         private Dictionary<string, string> _languageMap = new Dictionary<string, string>()
         {
             { "ja", "ja-JP"},
@@ -32,10 +33,11 @@ namespace AzureFunctions.Controllers
             { "zh-hant", "zh-CN"}
         };
 
-        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IClientConfigurationManager clientConfig)
         {
             this._templatesManager = templatesManager;
             this._settings = settings;
+            this._clientConfig = clientConfig;
         }
 
         [HttpGet]
@@ -115,23 +117,9 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetConfig()
+        public HttpResponseMessage GetClientConfiguration()
         {
-            const string AppSettingsPrefix = "$";
-            var result = new JObject();
-
-            foreach (string key in ConfigurationManager.AppSettings.Keys)
-            {
-                if (key.StartsWith(AppSettingsPrefix))
-                {
-                    string friendlyKey = key.Substring(AppSettingsPrefix.Length);
-                    string value = ConfigurationManager.AppSettings[key];
-                                       
-                    result[friendlyKey] = value;
-                }                
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, _clientConfig.GetClientConfiguration());
         }
 
         [Authorize]

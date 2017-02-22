@@ -191,6 +191,10 @@ namespace AzureFunctions
                 .As<ISettings>()
                 .SingleInstance();
 
+            builder.RegisterType<ClientConfigurationManager>()
+                .As<IClientConfigurationManager>()
+                .SingleInstance();
+
             builder.Register(c =>
             {
                 var userSettings = c.Resolve<IUserSettings>();
@@ -223,7 +227,7 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-latest-runtime", "api/latestruntime", new { controller = "AzureFunctions", action = "GetLatestRuntime", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-latest-routing", "api/latestrouting", new { controller = "AzureFunctions", action = "GetLatestRoutingExtensionVersion", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetConfig", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
         }
     }
 }

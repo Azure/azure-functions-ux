@@ -5,7 +5,6 @@ import {Constants} from '../models/constants';
 
 @Injectable()
 export class ConfigService {
-    public inIFrame: boolean;
     private azureResourceManagerEndpoint: string;
 
     constructor(private http: Http) {
@@ -13,7 +12,7 @@ export class ConfigService {
 
     loadConfig() {
         console.log('Loading config...');
-        var observable = this.http.get(Constants.serviceHost + `api/config`)
+        var observable = this.http.get(Constants.serviceHost + 'api/config')
             .map<any>((response) => {
                 var res = response.json();
 
