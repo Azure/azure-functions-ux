@@ -977,7 +977,7 @@
     <value>API settings</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>New API Proxy</value>
+    <value>New proxy</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
     <value>All methods</value>
@@ -989,7 +989,7 @@
     <value>Backend URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>Proxy or function with that name already exsists.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Name</value>
@@ -1004,7 +1004,7 @@
     <value>Selected methods</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>API proxies (preview)</value>
+    <value>Proxies (preview)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
     <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
@@ -1013,13 +1013,13 @@
     <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>Use API proxies</value>
+    <value>Enable Azure Functions Proxies (preview)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>Azure Functions Proxies are currently disabled. To enable, visit</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy with name '{{name}}' already exists</value>
