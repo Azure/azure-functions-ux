@@ -62,6 +62,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
+    public showFunctionKey: boolean = false;
+    public showFunctionInvokeUrlModal: boolean = false;    
+    public showFunctionKeyModal: boolean = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
@@ -154,6 +157,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.webHookType;
                 }
+
+                this.showFunctionKey = this.webHookType === 'github';
 
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
@@ -554,6 +559,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     onRunValid(runValid: any) {
         this.runValid = runValid;
+    }
+
+    setShowFunctionInvokeUrlModal(value: boolean) {
+        this.showFunctionInvokeUrlModal = value;
+    }
+
+    setShowFunctionKeyModal(value: boolean) {
+        this.showFunctionKeyModal = value;
+    }
+
+    hideModal() {
+        this.showFunctionKeyModal = false;
+        this.showFunctionInvokeUrlModal = false;
     }
 
     private getTestData(): string {

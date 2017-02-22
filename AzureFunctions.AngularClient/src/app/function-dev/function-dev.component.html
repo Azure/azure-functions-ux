@@ -1,3 +1,21 @@
+<div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+                <h4 *ngIf="showFunctionInvokeUrlModal" class="modal-title">{{'functionDev_functionUrl' | translate}}</h4>
+                <h4 *ngIf="showFunctionKeyModal" class="modal-title">{{'functionDev_githubSelect' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="showFunctionInvokeUrlModal"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
+                <div *ngIf="showFunctionKeyModal"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets"></copy-pre></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" class="modal-backdrop fade in"></div>
+
 <div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
     <div *ngIf="scriptFile" class="dev-full">
         <div>
@@ -10,7 +28,7 @@
                 <div style="display: flex; flex-direction: column">
 
                     <!-- Head, code editor  -->
-                    <div style="padding: 5px 25px 0px 25px; flex-grow: 1">
+                    <div style="padding: 7px 25px 0px 25px; flex-grow: 1">
                         <div style="display:flex; flex-direction:row;">
                             <span class="text-level1-heading">{{fileName}}</span>
                             <span>
@@ -22,7 +40,7 @@
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
-                                    <i class="fa fa-remove"></i>
+                                    <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
                                 <button *ngIf="!scriptFile.isDirty"
@@ -30,7 +48,7 @@
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
-                                    <i class="fa fa-remove"></i>
+                                    <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
                                 <button *ngIf="running"
@@ -39,6 +57,15 @@
                                     {{ 'cancel' | translate }}
                                 </button>
                             </span>
+
+                            <div *ngIf="showFunctionInvokeUrl" style="cursor: pointer" (click)="setShowFunctionInvokeUrlModal(true)">
+                                <span>&lt;/&gt; Get function URL</span>
+                            </div>
+
+                            <div *ngIf="showFunctionKey" style="cursor: pointer" (click)="setShowFunctionKeyModal(true)">
+                                <span>&lt;/&gt; Get GitHub secret</span>
+                            </div>
+
                         </div>
 
                         <div #editorContainer class="dev-full">
@@ -47,7 +74,7 @@
 
                             <div monacoEditor id="code"
                                  class="monaco dev-full"
-                                 style="margin-top: 9px"
+                                 style="margin-top: 7px"
                                  (onSave)="saveScript()"
                                  (onContentChanged)="contentChanged($event)"
                                  [content]="content"
@@ -163,41 +190,29 @@
                                     </log-streaming>
                                 </div>
 
-                                <span style="padding: 5px;line-height: 25px;">
-                                    <span class="clickable link-action close-right" (click)="clickRightTab('run')">
-                                        <i class="fa fa-times"></i>
-                                        {{ 'close' | translate }}
-                                    </span>
-                                </span>
-
                             </div>
 
-                            <div style="height: 60px; border-top: 1px solid #ccc; padding-top: 10px;">
-                                <!--<button *ngIf="scriptFile.isDirty"
-                                        [class.custom-button]="runValid"
+                            <div style="border-top: 1px solid #ccc;display: flex;padding-bottom: 10px;flex-direction: row-reverse; padding: 10px 10px 10px 0px;">
+                                <button *ngIf="scriptFile.isDirty"
+                                        [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
+                                    <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
                                 <button *ngIf="!scriptFile.isDirty"
-                                        [class.custom-button]="runValid"
+                                        [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
                                         (click)="runFunction()">
-                                    {{ 'run' | translate }}
-                                </button>-->
-                                <button 
-                                        [class.custom-button]="runValid"
-                                        [class.custom-button-disabled]="!runValid"
-                                        [class.dirty]="scriptFile.isDirty"
-                                        (click)="runFunction()">
+                                    <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
                             </div>
                         </div>
 
-                        <div *ngIf="rightTab==='keys' && functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
+                        <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border">
                             <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
                             <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
                             <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>
