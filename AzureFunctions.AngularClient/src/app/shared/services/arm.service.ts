@@ -77,8 +77,9 @@ export class ArmService {
             .map<PublishingCredentials>(r => r.json());
     }
 
-    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
-        var url = `${this.armUrl}${functionContainer.id}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
+    getFunctionContainerAppSettings(functionContainer: FunctionContainer | string) {
+        let armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
+        let url = `${this.armUrl}${armId}/config/appsettings/list?api-version=${this.websiteApiVersion}`;
         return this._http.post(url, '', { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
     }

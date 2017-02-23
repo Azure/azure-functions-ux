@@ -1,3 +1,5 @@
+import { Constants } from './shared/models/constants';
+import { AiService } from './shared/services/ai.service';
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {PortalService} from './shared/services/portal.service';
 import {FunctionsService} from './shared/services/functions.service';
@@ -60,7 +62,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _monitoringService: MonitoringService,
         private _backgroundTasksService: BackgroundTasksService,
         private _globalStateService: GlobalStateService,
-        private _trnaslateService: TranslateService
+        private _trnaslateService: TranslateService,
+        private _aiService: AiService
     ) {
         this.gettingStarted = !_userService.inIFrame;
         this.showTryView = this._globalStateService.showTryView;
@@ -81,6 +84,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                     if (!this.currentResourceId || this.currentResourceId.toLocaleLowerCase() !== resourceId.toLocaleLowerCase()) {
                         this.currentResourceId = resourceId;
                         this.initializeDashboard(resourceId);
+                        this.logFunctionsRuntimeVersion(resourceId);
                     }
                 });
         } else {
@@ -148,6 +152,15 @@ export class AppComponent implements OnInit, AfterViewInit {
                     (fc, access, auth) => ({ functionContainer: fc, access: access, auth: auth }))
                     .subscribe(result => this.initializeDashboard(result.functionContainer, result.access, result.auth)));
         }
+    }
+
+    private logFunctionsRuntimeVersion(resourceId: string) {
+        this._armService.getFunctionContainerAppSettings(resourceId)
+            .subscribe(settings => {
+                if (settings) {
+                    this._aiService.trackEvent('/values/runtime_version', { runtime: settings[Constants.runtimeVersionAppSettingName], appName: resourceId });
+                }
+            });
     }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
