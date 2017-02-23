@@ -63,7 +63,26 @@ pre {
     color: #464f59;
 }
 
-.text-content-italic {
-    @extend .text-content;
-    font-style:italic;
+.text-value {
+    @extend .text;
+    font-size: 12px;
+    color: #1f2327;
+}
+
+.text-label {
+    @extend .text;
+    font-size: 12px;
+    color: #595959;
+}
+
+.message-error {
+    @extend .text;
+    color: #b40e1b;
+    font-size: 12px;
+}
+
+.message-success {
+    @extend .text;
+    color: #386300;
+    font-size: 12px;
 }

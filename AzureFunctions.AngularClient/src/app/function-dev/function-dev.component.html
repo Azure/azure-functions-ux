@@ -167,16 +167,26 @@
                                 </div>
 
                                 <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1; padding-bottom: 10px;">
-                                    <div class="control-label">{{ 'functionDev_Output' | translate }}</div>
-                                    <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                    <div style="display: flex; align-items: center;">
+                                        <div class="control-label">{{ 'functionDev_Output' | translate }}</div>
+
+                                        <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="text-value"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                    </div>
 
                                     <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
 
                                 </div>
 
                                 <div *ngIf="isHttpFunction">
-                                    <div class="control-label">{{ 'functionDev_Output' | translate }}</div>
-                                    <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                    <div style="display: flex; align-items: center;">
+                                        <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
+
+                                        <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="text-value"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                    </div>
 
                                     <pre style="margin-bottom: 0px;" class="height-fixed">{{runResult?.content}}</pre>
                                 </div>

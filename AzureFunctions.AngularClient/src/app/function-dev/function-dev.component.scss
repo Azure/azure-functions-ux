@@ -38,20 +38,9 @@ div.right-block {
 }
 
 .control-label {
-    @extend .text-content;
+    @extend .text-label;
     padding: 8px 0px 5px 0px
 }
-
-/*.run-container {
-    padding-left: 10px;
-    padding-right: 10px;
-    position: relative;
-}*/
-
-/*.run-label {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}*/
 
 .height-fixed {
     height: 150px;
@@ -94,17 +83,17 @@ div.right-block {
     color: #539CF6;
 }
 
-.run-red {
-    color: #d43f3a;
+/*.run-red {
+    color: #b40e1b;
 }
 
 .run-green {
-    color: green;
+    color: #;
 }
 
 .run-orange {
     color: darkorange;
-}
+}*/
 
 
 .flex-inline{
