@@ -53,7 +53,7 @@ export class BindingComponent{
     public functionApp : FunctionApp;
 
     private _functionAppStream = new Subject<any>();
-    private _bindingStream = new Subject<any>();
+    private _bindingStream = new Subject<UIFunctionBinding>();
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
@@ -77,12 +77,16 @@ export class BindingComponent{
                     (a, d) => ({appSettings : a.json(), disabled : d}));
             });
 
-        Observable.zip(funcStream, this._bindingStream, (c, b) => ({config: c, binding: b}))
-         .subscribe(res =>{
-             this._appSettings = res.config.appSettings.properties;
-             this.disabled = res.config.disabled;
-             this._updateBinding(res.binding);
-         });
+        funcStream.merge(this._bindingStream)
+        .subscribe((res : {appSettings : any, disabled : boolean}) =>{
+            if(res.appSettings){
+                this._appSettings = res.appSettings.properties;
+                this.disabled = res.disabled;
+            }
+            else{
+                this._updateBinding(<any>res);
+            }
+        })
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
