@@ -38,7 +38,11 @@ export function Cache(propertyKey?: string, arg?: number) {
                         delete cache.observable;
                         cache.data = r;
                         return cache.data;
-                    }).share()
+                    })
+                    .catch(error => {
+                        delete cachedData[key];
+                    })
+                    .share()
                 };
                 cachedData[key] = cache;
                 return cache.observable;
