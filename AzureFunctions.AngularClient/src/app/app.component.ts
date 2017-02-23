@@ -124,7 +124,10 @@ export class AppComponent implements OnInit, AfterViewInit {
                         this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(error) });
                     }
                 }
-                this._functionsService.setEasyAuth(authSettings);
+                if (authSettings) {
+                    // This is for try scenario.
+                    this._functionsService.setEasyAuth(authSettings);
+                }
                 this._userService.setFunctionContainer(functionContainer);
                 this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
