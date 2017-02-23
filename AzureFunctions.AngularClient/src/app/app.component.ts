@@ -99,7 +99,10 @@ export class AppComponent implements OnInit, AfterViewInit {
                     if (window.location.host.indexOf('staging') !== -1) {
                         environment = '?websitesextension_functionsstaged=true';
                     } else if (window.location.host.indexOf('next') !== -1) {
-                        environment = '?websitesextension_functionsnext=true';
+
+                        // Temporarily redirecting FunctionsNext to use the CanaryF2 Ibiza environment.
+                        environment = '?feature.canmodifystamps=true&BizTalkExtension=f2&WebsitesExtension=f2&feature.fastmanifest=false';
+                        // environment = '?websitesextension_functionsnext=true';
                     }
 
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);

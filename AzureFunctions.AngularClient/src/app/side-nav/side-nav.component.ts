@@ -48,6 +48,8 @@ export class SideNavComponent{
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
 
+    private _initialized = false;
+
     constructor(
         public armService : ArmService,
         public cacheService : CacheService,
@@ -65,33 +67,41 @@ export class SideNavComponent{
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
         userService.getStartupInfo().subscribe(info =>{
-            this.resourceId = !!info.resourceId ? info.resourceId : this.resourceId;
 
-            let appsNode = new AppsNode(
-                this,
-                this._subscriptionsStream,
-                this._searchTermStream,
-                this.resourceId);
+            // This is a workaround for the fact that Ibiza sends us an updated info whenever
+            // child blades close.  If we get a new info object, then we'll rebuild the tree.
+            // The true fix would be to make sure that we never set the resourceId of the hosting
+            // blade, but that's a pretty large change and this should be sufficient for now.
+            if(!this._initialized){
+                this._initialized = true;
+                this.resourceId = !!this.resourceId ? this.resourceId : info.resourceId;
 
-            this.rootNode = new TreeNode(this, null, null);
-            this.rootNode.children = [appsNode];
+                let appsNode = new AppsNode(
+                    this,
+                    this._subscriptionsStream,
+                    this._searchTermStream,
+                    this.resourceId);
 
-            // Need to allow the appsNode to wire up its subscriptions
-            setTimeout(() =>{
-                appsNode.select();
-            }, 10);
+                this.rootNode = new TreeNode(this, null, null);
+                this.rootNode.children = [appsNode];
+
+                // Need to allow the appsNode to wire up its subscriptions
+                setTimeout(() =>{
+                    appsNode.select();
+                }, 10);
 
 
-            this._searchTermStream
-            .subscribe(term =>{
-                this.searchTerm = term;
-            })
+                this._searchTermStream
+                .subscribe(term =>{
+                    this.searchTerm = term;
+                })
 
-            // Get the streams in the top-level nodes moving 
-            this._searchTermStream.next(""); 
+                // Get the streams in the top-level nodes moving 
+                this._searchTermStream.next(""); 
 
-            if(this.subscriptionOptions.length === 0){
-                this._setupInitialSubscriptions(info.resourceId);
+                if(this.subscriptionOptions.length === 0){
+                    this._setupInitialSubscriptions(info.resourceId);
+                }
             }
         });
     }
