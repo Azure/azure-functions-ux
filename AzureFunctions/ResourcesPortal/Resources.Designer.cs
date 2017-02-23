@@ -1222,7 +1222,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function Url:.
+        ///   Looks up a localized string similar to Function Url.
         /// </summary>
         internal static string functionDev_functionUrl {
             get {
@@ -1231,7 +1231,25 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GitHub Secret:.
+        ///   Looks up a localized string similar to &lt;/&gt; Get function URL.
+        /// </summary>
+        internal static string functionDev_gerFunctionUrl {
+            get {
+                return ResourceManager.GetString("functionDev_gerFunctionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;/&gt; Get GitHub secret.
+        /// </summary>
+        internal static string functionDev_gerGithubSecret {
+            get {
+                return ResourceManager.GetString("functionDev_gerGithubSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GitHub Secret.
         /// </summary>
         internal static string functionDev_githubSelect {
             get {
@@ -1870,11 +1888,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Headers.
+        /// </summary>
+        internal static string httpRun_headers {
+            get {
+                return ResourceManager.GetString("httpRun_headers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HTTP method.
         /// </summary>
         internal static string httpRun_httpMethod {
             get {
                 return ResourceManager.GetString("httpRun_httpMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no headers.
+        /// </summary>
+        internal static string httpRun_noHeaders {
+            get {
+                return ResourceManager.GetString("httpRun_noHeaders", resourceCulture);
             }
         }
         

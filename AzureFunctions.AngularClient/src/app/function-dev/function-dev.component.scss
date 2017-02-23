@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 div.header {
     display: flex;
 }
@@ -35,16 +37,21 @@ div.right-block {
     flex-direction:column;
 }
 
+.control-label {
+    @extend .text-content;
+    padding: 8px 0px 5px 0px
+}
+
 /*.run-container {
     padding-left: 10px;
     padding-right: 10px;
     position: relative;
 }*/
 
-.run-label {
+/*.run-label {
     padding-top: 5px;
     padding-bottom: 5px;
-}
+}*/
 
 .height-fixed {
     height: 150px;

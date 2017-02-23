@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-                <h4 *ngIf="showFunctionInvokeUrlModal" class="modal-title">{{'functionDev_functionUrl' | translate}}</h4>
-                <h4 *ngIf="showFunctionKeyModal" class="modal-title">{{'functionDev_githubSelect' | translate}}</h4>
+                <span *ngIf="showFunctionInvokeUrlModal" class="text-level2-heading">{{'functionDev_functionUrl' | translate}}</span>
+                <span *ngIf="showFunctionKeyModal" class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
             </div>
             <div class="modal-body">
                 <div *ngIf="showFunctionInvokeUrlModal"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
@@ -58,19 +58,20 @@
                                 </button>
                             </span>
 
-                            <div *ngIf="showFunctionInvokeUrl" style="cursor: pointer" (click)="setShowFunctionInvokeUrlModal(true)">
-                                <span>&lt;/&gt; Get function URL</span>
+                            <div style="flex-grow:1"></div>
+
+
+                            <div *ngIf="showFunctionInvokeUrl" style="align-self: center;padding-left: 10px" class="text-hl" (click)="setShowFunctionInvokeUrlModal(true)">
+                                <span>{{ 'functionDev_gerFunctionUrl' | translate }}</span>
                             </div>
 
-                            <div *ngIf="showFunctionKey" style="cursor: pointer" (click)="setShowFunctionKeyModal(true)">
-                                <span>&lt;/&gt; Get GitHub secret</span>
+                            <div *ngIf="showFunctionKey" style="align-self: center;padding-left: 10px;" class="text-hl" (click)="setShowFunctionKeyModal(true)">
+                                <span>{{ 'functionDev_gerGithubSecret' | translate }}</span>
                             </div>
 
                         </div>
 
                         <div #editorContainer class="dev-full">
-                            <!--<div *ngIf="showFunctionInvokeUrl"><copy-pre [content]="functionInvokeUrl" [label]="'functionDev_functionUrl' | translate"></copy-pre></div>
-                            <div *ngIf="webHookType === 'github'"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets" [label]="'functionDev_githubSelect' | translate"></copy-pre></div>-->
 
                             <div monacoEditor id="code"
                                  class="monaco dev-full"
@@ -156,7 +157,7 @@
                                 </run-http>
 
                                 <div>
-                                    <div class="run-label">{{ 'functionDev_requestBody' | translate }}</div>
+                                    <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
                                     <div id="test_data" monacoEditor class="monaco"
                                          (onSave)="saveTestData()"
                                          (onContentChanged)="testContentChanged($event)"
@@ -165,8 +166,8 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1;">
-                                    <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                                <div *ngIf="!isHttpFunction" class="dev-flex-column" style="flex-grow:1; padding-bottom: 10px;">
+                                    <div class="control-label">{{ 'functionDev_Output' | translate }}</div>
                                     <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
 
                                     <pre style="flex-grow:1;margin-bottom: 0px;">{{runResult?.content}}</pre>
@@ -174,7 +175,7 @@
                                 </div>
 
                                 <div *ngIf="isHttpFunction">
-                                    <div class="run-label">{{ 'functionDev_Output' | translate }}</div>
+                                    <div class="control-label">{{ 'functionDev_Output' | translate }}</div>
                                     <div *ngIf="runResult" [class.run-green]="runResult.statusCode > 99 && runResult.statusCode < 300" [class.run-orange]="runResult.statusCode > 299 && runResult.statusCode < 400" [class.run-red]="runResult.statusCode > 399">{{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
 
                                     <pre style="margin-bottom: 0px;" class="height-fixed">{{runResult?.content}}</pre>
@@ -182,7 +183,7 @@
 
                                 <div *ngIf="isHttpFunction">
 
-                                    <div class="run-label">{{ 'logStreaming_logs' | translate }}</div>
+                                    <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
 
                                     <log-streaming [functionInfo]="functionInfo"
                                                    [isHttpLogs]="true"

@@ -139,10 +139,10 @@
     <value>Function (${{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Function Url:</value>
+    <value>Function Url</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHub Secret:</value>
+    <value>GitHub Secret</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Hide files</value>
@@ -1059,5 +1059,17 @@
   </data>
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expand</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Get function URL</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Get GitHub secret</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Headers</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>There are no headers</value>
   </data>
 </root>

@@ -28,7 +28,7 @@ import {RunHttpComponent} from '../run-http/run-http.component';
 @Component({
   selector: 'function-dev',
   templateUrl: './function-dev.component.html',
-  styleUrls: ['./function-dev.component.css']
+  styleUrls: ['./function-dev.component.scss']
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -267,7 +267,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.testDataEditor) {
-            var widthDataEditor = rigthContainerWidth - 34;
+            var widthDataEditor = rigthContainerWidth - 24;
 
             setTimeout(() => {
                 if (this.testDataEditor) {
