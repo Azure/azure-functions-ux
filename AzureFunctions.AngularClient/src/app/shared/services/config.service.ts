@@ -11,21 +11,13 @@ export class ConfigService {
     }
 
     loadConfig() {
-        console.log('Loading config...');
         var observable = this.http.get(Constants.serviceHost + 'api/config')
             .map<any>((response) => {
                 var res = response.json();
-
                 return res;
             });
 
-        observable.subscribe(config => {
-            console.log(config);
-
-            this.setConfig(config);
-        });
-
-        return observable.toPromise();
+        return observable.toPromise().then(config => this.setConfig(config));
     }
 
     setConfig(config: any) {
