@@ -1,3 +1,4 @@
+import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
 import {Injectable} from '@angular/core';
@@ -125,7 +126,8 @@ export class FunctionApp {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _languageService : LanguageService) {
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
@@ -137,10 +139,13 @@ export class FunctionApp {
             this._userService.getStartupInfo()
             .flatMap(info =>{
                 this.token = info.token;
-                return this.getResources(info);
+                return this.getExtensionVersion();
             })
-            .subscribe(info => {
-            });
+            .flatMap(extensionVersion => {
+                return this._languageService.getResources(extensionVersion);
+            })
+            .subscribe(r =>{
+            })
 
             this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
             this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
@@ -641,22 +646,6 @@ export class FunctionApp {
         });
     }
 
-    private getResources(info : StartupInfo): Observable<any> {
-        return this.getExtensionVersion()
-        .flatMap(extensionVersion =>{
-            var runtime = extensionVersion ? extensionVersion : "default";
-            if (this._userService.inIFrame) {
-
-                // Effective language has language and formatting information eg: "en.en-us"
-                let lang = info.effectiveLocale.split(".")[0];
-                return this.getLocalizedResources(lang, runtime);
-            }
-            else{
-                return this.getLocalizedResources("en", runtime);
-            }
-        });
-    }
-
     get HostSecrets() {
         return this.masterKey;
     }
@@ -1012,25 +1001,6 @@ export class FunctionApp {
                 }
             }
         }
-    }
-
-    private getLocalizedResources(lang: string, runtime: string): Observable<any> {
-        return this._cacheService.get(
-            `${Constants.serviceHost}api/resources?name=${lang}&runtime=${runtime}`,
-            false,
-            this.getPortalHeaders())
-
-            .retryWhen(this.retryAntares)
-            .map<any>(r => {
-                var resources = r.json();
-
-                this._translateService.setDefaultLang("en");
-                this._translateService.setTranslation("en", resources.en);
-                if (resources.lang) {
-                    this._translateService.setTranslation(lang, resources.lang);
-                }
-                this._translateService.use(lang);
-            });
     }
 
     private retryAntares(error: Observable<any>): Observable<any> {

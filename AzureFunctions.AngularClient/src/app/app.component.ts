@@ -52,10 +52,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._userService.getStartupInfo()
+            .flatMap(startupInfo =>{
+                this._startupInfo = startupInfo;
+                return this._languageService.getResources(null);
+            })
             .subscribe(info => {
-                this._startupInfo = info;
                 this.ready = true;
-                this._languageService.getResources(null);
             });
     }
 

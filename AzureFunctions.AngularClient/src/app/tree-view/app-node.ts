@@ -101,7 +101,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.translateService,
                     this.sideNav.broadcastService,
                     this.sideNav.armService,
-                    this.sideNav.cacheService
+                    this.sideNav.cacheService,
+                    this.sideNav.languageService
                 );
 
                 this._functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);

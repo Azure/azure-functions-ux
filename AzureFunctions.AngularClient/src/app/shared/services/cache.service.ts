@@ -54,7 +54,7 @@ export class CacheService {
     }
 
     get(url : string, force? : boolean, headers? : Headers){
-        return this._send(url, "GET", force);
+        return this._send(url, "GET", force, headers);
     }
 
     post(url : string, force? : boolean, headers? : Headers, content? : any){
