@@ -1,17 +1,11 @@
-<div class="run-label">{{ 'httpRun_httpMethod' | translate }}</div>
+<div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
 
 <select *ngIf="model"
         [(ngModel)]="model.method">
     <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
 </select>
 
-<div class="delimiter"></div>
-
-<div class="run-label">
-    {{ 'httpRun_query' | translate }}
-    <!--<span class="link" style="float: right;">
-        <i class="fa fa-copy clickable" (click)="copyQueryString()"></i> {{ 'httpRun_addParameter' | translate }}
-    </span>-->
+<div class="text-content" style="padding-top:8px">{{ 'httpRun_query' | translate }}
 </div>
 
 <div *ngFor="let param of model.queryStringParams; let i = index;" class="pair">
@@ -23,7 +17,7 @@
 
     <div class="name-fixed" *ngIf="param.isFixed">{{param.name}}</div>
 
-    <pop-over *ngIf="!param.name" [isInputError]="true">
+    <pop-over *ngIf="!param.name" [isInputError]="true" class="error-fix">
     </pop-over>
 
     <input type="text" class="value"
@@ -33,28 +27,31 @@
     <!--<pop-over *ngIf="!param.value" [isInputError]="true">
     </pop-over>-->
 
-    <span class="link">
+    <span class="text-hl">
         <i *ngIf="!param.isFixed" class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
-        <i *ngIf="param.isFixed" class="fa fa-remove delete" style="color:#fff"></i>
+        <i *ngIf="param.isFixed" class="fa fa-remove delete"></i>
     </span>
 </div>
 
 <div>
-    <span class="link" (click)="addQueryStringParam()">
+    <span class="text-hl" (click)="addQueryStringParam()">
         <i class="fa fa-plus clickable"></i> {{ 'httpRun_addParameter' | translate }}
     </span>
 </div>
 
-<div class="delimiter"></div>
+<div class="text-content" style="padding-top:8px">{{ 'httpRun_headers' | translate }}</div>
 
-<div class="run-label">Headers</div>
+<div *ngIf="model.headers.length === 0" class="text-label" style="font-style:italic">
+    {{ 'httpRun_noHeaders' | translate }}
+</div>
+
 <div *ngFor="let header of model.headers; let i = index;" class="pair">
     <input type="text" class="name"
            [(ngModel)]="header.name"
            (ngModelChange)="change($event)"
            placeholder="name">
 
-    <pop-over *ngIf="!header.name" [isInputError]="true">
+    <pop-over *ngIf="!header.name" [isInputError]="true" class="error-fix">
     </pop-over>
 
     <input type="text" class="value"
@@ -64,15 +61,13 @@
     <!--<pop-over *ngIf="!header.value" [isInputError]="true">
     </pop-over>-->
 
-    <span class="link">
+    <span class="text-hl">
         <i class="fa fa-remove clickable delete" (click)="removeHeader(i)"></i>
     </span>
 </div>
 
 <div>
-    <span class="link" (click)="addHeader()">
+    <span class="text-hl" (click)="addHeader()">
         <i class="fa fa-plus clickable"></i> {{ 'httpRun_addHeader' | translate }}
     </span>
 </div>
-
-<div class="delimiter"></div>

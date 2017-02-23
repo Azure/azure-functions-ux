@@ -1,53 +1,51 @@
 <div class="dev-flex-column dev-full">
-    <div *ngIf="!isHttpLogs" class="bottom-toolbar" style="display: flex;justify-content: flex-end;">
-        <label style="flex-grow:1;">Logs</label>
-        <span>
-            <span class="clickable link-action" *ngIf="stopped" (click)="startLogs()">
-                <i class="fa fa-play"></i>
-                {{ 'logStreaming_start' | translate }}
-            </span>
-            <span class="clickable link-action" *ngIf="!stopped" (click)="stopLogs()">
-                <i class="fa fa-pause"></i>
-                {{ 'logStreaming_pause' | translate }}
-            </span>
+    <div *ngIf="!isHttpLogs" style="height: 50px; display: flex; align-items: flex-end;padding-left: 15px; padding-right: 25px;">
+        <span class="text-level2-heading tab-label-selected" (click)="clickRightTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+        <span style="flex-grow: 1;"></span>
+        <span class="text-level2-heading tab-label" *ngIf="stopped" (click)="startLogs()">
+            <i class="fa fa-play"></i>
+            {{ 'logStreaming_start' | translate }}
         </span>
-        <span>
-            <span class="clickable link-action" (click)="clearLogs()">
-                <i class="fa fa-book"></i>
-                {{ 'logStreaming_clear' | translate }}
-            </span>
+        <span class="text-level2-heading tab-label" *ngIf="!stopped" (click)="stopLogs()">
+            <i class="fa fa-pause"></i>
+            {{ 'logStreaming_pause' | translate }}
         </span>
-        <span (click)="copyLogs($event)">
-            <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
-                <span class="clickable link-action">
+        <span class="text-level2-heading tab-label" (click)="clearLogs()">
+            <i class="fa fa-book"></i>
+            {{ 'logStreaming_clear' | translate }}
+        </span>
+        <span (click)="copyLogs($event)" class="text-level2-heading tab-label">
+            <pop-over message="{{ 'logStreaming_copied' | translate }}" class="fix-popop-font" hideAfter="300">
+                <span class="text-level2-heading">
                     <i class="fa fa-clone"></i>
                     {{ 'logStreaming_copyLogs' | translate }}
                 </span>
             </pop-over>
         </span>
-        <span *ngIf="!isExpanded">
-            <span class="clickable link-action" (click)="expand()">
-                <i class="fa fa-expand"></i>
-                Expand
-            </span>
+        <span *ngIf="!isExpanded" class="text-level2-heading tab-label" (click)="expand()">
+            <i class="fa fa-expand"></i>
+            {{ 'logStreaming_expand' | translate }}
         </span>
-        <span *ngIf="isExpanded">
-            <span class="clickable link-action" (click)="compress()">
-                <i class="fa fa-compress"></i>
-                Compress
-            </span>
+        
+        <span *ngIf="isExpanded" class="text-level2-heading tab-label" (click)="compress()">
+            <i class="fa fa-compress"></i>
+            {{ 'logStreaming_compress' | translate }}
         </span>
-        <span>
-            <span class="clickable link-action" (click)="close()">
-                <i class="fa fa-times"></i>
-                {{ 'close' | translate }}
-            </span>
+        <span style="padding-right: 10px;" class="tab-label text-level2-heading" (click)="close()">
+            <i class="fa fa-chevron-down"></i>
         </span>
     </div>
+
+
+    <!--<div *ngIf="!isHttpLogs" class="bottom-toolbar" style="display: flex;justify-content: flex-end;">
+        <label style="flex-grow:1;">Logs</label>
+    </div>-->
     <pre id="log-stream" class="log-stream" tabindex="1"
          (keydown)="handleKeyPress($event)"
-         style="margin-bottom: 0px;"
-         [class.height-fixed]="isHttpLogs">{{log}}</pre>
+         [class.height-fixed]="isHttpLogs"
+         [class.http-logs]="isHttpLogs"
+         [class.bottom-logs]="!isHttpLogs">{{log}}</pre>
+
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
         {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
     </div>

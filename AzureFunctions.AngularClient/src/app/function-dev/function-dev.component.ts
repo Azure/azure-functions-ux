@@ -28,7 +28,7 @@ import {RunHttpComponent} from '../run-http/run-http.component';
 @Component({
   selector: 'function-dev',
   templateUrl: './function-dev.component.html',
-  styleUrls: ['./function-dev.component.css']
+  styleUrls: ['./function-dev.component.scss']
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -62,6 +62,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
+    public showFunctionKey: boolean = false;
+    public showFunctionInvokeUrlModal: boolean = false;    
+    public showFunctionKeyModal: boolean = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
@@ -155,6 +158,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     delete this.webHookType;
                 }
 
+                this.showFunctionKey = this.webHookType === 'github';
+
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
                     : null);
@@ -210,73 +215,69 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var TOP = 100;
-        if (this._globalStateService.showTopbar) {
-            TOP += 40;
-        }
 
-        var LEFT = 300;
-        var GLOBAL_PADDING = 20;
-        var EDIT_TOP = 0;
+        var functionNameHeight = 46;
+        var editorPadding = 25;
 
-        if (this.codeEditor && this.functionContainer) {
-            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
-                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
-        }
-
-
-
-        var WIDTH = window.innerWidth - LEFT;
-        var HEIGHT = window.innerHeight - TOP;
-
-        var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
-        var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
-        var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
-
+        var functionContainerWidth;
+        var functionContainaerHeight;
         if (this.functionContainer) {
-            var playgroundContainer = this.functionContainer.nativeElement;
-            playgroundContainer.style.width = WIDTH + 'px';
-            playgroundContainer.style.height = HEIGHT + 'px';
+            functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
+            functionContainaerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
+        }
+        var rigthContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
+        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainaerHeight / 3)) : 50;
+
+        var editorContainerWidth = functionContainerWidth - rigthContainerWidth - 50;
+        var editorContainerHeight = functionContainaerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+
+        if (this.expandLogs) {
+            editorContainerHeight = 0;
+            //editorContainerWidth = 0;
+
+            bottomContainerHeight = functionContainaerHeight - functionNameHeight;
+
+            this.editorContainer.nativeElement.style.visibility = "hidden";
+            this.bottomContainer.nativeElement.style.marginTop = "0px";
+        } else {
+            this.editorContainer.nativeElement.style.visibility = "visible";
+            this.bottomContainer.nativeElement.style.marginTop = "25px";
         }
 
 
-        if (this.editorContainer) {
-            var typingContainer = this.editorContainer.nativeElement;
-            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px";
-            typingContainer.style.height = this.bottomTab ? (HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT) + "px" : (HEIGHT - EDIT_TOP) + 'px';
+        if (this.editorContainer) {            
+            this.editorContainer.nativeElement.style.width = editorContainerWidth + "px";
+            this.editorContainer.nativeElement.style.height = editorContainerHeight + "px";
         }
 
         if (this.codeEditor) {
-            if (this.expandLogs === true) {
-                this.codeEditor.setLayout(1, 1);
-            } else {
-                this.codeEditor.setLayout(
-                    this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                    this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
-                );
-            }
-        }
-
-        if (this.testDataEditor) {
-            var widthDataEditor = RIGHTBAR_WIDTH - 34;
-
-            setTimeout(() => {
-                this.testDataEditor.setLayout(
-                    this.rightTab ? widthDataEditor : 0,
-                    this.isHttpFunction ? 150 : HEIGHT / 2
-                )
-            }, 0);
+            this.codeEditor.setLayout(
+                editorContainerWidth - 2,
+                editorContainerHeight - 2
+            );
         }
 
         if (this.rightContainer) {
-            var editorContainer = this.rightContainer.nativeElement;
-            editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
-            editorContainer.style.height = HEIGHT + 'px';
+            this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
+            //this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
         }
 
         if (this.bottomContainer) {
-            var bottomContainer = this.bottomContainer.nativeElement;
-            bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
+            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + "px";
+            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + "px";
+        }
+
+        if (this.testDataEditor) {
+            var widthDataEditor = rigthContainerWidth - 24;
+
+            setTimeout(() => {
+                if (this.testDataEditor) {
+                    this.testDataEditor.setLayout(
+                        this.rightTab ? widthDataEditor : 0,
+                        this.isHttpFunction ? 150 : functionContainaerHeight / 2
+                    )
+                }
+            }, 0);
         }
     }
 
@@ -458,7 +459,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.onResize();
         }
         var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
-        busyComponent.setBusyState();
+
+        if (busyComponent) {
+            busyComponent.setBusyState();
+        }
 
         this.saveTestData();
 
@@ -540,6 +544,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.runValid = runValid;
     }
 
+    setShowFunctionInvokeUrlModal(value: boolean) {
+        this.showFunctionInvokeUrlModal = value;
+    }
+
+    setShowFunctionKeyModal(value: boolean) {
+        this.showFunctionKeyModal = value;
+    }
+
+    hideModal() {
+        this.showFunctionKeyModal = false;
+        this.showFunctionInvokeUrlModal = false;
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
@@ -572,7 +589,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             this.running = result.subscribe(r => {
                 this.runResult = r;
-                busyComponent.clearBusyState();
+                if (busyComponent) {
+                    busyComponent.clearBusyState();
+                }
                 delete this.running;
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);

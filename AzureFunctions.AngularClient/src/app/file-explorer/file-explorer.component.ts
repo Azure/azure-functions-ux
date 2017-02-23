@@ -17,7 +17,7 @@ import {Observable} from 'rxjs/Rx';
 @Component({
   selector: 'file-explorer',
   templateUrl: './file-explorer.component.html',
-  styleUrls: ['./file-explorer.component.css', '../function-dev/function-dev.component.css']
+  styleUrls: ['./file-explorer.component.scss', '../function-dev/function-dev.component.scss']
 })
 export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;

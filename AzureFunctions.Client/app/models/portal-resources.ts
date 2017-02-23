@@ -314,5 +314,9 @@ export class PortalResources
     public static functionKeys_copy: string = "functionKeys_copy";
     public static functionKeys_renew: string = "functionKeys_renew";
     public static functionKeys_revoke: string = "functionKeys_revoke";
+    public static logStreaming_compress: string = "logStreaming_compress";
+    public static logStreaming_expand: string = "logStreaming_expand";
+    public static httpRun_headers: string = "httpRun_headers";
+    public static httpRun_noHeaders: string = "httpRun_noHeaders";
 }
 

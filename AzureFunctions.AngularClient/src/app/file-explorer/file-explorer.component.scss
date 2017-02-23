@@ -9,24 +9,20 @@
     white-space: nowrap;
 }
 
-.folder {
-    color: #539CF6;
-}
-
 .shifted {
     padding-left: 30px;
 }
 
 .file-container {
+    flex-grow: 1;
     height: 100%;
-    border: 1px solid #ccc;
-    /*margin-right: 3px;*/
+    border: 1px solid #ccc;    
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 .file:hover, .selected {
-    background-color: #E6E7E8;
+    background-color: #e8f4ff;
 }
 
 .heading {
@@ -75,4 +71,8 @@ label {
 
 .disabled:hover {
     background-color: #FFF;
+}
+
+.root-folder {
+    padding: 10px 0px 0px 10px;
 }

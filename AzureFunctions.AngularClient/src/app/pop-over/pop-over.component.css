@@ -7,9 +7,6 @@
 .pop-over-container {
   cursor: default;
   display: inline-block;
-  font-family: 'Helvetica',sans-serif;
-  font-size: 18px;
-  font-weight: bold;
   position: relative;
   text-align: center;
 }
@@ -71,6 +68,6 @@ span.input-error {
     background-color: red;
     height: 25px;
     padding: 5px 5px 0px 5px;
-    margin-left: 2px;
+    margin-left: 3px;
     margin-top: -16px;
 }
