@@ -111,7 +111,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates &&
-                authSettings) {
+                (authSettings || this.showTryView)) {
                 this.functionContainer = functionContainer;
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
