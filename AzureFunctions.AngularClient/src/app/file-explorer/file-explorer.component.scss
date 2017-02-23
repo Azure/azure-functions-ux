@@ -14,6 +14,7 @@
 }
 
 .file-container {
+    flex-grow: 1;
     height: 100%;
     border: 1px solid #ccc;    
     overflow-y: auto;
@@ -70,4 +71,8 @@ label {
 
 .disabled:hover {
     background-color: #FFF;
+}
+
+.root-folder {
+    padding: 10px 0px 0px 10px;
 }

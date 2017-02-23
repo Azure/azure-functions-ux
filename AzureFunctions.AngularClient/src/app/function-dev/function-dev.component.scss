@@ -1,28 +1,5 @@
 @import '../../sass/main';
 
-div.header {
-    display: flex;
-}
-
-div.header-code {
-    flex-grow: 1;
-    padding-bottom: 10px;
-}
-
-div.header-code > h2 {
-    display: inline;
-}
-
-
-div.work-block {
-    display:flex;
-    height:100%
-}
-
-div.right-block {
-    padding-left:10px;
-}
-
 .dev-full {
     height:100%;
     width:100%;
@@ -76,35 +53,12 @@ div.right-block {
     position: relative;
 }
 
-.link-action {
-    font-size: 14px;
-    font-weight: normal;
-    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
-    color: #539CF6;
-}
-
-/*.run-red {
-    color: #b40e1b;
-}
-
-.run-green {
-    color: #;
-}
-
-.run-orange {
-    color: darkorange;
-}*/
-
-
-.flex-inline{
-    display: inline-flex;
-}
-
 .not-shown {
     display: none;
 }
 
 .tab-label {
+    @extend .text-level2-heading;
     padding-bottom: 12px;
     padding-top: 8px;
     padding-left: 8px;
@@ -114,6 +68,7 @@ div.right-block {
 }
 
 .tab-label-selected {
+    @extend .text-level2-heading;
     padding: 8px;
     border-bottom: 4px solid #0058ad;
     cursor: pointer;
@@ -122,6 +77,7 @@ div.right-block {
 }
 
 .tab-label-disabled {
+    @extend .text-level2-heading;
     padding: 8px;
     border-bottom: 4px solid #ccc;
     cursor: pointer;
@@ -129,6 +85,7 @@ div.right-block {
 }
 
 .tab-label-rotate-right {
+    @extend .text-level2-heading;
     padding-top: 12px; 
     padding-bottom: 8px;
     padding-left: 8px;
@@ -138,6 +95,7 @@ div.right-block {
 }
 
 .tab-label-rotate {
+    @extend .text-level2-heading;
     padding: 8px;
     border-top: 4px solid #ccc;
     cursor: pointer;
@@ -149,12 +107,88 @@ div.right-block {
     flex-grow: 1;
 }
 
-/*.line-horizontal {
-    border-top: 1px solid #ccc; 
-    flex-grow: 1;
-}*/
-
 /*https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow*/
 .pre-fix div, log-streaming {
     min-width: 0;
+}
+
+.left-container {
+    padding: 7px 25px 0px 25px; 
+    flex-grow: 1;
+}
+
+.get-url {
+    @extend .text-hl;
+    align-self: center;
+    padding-left: 10px
+}
+
+.bottom-bar-closed {
+    border-top: 1px solid #ccc;
+    height: 50px;
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 10px;
+}
+
+.right-container-closed {
+    width: 0px; 
+    align-content: flex-end;
+}
+
+.right-container-rotated {
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-top: 20px;
+    width: 500px;
+    margin-left: 50px;
+    display: flex;
+    align-items:flex-start;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.rigth-container-bar {
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.run-container {
+    flex-grow:1;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.run-output {
+    flex-grow:1;
+    padding-bottom: 10px;
+}
+
+.run-result {
+    display: flex;
+    align-items: center;
+}
+
+.run-pre-http {
+    margin-bottom: 0px;
+}
+
+.run-pre-regular {
+    flex-grow:1;
+    margin-bottom: 0px;
+}
+
+.run-button-container {
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: row-reverse; 
+    padding: 10px 10px 10px 0px;
 }

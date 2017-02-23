@@ -17,7 +17,7 @@
 
     <div class="name-fixed" *ngIf="param.isFixed">{{param.name}}</div>
 
-    <pop-over *ngIf="!param.name" [isInputError]="true" style="padding-top: 3px;">
+    <pop-over *ngIf="!param.name" [isInputError]="true" class="error-fix">
     </pop-over>
 
     <input type="text" class="value"
@@ -27,9 +27,9 @@
     <!--<pop-over *ngIf="!param.value" [isInputError]="true">
     </pop-over>-->
 
-    <span class="test-hl">
+    <span class="text-hl">
         <i *ngIf="!param.isFixed" class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
-        <i *ngIf="param.isFixed" class="fa fa-remove delete" style="color:#fff"></i>
+        <i *ngIf="param.isFixed" class="fa fa-remove delete"></i>
     </span>
 </div>
 
@@ -51,7 +51,7 @@
            (ngModelChange)="change($event)"
            placeholder="name">
 
-    <pop-over *ngIf="!header.name" [isInputError]="true" style="padding-top: 3px;">
+    <pop-over *ngIf="!header.name" [isInputError]="true" class="error-fix">
     </pop-over>
 
     <input type="text" class="value"

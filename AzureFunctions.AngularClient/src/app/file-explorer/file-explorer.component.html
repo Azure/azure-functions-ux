@@ -16,8 +16,8 @@
             {{ 'fileExplorer_delete' | translate }}
         </span>
     </div>
-    <div ng2FileDrop [uploader]="uploader" class="file-container" style="flex-grow:1;">
-        <div class="clickable text-level2-heading" (click)="headingClick()" style="padding: 10px 0px 0px 10px">
+    <div ng2FileDrop [uploader]="uploader" class="file-container">
+        <div class="clickable text-level2-heading root-folder" (click)="headingClick()">
             <i class="fa fa-folder-open-o"></i>
             {{currentTitle}}
         </div>
