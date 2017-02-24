@@ -38,7 +38,7 @@ export class FunctionInfoHelper {
                 //fsharp
                 break;
             case "js":
-                lang = "NodeJS";
+                lang = "JavaScript";
                 //javascript
                 break;
             case "php":

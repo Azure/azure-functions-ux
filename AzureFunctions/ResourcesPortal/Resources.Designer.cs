@@ -1330,7 +1330,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View Files.
+        ///   Looks up a localized string similar to View files.
         /// </summary>
         internal static string functionDev_viewFiles {
             get {
@@ -2131,7 +2131,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy Logs.
+        ///   Looks up a localized string similar to Copy logs.
         /// </summary>
         internal static string logStreaming_copyLogs {
             get {

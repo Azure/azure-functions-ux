@@ -163,7 +163,7 @@
     <value>Status:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>View Files</value>
+    <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template</value>
@@ -271,7 +271,7 @@
     <value>Copied!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Copy Logs</value>
+    <value>Copy logs</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
     <value>Pause</value>
