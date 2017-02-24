@@ -274,7 +274,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (this.testDataEditor) {
                     this.testDataEditor.setLayout(
                         this.rightTab ? widthDataEditor : 0,
-                        this.isHttpFunction ? 150 : functionContainaerHeight / 2
+                        this.isHttpFunction ? 230 : functionContainaerHeight / 2
+                        //functionContainaerHeight / 2
                     )
                 }
             }, 0);
