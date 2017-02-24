@@ -454,10 +454,23 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             return;
         }
 
+        var resizeNeeded = false;
         if (this.bottomTab !== "logs") {
             this.bottomTab = "logs";
-            this.onResize();
+            resizeNeeded = true;
         }
+
+        if (this.rightTab !== "run") {
+            this.rightTab = "run";
+            resizeNeeded = true;
+        }
+
+        if (resizeNeeded) {
+            setTimeout(() => {
+                this.onResize();
+            });
+        }
+
         var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
 
         if (busyComponent) {
