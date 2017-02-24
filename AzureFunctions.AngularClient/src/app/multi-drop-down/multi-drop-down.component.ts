@@ -53,6 +53,10 @@ export class MultiDropDownComponent<T> implements OnInit {
   }
 
   click() {
+    if(this.opened){
+      this._notifyChangeSubscriptions();
+    }
+
     this.opened = !this.opened;
   }
 
