@@ -901,11 +901,18 @@ export class FunctionApp {
         });
     }
 
-    private checkIfEasyAuthEnabled(){
-        return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
-        .map(r =>{
-            let auth : ArmObj<any> = r.json();
-            return auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1;
+    private checkIfEasyAuthEnabled() {
+        return Observable.zip(
+            this._cacheService.postArm(`${this.site.id}/config/authsettings/list`),
+            this._cacheService.getArm(`${this.site.id}`),
+            (authSettings, siteObj) => ({authSettingsResponse: authSettings, siteObjResponse: siteObj})
+        )
+        .map((r: {authSettingsResponse: Response, siteObjResponse: Response}) => {
+            let auth: ArmObj<any> = r.authSettingsResponse.json();
+            let siteObj: ArmObj<any> = r.siteObjResponse.json();
+            return auth.properties['enabled'] &&
+                   auth.properties['unauthenticatedClientAction'] !== 1 &&
+                   !siteObj.properties['clientCertEnabled'];
         });
     }
 
