@@ -1528,7 +1528,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recent errors count.
+        ///   Looks up a localized string similar to Error count since.
         /// </summary>
         internal static string functionMonitor_errorsAggregate {
             get {
@@ -1582,7 +1582,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recent success count.
+        ///   Looks up a localized string similar to Success count since.
         /// </summary>
         internal static string functionMonitor_successAggregate {
             get {
@@ -2536,7 +2536,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Always On&quot; setting is set to off.
+        ///   Looks up a localized string similar to &apos;AlwaysOn&apos; is not enabled. Your app may not function properly.
         /// </summary>
         internal static string topBar_alwaysOn {
             get {

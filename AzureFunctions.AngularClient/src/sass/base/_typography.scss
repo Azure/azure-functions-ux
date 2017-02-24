@@ -77,12 +77,18 @@ pre {
 
 .message-error {
     @extend .text;
-    color: #b40e1b;
+    color: $error-color;
     font-size: 12px;
 }
 
 .message-success {
     @extend .text;
-    color: #386300;
+    color: $success-color;
+    font-size: 12px;
+}
+
+.message-warning {
+    @extend .text;
+    color: $success-color;
     font-size: 12px;
 }

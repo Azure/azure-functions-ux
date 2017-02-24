@@ -316,6 +316,8 @@ export class PortalResources
     public static functionKeys_revoke: string = "functionKeys_revoke";
     public static logStreaming_compress: string = "logStreaming_compress";
     public static logStreaming_expand: string = "logStreaming_expand";
+    public static functionDev_gerFunctionUrl: string = "functionDev_gerFunctionUrl";
+    public static functionDev_gerGithubSecret: string = "functionDev_gerGithubSecret";
     public static httpRun_headers: string = "httpRun_headers";
     public static httpRun_noHeaders: string = "httpRun_noHeaders";
 }

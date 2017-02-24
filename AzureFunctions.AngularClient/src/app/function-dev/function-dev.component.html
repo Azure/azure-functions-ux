@@ -174,7 +174,7 @@
                                         <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
 
                                         <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="text-value"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                         <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                     </div>
 
@@ -187,7 +187,7 @@
                                         <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
 
                                         <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="text-value"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                         <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                     </div>
 

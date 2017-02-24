@@ -854,7 +854,7 @@
     <value>Query</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>"Always On" setting is set to off</value>
+    <value>'AlwaysOn' is not enabled. Your app may not function properly</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>

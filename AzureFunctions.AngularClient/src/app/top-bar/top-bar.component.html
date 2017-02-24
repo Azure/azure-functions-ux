@@ -7,7 +7,7 @@
         </div>
         <div class="top-bar-info left vertical-align-center">
             <span *ngIf="!_globalStateService.isAlwaysOn" class="left" style="padding-right:20px;">
-                <i class="fa fa-exclamation-triangle"></i> {{ 'topBar_alwaysOn' | translate }}. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=830855">{{ 'topBar_learnMore' | translate }}</a>.
+                <i class="fa fa-exclamation-triangle warning"></i> {{ 'topBar_alwaysOn' | translate }}. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=830855">{{ 'topBar_learnMore' | translate }}</a>.
             </span>
             <span *ngIf="needUpdateExtensionVersion" class="left">
                 <i class="fa fa-info"></i> {{ 'topBar_newVersion' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
