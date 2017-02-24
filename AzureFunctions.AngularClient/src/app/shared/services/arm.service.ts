@@ -106,26 +106,6 @@ export class ArmService {
             .map<{ [key: string]: string }>(r => r.json().properties);
     }
 
-    updateMemorySize(functionContainer: FunctionContainer, memorySize: string | number) {
-        var nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize) : memorySize;
-        var url = `${this.armUrl}${functionContainer.id}?api-version=${this.websiteApiVersion}`;
-        functionContainer.properties.containerSize = nMemorySize;
-        return this._http.put(url, JSON.stringify(functionContainer), { headers: this._getHeaders() })
-            .map<FunctionContainer>(r => r.json());
-    }
 
-    dailyMemory(container: FunctionContainer, value: number) {
-        var url = `${this.armUrl}/${container.id}?api-version=${this.websiteApiVersion}`;
 
-        var body = JSON.stringify({
-            Location: container.location,
-            Properties: {
-                dailyMemoryTimeQuota: value
-            }
-        });
-
-        return this._http.put(url, body, { headers: this._getHeaders() })
-            .map(r => r.json());
-
-    }
 }

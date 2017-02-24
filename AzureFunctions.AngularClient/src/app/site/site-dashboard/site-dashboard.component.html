@@ -12,17 +12,9 @@
         <site-manage *ngIf="selectedTabTitle === TabNames.features" [siteInput]="site" (openTabEvent)="openTab($event)"></site-manage>
     </tab>
     <tab [tabTitle]="TabNames.functionRuntime">
-        <div style="margin-left: 15px">
-            <div>
-                <h3>Quota Usage Quota (GB-Sec)</h3>
-                <input style="margin-left: 15px" type="text" placeholder="Enter value in GB-sec"/> <input type="button" class="custom-button" value="Set quota" />
-            </div>
-
-            <div>
-                <h3>Runtime version</h3>
-                <div style="margin-left: 15px">Runtime version: latest (~1.Foo)</div>
-            </div>
-        </div>
+        <function-runtime
+            *ngIf="selectedTabTitle === TabNames.functionRuntime"
+            [viewInfoInput]="viewInfo"></function-runtime>
     </tab>    
     <tab [tabTitle]="TabNames.apiDefinition">
         API Definition

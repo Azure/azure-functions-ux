@@ -148,7 +148,9 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
         })
 
-        event.stopPropagation();
+        if(event){
+            event.stopPropagation();
+        }
     }
 
     public remove(){
@@ -245,12 +247,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             if(result.appSettingResponse){
                 let appSettings : ArmObj<any> = result.appSettingResponse.json();
                 let extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
-                let isLatestVersion = false;
+                let isLatestFunctionRuntime = null;
                 if(extensionVersion){
-                    isLatestVersion = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
+                    isLatestFunctionRuntime = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
                 }
 
-                if(!isLatestVersion){
+                if(!isLatestFunctionRuntime){
                     notifications.push({
                         message : 'A new version of Azure Functions is available. Click to visit settings.',
                         iconClass: 'fa fa-info link',

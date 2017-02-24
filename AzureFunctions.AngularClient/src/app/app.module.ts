@@ -35,7 +35,6 @@ import { TryNowComponent } from './try-now/try-now.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SidebarPipe } from './sidebar/pipes/sidebar.pipe';
 import { FunctionEditComponent } from './function-edit/function-edit.component';
-import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { TrialExpiredComponent } from './trial-expired/trial-expired.component';
 import { FunctionNewComponent } from './function-new/function-new.component';
 import { IntroComponent } from './intro/intro.component';
@@ -87,6 +86,7 @@ import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/d
 import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.component';
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
+import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +106,6 @@ import { AppsListComponent } from './apps-list/apps-list.component';
       SidebarComponent,
       SidebarPipe,
       FunctionEditComponent,
-      AppSettingsComponent,
       TrialExpiredComponent,
       FunctionNewComponent,
       IntroComponent,
@@ -157,7 +156,8 @@ import { AppsListComponent } from './apps-list/apps-list.component';
       DeploymentSourceSetupComponent,
       MultiDropDownComponent,
       TopRightMenuComponent,
-      AppsListComponent
+      AppsListComponent,
+      FunctionRuntimeComponent
   ],
   imports: [
     BrowserModule,

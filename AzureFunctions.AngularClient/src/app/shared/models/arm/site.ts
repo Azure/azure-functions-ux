@@ -9,4 +9,7 @@ export class Site{
     containerSize: number;
     serverFarmId: string;
     defaultHostName: string;
+    dailyMemoryTimeQuota?: number;
+    enabled?: boolean;
+    siteDisabledReason?: number;
 }
