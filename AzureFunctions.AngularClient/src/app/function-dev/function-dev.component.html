@@ -37,7 +37,7 @@
                                 <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
                             </span>
                             <span>
-                                <button *ngIf="scriptFile.isDirty"
+                                <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
@@ -45,7 +45,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
-                                <button *ngIf="!scriptFile.isDirty"
+                                <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
@@ -207,7 +207,7 @@
                             </div>
 
                             <div class="run-button-container">
-                                <button *ngIf="scriptFile.isDirty"
+                                <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"
@@ -215,7 +215,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
-                                <button *ngIf="!scriptFile.isDirty"
+                                <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
                                         [class.dirty]="scriptFile.isDirty"

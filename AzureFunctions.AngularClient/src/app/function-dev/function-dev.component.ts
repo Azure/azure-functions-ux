@@ -51,7 +51,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public testContent: string;
     public fileName: string;
     public inIFrame: boolean;
-    public runValid: boolean;
+    public runValid: boolean = false;
 
     public configContent: string;
     public webHookType: string;
@@ -390,9 +390,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 setTimeout(() => {
                     this.functionInvokeUrl = this._functionsService.getMainSiteUrl() + path;
+                    this.runValid = true;
                 });
 
             });
+        } else {
+            this.runValid = true;
         }
     }
 
@@ -485,7 +488,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 return;
             }
 
-            this.httpRunLogs.clearLogs();
+            if (this.httpRunLogs) {
+                this.httpRunLogs.clearLogs();
+            }
             this.runFunctionInternal(busyComponent);
 
         } else {
