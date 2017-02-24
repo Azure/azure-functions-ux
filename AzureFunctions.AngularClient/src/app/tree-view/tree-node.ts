@@ -18,7 +18,7 @@ export interface Removable{
 }
 
 export interface Refreshable{
-    refresh();
+    handleRefresh() : Observable<any>;
 }
 
 export interface CanBlockNavChange{
@@ -26,12 +26,16 @@ export interface CanBlockNavChange{
     shouldBlockNavChange() : boolean;
 }
 
+export interface Collection{
+    loadChildren() : Observable<any>;
+}
+
 export interface MutableCollection{
     addChild(child : any);
     removeChild(child : any, callRemoveOnChild? : boolean);
 }
 
-export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection{
+export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection, Collection{
     public isExpanded : boolean;
     public showExpandIcon : boolean = true;
     public iconClass : string;
@@ -56,35 +60,32 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         }
 
         this.sideNav.updateView(this, this.dashboardType)
-        .subscribe(viewUpdated =>{
-            if(viewUpdated && !this.isExpanded){
+        .subscribe(() =>{
+            if(!this.isExpanded){
                 this.toggle(null);
             }        
         })        
     }
 
-    public selectAsync() : Observable<boolean>{
-        if(this.disabled || !this.resourceId){
-            return;
-        }
-
-        return this.sideNav.updateView(this, this.dashboardType)
-        .map(viewUpdated =>{
-            if(viewUpdated && !this.isExpanded){
-                this.toggle(null);
-            }
-
-            return viewUpdated;
-        })
-    }
-
     // Virtual
     public handleSelection() : Observable<any>{
+        this.isLoading = false;
         return Observable.of(null);
     }
 
     // Virtual
-    public refresh(event){
+    public refresh(event? : any){
+        this.handleRefresh()
+        .subscribe(() =>{
+        });
+
+        if(event){
+            event.stopPropagation();
+        }
+    }
+
+    public handleRefresh() : Observable<any>{
+        return Observable.of(null);
     }
 
     public toggle(event){
@@ -93,7 +94,13 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.isLoading = true;
             this.isExpanded = true;
 
-            this._loadChildren();
+            this.loadChildren()
+            .subscribe(() =>{
+                this.isLoading = false;
+                if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
+                    this.children[0].toggle(null);
+                }
+            });
         }
         else{
             this.isExpanded = false;
@@ -113,16 +120,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         return false;
     }
 
-    protected _loadChildren(){
-        this._doneLoading();
-    }
-
-    protected _doneLoading(){
-        this.isLoading = false;
-        // this.showExpandIcon = !!this.children && this.children.length > 0;
-        if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
-            this.children[0].toggle(null);
-        }
+    public loadChildren() : Observable<any>{
+        return Observable.of(null);
     }
 
     public dispose(newSelectedNode? : TreeNode){

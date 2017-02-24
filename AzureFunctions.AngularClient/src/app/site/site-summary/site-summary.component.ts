@@ -225,10 +225,9 @@ export class SiteSummaryComponent {
         this._globalStateService.setBusyState();
         this._armService.post(`${site.id}/${action}`, null)
         .switchMap(()=>{
-            stop ? appNode.updateTreeForStoppedSite() : appNode.updateTreeForStartedSite();
             return this._cacheService.getArm(`${site.id}`, true);
         })
-        .subscribe(r =>{
+        .switchMap(r =>{
             let refreshedSite : ArmObj<Site> = r.json();
 
             // Current site could have changed if user clicked away
@@ -237,6 +236,11 @@ export class SiteSummaryComponent {
             }
 
             this._globalStateService.clearBusyState();
+
+            appNode.dispose();
+            return appNode.loadChildren();
+        })
+        .subscribe(r =>{
         });
 
     }

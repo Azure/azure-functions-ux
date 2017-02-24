@@ -1,3 +1,4 @@
+import { FunctionNode } from './function-node';
 import { async } from '@angular/core/testing';
 import { TopBarNotification } from './../top-bar/top-bar-models';
 import { Response } from '@angular/http';
@@ -6,7 +7,7 @@ import { SiteConfig } from './../shared/models/arm/site-config';
 import { Subscription } from './../shared/models/subscription';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
-import { TreeNode, Disposable, Removable, CustomSelection } from './tree-node';
+import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable } from './tree-node';
 import {DashboardType} from './models/dashboard-type';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {Site} from '../shared/models/arm/site';
@@ -18,7 +19,7 @@ import {Constants} from '../shared/models/constants';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
 
-export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection{
+export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable{
     public supportsAdvanced = true;
     public inAdvancedMode = false;
     public dashboardType = DashboardType.app;
@@ -64,35 +65,35 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.subscription = sub && sub.displayName;
     }
 
+    private _loadingObservable : Observable<any>;
+
     public handleSelection() : Observable<any>{
+        return this.loadChildren();
+    }
+
+    public loadChildren(){
         if(!this.disabled){
-            return this.configureBackgroundTasks(false);
+            if(!this._loadingObservable){
+                this._loadingObservable = this.configureBackgroundTasks();
+            }
+
+            return this._loadingObservable;
         }
 
         return Observable.of({});
     }
 
-    protected _loadChildren(){
-        this.handleSelection()
-        .subscribe(() =>{
-            this._doneLoading();
-        });
-    }
-
-    public configureBackgroundTasks(forceLoadChildren : boolean) : Observable<any>{
-
-        if(this._pollingTask){
-            return Observable.of({});
-        }
+    public configureBackgroundTasks() : Observable<any>{
 
         this.supportsRefresh = false;
 
         return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
         .map(r =>{
+            this._loadingObservable = null;
 
             let site : ArmObj<Site> = r.json();
             
-            if(forceLoadChildren || !this.functionApp){
+            if(!this.functionApp){
                 this.functionApp = new FunctionApp(
                     site,
                     this.sideNav.http,
@@ -118,39 +119,39 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
 
             if(site.properties.state === "Running"){
+                this.supportsRefresh = true;
                 this.updateTreeForStartedSite();
             }
             else{
+                this.supportsRefresh = false;
                 this.updateTreeForStoppedSite();
             }
 
-            this.supportsRefresh = true;
-            this._doneLoading();
         })
     }
 
-    public refresh(event){
+    public handleRefresh() : Observable<any>{
 
-        // Calling select won't actually reload any children because the node needs to
-        // be disposed first.  This is useful because we don't want to clean up if the user
-        // gets a dirty state pop-up and cancels the refresh.  If they agree, then we call dispose
-        // and then can call configureBackgroundTasks to reload all children and setup background tasks.
-        this.selectAsync()
-        .subscribe(viewUpdated =>{
-            if(viewUpdated){
-                this.sideNav.aiService.trackEvent('/actions/refresh');
-                this.functionApp.fireSyncTrigger();
-                this.sideNav.cacheService.clearCache();
-                this.dispose();
-                
-                this.configureBackgroundTasks(true)
-                .subscribe(() =>{})
-            }
-        })
-
-        if(event){
-            event.stopPropagation();
+        if(this.sideNav.selectedNode.shouldBlockNavChange()){
+            return Observable.of(null);
         }
+
+        // Call loadChildren first in case there's currently a load operation going
+        return this.loadChildren()
+        .switchMap(() =>{
+            this.sideNav.aiService.trackEvent('/actions/refresh');
+            this.functionApp.fireSyncTrigger();
+            this.sideNav.cacheService.clearCache();
+            this.dispose();
+            
+            return this.configureBackgroundTasks();
+        })
+        .map(() =>{
+            this.isLoading = false;
+            if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
+                this.children[0].toggle(null);
+            }
+        });
     }
 
     public remove(){
@@ -186,6 +187,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this._pollingTask = null;
         }
 
+        this.functionApp = null;
         this.sideNav.globalStateService.setTopBarNotifications([]);
     }
 

@@ -43,7 +43,7 @@ export class SideNavComponent{
     @Input() public resourceId : string;
     public searchTerm = "";
 
-    private _selectedNode : TreeNode;
+    public selectedNode : TreeNode;
     private _savedSubsKey = "/subscriptions/selectedIds";
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
@@ -107,17 +107,17 @@ export class SideNavComponent{
     }
 
     updateView(newSelectedNode : TreeNode, dashboardType : DashboardType) : Observable<boolean>{
-        if(this._selectedNode){
-            if(this._selectedNode !== newSelectedNode){
-                if(this._selectedNode.shouldBlockNavChange()){
+        if(this.selectedNode){
+            if(this.selectedNode !== newSelectedNode){
+                if(this.selectedNode.shouldBlockNavChange()){
                     return Observable.of(false);
                 }
 
-                this._selectedNode.dispose(newSelectedNode);
+                this.selectedNode.dispose(newSelectedNode);
             }
         }            
 
-        this._selectedNode = newSelectedNode;
+        this.selectedNode = newSelectedNode;
         this.resourceId = newSelectedNode.resourceId;
 
         let viewInfo = <TreeViewInfo>{
@@ -128,10 +128,7 @@ export class SideNavComponent{
 
         this.treeViewInfoEvent.emit(viewInfo);
 
-        return newSelectedNode.handleSelection()
-        .map(complete =>{
-            return true;
-        })
+        return newSelectedNode.handleSelection();
     }
 
     clearView(resourceId : string){

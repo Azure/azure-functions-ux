@@ -31,20 +31,20 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
-            return (<AppNode>this.parent.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent.parent).configureBackgroundTasks();
         }
 
         return Observable.of({});
     }
 
-    protected _loadChildren(){
+    public loadChildren(){
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
             new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
             new FunctionMonitorNode(this.sideNav, this.functionInfo, this)
         ]
 
-        this._doneLoading();
+        return Observable.of(null);
     }
 
     public getViewData() : any{
@@ -93,7 +93,7 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
-            return (<AppNode>this.parent.parent.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent.parent.parent).configureBackgroundTasks();
         }
 
         return Observable.of({});

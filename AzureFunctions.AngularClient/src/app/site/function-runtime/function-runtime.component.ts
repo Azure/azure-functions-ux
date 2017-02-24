@@ -129,12 +129,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .flatMap(r => {
         return this._updateContainerVersion(this.site, r.json());
       })
-      .subscribe(r => {
+      .subscribe(r =>{
         this.needUpdateExtensionVersion = false;
         this._globalStateService.clearBusyState();
         this._cacheService.clearCachePrefix(this.site.id);
-        this._appNode.refresh(null);
-      })
+        this._appNode.refresh();
+      });
   }
 
   setQuota() {

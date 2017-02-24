@@ -1,6 +1,6 @@
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { TreeNode, MutableCollection, Disposable, CustomSelection } from './tree-node';
+import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
@@ -13,7 +13,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
 
-export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection{
+export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = "Functions";
     public dashboardType = DashboardType.none;
     public newDashboardType = DashboardType.createFunction;
@@ -25,18 +25,18 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         super(sideNav, functionApp.site.id + "/functions", parentNode);
     }
 
-    protected _loadChildren(){
+    public loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            this.updateTreeForStartedSite(true);
+            return this.updateTreeForStartedSite(true);
         }
         else{
-            this.updateTreeForStoppedSite();
+            return this.updateTreeForStoppedSite();
         }
     }
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
-            return (<AppNode>this.parent).configureBackgroundTasks(false);
+            return (<AppNode>this.parent).configureBackgroundTasks();
         }
 
         return Observable.of({});
@@ -67,17 +67,16 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this.newDashboardType = null;
         this.children = [];
         this.title = "Functions (Stopped)";
-        this._doneLoading();
+        return Observable.of(null);
     }
 
     public updateTreeForStartedSite(forceLoadChildren : boolean){
         this.title = "Functions";
         this.newDashboardType = DashboardType.createFunction;
-        this.isLoading = true;
 
         if(forceLoadChildren || !this.children || this.children.length === 0){
-            this.functionApp.getFunctions()
-            .subscribe(fcs =>{
+            return this.functionApp.getFunctions()
+            .map(fcs =>{
                 let fcNodes = <FunctionNode[]>[];
                 fcs.forEach(fc => {
                     fc.functionApp = this.functionApp;
@@ -85,11 +84,12 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
                 });
 
                 this.children = fcNodes;
-                this._doneLoading();
+
+                return null;
             });        
         }
         else{
-            this._doneLoading();            
+            return Observable.of(null);
         }
     }
 }

@@ -12,17 +12,4 @@ export class SlotsNode extends TreeNode{
     constructor(sideNav : SideNavComponent, private _siteArmObj : ArmObj<Site>, parentNode : TreeNode){
         super(sideNav, _siteArmObj.id + "/slots", parentNode);
     }
-    
-    protected _loadChildren(){
-        this._doneLoading();
-
-        // this.sideNav.armService.getSlotsForSite(this._siteArmObj.id)
-        //     .subscribe(slots =>{
-        //         this.children = slots.map(slot =>{
-        //             return new SlotNode(this.sideBar, slot, false); 
-        //         });
-
-        //         this._doneLoading();
-        //     })        
-    }
 }

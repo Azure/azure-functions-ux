@@ -17,7 +17,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public dashboardType = DashboardType.apps;
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);
-
+    public isExpanded = true;
     private _exactAppSearchExp = 'app:\"(.+)\"';
 
     constructor(
@@ -59,7 +59,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         })
         .subscribe((result : { term : string, children : TreeNode[]}) =>{
             if(!result){
-                this._doneLoading();
+                this.isLoading = false;
                 return;
             }
 
@@ -83,21 +83,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 this.children = filteredChildren;
             }
 
-            this._doneLoading();
+            this.isLoading = false;
         });
-    }
-
-    // Overwrite the default load children behavior.
-    protected _loadChildren(){
-        this.isLoading = false;
     }
 
     public dispose(){
         this._initialResourceId = "";
-    }
-
-    public refresh(){
-        
     }
 
     private _doSearch(
