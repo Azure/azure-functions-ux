@@ -2005,16 +2005,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The faster way to functions.
-        /// </summary>
-        internal static string intro_fasterWay {
-            get {
-                return ResourceManager.GetString("intro_fasterWay", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Get started quickly with a premade function.
+        ///   Looks up a localized string similar to Welcome to Azure Functions! Get started quickly with a premade function..
         /// </summary>
         internal static string intro_getStarted {
             get {
@@ -2100,15 +2091,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string intro_webHook {
             get {
                 return ResourceManager.GetString("intro_webHook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required..
-        /// </summary>
-        internal static string intro_writeAny {
-            get {
-                return ResourceManager.GetString("intro_writeAny", resourceCulture);
             }
         }
         

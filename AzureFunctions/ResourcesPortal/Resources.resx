@@ -246,11 +246,8 @@
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Data processing</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>The faster way to functions</value>
-  </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Get started quickly with a premade function</value>
+    <value>Welcome to Azure Functions! Get started quickly with a premade function.</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
     <value>Or get started on your own</value>
@@ -266,9 +263,6 @@
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>Clear</value>

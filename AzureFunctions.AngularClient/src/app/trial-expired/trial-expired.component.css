@@ -3,34 +3,6 @@
     text-align: center;
 }
 
-.trial-expired-banner{
-    background-color: #0076DA;
-    color: #FFF;
-    margin-top: 20px;
-    padding: 10px 0px 40px 0px;
-
-}
-
-.trial-expired-banner > div{
-    width: 800px;  /* Keeping small so that it fits for Mac Retina */
-    margin: auto;
-    text-align: left;
-}
-
-.trial-expired-banner h1{
-    font-size: 60px;
-}
-
-.trial-expired-banner p{
-    font-size: 20px;
-    line-height: 1.8;
-}
-
-.trial-expired-banner img{
-    float: right;
-    margin-left: 40px;
-}
-
 .trial-expired-template{
     padding: 10px;
     display: inline-block;

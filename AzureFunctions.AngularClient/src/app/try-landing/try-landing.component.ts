@@ -38,6 +38,7 @@ export class TryLandingComponent implements OnInit {
         private _aiService: AiService
 
     ) {
+        debugger;
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
     }
 

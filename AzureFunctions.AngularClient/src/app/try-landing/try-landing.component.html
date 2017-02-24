@@ -1,15 +1,6 @@
 <busy-state name="try-functions"></busy-state>
 <top-bar gettingStarted="true" isTry="true"></top-bar>
 <div class="trylanding-container">
-    <div class="trylanding-banner">
-        <div>
-            <h1>{{ 'intro_fasterWay' | translate }}</h1>
-            <p>
-                <img src="images/function-io.svg" width="210px" />
-                {{ 'intro_writeAny' | translate }}
-            </p>
-        </div>
-    </div>
     <div [ngClass]="busyState?.busy? 'trylanding-body-disabled' : 'trylanding-body'">
         <h2>{{ 'intro_getStarted' | translate }}</h2>
         <h3>{{ 'intro_chooseScenario' | translate }}</h3>

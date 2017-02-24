@@ -94,32 +94,6 @@ button {
     text-align: center;
 }
 
-.trylanding-banner{
-    background-color: #0076DA;
-    color: #FFF;
-    padding: 1px 0px 10px 0px;
-}
-
-.trylanding-banner > div{
-    width: 800px;  /* Keeping small so that it fits for Mac Retina */
-    margin: auto;
-    text-align: left;
-}
-
-.trylanding-banner h1{
-    font-size: 60px;
-}
-
-.trylanding-banner p{
-    font-size: 20px;
-    line-height: 1.8;
-}
-
-.trylanding-banner img{
-    float: right;
-    margin-left: 40px;
-}
-
 .trylanding-template{
     padding: 10px;
     display: inline-block;

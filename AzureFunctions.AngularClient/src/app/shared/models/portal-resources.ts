@@ -45,14 +45,12 @@ export class PortalResources
     public static intro_createThisFunction: string = "intro_createThisFunction";
     public static intro_createYourOwn: string = "intro_createYourOwn";
     public static intro_dataProcessing: string = "intro_dataProcessing";
-    public static intro_fasterWay: string = "intro_fasterWay";
     public static intro_getStarted: string = "intro_getStarted";
     public static intro_getStartedOn: string = "intro_getStartedOn";
     public static intro_ifYou: string = "intro_ifYou";
     public static intro_startSC: string = "intro_startSC";
     public static intro_timer: string = "intro_timer";
     public static intro_webHook: string = "intro_webHook";
-    public static intro_writeAny: string = "intro_writeAny";
     public static logStreaming_clear: string = "logStreaming_clear";
     public static logStreaming_copied: string = "logStreaming_copied";
     public static logStreaming_copyLogs: string = "logStreaming_copyLogs";
