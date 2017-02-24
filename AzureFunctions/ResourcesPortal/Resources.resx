@@ -1049,7 +1049,7 @@
     <value>Revoke</value>
   </data>
   <data name="logStreaming_compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Collapse</value>
   </data>
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expand</value>

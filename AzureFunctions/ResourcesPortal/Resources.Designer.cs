@@ -2113,7 +2113,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Compress.
+        ///   Looks up a localized string similar to Collapse.
         /// </summary>
         internal static string logStreaming_compress {
             get {
