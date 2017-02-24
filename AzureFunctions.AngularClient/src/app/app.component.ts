@@ -101,7 +101,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                     } else if (window.location.host.indexOf('next') !== -1) {
 
                         // Temporarily redirecting FunctionsNext to use the CanaryF2 Ibiza environment.
-                        environment = '?feature.canmodifystamps=true&BizTalkExtension=f2&WebsitesExtension=f2&feature.fastmanifest=false';
+                        environment = '?feature.canmodifystamps=true&BizTalkExtension=f2&WebsitesExtension=f2&feature.fastmanifest=false&appsvc.env=next';
                         // environment = '?websitesextension_functionsnext=true';
                     }
 
