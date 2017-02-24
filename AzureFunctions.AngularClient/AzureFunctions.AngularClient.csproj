@@ -140,6 +140,8 @@
     <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
+    <Content Include="src\app\swagger-definition\swagger-definition.component.css" />
+    <Content Include="src\app\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\template-picker\template-picker.component.css" />
@@ -168,6 +170,8 @@
     <Content Include="src\images\function-io.svg" />
     <Content Include="src\images\Functions.svg" />
     <Content Include="src\images\generic-template.svg" />
+    <Content Include="src\images\icon-collapse.svg" />
+    <Content Include="src\images\icon-expand.svg" />
     <Content Include="src\images\iot-template.svg" />
     <Content Include="src\images\landing-page.png" />
     <Content Include="src\images\Logins\facebook.png" />
@@ -176,6 +180,7 @@
     <Content Include="src\images\Logins\vk.png" />
     <Content Include="src\images\monitoring-coming-soon.png" />
     <Content Include="src\images\stack.svg" />
+    <Content Include="src\images\swagger-definition.svg" />
     <Content Include="src\images\timer-template.svg" />
     <Content Include="src\images\webhook-api-template.svg" />
     <Content Include="tslint.json" />
@@ -347,6 +352,11 @@
     <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
+    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\ISwaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\swagger-frame.directive.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.pipe.spec.ts" />

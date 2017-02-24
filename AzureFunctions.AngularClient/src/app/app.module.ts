@@ -70,6 +70,8 @@ import { TableFunctionMonitorPipe } from './table-function-monitor/table-functio
 import { ApiDetailsComponent } from './api-details/api-details.component';
 import { ApiNewComponent } from './api-new/api-new.component';
 import { FunctionsHttpService } from './shared/services/functions-http.service';
+import { SwaggerDefinitionComponent } from './swagger-definition/swagger-definition.component';
+import { SwaggerFrameDirective } from './swagger-frame/swagger-frame.directive';
 
 @NgModule({
   declarations: [
@@ -125,6 +127,8 @@ import { FunctionsHttpService } from './shared/services/functions-http.service';
       TableFunctionMonitorPipe,
       ApiDetailsComponent,
       ApiNewComponent,
+      SwaggerDefinitionComponent,
+      SwaggerFrameDirective,
   ],
   imports: [
       FormsModule,

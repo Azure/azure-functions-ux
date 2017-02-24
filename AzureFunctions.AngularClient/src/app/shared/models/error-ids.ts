@@ -8,6 +8,7 @@ export class ErrorIds {
     public static unableToDeleteFunction = '/errors/unableToDeleteFunction';
     public static unableToRetrieveSecretsFileFromKudu = '/errors/unableToRetrieveSecretsFileFromKudu';
     public static unableToRetrieveRuntimeConfig = '/errors/unableToRetrieveRuntimeConfig';
+    public static unableToUpdateRuntimeConfig = '/errors/unableToUpdateRuntimeConfig';
     public static unableToUpdateFunction = '/errors/unableToUpdateFunction';
     public static unableToRetrieveFunction = '/errors/unableToRetrieveFunction';
     public static unableToDecryptKeys = '/errors/unableToDecryptKeys';
@@ -19,6 +20,7 @@ export class ErrorIds {
     public static functionRuntimeIsUnableToStart = '/errors/functionRuntimeIsUnableToStart';
     public static unableToRetrieveFunctionKeys = '/errors/unableToRetrieveFunctionKeys';
     public static unableToCreateFunctionKey = '/errors/unableToCreateFunctionKey';
+    public static unableToCreateSwaggerKey = '/errors/unableToCreateSwaggerKey';
     public static unableToDeleteFunctionKey = '/errors/unableToDeleteFunctionKey';
     public static unableToRenewFunctionKey = '/errors/unableToRenewFunctionKey';
     public static proxyWithSameNameAlreadyExists = '/errors/proxyWithSameNameAlreadyExists';
@@ -32,4 +34,9 @@ export class ErrorIds {
     public static functionAppStopped = '/errors/functionAppStopped';
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
+    public static unableToGetSystemKey = '/errors/unableToGetSystemKey';    
+    public static unableToUpdateSwaggerData = '/errors/unableToUpdateSwaggerData';
+    public static unableToDeleteSwaggerData = '/errors/unableToDeleteSwaggerData';
+    public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
+    public static malformedAPIDefinition = '/errors/malformedAPIDefinition';    
 }

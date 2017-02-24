@@ -1180,4 +1180,76 @@
   <data name="error_appOffline" xml:space="preserve">
     <value>The application is offline. Please check your internet connection.</value>
   </data>
+  <data name="topBar_functionSwaggerDefinition" xml:space="preserve">
+    <value>API Definition (preview)</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>We are unable to update the runtime config. Please try again later.</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>External</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>API Defintion Key</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Load API Definition</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Load Generated API Definition</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Export to Power Apps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Set External Definition URL</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>API Definition Source</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Consume your HTTP triggered Functions in a variety of services using an Open API 2.0 (Swagger) definition</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Function API Definition (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>API Definition URL</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Use your API Definition</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Are you sure you want to delete your API Definition?</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Cannot save malformed API Definition.</value>
+  </data>
 </root>

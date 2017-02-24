@@ -46,6 +46,7 @@ export class DashboardComponent implements OnChanges {
     public openAppSettings: boolean;
     public openSourceControl: boolean;
     public openIntro: boolean = true;
+    public openSwaggerDefintion: boolean;
     public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
@@ -229,6 +230,11 @@ export class DashboardComponent implements OnChanges {
         this.openIntro = true;
     }
 
+    onSwaggerDefinition(){
+        this.resetView(true);
+        this.openSwaggerDefintion = true;
+    }
+
     onSourceControlClicked() {
         this.resetView(true);
         this.openSourceControl = true;
@@ -242,6 +248,7 @@ export class DashboardComponent implements OnChanges {
     private resetView(clearSelected: boolean) {
         this.openAppSettings = false;
         this.openAppMonitoring = false;
+        this.openSwaggerDefintion = false;
         this.openIntro = null;
         this.openSourceControl = false;
         this.openNewApiProxy = false;

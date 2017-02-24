@@ -11,6 +11,7 @@
         <sidebar [functionsInfo]="functionsInfo" [apiProxies]="apiProxies" (refreshClicked)="onRefreshClicked($event)" (changedTab)="onChangeTab($event)" [tabId]="tabId"
                  (appSettingsClicked)="onAppSettingsClicked($event)"
                  (quickstartClicked)="onQuickstartClicked($event)"
+                 (swaggerdefinitionClicked)="onSwaggerDefinition($event)"
                  (apiSettingsClicked)="onApiSettingsClicked($event)">
         </sidebar>
         <div *ngIf="!trialExpired" class="work-space">
@@ -35,6 +36,10 @@
 
                 <div *ngIf="openIntro">
                     <intro [functionsInfo]="functionsInfo"></intro>
+                </div>
+
+                <div *ngIf="openSwaggerDefintion">
+                    <swaggerdefinition [functionContainer]="functionContainer"></swaggerdefinition>
                 </div>
 
                 <div *ngIf="openSourceControl">
