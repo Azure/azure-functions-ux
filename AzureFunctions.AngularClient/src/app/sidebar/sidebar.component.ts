@@ -20,6 +20,7 @@ enum TopbarButton {
     AppMonitoring = <any>"AppMonitoring",
     AppSettings = <any>"AppSettings",
     Quickstart = <any>"Quickstart",
+    SwaggerDefinition = <any>"API Definition",
     SourceControl = <any>"SourceControl",
 }
 
@@ -44,6 +45,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     @Output() private appSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private quickstartClicked: EventEmitter<any> = new EventEmitter<any>();
+    @Output() private swaggerdefinitionClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private apiSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private newApiProxyClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() refreshClicked = new EventEmitter<void>();
@@ -199,13 +201,23 @@ export class SidebarComponent implements OnDestroy, OnInit {
     }
 
     appsettings(emit: boolean = true) {
-        if (this.canSwitchFunctions()) {
+        if (this.canSwitchFunctions()) {            
             if (emit) {
                 this.appSettingsClicked.emit(null);
             }
             this.resetView();
             this.ActiveButton = TopbarButton.AppSettings;
             this.trackPage('appSettings');
+            this.tabId = 'Develop';
+        }
+    }
+
+    swaggerdefinition() {
+        if (this.canSwitchFunctions()) {                        
+            this.resetView();
+            this.ActiveButton = TopbarButton.SwaggerDefinition;
+            this.swaggerdefinitionClicked.emit(null);
+            this.trackPage('swaggerdefinition');
             this.tabId = 'Develop';
         }
     }

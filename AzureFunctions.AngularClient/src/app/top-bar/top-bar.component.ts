@@ -17,6 +17,7 @@ enum TopbarButton {
     AppMonitoring = <any>"AppMonitoring",
     AppSettings = <any>"AppSettings",
     Quickstart = <any>"Quickstart",
+    SwaggerDefinition = <any>"API Definition", 
     SourceControl = <any>"SourceControl"
 }
 

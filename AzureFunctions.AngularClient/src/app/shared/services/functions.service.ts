@@ -230,8 +230,129 @@ export class FunctionsService {
         let headers = this.getScmSiteHeaders();
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
-
         return this._http.put(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
+    }
+
+    getGeneratedSwaggerData(key: string) {
+        let url: string = this.getMainSiteUrl() + "/admin/host/swagger/default?code=" + key;
+        return this._http.get(url).map<any>(r => { return r.json() })
+        .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToloadGeneratedAPIDefinition),
+                        errorId: ErrorIds.unableToloadGeneratedAPIDefinition,
+                        errorType: ErrorType.RuntimeError
+                    });
+                    this.trackEvent(ErrorIds.unableToloadGeneratedAPIDefinition, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    getSwaggerDocument(key: string) {
+        let url: string = this.getMainSiteUrl() + "/admin/host/swagger?code=" + key;
+        return this._http.get(url).map<any>(r => { return r.json() });
+    }
+
+    addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {
+        return this._http.post(swaggerUrl, content).map<any>(r => { return r.json() })
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateSwaggerData),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateSwaggerData),
+                        errorId: ErrorIds.unableToUpdateSwaggerData,
+                        errorType: ErrorType.RuntimeError
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateSwaggerData, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    deleteSwaggerDocument(swaggerUrl: string) {
+        return this._http.delete(swaggerUrl)
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteSwaggerData),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteSwaggerData),
+                        errorId: ErrorIds.unableToDeleteSwaggerData,
+                        errorType: ErrorType.RuntimeError
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteSwaggerData, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    saveHostJson(jsonString: string) {
+        let headers = this.getScmSiteHeaders();
+        headers.append('If-Match', '*');
+        return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
+            .map<any>(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateRuntimeConfig),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateRuntimeConfig),
+                        errorId: ErrorIds.unableToUpdateRuntimeConfig,
+                        errorType: ErrorType.ApiError
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateRuntimeConfig, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    createSystemKey(keyName: string) {
+        let headers = this.getMainSiteHeaders();
+        headers.append('If-Match', '*');
+        return this._http.post(`${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`, '', { headers: headers })
+            .map(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateSwaggerKey),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToCreateSwaggerKey),
+                        errorId: ErrorIds.unableToCreateSwaggerKey,
+                        errorType: ErrorType.RuntimeError
+                    });
+                    this.trackEvent(ErrorIds.unableToCreateSwaggerKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    getSystemKey() {
+        let headers = this.getMainSiteHeaders();
+        return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
+            .map<FunctionKeys>(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToGetSystemKey, { keyName: Constants.swaggerSecretName }),
+                        errorId: ErrorIds.unableToCreateSwaggerKey,
+                        errorType: ErrorType.RuntimeError
+                    });
+                    this.trackEvent(ErrorIds.unableToGetSystemKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
     }
 
     /**

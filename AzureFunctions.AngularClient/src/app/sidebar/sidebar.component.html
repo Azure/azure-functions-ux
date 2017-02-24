@@ -64,6 +64,13 @@
                 <i class="tab fa fa-wrench"></i> {{ 'topBar_functionAppSettings' | translate }}
                 <i *ngIf="ActiveButton.toString() === 'AppSettings'" class="tab fa fa-chevron-right pull-right"></i>
             </div>
+            <div (click)="swaggerdefinition()"
+                 class="tab-item link clickable button"
+                 [class.tab-item-selected]="ActiveButton.toString() === 'API Definition'">
+                  <img src="images/swagger-definition.svg" class="function-icon" />
+                <i class="tab"></i> {{ 'topBar_functionSwaggerDefinition' | translate }}
+                <i *ngIf="ActiveButton.toString() === 'API Definition'" class="tab fa fa-chevron-right pull-right"></i>
+            </div>
             <div *ngIf="!_globalStateService?.GlobalDisabled" (click)="quickstart()"
                  class="tab-item link clickable button"
                  [class.tab-item-selected]="ActiveButton.toString() === 'Quickstart'">

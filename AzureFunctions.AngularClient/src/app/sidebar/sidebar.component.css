@@ -49,6 +49,10 @@
     width: 13px;
 }
 
+.tabRight {
+    width: 13px;
+}
+
 .functions-list li span {
     display: block;
     padding: 10px;
@@ -159,6 +163,9 @@
     height: 15px;
 }
 
+.swaggerdefinition-icon {
+    height: 15px;
+}
 
 .sidebar-button {
     padding: 3px 1px 3px 10px;    

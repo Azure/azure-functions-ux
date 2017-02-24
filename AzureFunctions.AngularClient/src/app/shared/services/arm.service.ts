@@ -1,18 +1,18 @@
-import {Http, Headers, Response} from '@angular/http';
-import {Injectable, EventEmitter} from '@angular/core';
-import {Subscription} from '../models/subscription';
-import {FunctionContainer} from '../models/function-container';
-import {Observable, Subscription as RxSubscription, Subject} from 'rxjs/Rx';
-import {StorageAccount} from '../models/storage-account';
-import {ResourceGroup} from '../models/resource-group';
-import {UserService} from './user.service';
-import {PublishingCredentials} from '../models/publishing-credentials';
-import {Constants} from '../models/constants';
-import {ClearCache} from '../decorators/cache.decorator';
-import {AiService} from './ai.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../models/portal-resources';
-import {ConfigService} from './config.service';
+import { Http, Headers, Response } from '@angular/http';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Subscription } from '../models/subscription';
+import { FunctionContainer } from '../models/function-container';
+import { Observable, Subscription as RxSubscription, Subject } from 'rxjs/Rx';
+import { StorageAccount } from '../models/storage-account';
+import { ResourceGroup } from '../models/resource-group';
+import { UserService } from './user.service';
+import { PublishingCredentials } from '../models/publishing-credentials';
+import { Constants } from '../models/constants';
+import { ClearCache } from '../decorators/cache.decorator';
+import { AiService } from './ai.service';
+import { TranslateService, TranslatePipe } from 'ng2-translate/ng2-translate';
+import { PortalResources } from '../models/portal-resources';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class ArmService {
@@ -111,6 +111,18 @@ export class ArmService {
         var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
         return this._http.get(url, { headers: this.getHeaders() })
             .map<{ [key: string]: string }>(r => r.json().properties);
+    }
+
+    getFullConfig(functionContainer: FunctionContainer) {
+        var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
+        return this._http.get(url, { headers: this.getHeaders() })
+            .map<any>(r => r.json());
+    }
+
+    setFullConfig(functionContainer: FunctionContainer, content: string) {
+        var url = `${this.armUrl}${functionContainer.id}/config/web?api-version=${this.websiteApiVersion}`;
+        return this._http.put(url, content, { headers: this.getHeaders() })
+            .map<any>(r => r.json());
     }
 
     getAuthSettings(functionContainer: FunctionContainer | string) {
