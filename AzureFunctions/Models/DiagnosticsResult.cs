@@ -28,7 +28,7 @@
     {
         public bool IsTerminating { get; set; }
 
-        public bool HasUserAction => !string.IsNullOrEmpty(ActionId);
+        public bool HasUserAction => !string.IsNullOrEmpty(UserAction);
 
         public string Message { get; set; }
 
