@@ -148,7 +148,7 @@
                             </file-explorer>
                         </div>
 
-                        <div *ngIf="rightTab==='run'" class="dev-full dev-border dev-flex-column" [class.run-container-http]="isHttpFunction">
+                        <div [class.hidden]="rightTab!=='run'" class="dev-full dev-border dev-flex-column" [class.run-container-http]="isHttpFunction">
 
 
                             <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo">
