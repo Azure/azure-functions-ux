@@ -102,7 +102,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
         this._globalStateService.setBusyState();
         if (typeof functionContainer !== 'string')
-            //TODO: investigate this
+            //This is needed to bootstrap the /try view initially
             this.showTryView = functionContainer.tryScmCred === null;
 
         if (this.redirectToIbizaIfNeeded(functionContainer)) return;
