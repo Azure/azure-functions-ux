@@ -314,5 +314,23 @@ export class PortalResources
     public static functionKeys_copy: string = "functionKeys_copy";
     public static functionKeys_renew: string = "functionKeys_renew";
     public static functionKeys_revoke: string = "functionKeys_revoke";
+    public static backend_error_CannotAccessFunctionApp: string = "backend_error_CannotAccessFunctionApp";
+    public static backend_error_CannotAccessFunctionApp_action: string = "backend_error_CannotAccessFunctionApp_action";
+    public static backend_error_InvalidStorageConnectionString: string = "backend_error_InvalidStorageConnectionString";
+    public static backend_error_InvalidStorageConnectionString_action: string = "backend_error_InvalidStorageConnectionString_action";
+    public static backend_error_MissingAzureFilesConnectionString: string = "backend_error_MissingAzureFilesConnectionString";
+    public static backend_error_MissingAzureFilesContentShare: string = "backend_error_MissingAzureFilesContentShare";
+    public static backend_error_MissingAzureWebJobsDashboardAppSetting: string = "backend_error_MissingAzureWebJobsDashboardAppSetting";
+    public static backend_error_MissingAzureWebJobsStorageAppSetting: string = "backend_error_MissingAzureWebJobsStorageAppSetting";
+    public static backend_error_MissingAzureWebJobsStorageAppSetting_action: string = "backend_error_MissingAzureWebJobsStorageAppSetting_action";
+    public static backend_error_MissingFunctionsExtensionVersionAppSetting: string = "backend_error_MissingFunctionsExtensionVersionAppSetting";
+    public static backend_error_StorageAccountConnectionStringIsNullOrEmpty: string = "backend_error_StorageAccountConnectionStringIsNullOrEmpty";
+    public static backend_error_StorageAccountConnectionStringIsNullOrEmpty_action: string = "backend_error_StorageAccountConnectionStringIsNullOrEmpty_action";
+    public static backend_error_StorageAccountDoesNotExist: string = "backend_error_StorageAccountDoesNotExist";
+    public static backend_error_StorageAccountDoesNotExist_action: string = "backend_error_StorageAccountDoesNotExist_action";
+    public static backend_error_StorageAccountDoesntSupportQueues: string = "backend_error_StorageAccountDoesntSupportQueues";
+    public static backend_error_UnexpectedArmError: string = "backend_error_UnexpectedArmError";
+    public static backend_error_UnknownErrorWhileCallingArm: string = "backend_error_UnknownErrorWhileCallingArm";
+    public static error_shareCodeWithSupport: string = "error_shareCodeWithSupport";
 }
 
