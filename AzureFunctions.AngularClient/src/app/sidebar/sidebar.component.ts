@@ -35,7 +35,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     public selectedFunction: FunctionInfo;
     public selectedApiProxy: ApiProxy;
     public inIFrame: boolean;
-    private showTryView: boolean;
+    public showTryView: boolean;
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
@@ -62,6 +62,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
         private _portalService: PortalService,
         private _aiService: AiService) {
 
+        this.showTryView = this._globalStateService.showTryView;
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
         this.showTryView = this._globalStateService.showTryView;

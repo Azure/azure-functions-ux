@@ -35,7 +35,7 @@
                 <div class="title" >
                 </div>
             </li>-->
-            <li>
+            <li *ngIf="!showTryView">
                 <div class="function-item title">
                     <div style="min-height: 20px">
                     </div>
@@ -45,15 +45,17 @@
                     </span>
                 </div>
             </li>
-            <li *ngFor="let apiProxy of apiProxies | sidebarFilter:searchValue">
-                <div (click)="selectApiProxy(apiProxy)" class="function-item">
-                    <span class="function-item clickable" [class.selected]="apiProxy === selectedApiProxy" href="#">
-                        <i *ngIf="apiProxy.name === ('sidebar_newApiProxy' | translate)" class="fa fa-plus"></i>
-                        <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/api-proxy.svg" class="function-icon" />
-                        {{apiProxy.name}}
-                    </span>
-                </div>
-            </li>
+            <ng-container *ngIf="!showTryView">
+                <li *ngFor="let apiProxy of apiProxies | sidebarFilter:searchValue">
+                    <div (click)="selectApiProxy(apiProxy)" class="function-item">
+                        <span class="function-item clickable" [class.selected]="apiProxy === selectedApiProxy" href="#">
+                            <i *ngIf="apiProxy.name === ('sidebar_newApiProxy' | translate)" class="fa fa-plus"></i>
+                            <img *ngIf="apiProxy.name !== ('sidebar_newApiProxy' | translate)" src="images/api-proxy.svg" class="function-icon" />
+                            {{apiProxy.name}}
+                        </span>
+                    </div>
+                </li>
+            </ng-container>
         </ul>
         <div class="buttons-section">
             <div (click)="developLocally()" class="tab-item link clickable button" *ngIf="showDevelop">
