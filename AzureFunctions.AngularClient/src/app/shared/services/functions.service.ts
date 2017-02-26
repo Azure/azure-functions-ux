@@ -45,10 +45,9 @@ export class FunctionsService {
     private masterKey: string;
     private token: string;
     private scmUrl: string;
-    private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
-    private isEasyAuthEnabled: boolean;
+    public isEasyAuthEnabled: boolean;
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -60,7 +59,7 @@ export class FunctionsService {
 
     private localAdminKey: string = '';
     private azureAdminKey: string;
-    public isMultiKeySupported: boolean = false;
+    public isMultiKeySupported: boolean = true;
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -114,9 +113,9 @@ export class FunctionsService {
         300: 'Redirection',
         400: 'Client Error',
         500: 'Server Error'
-    }
+    };
 
-    private tryAppServiceUrl = "https://tryappservice.azure.com";
+    private tryAppServiceUrl = 'https://tryappservice.azure.com';
     private functionContainer: FunctionContainer;
 
     constructor(
@@ -134,40 +133,28 @@ export class FunctionsService {
             });
         }
 
-        // if (!_globalStateService.showTryView) {
-            // this._userService.getStartupInfo()
-            // .flatMap(info =>{
-            //     this.token = info.token;
-                
-            //     let runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
-            //     if (this._userService.inIFrame) {
-            //         return this._userService.getStartupInfo()
-            //             .flatMap((info : StartupInfo) => {
-
-            //                 // TODO: ellhamai Need to update language whenever you choose a different function app
-            //                 // Effective language has language and formatting information eg: "en.en-us"
-            //                 let lang = info.effectiveLocale.split(".")[0];
-            //                 return this.getLocolizedResources(lang, runtime);
-            //             });
-
-            //     } else {
-            //         return this.getLocolizedResources("en", runtime);
-            //     }
-
-            // }).subscribe(result => {});
-            // this._userService.getFunctionContainer().subscribe(fc => {
-            //     this.functionContainer = fc;
-            //     this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-            //     this.mainSiteUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 0 && s.name.indexOf('azurewebsites.net') !== -1).name}`;
-            //     this.siteName = fc.name;
-            //     this.azureMainServer = this.mainSiteUrl;
-            //     this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-            //     this.localServer = 'https://localhost:6061';
-            // });
+        // if (!Constants.routingExtensionVersion) {
+        //     this.getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
+        //         Constants.routingExtensionVersion = routingVersion;
+        //     });
         // }
+
+        // if (!_globalStateService.showTryView) {
+        //     this._userService.getToken().subscribe(t => this.token = t);
+        //     this._userService.getFunctionContainer().subscribe(fc => {
+        //         this.functionContainer = fc;
+        //         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+        //         this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
+        //         this.siteName = fc.name;
+        //         this.azureMainServer = this.mainSiteUrl;
+        //         this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        //         this.localServer = 'https://localhost:6061';
+        //     });
+        // }
+
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
-            var templateId = Cookie.get('templateId');
+            let templateId = Cookie.get('templateId');
             this.selectedFunction = templateId.split('-')[0].trim();
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
@@ -210,14 +197,23 @@ export class FunctionsService {
 ///////////////
 
     getParameterByName(url, name) {
-        if (url === null)
+        if (url === null) {
             url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        name = name.replace(/[\[\]]/g, '\\$&');
+        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        let results = regex.exec(url);
+
+        if (!results) {
+            return null;
+        }
+
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
     setScmParams(fc: FunctionContainer) {
@@ -239,10 +235,36 @@ export class FunctionsService {
                 try {
                     return r.json();
                 } catch (e) {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e })
+                    });
                     return [];
                 }
             });
+    }
+
+    getApiProxies() {
+        return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (err.status === 404 || errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(200))
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<any>(r => {
+                return r.json();
+            });
+    }
+
+    saveApiProxy(jsonString: string) {
+        let headers = this.getScmSiteHeaders();
+        // https://github.com/projectkudu/kudu/wiki/REST-API
+        headers.append('If-Match', '*');
+
+        return this._http.put(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
     }
 
     @Cache('href')
@@ -255,7 +277,7 @@ export class FunctionsService {
 
     @ClearCache('getFileContent', 'href')
     saveFile(file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo) {
-        var headers = this.getScmSiteHeaders('plain/text');
+        let headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -270,7 +292,7 @@ export class FunctionsService {
 
     @ClearCache('getFileContent', 'href')
     deleteFile(file: VfsObject | string, functionInfo?: FunctionInfo) {
-        var headers = this.getScmSiteHeaders('plain/text');
+        let headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -296,24 +318,25 @@ export class FunctionsService {
                 this.localize(devTemplate);
                 return Observable.of(devTemplate);
             }
-         } catch (e) {
-             console.error(e);
-         }
+        } catch (e) {
+            console.error(e);
+        }
 
-         return null;
-        //  return this._http.get(Constants.serviceHost + 'api/templates?runtime=' + (this._globalStateService.ExtensionVersion || 'latest'), { headers: this.getPortalHeaders() })
-        //     .retryWhen(this.retryAntares)
-        //     .map<FunctionTemplate[]>(r => {
-        //         var object = r.json();
-        //         this.localize(object);
-        //         return object;
-        //     });
+        // Removed
+        let url = "removed";
+        return this._http.get(url, { headers: this.getPortalHeaders() })
+            .retryWhen(this.retryAntares)
+            .map<FunctionTemplate[]>(r => {
+                let object = r.json();
+                this.localize(object);
+                return object;
+            });
     }
 
     @ClearCache('getFunctions')
     createFunction(functionName: string, templateId: string) {
         if (templateId) {
-            var body: CreateFunctionInfo = {
+            let body: CreateFunctionInfo = {
                 name: functionName,
                 templateId: (templateId && templateId !== 'Empty' ? templateId : null),
                 containerScmUrl: this.scmUrl
@@ -323,7 +346,8 @@ export class FunctionsService {
                 .catch(e => this.checkCorsOrDnsErrors(e))
                 .map<FunctionInfo>(r => r.json());
         } else {
-            return this._http.put(`${this.scmUrl}/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
+            return this._http
+                .put(`${this.scmUrl}/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
                 .retryWhen(this.retryAntares)
                 .catch(e => this.checkCorsOrDnsErrors(e))
                 .map<FunctionInfo>(r => r.json());
@@ -331,7 +355,7 @@ export class FunctionsService {
     }
 
     getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
-        var url = `${this.scmUrl}/settings`;
+        let url = `${this.scmUrl}/settings`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
@@ -340,11 +364,14 @@ export class FunctionsService {
 
     @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any, config: any) {
-        var filesCopy = Object.assign({}, files);
-        var sampleData = filesCopy["sample.dat"];
-        delete filesCopy["sample.dat"];
+        let filesCopy = Object.assign({}, files);
+        let sampleData = filesCopy['sample.dat'];
+        delete filesCopy['sample.dat'];
 
-        return this._http.put(`${this.scmUrl}/functions/${functionName}`, JSON.stringify({ files: filesCopy, test_data: sampleData, config: config }), { headers: this.getScmSiteHeaders() })
+        let content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
+        let url = `${this.scmUrl}/functions/${functionName}`;
+
+        return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<FunctionInfo>(r => r.json());
@@ -369,7 +396,7 @@ export class FunctionsService {
 
     getSettingsNode(): FunctionInfo {
         return {
-            name: "Settings",
+            name: 'Settings',
             href: null,
             config: null,
             script_href: `${this.scmUrl}/functions/config`,
@@ -385,27 +412,27 @@ export class FunctionsService {
     }
 
     statusCodeToText(code: number) {
-        var statusClass = Math.floor(code / 100) * 100;
+        let statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
     runHttpFunction(functionInfo: FunctionInfo, url: string, model: HttpRunModel) {
-        var content = model.body;
+        let content = model.body;
 
-        var regExp = /\{([^}]+)\}/g;
-        var matchesPathParams = url.match(regExp);
-        var processedParams = [];
+        let regExp = /\{([^}]+)\}/g;
+        let matchesPathParams = url.match(regExp);
+        let processedParams = [];
 
-        var splitResults = url.split("?");
+        let splitResults = url.split('?');
         if (splitResults.length === 2) {
             url = splitResults[0];
         }
 
         if (matchesPathParams) {
             matchesPathParams.forEach((m) => {
-                var name = m.split(":")[0].replace("{", "").replace("}", "");
+                let name = m.split(':')[0].replace('{', '').replace('}', '');
                 processedParams.push(name);
-                var param = model.queryStringParams.find((p) => {
+                let param = model.queryStringParams.find((p) => {
                     return p.name === name;
                 });
                 if (param) {
@@ -414,9 +441,9 @@ export class FunctionsService {
             });
         }
 
-        var firstDone = false;
+        let firstDone = false;
         model.queryStringParams.forEach((p, index) => {
-            var findResult = processedParams.find((pr) => {
+            let findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
@@ -427,24 +454,24 @@ export class FunctionsService {
                 } else {
                     url += '&';
                 }
-                url += p.name + "=" + p.value;
+                url += p.name + '=' + p.value;
             }
         });
-        var inputBinding = (functionInfo.config && functionInfo.config.bindings
+        let inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
 
-        var contentType: string;
+        let contentType: string;
         if (!inputBinding || inputBinding && inputBinding.webHookType) {
             contentType = 'application/json';
         }
 
-        var headers = this.getMainSiteHeaders(contentType);
+        let headers = this.getMainSiteHeaders(contentType);
         model.headers.forEach((h) => {
             headers.append(h.name, h.value);
         });
 
-        var response: Observable<Response>;
+        let response: Observable<Response>;
         switch (model.method) {
             case Constants.httpMethods.GET:
                 response = this._http.get(url, { headers: headers });
@@ -471,23 +498,18 @@ export class FunctionsService {
                     body: content
                 });
                 break;
-
-
         }
 
         return this.runFunctionInternal(response, functionInfo);
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-
-        var url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
-
-        var _content: string = JSON.stringify({ input: content });
-
-        var contentType: string;
+        let url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        let _content: string = JSON.stringify({ input: content });
+        let contentType: string;
 
         try {
-            var temp = JSON.parse(_content);
+            JSON.parse(_content);
             contentType = 'application/json';
         } catch (e) {
             contentType = 'plain/text';
@@ -516,11 +538,10 @@ export class FunctionsService {
     }
 
     warmupMainSite() {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: this.scmUrl.replace('.scm.', '.')
-        };
-        var observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
+        if (this.isEasyAuthEnabled) {
+            return Observable.of({});
+        }
+        let observable = this._http.get(this.mainSiteUrl, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => this.checkCorsOrDnsErrors(e))
             .map<string>(r => r.statusText);
@@ -535,7 +556,7 @@ export class FunctionsService {
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
-            .map<FunctionSecrets>(r => r.json())
+            .map<FunctionSecrets>(r => r.json());
     }
 
     @ClearCache('getSecrets', 'secrets_file_href')
@@ -548,7 +569,7 @@ export class FunctionsService {
 
     @Cache()
     getHostJson() {
-        return this._http.get(`${this.azureScmServer}/functions/config`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(`${this.azureScmServer}/api/functions/config`, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
@@ -587,7 +608,7 @@ export class FunctionsService {
     }
 
     getHostSecrets() {
-        if (this.scmUrl.indexOf("localhost:6061") != -1) {
+        if (this.scmUrl.indexOf('localhost:6061') !== -1) {
             this.masterKey = this.localAdminKey;
             this.isMultiKeySupported = true;
         }
@@ -595,20 +616,24 @@ export class FunctionsService {
         // call kudu
         let masterKey = this._http.get(`${this.scmUrl}/functions/admin/masterkey`, { headers: this.getScmSiteHeaders()})
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
-                if (err.status === 404) throw err;
+                if (err.status === 404) {
+                    throw err;
+                }
                 if (errorCount >= 10) {
                     throw err;
                 }
                 return errorCount + 1;
             }, 0).delay(400))
             .catch((e: Response) => {
-                if (e.status === 404) throw e;
+                if (e.status === 404) {
+                    throw e;
+                }
                 return this.checkCorsOrDnsErrors(e);
             });
         masterKey
             .subscribe(r => {
-                let masterKey: {masterKey: string} = r.json();
-                this.masterKey = masterKey.masterKey;
+                let key: { masterKey: string } = r.json();
+                this.masterKey = key.masterKey;
                 this.getFunctionHostKeys();
             }, e => {
                 this.isMultiKeySupported = false;
@@ -634,16 +659,24 @@ export class FunctionsService {
     }
 
     getFunctionHostKeys(): Observable<FunctionKeys> {
-        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders()})
+        if (this.isEasyAuthEnabled) {
+            return Observable.of({keys: [], links: []});
+        }
+
+        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
-                if (err.status === 404) throw err;
+                if (err.status === 404) {
+                    throw err;
+                }
                 if (errorCount >= 10) {
                     throw err;
                 }
                 return errorCount + 1;
             }, 0).delay(400))
             .catch((e: Response) => {
-                if (e.status === 404) throw e;
+                if (e.status === 404) {
+                    throw e;
+                }
                 return this.checkCorsOrDnsErrors(e);
             })
             .map<FunctionKeys>(r => {
@@ -665,43 +698,42 @@ export class FunctionsService {
         return hostKeys;
     }
 
-    @Cache()
-    getBindingConfig(): Observable<BindingConfig> {
-        try {
-            if (localStorage.getItem('dev-bindings')) {
-                let devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
-                this.localize(devBindings);
-                return Observable.of(devBindings);
-            }
-         } catch (e) {
-             console.error(e);
-         }
+    // @Cache()
+    // getBindingConfig(): Observable<BindingConfig> {
+    //     try {
+    //         if (localStorage.getItem('dev-bindings')) {
+    //             let devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
+    //             this.localize(devBindings);
+    //             return Observable.of(devBindings);
+    //         }
 
-         return null;
-        // return this._http.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion, { headers: this.getPortalHeaders() })
-        //     .retryWhen(this.retryAntares)
-        //     .catch(e => this.checkCorsOrDnsErrors(e))
-        //     .map<BindingConfig>(r => {
-        //         var object = r.json();
-        //         this.localize(object);
-        //         return object;
-        //     });
-    }
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+
+    //     let url = Constants.serviceHost + 'api/bindingconfig?runtime=' + this._globalStateService.ExtensionVersion;
+
+    //     return this._http.get(url, { headers: this.getPortalHeaders() })
+    //         .retryWhen(this.retryAntares)
+    //         .catch(e => this.checkCorsOrDnsErrors(e))
+    //         .map<BindingConfig>(r => {
+    //             let object = r.json();
+    //             this.localize(object);
+    //             return object;
+    //         });
+    // }
 
     // getResources(): Observable<any> {
-    //     var runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : "default";
+    //     let runtime = this._globalStateService.ExtensionVersion ? this._globalStateService.ExtensionVersion : 'default';
 
     //     if (this._userService.inIFrame) {
-    //         return this._userService.getStartupInfo()
-    //             .flatMap((info : StartupInfo) => {
-
-    //                 // Effective language has language and formatting information eg: "en.en-us"
-    //                 let lang = info.effectiveLocale.split(".")[0];
-    //                 return this.getLocolizedResources(lang, runtime);
+    //         return this._userService.getLanguage()
+    //             .flatMap((language: string) => {
+    //                 return this.getLocolizedResources(language, runtime);
     //             });
 
     //     } else {
-    //         return this.getLocolizedResources("en", runtime);
+    //         return this.getLocolizedResources('en', runtime);
     //     }
     // }
 
@@ -710,8 +742,8 @@ export class FunctionsService {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
-            + (provider ? "&provider=" + provider : "");
+        let url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
+            + (provider ? '&provider=' + provider : '');
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryGetTrialResource)
@@ -719,16 +751,16 @@ export class FunctionsService {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        var url = this.tryAppServiceUrl + "/api/resource?appServiceName=Function"
-            + (provider ? "&provider=" + provider : "")
-            + "&templateId=" + encodeURIComponent(selectedTemplate.id)
-            + "&functionName=" + encodeURIComponent(functionName);
+        let url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
+            + (provider ? '&provider=' + provider : '')
+            + '&templateId=' + encodeURIComponent(selectedTemplate.id)
+            + '&functionName=' + encodeURIComponent(functionName);
 
-        var template = <ITryAppServiceTemplate>{
+        let template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
-            appService: "Function",
+            appService: 'Function',
             language: selectedTemplate.metadata.language,
-            githubRepo: ""
+            githubRepo: ''
         };
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
@@ -771,9 +803,9 @@ export class FunctionsService {
     }
 
     @Cache()
-    getFunctionAppId() {
-         if (this.isEasyAuthEnabled || !this.masterKey) {
-             return Observable.of([]);
+    getFunctionHostId() {
+        if (this.isEasyAuthEnabled || !this.masterKey) {
+            return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
                  .map<string>(r => r.json().id)
@@ -781,23 +813,38 @@ export class FunctionsService {
          }
      }
 
-    // setEasyAuth(config: { [key: string]: any }) {
-    //     this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
-    // }
+    getFunctionAppArmId() {
+        if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
+            return this.functionContainer.id;
+        } else if (this.scmUrl) {
+            return this.scmUrl;
+        } else {
+            return 'Unknown';
+        }
+    }
+
+    setEasyAuth(config: { [key: string]: any }) {
+        this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
+    }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        return this._http.get(`${this.scmUrl}/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })
+        let url = `${this.scmUrl}/vfs/logfiles/application/functions/function/${fi.name}/`;
+        return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of({ json: () => [] }))
             .flatMap<string>(r => {
-                var files: any[] = r.json();
+                let files: any[] = r.json();
                 if (files.length > 0) {
-                    var headers = this.getScmSiteHeaders();
+                    let headers = this.getScmSiteHeaders();
                     headers.append('Range', `bytes=-${range}`);
-                    files.map(e => { e.parsedTime = new Date(e.mtime); return e; }).sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime())
+
+                    files
+                        .map(e => { e.parsedTime = new Date(e.mtime); return e; })
+                        .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
+
                     return this._http.get(files.pop().href, { headers: headers })
-                        .map<string>(r => {
-                            var content = r.text();
+                        .map<string>(f => {
+                            let content = f.text();
                             let index = content.indexOf('\n');
                             return index !== -1
                                 ? content.substring(index + 1)
@@ -864,10 +911,10 @@ export class FunctionsService {
             .map<FunctionKeys>(r => r.json());
     }
 
-    //to talk to scm site
+    // to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        var headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         if (!this._globalStateService.showTryView && this.token) {
@@ -881,17 +928,17 @@ export class FunctionsService {
 
     private getMainSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        var headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         headers.append('x-functions-key', this.masterKey);
         return headers;
     }
 
-    //to talk to Functions Portal
+    // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        var headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -903,10 +950,10 @@ export class FunctionsService {
         return headers;
     }
 
-    //to talk to TryAppservice
+    // to talk to TryAppservice
     private getTryAppServiceHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        var headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -919,31 +966,31 @@ export class FunctionsService {
     }
 
     private localize(objectTolocalize: any) {
-        if ((typeof value === "string") && (value.startsWith("$"))) {
+        if ((typeof value === 'string') && (value.startsWith('$'))) {
             objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
         }
 
         for (var property in objectTolocalize) {
 
-            if (property === "files" || property === "defaultValue") {
+            if (property === 'files' || property === 'defaultValue') {
                 continue;
             }
 
             if (objectTolocalize.hasOwnProperty(property)) {
                 var value = objectTolocalize[property];
-                if ((typeof value === "string") && (value.startsWith("$"))) {
+                if ((typeof value === 'string') && (value.startsWith('$'))) {
                     var key = value.substring(1, value.length);
                     var locString = this._translateService.instant(key);
                     if (locString !== key) {
                         objectTolocalize[property] = locString;
                     }
                 }
-                if (typeof value === "array") {
+                if (typeof value === 'array') {
                     for (var i = 0; i < value.length; i++) {
                         this.localize(value[i]);
                     }
                 }
-                if (typeof value === "object") {
+                if (typeof value === 'object') {
                     this.localize(value);
                 }
             }
@@ -954,10 +1001,10 @@ export class FunctionsService {
         return this._http.get(Constants.serviceHost + `api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<any>(r => {
-                var resources = r.json();
+                let resources = r.json();
 
-                this._translateService.setDefaultLang("en");
-                this._translateService.setTranslation("en", resources.en);
+                this._translateService.setDefaultLang('en');
+                this._translateService.setTranslation('en', resources.en);
                 if (resources.lang) {
                     this._translateService.setTranslation(lang, resources.lang);
                 }
@@ -1007,10 +1054,13 @@ export class FunctionsService {
                         : false;
                     if (!isConfigured) {
                         // CORS Error
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
-                        );
+                        let message = this._translateService.instant(PortalResources.error_CORSNotConfigured, {
+                            origin: window.location.origin
+                        });
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: message,
+                            details: JSON.stringify(error)
+                        });
                     } else {
                         // DNS resolution or any error that results from the worker process crashing or restarting
                         this._broadcastService.broadcast<ErrorEvent>(
@@ -1018,17 +1068,26 @@ export class FunctionsService {
                             { message: this._translateService.instant(PortalResources.error_DnsResolution) }
                         );
                     }
-                }, (error: Response) => {
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.functionContainer.name}), details: JSON.stringify(error) }
-                        );
+
+                }, (e: Response) => {
+                    let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {
+                        functionApp: this.functionContainer.name
+                    });
+
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: message,
+                        details: JSON.stringify(e)
+                    });
                 });
         } else {
-            this._broadcastService.broadcast<ErrorEvent>(
-                BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error)}
-             );
+            let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {
+                statusText: this.statusCodeToText(error.status)
+            });
+
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: message,
+                details: JSON.stringify(error)
+            });
         }
         throw error;
     }
@@ -1046,7 +1105,9 @@ export class FunctionsService {
                     return Observable.of({
                         status: 502,
                         statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, { name: functionInfo.name })
+                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, {
+                            name: functionInfo.name
+                        })
                     });
                 } else {
                     return Observable.of({

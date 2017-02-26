@@ -101,37 +101,4 @@ export class TopBarComponent implements OnInit {
             notification.clickCallback();
         }
     }
-
-    // set isFunctionSelected(selected: boolean) {
-    //     this._isFunctionSelected = true;
-    // }
-
-    // get isFunctionSelected() {
-    //     return this._isFunctionSelected;
-    // }
-
-    // private setVisible() {
-    //     this._globalStateService.showTopbar = !this._globalStateService.isAlwaysOn || (this.showTryView && !this.gettingStarted)
-    //         || this.needUpdateExtensionVersion || ((this.user && this.currentTenant && !this.inIFrame) ? true : false);
-    // }
-
-    // onFunctionAppSettingsClicked(event: any) {
-    //     if (this.canLeaveFunction()) {
-    //         this.functionAppSettingsClicked.emit(event);
-    //     }
-    // }
-
-    // TODO: Remove duplicated code between here and SitebarComponent
-    // private canLeaveFunction() {
-    //     var leaveFunction = true;
-    //     if (this.isFunctionSelected &&
-    //         (this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-    //         leaveFunction = confirm(this._translateService.instant(PortalResources.topBar_changeMade));
-    //         if (leaveFunction) {
-    //             this._broadcastService.clearDirtyState('function', true);
-    //             this._broadcastService.clearDirtyState('function_integrate', true);
-    //         }
-    //     }
-    //     return leaveFunction;
-    // }
 }

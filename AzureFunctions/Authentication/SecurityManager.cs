@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AzureFunctions.Code;
+using System;
 using System.Net.Http;
 using System.Web;
 
@@ -11,8 +12,9 @@ namespace AzureFunctions.Authentication
 
         static SecurityManager()
         {
-            _frontEndAuthProvider = new FrontEndAuthProvider();
-            _localhostAuthProvider = new LocalhostAuthProvider();
+            Settings settings = new Settings();
+            _frontEndAuthProvider = new FrontEndAuthProvider(settings);
+            _localhostAuthProvider = new LocalhostAuthProvider(settings);
         }
 
         private static IAuthProvider GetAuthProvider(HttpContextBase context)

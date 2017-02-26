@@ -252,6 +252,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 let isLatestFunctionRuntime = null;
                 if(extensionVersion){
                     isLatestFunctionRuntime = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
+                    this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
                 }
 
                 if(!isLatestFunctionRuntime){

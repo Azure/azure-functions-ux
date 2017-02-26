@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Subject} from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionConfig} from '../shared/models/function-config';
 import {BroadcastService} from '../shared/services/broadcast.service';
@@ -22,6 +22,7 @@ import {FunctionManageNode} from '../tree-view/function-node';
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
     public disabled: boolean;
+    public isEasyAuthEnabled = false;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
     private _viewInfoStream : Subject<TreeViewInfo>;
@@ -39,10 +40,14 @@ export class FunctionManageComponent {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
-                return this.functionApp.checkIfDisabled();
+                return Observable.zip(
+                    this.functionApp.checkIfDisabled(),
+                    this.functionApp.checkIfEasyAuthEnabled(),
+                    (d, e) =>({ disabled : d, easyAuthEnabled : e}))
             })
-            .subscribe(disabled =>{
-                this.disabled = disabled;
+            .subscribe(res =>{
+                this.disabled = res.disabled;
+                this.isEasyAuthEnabled = res.easyAuthEnabled;
             });
 
         this.functionStatusOptions = [

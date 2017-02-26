@@ -1,34 +1,7 @@
 .intro-container{
     font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
     text-align: center;
-}
-
-.intro-banner{
-    background-color: #0076DA;
-    color: #FFF;
-    margin-top: 20px;
-    padding: 10px 0px 40px 0px;
-
-}
-
-.intro-banner > div{
-    width: 800px;  /* Keeping small so that it fits for Mac Retina */
-    margin: auto;
-    text-align: left;
-}
-
-.intro-banner h1{
-    font-size: 60px;
-}
-
-.intro-banner p{
-    font-size: 20px;
-    line-height: 1.8;
-}
-
-.intro-banner img{
-    float: right;
-    margin-left: 40px;
+    padding-top: 5px;
 }
 
 .intro-template{

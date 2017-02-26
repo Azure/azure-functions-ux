@@ -4,9 +4,9 @@
     </div>
     <div id="function-settings">
         <div class="configure-wrapper">
-            <div>Function State </div>
+            <div>{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo">
-                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="valueChange.next($event)"></radio-selector>
+                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="valueChange.next($event)"></radio-selector>
             </div>
         </div>
     </div>
@@ -15,7 +15,14 @@
         <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
     </div>
 
-    <function-keys *ngIf="functionApp?.isMultiKeySupported" [functionInfo]="functionInfo"></function-keys>
+    <function-keys
+        *ngIf="functionApp?.isMultiKeySupported && !this.isEasyAuthEnabled"
+        [functionApp]="functionApp"
+        [functionInfo]="functionInfo"></function-keys>
+
     <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
-    <function-keys *ngIf="functionApp?.isMultiKeySupported" getAdminKeys="true" [functionInfo]="functionInfo"></function-keys>
+    
+    <function-keys
+        *ngIf="functionApp?.isMultiKeySupported && !this.isEasyAuthEnabled"
+        [functionApp]="functionApp"></function-keys>
 </div>

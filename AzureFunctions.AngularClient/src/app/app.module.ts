@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import {TranslateModule} from 'ng2-translate';
 import { nvD3 } from 'ng2-nvd3';
 import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
+import {ConfigService} from './shared/services/config.service';
 import {FunctionsService} from './shared/services/functions.service';
 import {UserService} from './shared/services/user.service';
 import {PortalService} from './shared/services/portal.service';
@@ -87,6 +88,8 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
+// import { ApiDetailsComponent } from './api-details/api-details.component';
+// import { ApiNewComponent } from './api-new/api-new.component';
 
 @NgModule({
   declarations: [
@@ -158,14 +161,26 @@ import { FunctionRuntimeComponent } from './site/function-runtime/function-runti
       TopRightMenuComponent,
       AppsListComponent,
       FunctionRuntimeComponent
+    //   ApiDetailsComponent,
+    //   ApiNewComponent,
   ],
   imports: [
+      FormsModule,
+      ReactiveFormsModule,
+
     BrowserModule,
     FormsModule,
       HttpModule,
       TranslateModule.forRoot()
   ],
   providers: [
+      ConfigService,
+      {
+          provide: APP_INITIALIZER,
+          useFactory: (config: ConfigService) => () => config.loadConfig(),
+          deps: [ConfigService],
+          multi: true
+      },
       FunctionsService,
       UserService,
       LanguageService,

@@ -1,0 +1,198 @@
+@import '../../sass/main';
+
+.dev-full {
+    height:100%;
+    width:100%;
+}
+
+.dev-border {
+    border: 1px solid #ccc;
+}
+
+.dev-flex-column {
+    display: flex;
+    flex-direction:column;
+}
+
+.control-label {
+    @extend .text-label;
+    padding: 8px 0px 5px 0px
+}
+
+.height-fixed {
+    height: 230px;
+}
+
+.run-container button {
+    margin-top: 10px;
+    margin-left: 0px;
+    /*float: right;*/
+}
+
+.run-container-http {
+    overflow: auto;
+}
+
+.top-toolbar {
+    flex-grow: 1;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin: 0px;
+    margin-left: 0px;
+    line-height: 25px;
+    padding: 5px;
+    height: 50px;
+    display: flex;
+    align-content: center;
+}
+
+.cancel-button {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    z-index: 2000;
+    position: relative;
+}
+
+.not-shown {
+    display: none;
+}
+
+.tab-label {
+    @extend .text-level2-heading;
+    padding-bottom: 12px;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tab-label-selected {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-bottom: 4px solid #0058ad;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #0058ad;
+}
+
+.tab-label-disabled {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-bottom: 4px solid #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tab-label-rotate-right {
+    @extend .text-level2-heading;
+    padding-top: 12px; 
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tab-label-rotate {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-top: 4px solid #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.line-vertical {
+    border-left: 1px solid #ccc; 
+    flex-grow: 1;
+}
+
+/*https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow*/
+.pre-fix div, log-streaming {
+    min-width: 0;
+}
+
+.left-container {
+    padding: 7px 25px 0px 25px; 
+    flex-grow: 1;
+}
+
+.get-url {
+    @extend .text-hl;
+    align-self: center;
+    padding-left: 10px
+}
+
+.bottom-bar-closed {
+    border-top: 1px solid #ccc;
+    height: 50px;
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 10px;
+}
+
+.right-container-closed {
+    width: 0px; 
+    align-content: flex-end;
+}
+
+.right-container-rotated {
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-top: 20px;
+    width: 500px;
+    margin-left: 50px;
+    display: flex;
+    align-items:flex-start;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.rigth-container-bar {
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.run-container {
+    flex-grow:1;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.run-output {
+    flex-grow:1;
+    padding-bottom: 10px;
+}
+
+.run-result {
+    display: flex;
+    align-items: center;
+}
+
+.run-pre-http {
+    margin-bottom: 0px;
+}
+
+.run-pre-regular {
+    flex-grow:1;
+    margin-bottom: 0px;
+}
+
+.run-button-container {
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: row-reverse; 
+    padding: 10px 10px 10px 0px;
+}
+
+.hidden {
+    visibility:hidden;
+}

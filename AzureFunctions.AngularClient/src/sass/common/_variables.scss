@@ -1,6 +1,6 @@
+// TODO: Get rid of this style
 $danger-color : #d43f3a;
-$success-color: #30D00F;
-$warning-color: #FFA81E;
+
 $link-color : #419BF3;
 
 $button-bg-color : #539CF6;
@@ -8,11 +8,18 @@ $button-bg-color : #539CF6;
 $body-bg-color : #fff;
 
 $chrome-color : #E6E7E8;
-$border-color: #DEDEDE;
-$border-selection-color: #419BF3;
 
-$border-input: 2px solid $border-color;
+$border-selection-color: #419BF3;
 
 $sidenav-width: 250px;
 
 $disabled-color: rgba(#7f7f7f, .7);
+
+$border-color: #ccc;
+$border-input: 2px solid $border-color;
+
+$success-color: #5db300;
+
+$error-color: #e81123;
+
+$warning-color: #ff8c00;

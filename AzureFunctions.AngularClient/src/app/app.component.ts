@@ -8,6 +8,8 @@ import { LanguageService } from './shared/services/language.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import { Constants } from './shared/models/constants';
+import { AiService } from './shared/services/ai.service';
 import {PortalService} from './shared/services/portal.service';
 import {ArmService} from './shared/services/arm.service';
 import {UserService} from './shared/services/user.service';
@@ -66,7 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         // this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
     }
 
-    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean) {
+    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
         this._globalStateService.setBusyState();
         // if (typeof functionContainer !== 'string')
         //     //TODO: investigate this

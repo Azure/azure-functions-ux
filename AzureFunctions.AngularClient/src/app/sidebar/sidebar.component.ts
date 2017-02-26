@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, OnDestroy, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, OnDestroy, Output, Input} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionConfig} from '../shared/models/function-config';
@@ -13,13 +13,14 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';
 import {AiService} from '../shared/services/ai.service';
+import {ApiProxy} from '../shared/models/api-proxy';
 
 enum TopbarButton {
     None = <any>"None",
     AppMonitoring = <any>"AppMonitoring",
     AppSettings = <any>"AppSettings",
     Quickstart = <any>"Quickstart",
-    SourceControl = <any>"SourceControl"
+    SourceControl = <any>"SourceControl",
 }
 
 @Component({
@@ -29,17 +30,22 @@ enum TopbarButton {
   inputs: ['functionsInfo', 'tabId'],  
 })
 export class SidebarComponent implements OnDestroy, OnInit {
+    @Input() apiProxies: ApiProxy[]; 
     public functionsInfo: FunctionInfo[];
     public selectedFunction: FunctionInfo;
+    public selectedApiProxy: ApiProxy;
     public inIFrame: boolean;
-    private showTryView: boolean;
+    public showTryView: boolean;
     public pullForStatus = false;
     public running: boolean;
     public dots = "";
     public ActiveButton: TopbarButton = TopbarButton.None;
+    public apiProxyEnabled: boolean;
 
     @Output() private appSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     @Output() private quickstartClicked: EventEmitter<any> = new EventEmitter<any>();
+    @Output() private apiSettingsClicked: EventEmitter<any> = new EventEmitter<any>(); 
+    @Output() private newApiProxyClicked: EventEmitter<any> = new EventEmitter<any>(); 
     @Output() refreshClicked = new EventEmitter<void>();
     @Output() changedTab = new EventEmitter<string>();
     private subscriptions: Subscription[];
@@ -56,6 +62,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
         private _portalService: PortalService,
         private _aiService: AiService) {
 
+        this.showTryView = this._globalStateService.showTryView;
         this.subscriptions = [];
         this.inIFrame = this._userService.inIFrame;
         this.showTryView = this._globalStateService.showTryView;
@@ -68,6 +75,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
                     break;
                 }
             }
+            this.clearDirtyStates();
         }));
 
         this.subscriptions.push(this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.FunctionAdded, fi => {
@@ -85,6 +93,25 @@ export class SidebarComponent implements OnDestroy, OnInit {
                 });
                 this.selectFunction(fi);
             }
+        }));
+
+        this.subscriptions.push(this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyAdded, apiProxy => {
+            if (apiProxy) {
+                this.apiProxies.push(apiProxy);
+                this.selectApiProxy(apiProxy);
+
+            }
+        }));
+
+        this.subscriptions.push(this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
+            if (this.selectedApiProxy && this.selectedApiProxy.name === apiProxy.name) delete this.selectApiProxy;
+            for (var i = 0; i < this.apiProxies.length; i++) {
+                if (this.apiProxies[i].name === apiProxy.name) {
+                    this.apiProxies.splice(i, 1);
+                    break;
+                }
+            }
+            this.clearDirtyStates();
         }));
 
         this._broadcastService.subscribe<TutorialEvent>(BroadcastEvent.TutorialStep, (event) => {
@@ -123,11 +150,18 @@ export class SidebarComponent implements OnDestroy, OnInit {
                 }, 900);
             }
         });
+
         document.addEventListener('keyup', (e: KeyboardEvent) => {
             if (this.interval) {
                 clearInterval(this.interval);
             }
         });
+
+        this._globalStateService.enabledApiProxy.subscribe((value) => {
+            this.apiProxyEnabled = value;
+        });
+
+        this.apiProxyEnabled = this._globalStateService.enabledApiProxy.getValue();
     }
 
     ngOnInit() {
@@ -142,9 +176,9 @@ export class SidebarComponent implements OnDestroy, OnInit {
     selectFunction(fi: FunctionInfo) {
         if (this.canSwitchFunctions()) {
             this.resetView();
-            this._broadcastService.clearDirtyState('function', true);
-            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.clearDirtyStates();
             this.selectedFunction = fi;
+            this.selectedApiProxy = null;
             this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, fi);
             if (fi.clientOnly) {
                 this.trackPage('NewFunction');
@@ -155,10 +189,25 @@ export class SidebarComponent implements OnDestroy, OnInit {
         }
     }
 
+    selectApiProxy(p: ApiProxy) {
+
+        if (this.canSwitchFunctions()) {
+            this.resetView();
+            this.clearDirtyStates();
+            this.selectedApiProxy = p;
+            this.selectedFunction = null;
+            this._broadcastService.broadcast(BroadcastEvent.ApiProxySelected, p);
+            if (p.name === this._translateService.instant(PortalResources.sidebar_newApiProxy)) {
+                this.trackPage('NewApiProxy');
+            } else {
+                this.trackPage('DetailsFunction');
+            }
+        }
+    }
+
     refresh() {
         if (this.canSwitchFunctions()) {
-            this._broadcastService.clearDirtyState('function', true);
-            this._broadcastService.clearDirtyState('function_integrate', true);
+            this.clearDirtyStates();
             this.refreshClicked.emit(null);
             this._aiService.trackEvent('/actions/refresh');
             this._functionsService.fireSyncTrigger();
@@ -179,7 +228,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     quickstart() {
         if (this.canSwitchFunctions()) {
-            this._portalService.logAction('top-bar-azure-functions-link', 'click');
+            this._portalService.logAction('side-azure-functions-link', 'click');
             this.resetView();
             this.quickstartClicked.emit(null);
             this.ActiveButton = TopbarButton.Quickstart;
@@ -212,8 +261,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
     onTabClicked(tabId: string) {
         if (this.canSwitchFunctions()) {
-            this._broadcastService.clearDirtyState('function');
-            this._broadcastService.clearDirtyState('function_integrate');
+            this.clearDirtyStates();
             this._globalStateService.clearBusyState();
             this._portalService.logAction("tabs", "click " + tabId, null);
             this._tabId = tabId;
@@ -227,6 +275,15 @@ export class SidebarComponent implements OnDestroy, OnInit {
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate')) && this.selectedFunction) {
             switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMade, { name: this.selectedFunction.name }));
         }
+        if (this._broadcastService.getDirtyState('api-proxy') && this.selectedApiProxy) {
+            switchFunction = confirm(this._translateService.instant(PortalResources.sideBar_changeMadeApiProxy, { name: this.selectedApiProxy.name }));
+        }
         return switchFunction;
+    }
+
+    private clearDirtyStates() {
+        this._broadcastService.clearDirtyState('function', true);
+        this._broadcastService.clearDirtyState('function_integrate', true);
+        this._broadcastService.clearDirtyState('api-proxy', true);
     }
 }

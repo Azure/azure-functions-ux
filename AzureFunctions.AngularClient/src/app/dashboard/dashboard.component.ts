@@ -25,6 +25,8 @@ import {Cookie} from 'ng2-cookies/ng2-cookies';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {Response, ResponseType} from '@angular/http';
 import {ArmService} from '../shared/services/arm.service';
+import {ApiProxy} from '../shared/models/api-proxy';
+
 
 @Component({
   selector: 'functions-dashboard',
@@ -36,10 +38,14 @@ export class DashboardComponent implements OnChanges {
     @Input() functionContainer: FunctionContainer;
 
     public functionsInfo: FunctionInfo[];
+    public apiProxies: ApiProxy[];
     public selectedFunction: FunctionInfo;
+    public selectedApiProxy: ApiProxy;
+    public openAppMonitoring: boolean;
     public openAppSettings: boolean;
     public openSourceControl: boolean;
-    public openIntro: any;
+    public openIntro: boolean = true;
+    public openNewApiProxy: boolean;
     public trialExpired: boolean;
     public action: Action;
     public tabId: string = "Develop";
@@ -93,6 +99,7 @@ export class DashboardComponent implements OnChanges {
             }
             this.resetView(false);
             this.sideBar.selectedFunction = fi;
+            this.selectedApiProxy = null;
 
             this._globalStateService.setBusyState();
 
@@ -106,6 +113,18 @@ export class DashboardComponent implements OnChanges {
                 this._globalStateService.clearBusyState();
             }
 
+        });
+
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxySelected, apiProxy => {
+            this.resetView(false);
+            this.selectedApiProxy = apiProxy;
+            this.selectedFunction = null;
+        });
+
+        this._broadcastService.subscribe<ApiProxy>(BroadcastEvent.ApiProxyDeleted, apiProxy => {
+            if (this.selectedApiProxy === apiProxy) {
+                delete this.selectedApiProxy;
+            }
         });
 
         this._broadcastService.subscribe<void>(BroadcastEvent.TrialExpired, (event) => {
@@ -123,7 +142,7 @@ export class DashboardComponent implements OnChanges {
         }
     }
 
-    initFunctions(selectedFunctionName?: string) {
+    initFunctions() {
         this._globalStateService.setBusyState();
         this._functionsService.clearAllCachedData();
 
@@ -133,11 +152,7 @@ export class DashboardComponent implements OnChanges {
                 res.unshift(this._functionsService.getNewFunctionNode());
                 this.functionsInfo = res;
                 this._globalStateService.clearBusyState();
-                if (!this.openAppSettings) {
-                    this.resetView(true);
-                    this.openIntro = true;
-                }
-                selectedFunctionName = selectedFunctionName || Cookie.get('functionName');;
+                var selectedFunctionName = (this.selectedFunction ?  this.selectedFunction.name : null ) || Cookie.get('functionName');
                 if (selectedFunctionName) {
                     var findSelected = this.functionsInfo.find((f) => {
                         return f.name === selectedFunctionName;
@@ -152,12 +167,40 @@ export class DashboardComponent implements OnChanges {
             (error: Response) => {
                 this.functionsInfo = [];
             });
+
+        this._functionsService.getApiProxies().subscribe(proxies => {
+            this.apiProxies = ApiProxy.fromJson(proxies);
+
+            this.apiProxies.unshift({
+                name: this._translateService.instant(PortalResources.sidebar_newApiProxy),
+                backendUri: '',
+                matchCondition: {
+                    methods: [],
+                    route: ''
+                }
+            });
+
+            var selectedApiName = this.selectedApiProxy ? this.selectedApiProxy.name : null;
+            if (selectedApiName) {
+                var findSelected = this.apiProxies.find((f) => {
+                    return f.name === selectedApiName;
+                });
+                if (selectedApiName) {
+                    this.openIntro = false;
+                    this.selectedApiProxy = findSelected;
+                    this.sideBar.selectedApiProxy = findSelected;
+                }
+            }
+
+        });
+
         this._functionsService.warmupMainSite();
         this._functionsService.getHostSecrets();
+
     }
 
     onRefreshClicked() {
-        this.initFunctions(this.selectedFunction ? this.selectedFunction.name : null);
+        this.initFunctions();
         this._broadcastService.broadcast(BroadcastEvent.RefreshPortal);
     }
 
@@ -183,14 +226,22 @@ export class DashboardComponent implements OnChanges {
         this.openSourceControl = true;
     }
 
-    private resetView(clearFunction: boolean) {
+    onNewApiProxyClicked() {
+        this.resetView(true);
+        this.openNewApiProxy = true;
+    }
+
+    private resetView(clearSelected: boolean) {
         this.openAppSettings = false;
         this.openIntro = null;
         this.openSourceControl = false;
-        if (clearFunction) {
+        this.openNewApiProxy = false;
+        if (clearSelected) {
             this.selectedFunction = null;
+            this.selectedApiProxy = null;
             if (this.sideBar) {
                 this.sideBar.selectedFunction = null;
+                this.sideBar.selectedApiProxy = null;
             }
         }
     }

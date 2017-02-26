@@ -61,6 +61,12 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage GetLatestRoutingExtensionVersion()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, "0.0.5");
+        }
+
+        [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             runtime = getClearRuntime(runtime);
@@ -105,6 +111,12 @@ namespace AzureFunctions.Controllers
             result["en"] = ConvertResxToJObject(resxFiles);
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetClientConfiguration()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, this._settings.GetClientConfiguration());
         }
 
         [Authorize]

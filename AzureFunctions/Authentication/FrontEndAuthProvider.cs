@@ -1,13 +1,10 @@
 ﻿using AzureFunctions.Common;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using AzureFunctions.Contracts;
 using System;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Web;
 using static AzureFunctions.Authentication.ClaimTypes;
@@ -16,6 +13,13 @@ namespace AzureFunctions.Authentication
 {
     public class FrontEndAuthProvider : IAuthProvider
     {
+        private readonly ISettings _settings;
+
+        public FrontEndAuthProvider(ISettings settings)
+        {
+            this._settings = settings;
+        }
+
         public bool TryAuthenticateRequest(HttpContextBase context)
         {
             IPrincipal principal = null;
@@ -26,9 +30,7 @@ namespace AzureFunctions.Authentication
 
             if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
-                if (request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
-                    request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.MsPortalReferrer, StringComparison.OrdinalIgnoreCase) == true ||
-                    request.UrlReferrer?.AbsoluteUri.StartsWith(Constants.RcPortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                if (request.UrlReferrer?.Host.EndsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }
@@ -92,7 +94,7 @@ namespace AzureFunctions.Authentication
         private bool TryGetTenantForSubscription(string subscriptionId, out string tenantId)
         {
             tenantId = string.Empty;
-            var requestUri = string.Format(Constants.SubscriptionTemplate, Constants.CSMUrl, subscriptionId, Constants.CSMApiVersion);
+            var requestUri = string.Format(Constants.SubscriptionTemplate, _settings.AzureResourceManagerEndpoint, subscriptionId, Constants.CSMApiVersion);
             var request = WebRequest.CreateHttp(requestUri);
             using (var response = request.GetResponseWithoutExceptions())
             {

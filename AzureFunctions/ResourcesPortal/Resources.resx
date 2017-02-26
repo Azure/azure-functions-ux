@@ -139,10 +139,10 @@
     <value>Function (${{name}}) Error: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Function Url:</value>
+    <value>Function Url</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHub Secret:</value>
+    <value>GitHub Secret</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Hide files</value>
@@ -163,7 +163,7 @@
     <value>Status:</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>View Files</value>
+    <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template</value>
@@ -246,11 +246,8 @@
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Data processing</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>The faster way to functions</value>
-  </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Get started quickly with a premade function</value>
+    <value>Welcome to Azure Functions! Get started quickly with a premade function.</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
     <value>Or get started on your own</value>
@@ -267,9 +264,6 @@
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
   </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>Write any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required.</value>
-  </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>Clear</value>
   </data>
@@ -277,7 +271,7 @@
     <value>Copied!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>Copy Logs</value>
+    <value>Copy logs</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
     <value>Pause</value>
@@ -320,7 +314,7 @@
     <value>Refresh</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Search my functions</value>
+    <value>Search</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Subscription</value>
@@ -380,7 +374,7 @@
     <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App Settings</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Go to App Service Settings</value>
@@ -482,10 +476,10 @@
     <value>Loading ...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Recent success count</value>
+    <value>Success count since</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Recent errors count</value>
+    <value>Error count since</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Invocation log</value>
@@ -854,7 +848,7 @@
     <value>Query</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>"Always On" setting is set to off</value>
+    <value>'AlwaysOn' is not enabled. Your app may not function properly</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>
@@ -960,5 +954,116 @@
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
     <value>Parameter name must be unique.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Allowed HTTP methods</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>Proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Route template</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Enable Azure Functions Proxies (preview)</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>Azure Functions Proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Revoke</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Get function URL</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Get GitHub secret</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Headers</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>There are no headers</value>
   </data>
 </root>

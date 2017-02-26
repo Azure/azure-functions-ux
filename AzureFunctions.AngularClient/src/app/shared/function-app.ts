@@ -135,6 +135,12 @@ export class FunctionApp {
             });
         }
 
+        if (!Constants.routingExtensionVersion) {
+            this._getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
+                Constants.routingExtensionVersion = routingVersion;
+            });
+        }
+
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
             .flatMap(info =>{
@@ -162,6 +168,15 @@ export class FunctionApp {
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
         }
+    }
+
+    private _getLatestRoutingExtensionVersion() {
+        return this._cacheService.get(Constants.serviceHost + 'api/latestrouting', false, this.getPortalHeaders())
+            .map(r => {
+                return r.json();
+            })
+            .retryWhen(this.retryAntares)
+            .catch(e => this.checkCorsOrDnsErrors(e));
     }
 
     getParameterByName(url, name) {
@@ -505,7 +520,7 @@ export class FunctionApp {
 
     @Cache()
     getHostJson() {
-        return this._http.get(`${this.azureScmServer}/functions/config`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(`${this.azureScmServer}/api/functions/config`, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch(_ => Observable.of({
                 json: () => { return {}; }
@@ -564,8 +579,8 @@ export class FunctionApp {
             });
         masterKey
             .subscribe(r => {
-                let masterKey: {masterKey: string} = r.json();
-                this.masterKey = masterKey.masterKey;
+                let key: { masterKey: string } = r.json();
+                this.masterKey = key.masterKey;
                 this.getFunctionHostKeys();
             }, e => {
                 this.isMultiKeySupported = false;
@@ -591,7 +606,13 @@ export class FunctionApp {
     }
 
     getFunctionHostKeys(): Observable<FunctionKeys> {
-        let hostKeys = this._http.get(`${this.mainSiteUrl}/admin/host/keys`, {headers: this.getMainSiteHeaders()})
+        let hostKeys = this.checkIfEasyAuthEnabled()
+        .flatMap(enabled =>{
+            if(enabled){
+                return Observable.of({keys: [], links: []});
+            }
+
+            return this._cacheService.get(`${this.mainSiteUrl}/admin/host/keys`, true, this.getMainSiteHeaders())
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
                 if (err.status === 404) throw err;
                 if (errorCount >= 10) {
@@ -604,6 +625,7 @@ export class FunctionApp {
                 return this.checkCorsOrDnsErrors(e);
             })
             .map<FunctionKeys>(r => {
+                
                 let keys: FunctionKeys = r.json();
                 if (keys && Array.isArray(keys.keys)) {
                     keys.keys.unshift({
@@ -613,12 +635,14 @@ export class FunctionApp {
                 }
                 return keys;
             });
+        })
 
-            hostKeys.subscribe(r => {
-                this.isMultiKeySupported = true;
-            }, e => {
-                this.isMultiKeySupported = false;
-            });
+        hostKeys.subscribe(r => {
+            this.isMultiKeySupported = true;
+        }, e => {
+            this.isMultiKeySupported = false;
+        });
+
         return hostKeys;
     }
 
@@ -732,7 +756,7 @@ export class FunctionApp {
     }
 
     @Cache()
-    getFunctionAppId() {
+    getFunctionHostId() {
         return this.checkIfEasyAuthEnabled()
         .flatMap(isEasyAuthEnabled =>{
             if (isEasyAuthEnabled || !this.masterKey) {
@@ -745,6 +769,16 @@ export class FunctionApp {
             }
         })
      }
+
+    // getFunctionAppArmId() {
+    //     if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
+    //         return this.functionContainer.id;
+    //     } else if (this.scmUrl) {
+    //         return this.scmUrl;
+    //     } else {
+    //         return 'Unknown';
+    //     }
+    // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
         return this._http.get(`${this.scmUrl}/vfs/logfiles/application/functions/function/${fi.name}/`, { headers: this.getScmSiteHeaders() })
@@ -901,7 +935,7 @@ export class FunctionApp {
         });
     }
 
-    private checkIfEasyAuthEnabled(){
+    public checkIfEasyAuthEnabled(){
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
         .map(r =>{
             let auth : ArmObj<any> = r.json();
@@ -1045,29 +1079,41 @@ export class FunctionApp {
                         : false;
                     if (!isConfigured) {
                         // CORS Error
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_CORSNotConfigured, {origin: window.location.origin}), details: JSON.stringify(error) }
-                        );
-                    } else {
+                        let message = this._translateService.instant(PortalResources.error_CORSNotConfigured, {
+                            origin: window.location.origin
+                        });
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: message,
+                            details: JSON.stringify(error)
+                        });
+                                        } else {
                         // DNS resolution or any error that results from the worker process crashing or restarting
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
                             { message: this._translateService.instant(PortalResources.error_DnsResolution) }
                         );
                     }
-                }, (error: Response) => {
-                        this._broadcastService.broadcast<ErrorEvent>(
-                            BroadcastEvent.Error,
-                            { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {functionApp: this.site.name}), details: JSON.stringify(error) }
-                        );
+                }, (e: Response) => {
+                    let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {
+                        functionApp: this.site.name
+                    });
+
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: message,
+                        details: JSON.stringify(e)
+                    });
                 });
         } else {
-            this._broadcastService.broadcast<ErrorEvent>(
-                BroadcastEvent.Error,
-                { message: this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {statusText: this.statusCodeToText(error.status)}), details: JSON.stringify(error)}
-             );
+            let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {
+                statusText: this.statusCodeToText(error.status)
+            });
+
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: message,
+                details: JSON.stringify(error)
+            });
         }
+        
         throw error;
     }
 

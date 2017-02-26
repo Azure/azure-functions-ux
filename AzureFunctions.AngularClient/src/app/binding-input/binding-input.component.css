@@ -86,3 +86,18 @@ button.go {
     margin-right: 0px;
     width: 70%;
 }
+
+.methods-list {
+    display: flex; 
+    flex-direction: row; 
+    max-width:700px; 
+    flex-wrap: wrap;
+}
+
+.methods-list div {
+    flex-basis: 150px;
+}
+
+.methods-list input {
+    margin-left:0px
+}

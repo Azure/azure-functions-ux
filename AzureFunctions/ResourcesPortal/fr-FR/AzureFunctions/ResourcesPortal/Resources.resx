@@ -241,7 +241,7 @@
     <value>Créer cette fonction</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Vous pouvez aussi créer votre propre fonction personnalisée</value>
+    <value>Créer votre propre fonction personnalisée</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Traitement des données</value>
@@ -256,7 +256,7 @@
     <value>Ou avec une de vos fonctions</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Si vous préférez un autre langage pris en charge, choisissez « Création d'une fonction à partir de zéro ».</value>
+    <value>Si vous préférez un autre langage pris en charge, choisissez</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>démarrez à partir du contrôle de code source.</value>
@@ -320,7 +320,7 @@
     <value>Actualiser</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Rechercher dans mes fonctions</value>
+    <value>Rechercher</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Abonnement</value>
@@ -347,10 +347,10 @@
     <value>Paramètres avancés</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
+    <value>Permettre aux clients de consommer plus facilement vos fonctions déclenchées via HTTP</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
+    <value>Permettre à vos fonctions déclenchées via HTTP d'être appelées depuis un navigateur web</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>Définition de l'API</value>
@@ -374,13 +374,13 @@
     <value>Configurer CORS</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
+    <value>Déployer le code de votre fonction depuis GitHub, Visual Studio Team Services et plus encore</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
     <value>Pour les fonctions qui utilisent le déclencheur HTTP, vous pouvez exiger l'authentification des appels.</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Paramètres Function App</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>Accéder aux paramètres App Service</value>
@@ -860,7 +860,7 @@
     <value>Notes de publication Azure Functions.</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Clés d'administration (toutes les fonctions)</value>
+    <value>Clés de l'hôte (toutes les fonctions)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Ajouter une nouvelle clé d'administration</value>
@@ -917,7 +917,7 @@
     <value>Le nom doit être unique dans une Function App. Il doit commencer par une lettre et peut contenir des lettres, des chiffres (0-9), des tirets ("-") et des traits de soulignement ("_").</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
-    <value>Loading..</value>
+    <value>Chargement...</value>
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
@@ -932,30 +932,117 @@
     <value>Gérer</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service Settings</value>
+    <value>Paramètres App Service</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+    <value>Fonctionnalités avancées. Accédez à toutes les fonctionnalités sous-jacentes d'Azure App Service</value>
   </data>
   <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service Editor</value>
+    <value>Éditeur App Service</value>
   </data>
   <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>In portal editor with an integrated console and streaming logs</value>
+    <value>Dans l'éditeur du portail avec une console intégrée et des journaux de streaming</value>
   </data>
   <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Go to App Service Editor</value>
+    <value>Accéder à l'Éditeur App Service</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Version du runtime</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Votre application de fonction est désactivée car elle dépasse le quota défini. Pour y remédier, accédez à la vue des paramètres d'application de fonction dans la barre latérale de gauche.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Votre application de fonction est arrêtée. Vous ne pouvez pas utiliser le portail des fonctions quand l'application est arrêtée. Pour y remédier, accédez à la vue des paramètres d'application de fonction dans la barre latérale de gauche, puis au panneau des paramètres du service d'application.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Vous ne disposez pas d'autorisations suffisantes pour accéder à cette application de fonction. Il est possible que les paramètres de base soient encore visibles dans le panneau des paramètres App Service, accessible à partir du lien des paramètres d'application de fonction situé dans la barre latérale gauche.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Le nom du paramètre doit être unique.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Méthodes HTTP autorisées</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Modèle de routage</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Use API proxies</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Ignorer</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Fonctions</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

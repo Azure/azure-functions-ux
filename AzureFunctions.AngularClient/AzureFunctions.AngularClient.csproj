@@ -79,6 +79,8 @@
     <Content Include="README.md" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.css" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.html" />
+    <Content Include="src\app\api-details\api-details.component.html" />
+    <Content Include="src\app\api-new\api-new.component.html" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.css" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
     <Content Include="src\app\app-settings\app-settings.component.css" />
@@ -93,17 +95,16 @@
     <Content Include="src\app\busy-state\busy-state.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
-    <Content Include="src\app\dashboard\dashboard.component.css" />
     <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
     <Content Include="src\app\error-list\error-list.component.css" />
     <Content Include="src\app\error-list\error-list.component.html" />
-    <Content Include="src\app\file-explorer\file-explorer.component.css" />
+    <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
     <Content Include="src\app\function-designer\function-designer.component.css" />
     <Content Include="src\app\function-designer\function-designer.component.html" />
-    <Content Include="src\app\function-dev\function-dev.component.css" />
+    <None Include="src\app\function-dev\function-dev.component.scss" />
     <Content Include="src\app\function-dev\function-dev.component.html" />
     <Content Include="src\app\function-edit\function-edit.component.css" />
     <Content Include="src\app\function-edit\function-edit.component.html" />
@@ -125,13 +126,13 @@
     <Content Include="src\app\intro\intro.component.html" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
-    <Content Include="src\app\log-streaming\log-streaming.component.css" />
+    <None Include="src\app\log-streaming\log-streaming.component.scss" />
     <Content Include="src\app\log-streaming\log-streaming.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
     <Content Include="src\app\radio-selector\radio-selector.component.css" />
     <Content Include="src\app\radio-selector\radio-selector.component.html" />
-    <Content Include="src\app\run-http\run-http.component.css" />
+    <None Include="src\app\run-http\run-http.component.scss" />
     <Content Include="src\app\run-http\run-http.component.html" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
@@ -145,7 +146,6 @@
     <Content Include="src\app\template-picker\template-picker.component.html" />
     <Content Include="src\app\tooltip-content\tooltip-content.component.css" />
     <Content Include="src\app\tooltip-content\tooltip-content.component.html" />
-    <Content Include="src\app\top-bar\top-bar.component.css" />
     <Content Include="src\app\top-bar\top-bar.component.html" />
     <Content Include="src\app\trial-expired\trial-expired.component.css" />
     <Content Include="src\app\trial-expired\trial-expired.component.html" />
@@ -158,62 +158,8 @@
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
-    <Content Include="src\assets\monaco\min\vs\base\worker\workerMain.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\bat.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\coffee.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\cpp.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\csharp.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\css.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\dockerfile.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\fsharp.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\go.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\handlebars.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\html.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\ini.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\jade.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\java.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\less.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\lua.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\markdown.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\objective-c.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\php.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\postiats.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\powershell.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\python.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\r.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\razor.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\ruby.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\scss.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\sql.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\swift.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\vb.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\xml.js" />
-    <Content Include="src\assets\monaco\min\vs\basic-languages\src\yaml.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\contrib\quickOpen\browser\symbol-sprite.svg" />
-    <Content Include="src\assets\monaco\min\vs\editor\contrib\suggest\browser\symbol-sprite.svg" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.css" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.de.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.es.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.fr.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.it.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ja.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ko.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.ru.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.zh-cn.js" />
-    <Content Include="src\assets\monaco\min\vs\editor\editor.main.nls.zh-tw.js" />
-    <Content Include="src\assets\monaco\min\vs\language\css\cssMode.js" />
-    <Content Include="src\assets\monaco\min\vs\language\css\cssWorker.js" />
-    <Content Include="src\assets\monaco\min\vs\language\html\htmlMode.js" />
-    <Content Include="src\assets\monaco\min\vs\language\html\htmlWorker.js" />
-    <Content Include="src\assets\monaco\min\vs\language\json\jsonMode.js" />
-    <Content Include="src\assets\monaco\min\vs\language\json\jsonWorker.js" />
-    <Content Include="src\assets\monaco\min\vs\language\typescript\lib\typescriptServices.js" />
-    <Content Include="src\assets\monaco\min\vs\language\typescript\src\mode.js" />
-    <Content Include="src\assets\monaco\min\vs\language\typescript\src\worker.js" />
-    <Content Include="src\assets\monaco\min\vs\loader.js" />
     <Content Include="src\assets\nvd3Charts.css" />
+    <Content Include="src\images\api-proxy.svg" />
     <Content Include="src\images\arrow-right.svg" />
     <Content Include="src\images\azure-logo.svg" />
     <Content Include="src\images\bolt.svg" />
@@ -232,8 +178,8 @@
     <Content Include="src\images\stack.svg" />
     <Content Include="src\images\timer-template.svg" />
     <Content Include="src\images\webhook-api-template.svg" />
-    <Content Include="src\tsconfig.json" />
     <Content Include="tslint.json" />
+    <Content Include="src\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
@@ -242,7 +188,6 @@
     <Content Include="src\app\app.component.html" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\index.html" />
-    <Content Include="src\styles.css" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="e2e\app.e2e-spec.ts" />
@@ -251,6 +196,10 @@
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.component.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.spec.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-details\api-details.component.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api-new\api-new.component.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.ts" />
     <TypeScriptCompile Include="src\app\app-settings\app-settings.component.spec.ts" />
@@ -319,6 +268,7 @@
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\api-proxy.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input-list.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-list.ts" />
@@ -375,6 +325,8 @@
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\config.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\config.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\function-monitor.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\functions.service.spec.ts" />
@@ -417,7 +369,6 @@
     <TypeScriptCompile Include="src\app\try-now\try-now.component.ts" />
     <TypeScriptCompile Include="src\app\tutorial\tutorial.component.spec.ts" />
     <TypeScriptCompile Include="src\app\tutorial\tutorial.component.ts" />
-    <TypeScriptCompile Include="src\assets\monaco\monaco.d.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -432,21 +383,24 @@
     <Content Include=".ember-cli" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\assets\monaco\min-maps\vs\base\worker\workerMain.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.de.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.es.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.fr.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.it.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ja.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ko.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.ru.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-cn.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\editor\editor.main.nls.zh-tw.js.map" />
-    <Content Include="src\assets\monaco\min-maps\vs\loader.js.map" />
+    <Content Include="src\app\api-details\api-details.component.css" />
+    <Content Include="src\app\api-new\api-new.component.css" />
+    <Content Include="src\app\dashboard\dashboard.component.scss" />
+    <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="src\sass\base\_base.scss" />
+    <Content Include="src\sass\base\_typography.scss" />
+    <Content Include="src\sass\common\_variables.scss" />
+    <Content Include="src\sass\controls\_buttons.scss" />
+    <Content Include="src\sass\controls\_log-streaming.scss" />
+    <Content Include="src\sass\controls\_monaco.scss" />
+    <Content Include="src\sass\controls\_radio.scss" />
+    <Content Include="src\sass\main.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\assets\monaco\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

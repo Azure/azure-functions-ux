@@ -13,11 +13,12 @@ import {AiService} from './ai.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../models/portal-resources';
 import {ArmObj, ArmArrayResult} from '../models/arm/arm-obj';
+import {ConfigService} from './config.service';
 
 @Injectable()
 export class ArmService {
     public subscriptions = new ReplaySubject<Subscription[]>(1);
-    public armUrl = 'https://management.azure.com';
+    public armUrl = '';
 
     private token: string;
     public armApiVersion = '2014-04-01'
@@ -26,9 +27,13 @@ export class ArmService {
     public websiteApiVersion = '2015-08-01';
 
     constructor(private _http: Http,
+        private _configService: ConfigService,
         private _userService: UserService,
         private _aiService: AiService,
         private _translateService: TranslateService) {
+
+        this.armUrl = this._configService.getAzureResourceManagerEndpoint();
+
         //Cant Get Angular to accept GlobalStateService as input param
         if ( !window.location.pathname.endsWith('/try')) {
             _userService.getStartupInfo().flatMap(info => {
@@ -57,6 +62,7 @@ export class ArmService {
             search : null,
             headers :  headers ? headers : this._getHeaders(etag),
             body : body ? body : null
+
         });
 
         return this._http.request(request);

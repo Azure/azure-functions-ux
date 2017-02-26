@@ -26,9 +26,9 @@ import {RunHttpComponent} from '../run-http/run-http.component';
 
 
 @Component({
-    selector: 'function-dev',
-    templateUrl: './function-dev.component.html',
-    styleUrls: ['./function-dev.component.css']
+  selector: 'function-dev',
+  templateUrl: './function-dev.component.html',
+  styleUrls: ['./function-dev.component.scss']
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -51,7 +51,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public testContent: string;
     public fileName: string;
     public inIFrame: boolean;
-    public runValid: boolean;
+    public runValid: boolean = false;
 
     public configContent: string;
     public webHookType: string;
@@ -62,6 +62,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public runResult: RunFunctionResult;
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
+    public showFunctionKey: boolean = false;
+    public showFunctionInvokeUrlModal: boolean = false;    
+    public showFunctionKeyModal: boolean = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
@@ -79,6 +82,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private autoSelectAdminKey: boolean;
     private functionKey: string;
     private _bindingManager = new BindingManager();
+
+    private _isEasyAuthEnabled = false;
 
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
@@ -116,9 +121,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.checkIfDisabled(),
-                    (s, f, d) => ({ secrets: s, functionInfo: f, disabled: d}))
+                    this.functionApp.checkIfEasyAuthEnabled(),
+                    (s, f, d, e) => ({ secrets: s, functionInfo: f, disabled: d, easyAuthEnabled : e}))
             })
-            .subscribe((res: { secrets: any, functionInfo: FunctionInfo, disabled : boolean }) => {
+            .subscribe(res => {
+                this._isEasyAuthEnabled = res.easyAuthEnabled;
                 this.disabled = res.disabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
@@ -134,6 +141,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
+                var href = res.functionInfo.script_href;
+                if (this.fileName.toLowerCase().endsWith("dll")) {
+                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
+                    href = res.functionInfo.config_href;
+                }
+
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
                     : {name: this.fileName, href: res.functionInfo.script_href, mime: 'file'};
@@ -151,6 +164,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.webHookType;
                 }
+
+                this.showFunctionKey = this.webHookType === 'github';
 
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
@@ -175,10 +190,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }, 0);
 
                 if (!this.functionApp.isMultiKeySupported) {
-                    this.createSecretIfNeeded(res.functionInfo, res.secrets);
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
+                } else if(this._isEasyAuthEnabled){
+                    this.setFunctionInvokeUrl();
                 }
+
+
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
@@ -206,73 +224,70 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private onResize(ev?: any) {
-        var TOP = 100;
-        if (this._globalStateService.showTopbar) {
-            TOP += 40;
-        }
 
-        var LEFT = 300;
-        var GLOBAL_PADDING = 20;
-        var EDIT_TOP = 0;
+        var functionNameHeight = 46;
+        var editorPadding = 25;
 
-        if (this.codeEditor && this.functionContainer) {
-            EDIT_TOP = this.codeEditor.elementRef.nativeElement.getBoundingClientRect().top -
-                this.functionContainer.nativeElement.getBoundingClientRect().top - 49;
-        }
-
-
-
-        var WIDTH = window.innerWidth - LEFT;
-        var HEIGHT = window.innerHeight - TOP;
-
-        var RIGHTBAR_WIDTH = Math.floor((WIDTH / 3));
-        var BOTTOMBAR_HEIGHT = this.expandLogs === true ? HEIGHT - EDIT_TOP : Math.floor(((HEIGHT - EDIT_TOP) / 3));
-        var CODEEDITOR_WIDTH = WIDTH - RIGHTBAR_WIDTH;
-
+        var functionContainerWidth;
+        var functionContainaerHeight;
         if (this.functionContainer) {
-            var playgroundContainer = this.functionContainer.nativeElement;
-            playgroundContainer.style.width = WIDTH + 'px';
-            playgroundContainer.style.height = HEIGHT + 'px';
+            functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
+            functionContainaerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
+        }
+        var rigthContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
+        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainaerHeight / 3)) : 50;
+
+        var editorContainerWidth = functionContainerWidth - rigthContainerWidth - 50;
+        var editorContainerHeight = functionContainaerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+
+        if (this.expandLogs) {
+            editorContainerHeight = 0;
+            //editorContainerWidth = 0;
+
+            bottomContainerHeight = functionContainaerHeight - functionNameHeight;
+
+            this.editorContainer.nativeElement.style.visibility = "hidden";
+            this.bottomContainer.nativeElement.style.marginTop = "0px";
+        } else {
+            this.editorContainer.nativeElement.style.visibility = "visible";
+            this.bottomContainer.nativeElement.style.marginTop = "25px";
         }
 
 
-        if (this.editorContainer) {
-            var typingContainer = this.editorContainer.nativeElement;
-            typingContainer.style.width = this.rightTab ? CODEEDITOR_WIDTH + "px" : WIDTH + "px";
-            typingContainer.style.height = this.bottomTab ? (HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT) + "px" : (HEIGHT - EDIT_TOP) + 'px';
+        if (this.editorContainer) {            
+            this.editorContainer.nativeElement.style.width = editorContainerWidth + "px";
+            this.editorContainer.nativeElement.style.height = editorContainerHeight + "px";
         }
 
         if (this.codeEditor) {
-            if (this.expandLogs === true) {
-                this.codeEditor.setLayout(1, 1);
-            } else {
-                this.codeEditor.setLayout(
-                    this.rightTab ? CODEEDITOR_WIDTH - 2 : WIDTH - 2,
-                    this.bottomTab ? HEIGHT - EDIT_TOP - BOTTOMBAR_HEIGHT - 2 : HEIGHT - EDIT_TOP - 2
-                );
-            }
-        }
-
-        if (this.testDataEditor) {
-            var widthDataEditor = RIGHTBAR_WIDTH - 34;
-
-            setTimeout(() => {
-                this.testDataEditor.setLayout(
-                    this.rightTab ? widthDataEditor : 0,
-                    this.isHttpFunction ? 150 : HEIGHT / 2
-                )
-            }, 0);
+            this.codeEditor.setLayout(
+                editorContainerWidth - 2,
+                editorContainerHeight - 2
+            );
         }
 
         if (this.rightContainer) {
-            var editorContainer = this.rightContainer.nativeElement;
-            editorContainer.style.width = this.rightTab ? RIGHTBAR_WIDTH + 'px' : "0px";
-            editorContainer.style.height = HEIGHT + 'px';
+            this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
+            //this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
         }
 
         if (this.bottomContainer) {
-            var bottomContainer = this.bottomContainer.nativeElement;
-            bottomContainer.style.height = BOTTOMBAR_HEIGHT + 'px';
+            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + "px";
+            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + "px";
+        }
+
+        if (this.testDataEditor) {
+            var widthDataEditor = rigthContainerWidth - 24;
+
+            setTimeout(() => {
+                if (this.testDataEditor) {
+                    this.testDataEditor.setLayout(
+                        this.rightTab ? widthDataEditor : 0,
+                        this.isHttpFunction ? 230 : functionContainaerHeight / 2
+                        //functionContainaerHeight / 2
+                    )
+                }
+            }, 0);
         }
     }
 
@@ -297,24 +312,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.onResize();
         }, 0);
     }
-
-    private createSecretIfNeeded(fi: FunctionInfo, secrets: FunctionSecrets) {
-         if (!secrets.key) {
-             if (this.isHttpFunction) {
-                 //http://stackoverflow.com/a/8084248/3234163
-                 let secret = '';
-                 do {
-                     secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                 } while (secret.length < 32 || secret.length > 128);
-                 this.functionApp.setSecrets(fi, { key: secret })
-                     .subscribe(r => this.secrets = r);
-             } else {
-                 this.secrets = secrets;
-             }
-         } else {
-             this.secrets = secrets;
-         }
-     }
 
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
@@ -377,7 +374,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 code = `?code=${key}`;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = `?code=${this.secrets.key}`;
-            } else if (this.isHttpFunction && this.functionApp.HostSecrets) {
+            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isEasyAuthEnabled) {
                 code = `?code=${this.functionApp.HostSecrets}`;
             }
 
@@ -402,9 +399,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 setTimeout(() => {
                     this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
+                    this.runValid = true;
                 });
 
             });
+        } else {
+            this.runValid = true;
         }
     }
 
@@ -467,12 +467,28 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             return;
         }
 
+        var resizeNeeded = false;
         if (this.bottomTab !== "logs") {
             this.bottomTab = "logs";
-            this.onResize();
+            resizeNeeded = true;
         }
+
+        if (this.rightTab !== "run") {
+            this.rightTab = "run";
+            resizeNeeded = true;
+        }
+
+        if (resizeNeeded) {
+            setTimeout(() => {
+                this.onResize();
+            });
+        }
+
         var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
-        busyComponent.setBusyState();
+
+        if (busyComponent) {
+            busyComponent.setBusyState();
+        }
 
         this.saveTestData();
 
@@ -481,7 +497,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 return;
             }
 
-            this.httpRunLogs.clearLogs();
+            if (this.httpRunLogs) {
+                this.httpRunLogs.clearLogs();
+            }
             this.runFunctionInternal(busyComponent);
 
         } else {
@@ -553,6 +571,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.runValid = runValid;
     }
 
+    setShowFunctionInvokeUrlModal(value: boolean) {
+        this.showFunctionInvokeUrlModal = value;
+    }
+
+    setShowFunctionKeyModal(value: boolean) {
+        this.showFunctionKeyModal = value;
+    }
+
+    hideModal() {
+        this.showFunctionKeyModal = false;
+        this.showFunctionInvokeUrlModal = false;
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
@@ -585,7 +616,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             this.running = result.subscribe(r => {
                 this.runResult = r;
-                busyComponent.clearBusyState();
+                if (busyComponent) {
+                    busyComponent.clearBusyState();
+                }
                 delete this.running;
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);

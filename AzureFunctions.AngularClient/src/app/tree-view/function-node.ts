@@ -63,7 +63,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     public static blockNavChangeHelper(currentNode : TreeNode){
         var canSwitchFunction = true;
         if (currentNode.sideNav.broadcastService.getDirtyState('function')
-            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')) {
+            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
+            || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
             let descriptor = new FunctionDescriptor(currentNode.resourceId);
 

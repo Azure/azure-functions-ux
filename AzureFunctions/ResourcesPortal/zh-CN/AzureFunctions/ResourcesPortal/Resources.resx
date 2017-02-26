@@ -241,7 +241,7 @@
     <value>创建此函数</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>或创建自己的自定义函数</value>
+    <value>创建自己的自定义函数</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>数据处理</value>
@@ -256,7 +256,7 @@
     <value>或开始使用你自己的函数</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>如果希望使用另一种受支持的语言，请选择“从头开始创建函数”。</value>
+    <value>如果希望使用另一种受支持的语言，请选择</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>从源控件开始。</value>
@@ -320,7 +320,7 @@
     <value>刷新</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>搜索我的函数</value>
+    <value>搜索</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>订阅</value>
@@ -380,7 +380,7 @@
     <value>对于使用 HTTP 触发器的函数，你可以要求对调用进行身份验证</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App 设置</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>转到应用服务设置</value>
@@ -860,7 +860,7 @@
     <value>Azure Functions 发行说明。</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>管理键(所有功能)</value>
+    <value>主机键(所有功能)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>添加新管理键</value>
@@ -950,12 +950,99 @@
     <value>运行时版本</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>函数应用已禁用，因为它已超出设定配额。可以从左侧边栏的函数应用设置视图进行更改。</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>函数应用已停用。该应用停用时，你不能使用函数门户。可以通过转到左侧边栏上的函数应用设置视图，然后再转到应用服务设置边栏选项卡进行更改。</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>你没有足够的权限来访问此函数应用。你仍然能够通过左侧边栏上函数应用设置链接访问应用服务设置边栏选项卡，并从其中查看基本设置。</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>参数名称必须唯一。</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Use function return value</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Function State</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>关</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>开</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API settings</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>New API Proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>All methods</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>允许的 HTTP 方法</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Backend URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>路由模板</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API proxies (preview)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Use API proxies</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Proxy with name '{{name}}' already exists</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>放弃</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>函数</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

@@ -241,7 +241,7 @@
     <value>Függvény létrehozása</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Vagy saját egyéni függvény létrehozása</value>
+    <value>Saját egyéni függvény létrehozása</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Adatfeldolgozás</value>
@@ -256,7 +256,7 @@
     <value>De akár saját függvény létrehozásával is kezdheti</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Ha másik támogatott nyelvet szeretne használni, válassza a „Létrehozás sablon nélkül” lehetőséget.</value>
+    <value>Ha egy másik támogatott nyelvet szeretne használni, válassza a következő lehetőséget:</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>kiindulás a verziókövetésből.</value>
@@ -320,7 +320,7 @@
     <value>Frissítés</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>Keresés a saját függvények között</value>
+    <value>Keresés</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Előfizetés</value>
@@ -347,10 +347,10 @@
     <value>Speciális beállítások</value>
   </data>
   <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
+    <value>A HTTP-triggert alkalmazó függvények könnyebb felhasználásának lehetővé tétele az ügyfelek számára</value>
   </data>
   <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
+    <value>HTTP-triggert alkalmazó függvények webböngészőből való meghívásának engedélyezése</value>
   </data>
   <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
     <value>API-definíció</value>
@@ -374,13 +374,13 @@
     <value>CORS konfigurálása</value>
   </data>
   <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
+    <value>Függvénykód üzembe helyezése a GitHubról, a Visual Studio Team Servicesből és más szolgáltatásokból</value>
   </data>
   <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
+    <value>A HTTP triggert alkalmazó függvények esetén előírhatja a hívások hitelesítését</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Függvényalkalmazás beállításai</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>App Service-beállítások megnyitása</value>
@@ -743,7 +743,7 @@
     <value>A függvényalkalmazáshoz kapcsolódó környezeti változók és kapcsolati sztringek kezelése</value>
   </data>
   <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev Console</value>
+    <value>Fejlesztői konzol</value>
   </data>
   <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
     <value>Portálba épített konzol a függvényalkalmazás fájlrendszerének eléréséhez</value>
@@ -860,7 +860,7 @@
     <value>Azure Functions – Kibocsátási megjegyzések</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>Adminisztrációs kulcsok (minden függvény)</value>
+    <value>Állomáskulcsok (minden függvény)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>Új adminisztrációs kulcs felvétele</value>
@@ -932,30 +932,117 @@
     <value>Kezelés</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service Settings</value>
+    <value>App Service-beállítások</value>
   </data>
   <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
+    <value>Speciális funkciók. Hozzáférés az Azure App Service összes mögöttes funkciójához</value>
   </data>
   <data name="appFunctionSettings_editor" xml:space="preserve">
     <value>App Service Editor</value>
   </data>
   <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>In portal editor with an integrated console and streaming logs</value>
+    <value>A portálon elérhető szerkesztő integrált konzollal és folyamatos átviteli naplókkal</value>
   </data>
   <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Go to App Service Editor</value>
+    <value>App Service Editor megnyitása</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
-    <value>Runtime version</value>
+    <value>Futtatókörnyezet verziója</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>A függvényalkalmazás le van tiltva, mert túllépte a beállított kvótát. Ezt a bal oldali sávon, a függvényalkalmazás beállításainak nézetében módosíthatja.</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>A függvényalkalmazás leállt. Ha az alkalmazás le van állítva, nem használhatja a Functions portálját. Ennek módosításához nyissa meg a függvényalkalmazás beállításainak nézetét a bal oldali sávon, majd az App Service-beállítások paneljét.</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>Nincs meg a szükséges engedélye a függvényalkalmazás eléréséhez. Továbbra is megtekintheti az alapszintű beállításokat az App Service Beállítások panelén, amelyet a függvényalkalmazás beállítási hivatkozására kattintva érhet el a bal oldalsávon.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>A paraméter nevének egyedinek kell lennie.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>A függvény visszaadott értékének használata</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Függvény állapota</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Kikapcsolva</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Bekapcsolva</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API-beállítások</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Új API-proxy</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Minden módszer</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Engedélyezett HTTP-metódusok</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Háttér-URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>Proxy URL-címe</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Útvonalsablon</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Kiválasztott módszerek</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API-proxyk (előzetes)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Proxy futásidejű verziója: {{extensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Proxy futásidejű verziója: legújabb ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>API-proxyk használata</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>A(z) {{name}} API-proxyn végzett módosítások elvesznek. Biztosan folytatja?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>{{name}} nevű proxy már létezik</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Elvetés</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Függvények</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>

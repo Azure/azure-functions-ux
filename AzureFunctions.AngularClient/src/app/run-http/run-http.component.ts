@@ -9,7 +9,7 @@ import {Constants} from '../shared/models/constants';
 @Component({
   selector: 'run-http',
   templateUrl: './run-http.component.html',
-  styleUrls: ['./run-http.component.css', '../function-dev/function-dev.component.css'],
+  styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
   inputs: ['functionInfo', 'functionInvokeUrl']
 })
 export class RunHttpComponent {

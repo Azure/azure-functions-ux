@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AzureFunctions.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel;
@@ -16,18 +17,24 @@ namespace AzureFunctions.Authentication
 {
     public class LocalhostAuthProvider : IAuthProvider
     {
-        private const string ManagementResource = "https://management.core.windows.net/";
         private const string TenantIdClaimType = "http://schemas.microsoft.com/identity/claims/tenantid";
         private const string NonceClaimType = "nonce";
         private const string OAuthTokenCookie = "OAuthToken";
         private const string DeleteCookieFormat = "{0}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         private const int CookieChunkSize = 2000;
 
+        private readonly ISettings _settings;
+
         private readonly CookieTransform[] DefaultCookieTransforms = new CookieTransform[]
         {
             new DeflateCookieTransform(),
             new MachineKeyTransform()
         };
+
+        public LocalhostAuthProvider(ISettings settings)
+        {
+            this._settings = settings;
+        }
 
         public bool TryAuthenticateRequest(HttpContextBase context)
         {
@@ -95,7 +102,7 @@ namespace AzureFunctions.Authentication
                 {
                     if (!token.IsValid())
                     {
-                        token = AADOAuth2AccessToken.GetAccessTokenByRefreshToken(token.TenantId, token.refresh_token, ManagementResource);
+                        token = AADOAuth2AccessToken.GetAccessTokenByRefreshToken(token.TenantId, token.refresh_token, _settings.ManagementResource);
                         WriteOAuthTokenCookie(context, token);
                     }
 
@@ -199,7 +206,7 @@ namespace AzureFunctions.Authentication
             strb.AppendFormat("?response_type={0}", WebUtility.UrlEncode(response_type));
             strb.AppendFormat("&redirect_uri={0}", WebUtility.UrlEncode(redirect_uri));
             strb.AppendFormat("&client_id={0}", WebUtility.UrlEncode(client_id));
-            strb.AppendFormat("&resource={0}", WebUtility.UrlEncode(ManagementResource));
+            strb.AppendFormat("&resource={0}", WebUtility.UrlEncode(_settings.ManagementResource));
             strb.AppendFormat("&scope={0}", WebUtility.UrlEncode(scope));
             strb.AppendFormat("&nonce={0}", WebUtility.UrlEncode(nonce));
             strb.AppendFormat("&site_id={0}", WebUtility.UrlEncode(site_id));

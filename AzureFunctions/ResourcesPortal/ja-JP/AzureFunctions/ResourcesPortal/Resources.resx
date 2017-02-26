@@ -241,7 +241,7 @@
     <value>この関数を作成する</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>または、カスタム関数を作成する</value>
+    <value>カスタム関数を作成する</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>データ処理</value>
@@ -256,7 +256,7 @@
     <value>または、自分の関数に対する作業を開始する</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>サポートされている別の言語をご希望の場合には、[Create a function from scratch] を選択します。</value>
+    <value>サポートされている別の言語をご希望の場合には、</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>ソース管理から開始します。</value>
@@ -320,7 +320,7 @@
     <value>最新の情報に更新</value>
   </data>
   <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>自分の関数の検索</value>
+    <value>検索する</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>サブスクリプション</value>
@@ -380,7 +380,7 @@
     <value>HTTP トリガーを使用する関数について、呼び出しに認証を必須とすることができます</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>Function App の設定</value>
+    <value>function app settings</value>
   </data>
   <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
     <value>App Service の設定に移動</value>
@@ -860,7 +860,7 @@
     <value>Azure Functions リリース ノート。</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>管理者キー (すべての関数)</value>
+    <value>ホスト キー (すべての関数)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
     <value>新しい管理者キーの追加</value>
@@ -950,12 +950,99 @@
     <value>ランタイム バージョン</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
+    <value>Function App は設定されたクォータを超過しているため、無効になっています。クォータは、左側のサイド バーの Function App の設定ビューから変更できます。</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade.</value>
+    <value>Function App が停止しています。アプリが停止していると、Functions ポータルを使用できません。左側のサイド バーの Function App の設定ビューから App Service の設定ブレードにアクセスすると、アプリの状態を変更できます。</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>You don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar.</value>
+    <value>この Function App にアクセスするための十分なアクセス許可がありません。左側のサイド バーの Function App の設定リンクから App Service の設定ブレードにアクセスすると、基本設定を確認できることがあります。</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>パラメーター名は一意になっている必要があります。</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>関数の戻り値を使用する</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>関数の状態</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>API 設定</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>新しい API プロキシ</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>すべてのメソッド</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>許可されている HTTP メソッド</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>バックエンド URL</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>API proxy or function with that name already exsists.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>プロキシ URL</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>ルート テンプレート</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>選択したメソッド</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>API プロキシ (プレビュー)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>プロキシのランタイム バージョン: {{extensionVersion}}。新しいバージョン ({{latestExtensionVersion}}) が利用可能です。</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>プロキシのランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>API プロキシを使用する</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>API proxies are currently disabled. To enable, visit</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>API プロキシ {{name}} に対して行った変更が失われます。続行してもよろしいですか?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>'{{name}}' という名前のプロキシが既に存在します</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>破棄</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>関数</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Sign in with GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Sign in with Microsoft</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>
 </root>
