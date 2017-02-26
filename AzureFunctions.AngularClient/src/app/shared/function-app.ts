@@ -487,17 +487,21 @@ export class FunctionApp {
             .map<DesignerSchema>(r => r.json());
     }
 
-    warmupMainSite() {
+    initKeysAndWarmupMainSite() {
         var body: PassthroughInfo = {
             httpMethod: 'GET',
             url: this.scmUrl.replace('.scm.', '.')
         };
-        var observable = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
+        var warmupSite = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
-            .catch(e => this.checkCorsOrDnsErrors(e))
-            .map<string>(r => r.statusText);
+            .catch(e => this.checkCorsOrDnsErrors(e));
 
-        observable.subscribe(() => this.getHostSecrets(), () => this.getHostSecrets());
+        let observable = Observable.zip(
+            warmupSite,
+            this.getHostSecrets(),
+            (w : any, s : any) =>({warmUp : w, secrets : s})
+        )
+
         return observable;
     }
 

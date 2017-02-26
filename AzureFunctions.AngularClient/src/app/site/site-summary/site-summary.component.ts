@@ -227,7 +227,7 @@ export class SiteSummaryComponent {
         .switchMap(()=>{
             return this._cacheService.getArm(`${site.id}`, true);
         })
-        .switchMap(r =>{
+        .subscribe(r =>{
             let refreshedSite : ArmObj<Site> = r.json();
 
             // Current site could have changed if user clicked away
@@ -237,11 +237,7 @@ export class SiteSummaryComponent {
 
             this._globalStateService.clearBusyState();
 
-            appNode.dispose();
-            return appNode.loadChildren();
+            appNode.refresh();
         })
-        .subscribe(r =>{
-        });
-
     }
 }

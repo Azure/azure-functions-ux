@@ -28,7 +28,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public supportsRefresh = false;
 
     public title : string;
-    // public subscriptionId : string;
     public subscription : string;
     public resourceGroup : string;
     public location : string;
@@ -37,7 +36,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public openFunctionTab = false;
 
     private _hiddenChildren : TreeNode[];
-    private _functionsNode : FunctionsNode;
     private _pollingTask : RxSubscription;
 
     constructor(sideBar : SideNavComponent,
@@ -68,13 +66,17 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _loadingObservable : Observable<any>;
 
     public handleSelection() : Observable<any>{
-        return this.loadChildren();
+        this.isLoading = true;
+        return this.loadChildren()
+        .map(() =>{
+            this.isLoading = false;
+        });
     }
 
     public loadChildren(){
         if(!this.disabled){
             if(!this._loadingObservable){
-                this._loadingObservable = this.configureBackgroundTasks();
+                this._loadingObservable = this.initialize();
             }
 
             return this._loadingObservable;
@@ -83,12 +85,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         return Observable.of({});
     }
 
-    public configureBackgroundTasks() : Observable<any>{
+    public initialize() : Observable<any>{
 
         this.supportsRefresh = false;
 
         return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
-        .map(r =>{
+        .switchMap(r =>{
             this._loadingObservable = null;
 
             let site : ArmObj<Site> = r.json();
@@ -106,27 +108,23 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.languageService
                 );
 
-                this._functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);
 
-                // We're loading children here instead of in _loadChildren because AppNode
-                // has a bunch of background-tasks that need to be configured whenever a
-                // user selects an AppNode or one of its children. Doing it only here avoids
-                // a lot of possible race conditions that could occur from either selecting
-                // or toggling the tree.
-                this.children = [
-                    this._functionsNode
-                ];
+                this.children = [new FunctionsNode(this.sideNav, this.functionApp, this)];
+
+                if(site.properties.state === "Running"){
+                    return this.setupBackgroundTasks()
+                    .map(() =>{
+                        this.supportsRefresh = true;
+                    });
+                }
+                else{
+                    this.dispose()
+                    this.supportsRefresh = false;
+                    return Observable.of(null);
+                }
             }
 
-            if(site.properties.state === "Running"){
-                this.supportsRefresh = true;
-                this.updateTreeForStartedSite();
-            }
-            else{
-                this.supportsRefresh = false;
-                this.updateTreeForStoppedSite();
-            }
-
+            return Observable.of(null);
         })
     }
 
@@ -143,8 +141,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.functionApp.fireSyncTrigger();
             this.sideNav.cacheService.clearCache();
             this.dispose();
-            
-            return this.configureBackgroundTasks();
+            this.functionApp = null;
+            return this.initialize();
         })
         .map(() =>{
             this.isLoading = false;
@@ -187,20 +185,14 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this._pollingTask = null;
         }
 
-        this.functionApp = null;
+        // this.functionApp = null;
         this.sideNav.globalStateService.setTopBarNotifications([]);
     }
+    public setupBackgroundTasks(){
 
-    public updateTreeForStoppedSite(){
-        this._functionsNode.updateTreeForStoppedSite();
-        this.dispose();
-    }
-
-    public updateTreeForStartedSite(){
-        this.functionApp.warmupMainSite()
+        return this.functionApp.initKeysAndWarmupMainSite()
         .catch((err : any) => Observable.of(null))
-        .subscribe(() =>{
-            this._functionsNode.updateTreeForStartedSite(false);
+        .map(() =>{
 
             if(!this._pollingTask){
 
@@ -216,7 +208,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     .subscribe((result : {errors : string[], configResponse : Response, appSettingResponse : Response}) => {
                         this._handlePollingTaskResult(result);
                     });
-            }
+            }       
         })
     }
 

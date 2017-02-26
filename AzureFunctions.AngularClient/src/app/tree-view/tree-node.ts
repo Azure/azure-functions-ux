@@ -75,8 +75,10 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
     // Virtual
     public refresh(event? : any){
+        this.isLoading = true;
         this.handleRefresh()
         .subscribe(() =>{
+            this.isLoading = false;
         });
 
         if(event){

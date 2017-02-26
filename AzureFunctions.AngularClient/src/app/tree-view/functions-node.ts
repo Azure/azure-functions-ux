@@ -27,7 +27,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            return this.updateTreeForStartedSite(true);
+            return this.updateTreeForStartedSite(false);
         }
         else{
             return this.updateTreeForStoppedSite();
@@ -36,7 +36,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
-            return (<AppNode>this.parent).configureBackgroundTasks();
+            return (<AppNode>this.parent).initialize();
         }
 
         return Observable.of({});
@@ -67,12 +67,15 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this.newDashboardType = null;
         this.children = [];
         this.title = "Functions (Stopped)";
+        this.showExpandIcon = false;
+        this.sideNav.cacheService.clearCachePrefix(`${this.functionApp.getScmUrl()}/api/functions`);
         return Observable.of(null);
     }
 
     public updateTreeForStartedSite(forceLoadChildren : boolean){
         this.title = "Functions";
         this.newDashboardType = DashboardType.createFunction;
+        this.showExpandIcon = true;
 
         if(forceLoadChildren || !this.children || this.children.length === 0){
             return this.functionApp.getFunctions()
