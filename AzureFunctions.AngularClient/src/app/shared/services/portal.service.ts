@@ -1,3 +1,4 @@
+import { UpdateBladeInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message, StartupInfo, OpenBladeInfo} from '../models/portal';
@@ -85,6 +86,15 @@ export class PortalService {
 
     closeBlades(){
         this.postMessage(Verbs.closeBlades, "");
+    }
+
+    updateBladeInfo(title : string, subtitle : string){
+        let payload : UpdateBladeInfo = {
+            title : title,
+            subtitle : subtitle
+        };
+
+        this.postMessage(Verbs.updateBladeInfo, JSON.stringify(payload));
     }
 
     logAction(subcomponent: string, action: string, data?: any): void{

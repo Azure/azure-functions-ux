@@ -127,8 +127,36 @@ export class SideNavComponent{
         };
 
         this.treeViewInfoEvent.emit(viewInfo);
+        this._updateTitle(newSelectedNode);
 
         return newSelectedNode.handleSelection();
+    }
+
+    private _updateTitle(node : TreeNode){
+        let pathNames = node.getTreePathNames();
+        let title = "";
+        let subtitle = "";
+
+        for(let i = 0; i < pathNames.length; i++){
+            if(i % 2 === 1){
+                title += pathNames[i] + " - ";
+            }
+        }
+
+        // Remove trailing dash
+        if(title.length > 3){
+            title = title.substring(0, title.length - 3);
+        }
+
+        if(!title){
+            title = "Function Apps";
+            subtitle = "";
+        }
+        else{
+            subtitle = "Function Apps";
+        }
+
+        this.portalService.updateBladeInfo(title, subtitle);
     }
 
     clearView(resourceId : string){

@@ -42,6 +42,7 @@ export class Verbs{
 
     public static openBladeCollector = "open-blade-collector";                // Deprecated
     public static openBladeCollectorInputs = "open-blade-collector-inputs";   // Deprecated
+    public static updateBladeInfo = "update-blade-info";
 
     public static closeBlades = "close-blades";
     public static logAction = "log-action";
@@ -76,3 +77,8 @@ export interface OpenBladeInfo{
     detailBladeInputs: any,
     extension? : string
 }
+
+export interface UpdateBladeInfo{
+    title? : string,
+    subtitle? : string
+};
