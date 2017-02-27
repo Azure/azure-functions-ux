@@ -933,7 +933,7 @@ export class FunctionsService {
     diagnose() {
         if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
             this._http.post(Constants.serviceHost + `api/diagnose${this.functionContainer.id}`, this.getPortalHeaders())
-                .subscribe(s => console.log(s), e => console.log(e));
+                .subscribe(s => console.log(s.json()), e => console.log(e));
         }
     }
 
