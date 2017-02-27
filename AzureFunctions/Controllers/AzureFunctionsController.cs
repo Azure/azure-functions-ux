@@ -139,17 +139,24 @@ namespace AzureFunctions.Controllers
         {
             var diagnosticResult = await _diagnosticsManager.Diagnose(armId);
             diagnosticResult = diagnosticResult.Where(r => !r.IsDiagnosingSuccessful || r.SuccessResult.HasUserAction);
-            foreach (var result in diagnosticResult)
+            var properties = new Dictionary<string, string> { { "appName", armId } };
+            if (diagnosticResult.Any())
             {
-                var properties = new Dictionary<string, string> { { "appName", armId } };
-                if (result.IsDiagnosingSuccessful)
+                foreach (var result in diagnosticResult)
                 {
-                    _telemetryClient.TrackEvent(result.SuccessResult.ActionId, properties);
+                    if (result.IsDiagnosingSuccessful)
+                    {
+                        _telemetryClient.TrackEvent(result.SuccessResult.ActionId, properties);
+                    }
+                    else
+                    {
+                        _telemetryClient.TrackEvent(result.ErrorResult.ErrorId, properties);
+                    }
                 }
-                else
-                {
-                    _telemetryClient.TrackEvent(result.ErrorResult.ErrorId, properties);
-                }
+            }
+            else
+            {
+                _telemetryClient.TrackEvent(ActionIds.NoDiagnoseFound, properties);
             }
             return Request.CreateResponse(HttpStatusCode.OK, diagnosticResult);
         }

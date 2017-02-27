@@ -18,5 +18,6 @@
         public static readonly string ScaledOutStamp = $"/heal_actions/{nameof(ScaledOutStamp)}";
         public static readonly string FunctionRuntimeCrashLoop = $"/heal_actions/{nameof(FunctionRuntimeCrashLoop)}";
         public static readonly string FunctionRuntimeUnknownError = $"/heal_actions/{nameof(FunctionRuntimeUnknownError)}";
+        public static readonly string NoDiagnoseFound = $"/heal_actions/{nameof(NoDiagnoseFound)}";
     }
 }
