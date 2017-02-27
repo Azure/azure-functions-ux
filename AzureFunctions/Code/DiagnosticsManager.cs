@@ -219,7 +219,12 @@ namespace AzureFunctions.Code
             }
             else if (addresses.Count() > 1)
             {
-                var headers = new Dictionary<string, string> { { "x-functions-key", masterKey } };
+                var headers = new Dictionary<string, string>
+                {
+                    { "HOST", hostName },
+                    { "x-functions-key", masterKey }
+                };
+
                 var results = await addresses
                     .Select(ip => ip.ToString())
                     .Select(ip => _client.Get<string>(new Uri($"https://{ip}/"), headers))
