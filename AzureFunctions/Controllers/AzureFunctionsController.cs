@@ -134,7 +134,7 @@ namespace AzureFunctions.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         public async Task<HttpResponseMessage> Diagnose(string armId)
         {
             var diagnosticResult = await _diagnosticsManager.Diagnose(armId);
