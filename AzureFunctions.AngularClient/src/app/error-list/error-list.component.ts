@@ -37,10 +37,7 @@ export class ErrorListComponent {
                  });
                 if (!this.errorList.find(e => e.message === errorItem.message)) {
                     this.errorList.push(errorItem);
-                    let random = this.getRandomInt(1, 100);
-                    if (random > 90) {
-                        this._functionsService.diagnose();
-                    }
+                    this._functionsService.diagnose();
                 }
             } else {
                 errorItem = this.getGenericError();
@@ -66,11 +63,6 @@ export class ErrorListComponent {
                 cutOffTime.setMinutes(cutOffTime.getMinutes() - 10);
                 this.errorList = this.errorList.filter(e => e.date > cutOffTime);
             });
-    }
-
-    // http://stackoverflow.com/a/1527820/3234163
-    private  getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     private getGenericError(): ErrorItem {
