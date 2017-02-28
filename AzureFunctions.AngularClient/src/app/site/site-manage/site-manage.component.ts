@@ -1,5 +1,5 @@
 import { FeatureGroup } from './../../feature-group/feature-group';
-import { OpenBrowserWindowFeature } from './../../feature-group/feature-item';
+import { OpenBrowserWindowFeature, DisabledDynamicBladeFeature } from './../../feature-group/feature-item';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {ArmService} from '../../shared/services/arm.service';
@@ -113,6 +113,34 @@ export class SiteManageComponent {
             new OpenEditorFeature(site), 
 
             new OpenResourceExplorer(),
+
+            // Slots are not available yet
+            // new DisabledDynamicBladeFeature(
+            //     "Test in production",
+            //     "Test in production",
+            //     "Info",
+            //     site.properties.sku,
+            //     {
+            //         detailBlade : "WebsiteRoutingRulesBlade",
+            //         detailBladeInputs : {
+            //             WebsiteId : this._descriptor.getWebsiteId()
+            //         }
+            //     },
+            //     this._portalService),
+
+            new DisabledDynamicBladeFeature(
+                "Extensions",
+                "Extensions",
+                "Info",
+                site.properties.sku,                
+                {
+                    detailBlade : "SiteExtensionsListBlade",
+                    detailBladeInputs : {
+                        WebsiteId : this._descriptor.getWebsiteId()
+                    }
+                },
+                this._portalService)
+
         ]
 
         let generalFeatures = [
@@ -134,18 +162,69 @@ export class SiteManageComponent {
                         resourceId : this._descriptor.resourceId,
                     }
                 },
-                this._portalService),         
+                this._portalService), 
+
+            new DisabledDynamicBladeFeature(
+                "Web jobs",
+                "web jobs",
+                "Info",
+                site.properties.sku,
+                {
+                    detailBlade : "webjobsNewBlade",
+                    detailBladeInputs : {
+                        resourceUri : site.id
+                    }
+                },
+                this._portalService),
+
+            new DisabledDynamicBladeFeature(
+                "Backups",
+                "backups",
+                "Info",
+                site.properties.sku,
+                {
+                    detailBlade : "Backup",
+                    detailBladeInputs : {
+                        resourceUri : site.id
+                    }
+                },
+                this._portalService),
+
+            new BladeFeature(
+                "All settings",
+                "all settings",
+                "Info",
+                {
+                    detailBlade : "WebsiteBlade",
+                    detailBladeInputs : {
+                        id : site.id
+                    }
+                },
+                this._portalService)
         ]
 
         this.groups1 = [
             new FeatureGroup("Code deployment", codeDeployFeatures),
             new FeatureGroup("Development tools", developmentToolFeatures),
-            new FeatureGroup("General", generalFeatures)];
+            new FeatureGroup("General settings", generalFeatures)];
     }
 
     private _initCol2Groups(site : ArmObj<Site>){
         
         let networkFeatures = [
+            new DisabledDynamicBladeFeature(
+                "Networking",
+                "networking",
+                "Info",
+                site.id,
+                {
+                    detailBlade : "NetworkSummaryBlade",
+                    detailBladeInputs : {
+                        resourceUri : site.id
+                    }
+                },
+                this._portalService),
+
             new BladeFeature(
                 "SSL",
                 "ssl",
@@ -275,16 +354,63 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new ResourceUriBladeFeature(
+            new DisabledDynamicBladeFeature(
                 "Quotas",
                 "quotas",
                 "Info",
-                site.id,
-                "QuotasBlade",
+                site.properties.sku,
+                {
+                    detailBlade : "QuotasBlade",
+                    detailBladeInputs : {
+                        resourceUri : site.id
+                    }
+                },
                 this._portalService),
         ]
 
         let resourceManagementFeatures = [
+            new BladeFeature(
+                "Activity log",
+                "activity log events",
+                "Info",
+                {
+                    detailBlade : "EventsBrowseBlade",
+                    detailBladeInputs : {
+                        id : site.id
+                    },
+                    extension : "Microsoft_Azure_Monitoring"
+                },
+                this._portalService
+            ),
+
+            new BladeFeature(
+                "Access control (IAM)",
+                "access control rbac",
+                "Info",
+                {
+                    detailBlade : "UserAssignmentsV2Blade",
+                    detailBladeInputs : {
+                        scope : site.id
+                    },
+                    extension : "Microsoft_Azure_AD"
+                },
+                this._portalService
+            ),            
+
+            new BladeFeature(
+                "Tags",
+                "tags",
+                "Info",
+                {
+                    detailBlade : "ResourceTagsListBlade",
+                    detailBladeInputs : {
+                        resourceId : site.id
+                    },
+                    extension : "HubsExtension"
+                },
+                this._portalService
+            ),        
+
             new BladeFeature(
                 "Locks",
                 "locks",
@@ -298,7 +424,7 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new NotImplementedFeature("Clone app", "clone app", "Info"),  // TODO: ellhamai - Need to implent
+            // new NotImplementedFeature("Clone app", "clone app", "Info"),  // TODO: ellhamai - Need to implent
 
             new BladeFeature(
                 "Automation script",
@@ -317,10 +443,10 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new NotImplementedFeature(  // TODO: ellhamai - Need to implement
-                "New support request",
-                "support request",
-                "Info"),
+            // new NotImplementedFeature(  // TODO: ellhamai - Need to implement
+            //     "New support request",
+            //     "support request",
+            //     "Info"),
         ]
 
         this.groups3 = [

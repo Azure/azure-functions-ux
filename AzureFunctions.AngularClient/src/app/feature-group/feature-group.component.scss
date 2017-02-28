@@ -27,14 +27,9 @@
     }
 }
 
-.feature-group-warning{
-    margin-right: 5px;
-
-    .pop-over-container{
-        top: -5px;
-    }
+.feature-menu-item{
+    margin-left: 5px;
 }
-
 
 .feature-group-disabled{
     color: darken($chrome-color, 30%);

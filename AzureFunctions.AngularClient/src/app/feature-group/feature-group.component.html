@@ -10,13 +10,14 @@
          <span *ngIf="!feature.enabled" class="feature-group-disabled">{{feature.title}}</span>
 
         <span *ngIf="feature.isHighlighted" class="feature-group-info">
-            <span [class.feature-group-warning]="feature.warning">
+            
+            <span>
                 <pop-over *ngIf="feature.warning" [message]="feature.warning">
-                    <i class="fa fa-ban warning"></i>
+                    <i class="fa fa-ban warning feature-menu-item"></i>
                 </pop-over>
                 
                 <pop-over *ngIf="feature.info" [message]="feature.info">
-                    <i class="fa fa-info-circle"></i>
+                    <i class="fa fa-info-circle feature-menu-item"></i>
                 </pop-over>
             </span>
          </span>

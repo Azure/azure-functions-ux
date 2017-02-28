@@ -1,3 +1,4 @@
+import { PortalResources } from './../shared/models/portal-resources';
 // import {SiteManageComponent} from '../../components/site/dashboard/site-manage.component';
 import {Observable, Subject} from 'rxjs/Rx';
 import {RBACService} from '../shared/services/rbac.service';
@@ -26,6 +27,39 @@ export class FeatureItem{
     }
 }
 
+export class DisabledDynamicFeature extends FeatureItem{
+    constructor(
+        title : string,
+        keywords : string,
+        info : string,
+        sku : string){
+
+        super(title, keywords, info);
+
+        if(sku.toLowerCase() === "dynamic"){
+            this.enabled = false;
+            this.warning = "This feature is not available for apps that are on a consumption plan";
+        }
+    }
+}
+
+export class DisabledDynamicBladeFeature extends DisabledDynamicFeature{
+    constructor(
+        title : string,
+        keywords : string,
+        info : string,
+        sku : string,
+        private _bladeInfo : OpenBladeInfo,
+        private _portalService : PortalService
+    ){
+        super(title, keywords, info, sku);
+    }
+
+    click(){
+        this._portalService.openBlade(this._bladeInfo, 'site-manage');
+    }
+}
+
 export class RBACFeature extends FeatureItem{
 
     constructor(
@@ -43,12 +77,12 @@ export class RBACFeature extends FeatureItem{
 
         public load() : Observable<any>{
             return this._rbacService.hasPermission(this._resourceId, this._requestedActions)
-                .flatMap(hasPermission =>{
+                .map(hasPermission =>{
                     this.enabled = hasPermission;
                     if(!hasPermission){
                         this.warning = this._warning;
                     }
-                    return Observable.of(hasPermission);
+                    return hasPermission
                 });
         }
 }

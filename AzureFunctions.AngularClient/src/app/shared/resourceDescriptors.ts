@@ -51,6 +51,8 @@ export class SiteDescriptor extends Descriptor{
     public slot: string;
     public resourceType = ResourceType.site;
     
+    private _websiteId : WebsiteId;
+
     constructor(resourceId : string){
         super(resourceId);
 
@@ -70,12 +72,16 @@ export class SiteDescriptor extends Descriptor{
     }
 
     getWebsiteId() : WebsiteId{
-        let name = !this.slot ? this.site : `${this.site}(${this.slot})`;
-        return {
-            Name : name,
-            SubscriptionId : this.subscription,
-            ResourceGroup : this.resourceGroup
+        if(!this._websiteId){
+            let name = !this.slot ? this.site : `${this.site}(${this.slot})`;
+            this._websiteId = {
+                Name : name,
+                SubscriptionId : this.subscription,
+                ResourceGroup : this.resourceGroup
+            }
         }
+
+        return this._websiteId;
     }
 
     public static getSiteDescriptor(resourceId : string) : SiteDescriptor{
