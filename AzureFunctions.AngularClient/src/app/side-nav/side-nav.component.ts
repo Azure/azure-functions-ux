@@ -44,6 +44,8 @@ export class SideNavComponent{
     public searchTerm = "";
 
     public selectedNode : TreeNode;
+    public firstLevelOrDescendentIsSelected : boolean;
+
     private _savedSubsKey = "/subscriptions/selectedIds";
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
@@ -117,6 +119,8 @@ export class SideNavComponent{
             }
         }            
 
+        this._updateSelectedTree(this.selectedNode, newSelectedNode);
+
         this.selectedNode = newSelectedNode;
         this.resourceId = newSelectedNode.resourceId;
 
@@ -130,6 +134,26 @@ export class SideNavComponent{
         this._updateTitle(newSelectedNode);
 
         return newSelectedNode.handleSelection();
+    }
+
+    private _updateSelectedTree(oldNode : TreeNode, newNode : TreeNode){
+        let curNode : TreeNode;
+        
+        if(oldNode){
+            curNode = oldNode;
+
+            do{
+                curNode.inSelectedTree = false;
+                curNode = curNode.parent;
+            }while(curNode !== null);
+        }
+
+        curNode = newNode;
+
+        do{
+            curNode.inSelectedTree = true;
+            curNode = curNode.parent;
+        }while(curNode !== null);
     }
 
     private _updateTitle(node : TreeNode){

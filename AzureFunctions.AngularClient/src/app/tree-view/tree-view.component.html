@@ -1,5 +1,6 @@
 <ul class="tree">
-  <li *ngFor="let child of node.children">
+  <li *ngFor="let child of node.children"
+    [class.selected-first-level-node]="level === 1 && child.inSelectedTree">
 
     <div (mouseenter)="child.showMenu = true"
          (mouseleave)="child.showMenu = false"
@@ -28,9 +29,7 @@
 
             <!-- Optional menu icons that show up on right side of each node -->
             <span class="tree-node-menu"
-                  *ngIf="child.showMenu
-                        || child.sideNav?.resourceId === child.resourceId
-                        || child.sideNav?.resourceId?.startsWith(child.resourceId + '/')">
+                  *ngIf="child.showMenu || child.inSelectedTree">
 
               <i *ngIf="child.disabled"
                  class="fa fa-info-circle warning"

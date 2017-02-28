@@ -16,6 +16,9 @@
     border-top: 1px solid darken($border-color, 10%);
 }
 
+.selected-first-level-node{
+    background-color: #F4FBFF;
+}
 
 // Styles for regular nodes
 .tree-node{

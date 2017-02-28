@@ -2,8 +2,13 @@
     <!--<tutorial></tutorial>-->
 
     <ul>
-      <li *ngFor="let tab of tabs" [class.tab-inactive]="!tab.active" [class.tab-active]="tab.active">
-        <span (click)="selectTab(tab)" class="clickable">{{tab.title}}</span>
+      <li *ngFor="let tab of tabs"
+          [class.tab-inactive]="!tab.active"
+          [class.tab-active]="tab.active"
+          (click)="selectTab(tab)"
+          class="clickable">
+
+        <span >{{tab.title}}</span>
         <span *ngIf="tab.closeable" (click)="closeTab(tab)"><i class="fa fa-times" aria-hidden="true"></i></span>
       </li>
     </ul>

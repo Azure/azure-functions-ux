@@ -48,6 +48,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public supportsAdvanced = false;
     public supportsScope = false;
     public disabled = false;
+    public inSelectedTree = false;
 
     constructor(
         public sideNav : SideNavComponent,
