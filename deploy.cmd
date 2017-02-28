@@ -17,6 +17,14 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :: Setup
 :: -----
+:: Setup npm global path to d:\home
+IF NOT EXIST "%HOME%\tools" (
+  MD "%HOME%\tools"
+)
+
+SET PATH=%PATH%;%HOME%\tools
+
+npm config set prefix "%HOME%\tools"
 
 echo Print variables
 echo dp0=%~dp0%
