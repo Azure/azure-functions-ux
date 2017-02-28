@@ -35,8 +35,6 @@
 
 .top-toolbar {
     flex-grow: 1;
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
     margin: 0px;
     margin-left: 0px;
     line-height: 25px;
@@ -197,4 +195,9 @@
 
 .hidden {
     visibility:hidden;
+}
+
+.files-container {
+    flex-grow: 1; 
+    overflow: auto;
 }
