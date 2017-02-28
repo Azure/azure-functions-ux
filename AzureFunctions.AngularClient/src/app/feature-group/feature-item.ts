@@ -13,10 +13,13 @@ export class FeatureItem{
     public warning : string;
     public isHighlighted : boolean;
 
-    constructor(title : string, keywords : string, info : string){
+    public imageUrl = "images/activity-log.svg";
+
+    constructor(title : string, keywords : string, info : string, imageUrl? : string){
         this.title = title;
         this.keywords = keywords;
         this.info = info;
+        this.imageUrl = imageUrl ? imageUrl : this.imageUrl;
     }
 
     click(){
@@ -111,9 +114,10 @@ export class BladeFeature extends FeatureItem{
     constructor(title : string,
                 keywords : string,
                 info : string,
+                imageUrl : string,
                 public bladeInfo : OpenBladeInfo,
                 private _portalService : PortalService){
-            super(title, keywords, info);
+            super(title, keywords, info, imageUrl);
         }
 
     click(){
@@ -125,13 +129,16 @@ export class ResourceUriBladeFeature extends BladeFeature{
     constructor(title : string,
                 keywords : string,
                 info : string,
+                imageUrl : string,
                 public resourceId : string,
                 public bladeName : string,
                 portalService : PortalService){
 
         super(title,
               keywords,
-              info, <OpenBladeInfo>{
+              info,
+              imageUrl,
+              <OpenBladeInfo>{
                   detailBlade : bladeName,
                   detailBladeInputs : {
                       resourceUri : resourceId

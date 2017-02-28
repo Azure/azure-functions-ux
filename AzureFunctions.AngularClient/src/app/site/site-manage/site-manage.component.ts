@@ -77,6 +77,7 @@ export class SiteManageComponent {
                 "Deployment source",
                 "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
                 "Deployment source info",
+                "images/deployment-source.svg",
                 {
                         detailBlade : "ContinuousDeploymentListBlade",
                         detailBladeInputs : {
@@ -90,6 +91,7 @@ export class SiteManageComponent {
                 "Deployment credentials",
                 "deployment credentials",
                 "Info",
+                "images/deployment-credentials.svg",
                 {
                     detailBlade : "FtpCredentials",
                     detailBladeInputs :{
@@ -104,6 +106,7 @@ export class SiteManageComponent {
                 "Console",
                 "console debug",
                 "Info",
+                "images/console.svg",
                 site.id,
                 "ConsoleBlade",
                 this._portalService), 
@@ -148,6 +151,7 @@ export class SiteManageComponent {
                 "Application settings",
                 "application settings connection strings java php .net",
                 "Info",
+                null,
                 site.id,
                 "WebsiteConfigSiteSettings",
                 this._portalService),   
@@ -156,6 +160,7 @@ export class SiteManageComponent {
                 "Properties",
                 "properties",
                 "Info",
+                null,
                 {
                     detailBlade : "PropertySheetBlade",
                     detailBladeInputs : {
@@ -194,6 +199,7 @@ export class SiteManageComponent {
                 "All settings",
                 "all settings",
                 "Info",
+                null,
                 {
                     detailBlade : "WebsiteBlade",
                     detailBladeInputs : {
@@ -229,6 +235,7 @@ export class SiteManageComponent {
                 "SSL",
                 "ssl",
                 "Info",
+                null,
                 {
                     detailBlade : "CertificatesBlade",
                     detailBladeInputs : {
@@ -241,6 +248,7 @@ export class SiteManageComponent {
                 "Custom domains",
                 "custom domains",
                 "Info",
+                null,
                 {                
                     detailBlade : "CustomDomainsAndSSL",
                     detailBladeInputs : {
@@ -254,6 +262,7 @@ export class SiteManageComponent {
                 "Authentication / Authorization",
                 "authentication authorization aad google facebook microsoft",
                 "Info",
+                null,
                 site.id,
                 "AppAuth",
                 this._portalService),
@@ -262,6 +271,7 @@ export class SiteManageComponent {
                 "Push notifications",
                 "push",
                 "Info",
+                null,
                 {
                     detailBlade : "PushRegistrationBlade",
                     detailBladeInputs : {
@@ -276,6 +286,7 @@ export class SiteManageComponent {
                 "Diagnostic logs",
                 "diagnostic logs",
                 "Info",
+                null,
                 {
                     detailBlade : "WebsiteLogsBlade",
                     detailBladeInputs : {
@@ -288,6 +299,7 @@ export class SiteManageComponent {
                 "Log streaming",
                 "log streaming",
                 "Info",
+                null,
                 site.id,
                 "LogStreamBlade",
                 this._portalService),
@@ -296,6 +308,7 @@ export class SiteManageComponent {
                 "Process Explorer",
                 "process explorer",
                 "Info",
+                null,
                 site.id,
                 "ProcExpNewBlade",
                 this._portalService),            
@@ -304,6 +317,7 @@ export class SiteManageComponent {
                 "Security scanning",
                 "security scanning tinfoil",
                 "Info",
+                null,
                 {
                     detailBlade : "TinfoilSecurityBlade",
                     detailBladeInputs : {
@@ -324,6 +338,7 @@ export class SiteManageComponent {
                 "CORS",
                 "cors api",
                 "Info",
+                null,
                 site.id,
                 "ApiCors",
                 this._portalService),
@@ -332,6 +347,7 @@ export class SiteManageComponent {
                 "API Definition",
                 "api definition swagger",
                 "Info",
+                null,
                 site.id,
                 "ApiDefinition",
                 this._portalService),            
@@ -373,6 +389,7 @@ export class SiteManageComponent {
                 "Activity log",
                 "activity log events",
                 "Info",
+                null,
                 {
                     detailBlade : "EventsBrowseBlade",
                     detailBladeInputs : {
@@ -387,6 +404,7 @@ export class SiteManageComponent {
                 "Access control (IAM)",
                 "access control rbac",
                 "Info",
+                null,
                 {
                     detailBlade : "UserAssignmentsV2Blade",
                     detailBladeInputs : {
@@ -401,6 +419,7 @@ export class SiteManageComponent {
                 "Tags",
                 "tags",
                 "Info",
+                null,
                 {
                     detailBlade : "ResourceTagsListBlade",
                     detailBladeInputs : {
@@ -415,6 +434,7 @@ export class SiteManageComponent {
                 "Locks",
                 "locks",
                 "Info",
+                null,
                 {
                     detailBlade : "LocksBlade",
                     detailBladeInputs : {
@@ -430,6 +450,7 @@ export class SiteManageComponent {
                 "Automation script",
                 "export template arm azure resource manager api",
                 "Info",
+                null,
                 {
                     detailBlade : "TemplateViewerBlade",
                     detailBladeInputs : {
@@ -462,7 +483,7 @@ export class SiteManageComponent {
 
 export class OpenKuduFeature extends FeatureItem{
         constructor(private _site : ArmObj<Site>){
-        super("Advanced tools", "kudu advanced tools", "Info");
+        super("Advanced tools", "kudu advanced tools", "Info", "images/advanced-tools.svg");
     }
 
     click(){
@@ -474,7 +495,7 @@ export class OpenKuduFeature extends FeatureItem{
 export class OpenEditorFeature extends FeatureItem{
         constructor(private _site : ArmObj<Site>){
 
-        super("App service editor", "app service editor visual studio online", "Info");
+        super("App service editor", "app service editor visual studio online", "Info", "images/appsvc-editor.svg");
     }
 
     click(){

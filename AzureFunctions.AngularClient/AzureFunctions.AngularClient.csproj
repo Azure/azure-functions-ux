@@ -159,6 +159,7 @@
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
     <Content Include="src\assets\nvd3Charts.css" />
+    <Content Include="src\images\activity-log.svg" />    
     <Content Include="src\images\api-proxy.svg" />
     <Content Include="src\images\arrow-right.svg" />
     <Content Include="src\images\azure-logo.svg" />

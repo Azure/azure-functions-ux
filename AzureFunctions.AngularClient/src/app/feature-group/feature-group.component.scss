@@ -15,6 +15,13 @@
     &:hover{
         background-color: $chrome-color;
     }
+
+    img{
+        height: 16px;
+        width: 16px;
+        vertical-align: middle;
+        margin-bottom: 2px;
+    }
 }
 
 .feature-group-info{
