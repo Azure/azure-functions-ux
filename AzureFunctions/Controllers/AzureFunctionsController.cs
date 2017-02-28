@@ -69,7 +69,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetLatestRoutingExtensionVersion()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "0.0.5");
+            return Request.CreateResponse(HttpStatusCode.OK, "~0.1");
         }
 
         [HttpGet]
