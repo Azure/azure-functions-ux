@@ -1,5 +1,6 @@
 ﻿using AzureFunctions.Contracts;
 using AzureFunctions.Models;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace AzureFunctions.Code
         {
             _clientConfig = new ClientConfiguration()
             {
+                RuntimeType = this.RuntimeType.ToString(),
                 AzureResourceManagerEndpoint = this.AzureResourceManagerEndpoint
             };
         }
@@ -62,5 +64,7 @@ namespace AzureFunctions.Code
         public string AzureResourceManagerEndpoint => config();
 
         public string ManagementResource => config();
+
+        public RuntimeType RuntimeType => (RuntimeType)Enum.Parse(typeof(RuntimeType), config());
     }
 }

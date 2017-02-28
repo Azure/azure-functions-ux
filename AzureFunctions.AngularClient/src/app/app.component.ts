@@ -16,6 +16,7 @@ import {GlobalStateService} from './shared/services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 import {PortalResources} from './shared/models/portal-resources';
+import {ConfigService} from './shared/services/config.service'; 
 
 @Component({
   selector: 'app-root',
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     constructor(
+        private _configService: ConfigService, 
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -168,6 +170,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
+            this._configService.isAzure() &&
             window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1
             && (this._globalStateService.ScmCreds === undefined || this._globalStateService.ScmCreds === null)) {

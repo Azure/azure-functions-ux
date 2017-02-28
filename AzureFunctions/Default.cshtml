@@ -2,19 +2,20 @@
 <html>
 @{
     var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
+    bool isOnPrem = System.Configuration.ConfigurationManager.AppSettings["RuntimeType"] == "OnPrem";
 
     var cdn = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME") == "production"
         ? "https://functions.azureedge.net"
         : string.Empty;
-    var version = AzureFunctions.Common.Constants.CurrentCommitId;
-    var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
-    var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
+                var version = AzureFunctions.Common.Constants.CurrentCommitId;
+                var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
+                var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
 }
 <head>
     <meta charset="utf-8">
     <title>AzureFunctionsClient</title>
     @{
-        if (!isAzure)
+        if (!isAzure && !isOnPrem)
         {
     <base href="ng2app/">
         }
@@ -23,7 +24,7 @@
 </head>
 <body>
     @{
-        if (isAzure)
+        if (isAzure && !isOnPrem)
         {
             <azure-functions-app></azure-functions-app>
 
@@ -37,13 +38,13 @@
         }
         else
         {
-            if (!string.IsNullOrEmpty(aiIinstrumentationKey))
+            if (!string.IsNullOrEmpty(aiIinstrumentationKey) && !isOnPrem)
             {
                 <script type="text/javascript" src="https://az416426.vo.msecnd.net/scripts/a/ai.0.js"></script>
                 <script type="text/javascript"> var appInsights = window.appInsights || function (config) { function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; s.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(s); try { t.cookie = u.cookie } catch (h) { } for (t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t }({ instrumentationKey: "@aiIinstrumentationKey", enableDebug: true, maxAjaxCallsPerView: 10000 }); window.appInsights = appInsights; appInsights.trackPageView();</script>
             }
         }
-        if (!string.IsNullOrEmpty(mpIinstrumentationKey))
+        if (!string.IsNullOrEmpty(mpIinstrumentationKey) && !isOnPrem)
         {
             <!-- start Mixpanel -->
             <script type="text/javascript">
@@ -53,7 +54,7 @@
         }
     }
     <app-root>Loading...</app-root>
-    @if (isAzure)
+    @if (isAzure && !isOnPrem)
     {
     <script type="text/javascript" src="@cdn/inline.js?v=@version"></script>
     <script type="text/javascript" src="@cdn/styles.bundle.js?v=@version"></script>

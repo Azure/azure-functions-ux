@@ -16,5 +16,12 @@ namespace AzureFunctions.Contracts
         bool LogToSql { get; }
         bool LogToFile { get; }
         bool LogLoggingDebugInfo { get; }
+        RuntimeType RuntimeType { get; }
+    }
+
+    public enum RuntimeType
+    {
+        Azure,
+        OnPrem
     }
 }
