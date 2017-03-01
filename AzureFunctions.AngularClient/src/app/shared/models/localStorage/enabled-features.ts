@@ -22,6 +22,7 @@ export interface EnabledFeature{
 }
 
 export interface EnabledFeatureItem extends EnabledFeature{
-    componentName? : string,
-    bladeInfo? : OpenBladeInfo
+    componentName? : string;
+    bladeInfo? : OpenBladeInfo;
+    iconUrl : string;
 }

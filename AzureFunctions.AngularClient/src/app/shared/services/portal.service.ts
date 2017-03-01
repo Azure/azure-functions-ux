@@ -1,7 +1,6 @@
-import { UpdateBladeInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
-import {Event, Data, Verbs, Action, LogEntryLevel, Message, StartupInfo, OpenBladeInfo} from '../models/portal';
+import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
@@ -14,6 +13,7 @@ export class PortalService {
     public sessionId = "";
 
     private portalSignature: string = "FxAppBlade";
+    private startupInfo: StartupInfo = null;
     private startupInfoObservable : ReplaySubject<StartupInfo>;
     private setupOAuthObservable : Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
@@ -133,13 +133,20 @@ export class PortalService {
         console.log("[iFrame] Received mesg: " + methodName);
 
         if(methodName === Verbs.sendStartupInfo){
-            let startupInfo = <StartupInfo>data;
-            this.sessionId = startupInfo.sessionId;
+            this.startupInfo = <StartupInfo>data;
+            this.sessionId = this.startupInfo.sessionId;
             // this._userService.setToken(startupInfo.token);
             this._aiService.setSessionId(this.sessionId);
 
-            this.startupInfoObservable.next(startupInfo);
-        } else if (methodName === Verbs.sendAppSettingName) {
+            this.startupInfoObservable.next(this.startupInfo);
+        }
+        else if(methodName === Verbs.sendToken){
+            if(this.startupInfo){
+                this.startupInfo.token = <string>data;
+                this.startupInfoObservable.next(this.startupInfo);
+            }
+        }
+        else if (methodName === Verbs.sendAppSettingName) {
             if(this.getAppSettingCallback){
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;

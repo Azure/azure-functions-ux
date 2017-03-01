@@ -26,6 +26,8 @@ export class ArmService {
     public storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';
 
+    private _initialized = false;
+
     constructor(private _http: Http,
         private _configService: ConfigService,
         private _userService: UserService,
@@ -45,7 +47,13 @@ export class ArmService {
                     return this.getSubscriptions();
                 }
             })
-            .subscribe(subs => this.subscriptions.next(subs));
+            .subscribe(subs => {
+                if(!this._initialized){
+                    this.subscriptions.next(subs);
+                }
+
+                this._initialized = true;
+            });
         }
     }
 

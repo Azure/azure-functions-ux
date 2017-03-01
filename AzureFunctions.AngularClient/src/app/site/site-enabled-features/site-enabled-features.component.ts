@@ -117,6 +117,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "CORS Rules ({0})".format(args),
                     feature : feature,
+                    iconUrl : "images/cors.svg",
                     bladeInfo : {
                         detailBlade : "ApiCors",
                         detailBladeInputs : {
@@ -129,6 +130,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "Deployment source configured with {0}".format(args),
                     feature : feature,
+                    iconUrl : "images/deployment-source.svg",
                     bladeInfo : {
                         detailBlade : "ContinuousDeploymentListBlade",
                         detailBladeInputs : {
@@ -142,6 +144,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "Authentication",
                     feature : feature,
+                    iconUrl : "images/authentication.svg",
                     bladeInfo : {
                         detailBlade : "AppAuth",
                         detailBladeInputs : {
@@ -154,6 +157,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "Custom domains",
                     feature : feature,
+                    iconUrl : "images/custom-domains.svg",
                     bladeInfo : {
                         detailBlade : "CustomDomainsAndSSL",
                         detailBladeInputs : {
@@ -167,6 +171,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "SSL certificates",
                     feature : feature,
+                    iconUrl : "images/ssl.svg",
                     bladeInfo : {
                         detailBlade : "CertificatesBlade",
                         detailBladeInputs : {
@@ -179,6 +184,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title : "API definition",
                     feature : feature,
+                    iconUrl : "images/api-definition.svg",
                     bladeInfo : {
                         detailBlade : "ApiDefinition",
                         detailBladeInputs : {

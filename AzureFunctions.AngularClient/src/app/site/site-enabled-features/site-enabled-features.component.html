@@ -3,6 +3,7 @@
 </div>
 
 <div *ngFor="let featureItem of featureItems" class="site-enabled-feature">
+    <img [src]="featureItem.iconUrl" />
     <span class="link" (click)="openFeature(featureItem)">{{featureItem.title}}</span>
 </div>
 
