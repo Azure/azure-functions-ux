@@ -35,6 +35,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public functionApp : FunctionApp;
     public openFunctionTab = false;
 
+    public iconClass = "tree-node-function-app-icon";
+
     private _hiddenChildren : TreeNode[];
     private _pollingTask : RxSubscription;
 

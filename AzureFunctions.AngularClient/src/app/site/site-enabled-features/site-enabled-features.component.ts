@@ -19,7 +19,7 @@ interface EnabledFeatureMap{
 @Component({
     selector: 'site-enabled-features',
     templateUrl: './site-enabled-features.component.html',
-    styleUrls: ['../site-dashboard/site-dashboard.component.scss'],
+    styleUrls: ['./site-enabled-features.component.scss'],
     inputs: ['siteInput'],
     outputs: ['componentName']
 })
