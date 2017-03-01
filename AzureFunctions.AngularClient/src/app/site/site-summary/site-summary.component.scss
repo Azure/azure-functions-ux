@@ -12,6 +12,28 @@
 .site-summary-actions{
     margin-left: 5px;
     margin-top: 10px;
+
+    img{
+        height: 17px;
+        width: 17px;
+        vertical-align: top;
+        margin: 3px 5px;
+        // margin-top: 3px;
+    }
+
+    .disabled-action{
+        opacity: 0.4;
+        filter: alpha(opacity=40); /* msie */
+        cursor: text;
+    }
+
+    >span{
+        padding: 5px;
+        
+        &:hover{
+            background-color: $chrome-color;
+        }
+    }
 }
 
 .site-row-container{
