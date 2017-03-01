@@ -35,9 +35,10 @@ export class DisabledDynamicFeature extends FeatureItem{
         title : string,
         keywords : string,
         info : string,
+        imageUrl : string,
         sku : string){
 
-        super(title, keywords, info);
+        super(title, keywords, info, imageUrl);
 
         if(sku.toLowerCase() === "dynamic"){
             this.enabled = false;
@@ -51,11 +52,12 @@ export class DisabledDynamicBladeFeature extends DisabledDynamicFeature{
         title : string,
         keywords : string,
         info : string,
+        imageUrl : string,
         sku : string,
         private _bladeInfo : OpenBladeInfo,
         private _portalService : PortalService
     ){
-        super(title, keywords, info, sku);
+        super(title, keywords, info, imageUrl, sku);
     }
 
     click(){
@@ -69,11 +71,12 @@ export class RBACFeature extends FeatureItem{
         title : string,
         keywords : string,
         info : string,
+        imageUrl : string,
         private _resourceId : string,
         private _requestedActions : string[],
         private _warning : string,
         private _rbacService : RBACService){
-            super(title, keywords, info);
+            super(title, keywords, info, imageUrl);
 
             this.enabled = false;
         }
@@ -95,6 +98,7 @@ export class RBACBladeFeature extends RBACFeature{
         title : string,
         keywords : string,
         info : string,
+        imageUrl : string,
         resourceId : string,
         requestedActions : string[],
         warning : string,
@@ -102,7 +106,7 @@ export class RBACBladeFeature extends RBACFeature{
         public bladeInfo : OpenBladeInfo,
         private _portalService){
 
-        super(title, keywords, info, resourceId, requestedActions, warning, rbacService);
+        super(title, keywords, info, imageUrl, resourceId, requestedActions, warning, rbacService);
     }
 
     click(){

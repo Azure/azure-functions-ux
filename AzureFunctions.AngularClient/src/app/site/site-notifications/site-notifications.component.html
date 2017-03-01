@@ -1,4 +1,5 @@
-<div class="site-notification-element-odd">
+<div id="site-notifications-wrapper">
+<div class="site-notification">
     <i [class.fa-refresh]="isLoadingStatus"
        [class.fa-check-circle]="status === 'Running'"
        [class.success]="status === 'Running'"
@@ -7,7 +8,7 @@
 </div>
 
 
-<div class="site-notification-element-even">
+<div class="site-notification">
     <i [class.fa-refresh]="isLoadingAvailability"
        [class.fa-exclamation-triangle]="(availability && availability.properties.availabilityState !== 'Available') || (!isLoadingAvailability && !availability)"
        [class.warning]="(availability && availability.properties.availabilityState !== 'Available') || (!isLoadingAvailability && !availability)"
@@ -17,18 +18,23 @@
     <span style="font-weight: bold;">Availability: </span><span>{{isLoadingAvailability ? 'Loading...' : !availability?.properties?.availabilityState ? 'No Access' : availability.properties.availabilityState }}</span>
 </div>
 
-<accordion 
-    wrapperClass="site-notification-element-odd"
-    [level]="alertLevel"
-    iconClass="{{ isLoadingAlerts ? 'fa-refresh' : !hasResourceGroupPermission ? 'fa-minus-circle' : alertIncidentsTotal > 0 ? 'fa-exclamation-circle' : 'fa-check-circle'}}"
-    titleName="Alerts"
-    titleText="{{isLoadingAlerts ? 'Loading...' : !hasResourceGroupPermission ? 'No Access' : alertIncidentsTotal }}"
-    [elementsInput]="alertDisplayElements"></accordion>
+<div class="site-notification">
+    <accordion 
+        wrapperClass="site-notification"
+        [level]="alertLevel"
+        iconClass="{{ isLoadingAlerts ? 'fa-refresh' : !hasResourceGroupPermission ? 'fa-minus-circle' : alertIncidentsTotal > 0 ? 'fa-exclamation-circle' : 'fa-check-circle'}}"
+        titleName="Alerts"
+        titleText="{{isLoadingAlerts ? 'Loading...' : !hasResourceGroupPermission ? 'No Access' : alertIncidentsTotal }}"
+        [elementsInput]="alertDisplayElements"></accordion>
+</div>
 
-<accordion 
-    wrapperClass="site-notification-element-even"
-    [level]="recommendationLevel"
-    iconClass="{{ isLoadingRecommendations ? 'fa-refresh' : recommendationDisplayElements?.length > 0 ? 'fa-exclamation-circle' : 'fa-check-circle'}}"
-    titleName="Recommendations"
-    titleText="{{isLoadingRecommendations ? 'Loading...' : recommendationDisplayElements?.length > 0 ? recommendationDisplayElements?.length : 0 }}"
-    [elementsInput]="recommendationDisplayElements"></accordion>
+<div class="site-notification">
+    <accordion 
+        wrapperClass="site-notification"
+        [level]="recommendationLevel"
+        iconClass="{{ isLoadingRecommendations ? 'fa-refresh' : recommendationDisplayElements?.length > 0 ? 'fa-exclamation-circle' : 'fa-check-circle'}}"
+        titleName="Recommendations"
+        titleText="{{isLoadingRecommendations ? 'Loading...' : recommendationDisplayElements?.length > 0 ? recommendationDisplayElements?.length : 0 }}"
+        [elementsInput]="recommendationDisplayElements"></accordion>
+</div>
+</div>

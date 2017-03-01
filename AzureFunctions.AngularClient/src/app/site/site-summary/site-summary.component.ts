@@ -21,7 +21,7 @@ import {Site} from '../../shared/models/arm/site';
 @Component({
     selector: 'site-summary',
     templateUrl: './site-summary.component.html',
-    styleUrls: ['../site-dashboard/site-dashboard.component.scss'],
+    styleUrls: ['./site-summary.component.scss'],
     inputs: ['viewInfoInput']
 })
 

@@ -135,6 +135,7 @@ export class SiteManageComponent {
                 "Extensions",
                 "Extensions",
                 "Info",
+                "images/extensions.svg",
                 site.properties.sku,                
                 {
                     detailBlade : "SiteExtensionsListBlade",
@@ -151,7 +152,7 @@ export class SiteManageComponent {
                 "Application settings",
                 "application settings connection strings java php .net",
                 "Info",
-                null,
+                "images/application-settings.svg",
                 site.id,
                 "WebsiteConfigSiteSettings",
                 this._portalService),   
@@ -160,7 +161,7 @@ export class SiteManageComponent {
                 "Properties",
                 "properties",
                 "Info",
-                null,
+                "images/properties.svg",
                 {
                     detailBlade : "PropertySheetBlade",
                     detailBladeInputs : {
@@ -173,6 +174,7 @@ export class SiteManageComponent {
                 "Web jobs",
                 "web jobs",
                 "Info",
+                "images/webjobs.svg",
                 site.properties.sku,
                 {
                     detailBlade : "webjobsNewBlade",
@@ -186,6 +188,7 @@ export class SiteManageComponent {
                 "Backups",
                 "backups",
                 "Info",
+                "images/backups.svg",
                 site.properties.sku,
                 {
                     detailBlade : "Backup",
@@ -199,7 +202,7 @@ export class SiteManageComponent {
                 "All settings",
                 "all settings",
                 "Info",
-                null,
+                "images/webapp.svg",
                 {
                     detailBlade : "WebsiteBlade",
                     detailBladeInputs : {
@@ -222,6 +225,7 @@ export class SiteManageComponent {
                 "Networking",
                 "networking",
                 "Info",
+                "images/networking.svg",
                 site.id,
                 {
                     detailBlade : "NetworkSummaryBlade",
@@ -235,7 +239,7 @@ export class SiteManageComponent {
                 "SSL",
                 "ssl",
                 "Info",
-                null,
+                "images/ssl.svg",
                 {
                     detailBlade : "CertificatesBlade",
                     detailBladeInputs : {
@@ -248,7 +252,7 @@ export class SiteManageComponent {
                 "Custom domains",
                 "custom domains",
                 "Info",
-                null,
+                "images/custom-domains.svg",
                 {                
                     detailBlade : "CustomDomainsAndSSL",
                     detailBladeInputs : {
@@ -262,7 +266,7 @@ export class SiteManageComponent {
                 "Authentication / Authorization",
                 "authentication authorization aad google facebook microsoft",
                 "Info",
-                null,
+                "images/authentication.svg",
                 site.id,
                 "AppAuth",
                 this._portalService),
@@ -271,7 +275,7 @@ export class SiteManageComponent {
                 "Push notifications",
                 "push",
                 "Info",
-                null,
+                "images/push.svg",
                 {
                     detailBlade : "PushRegistrationBlade",
                     detailBladeInputs : {
@@ -286,7 +290,7 @@ export class SiteManageComponent {
                 "Diagnostic logs",
                 "diagnostic logs",
                 "Info",
-                null,
+                "images/diagnostic-logs.svg",
                 {
                     detailBlade : "WebsiteLogsBlade",
                     detailBladeInputs : {
@@ -299,7 +303,7 @@ export class SiteManageComponent {
                 "Log streaming",
                 "log streaming",
                 "Info",
-                null,
+                "images/log-stream.svg",
                 site.id,
                 "LogStreamBlade",
                 this._portalService),
@@ -308,7 +312,7 @@ export class SiteManageComponent {
                 "Process Explorer",
                 "process explorer",
                 "Info",
-                null,
+                "images/process-explorer.svg",
                 site.id,
                 "ProcExpNewBlade",
                 this._portalService),            
@@ -317,7 +321,7 @@ export class SiteManageComponent {
                 "Security scanning",
                 "security scanning tinfoil",
                 "Info",
-                null,
+                "images/tinfoil-flat-21px.png",
                 {
                     detailBlade : "TinfoilSecurityBlade",
                     detailBladeInputs : {
@@ -338,7 +342,7 @@ export class SiteManageComponent {
                 "CORS",
                 "cors api",
                 "Info",
-                null,
+                "images/cors.svg",
                 site.id,
                 "ApiCors",
                 this._portalService),
@@ -347,7 +351,7 @@ export class SiteManageComponent {
                 "API Definition",
                 "api definition swagger",
                 "Info",
-                null,
+                "images/api-definition.svg",
                 site.id,
                 "ApiDefinition",
                 this._portalService),            
@@ -358,6 +362,7 @@ export class SiteManageComponent {
                 "App Service plan",
                 "app service plan scale",
                 "Info",
+                "images/app-service-plan.svg",
                 site.properties.serverFarmId,
                 ["./read"],
                 "You do not have read permissions for the associated plan",
@@ -374,6 +379,7 @@ export class SiteManageComponent {
                 "Quotas",
                 "quotas",
                 "Info",
+                "images/quotas.svg",
                 site.properties.sku,
                 {
                     detailBlade : "QuotasBlade",
@@ -389,7 +395,7 @@ export class SiteManageComponent {
                 "Activity log",
                 "activity log events",
                 "Info",
-                null,
+                "images/activity-log.svg",
                 {
                     detailBlade : "EventsBrowseBlade",
                     detailBladeInputs : {
@@ -404,7 +410,7 @@ export class SiteManageComponent {
                 "Access control (IAM)",
                 "access control rbac",
                 "Info",
-                null,
+                "images/access-control.svg",
                 {
                     detailBlade : "UserAssignmentsV2Blade",
                     detailBladeInputs : {
@@ -419,7 +425,7 @@ export class SiteManageComponent {
                 "Tags",
                 "tags",
                 "Info",
-                null,
+                "images/tags.svg",
                 {
                     detailBlade : "ResourceTagsListBlade",
                     detailBladeInputs : {
@@ -434,7 +440,7 @@ export class SiteManageComponent {
                 "Locks",
                 "locks",
                 "Info",
-                null,
+                "images/locks.svg",
                 {
                     detailBlade : "LocksBlade",
                     detailBladeInputs : {
@@ -450,7 +456,7 @@ export class SiteManageComponent {
                 "Automation script",
                 "export template arm azure resource manager api",
                 "Info",
-                null,
+                "images/automation-script.svg",
                 {
                     detailBlade : "TemplateViewerBlade",
                     detailBladeInputs : {
@@ -506,7 +512,7 @@ export class OpenEditorFeature extends FeatureItem{
 
 export class OpenResourceExplorer extends FeatureItem{
         constructor(){
-        super("Resource Explorer", "resource explorer", "Info");
+        super("Resource Explorer", "resource explorer", "Info", "images/resource-explorer.svg");
     }
 
     click(){

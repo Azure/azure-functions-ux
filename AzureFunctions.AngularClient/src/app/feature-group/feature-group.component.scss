@@ -2,14 +2,11 @@
 
 .feature-group-header{
     margin-bottom: 10px;
-}
-
-.feature-group-items{
-    border: 2px solid $border-color;
+    font-size: 22px;
 }
 
 .feature-group-item{
-    padding: 5px 10px;
+    padding: 5px 0px;
     position: relative;
 
     &:hover{
@@ -21,6 +18,7 @@
         width: 16px;
         vertical-align: middle;
         margin-bottom: 2px;
+        margin-left: 3px;
     }
 }
 

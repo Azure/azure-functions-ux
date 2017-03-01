@@ -14,7 +14,7 @@ import {AccordionComponent} from '../../accordion/accordion.component';
 @Component({
     selector: 'site-notifications',
     templateUrl: './site-notifications.component.html',
-    styleUrls: ['../site-dashboard/site-dashboard.component.scss'],
+    styleUrls: ['./site-notifications.component.scss'],
     inputs: ['siteInput']
 })
 
