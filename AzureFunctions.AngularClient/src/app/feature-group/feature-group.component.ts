@@ -17,8 +17,12 @@ export class FeatureGroupComponent {
 
     public filteredFeatures : FeatureItem[];
     public group : FeatureGroup;
+    private _emptyItem : FeatureItem;
 
-    constructor(){}
+    constructor(){
+        this._emptyItem = new FeatureItem("", "", "");
+        this._emptyItem.isEmpty = true;
+    }
 
     set inputGroup(group : FeatureGroup){
         this.group = group;
@@ -36,6 +40,18 @@ export class FeatureGroupComponent {
                 features.push(feature);
             }
         })
+
+        let numEmptyItemsToAdd = 0;
+        if(features.length === 0){
+            numEmptyItemsToAdd = this.group.features.length;
+        }
+        else if(features.length !== this.group.features.length){
+            numEmptyItemsToAdd = this.group.features.length - features.length;
+        }
+
+        for(let i = 0; i < numEmptyItemsToAdd; i++){
+            features.push(this._emptyItem);
+        }
 
         this.filteredFeatures = features;
     }

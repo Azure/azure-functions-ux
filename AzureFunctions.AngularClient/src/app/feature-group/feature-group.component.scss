@@ -5,13 +5,10 @@
     font-size: 22px;
 }
 
+
 .feature-group-item{
     padding: 5px 0px;
     position: relative;
-
-    &:hover{
-        background-color: $chrome-color;
-    }
 
     img{
         height: 16px;
@@ -20,6 +17,10 @@
         margin-bottom: 2px;
         margin-left: 3px;
     }
+}
+
+.feature-group-item-hover:hover{
+    background-color: $chrome-color;
 }
 
 .feature-group-info{

@@ -12,6 +12,7 @@ export class FeatureItem{
     public info : string ;
     public warning : string;
     public isHighlighted : boolean;
+    public isEmpty : boolean;   // Used to reserve blank space when filtering results
 
     public imageUrl = "images/activity-log.svg";
 
