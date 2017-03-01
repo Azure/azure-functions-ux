@@ -1,5 +1,9 @@
 @import '../../sass/main';
 
+.fa-caret-right{
+    margin-left: 2px;
+}
+
 .tree{
     margin: 0px;
     list-style-type: none;
@@ -77,6 +81,12 @@
 .tree-node-refresh-icon{
     font-size: 14px;
     vertical-align: text-top;
+    margin-top: 5px;
+}
+
+.tree-node-scope-icon{
+    vertical-align: top;
+    margin-top: 1px;
 }
 
 .tree-node-function-app-icon{

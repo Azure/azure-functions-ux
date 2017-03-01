@@ -477,7 +477,7 @@ export class SiteManageComponent {
         ]
 
         this.groups3 = [
-            new FeatureGroup("API management", apiManagementFeatures),
+            new FeatureGroup("APIs", apiManagementFeatures),
             new FeatureGroup("App Service Plan", appServicePlanFeatures),
             new FeatureGroup("Resource management", resourceManagementFeatures)];
     }

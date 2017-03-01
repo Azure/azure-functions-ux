@@ -126,6 +126,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
             }
 
+            this.supportsRefresh = true;
             return Observable.of(null);
         })
     }
