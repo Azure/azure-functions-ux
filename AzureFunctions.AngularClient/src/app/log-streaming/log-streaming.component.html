@@ -37,7 +37,6 @@
     </div>
     <pre id="log-stream" class="log-stream" tabindex="1" 
          (keydown)="handleKeyPress($event)" 
-         style="margin-bottom: 0px;"
          [class.height-fixed]="isHttpLogs"
          [class.http-logs]="isHttpLogs"
          [class.bottom-logs]="!isHttpLogs">{{log}}</pre>         
