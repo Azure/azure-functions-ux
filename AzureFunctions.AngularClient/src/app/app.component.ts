@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     public gettingStarted: boolean;
     public ready: boolean = false;
-    public showTryView: boolean;
+    public showTryLandingPage: boolean;
     public functionContainer: FunctionContainer;
     public currentResourceId: string;
     private _readyFunction: boolean = false;
@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _aiService: AiService
     ) {
         this.gettingStarted = !_userService.inIFrame;
-        this.showTryView = this._globalStateService.showTryView;
+        this.showTryLandingPage = this._globalStateService.showTryView;
         this._functionsService.getResources().subscribe(() => {
             this.readyResources = true;
         });
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        if (!this.gettingStarted && !this.showTryView) {
+        if (!this.gettingStarted && !this.showTryLandingPage) {
             this._portalService.getResourceId()
                 .distinctUntilChanged()
                 .debounceTime(500)
@@ -101,17 +101,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
         this._globalStateService.setBusyState();
-        if (typeof functionContainer !== 'string')
-            //TODO: investigate this
-            this.showTryView = functionContainer.tryScmCred === null;
 
-        if (this.redirectToIbizaIfNeeded(functionContainer)) return;
+        if (this.redirectToIbizaIfNeeded(functionContainer)) {
+            return;
+        }
 
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates &&
-                (authSettings || !this.showTryView)) {
+                (authSettings || this._globalStateService.showTryView)) {
                 this.functionContainer = functionContainer;
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
@@ -131,6 +130,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this._userService.setFunctionContainer(functionContainer);
                 this._functionsService.setScmParams(functionContainer);
                 this.gettingStarted = false;
+                this.showTryLandingPage = false;
                 this._globalStateService.clearBusyState();
                 this.readyFunction = true;
                 this._backgroundTasksService.runTasks();
