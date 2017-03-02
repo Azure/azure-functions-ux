@@ -45,6 +45,8 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
+                            </span>
+                            <span>
                                 <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -53,6 +55,8 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
+                            </span>
+                            <span>
                                 <button *ngIf="running"
                                         class="custom-button cancel-button"
                                         (click)="cancelCurrentRun()">
@@ -132,27 +136,28 @@
                     <!--class="right-block"-->
                     <div #rightContainer id="sidebar" class="right-container">
 
-                        <div *ngIf="rightTab" class="rigth-container-bar">
-                            <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                            <span [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
-                            <span [class.tab-label-selected]="rightTab==='keys'" [class.tab-label]="rightTab!=='keys'" *ngIf="functionApp?.isMultiKeySupported" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
-                            <span style="flex-grow: 1;"></span>
-                            <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
+                        <div *ngIf="rightTab">
+                            <div class="rigth-container-bar">
+                                <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
+                                <span [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                                <span [class.tab-label-selected]="rightTab==='keys'" [class.tab-label]="rightTab!=='keys'" *ngIf="functionApp?.isMultiKeySupported" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
+                                <span style="flex-grow: 1;"></span>
+                                <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
+                            </div>
                         </div>
 
-
-                        <div *ngIf="rightTab==='files' && functionInfo" class="dev-full">
+                        <div *ngIf="rightTab==='files' && functionInfo" class="dev-border files-container">
                             <file-explorer [functionInfo]="functionInfo"
-                                           [selectedFile]="scriptFile"
-                                           (selectedFileChange)="selectedFileStream.next($event)"
-                                           (closeClicked)="clickRightTab('files')">
+                                            [selectedFile]="scriptFile"
+                                            (selectedFileChange)="selectedFileStream.next($event)"
+                                            (closeClicked)="clickRightTab('files')">
                             </file-explorer>
                         </div>
 
-                        <div [class.hidden]="rightTab!=='run'" class="dev-full dev-border dev-flex-column" [class.run-container-http]="isHttpFunction">
+                        <div [class.hidden]="rightTab!=='run'" class="dev-full dev-border dev-flex-column">
 
 
-                            <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo">
+                            <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
 
                                 <run-http *ngIf="isHttpFunction"
                                           [functionInvokeUrl]="functionInvokeUrl"
@@ -198,13 +203,13 @@
 
                                 <!--<div *ngIf="isHttpFunction">
 
-                                    <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
+                <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
 
-                                    <log-streaming [functionInfo]="functionInfo"
-                                                   [isHttpLogs]="true"
-                                                   (closeClicked)="clickRightTab('logs')">
-                                    </log-streaming>
-                                </div>-->
+                <log-streaming [functionInfo]="functionInfo"
+                               [isHttpLogs]="true"
+                               (closeClicked)="clickRightTab('logs')">
+                </log-streaming>
+            </div>-->
 
                             </div>
 
@@ -228,7 +233,11 @@
                             </div>
                         </div>
 
-                        <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && functionApp?.isMultiKeySupported" class="dev-full dev-border">
+                        <div [hidden]="rightTab!=='keys'"
+                             *ngIf="functionInfo && functionApp?.isMultiKeySupported"
+                             class="dev-full dev-border"
+                             style="overflow: auto;">
+
                             <function-keys
                                 [autoSelect]="true"
                                 [functionApp]="functionApp"

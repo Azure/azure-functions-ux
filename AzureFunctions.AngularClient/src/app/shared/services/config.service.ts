@@ -6,6 +6,7 @@ import {Constants} from '../models/constants';
 @Injectable()
 export class ConfigService {
     private azureResourceManagerEndpoint: string;
+    private runtimeType: string;
 
     constructor(private http: Http) {
     }
@@ -22,9 +23,22 @@ export class ConfigService {
 
     setConfig(config: any) {
         this.azureResourceManagerEndpoint = config.AzureResourceManagerEndpoint;
+        this.runtimeType = config.RuntimeType;
     }
 
     getAzureResourceManagerEndpoint() {
         return this.azureResourceManagerEndpoint;
+    }
+
+    getRuntimeType() {
+        return this.runtimeType;
+    }
+
+    isOnPrem(): boolean {
+        return this.runtimeType == "OnPrem";
+    }
+
+    isAzure(): boolean {
+        return this.runtimeType == "Azure";
     }
 }

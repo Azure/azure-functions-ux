@@ -17,6 +17,13 @@ import {FunctionsService} from './shared/services/functions.service';
 import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list/error-list.component';
 import {MainComponent} from './main/main.component';
+// import {MonitoringService} from './shared/services/app-monitoring.service';
+// import {BackgroundTasksService} from './shared/services/background-tasks.service';
+// import {GlobalStateService} from './shared/services/global-state.service';
+// import {TranslateService} from 'ng2-translate/ng2-translate';
+// import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
+// import {PortalResources} from './shared/models/portal-resources';
+import {ConfigService} from './shared/services/config.service'; 
 
 @Component({
     selector: 'app-root',
@@ -27,11 +34,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
     private _startupInfo : StartupInfo;
-    // public currentResourceId: string;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     constructor(
+        private _configService: ConfigService, 
         private _portalService: PortalService,
         private _armService: ArmService,
         private _userService: UserService,
@@ -70,15 +77,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
         this._globalStateService.setBusyState();
-        // if (typeof functionContainer !== 'string')
-        //     //TODO: investigate this
-        //     this.showTryView = functionContainer.tryScmCred === null;
 
-        if (this.redirectToIbizaIfNeeded(functionContainer)) return;
+        if (this.redirectToIbizaIfNeeded(functionContainer)) {
+            return;
+        }
 
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
-
             this._startupInfo.resourceId = functionContainer.id;
             this._userService.updateStartupInfo(this._startupInfo);
             this.gettingStarted = false;
@@ -87,6 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
+            this._configService.isAzure() &&
             window.location.hostname !== "localhost" &&
             window.location.search.indexOf("ibiza=disabled") === -1) {
 

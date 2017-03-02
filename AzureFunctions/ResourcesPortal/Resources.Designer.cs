@@ -619,6 +619,159 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to access your Azure settings for your function app..
+        /// </summary>
+        internal static string backend_error_CannotAccessFunctionApp {
+            get {
+                return ResourceManager.GetString("backend_error_CannotAccessFunctionApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First make sure you have proper access to the Azure resource {0}. If you dotTry refreshing the portal to renew your authentication token..
+        /// </summary>
+        internal static string backend_error_CannotAccessFunctionApp_action {
+            get {
+                return ResourceManager.GetString("backend_error_CannotAccessFunctionApp_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please check the storage account connection string in application settings as it appears to be invalid..
+        /// </summary>
+        internal static string backend_error_InvalidStorageConnectionString {
+            get {
+                return ResourceManager.GetString("backend_error_InvalidStorageConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update the app setting with a valid storage connection string..
+        /// </summary>
+        internal static string backend_error_InvalidStorageConnectionString_action {
+            get {
+                return ResourceManager.GetString("backend_error_InvalidStorageConnectionString_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is used to host your functions content. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
+        /// </summary>
+        internal static string backend_error_MissingAzureFilesConnectionString {
+            get {
+                return ResourceManager.GetString("backend_error_MissingAzureFilesConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a share name where youf function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
+        /// </summary>
+        internal static string backend_error_MissingAzureFilesContentShare {
+            get {
+                return ResourceManager.GetString("backend_error_MissingAzureFilesContentShare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken..
+        /// </summary>
+        internal static string backend_error_MissingAzureWebJobsDashboardAppSetting {
+            get {
+                return ResourceManager.GetString("backend_error_MissingAzureWebJobsDashboardAppSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the functions runtime to handle multiple instances synchronization, log invocation results, and other infrastructure jobs. Your function app will not work correctly without that setting..
+        /// </summary>
+        internal static string backend_error_MissingAzureWebJobsStorageAppSetting {
+            get {
+                return ResourceManager.GetString("backend_error_MissingAzureWebJobsStorageAppSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create the app setting with a valid storage connection string..
+        /// </summary>
+        internal static string backend_error_MissingAzureWebJobsStorageAppSetting_action {
+            get {
+                return ResourceManager.GetString("backend_error_MissingAzureWebJobsStorageAppSetting_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. Without this setting you&apos;ll always be running the latest version of the runtime even accross major version updates which might contain breaking changes. It&apos;s advised to set that value to the current latest major version (~1) and you&apos;ll get notified with newer versions for update..
+        /// </summary>
+        internal static string backend_error_MissingFunctionsExtensionVersionAppSetting {
+            get {
+                return ResourceManager.GetString("backend_error_MissingFunctionsExtensionVersionAppSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure Storage Account connection string stored in &apos;{0}&apos; is null or empty. This is required to have your function app working..
+        /// </summary>
+        internal static string backend_error_StorageAccountConnectionStringIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("backend_error_StorageAccountConnectionStringIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update the app setting with a valid storage connection string..
+        /// </summary>
+        internal static string backend_error_StorageAccountConnectionStringIsNullOrEmpty_action {
+            get {
+                return ResourceManager.GetString("backend_error_StorageAccountConnectionStringIsNullOrEmpty_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage account {0} doesn&apos;t exist. Deleting the storage account the function app is using will cause the function app to stop working. .
+        /// </summary>
+        internal static string backend_error_StorageAccountDoesNotExist {
+            get {
+                return ResourceManager.GetString("backend_error_StorageAccountDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update the app setting with a valid existing storage connection string..
+        /// </summary>
+        internal static string backend_error_StorageAccountDoesNotExist_action {
+            get {
+                return ResourceManager.GetString("backend_error_StorageAccountDoesNotExist_action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage account {0} doesn&apos;t support Azure Queues Storage. Functions runtime require queues to work propertly. You&apos;ll have to delete and recreate your function app with a storage account that supports Azure Queues Storage..
+        /// </summary>
+        internal static string backend_error_StorageAccountDoesntSupportQueues {
+            get {
+                return ResourceManager.GetString("backend_error_StorageAccountDoesntSupportQueues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There seem to be a problem querying Azure backend for your function app..
+        /// </summary>
+        internal static string backend_error_UnexpectedArmError {
+            get {
+                return ResourceManager.GetString("backend_error_UnexpectedArmError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There seem to be a problem querying Azure backend for your function app..
+        /// </summary>
+        internal static string backend_error_UnknownErrorWhileCallingArm {
+            get {
+                return ResourceManager.GetString("backend_error_UnknownErrorWhileCallingArm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         internal static string binding_actions {
@@ -957,6 +1110,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string error_NoPermissionToAccessApp {
             get {
                 return ResourceManager.GetString("error_NoPermissionToAccessApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the problem persists, contact support with the following code {{code}}.
+        /// </summary>
+        internal static string error_shareCodeWithSupport {
+            get {
+                return ResourceManager.GetString("error_shareCodeWithSupport", resourceCulture);
             }
         }
         

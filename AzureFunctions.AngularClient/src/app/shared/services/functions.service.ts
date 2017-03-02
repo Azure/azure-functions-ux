@@ -911,6 +911,13 @@ export class FunctionsService {
             .map<FunctionKeys>(r => r.json());
     }
 
+    diagnose() {
+        if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
+            this._http.post(Constants.serviceHost + `api/diagnose${this.functionContainer.id}`, this.getPortalHeaders())
+                .subscribe(s => console.log(s.json()), e => console.log(e));
+        }
+    }
+
     // to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

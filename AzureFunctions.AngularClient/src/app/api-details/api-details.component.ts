@@ -56,9 +56,17 @@ export class ApiDetailsComponent implements OnInit {
 
         this.setProxyUrl();
 
-        if (this._apiProxyEdit.matchCondition.methods) {
-            var methods = {};
+        var methods = {}
+        methods["method_GET"]  = false;
+        methods["method_POST"] = false;
+        methods["method_DELETE"] = false;
+        methods["method_HEAD"] =  false;
+        methods["method_PATCH"] = false;
+        methods["method_PUT"] = false;
+        methods["method_OPTIONS"] = false;
+        methods["method_TRACE"] = false;
 
+        if (this._apiProxyEdit.matchCondition.methods) {
             this._apiProxyEdit.matchCondition.methods.forEach((m) => {
                 methods["method_" + m.toUpperCase()] = true;
             });

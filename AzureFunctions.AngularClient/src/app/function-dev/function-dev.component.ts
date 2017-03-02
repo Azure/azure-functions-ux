@@ -268,7 +268,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         if (this.rightContainer) {
             this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
-            //this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
+            this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
         }
 
         if (this.bottomContainer) {

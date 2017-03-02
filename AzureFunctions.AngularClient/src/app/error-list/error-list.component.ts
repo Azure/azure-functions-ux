@@ -29,14 +29,15 @@ export class ErrorListComponent {
 
             if (error && error.message && !error.message.startsWith('<!DOC')) {
                 errorItem = { message: error.message, dateTime: new Date().toISOString(), date: new Date() };
-                this._aiService.trackEvent('/errors/portal', {
-                    error: error.details,
-                    message: error.message,
-                    displayedGeneric: false.toString(),
-                    appName: this._functionsService.getFunctionAppArmId()
-                 });
                 if (!this.errorList.find(e => e.message === errorItem.message)) {
+                    this._aiService.trackEvent('/errors/portal', {
+                        error: error.details,
+                        message: error.message,
+                        displayedGeneric: false.toString(),
+                        appName: this._functionsService.getFunctionAppArmId()
+                    });
                     this.errorList.push(errorItem);
+                    this._functionsService.diagnose();
                 }
             } else {
                 errorItem = this.getGenericError();

@@ -17,6 +17,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :: Setup
 :: -----
+:: Setup npm global path to d:\home
 
 echo Print variables
 echo dp0=%~dp0%
@@ -62,6 +63,13 @@ IF NOT DEFINED NEXT_CLIENT_MANIFEST_PATH (
 
   IF NOT EXIST "%PREVIOUS_CLIENT_MANIFEST_PATH%" (MKDIR "%PREVIOUS_CLIENT_MANIFEST_PATH%")
 )
+
+IF NOT EXIST "%HOME%\tools" (MKDIR "%HOME%\tools")
+
+SET PATH=%PATH%;%HOME%\tools
+
+call npm config set prefix "%HOME%\tools"
+IF !ERRORLEVEL! NEQ 0 goto error
 
 IF NOT DEFINED KUDU_SYNC_CMD (
   :: Install kudu sync

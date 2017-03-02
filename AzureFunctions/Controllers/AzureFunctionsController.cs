@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Resources;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AzureFunctions.Common;
 using AzureFunctions.Contracts;
 using AzureFunctions.Models;
 using AzureFunctions.Trace;
+using Microsoft.ApplicationInsights;
 using Newtonsoft.Json.Linq;
 
 namespace AzureFunctions.Controllers
@@ -18,8 +21,9 @@ namespace AzureFunctions.Controllers
     {
 
         private readonly ITemplatesManager _templatesManager;
-
         private readonly ISettings _settings;
+        private readonly IDiagnosticsManager _diagnosticsManager;
+        private readonly TelemetryClient _telemetryClient;
 
         private Dictionary<string, string> _languageMap = new Dictionary<string, string>()
         {
@@ -31,16 +35,18 @@ namespace AzureFunctions.Controllers
             { "zh-hant", "zh-CN"}
         };
 
-        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IDiagnosticsManager diagnosticsManager, TelemetryClient telemetryClient)
         {
-            this._templatesManager = templatesManager;
-            this._settings = settings;
+            _telemetryClient = telemetryClient;
+            _templatesManager = templatesManager;
+            _settings = settings;
+            _diagnosticsManager = diagnosticsManager;
         }
 
         [HttpGet]
         public HttpResponseMessage ListTemplates([FromUri] string runtime)
         {
-            runtime = getClearRuntime(runtime);
+            runtime = GetClearRuntime(runtime);
 
             return Request.CreateResponse(HttpStatusCode.OK, _templatesManager.GetTemplates(runtime));
         }
@@ -48,7 +54,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetBindingConfig([FromUri] string runtime)
         {
-            runtime = getClearRuntime(runtime);
+            runtime = GetClearRuntime(runtime);
 
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
@@ -57,19 +63,19 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetLatestRuntime()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "~1");
+            return Request.CreateResponse(HttpStatusCode.OK, Constants.CurrentLatestRuntimeVersion);
         }
 
         [HttpGet]
         public HttpResponseMessage GetLatestRoutingExtensionVersion()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "0.0.5");
+            return Request.CreateResponse(HttpStatusCode.OK, "~0.1");
         }
 
         [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
-            runtime = getClearRuntime(runtime);
+            runtime = GetClearRuntime(runtime);
             string portalFolder = "";
             string sdkFolder = "";
             string languageFolder = name;
@@ -127,6 +133,34 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.Accepted);
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<HttpResponseMessage> Diagnose(string armId)
+        {
+            var diagnosticResult = await _diagnosticsManager.Diagnose(armId);
+            diagnosticResult = diagnosticResult.Where(r => !r.IsDiagnosingSuccessful || r.SuccessResult.HasUserAction);
+            var properties = new Dictionary<string, string> { { "appName", armId } };
+            if (diagnosticResult.Any())
+            {
+                foreach (var result in diagnosticResult)
+                {
+                    if (result.IsDiagnosingSuccessful)
+                    {
+                        _telemetryClient.TrackEvent(result.SuccessResult.ActionId, properties);
+                    }
+                    else
+                    {
+                        _telemetryClient.TrackEvent(result.ErrorResult.ErrorId, properties);
+                    }
+                }
+            }
+            else
+            {
+                _telemetryClient.TrackEvent(ActionIds.NoDiagnoseFound, properties);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, diagnosticResult);
+        }
+
         private JObject ConvertResxToJObject(List<string> resxFiles)
         {
             var jo = new JObject();
@@ -152,7 +186,7 @@ namespace AzureFunctions.Controllers
             return jo;
         }
 
-        private string getClearRuntime(string runtime)
+        private string GetClearRuntime(string runtime)
         {
             return runtime.Replace("~", "");
         }

@@ -1,30 +1,28 @@
-﻿using Autofac;
-using Autofac.Integration.WebApi;
-using AzureFunctions.Authentication;
-using AzureFunctions.Code;
-using AzureFunctions.Common;
-using AzureFunctions.Contracts;
-using AzureFunctions.Trace;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.MSSqlServer;
-using SerilogWeb.Classic.Enrichers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
-using System.Web.Routing;
-using Microsoft.ApplicationInsights.Extensibility;
 using System.Web.Http.ExceptionHandling;
+using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.WebApi;
+using AzureFunctions.Authentication;
+using AzureFunctions.Code;
+using AzureFunctions.Contracts;
+using AzureFunctions.Trace;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
+using SerilogWeb.Classic.Enrichers;
 
 namespace AzureFunctions
 {
@@ -226,22 +224,25 @@ namespace AzureFunctions
                 .As<ISettings>()
                 .SingleInstance();
 
-            builder.Register(c =>
-            {
-                var userSettings = c.Resolve<IUserSettings>();
-                var client = new HttpClient();
+            builder.RegisterType<HttpClient>()
+                .As<HttpClient>()
+                .SingleInstance();
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userSettings.BearerToken);
-                client.DefaultRequestHeaders.Add("User-Agent", Constants.UserAgent);
-                client.DefaultRequestHeaders.Add("Accept", Constants.ApplicationJson);
-                return client;
-            })
-            .As<HttpClient>()
-            .InstancePerRequest();
+            builder.RegisterType<ArmClient>()
+                .As<IArmClient>()
+                .InstancePerRequest();
 
             builder.RegisterType<TemplatesManager>()
                 .As<ITemplatesManager>()
                 .SingleInstance();
+
+            builder.RegisterType<DiagnosticsManager>()
+                .As<IDiagnosticsManager>()
+                .InstancePerRequest();
+
+            builder.RegisterType<TelemetryClient>()
+                .As<TelemetryClient>()
+                .InstancePerRequest();
         }
 
         private void RegisterRoutes(HttpConfiguration config)
@@ -259,6 +260,8 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-latest-routing", "api/latestrouting", new { controller = "AzureFunctions", action = "GetLatestRoutingExtensionVersion", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+
+            config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

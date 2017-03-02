@@ -16,7 +16,7 @@
 .file-container {
     flex-grow: 1;
     height: 100%;
-    border: 1px solid #ccc;    
+    border-top: 1px solid #ccc;    
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -31,21 +31,6 @@
     vertical-align: middle;
     line-height: 1.8;
     white-space: nowrap;
-}
-
-#lower-panel {
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-}
-
-#lower-panel > div {
-    text-align: center;
-    padding: 10px;
-    border-right: 1px solid #ccc;
 }
 
 .hidden {
