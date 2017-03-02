@@ -30,59 +30,97 @@ namespace AzureFunctions.Code
             _client = client;
         }
 
+        /// <summary>
+        /// This is the only method exposed on an IDiagnosticsManager for now.
+        /// This method does all the diagnosing in a logical order.
+        ///     1. Check the ARM state of the function app
+        ///     2. Check App Settings for the function app
+        ///     3. Check Storage Account linked to the function app.
+        ///           Functions apps require a storage account that people have been known to either delete
+        ///           or misconfigure. This checks for all the known misconfigurations people run into.
+        ///     4. Check the master key.
+        ///           This is created by Kudu or the runtime; however it seems to be very common for people
+        ///           to get in a state where the encryption keys can't decrypt that key, and the apps are in
+        ///           a completely broken state until this is corrected.
+        ///     5. Check cross stamp issues.
+        ///           This is another very common issue where after scaling to a non-home stamp, the scaled site
+        ///           doesn't work on the non-home stamp and it's very hard to get what is going on there.
+        ///     6. Check runtime errors.
+        ///           This will probably need to be expanded as we only look for some general markers now, but we
+        ///           can do more heuristics to figure out what's wrong with the runtime.
+        /// <param name="armId">A full ARM Id for a FunctionApp to be diagnosed for any issues.</param>
+        /// </summary>
         public async Task<IEnumerable<DiagnosticsResult>> Diagnose(string armId)
         {
-            // Check resource existence
+            // These are generic methods for checking a DiagnosticsResult object.
+            // If they return true, that means we need to abort the diagnostic session as we found an error.
+            // That error could be an error in the process itself. This is when `IsDiagnosingSuccessful == false`
+            // or that we found a fatal error, this is when `SuccessResult.IsTerminating == true`
+            // checkReturns is just the same but over an IEnumerable of DiagnosticsResult
             Func<DiagnosticsResult, bool> checkReturn = r => !r.IsDiagnosingSuccessful || r.SuccessResult.IsTerminating;
             Func<IEnumerable<DiagnosticsResult>, bool> checkReturns = r => r.Any(checkReturn);
 
-            var resourceExistanceCheckResult = await CheckResource(armId);
-            if (checkReturns(resourceExistanceCheckResult.DiagnosticsResults))
+            // Start by checking the ARM state of the function app.
+            // This doesn't actually check app settings, but rather just the ARM object exists
+            // and that the function app isn't disabled, stopped, over quota, misconfigured in Antares for
+            // any random reason like I have sometimes seen with sites missing random hostnames, or half created etc.
+            var resourceCheckResult = await CheckResource(armId);
+            if (checkReturns(resourceCheckResult.DiagnosticsResults))
             {
-                return resourceExistanceCheckResult.DiagnosticsResults;
+                return resourceCheckResult.DiagnosticsResults;
             }
-            var functionApp = resourceExistanceCheckResult.Data;
 
-            // check app settings
+            // This means the ARM resource is all good. Let's grab the returned functionApp object because others will use it.
+            var functionApp = resourceCheckResult.Data;
+
+            // Check app settings
             var appSettingsCheckResult = await CheckAppSettings(functionApp);
             if (checkReturns(appSettingsCheckResult.DiagnosticsResults))
             {
-                return resourceExistanceCheckResult.DiagnosticsResults
+                // Every time we return the result we add it to all the previous results we got.
+                // This way we can still display non-terminating errors that we've already diagnosed.
+                // TODO: Maybe we should be filtering these results here as opposed to in the controller
+                // as we will be returning a bunch of empty results to all the callers. I can probably add
+                // an extension method for this cleanup.
+                return resourceCheckResult.DiagnosticsResults
                         .Concat(appSettingsCheckResult.DiagnosticsResults);
             }
 
-            // Check storage existence.
+            // Check storage account state.
             var storageCheckResult = await CheckStorage(appSettingsCheckResult.Data.Properties[AzureWebJobsStorageAppSetting], AzureWebJobsStorageAppSetting);
             if (checkReturn(storageCheckResult))
             {
-                return resourceExistanceCheckResult.DiagnosticsResults
+                return resourceCheckResult.DiagnosticsResults
                         .Concat(appSettingsCheckResult.DiagnosticsResults)
                         .Concat(new[] { storageCheckResult });
             }
 
-            // check if it's some cross stamp issue
+            // Check the master key
             var masterKeyResult = await CheckMasterKey(functionApp);
             if (checkReturns(masterKeyResult.DiagnosticsResults))
             {
-                return resourceExistanceCheckResult.DiagnosticsResults
+                return resourceCheckResult.DiagnosticsResults
                         .Concat(appSettingsCheckResult.DiagnosticsResults)
                         .Concat(new[] { storageCheckResult })
                         .Concat(masterKeyResult.DiagnosticsResults);
             }
 
+            // check if it's some cross stamp issue
             var checkCrossStampResult = await CheckCrossStampResult(functionApp, masterKeyResult.Data);
             if (checkReturn(checkCrossStampResult))
             {
-                return resourceExistanceCheckResult.DiagnosticsResults
+                return resourceCheckResult.DiagnosticsResults
                         .Concat(appSettingsCheckResult.DiagnosticsResults)
                         .Concat(new[] { storageCheckResult })
                         .Concat(masterKeyResult.DiagnosticsResults)
                         .Concat(new[] { checkCrossStampResult });
             }
 
+            // Check runtime state.
             var checkFunctionRuntimeResult = await CheckFunctionRuntimeResult(functionApp, masterKeyResult.Data);
 
-            return resourceExistanceCheckResult.DiagnosticsResults
+            // No need to call checkReturn here since it's the last check anyway.
+            return resourceCheckResult.DiagnosticsResults
                     .Concat(appSettingsCheckResult.DiagnosticsResults)
                     .Concat(new[] { storageCheckResult })
                     .Concat(masterKeyResult.DiagnosticsResults)
@@ -134,27 +172,43 @@ namespace AzureFunctions.Code
             }
         }
 
+        /// <summary>
+        /// The master key is created by Kudu or the runtime; however it seems to be very common for people
+        /// to get in a state where the encryption keys can't decrypt that key, and the apps are in
+        /// a completely broken state until this is corrected.
+        /// <param name="functionApp"> the function app object to check the master key for </param>
+        /// </summary>
         private async Task<TypedPair<string>> CheckMasterKey(ArmResource<ArmFunctionApp> functionApp)
         {
+            // Get kudu's url from the function app.
+            // Though this might throw due to various oddities that happen in Antares every now and then,
+            // the check for the existence of correct numbers of hostNames is taken care of in the CheckResource()
+            // method, which should be called before this one.
             var scmUrl = functionApp.Properties.HostNameSslStates.First(h => h.HostType == 1).Name;
             var masterKeyResult = await _client.Get<MasterKey>(new Uri($"https://{scmUrl}/api/functions/admin/masterkey"));
             DiagnosticsResult result;
             if (masterKeyResult.IsSuccessful)
             {
+                // Nothing to do here. The look up was successful, so return a successful diagnose with no user action
+                // and also return the master key.
                 return new TypedPair<string>(new DiagnosticsResult { IsDiagnosingSuccessful = true }, masterKeyResult.Result.Key);
             }
             else if (masterKeyResult.Error.StatusCode == HttpStatusCode.InternalServerError)
             {
+                // This is most probably the crypto issue.
+                // However to be sure, check the content for a WebApiException that says so.
                 var content = await masterKeyResult.Error.Content.ReadAsAsync<WebApiException>();
                 if (!string.IsNullOrEmpty(content.ExceptionType) &&
                     content.ExceptionType.Equals("System.Security.Cryptography.CryptographicException", StringComparison.OrdinalIgnoreCase))
                 {
+                    // Yep it's the crypto error, build the correct DiagnosticsResult object
                     result = new DiagnosticsResult
                     {
                         IsDiagnosingSuccessful = true,
                         Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, content, masterKeyResult.Error, functionApp),
                         SuccessResult = new DiagnoseSuccessResult
                         {
+                            // This is a terminating error. This is almost exactly why this user is seeing errors in the portal.
                             IsTerminating = true,
                             Message = "We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app.",
                             UserAction = "Follow steps here https://github.com/projectkudu/AzureFunctionsPortal/wiki/Manually-fixing-CryptographicException-when-trying-to-read-function-keys",
@@ -164,12 +218,16 @@ namespace AzureFunctions.Code
                 }
                 else
                 {
+                    // Though it's a 500, it's not the crypto error. I don't know of any other reason this API might return 500
+                    // but handle that nonetheless.
                     result = new DiagnosticsResult
                     {
                         IsDiagnosingSuccessful = true,
                         Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, content, masterKeyResult.Error, functionApp),
                         SuccessResult = new DiagnoseSuccessResult
                         {
+                            // Even though we don't know what's going on, we still mark it as terminating because we can't get
+                            // the masterkey still.
                             IsTerminating = true,
                             Message = "We are unable to access your function keys.",
                             UserAction = "If the error persists, please contact support.",
@@ -180,12 +238,15 @@ namespace AzureFunctions.Code
             }
             else
             {
+                // It didn't fail with 500, but nonetheless it failed for some other reason.
+                // At the moment I'm not aware of any other reason, but handle it anyway.
                 result = new DiagnosticsResult
                 {
                     IsDiagnosingSuccessful = true,
                     Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, masterKeyResult.Error, functionApp),
                     SuccessResult = new DiagnoseSuccessResult
                     {
+                        // Ditto. Can't get the masterKey, so it has to be terminating.
                         IsTerminating = true,
                         Message = "We are unable to access your function keys.",
                         UserAction = "If the error persists, please contact support.",
@@ -197,13 +258,26 @@ namespace AzureFunctions.Code
             return new TypedPair<string>(result, null);
         }
 
+        /// <summary>
+        /// This is another very common issue where after scaling to a non-home stamp, the scaled site
+        /// doesn't work on the non-home stamp and it's very hard to get what is going on there.
+        /// To figure out this issue, we need to DNS resolve the host and get all addresses, then 
+        /// then send a status request to all of them. 
+        /// <param name="functionApp"> The function app to be checked for cross stamp issues. </param>
+        /// <param name="masterKey"> The masterKey for the function app to be diagnosed. </param>
+        /// </summary>
         private async Task<DiagnosticsResult> CheckCrossStampResult(ArmResource<ArmFunctionApp> functionApp, string masterKey)
         {
+            // Use the defaultHostName, this is `<appName>.azurewebsites.net`
             var hostName = functionApp.Properties.DefaultHostName;
+            // This method returns a list of all the IP addresses for a given domain.
             var addresses = await Dns.GetHostAddressesAsync(hostName);
 
             if (addresses.Count() == 0)
             {
+                // This could be some negative cache issue.
+                // While technically not a cross stamp issue, we can know what's going on.
+                // This is however tricky since the negative cache in this scenario is on the backend not the client.
                 return new DiagnosticsResult
                 {
                     IsDiagnosingSuccessful = true,
@@ -219,6 +293,7 @@ namespace AzureFunctions.Code
             }
             else if (addresses.Count() > 1)
             {
+                // This means the app is indeed scaled to more than 1 stamp.
                 var headers = new Dictionary<string, string>
                 {
                     { "HOST", hostName },
@@ -227,11 +302,16 @@ namespace AzureFunctions.Code
 
                 var results = await addresses
                     .Select(ip => ip.ToString())
+                    // BUG: need to add a HOST header.
                     .Select(ip => _client.Get<string>(new Uri($"https://{ip}/"), headers))
                     .WhenAll();
                 if (results.Where(r => r.IsSuccessful).Count() != addresses.Count() &&
                     results.Where(r => r.IsSuccessful).Count() > 0)
                 {
+                    // If not all succeeded, but some did succeeded
+                    // I realize it's an odd condition that ignores the case of all failed.
+                    // But this is important not to send investigation down a wrong path.
+                    // Here we're only looking for some success and some failures. Someone else will take care of all failures
                     return new DiagnosticsResult
                     {
                         IsDiagnosingSuccessful = true,
@@ -256,10 +336,27 @@ namespace AzureFunctions.Code
             };
         }
 
+        /// <summary>
+        /// Functions apps require a storage account that people have been known to either delete or misconfigure.
+        /// This method checks for the following cases (which I have seen actually happen):
+        ///     1. Wrong connection string.
+        ///     2. Deleted storage account.
+        ///     3. Wrong type of storage account.
+        ///         There "blob only" storage accounts and "premium" storage accounts.
+        ///         While "blob only" means exactly that, "premium" is also blob only, and even only a specific type of blobs.
+        ///         "premium" is Page Blob only, i.e: VHDs, not Block Blobs, i.e: normal files.
+        ///         Due to the wonderfully clear naming, people always try to use premium storage which doesn't work
+        ///         since the runtime requires a full storage account with access to block blobs and queues.
+        /// <param name="connectionString"> connection string to check the storage account of. </param>
+        /// <param name="connectionStringName"> the name of that connection string. This is used for a nice error message. </param>
+        /// </summary>
         private async Task<DiagnosticsResult> CheckStorage(string connectionString, string connectionStringName)
         {
             if (string.IsNullOrEmpty(connectionString))
             {
+                // This shouldn't really happen since the CheckAppSettings() method is supposed to be
+                // called before this one and it should ensure that we don't have empty connection strings
+                // but just check it again for completeness of this method.
                 return new DiagnosticsResult
                 {
                     IsDiagnosingSuccessful = true,
@@ -274,12 +371,16 @@ namespace AzureFunctions.Code
                 };
             }
 
+            // Parse storage account connection string.
+            // It looks something like:
+            //     DefaultEndpointsProtocol=https;AccountName=<Name>;AccountKey=<Key>
             var storageAccountName = connectionString
-                .Split(';')
-                .FirstOrDefault(e => e.StartsWith("AccountName", StringComparison.OrdinalIgnoreCase))
-                ?.Split('=')
-                ?.Last();
+                .Split(';') // [ "DefaultEndpointsProtocol=https", "AccountName=<Name>", "AccountKey=<Key>" ]
+                .FirstOrDefault(e => e.StartsWith("AccountName", StringComparison.OrdinalIgnoreCase)) // "AccountName=<Name>"
+                ?.Split('=') // [ "AccountName", "<Name>" ]
+                ?.Last(); // "<Name>"
 
+            // If the parsing above fails for any reason, that means the connection string is not configured correctly.
             if (string.IsNullOrEmpty(storageAccountName))
             {
                 return new DiagnosticsResult
@@ -296,8 +397,15 @@ namespace AzureFunctions.Code
                 };
             }
 
+            // Build the DNS records for the queues and blob endpoints of the storage account.
             var storageQueuesCName = $"{storageAccountName}.queue.core.windows.net";
             var storageBlobCName = $"{storageAccountName}.blob.core.windows.net";
+
+            // Check that the blob endpoint is available.
+            // This acts as "is storage account deleted" check.
+            // Note that we're not ensuring that the key actually works.
+            // We haven't seen issues where people renewed their keys without fixing the app setting.
+            // Though it's possible, so maybe will need to add that in the future.
             if (!await IsHostAvailable(storageBlobCName))
             {
                 return new DiagnosticsResult
@@ -313,6 +421,7 @@ namespace AzureFunctions.Code
                 };
             }
 
+            // Now check the queues endpoint to check if the account is "premium" or blob only.
             if (!await IsHostAvailable(storageQueuesCName))
             {
                 return new DiagnosticsResult
@@ -328,16 +437,28 @@ namespace AzureFunctions.Code
                 };
             }
 
+            // Nothing is wrong with storage.
             return new DiagnosticsResult
             {
                 IsDiagnosingSuccessful = true
             };
         }
 
+        /// <summary>
+        /// This just does a DNS resolution to determine if the host is available or not.
+        /// This could be wrong due to negative cache, not cleaning up a deleted resource domain, etc.
+        /// But it's a good and quick way to check for now.
+        /// <param name="domain"> domain or host to be checked. </param>
+        /// </summary>
         private async Task<bool> IsHostAvailable(string domain)
         {
             try
             {
+                // GetHostAddressesAsync throws:
+                //      ArgumentNullException
+                //      ArgumentOutOfRangeException
+                //      ArgumentException
+                //      SocketException
                 var addresses = await Dns.GetHostAddressesAsync(domain);
                 if (addresses.Any())
                 {
@@ -354,9 +475,16 @@ namespace AzureFunctions.Code
             }
         }
 
+        /// <summary>
+        /// If an app setting goes missing for any reason, make sure to alert the user regarding it.
+        /// The method isn't really very smart since every app setting has a different message and a different action, etc.
+        /// I didn't wanna complicate the logic too much for 4 app settings.
+        /// <param name="functionApp"> function app to check the app settings for. </param>
+        /// </summary>
         private async Task<TypedPair<ArmResource<Dictionary<string, string>>>> CheckAppSettings(ArmResource<ArmFunctionApp> functionApp)
         {
             var armId = $"{functionApp.Id}/config/appsettings/list";
+            // Dictionary<string, string> is all we need from app settings.
             var maybeAppSettings = await _client.Post<ArmResource<Dictionary<string, string>>>(armId, AntaresApiVersion);
             if (!maybeAppSettings.IsSuccessful)
             {
@@ -585,6 +713,20 @@ namespace AzureFunctions.Code
             }
         }
 
+        /// <summary>
+        /// this method returns:
+        ///     {
+        ///         "item0": <serialized object[0]>,
+        ///         "item1": <serialized object[1]>,
+        ///         ....,
+        ///         "itemN": <serialized object[N]>,
+        ///         "timestamp": <currentTime>,
+        ///         "portal_instance": <functions-bay | functions-blu | functions-db3 | functions-hk1>
+        ///     }
+        /// in a string that is encrypted and base64 (I haven't added the encryption below yet.)
+        /// This is meant to be only decrypt-able by us and support since it contains user information and they might share it
+        /// on forums or StackOverflow. (almost guaranteed > 140 characters.)
+        /// </summary>
         private string GetSupportErrorCode(params object[] items)
         {
             var obj = new JObject();
@@ -602,6 +744,12 @@ namespace AzureFunctions.Code
         }
     }
 
+    /// <summary>
+    /// TypedPair really is just a Tuple<IEnumerable<DiagnosticsResult>, T>
+    /// The only reason is because of the ugliness of:
+    ///   Tuple<IEnumerable<DiagnosticsResult>, T>  vs  TypedPair<T>
+    /// Though obviously it still ugly. Hopefully will come back and clean this a bit once C#7 is out.
+    /// </summary>
     class TypedPair<T>
     {
         public IEnumerable<DiagnosticsResult> DiagnosticsResults { get; private set; }
