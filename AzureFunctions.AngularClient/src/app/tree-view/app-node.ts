@@ -110,7 +110,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.languageService
                 );
 
-
                 this.children = [new FunctionsNode(this.sideNav, this.functionApp, this)];
 
                 if(site.properties.state === "Running"){
@@ -126,8 +125,17 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
             }
 
+
+
             this.supportsRefresh = true;
             return Observable.of(null);
+        })
+        .map(() =>{
+            if(this.children && this.children.length > 0){
+                this.children.forEach(child =>{
+                    child.inSelectedTree = true;
+                })
+            }
         })
     }
 
@@ -164,6 +172,11 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public dispose(newSelectedNode? : TreeNode){
+        if(this.children && this.children.length > 0){
+            this.children.forEach(child =>{
+                child.inSelectedTree = false;
+            })
+        }
 
         // Ensures that we're only disposing if you're selecting a node that's not a child of the
         // the current app node.

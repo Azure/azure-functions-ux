@@ -28,27 +28,27 @@
             <i *ngIf="child.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
 
             <!-- Optional menu icons that show up on right side of each node -->
-            <span class="tree-node-menu"
-                  *ngIf="child.showMenu || child.inSelectedTree">
+            <span class="tree-node-menu">
+              <i *ngIf="!!child.newDashboardType && child.inSelectedTree"
+                  (click)="child.openCreateNew($event)"
+                  class="fa fa-plus"
+                  title="New"></i>
 
-              <i *ngIf="child.disabled"
-                 class="fa fa-info-circle warning"
-                 title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+              <span *ngIf="child.showMenu || child.inSelectedTree">
+                <i *ngIf="child.disabled"
+                  class="fa fa-info-circle warning"
+                  title="You either do not have access to this app or there are orphaned slots associated with it"></i>
 
-              <i *ngIf="child.supportsRefresh"
-                 (click)="child.refresh($event)"
-                 class="fa fa-refresh tree-node-refresh-icon"
-                 title="Refresh"></i>
+                <i *ngIf="child.supportsRefresh"
+                  (click)="child.refresh($event)"
+                  class="fa fa-refresh tree-node-refresh-icon"
+                  title="Refresh"></i>
 
-              <i *ngIf="!!child.newDashboardType"
-                 (click)="child.openCreateNew($event)"
-                 class="fa fa-plus"
-                 title="New"></i>
-
-              <i *ngIf="child.supportsScope"
-                class="fa fa-angle-double-right tree-node-scope-icon"
-                (click)="child.scopeToNode()"
-                title="Scope to this app"></i>
+                <i *ngIf="child.supportsScope"
+                  class="fa fa-angle-double-right tree-node-scope-icon"
+                  (click)="child.scopeToNode()"
+                  title="Scope to this app"></i>
+              </span>
             </span>
         </span>
     </div>
