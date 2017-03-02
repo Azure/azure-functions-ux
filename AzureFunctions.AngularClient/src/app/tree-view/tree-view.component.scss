@@ -53,7 +53,7 @@
     max-height: calc(100% - 104px);
     width: $sidenav-width;
     overflow-y: auto;
-    position: fixed;
+    position: absolute;
     margin-top: 1px;
 }
 
