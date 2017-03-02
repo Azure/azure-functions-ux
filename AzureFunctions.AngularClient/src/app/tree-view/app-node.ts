@@ -125,13 +125,11 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
             }
 
-
-
             this.supportsRefresh = true;
             return Observable.of(null);
         })
         .map(() =>{
-            if(this.children && this.children.length > 0){
+            if(this.sideNav.selectedNode === this && this.children && this.children.length > 0){
                 this.children.forEach(child =>{
                     child.inSelectedTree = true;
                 })
