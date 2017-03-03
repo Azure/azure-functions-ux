@@ -47,7 +47,6 @@ export class IntroComponent {
     }
 
     onCreateNewFunction() {
-        debugger;
         if (this._globalStateService.IsBusy) {
             return;
         }

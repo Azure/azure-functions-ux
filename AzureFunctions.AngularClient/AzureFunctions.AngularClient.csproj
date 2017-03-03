@@ -138,10 +138,14 @@
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
+    <Content Include="src\app\proxies-node\proxies-node.component.html" />
+    <Content Include="src\app\proxy-node\proxy-node.component.html" />
     <Content Include="src\app\radio-selector\radio-selector.component.css" />
     <Content Include="src\app\radio-selector\radio-selector.component.html" />
     <Content Include="src\app\main\main.component.scss" />
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.scss" />
+    <Content Include="src\app\proxies-node\proxies-node.component.scss" />
+    <Content Include="src\app\proxy-node\proxy-node.component.scss" />
     <None Include="src\app\run-http\run-http.component.scss" />
     <Content Include="src\app\run-http\run-http.component.html" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
@@ -303,6 +307,10 @@
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
+    <TypeScriptCompile Include="src\app\proxies-node\proxies-node.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\proxies-node\proxies-node.component.ts" />
+    <TypeScriptCompile Include="src\app\proxy-node\proxy-node.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\proxy-node\proxy-node.component.ts" />
     <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.spec.ts" />
     <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.spec.ts" />

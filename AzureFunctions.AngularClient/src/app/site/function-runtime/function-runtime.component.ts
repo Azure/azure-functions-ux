@@ -17,6 +17,9 @@ import { Constants } from '../../shared/models/constants';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TranslatePipe } from 'ng2-translate/ng2-translate';
 import { AiService } from '../../shared/services/ai.service';
+import { SelectOption } from '../../shared/models/select-option';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'function-runtime',
@@ -34,6 +37,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public dailyMemoryTimeQuota: string;
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
+
+  public functionStatusOptions: SelectOption<boolean>[];
+  public needUpdateRoutingExtensionVersion: boolean;
+  public routingExtensionVersion: string;
+  public latestRoutingExtensionVersion: string;
+  public apiProxiesEnabled: boolean;
+  private valueChange: Subject<boolean>;
   private showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
@@ -48,49 +58,86 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _functionsService: FunctionsService,
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
-    private _languageService: LanguageService) {
+    private _languageService: LanguageService,
+    private _translateService: TranslateService) {
 
     this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
-      .switchMap(viewInfo => {
+        .switchMap(viewInfo => {
 
+            this._globalStateService.setBusyState();
+
+            this._appNode = (<AppNode>viewInfo.node);
+
+            return Observable.zip(
+                this._cacheService.getArm(viewInfo.resourceId),
+                this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`),
+                (s: Response, a: Response) => ({ siteResponse: s, appsettingsResponse: a }))
+
+        })
+        .subscribe(r => {
+            let appSettings: ArmObj<any> = r.appsettingsResponse.json();
+            this.site = r.siteResponse.json();
+
+            this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
+                ? this.site.properties.dailyMemoryTimeQuota.toString()
+                : "0";
+
+            if (this.dailyMemoryTimeQuota === "0") {
+                this.dailyMemoryTimeQuota = "";
+            }
+            else {
+                this.showDailyMemoryInfo = true;
+            }
+
+            this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
+
+            this.memorySize = this.site.properties.containerSize;
+            this.latestExtensionVersion = Constants.runtimeVersion;
+            this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
+
+            this.needUpdateExtensionVersion =
+                Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
+
+            this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
+            this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
+            this.needUpdateRoutingExtensionVersion
+                = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
+
+
+            this._globalStateService.clearBusyState();
+
+        });
+
+    this.functionStatusOptions = [
+        {
+            displayLabel: this._translateService.instant(PortalResources.off),
+            value: false
+        }, {
+            displayLabel: this._translateService.instant(PortalResources.on),
+            value: true
+        }];
+
+    this.valueChange = new Subject<boolean>();
+    this.valueChange.subscribe((value: boolean) => {
         this._globalStateService.setBusyState();
+        var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
-        this._appNode = (<AppNode>viewInfo.node);
-
-        return Observable.zip(
-          this._cacheService.getArm(viewInfo.resourceId),
-          this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`),
-          (s: Response, a: Response) => ({ siteResponse: s, appsettingsResponse: a }))
-
-      })
-      .subscribe(r => {
-        let appSettings: ArmObj<any> = r.appsettingsResponse.json();
-        this.site = r.siteResponse.json();
-
-        this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
-          ? this.site.properties.dailyMemoryTimeQuota.toString()
-          : "0";
-
-        if (this.dailyMemoryTimeQuota === "0") {
-          this.dailyMemoryTimeQuota = "";
-        }
-        else {
-          this.showDailyMemoryInfo = true;
-        }
-
-        this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
-
-        this.memorySize = this.site.properties.containerSize;
-        this.latestExtensionVersion = Constants.runtimeVersion;
-        this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
-
-        this.needUpdateExtensionVersion =
-          Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
-
-        this._globalStateService.clearBusyState();
-        
-      })
+        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+            .flatMap(r => {
+                return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
+            })
+            .subscribe(r => {
+                this._appNode.functionApp.fireSyncTrigger();
+                this.apiProxiesEnabled = value;
+                this.needUpdateRoutingExtensionVersion = false;
+                this.routingExtensionVersion = Constants.routingExtensionVersion;
+                this._globalStateService.clearBusyState();
+                this._cacheService.clearCachePrefix(this.site.id);
+                this._appNode.refresh();
+            });
+    });
   }
 
   set viewInfoInput(viewInfo: TreeViewInfo) {
@@ -137,6 +184,22 @@ export class FunctionRuntimeComponent implements OnDestroy {
       });
   }
 
+  updateRouingExtensionVersion() {
+      this._aiService.trackEvent('/actions/app_settings/update_routing_version');
+      this._globalStateService.setBusyState();
+
+      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+          .flatMap(r => {
+              return this._updateProxiesVersion(this.site, r.json());
+          })
+          .subscribe(r => {
+              this.needUpdateRoutingExtensionVersion  = false;
+              this._globalStateService.clearBusyState();
+              this._cacheService.clearCachePrefix(this.site.id);
+              this._appNode.refresh();
+      });
+  }
+
   setQuota() {
     var dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
 
@@ -167,6 +230,15 @@ export class FunctionRuntimeComponent implements OnDestroy {
     }
     appSettings.properties[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
     appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
+
+    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+  }
+
+  private _updateProxiesVersion(site: ArmObj<Site>, appSettings: ArmObj<any>, value?: string) {
+    if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
+        delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+    }
+    appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : Constants.routingExtensionVersion;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }

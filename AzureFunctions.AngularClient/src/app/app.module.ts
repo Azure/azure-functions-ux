@@ -88,6 +88,8 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
+import { ProxiesNodeComponent } from './proxies-node/proxies-node.component';
+import { ProxyNodeComponent } from './proxy-node/proxy-node.component';
 // import { ApiDetailsComponent } from './api-details/api-details.component';
 // import { ApiNewComponent } from './api-new/api-new.component';
 
@@ -160,7 +162,9 @@ import { FunctionRuntimeComponent } from './site/function-runtime/function-runti
       MultiDropDownComponent,
       TopRightMenuComponent,
       AppsListComponent,
-      FunctionRuntimeComponent
+      FunctionRuntimeComponent,
+      ProxiesNodeComponent,
+      ProxyNodeComponent
     //   ApiDetailsComponent,
     //   ApiNewComponent,
   ],
