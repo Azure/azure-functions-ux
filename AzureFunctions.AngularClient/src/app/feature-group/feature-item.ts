@@ -1,9 +1,15 @@
+import { DisableInfo } from './feature-item';
 import { PortalResources } from './../shared/models/portal-resources';
 // import {SiteManageComponent} from '../../components/site/dashboard/site-manage.component';
-import {Observable, Subject} from 'rxjs/Rx';
+import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import {RBACService} from '../shared/services/rbac.service';
 import {PortalService} from '../shared/services/portal.service';
 import {OpenBladeInfo} from '../shared/models/portal';
+
+export interface DisableInfo{
+    enabled : boolean;
+    disableMessage : string;
+}
 
 export class FeatureItem{
     public title : string;
@@ -29,36 +35,58 @@ export class FeatureItem{
     load() : Observable<any>{
         return Observable.of(null);
     }
+
+    dispose(){
+    }
 }
 
-export class DisabledDynamicFeature extends FeatureItem{
+export class DisableableFeature extends FeatureItem{
+    private _enabledRxSub : RxSubscription;
+    public enabled = false;
+
     constructor(
         title : string,
         keywords : string,
         info : string,
         imageUrl : string,
-        sku : string){
-
+        private _disableInfoStream? : Subject<DisableInfo>,
+        overrideDisableInfoStream? : DisableInfo        
+    ){
         super(title, keywords, info, imageUrl);
 
-        if(sku.toLowerCase() === "dynamic"){
-            this.enabled = false;
-            this.warning = "This feature is not available for apps that are on a consumption plan";
+        if(overrideDisableInfoStream && !overrideDisableInfoStream.enabled){
+            this.warning = overrideDisableInfoStream.disableMessage;
+        }
+        else if(_disableInfoStream){
+            this._enabledRxSub = _disableInfoStream.subscribe(info =>{
+                this.enabled = info.enabled;
+
+                if(!this.enabled){
+                    this.warning = info.disableMessage;
+                }
+            })
+        }
+    }
+
+    dispose(){
+        if(this._enabledRxSub){
+            this._enabledRxSub.unsubscribe();
+            this._enabledRxSub = null;
         }
     }
 }
 
-export class DisabledDynamicBladeFeature extends DisabledDynamicFeature{
+export class DisableableBladeFeature extends DisableableFeature{
     constructor(
         title : string,
         keywords : string,
         info : string,
         imageUrl : string,
-        sku : string,
-        private _bladeInfo : OpenBladeInfo,
-        private _portalService : PortalService
-    ){
-        super(title, keywords, info, imageUrl, sku);
+        protected _bladeInfo : OpenBladeInfo,        
+        protected _portalService : PortalService,
+        disableInfoStream? : Subject<DisableInfo>,        
+        overrideDisableInfoStream? : DisableInfo){
+        super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfoStream);
     }
 
     click(){
@@ -66,52 +94,30 @@ export class DisabledDynamicBladeFeature extends DisabledDynamicFeature{
     }
 }
 
-export class RBACFeature extends FeatureItem{
-
+export class DisableableDyanmicBladeFeature extends DisableableBladeFeature{
     constructor(
         title : string,
         keywords : string,
         info : string,
         imageUrl : string,
-        private _resourceId : string,
-        private _requestedActions : string[],
-        private _warning : string,
-        private _rbacService : RBACService){
-            super(title, keywords, info, imageUrl);
-
-            this.enabled = false;
-        }
-
-        public load() : Observable<any>{
-            return this._rbacService.hasPermission(this._resourceId, this._requestedActions)
-                .map(hasPermission =>{
-                    this.enabled = hasPermission;
-                    if(!hasPermission){
-                        this.warning = this._warning;
-                    }
-                    return hasPermission
-                });
-        }
-}
-
-export class RBACBladeFeature extends RBACFeature{
-    constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        imageUrl : string,
-        resourceId : string,
-        requestedActions : string[],
-        warning : string,
-        rbacService : RBACService,
-        public bladeInfo : OpenBladeInfo,
-        private _portalService){
-
-        super(title, keywords, info, imageUrl, resourceId, requestedActions, warning, rbacService);
+        bladeInfo : OpenBladeInfo,        
+        portalService : PortalService,
+        disableInfoStream? : Subject<DisableInfo>,        
+        overrideDisableInfoStream? : DisableInfo){
+        
+        super(
+            title,
+            keywords,
+            info,
+            imageUrl,
+            bladeInfo,
+            portalService,
+            disableInfoStream,            
+            overrideDisableInfoStream);
     }
 
     click(){
-        this._portalService.openBlade(this.bladeInfo, 'site-manage');
+        this._portalService.openBlade(this._bladeInfo, 'site-manage');
     }
 }
 
@@ -128,29 +134,6 @@ export class BladeFeature extends FeatureItem{
     click(){
         this._portalService.openBlade(this.bladeInfo, 'site-manage');
     }
-}
-
-export class ResourceUriBladeFeature extends BladeFeature{
-    constructor(title : string,
-                keywords : string,
-                info : string,
-                imageUrl : string,
-                public resourceId : string,
-                public bladeName : string,
-                portalService : PortalService){
-
-        super(title,
-              keywords,
-              info,
-              imageUrl,
-              <OpenBladeInfo>{
-                  detailBlade : bladeName,
-                  detailBladeInputs : {
-                      resourceUri : resourceId
-                  }
-              },
-              portalService)
-    };
 }
 
 export class OpenBrowserWindowFeature extends FeatureItem{

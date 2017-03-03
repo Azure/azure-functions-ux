@@ -7,10 +7,10 @@ import {Permissions, PermissionsAsRegExp} from '../models/arm/permission';
 
 @Injectable()
 export class RBACService {
-    public readScope = "./read";
-    public writeScope = "./write";
-    public deleteScope = "./delete";
-    public actionScope = "./action"
+    public static readScope = "./read";
+    public static writeScope = "./write";
+    public static deleteScope = "./delete";
+    public static actionScope = "./action"
 
     private _wildCardEscapeSequence = "\\*";
 

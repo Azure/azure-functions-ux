@@ -83,7 +83,7 @@ export class SiteSummaryComponent {
                 let configId = `${site.id}/config/web`;
 
                 return Observable.zip(
-                    rbacService.hasPermission(site.id, [rbacService.writeScope]),
+                    rbacService.hasPermission(site.id, [RBACService.writeScope]),
                     this._cacheService.getArm(configId),
                     (hasPermission, configResponse) =>({ hasPermission : hasPermission, config : configResponse.json() }))
             })
@@ -128,6 +128,10 @@ export class SiteSummaryComponent {
     }
 
     toggleState(){
+        if(!this.hasWriteAccess){
+            return;
+        }
+
         if(this.site.properties.state === "Running"){
             let confirmResult = confirm(`Are you sure you would like to stop ${this.site.name}`);
             if(confirmResult){
@@ -203,6 +207,10 @@ export class SiteSummaryComponent {
     }
 
     restart(){
+        if(!this.hasWriteAccess){
+            return;
+        }
+
         let site = this.site;
 
         let confirmResult = confirm(`Are you sure you would like to restart ${site.name}`);

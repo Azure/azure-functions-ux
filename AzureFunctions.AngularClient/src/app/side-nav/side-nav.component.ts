@@ -1,3 +1,4 @@
+import { RBACService } from './../shared/services/rbac.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
@@ -64,7 +65,8 @@ export class SideNavComponent{
         public aiService : AiService,
         public localStorageService : LocalStorageService,
         public portalService : PortalService,
-        public languageService : LanguageService){
+        public languageService : LanguageService,
+        public rbacService : RBACService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 

@@ -1,7 +1,8 @@
+import { RBACService } from './../shared/services/rbac.service';
 import { FunctionNode } from './function-node';
 import { async } from '@angular/core/testing';
 import { TopBarNotification } from './../top-bar/top-bar-models';
-import { Response } from '@angular/http';
+import { Response, Request } from '@angular/http';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { SiteConfig } from './../shared/models/arm/site-config';
 import { Subscription } from './../shared/models/subscription';
@@ -91,11 +92,16 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
         this.supportsRefresh = false;
 
-        return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
-        .switchMap(r =>{
-            this._loadingObservable = null;
+        return Observable.zip(
+            this.sideNav.rbacService.hasPermission(this._siteArmCacheObj.id, [RBACService.writeScope]),
+            this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
+            (h, s) =>({ hasWritePermission : h, siteResponse : s})
+        )
 
-            let site : ArmObj<Site> = r.json();
+        // return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
+        .switchMap(r =>{
+
+            let site : ArmObj<Site> = r.siteResponse.json();
             
             if(!this.functionApp){
                 this.functionApp = new FunctionApp(
@@ -112,7 +118,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
                 this.children = [new FunctionsNode(this.sideNav, this.functionApp, this)];
 
-                if(site.properties.state === "Running"){
+                if(site.properties.state === "Running" && r.hasWritePermission){
                     return this.setupBackgroundTasks()
                     .map(() =>{
                         this.supportsRefresh = true;
@@ -120,7 +126,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
                 else{
                     this.dispose()
-                    this.supportsRefresh = false;
+                    this.supportsRefresh = true;
                     return Observable.of(null);
                 }
             }
@@ -128,12 +134,15 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.supportsRefresh = true;
             return Observable.of(null);
         })
-        .map(() =>{
+        .map(r =>{
             if(this.sideNav.selectedNode === this && this.children && this.children.length > 0){
                 this.children.forEach(child =>{
                     child.inSelectedTree = true;
                 })
             }
+
+            this._loadingObservable = null;
+            return r;
         })
     }
 

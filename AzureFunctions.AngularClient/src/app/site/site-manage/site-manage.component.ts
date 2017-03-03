@@ -1,5 +1,6 @@
+import { Message } from './../../shared/models/portal';
+import { DisableableBladeFeature, DisableableFeature, DisableInfo } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
-import { OpenBrowserWindowFeature, DisabledDynamicBladeFeature } from './../../feature-group/feature-item';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {ArmService} from '../../shared/services/arm.service';
@@ -10,7 +11,7 @@ import {ArmObj} from '../../shared/models/arm/arm-obj';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PopOverComponent} from '../../pop-over/pop-over.component';
 import {FeatureGroupComponent} from '../../feature-group/feature-group.component';
-import {FeatureItem, RBACFeature, RBACBladeFeature, TabFeature, BladeFeature, ResourceUriBladeFeature} from '../../feature-group/feature-item';
+import {FeatureItem, TabFeature, BladeFeature, OpenBrowserWindowFeature} from '../../feature-group/feature-item';
 import {WebsiteId} from '../../shared/models/portal';
 
 @Component({
@@ -29,6 +30,11 @@ export class SiteManageComponent {
     private _siteSub = new Subject<ArmObj<Site>>();
     private _descriptor : SiteDescriptor;
 
+    private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
+    private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
+
+    private _dynamicDisableInfo : DisableInfo;
+
     @Output() openTabEvent = new Subject<string>();
 
     set siteInput(site : ArmObj<Site>){
@@ -43,6 +49,13 @@ export class SiteManageComponent {
 
             this._descriptor = new SiteDescriptor(site.id);
 
+            this._dynamicDisableInfo = {
+                enabled : site.properties.sku !== "Dynamic",
+                disableMessage : "This feature is not supported for apps on a Consumption plan"
+            }
+
+            this._disposeGroups();
+
             this._initCol1Groups(site);
             this._initCol2Groups(site);
             this._initCol3Groups(site);
@@ -52,15 +65,56 @@ export class SiteManageComponent {
             this._getLoadObservables(this.groups2, loadObs);
             this._getLoadObservables(this.groups3, loadObs);
 
-            return Observable.zip.apply(null, loadObs);
-        })
-        .subscribe(results =>{
+            // return Observable.zip.apply(null, loadObs);
             
+            return Observable.zip(
+                this._rbacService.hasPermission(site.id,  [RBACService.writeScope]),
+                this._rbacService.hasPermission(site.properties.serverFarmId, [RBACService.readScope]),
+                (s, p) => ({ hasSiteWritePermissions : s, hasPlanReadPermissions : p})
+            )
+        })
+        .subscribe(r =>{
+            this._hasSiteWritePermissionStream.next({
+                enabled : r.hasSiteWritePermissions,
+                disableMessage : "You must have write permissions on the current app in order to use this feature"
+            });
+
+            this._hasPlanReadPermissionStream.next({
+                enabled : r.hasPlanReadPermissions,
+                disableMessage : "You must have read permissions on the associated App Service plan in order to use this feature"
+            })
         });
     }
 
     ngOnDestroy() {
         this._portalService.closeBlades();
+        this._disposeGroups();
+    }
+
+    private _disposeGroups(){
+        if(this.groups1){
+            this.groups1.forEach(group =>{
+                this._disposeGroup(group);
+            })
+        }
+
+        if(this.groups2){
+            this.groups2.forEach(group =>{
+                this._disposeGroup(group);
+            })
+        }
+
+        if(this.groups3){
+            this.groups3.forEach(group =>{
+                this._disposeGroup(group);
+            })
+        }
+    }
+
+    private _disposeGroup(group : FeatureGroup){
+        group.features.forEach(feature =>{
+            feature.dispose();
+        })
     }
 
     private _getLoadObservables(groups : FeatureGroup[], observables : Observable<any>[]){
@@ -73,19 +127,20 @@ export class SiteManageComponent {
 
     private _initCol1Groups(site : ArmObj<Site>){
         let codeDeployFeatures = [
-            new BladeFeature(
+            new DisableableBladeFeature(
                 "Deployment source",
                 "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
                 "Deployment source info",
                 "images/deployment-source.svg",
                 {
-                        detailBlade : "ContinuousDeploymentListBlade",
-                        detailBladeInputs : {
-                            id : this._descriptor.resourceId,
-                            ResourceId : this._descriptor.resourceId
-                        }
+                    detailBlade : "ContinuousDeploymentListBlade",
+                    detailBladeInputs : {
+                        id : this._descriptor.resourceId,
+                        ResourceId : this._descriptor.resourceId
+                    }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream),
 
             new BladeFeature(
                 "Deployment credentials",
@@ -102,59 +157,54 @@ export class SiteManageComponent {
         ];
 
         let developmentToolFeatures = [
-            new ResourceUriBladeFeature(
+            new DisableableBladeFeature(
                 "Console",
                 "console debug",
                 "Info",
                 "images/console.svg",
-                site.id,
-                "ConsoleBlade",
-                this._portalService), 
+                {
+                    detailBlade : "ConsoleBlade",
+                    detailBladeInputs : {
+                        resourceUri : site.id
+                    }
+                },
+                this._portalService,
+                this._hasSiteWritePermissionStream),
            
-            new OpenKuduFeature(site),
+            new OpenKuduFeature(site, this._hasSiteWritePermissionStream),
 
-            new OpenEditorFeature(site), 
+            new OpenEditorFeature(site, this._hasSiteWritePermissionStream), 
 
-            new OpenResourceExplorer(),
+            new OpenResourceExplorer(site),
 
-            // Slots are not available yet
-            // new DisabledDynamicBladeFeature(
-            //     "Test in production",
-            //     "Test in production",
-            //     "Info",
-            //     site.properties.sku,
-            //     {
-            //         detailBlade : "WebsiteRoutingRulesBlade",
-            //         detailBladeInputs : {
-            //             WebsiteId : this._descriptor.getWebsiteId()
-            //         }
-            //     },
-            //     this._portalService),
-
-            new DisabledDynamicBladeFeature(
+            new DisableableBladeFeature(
                 "Extensions",
                 "Extensions",
                 "Info",
                 "images/extensions.svg",
-                site.properties.sku,                
                 {
                     detailBlade : "SiteExtensionsListBlade",
                     detailBladeInputs : {
                         WebsiteId : this._descriptor.getWebsiteId()
                     }
                 },
-                this._portalService)
-
+                this._portalService,
+                this._hasSiteWritePermissionStream,
+                this._dynamicDisableInfo),
         ]
 
         let generalFeatures = [
-            new ResourceUriBladeFeature(
+            new BladeFeature(
                 "Application settings",
                 "application settings connection strings java php .net",
                 "Info",
                 "images/application-settings.svg",
-                site.id,
-                "WebsiteConfigSiteSettings",
+                {
+                    detailBlade : "WebsiteConfigSiteSettings",
+                    detailBladeInputs : {
+                        resourceUri : site.id,
+                    }
+                },
                 this._portalService),   
 
             new BladeFeature(
@@ -170,33 +220,35 @@ export class SiteManageComponent {
                 },
                 this._portalService), 
 
-            new DisabledDynamicBladeFeature(
+            new DisableableBladeFeature(
                 "Web jobs",
                 "web jobs",
                 "Info",
                 "images/webjobs.svg",
-                site.properties.sku,
                 {
                     detailBlade : "webjobsNewBlade",
                     detailBladeInputs : {
                         resourceUri : site.id
                     }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream,                
+                this._dynamicDisableInfo),
 
-            new DisabledDynamicBladeFeature(
+            new DisableableBladeFeature(
                 "Backups",
                 "backups",
                 "Info",
                 "images/backups.svg",
-                site.properties.sku,
                 {
                     detailBlade : "Backup",
                     detailBladeInputs : {
                         resourceUri : site.id
                     }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream,                
+                this._dynamicDisableInfo),
 
             new BladeFeature(
                 "All settings",
@@ -221,34 +273,34 @@ export class SiteManageComponent {
     private _initCol2Groups(site : ArmObj<Site>){
         
         let networkFeatures = [
-            new DisabledDynamicBladeFeature(
+            new DisableableBladeFeature(
                 "Networking",
                 "networking",
                 "Info",
                 "images/networking.svg",
-                site.id,
                 {
                     detailBlade : "NetworkSummaryBlade",
                     detailBladeInputs : {
                         resourceUri : site.id
                     }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream,                
+                this._dynamicDisableInfo),
 
-            new BladeFeature(
+            new DisableableBladeFeature(
                 "SSL",
                 "ssl",
                 "Info",
                 "images/ssl.svg",
                 {
                     detailBlade : "CertificatesBlade",
-                    detailBladeInputs : {
-                        resourceUri : this._descriptor.resourceId,
-                    }
+                    detailBladeInputs : { resourceUri : site.id }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream),
 
-            new BladeFeature(
+            new DisableableBladeFeature(
                 "Custom domains",
                 "custom domains",
                 "Info",
@@ -260,29 +312,32 @@ export class SiteManageComponent {
                         BuyDomainSelected : false
                     }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream),
 
-            new ResourceUriBladeFeature(
+            new DisableableBladeFeature(
                 "Authentication / Authorization",
                 "authentication authorization aad google facebook microsoft",
                 "Info",
                 "images/authentication.svg",
-                site.id,
-                "AppAuth",
-                this._portalService),
+                {
+                    detailBlade : "AppAuth",
+                    detailBladeInputs : { resourceUri : site.id }
+                },
+                this._portalService,
+                this._hasSiteWritePermissionStream),
 
-            new BladeFeature(
+            new DisableableBladeFeature(
                 "Push notifications",
                 "push",
                 "Info",
                 "images/push.svg",
                 {
                     detailBlade : "PushRegistrationBlade",
-                    detailBladeInputs : {
-                        resourceUri : this._descriptor.resourceId,
-                    }
+                    detailBladeInputs : { resourceUri : this._descriptor.resourceId }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasSiteWritePermissionStream),
         ]
 
         let monitoringFeatures = [
@@ -293,29 +348,33 @@ export class SiteManageComponent {
                 "images/diagnostic-logs.svg",
                 {
                     detailBlade : "WebsiteLogsBlade",
-                    detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId()
-                    }
+                    detailBladeInputs : { WebsiteId : this._descriptor.getWebsiteId() }
                 },
                 this._portalService),
 
-            new ResourceUriBladeFeature(
+            new DisableableBladeFeature(
                 "Log streaming",
                 "log streaming",
                 "Info",
                 "images/log-stream.svg",
-                site.id,
-                "LogStreamBlade",
-                this._portalService),
+                {
+                    detailBlade : "LogStreamBlade",
+                    detailBladeInputs : { resourceUri : site.id }
+                },
+                this._portalService,
+                this._hasSiteWritePermissionStream),
 
-            new ResourceUriBladeFeature(
+            new DisableableBladeFeature(
                 "Process Explorer",
                 "process explorer",
                 "Info",
                 "images/process-explorer.svg",
-                site.id,
-                "ProcExpNewBlade",
-                this._portalService),            
+                {
+                    detailBlade : "ProcExpNewBlade",
+                    detailBladeInputs : { resourceUri : site.id }
+                },
+                this._portalService,
+                this._hasSiteWritePermissionStream),            
 
             new BladeFeature(
                 "Security scanning",
@@ -324,9 +383,7 @@ export class SiteManageComponent {
                 "images/tinfoil-flat-21px.png",
                 {
                     detailBlade : "TinfoilSecurityBlade",
-                    detailBladeInputs : {
-                        WebsiteId : this._descriptor.getWebsiteId(),
-                    }
+                    detailBladeInputs : { WebsiteId : this._descriptor.getWebsiteId() }
                 },
                 this._portalService),
         ]
@@ -338,56 +395,56 @@ export class SiteManageComponent {
 
     private _initCol3Groups(site : ArmObj<Site>){
         let apiManagementFeatures = [
-            new ResourceUriBladeFeature(
+            new BladeFeature(
                 "CORS",
                 "cors api",
                 "Info",
                 "images/cors.svg",
-                site.id,
-                "ApiCors",
+                {
+                    detailBlade : "ApiCors",
+                    detailBladeInputs : { resourceUri : site.id }
+                },
                 this._portalService),
 
-            new ResourceUriBladeFeature(
+            new BladeFeature(
                 "API Definition",
                 "api definition swagger",
                 "Info",
                 "images/api-definition.svg",
-                site.id,
-                "ApiDefinition",
-                this._portalService),            
+                {
+                    detailBlade : "ApiDefinition",
+                    detailBladeInputs : { resourceUri : site.id }
+                },
+                this._portalService),
         ]
 
         let appServicePlanFeatures = [
-            new RBACBladeFeature(
+            new DisableableBladeFeature(
                 "App Service plan",
                 "app service plan scale",
                 "Info",
                 "images/app-service-plan.svg",
-                site.properties.serverFarmId,
-                ["./read"],
-                "You do not have read permissions for the associated plan",
-                this._rbacService,
                 {
                     detailBlade : "WebHostingPlanBlade",
-                    detailBladeInputs : {
-                        id : site.properties.serverFarmId
-                    }
+                    detailBladeInputs : { id : site.properties.serverFarmId }
                 },
-                this._portalService),
+                this._portalService,
+                this._hasPlanReadPermissionStream),
 
-            new DisabledDynamicBladeFeature(
+            new DisableableBladeFeature(
                 "Quotas",
                 "quotas",
                 "Info",
                 "images/quotas.svg",
-                site.properties.sku,
                 {
                     detailBlade : "QuotasBlade",
                     detailBladeInputs : {
                         resourceUri : site.id
                     }
                 },
-                this._portalService),
+                this._portalService,
+                null,
+                this._dynamicDisableInfo),
         ]
 
         let resourceManagementFeatures = [
@@ -487,9 +544,17 @@ export class SiteManageComponent {
     }
 }
 
-export class OpenKuduFeature extends FeatureItem{
-        constructor(private _site : ArmObj<Site>){
-        super("Advanced tools", "kudu advanced tools", "Info", "images/advanced-tools.svg");
+export class OpenKuduFeature extends DisableableFeature{
+        constructor(
+            private _site : ArmObj<Site>,
+            disableInfoStream : Subject<DisableInfo>){
+        
+        super(
+            "Advanced tools",
+            "kudu advanced tools",
+            "Info",
+            "images/advanced-tools.svg",
+            disableInfoStream);
     }
 
     click(){
@@ -498,10 +563,15 @@ export class OpenKuduFeature extends FeatureItem{
     }
 }
 
-export class OpenEditorFeature extends FeatureItem{
-        constructor(private _site : ArmObj<Site>){
+export class OpenEditorFeature extends DisableableFeature{
+        constructor(private _site : ArmObj<Site>, disabledInfoStream : Subject<DisableInfo>){
 
-        super("App service editor", "app service editor visual studio online", "Info", "images/appsvc-editor.svg");
+        super(
+            "App service editor",
+            "app service editor visual studio online",
+            "Info",
+            "images/appsvc-editor.svg",
+            disabledInfoStream);
     }
 
     click(){
@@ -511,12 +581,12 @@ export class OpenEditorFeature extends FeatureItem{
 }
 
 export class OpenResourceExplorer extends FeatureItem{
-        constructor(){
-        super("Resource Explorer", "resource explorer", "Info", "images/resource-explorer.svg");
+        constructor(private _site : ArmObj<Site>){
+        super("Explore the API", "resource explorer", "Info", "images/resource-explorer.svg");
     }
 
     click(){
-        window.open("https://resources.azure.com")
+        window.open(`https://resources.azure.com${this._site.id}`);
     }
 }
 

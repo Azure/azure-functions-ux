@@ -81,7 +81,7 @@ export class SiteNotificationsComponent {
 
                 this._resourceGroupId = site.id.replace(/\/providers\/Microsoft\.Web\/sites.*/gi, "");
                 this.hasResourceGroupPermission = false;
-                let rbacCall = this._rbacService.hasPermission(this._resourceGroupId, [this._rbacService.readScope]);
+                let rbacCall = this._rbacService.hasPermission(this._resourceGroupId, [RBACService.readScope]);
 
                 return Observable.zip(availabilityCall, recommendationsCall, rbacCall)
                  .catch(err =>{

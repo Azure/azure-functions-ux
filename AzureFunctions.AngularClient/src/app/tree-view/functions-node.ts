@@ -1,3 +1,4 @@
+import { RBACService } from './../shared/services/rbac.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
@@ -27,10 +28,18 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            return this.updateTreeForStartedSite(false);
+            return this.sideNav.rbacService.hasPermission(this.functionApp.site.id, [RBACService.writeScope])
+            .switchMap(hasWritePermission =>{
+                if(hasWritePermission){
+                    return this._updateTreeForStartedSite();
+                }
+
+                return this._updateTreeForNonUsableState("Functions (No Access)");
+            })
+
         }
         else{
-            return this.updateTreeForStoppedSite();
+            return this._updateTreeForNonUsableState("Functions (Stopped)");
         }
     }
 
@@ -63,21 +72,21 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this.parent.dispose(newSelectedNode);
     }
 
-    public updateTreeForStoppedSite(){
+    private _updateTreeForNonUsableState(title : string){
         this.newDashboardType = null;
         this.children = [];
-        this.title = "Functions (Stopped)";
+        this.title = title;
         this.showExpandIcon = false;
         this.sideNav.cacheService.clearCachePrefix(`${this.functionApp.getScmUrl()}/api/functions`);
         return Observable.of(null);
     }
 
-    public updateTreeForStartedSite(forceLoadChildren : boolean){
+    private _updateTreeForStartedSite(){
         this.title = "Functions";
         this.newDashboardType = DashboardType.createFunction;
         this.showExpandIcon = true;
 
-        if(forceLoadChildren || !this.children || this.children.length === 0){
+        if(!this.children || this.children.length === 0){
             return this.functionApp.getFunctions()
             .map(fcs =>{
                 let fcNodes = <FunctionNode[]>[];

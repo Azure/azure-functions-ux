@@ -1,10 +1,10 @@
+import { RBACService } from './../../shared/services/rbac.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
-import {RBACService} from '../../shared/services/rbac.service';
 import {LocalStorageService as StorageService} from '../../shared/services/local-storage.service';
 import {Site} from '../../shared/models/arm/site';
 import {SiteConfig} from '../../shared/models/arm/site-config';
@@ -39,7 +39,8 @@ export class SiteEnabledFeaturesComponent {
     constructor(
         private _cacheService : CacheService,
         private _storageService : StorageService,
-        private _portalService : PortalService) {
+        private _portalService : PortalService,
+        private _rbacService : RBACService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -48,7 +49,21 @@ export class SiteEnabledFeaturesComponent {
                 this.featureItems = [];
                 this.isLoading = true;
 
-                let storageItem = <EnabledFeatures>this._storageService.getItem(site.id + "/enabledFeatures");
+                return Observable.zip(
+                    this._rbacService.hasPermission(site.id, [RBACService.writeScope]),
+                    // this._rbacService.hasPermission(site.id, [RBACService.actionScope]),
+                    (w) =>({ hasSiteWritePermissions : w})
+                )
+                .map(r => { 
+                    return {
+                        site : site,
+                        hasSiteWritePermissions : r.hasSiteWritePermissions,
+                        // hasSiteActionPermissions : r.hasSiteActionPermissions
+                    }})
+            })
+            .switchMap(r =>{
+
+                let storageItem = <EnabledFeatures>this._storageService.getItem(r.site.id + "/enabledFeatures");
                 if(storageItem && storageItem.enabledFeatures && storageItem.enabledFeatures.length > 0){
 
                     // Even though we continue loading in the background, we get rid of the loading UI
@@ -59,9 +74,9 @@ export class SiteEnabledFeaturesComponent {
                 }
 
                 return Observable.zip(
-                    this._getConfigFeatures(site),
-                    this._getSiteFeatures(site),
-                    this._getAuthFeatures(site));
+                    this._getConfigFeatures(r.site, r.hasSiteWritePermissions),
+                    this._getSiteFeatures(r.site),
+                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions));
             })
             .subscribe((results : EnabledFeatureItem[][]) =>{
                 this.isLoading = false;
@@ -252,7 +267,11 @@ export class SiteEnabledFeaturesComponent {
         return Observable.of(items);
     }
 
-    private _getConfigFeatures(site : ArmObj<Site>){
+    private _getConfigFeatures(site : ArmObj<Site>, hasSiteWritePermissions : boolean){
+        if(!hasSiteWritePermissions){
+            return Observable.of([]);
+        }
+
         let configId = `${site.id}/config/web`;
         return this._cacheService.getArm(configId)
             .map(r =>{
@@ -277,7 +296,11 @@ export class SiteEnabledFeaturesComponent {
             })
     }
 
-    private _getAuthFeatures(site : ArmObj<Site>){
+    private _getAuthFeatures(site : ArmObj<Site>, hasSiteActionPermission : boolean){
+        if(!hasSiteActionPermission){
+            return Observable.of([]);
+        }
+
         let authId = `${site.id}/config/authsettings/list`;
         return this._cacheService.postArm(authId)
         .map(r =>{
