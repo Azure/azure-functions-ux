@@ -3,26 +3,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { MultiSelectDropdownComponent } from './multi-select-dropdown.component';
+import { MultiDropDownComponent } from './multi-drop-down.component';
 
-describe('MultiSelectDropdownComponent', () => {
-  let component: MultiSelectDropdownComponent;
-  let fixture: ComponentFixture<MultiSelectDropdownComponent>;
+//describe('MultiDropDownComponent', () => {
+//    let component: MultiDropDownComponent;
+//    let fixture: ComponentFixture<MultiDropDownComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MultiSelectDropdownComponent ]
-    })
-    .compileComponents();
-  }));
+//  beforeEach(async(() => {
+//    TestBed.configureTestingModule({
+//        declarations: [MultiDropDownComponent ]
+//    })
+//    .compileComponents();
+//  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MultiSelectDropdownComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//  beforeEach(() => {
+//      fixture = TestBed.createComponent(MultiDropDownComponent);
+//    component = fixture.componentInstance;
+//    fixture.detectChanges();
+//  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//  it('should create', () => {
+//    expect(component).toBeTruthy();
+//  });
+//});
