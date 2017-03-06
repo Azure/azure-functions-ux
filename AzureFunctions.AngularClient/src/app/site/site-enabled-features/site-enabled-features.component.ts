@@ -1,4 +1,4 @@
-import { RBACService } from './../../shared/services/rbac.service';
+import { AuthzService } from './../../shared/services/authz.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
@@ -40,7 +40,7 @@ export class SiteEnabledFeaturesComponent {
         private _cacheService : CacheService,
         private _storageService : StorageService,
         private _portalService : PortalService,
-        private _rbacService : RBACService) {
+        private _authZService : AuthzService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -50,15 +50,15 @@ export class SiteEnabledFeaturesComponent {
                 this.isLoading = true;
 
                 return Observable.zip(
-                    this._rbacService.hasPermission(site.id, [RBACService.writeScope]),
-                    // this._rbacService.hasPermission(site.id, [RBACService.actionScope]),
-                    (w) =>({ hasSiteWritePermissions : w})
+                    this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(site.id),
+                    (w, l) =>({ hasSiteWritePermissions : w, hasReadOnlyLock : l})
                 )
                 .map(r => { 
                     return {
                         site : site,
                         hasSiteWritePermissions : r.hasSiteWritePermissions,
-                        // hasSiteActionPermissions : r.hasSiteActionPermissions
+                        hasReadOnlyLock : r.hasReadOnlyLock
                     }})
             })
             .switchMap(r =>{
@@ -74,9 +74,9 @@ export class SiteEnabledFeaturesComponent {
                 }
 
                 return Observable.zip(
-                    this._getConfigFeatures(r.site, r.hasSiteWritePermissions),
+                    this._getConfigFeatures(r.site),
                     this._getSiteFeatures(r.site),
-                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions));
+                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock));
             })
             .subscribe((results : EnabledFeatureItem[][]) =>{
                 this.isLoading = false;
@@ -267,10 +267,7 @@ export class SiteEnabledFeaturesComponent {
         return Observable.of(items);
     }
 
-    private _getConfigFeatures(site : ArmObj<Site>, hasSiteWritePermissions : boolean){
-        if(!hasSiteWritePermissions){
-            return Observable.of([]);
-        }
+    private _getConfigFeatures(site : ArmObj<Site>){
 
         let configId = `${site.id}/config/web`;
         return this._cacheService.getArm(configId)
@@ -296,8 +293,12 @@ export class SiteEnabledFeaturesComponent {
             })
     }
 
-    private _getAuthFeatures(site : ArmObj<Site>, hasSiteActionPermission : boolean){
-        if(!hasSiteActionPermission){
+    private _getAuthFeatures(
+        site : ArmObj<Site>,
+        hasSiteActionPermission : boolean,
+        hasReadLock : boolean){
+
+        if(!hasSiteActionPermission|| hasReadLock){
             return Observable.of([]);
         }
 

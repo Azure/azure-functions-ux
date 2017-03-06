@@ -1,4 +1,4 @@
-import { RBACService } from './../shared/services/rbac.service';
+import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
@@ -28,13 +28,20 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            return this.sideNav.rbacService.hasPermission(this.functionApp.site.id, [RBACService.writeScope])
-            .switchMap(hasWritePermission =>{
-                if(hasWritePermission){
+            return Observable.zip(
+                this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
+                this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
+                (p, l) => ({ hasWritePermission : p, hasReadOnlyLock : l}))
+            .switchMap(r =>{
+                if(r.hasWritePermission && !r.hasReadOnlyLock){
                     return this._updateTreeForStartedSite();
                 }
-
-                return this._updateTreeForNonUsableState("Functions (No Access)");
+                else if(!r.hasWritePermission){
+                    return this._updateTreeForNonUsableState("Functions (No Access)");
+                }
+                else{
+                    return this._updateTreeForNonUsableState("Functions (ReadOnly Lock)");
+                }
             })
 
         }

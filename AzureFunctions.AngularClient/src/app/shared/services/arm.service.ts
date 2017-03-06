@@ -6,7 +6,6 @@ import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from
 import {StorageAccount} from '../models/storage-account';
 import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
-import {PublishingCredentials} from '../models/publishing-credentials';
 import {Constants} from '../models/constants';
 import {ClearCache} from '../decorators/cache.decorator';
 import {AiService} from './ai.service';
@@ -22,6 +21,7 @@ export class ArmService {
 
     private token: string;
     public armApiVersion = '2014-04-01'
+    public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';

@@ -323,6 +323,12 @@
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\arm-obj.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\auth-settings.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\locks.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\permission.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\site-config.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\site.ts" />
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
@@ -377,6 +383,7 @@
     <TypeScriptCompile Include="src\app\shared\services\ai.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\ai.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\authz.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
@@ -396,7 +403,6 @@
     <TypeScriptCompile Include="src\app\shared\services\local-storage.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\rbac.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user.service.spec.ts" />

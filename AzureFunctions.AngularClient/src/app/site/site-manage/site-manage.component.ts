@@ -4,7 +4,7 @@ import { FeatureGroup } from './../../feature-group/feature-group';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {ArmService} from '../../shared/services/arm.service';
-import {RBACService} from '../../shared/services/rbac.service';
+import {AuthzService} from '../../shared/services/authz.service';
 import {PortalService} from '../../shared/services/portal.service';
 import {Site} from '../../shared/models/arm/site';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
@@ -41,7 +41,7 @@ export class SiteManageComponent {
         this._siteSub.next(site);
     }
 
-    constructor(private _rbacService : RBACService, private _portalService : PortalService){
+    constructor(private _authZService : AuthzService, private _portalService : PortalService){
         this._siteSub
         .distinctUntilChanged()
         .switchMap(site =>{
@@ -61,22 +61,28 @@ export class SiteManageComponent {
             this._initCol3Groups(site);
 
             let loadObs : Observable<any>[] = [];
-            this._getLoadObservables(this.groups1, loadObs);
-            this._getLoadObservables(this.groups2, loadObs);
-            this._getLoadObservables(this.groups3, loadObs);
 
-            // return Observable.zip.apply(null, loadObs);
-            
             return Observable.zip(
-                this._rbacService.hasPermission(site.id,  [RBACService.writeScope]),
-                this._rbacService.hasPermission(site.properties.serverFarmId, [RBACService.readScope]),
-                (s, p) => ({ hasSiteWritePermissions : s, hasPlanReadPermissions : p})
+                this._authZService.hasPermission(site.id,  [AuthzService.writeScope]),
+                this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.readScope]),
+                this._authZService.hasReadOnlyLock(site.id),
+                (s, p, l) => ({ hasSiteWritePermissions : s, hasPlanReadPermissions : p, hasReadOnlyLock : l})
             )
         })
         .subscribe(r =>{
+            let hasSiteWritePermissions = r.hasSiteWritePermissions && !r.hasReadOnlyLock;
+            let siteWriteDisabledMessage = "";
+
+            if(!r.hasSiteWritePermissions){
+                siteWriteDisabledMessage = "You must have write permissions on the current app in order to use this feature";
+            }
+            else if(r.hasReadOnlyLock){
+                siteWriteDisabledMessage = "This feature is disabled because the app has a ReadOnly lock on it.";
+            }
+
             this._hasSiteWritePermissionStream.next({
-                enabled : r.hasSiteWritePermissions,
-                disableMessage : "You must have write permissions on the current app in order to use this feature"
+                enabled : r.hasSiteWritePermissions && !r.hasReadOnlyLock,
+                disableMessage : siteWriteDisabledMessage
             });
 
             this._hasPlanReadPermissionStream.next({
@@ -114,14 +120,6 @@ export class SiteManageComponent {
     private _disposeGroup(group : FeatureGroup){
         group.features.forEach(feature =>{
             feature.dispose();
-        })
-    }
-
-    private _getLoadObservables(groups : FeatureGroup[], observables : Observable<any>[]){
-        groups.forEach(group =>{
-            group.features.forEach(feature =>{
-                observables.push(feature.load());
-            })
         })
     }
 

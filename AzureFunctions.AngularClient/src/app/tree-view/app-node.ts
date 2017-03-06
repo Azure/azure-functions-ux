@@ -1,4 +1,4 @@
-import { RBACService } from './../shared/services/rbac.service';
+import { AuthzService } from './../shared/services/authz.service';
 import { FunctionNode } from './function-node';
 import { async } from '@angular/core/testing';
 import { TopBarNotification } from './../top-bar/top-bar-models';
@@ -93,12 +93,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.supportsRefresh = false;
 
         return Observable.zip(
-            this.sideNav.rbacService.hasPermission(this._siteArmCacheObj.id, [RBACService.writeScope]),
+            this.sideNav.authZService.hasPermission(this._siteArmCacheObj.id, [AuthzService.writeScope]),
+            this.sideNav.authZService.hasReadOnlyLock(this._siteArmCacheObj.id),
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
-            (h, s) =>({ hasWritePermission : h, siteResponse : s})
+            (h, r, s) =>({ hasWritePermission : h, hasReadOnlyLock : r, siteResponse : s})
         )
 
-        // return this.sideNav.cacheService.getArm(this._siteArmCacheObj.id)
         .switchMap(r =>{
 
             let site : ArmObj<Site> = r.siteResponse.json();
@@ -113,12 +113,13 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.broadcastService,
                     this.sideNav.armService,
                     this.sideNav.cacheService,
-                    this.sideNav.languageService
+                    this.sideNav.languageService,
+                    this.sideNav.authZService
                 );
 
                 this.children = [new FunctionsNode(this.sideNav, this.functionApp, this)];
 
-                if(site.properties.state === "Running" && r.hasWritePermission){
+                if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
                     return this.setupBackgroundTasks()
                     .map(() =>{
                         this.supportsRefresh = true;
@@ -151,6 +152,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         if(this.sideNav.selectedNode.shouldBlockNavChange()){
             return Observable.of(null);
         }
+
+        this.sideNav.updateView(this, this.dashboardType);
 
         // Call loadChildren first in case there's currently a load operation going
         return this.loadChildren()

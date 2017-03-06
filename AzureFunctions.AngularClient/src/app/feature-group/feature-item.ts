@@ -2,7 +2,7 @@ import { DisableInfo } from './feature-item';
 import { PortalResources } from './../shared/models/portal-resources';
 // import {SiteManageComponent} from '../../components/site/dashboard/site-manage.component';
 import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
-import {RBACService} from '../shared/services/rbac.service';
+import {AuthzService} from '../shared/services/authz.service';
 import {PortalService} from '../shared/services/portal.service';
 import {OpenBladeInfo} from '../shared/models/portal';
 
@@ -30,10 +30,6 @@ export class FeatureItem{
     }
 
     click(){
-    }
-
-    load() : Observable<any>{
-        return Observable.of(null);
     }
 
     dispose(){

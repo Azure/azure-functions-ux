@@ -60,12 +60,14 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             return;
         }
 
-        this.sideNav.updateView(this, this.dashboardType)
-        .subscribe(() =>{
-            if(!this.isExpanded){
-                this.toggle(null);
-            }        
-        })        
+        if(this.sideNav.selectedNode !== this){
+            this.sideNav.updateView(this, this.dashboardType)
+            .subscribe(() =>{
+                if(!this.isExpanded){
+                    this.toggle(null);
+                }        
+            });
+        }
     }
 
     // Virtual
@@ -79,6 +81,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         this.isLoading = true;
         this.handleRefresh()
         .subscribe(() =>{
+            this.sideNav.updateView(this, this.sideNav.selectedDashboardType).subscribe(() =>{});            
             this.isLoading = false;
         });
 
@@ -115,8 +118,9 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public openCreateNew(event){
-        this.sideNav.updateView(this, this.newDashboardType)
-        .subscribe(() =>{});
+        if(this.sideNav.selectedNode !== this){
+            this.sideNav.updateView(this, this.newDashboardType).subscribe(() =>{});
+        }
     }
 
     public shouldBlockNavChange() : boolean{

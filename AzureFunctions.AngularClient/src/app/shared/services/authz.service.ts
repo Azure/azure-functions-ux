@@ -1,3 +1,5 @@
+import { Lock } from './../models/arm/locks';
+import { ArmObj } from './../models/arm/arm-obj';
 import {Injectable, EventEmitter} from '@angular/core';
 import {ArmService} from './arm.service';
 import {CacheService} from './cache.service';
@@ -6,7 +8,7 @@ import {Http, Headers, Response} from '@angular/http';
 import {Permissions, PermissionsAsRegExp} from '../models/arm/permission';
 
 @Injectable()
-export class RBACService {
+export class AuthzService {
     public static readScope = "./read";
     public static writeScope = "./write";
     public static deleteScope = "./delete";
@@ -17,14 +19,28 @@ export class RBACService {
     constructor(private _cacheService : CacheService, private _armService : ArmService){
     }
 
-    hasPermission(resourceId : string, requestedActions : string[]){
-        let authId = `${resourceId}/providers/microsoft.authorization/permissions?api-version=2015-07-01`;
-        // let authUrl = `${this._armService.armUrl}${authId}`;
-        return this._cacheService.getArm(authId, false, "2015-07-01")
+    hasPermission(resourceId : string, requestedActions : string[]) : Observable<boolean>{
+        let authId = `${resourceId}/providers/microsoft.authorization/permissions`;
+        return this._cacheService.getArm(authId, false, this._armService.armPermissionsVersion)
         .map(r =>{
             let permissionsSet = r.json().value;
             return this._checkPermissions(resourceId, requestedActions, permissionsSet);
         })
+    }
+
+    hasReadOnlyLock(resourceId : string) : Observable<boolean>{
+        return this._getLocks(resourceId)
+        .map(locks =>{
+            return !!locks.find(l => l.properties.level === "ReadOnly");
+        })
+    }
+
+    private _getLocks(resourceId : string){
+        let lockId = `${resourceId}/providers/Microsoft.Authorization/locks`;
+        return this._cacheService.getArm(lockId, false, this._armService.armLocksApiVersion)
+        .map(r =>{
+            return <ArmObj<Lock>[]>r.json().value;
+        });        
     }
 
     private _getResourceType(resourceId : string){

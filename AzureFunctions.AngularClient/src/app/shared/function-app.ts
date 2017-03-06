@@ -1,3 +1,4 @@
+import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
@@ -127,7 +128,8 @@ export class FunctionApp {
         private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _cacheService: CacheService,
-        private _languageService : LanguageService) {
+        private _languageService : LanguageService,
+        private _authZService : AuthzService) {
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
@@ -145,10 +147,24 @@ export class FunctionApp {
             this._userService.getStartupInfo()
             .flatMap(info =>{
                 this.token = info.token;
-                return this.getExtensionVersion();
+                return Observable.zip(
+                    this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(this.site.id),
+                    (p, l) => ({ hasWritePermissions : p, hasReadOnlyLock : l})
+            )})
+            .flatMap(r =>{
+               if(r.hasWritePermissions && !r.hasReadOnlyLock){
+                    return this.getExtensionVersion();
+               }
+
+               return Observable.of(null);
             })
             .flatMap(extensionVersion => {
-                return this._languageService.getResources(extensionVersion);
+                if(extensionVersion){
+                    return this._languageService.getResources(extensionVersion);
+                }
+
+                return Observable.of(null);
             })
             .subscribe(r =>{
             })

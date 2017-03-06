@@ -1,3 +1,4 @@
+import { SiteConfig } from './../../shared/models/arm/site-config';
 import { AiService } from './../../shared/services/ai.service';
 import { AppsNode } from './../../tree-view/apps-node';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -10,13 +11,20 @@ import { GlobalStateService } from './../../shared/services/global-state.service
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
-import {RBACService} from '../../shared/services/rbac.service';
+import {AuthzService} from '../../shared/services/authz.service';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PublishingCredentials} from '../../shared/models/publishing-credentials';
-import {SiteConfig} from '../../shared/models/arm/site-config';
 import {SiteEnabledFeaturesComponent} from '../site-enabled-features/site-enabled-features.component';
 import {SiteNotificationsComponent} from '../site-notifications/site-notifications.component';
 import {Site} from '../../shared/models/arm/site';
+
+interface DataModel
+{
+    publishCreds : PublishingCredentials,
+    config : ArmObj<SiteConfig>,
+    hasWritePermission : boolean,
+    hasReadOnlyLock : boolean
+}
 
 @Component({
     selector: 'site-summary',
@@ -47,7 +55,7 @@ export class SiteSummaryComponent {
 
     constructor(
         private _cacheService : CacheService,
-        rbacService : RBACService,
+        authZService : AuthzService,
         private _armService : ArmService,
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
@@ -82,31 +90,30 @@ export class SiteSummaryComponent {
 
                 let configId = `${site.id}/config/web`;
 
-                return Observable.zip(
-                    rbacService.hasPermission(site.id, [RBACService.writeScope]),
+                return Observable.zip<DataModel>(
+                    authZService.hasPermission(site.id, [AuthzService.writeScope]),
+                    authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
-                    (hasPermission, configResponse) =>({ hasPermission : hasPermission, config : configResponse.json() }))
+                    (p, l, c) => ({ hasWritePermission : p, hasReadOnlyLock :l, config : c.json()}))
             })
             .flatMap(res =>{
-                if(res.hasPermission){
+                this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
+
+                if(this.hasWriteAccess){
                     return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
                     .map(r =>{
-                        return {
-                            publishCreds : r.json(),
-                            config : res.config,
-                            hasPermission : res.hasPermission
-                        }
+                        res.publishCreds = r.json()
+                        return res;
                     })
                }
 
                 return Observable.of(res);
             })
-            .subscribe((res : {publishCreds : PublishingCredentials, config : ArmObj<SiteConfig>, hasPermission : boolean}) =>{
+            .subscribe(res =>{
                 this._globalStateService.clearBusyState();
-                this.hasWriteAccess = res.hasPermission;
                 this.scmType = res.config.properties.scmType;
 
-                if(res.hasPermission){
+                if(this.hasWriteAccess){
                     this.publishingUserName = res.publishCreds.properties.publishingUserName;
                 }
                 else{

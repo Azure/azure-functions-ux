@@ -1,4 +1,4 @@
-import { RBACService } from './../shared/services/rbac.service';
+import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
@@ -45,6 +45,7 @@ export class SideNavComponent{
     public searchTerm = "";
 
     public selectedNode : TreeNode;
+    public selectedDashboardType : DashboardType;
     public firstLevelOrDescendentIsSelected : boolean;
 
     private _savedSubsKey = "/subscriptions/selectedIds";
@@ -66,7 +67,7 @@ export class SideNavComponent{
         public localStorageService : LocalStorageService,
         public portalService : PortalService,
         public languageService : LanguageService,
-        public rbacService : RBACService){
+        public authZService : AuthzService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
@@ -124,6 +125,7 @@ export class SideNavComponent{
         this._updateSelectedTree(this.selectedNode, newSelectedNode);
 
         this.selectedNode = newSelectedNode;
+        this.selectedDashboardType = dashboardType;
         this.resourceId = newSelectedNode.resourceId;
 
         let viewInfo = <TreeViewInfo>{

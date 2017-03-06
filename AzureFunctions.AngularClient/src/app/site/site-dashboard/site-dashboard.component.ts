@@ -36,7 +36,6 @@ export class SiteDashboardComponent {
      ) {
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
-            .distinctUntilChanged()
             .switchMap(viewInfo =>{
                 this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();

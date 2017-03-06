@@ -15,7 +15,7 @@ import {BroadcastService} from './shared/services/broadcast.service';
 import {FunctionMonitorService} from './shared/services/function-monitor.service'
 import {ArmService} from './shared/services/arm.service';
 import {CacheService} from './shared/services/cache.service';
-import {RBACService} from './shared/services/rbac.service';
+import {AuthzService} from './shared/services/authz.service';
 import {LocalStorageService} from './shared/services/local-storage.service';
 import {TelemetryService} from './shared/services/telemetry.service';
 import {UtilitiesService} from './shared/services/utilities.service';
@@ -193,7 +193,7 @@ import { ProxyNodeComponent } from './proxy-node/proxy-node.component';
       FunctionMonitorService,
       ArmService,
       CacheService,
-      RBACService,
+      AuthzService,
       LocalStorageService,
       TelemetryService,
       UtilitiesService,

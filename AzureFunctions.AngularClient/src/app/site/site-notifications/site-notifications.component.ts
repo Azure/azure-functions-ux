@@ -1,7 +1,7 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
-import {RBACService} from '../../shared/services/rbac.service';
+import {AuthzService} from '../../shared/services/authz.service';
 import {LocalStorageService as StorageService} from '../../shared/services/local-storage.service';
 import {Site} from '../../shared/models/arm/site';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
@@ -44,7 +44,7 @@ export class SiteNotificationsComponent {
     private _site: ArmObj<Site>;
     private _siteSubject = new Subject<ArmObj<Site>>();
 
-    constructor(private _cacheService: CacheService, private _rbacService: RBACService) {
+    constructor(private _cacheService: CacheService, private _authZService: AuthzService) {
         this._siteSubject = new Subject<ArmObj<Site>>();
         this._siteSubject
             .distinctUntilChanged()
@@ -81,7 +81,7 @@ export class SiteNotificationsComponent {
 
                 this._resourceGroupId = site.id.replace(/\/providers\/Microsoft\.Web\/sites.*/gi, "");
                 this.hasResourceGroupPermission = false;
-                let rbacCall = this._rbacService.hasPermission(this._resourceGroupId, [RBACService.readScope]);
+                let rbacCall = this._authZService.hasPermission(this._resourceGroupId, [AuthzService.readScope]);
 
                 return Observable.zip(availabilityCall, recommendationsCall, rbacCall)
                  .catch(err =>{
