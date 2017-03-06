@@ -40,7 +40,6 @@ export class ErrorListComponent {
                     this._functionsService.diagnose();
                 }
             } else {
-                errorItem = this.getGenericError();
                 if (error) {
                     this._aiService.trackEvent('/errors/portal', {
                         error: error.details,
@@ -63,16 +62,6 @@ export class ErrorListComponent {
                 cutOffTime.setMinutes(cutOffTime.getMinutes() - 10);
                 this.errorList = this.errorList.filter(e => e.date > cutOffTime);
             });
-    }
-
-    private getGenericError(): ErrorItem {
-        return {
-            message: this._translateService.instant(PortalResources.errorList_youMay),
-            href: 'http://go.microsoft.com/fwlink/?LinkId=780719',
-            hrefText: this._translateService.instant(PortalResources.errorList_here),
-            dateTime: new Date().toISOString(),
-            date: new Date()
-        };
     }
 
     dismissError(index: number) {
