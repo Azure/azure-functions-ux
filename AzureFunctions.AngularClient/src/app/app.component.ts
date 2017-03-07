@@ -16,7 +16,7 @@ import {GlobalStateService} from './shared/services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 import {PortalResources} from './shared/models/portal-resources';
-import {ConfigService} from './shared/services/config.service'; 
+import {ConfigService} from './shared/services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     constructor(
-        private _configService: ConfigService, 
+        private _configService: ConfigService,
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -113,6 +113,16 @@ export class AppComponent implements OnInit, AfterViewInit {
             if (functionContainer.properties &&
                 functionContainer.properties.hostNameSslStates &&
                 (authSettings || this._globalStateService.showTryView)) {
+                // Make sure at least 5 seconds have elapsed since last time the app has been modified.
+                // This delay is to avoid a race condition with negative DNS caching for app host name.
+                // See https://github.com/projectkudu/AzureFunctionsPortal/issues/951
+                let deltaSinceLastModified = this.getDeltaSinceLastModifiedInSeconds(functionContainer);
+                if (deltaSinceLastModified > 0) {
+                    setTimeout(() => {
+                        this.initializeDashboard(functionContainer, appSettingsAccess, authSettings);
+                    }, deltaSinceLastModified * 1000);
+                    return;
+                }
                 this.functionContainer = functionContainer;
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
@@ -156,6 +166,36 @@ export class AppComponent implements OnInit, AfterViewInit {
                     this._armService.getAuthSettings(functionContainer),
                     (fc, access, auth) => ({ functionContainer: fc, access: access, auth: auth }))
                     .subscribe(result => this.initializeDashboard(result.functionContainer, result.access, result.auth)));
+        }
+    }
+
+    /**
+     * Make sure at least 5 seconds have elapsed since last time the app has been modified.
+     * This delay is to avoid a race condition with negative DNS caching for app host name.
+     * See https://github.com/projectkudu/AzureFunctionsPortal/issues/95
+     * Max = 5 Seconds, Min = 0 Seconds
+     * @param functionContainer an ARM object for the function app.
+     */
+    private getDeltaSinceLastModifiedInSeconds(functionContainer: FunctionContainer): number {
+        if (functionContainer.properties.lastModifiedTimeUtc) {
+            let lastModifiedTime = new Date(functionContainer.properties.lastModifiedTimeUtc);
+            let timeDiff = (new Date().getTime() - lastModifiedTime.getTime()) / 1000;
+            let deltaTime = 5 - timeDiff;
+            this._aiService.trackEvent('/portal/LoadingPortal', {
+                lastModifiedTime: lastModifiedTime.toISOString(),
+                timeDiff: timeDiff.toString(),
+                delta: deltaTime.toString(),
+                appName: functionContainer.id
+            });
+            if (deltaTime < 0) {
+                return 0;
+            } else if (deltaTime > 5) {
+                return 5;
+            } else {
+                return deltaTime;
+            }
+        } else {
+            return 0;
         }
     }
 
