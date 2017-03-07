@@ -50,6 +50,7 @@ export class FunctionsService {
 
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
+        0: 'Unknown HTTP Error',
         100: 'Continue',
         101: 'Switching Protocols',
         102: 'Processing',
@@ -1134,11 +1135,17 @@ export class FunctionsService {
                             name: functionInfo.name
                         })
                     });
+                } else if (e.status === 0 && e.type === ResponseType.Error) {
+                    return Observable.of({
+                        status: 0,
+                        statusText: this.statusCodeToText(0),
+                        text: () => ''
+                    });
                 } else {
                     return Observable.of({
                         status: e.status,
                         statusText: this.statusCodeToText(e.status),
-                        text: () => e.text()
+                        text: () => ''
                     });
                 }
             })
