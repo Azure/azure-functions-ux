@@ -93,12 +93,8 @@ export class GettingStartedComponent implements OnInit {
         this._telemetryService.track('gettingstarted-create-functionapp');
         this._armService.createFunctionContainer(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
-                // This delay is to avoid a race condition with negative DNS caching for app host name.
-                // See https://github.com/projectkudu/AzureFunctionsPortal/issues/951
-                setTimeout(() => {
-                    this.userReady.emit(r);
-                    this._globalStateService.clearBusyState();
-                }, 3000);
+                this.userReady.emit(r);
+                this._globalStateService.clearBusyState();
             });
     }
 
