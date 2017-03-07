@@ -117,8 +117,10 @@ export class FunctionDescriptor extends Descriptor{
             throw "Not enough segments in function id";
         }
 
-        if(this.parts[6].toLowerCase() !== "sites" || this.parts[8].toLowerCase() !== "functions"){
-            throw "Not a function id";
+        if ((this.parts[6].toLowerCase() !== "sites" || this.parts[8].toLowerCase() !== "functions")
+            && (this.parts[6].toLowerCase() !== "sites" || this.parts[8].toLowerCase() !== "proxies"))
+        {
+            throw "Not a function/proxy id";
         }
 
         this.functionName = this.parts[9];

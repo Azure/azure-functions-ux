@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 import {FunctionInfo} from './models/function-info';
 import {VfsObject} from './models/vfs-object';
 import {ScmInfo} from './models/scm-info';
+import {ApiProxy} from './models/api-proxy';
 import {PassthroughInfo} from './models/passthrough-info';
 import {CreateFunctionInfo} from './models/create-function-info';
 import {FunctionTemplate} from './models/function-template';
@@ -228,6 +229,30 @@ export class FunctionApp {
                     return [];
                 }
             });
+    }
+
+    getApiProxies() {
+        return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
+            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                if (err.status === 404 || errorCount >= 10) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(200))
+            .catch(_ => Observable.of({
+                json: () => { return {}; }
+            }))
+            .map<any>(r => {
+                return ApiProxy.fromJson(r.json());
+            });
+    }
+
+    saveApiProxy(jsonString: string) {
+        let headers = this.getScmSiteHeaders();
+        // https://github.com/projectkudu/kudu/wiki/REST-API
+        headers.append('If-Match', '*');
+
+        return this._http.put(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
     }
 
     @Cache('href')

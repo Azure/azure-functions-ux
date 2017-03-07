@@ -9,26 +9,55 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
 import {FunctionInfo} from '../shared/models/function-info';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {ProxiesNode} from '../tree-view/proxies-node';
+import {FunctionApp} from '../shared/function-app';
 
 @Component({
   selector: 'api-new',
   templateUrl: './api-new.component.html',
   //styleUrls: ['./api-new.component.scss']
-  styleUrls: ['./api-new.component.css', '../binding-input/binding-input.component.css']
+  styleUrls: ['./api-new.component.scss', '../binding-input/binding-input.component.css'],
+  inputs: ['viewInfoInput']
 })
 export class ApiNewComponent implements OnInit {
-
-    @Input() apiProxies: ApiProxy[];
-    @Input() functionsInfo: FunctionInfo[];
+    
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     isEnabled: boolean;
 
+    public functionApp: FunctionApp;
+    public apiProxies: ApiProxy[];
+    public functionsInfo: FunctionInfo[];
+    private selectedNode: ProxiesNode;
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._globalStateService.setBusyState();
+        this.selectedNode = <ProxiesNode>viewInfoInput.node;
+        this.functionApp = this.selectedNode.functionApp;
+        var fetchDone = false;
+        this.functionApp.getFunctions()
+            .subscribe(fcs => {
+                if (fetchDone) {
+                    this._globalStateService.clearBusyState();
+                }
+                fetchDone = true;
+                this.functionsInfo = fcs;
+            });
+        this.functionApp.getApiProxies()
+            .subscribe(proxies => {
+                if (fetchDone) {
+                    this._globalStateService.clearBusyState();
+                }
+                fetchDone = true;
+                this.apiProxies = proxies;
+            });
+    }
+
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
 
         this.complexForm = fb.group({
@@ -120,12 +149,13 @@ export class ApiNewComponent implements OnInit {
                 matchCondition: {
                     route: this.complexForm.controls["routeTemplate"].value,
                     methods: []
-                }
+                },
+                functionApp: null,
             };
 
-            this._functionsService.getApiProxies().subscribe(proxies => {
+            this.functionApp.getApiProxies().subscribe(proxies => {
 
-                this.apiProxies = ApiProxy.fromJson(proxies);
+                this.apiProxies = proxies;
                 var existingProxy = this.apiProxies.find((p) => {
                     return p.name === newApiProxy.name;
                 });
@@ -148,9 +178,10 @@ export class ApiNewComponent implements OnInit {
 
                 this.apiProxies.push(newApiProxy);
 
-                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
+                this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
+                    this.selectedNode.addChild(newApiProxy);
+                    //this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
                 });
             });
 

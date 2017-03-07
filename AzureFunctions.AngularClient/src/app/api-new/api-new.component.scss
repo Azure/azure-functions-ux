@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 form {
     padding:30px;
 }
@@ -12,4 +14,9 @@ form > div {
 
 .edit {
     width: 740px;
+}
+
+.newproxy-container{
+    padding: 20px;
+    background-color: $body-bg-color;
 }

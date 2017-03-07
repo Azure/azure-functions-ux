@@ -14,6 +14,7 @@ import {SideNavComponent} from '../side-nav/side-nav.component';
 import {Site} from '../shared/models/arm/site';
 import {SlotsNode} from './slots-node';
 import {FunctionsNode} from './functions-node';
+import {ProxiesNode} from './proxies-node';
 import {FunctionApp} from '../shared/function-app';
 import { Observable, Subscription as RxSubscription, ReplaySubject } from 'rxjs/Rx';
 import {Constants} from '../shared/models/constants';
@@ -117,7 +118,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.authZService
                 );
 
-                this.children = [new FunctionsNode(this.sideNav, this.functionApp, this)];
+                this.children = [
+                    new FunctionsNode(this.sideNav, this.functionApp, this),
+                    new ProxiesNode(this.sideNav, this.functionApp, this)
+                ];
 
                 if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
                     return this.setupBackgroundTasks()
@@ -205,6 +209,11 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this._dispose();
     }
 
+    public openSettings() {
+        this.openFunctionTab = true;
+        this.select();
+    }
+
     private _dispose(){
         if(this._pollingTask && !this._pollingTask.closed){
             this._pollingTask.unsubscribe();
@@ -279,8 +288,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                         iconClass: 'fa fa-info link',
                         learnMoreLink : 'https://go.microsoft.com/fwlink/?linkid=829530',
                         clickCallback : () =>{
-                            this.openFunctionTab = true;
-                            this.select();
+                            this.openSettings();
                         }
                     })
                 }

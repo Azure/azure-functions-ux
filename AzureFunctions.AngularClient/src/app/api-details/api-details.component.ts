@@ -9,27 +9,48 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {FunctionContainer} from '../shared/models/function-container';
 import {ApiNewComponent} from '../api-new/api-new.component';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {ProxiesNode} from '../tree-view/proxies-node';
+import {AppNode} from '../tree-view/app-node';
+import {ProxyNode} from '../tree-view/proxy-node';
+import {FunctionApp} from '../shared/function-app';
 
 @Component({
     selector: 'api-details',
     templateUrl: './api-details.component.html',
-    styleUrls: [/*'./api-details.component.css',*/ '../api-new/api-new.component.css', '../binding-input/binding-input.component.css'],
-    inputs: ['apiProxyEdit', 'functionContainer']
+    styleUrls: ['../api-new/api-new.component.scss', '../binding-input/binding-input.component.css'],
+    inputs: ['viewInfoInput']
 })
-export class ApiDetailsComponent implements OnInit {
-    @Input() apiProxies: ApiProxy[];    
+export class ApiDetailsComponent implements OnInit {    
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     proxyUrl: string;
-    isEnabled: boolean;
-    private _apiProxyEdit: ApiProxy;
-    private _functionContainer: FunctionContainer;
-    @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
+    isEnabled: boolean;    
+    
+
+    public functionApp: FunctionApp;
+    public apiProxies: ApiProxy[];
+    public apiProxyEdit: ApiProxy;
+    private selectedNode: ProxyNode;
+    private proxiesNode: ProxiesNode;
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._globalStateService.setBusyState();
+        this.selectedNode = <ProxyNode>viewInfoInput.node;
+        this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);
+        this.functionApp = this.proxiesNode.functionApp;
+        this.apiProxyEdit = this.selectedNode.proxy;
+        this.initEdit();
+        this.functionApp.getApiProxies()
+            .subscribe(proxies => {
+                this._globalStateService.clearBusyState();
+                this.apiProxies = proxies;
+            });
+    }
 
     constructor(private _fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService) {
         this.initComplexFrom();
     }
@@ -37,24 +58,24 @@ export class ApiDetailsComponent implements OnInit {
    
 
     onFunctionAppSettingsClicked(event: any) {
-        this.functionAppSettingsClicked.emit(event);
+        (<AppNode>this.proxiesNode.parent).openSettings();
+        
     }
 
-    set functionContainer(value: FunctionContainer) {
-        this._functionContainer = value;
-        this.setProxyUrl();
-    }
-
-    set apiProxyEdit(value: ApiProxy) {
-        this._apiProxyEdit = value;
+    private initEdit() {
 
         this.complexForm.patchValue({
-            backendUri: this._apiProxyEdit.backendUri,
-            routeTemplate: this._apiProxyEdit.matchCondition.route,
-            methodSelectionType: !this._apiProxyEdit.matchCondition.methods || this._apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
+            backendUri: this.apiProxyEdit.backendUri,
+            routeTemplate: this.apiProxyEdit.matchCondition.route,
+            methodSelectionType: !this.apiProxyEdit.matchCondition.methods || this.apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
         });
 
-        this.setProxyUrl();
+        var route = (this.apiProxyEdit.matchCondition.route) ? this.apiProxyEdit.matchCondition.route : '/api/' + this.apiProxyEdit.name;
+        if (!route.startsWith('/')) {
+            route = '/' + route;
+        }
+
+        this.proxyUrl = `https://${this.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 0).name}` + route;
 
         var methods = {}
         methods["method_GET"]  = false;
@@ -66,8 +87,8 @@ export class ApiDetailsComponent implements OnInit {
         methods["method_OPTIONS"] = false;
         methods["method_TRACE"] = false;
 
-        if (this._apiProxyEdit.matchCondition.methods) {
-            this._apiProxyEdit.matchCondition.methods.forEach((m) => {
+        if (this.apiProxyEdit.matchCondition.methods) {
+            this.apiProxyEdit.matchCondition.methods.forEach((m) => {
                 methods["method_" + m.toUpperCase()] = true;
             });
 
@@ -75,38 +96,35 @@ export class ApiDetailsComponent implements OnInit {
         }
     }
 
-    get apiProxyEdit(): ApiProxy {
-        return this._apiProxyEdit;
-    }
-
     ngOnInit() {
     }
 
     deleteProxyClicked() {
         this._globalStateService.setBusyState();
-        this._functionsService.getApiProxies().subscribe(proxies => {
+        this.functionApp.getApiProxies().subscribe(proxies => {
 
-            this.apiProxies = ApiProxy.fromJson(proxies);
+            this.apiProxies = proxies;
             var indexToDelete = this.apiProxies.findIndex((p) => {
-                return p.name === this._apiProxyEdit.name;
+                return p.name === this.apiProxyEdit.name;
             });
 
             this.apiProxies.splice(indexToDelete, 1);
 
-            this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
+            this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this._apiProxyEdit);
+                //this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this.apiProxyEdit);
+                this.proxiesNode.removeChild(this.apiProxyEdit);
             });
         });
     }
 
     onCancelClick() {
-        this.apiProxyEdit = this._apiProxyEdit;
+        this.apiProxyEdit = this.apiProxyEdit;
     }
-
+    
     onReset() {
         this.initComplexFrom();
-        this.apiProxyEdit = this.apiProxyEdit;
+        this.initEdit();
         this._broadcastService.clearDirtyState('api-proxy', true);
      }
 
@@ -115,14 +133,14 @@ export class ApiDetailsComponent implements OnInit {
         if (this.complexForm.valid) {
             this._globalStateService.setBusyState();
 
-            this._apiProxyEdit.backendUri = this.complexForm.controls["backendUri"].value;
-            this._apiProxyEdit.matchCondition.route = this.complexForm.controls["routeTemplate"].value;
-            this._apiProxyEdit.matchCondition.methods = [];
+            this.apiProxyEdit.backendUri = this.complexForm.controls["backendUri"].value;
+            this.apiProxyEdit.matchCondition.route = this.complexForm.controls["routeTemplate"].value;
+            this.apiProxyEdit.matchCondition.methods = [];
 
-            this._functionsService.getApiProxies().subscribe(proxies => {
-                this.apiProxies = ApiProxy.fromJson(proxies);
+            this.functionApp.getApiProxies().subscribe(proxies => {
+                this.apiProxies = proxies;
                 var index = this.apiProxies.findIndex((p) => {
-                    return p.name === this._apiProxyEdit.name;
+                    return p.name === this.apiProxyEdit.name;
                 });
 
                 if (index > -1) {
@@ -130,32 +148,20 @@ export class ApiDetailsComponent implements OnInit {
                         for (var control in this.complexForm.controls) {
                             if (control.startsWith("method_")) {
                                 if (this.complexForm.controls[control].value) {
-                                    this._apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
+                                    this.apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
                                 }
                             }
                         }
                     }
-                    this.apiProxies[index] = this._apiProxyEdit;
+                    this.apiProxies[index] = this.apiProxyEdit;
                 }
 
-                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
+                this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this._apiProxyEdit);
+                    this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this.apiProxyEdit);
                     this.onReset();
                 });
             });
-        }
-    }
-
-    private setProxyUrl() {
-        if (this._apiProxyEdit && this._functionContainer) {
-
-            var route = (this._apiProxyEdit.matchCondition.route) ? this._apiProxyEdit.matchCondition.route : '/api/' + this._apiProxyEdit.name;
-            if (!route.startsWith('/')) {
-                route = '/' + route;
-            }
-
-            this.proxyUrl = `https://${this._functionContainer.properties.hostNameSslStates.find(s => s.hostType === 0).name}` + route;
         }
     }
 

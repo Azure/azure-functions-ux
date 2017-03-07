@@ -1,11 +1,14 @@
 ﻿import {TranslateService } from 'ng2-translate/ng2-translate';
 import {PortalResources} from './portal-resources';
+import {FunctionApp} from '../function-app';
 
 export class ApiProxy
 {
     name: string;
     matchCondition: MatchCondition = new MatchCondition();
     backendUri: string;
+
+    functionApp: FunctionApp;
 
     public static fromJson(obj: any): ApiProxy[] {
         var result: ApiProxy[] = [];
@@ -24,7 +27,9 @@ export class ApiProxy
     }
 
     public static toJson(proxies: ApiProxy[], ts: TranslateService): string  {
-        var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies)); // clone
+
+
+        var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies, ['name', 'matchCondition', 'backendUri', 'methods', 'route'] )); // clone
         var saveProxies: ApiProxy[] = []; // for ordering properties in stringify
         var result = {};
 

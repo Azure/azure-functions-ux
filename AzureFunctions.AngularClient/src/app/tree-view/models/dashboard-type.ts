@@ -9,5 +9,7 @@ export enum DashboardType{
     // advanced,
     // advancedWrite,
     createFunction,
-    function
+    function,
+    createProxy,
+    proxy
 }

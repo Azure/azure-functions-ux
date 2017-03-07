@@ -177,7 +177,8 @@ export class DashboardComponent implements OnChanges {
                 matchCondition: {
                     methods: [],
                     route: ''
-                }
+                },
+                functionApp: null
             });
 
             var selectedApiName = this.selectedApiProxy ? this.selectedApiProxy.name : null;
