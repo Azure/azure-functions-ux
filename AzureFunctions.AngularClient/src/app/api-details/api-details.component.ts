@@ -14,6 +14,8 @@ import {ProxiesNode} from '../tree-view/proxies-node';
 import {AppNode} from '../tree-view/app-node';
 import {ProxyNode} from '../tree-view/proxy-node';
 import {FunctionApp} from '../shared/function-app';
+import {Constants} from '../shared/models/constants';
+import { ArmObj } from '../shared/models/arm/arm-obj';
 
 @Component({
     selector: 'api-details',
@@ -46,16 +48,23 @@ export class ApiDetailsComponent implements OnInit {
                 this._globalStateService.clearBusyState();
                 this.apiProxies = proxies;
             });
+
+        var cacherService = (<AppNode>this.proxiesNode.parent).sideNav.cacheService;
+        cacherService.postArm(`${this.functionApp.site.id}/config/appsettings/list`).subscribe((r => {
+            let appSettings: ArmObj<any> = r.json();
+            var routingVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            this.isEnabled = (routingVersion && (routingVersion !== Constants.disabled));
+        }));
+
     }
 
     constructor(private _fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService) {
-        this.initComplexFrom();
-    }
 
-   
+        this.initComplexFrom();
+    }   
 
     onFunctionAppSettingsClicked(event: any) {
         (<AppNode>this.proxiesNode.parent).openSettings();
