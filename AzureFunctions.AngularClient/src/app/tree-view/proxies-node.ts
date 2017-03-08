@@ -1,4 +1,4 @@
-import { RBACService } from './../shared/services/rbac.service';
+import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
@@ -29,7 +29,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
 
     public loadChildren(){
         if(this.functionApp.site.properties.state === "Running"){
-            return this.sideNav.rbacService.hasPermission(this.functionApp.site.id, [RBACService.writeScope])
+            return this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope])
             .switchMap(hasWritePermission =>{
                 if(hasWritePermission){
                     return this._updateTreeForStartedSite();
