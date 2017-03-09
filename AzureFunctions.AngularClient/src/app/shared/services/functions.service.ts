@@ -133,6 +133,10 @@ export class FunctionsService {
             });
         }
 
+        if (!_globalStateService.showTryView) {
+            this._userService.getStartupInfo().subscribe(info =>{ this.token = info.token});
+        }
+
         // if (!Constants.routingExtensionVersion) {
         //     this.getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
         //         Constants.routingExtensionVersion = routingVersion;
@@ -162,66 +166,12 @@ export class FunctionsService {
         }
     }
 
-//////////////
-    // getFunctionApp(resourceId : string | siteObj : ArmObj<Site>) : Observable<FunctionApp>{
-    //     let siteDescriptor = SiteDescriptor.getSiteDescriptor(resourceId);
-    //     return this._cacheService.getArmResource(siteDescriptor.resourceId)
-    //     .map((site : ArmObj<Site>) =>{
-    //         return new FunctionApp(
-    //             site,
-    //             this._http,
-    //             this._userService,
-    //             this._globalStateService,
-    //             this._translateService,
-    //             this._broadcastService,
-    //             this._armService,
-    //             this._cacheService
-    //         );
-    //     })
-    // }
-
-    // getFunctions2(fc : ArmObj<Site>) : Observable<FunctionInfo[]>{
-    //     let functionsScmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api/functions`;
-    //     return this._cacheService.get(functionsScmUrl, false, this.getScmSiteHeaders())
-    //         .retryWhen(this.retryAntares)
-    //         .catch(e => this.checkCorsOrDnsErrors(e))
-    //         .map<FunctionInfo[]>((r : any) => {
-    //             try {
-    //                 return r;
-    //             } catch (e) {
-    //                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
-    //                 return [];
-    //             }
-    //         });
-    // }
-///////////////
-
-    getParameterByName(url, name) {
-        if (url === null) {
-            url = window.location.href;
-        }
-
-        name = name.replace(/[\[\]]/g, '\\$&');
-        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-        let results = regex.exec(url);
-
-        if (!results) {
-            return null;
-        }
-
-        if (!results[2]) {
-            return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-
     setScmParams(fc: FunctionContainer) {
         this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
         this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
         this.siteName = fc.name;
         if (fc.tryScmCred != null) {
-            this._globalStateService.ScmCreds = fc.tryScmCred;
+            this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
             this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
@@ -322,8 +272,7 @@ export class FunctionsService {
             console.error(e);
         }
 
-        // Removed
-        let url = "removed";
+        let url = `${Constants.serviceHost}api/templates?runtime='latest'`;
         return this._http.get(url, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
@@ -927,8 +876,8 @@ export class FunctionsService {
         if (!this._globalStateService.showTryView && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-        if (this._globalStateService.ScmCreds) {
-            headers.append('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
+        if (this._globalStateService.TryAppServiceScmCreds) {
+            headers.append('Authorization', `Basic ${this._globalStateService.TryAppServiceScmCreds}`);
         }
         return headers;
     }

@@ -117,11 +117,11 @@ export class GlobalStateService {
         return this._token;
     }
 
-    get ScmCreds(): string {
+    get TryAppServiceScmCreds(): string {
         return this._scmCreds;
     }
 
-    set ScmCreds(scmCreds: string) {
+    set TryAppServiceScmCreds(scmCreds: string) {
         this._scmCreds = scmCreds;
     }
 

@@ -1,3 +1,11 @@
+import { Http } from '@angular/http';
+import { CacheService } from './../shared/services/cache.service';
+import { AuthzService } from './../shared/services/authz.service';
+import { LanguageService } from './../shared/services/language.service';
+import { ArmService } from './../shared/services/arm.service';
+import { FunctionApp } from './../shared/function-app';
+import { Site } from './../shared/models/arm/site';
+import { ArmObj } from './../shared/models/arm/arm-obj';
 import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
@@ -30,14 +38,21 @@ export class TryLandingComponent implements OnInit {
     loginOptions: boolean = false;
     selectedFunction: string;
     selectedLanguage: string;
-    constructor(private _functionsService: FunctionsService,
+
+    private _functionApp : FunctionApp;
+
+    constructor(
+        private _httpService : Http,
+        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService,
-        private _aiService: AiService
-
-    ) {
+        private _aiService: AiService,
+        private _armService : ArmService,
+        private _cacheService : CacheService,
+        private _languageService : LanguageService,
+        private _authZService : AuthzService) {
         this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
     }
 
@@ -153,13 +168,15 @@ export class TryLandingComponent implements OnInit {
         var scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
         var encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
         // TODO: find a better way to handle this
-        var tryfunctionContainer = <FunctionContainer>{
+        var tryfunctionContainer = <ArmObj<Site>>{
             id: resource.csmId,
             name: resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length),
             type: "Microsoft.Web/sites",
             kind: "functionapp",
             location: "West US",
             properties: {
+                state : "Running",
+                hostNames : null,
                 hostNameSslStates: [
                     {
                         name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".scm.azurewebsites.net"),
@@ -171,18 +188,30 @@ export class TryLandingComponent implements OnInit {
                     }],
                 sku: "Free",
                 containerSize: 128,
+                serverFarmId : null,
                 enabled: true,
-                state: "Running",
                 defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net")
             },
             tryScmCred: encryptedCreds
         };
-        this._functionsService.setScmParams(tryfunctionContainer);
+
+        this._functionApp = new FunctionApp(
+            tryfunctionContainer,
+            this._httpService,
+            this._userService,
+            this._globalStateService,
+            this._translateService,
+            this._broadcastService,
+            this._armService,
+            this._cacheService,
+            this._languageService,
+            this._authZService);
+
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
-        this._functionsService.getFunctionContainerAppSettings(tryfunctionContainer)
+        this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
             .subscribe(a => this._globalStateService.AppSettings = a);
-        this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
+        this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
                 this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "success", first: "true" });

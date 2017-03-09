@@ -1,4 +1,4 @@
-export class Site{
+export interface Site{
     state : string;
     hostNames: string[];
     hostNameSslStates: [{

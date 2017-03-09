@@ -33,6 +33,8 @@ import {ConfigService} from './shared/services/config.service';
 export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
+    public showTryView: boolean;
+    
     private _startupInfo : StartupInfo;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
         this.ready = false;
 
+        this.showTryView = window.location.pathname.endsWith('/try');
+
         if (_userService.inIFrame ||
             window.location.protocol === 'http:') {
             this.gettingStarted = false;
@@ -60,14 +64,28 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this._userService.getStartupInfo()
-            .flatMap(startupInfo =>{
-                this._startupInfo = startupInfo;
-                return this._languageService.getResources(null);
-            })
-            .subscribe(info => {
-                this.ready = true;
-            });
+        if(this._userService.inIFrame){
+            this._userService.getStartupInfo()
+                .flatMap(startupInfo =>{
+                    this._startupInfo = startupInfo;
+                    return this._languageService.getResources(null);
+                })
+                .subscribe(info => {
+                    this.ready = true;
+                });
+        }
+        else{
+
+            this._userService.getStartupInfo()
+                .merge(this._languageService.getResources(null))
+                .subscribe((startupInfo : any) => {
+                    if(startupInfo && startupInfo.token){
+                        this._startupInfo = <StartupInfo>startupInfo;
+                    }
+
+                    this.ready = true;
+                });
+        }
     }
 
     ngAfterViewInit() {
@@ -94,7 +112,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (!this._userService.inIFrame &&
             this._configService.isAzure() &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1) {
+            window.location.search.indexOf("ibiza=disabled") === -1 &&
+            !this._globalStateService.TryAppServiceScmCreds) {
 
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();

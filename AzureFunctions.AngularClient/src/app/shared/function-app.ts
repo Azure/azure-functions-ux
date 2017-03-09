@@ -176,7 +176,13 @@ export class FunctionApp {
             this.azureMainServer = this.mainSiteUrl;
             this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
             this.localServer = 'https://localhost:6061';
+
+            let fc = <FunctionContainer>site;
+            if (fc.tryScmCred != null) {
+                this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
+            }
         }
+        
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
             var templateId = Cookie.get('templateId');
@@ -207,15 +213,15 @@ export class FunctionApp {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    setScmParams(fc: FunctionContainer) {
-        this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-        this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
-        this.siteName = fc.name;
-        if (fc.tryScmCred != null) {
-            this._globalStateService.ScmCreds = fc.tryScmCred;
-            this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        }
-    }
+    // setScmParams(fc: FunctionContainer) {
+    //     this.scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+    //     this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
+    //     this.siteName = fc.name;
+    //     if (fc.tryScmCred != null) {
+    //         this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
+    //         this.azureScmServer = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+    //     }
+    // }
 
     getFunctions() {
         return this._cacheService.get(`${this.scmUrl}/functions`, false, this.getScmSiteHeaders())
@@ -1005,8 +1011,8 @@ export class FunctionApp {
         if (!this._globalStateService.showTryView && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-        if (this._globalStateService.ScmCreds) {
-            headers.append('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
+        if (this._globalStateService.TryAppServiceScmCreds) {
+            headers.append('Authorization', `Basic ${this._globalStateService.TryAppServiceScmCreds}`);
         }
         return headers;
     }
