@@ -60,7 +60,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             return;
         }
 
-
+        // Expanding without toggling before updating the view is useful for nodes
+        // that do async work.  This way, the arrow is expanded while the node is loading.
         if(!this.isExpanded){
             this.isExpanded = true;
         }
@@ -69,6 +70,12 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
             this.sideNav.updateView(this, this.dashboardType)
             .subscribe(() =>{
+
+                // If updating the view didn't also populate children,
+                // then we'll load them manally here.
+                if(this.isExpanded && this.children.length === 0){
+                    this._loadAndExpandChildrenIfSingle();
+                }
             });
         }
     }
@@ -103,13 +110,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.isLoading = true;
             this.isExpanded = true;
 
-            this.loadChildren()
-            .subscribe(() =>{
-                this.isLoading = false;
-                if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
-                    this.children[0].toggle(null);
-                }
-            });
+            this._loadAndExpandChildrenIfSingle();
         }
         else{
             this.isExpanded = false;
@@ -118,6 +119,16 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         if(event){
             event.stopPropagation();
         }
+    }
+
+    private _loadAndExpandChildrenIfSingle(){
+        this.loadChildren()
+        .subscribe(() =>{
+            this.isLoading = false;
+            if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
+                this.children[0].toggle(null);
+            }
+        });
     }
 
     public openCreateNew(event){

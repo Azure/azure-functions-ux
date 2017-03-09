@@ -120,9 +120,7 @@ export class SideNavComponent{
 
                 this.selectedNode.dispose(newSelectedNode);
             }
-        }            
-
-        this._updateSelectedTree(this.selectedNode, newSelectedNode);
+        }
 
         this.selectedNode = newSelectedNode;
         this.selectedDashboardType = dashboardType;
@@ -138,26 +136,6 @@ export class SideNavComponent{
         this._updateTitle(newSelectedNode);
 
         return newSelectedNode.handleSelection();
-    }
-
-    private _updateSelectedTree(oldNode : TreeNode, newNode : TreeNode){
-        let curNode : TreeNode;
-        
-        if(oldNode){
-            curNode = oldNode;
-
-            do{
-                curNode.inSelectedTree = false;
-                curNode = curNode.parent;
-            }while(curNode !== null);
-        }
-
-        curNode = newNode;
-
-        do{
-            curNode.inSelectedTree = true;
-            curNode = curNode.parent;
-        }while(curNode !== null);
     }
 
     private _updateTitle(node : TreeNode){

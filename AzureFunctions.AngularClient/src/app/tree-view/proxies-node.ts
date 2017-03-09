@@ -24,7 +24,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
         sideNav : SideNavComponent,
         public functionApp : FunctionApp,
         parentNode : TreeNode){
-        super(sideNav, functionApp.site.id + "/functions", parentNode);
+        super(sideNav, functionApp.site.id + "/proxies", parentNode);
     }
 
     public loadChildren(){

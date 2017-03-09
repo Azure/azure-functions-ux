@@ -41,6 +41,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
     private _hiddenChildren : TreeNode[];
     private _pollingTask : RxSubscription;
+    private _loadingObservable : Observable<any>;
 
     constructor(sideBar : SideNavComponent,
                 private _siteArmCacheObj : ArmObj<Site>,
@@ -67,16 +68,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.subscription = sub && sub.displayName;
     }
 
-    private _loadingObservable : Observable<any>;
-
     public handleSelection() : Observable<any>{
-        return this.loadChildren();
-    }
-
-    public loadChildren(){
         if(!this.disabled){
             if(!this._loadingObservable){
-                this._loadingObservable = this.initialize();
+                this._loadingObservable = this.initialize(false);
             }
 
             return this._loadingObservable;
@@ -85,7 +80,23 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         return Observable.of({});
     }
 
-    public initialize() : Observable<any>{
+    public loadChildren(){
+        if(!this.disabled){
+            if(!this._loadingObservable){
+                this._loadingObservable = this.initialize(true);
+            }
+
+            return this._loadingObservable;
+        }
+
+        return Observable.of({});
+    }
+
+    public initialize(expandOnly? : boolean) : Observable<any>{
+
+        if(!expandOnly){
+            this.inSelectedTree = true;
+        }
 
         this.supportsRefresh = false;
         this.isLoading = true;
@@ -141,12 +152,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         })
         .map(r =>{
-            if(this.sideNav.selectedNode === this && this.children && this.children.length > 0){
-                this.children.forEach(child =>{
-                    child.inSelectedTree = true;
-                })
-            }
-
+            this.children.forEach(c => c.inSelectedTree = true);
             this._loadingObservable = null;
             return r;
         })
@@ -187,11 +193,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public dispose(newSelectedNode? : TreeNode){
-        if(this.children && this.children.length > 0){
-            this.children.forEach(child =>{
-                child.inSelectedTree = false;
-            })
-        }
+        this.inSelectedTree = false;
+        this.children.forEach(c => c.inSelectedTree = false);
 
         // Ensures that we're only disposing if you're selecting a node that's not a child of the
         // the current app node.
@@ -207,7 +210,14 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
         }
 
-        this._dispose();
+        if(this._loadingObservable){
+            this._loadingObservable.subscribe(() =>{
+                this._dispose();
+            })
+        }
+        else{
+            this._dispose();
+        }
     }
 
     public openSettings() {
