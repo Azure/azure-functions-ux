@@ -28,7 +28,7 @@ import {AiService} from '../shared/services/ai.service';
 @Component({
   selector: 'try-landing',
   templateUrl: './try-landing.component.html',
-  styleUrls: ['./try-landing.component.css']
+  styleUrls: ['./try-landing.component.scss']
 })
 export class TryLandingComponent implements OnInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;

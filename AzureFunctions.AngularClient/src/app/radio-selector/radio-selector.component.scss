@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .switch {
     position: relative;
     float: left;
@@ -55,5 +57,5 @@
     left: 2px;
     width: 98px;
     height: 21px;
-    background: #428bca;
+    background: $link-color;
 }

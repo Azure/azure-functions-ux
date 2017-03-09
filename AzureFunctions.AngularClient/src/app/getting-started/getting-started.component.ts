@@ -23,7 +23,7 @@ import {AiService} from '../shared/services/ai.service';
 @Component({
   selector: 'getting-started',
   templateUrl: './getting-started.component.html',
-  styleUrls: ['./getting-started.component.css']
+  styleUrls: ['./getting-started.component.scss']
 })
 
 export class GettingStartedComponent implements OnInit {

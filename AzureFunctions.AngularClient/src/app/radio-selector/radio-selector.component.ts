@@ -3,7 +3,7 @@ import {SelectOption} from '../shared/models/select-option';
 @Component({
   selector: 'radio-selector',
   templateUrl: './radio-selector.component.html',
-  styleUrls: ['./radio-selector.component.css'],
+  styleUrls: ['./radio-selector.component.scss'],
   inputs: ['options', 'defaultValue'],
   outputs: ['value']
 })

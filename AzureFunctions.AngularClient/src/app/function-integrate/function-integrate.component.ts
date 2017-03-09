@@ -13,7 +13,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 @Component({
     selector: 'function-integrate',
     templateUrl: './function-integrate.component.html',
-    styleUrls: ['./function-integrate.component.css'],
+    styleUrls: ['./function-integrate.component.scss'],
     inputs: ['selectedFunction']
 })
 export class FunctionIntegrateComponent implements OnDestroy {

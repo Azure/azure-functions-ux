@@ -15,7 +15,7 @@ import {Subject} from 'rxjs/Rx';
     selector: 'template-picker',
     templateUrl: './template-picker.component.html',
     inputs: ['functionAppInput', 'type', 'template'],
-    styleUrls: ['./template-picker.component.css']
+    styleUrls: ['./template-picker.component.scss']
 })
 
 export class TemplatePickerComponent {

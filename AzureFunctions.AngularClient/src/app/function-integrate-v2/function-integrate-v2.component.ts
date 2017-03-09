@@ -15,7 +15,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 @Component({
     selector: 'function-integrate-v2',
     templateUrl: './function-integrate-v2.component.html',
-    styleUrls: ['./function-integrate-v2.component.css'],
+    styleUrls: ['./function-integrate-v2.component.scss'],
     inputs: ['selectedFunction'],
 })
 export class FunctionIntegrateV2Component {

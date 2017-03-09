@@ -14,7 +14,7 @@ import {UtilitiesService} from '../shared/services/utilities.service';
 @Component({
     selector: 'function-keys',
     templateUrl: './function-keys.component.html',
-    styleUrls: ['./function-keys.component.css', '../table-function-monitor/table-function-monitor.component.css']
+    styleUrls: ['./function-keys.component.scss', '../table-function-monitor/table-function-monitor.component.css']
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;

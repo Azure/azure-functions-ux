@@ -4,7 +4,7 @@ import { PortalService } from '../shared/services/portal.service';
 
 @Component({
     selector: 'tabs',
-    styleUrls: ['./tabs.component.css'],
+    styleUrls: ['./tabs.component.scss'],
     templateUrl: './tabs.component.html'
 })
 export class TabsComponent implements AfterContentInit {

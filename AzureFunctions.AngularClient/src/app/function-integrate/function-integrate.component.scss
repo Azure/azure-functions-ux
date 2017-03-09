@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 h2.dev-block-header{
     display: inline;
 }
@@ -22,5 +24,5 @@ div.dev-block-header{
     top: 0;
     right: 0;
     padding: 7px;
-    color: #419BF3;
+    color: $link-color;
 }

@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .tabs{
     min-width: 950px;
     background-color: #E6E7E8;
@@ -33,7 +35,7 @@
 }
 
 li.tab-inactive{
-    color: #419BF3;
+    color: $link-color;
     border-bottom: 2px solid #E6E7E8;
 }
 

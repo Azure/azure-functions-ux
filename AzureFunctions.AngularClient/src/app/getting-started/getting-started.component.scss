@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 /*div {
     text-align: center;
 }*/
@@ -21,7 +23,7 @@ label {
 }
 
 .start-banner{
-    background-color: #1569B3;
+    background-color: $link-color;
     height: 150px;
     text-align: center;
 }

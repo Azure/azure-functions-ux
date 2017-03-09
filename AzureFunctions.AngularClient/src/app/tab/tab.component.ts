@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'tab',
-    styleUrls: ['../tabs/tabs.component.css'],
+    styleUrls: ['../tabs/tabs.component.scss'],
     templateUrl: './tab.component.html'
 })
 export class TabComponent {
