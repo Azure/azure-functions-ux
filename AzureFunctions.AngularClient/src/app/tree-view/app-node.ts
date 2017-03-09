@@ -70,11 +70,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _loadingObservable : Observable<any>;
 
     public handleSelection() : Observable<any>{
-        this.isLoading = true;
-        return this.loadChildren()
-        .map(() =>{
-            this.isLoading = false;
-        });
+        return this.loadChildren();
     }
 
     public loadChildren(){
@@ -92,6 +88,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public initialize() : Observable<any>{
 
         this.supportsRefresh = false;
+        this.isLoading = true;
 
         return Observable.zip(
             this.sideNav.authZService.hasPermission(this._siteArmCacheObj.id, [AuthzService.writeScope]),
@@ -101,6 +98,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         )
 
         .switchMap(r =>{
+
+            this.isLoading = false;
 
             let site : ArmObj<Site> = r.siteResponse.json();
             
@@ -118,10 +117,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.authZService
                 );
 
-                this.children = [
-                    new FunctionsNode(this.sideNav, this.functionApp, this),
-                    new ProxiesNode(this.sideNav, this.functionApp, this)
-                ];
+                let functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);
+                let proxiesNode = new ProxiesNode(this.sideNav, this.functionApp, this);
+                functionsNode.toggle(null);
+                proxiesNode.toggle(null);
+
+                this.children = [ functionsNode, proxiesNode ];
 
                 if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
                     return this.setupBackgroundTasks()

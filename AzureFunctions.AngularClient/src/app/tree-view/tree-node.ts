@@ -60,12 +60,15 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             return;
         }
 
+
+        if(!this.isExpanded){
+            this.isExpanded = true;
+        }
+
         if(this.sideNav.selectedNode !== this){
+
             this.sideNav.updateView(this, this.dashboardType)
             .subscribe(() =>{
-                if(!this.isExpanded){
-                    this.toggle(null);
-                }        
             });
         }
     }
