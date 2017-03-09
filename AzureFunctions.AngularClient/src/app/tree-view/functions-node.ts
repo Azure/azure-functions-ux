@@ -89,7 +89,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     }
 
     private _updateTreeForStartedSite(){
-        this.title = "Functions";
+        this.title = this.sideNav.translateService.instant(PortalResources.sidebar_Functions);
         this.newDashboardType = DashboardType.createFunction;
         this.showExpandIcon = true;
 

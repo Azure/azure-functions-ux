@@ -83,7 +83,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
     }
 
     private _updateTreeForStartedSite(){
-        this.title = "Proxies (preview)";
+        this.title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
         this.newDashboardType = DashboardType.createProxy;
         this.showExpandIcon = true;
 
