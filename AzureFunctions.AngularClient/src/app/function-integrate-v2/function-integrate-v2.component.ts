@@ -53,6 +53,8 @@ export class FunctionIntegrateV2Component {
             return;
         }
 
+        this._globalStateService.setBusyState();
+
         fi.functionApp.getBindingConfig().subscribe((bindings) => {
             fi.functionApp.getTemplates().subscribe((templates) => {
 
@@ -77,7 +79,9 @@ export class FunctionIntegrateV2Component {
                 }
 
                 this.model.setBindings();
-
+                this._globalStateService.clearBusyState();
+            }, () => {
+                this._globalStateService.clearBusyState();
             });
         });
     }
