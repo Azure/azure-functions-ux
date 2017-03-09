@@ -24,7 +24,6 @@ import {AiService} from './shared/services/ai.service';
 import { AppComponent } from './app.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import { BusyStateComponent } from './busy-state/busy-state.component';
-import { LocalDevelopmentInstructionsComponent } from './local-development-instructions/local-development-instructions.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-state.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -70,17 +69,17 @@ import { MonacoEditorDirective } from './shared/directives/monaco-editor.directi
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
 import { ApiDetailsComponent } from './api-details/api-details.component';
 import { ApiNewComponent } from './api-new/api-new.component';
+import { FunctionsHttpService } from './shared/services/functions-http.service';
 
 @NgModule({
   declarations: [
       AppComponent,
       nvD3,
       FileSelectDirective,
-      FileDropDirective,      
+      FileDropDirective,
 
       GettingStartedComponent,
       BusyStateComponent,
-      LocalDevelopmentInstructionsComponent,
       DashboardComponent,
       TryNowBusyStateComponent,
       TopBarComponent,
@@ -155,7 +154,8 @@ import { ApiNewComponent } from './api-new/api-new.component';
       UtilitiesService,
       BackgroundTasksService,
       GlobalStateService,
-      AiService
+      AiService,
+      FunctionsHttpService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,4 @@
 <busy-state name='global'></busy-state>
-<local-develop></local-develop>
 <error-list></error-list>
 <functions-dashboard *ngIf="!showTryLandingPage && !gettingStarted && ready" [functionContainer]="functionContainer"></functions-dashboard>
 <getting-started *ngIf="!showTryLandingPage && gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>

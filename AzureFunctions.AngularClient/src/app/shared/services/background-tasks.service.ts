@@ -5,11 +5,12 @@ import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {FunctionsService} from './functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
-import {ErrorEvent} from '../models/error-event';
+import { ErrorEvent, ErrorLevel } from '../models/error-event';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from './global-state.service';
 import {ArmService} from './arm.service';
-import {AiService} from './ai.service';
+import { AiService } from './ai.service';
+import { ErrorIds } from "../models/error-ids";
 
 @Injectable()
 export class BackgroundTasksService {
@@ -38,10 +39,12 @@ export class BackgroundTasksService {
         if (this._preIFrameTasks && this._preIFrameTasks.closed) {
             this._preIFrameTasks.unsubscribe();
         }
-        if (!this._globalStateService.showTryView)
+
+        if (!this._globalStateService.showTryView) {
             this._preIFrameTasks = Observable.timer(1, 60000)
                 .concatMap<string>(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map<string>(r => r.text()))
                 .subscribe(t => this._userService.setToken(t));
+        }
     }
 
     runTasks() {
@@ -59,7 +62,12 @@ export class BackgroundTasksService {
                 (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
             let handleResult = result => {
                 result.errors.forEach(e => {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: e,
+                        details: `Host Error: ${e}`,
+                        errorId: ErrorIds.generalHostErrorFromHost,
+                        errorLevel: ErrorLevel.RuntimeError
+                    });
                     this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                 });
                 this.setDisabled(result.config);
@@ -91,8 +99,12 @@ export class BackgroundTasksService {
                     )
                 )
                 .subscribe(result => {
-                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error,
-                        { message: e, details: `Host Error: ${e}` }));
+                    result.errors.forEach(e => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error,{
+                        message: e,
+                        details: `Host Error: ${e}`,
+                        errorId: ErrorIds.generalHostErrorFromHost,
+                        errorLevel: ErrorLevel.RuntimeError
+                    }));
 
                 });
         }

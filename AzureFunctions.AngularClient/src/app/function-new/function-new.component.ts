@@ -229,13 +229,7 @@ export class FunctionNewComponent {
                 this._globalStateService.clearBusyState();
             },
             e => {
-                this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
-                this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "failed", first: "false" });
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
-                    details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
-                });
             });
     }
 }

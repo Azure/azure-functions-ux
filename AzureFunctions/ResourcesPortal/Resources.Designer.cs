@@ -1105,11 +1105,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The function runtime is unable to start. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_functionRuntimeIsUnableToStart {
+            get {
+                return ResourceManager.GetString("error_functionRuntimeIsUnableToStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar..
         /// </summary>
         internal static string error_NoPermissionToAccessApp {
             get {
                 return ResourceManager.GetString("error_NoPermissionToAccessApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to retrive the list of functions for this function app..
+        /// </summary>
+        internal static string error_parsingFunctionListReturenedFromKudu {
+            get {
+                return ResourceManager.GetString("error_parsingFunctionListReturenedFromKudu", resourceCulture);
             }
         }
         
@@ -1132,20 +1150,173 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to create function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToCreateFunction {
+            get {
+                return ResourceManager.GetString("error_unableToCreateFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to create or update the key {{keyName}} for function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToCreateFunctionKey {
+            get {
+                return ResourceManager.GetString("error_unableToCreateFunctionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094.
+        /// </summary>
+        internal static string error_unableToDecryptKeys {
+            get {
+                return ResourceManager.GetString("error_unableToDecryptKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to delete the file {{fileName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToDeleteFileThroughKudu {
+            get {
+                return ResourceManager.GetString("error_unableToDeleteFileThroughKudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to delete function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToDeleteFunction {
+            get {
+                return ResourceManager.GetString("error_unableToDeleteFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to delete the key {{keyName}} for function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToDeleteFunctionKey {
+            get {
+                return ResourceManager.GetString("error_unableToDeleteFunctionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to get the content for {{fileName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToGetFileContentFromKudu {
+            get {
+                return ResourceManager.GetString("error_unableToGetFileContentFromKudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to renew the key {{keyName}} for function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToRenewFunctionKey {
+            get {
+                return ResourceManager.GetString("error_unableToRenewFunctionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to retrieve directory content for your function. Please try again later..
+        /// </summary>
+        internal static string error_unableToRetrieveDirectoryContent {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveDirectoryContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to get function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToRetrieveFunction {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve Function App ({{functionApp}}).
         /// </summary>
-        internal static string error_UnableToRetriveFunctionApp {
+        internal static string error_UnableToRetrieveFunctionApp {
             get {
-                return ResourceManager.GetString("error_UnableToRetriveFunctionApp", resourceCulture);
+                return ResourceManager.GetString("error_UnableToRetrieveFunctionApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to retrieve the keys for function {{functionName}}..
+        /// </summary>
+        internal static string error_unableToRetrieveFunctionKeys {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveFunctionKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error getting content for file {{fileName}}..
+        /// </summary>
+        internal static string error_unableToRetrieveFunctionListFromKudu {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveFunctionListFromKudu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to We are unable to reach your function app ({{statusText}}). Please try again later..
         /// </summary>
-        internal static string error_UnableToRetriveFunctions {
+        internal static string error_UnableToRetrieveFunctions {
             get {
-                return ResourceManager.GetString("error_UnableToRetriveFunctions", resourceCulture);
+                return ResourceManager.GetString("error_UnableToRetrieveFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to retrieve the runtime config. Please try again later..
+        /// </summary>
+        internal static string error_unableToRetrieveRuntimeConfig {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveRuntimeConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to retrieve the runtime master key. Please try again later..
+        /// </summary>
+        internal static string error_unableToRetrieveRuntimeKey {
+            get {
+                return ResourceManager.GetString("error_unableToRetrieveRuntimeKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to retrive secrets file for {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_UnableToRetrieveSecretsFileFromKudu {
+            get {
+                return ResourceManager.GetString("error_UnableToRetrieveSecretsFileFromKudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to save the content for {{fileName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToSaveFileContentThroughKudu {
+            get {
+                return ResourceManager.GetString("error_unableToSaveFileContentThroughKudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to update function {{functionName}}. Please try again later..
+        /// </summary>
+        internal static string error_unableToUpdateFunction {
+            get {
+                return ResourceManager.GetString("error_unableToUpdateFunction", resourceCulture);
             }
         }
         

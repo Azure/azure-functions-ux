@@ -24,6 +24,7 @@ export class BroadcastService {
     private apiProxyDeletedEvent: EventEmitter<ApiProxy>;
     private apiProxySelectedEvent: EventEmitter<ApiProxy>;
     private apiProxyUpdatedEvent: EventEmitter<ApiProxy>;
+    private clearErrorEvent: EventEmitter<string>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -44,6 +45,7 @@ export class BroadcastService {
         this.apiProxyDeletedEvent = new EventEmitter<ApiProxy>();
         this.apiProxySelectedEvent = new EventEmitter<ApiProxy>();
         this.apiProxyUpdatedEvent = new EventEmitter<ApiProxy>();
+        this.clearErrorEvent = new EventEmitter<string>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -149,6 +151,8 @@ export class BroadcastService {
             case BroadcastEvent.ApiProxyUpdated:
                 return this.apiProxyUpdatedEvent;
 
+            case BroadcastEvent.ClearError:
+                return this.clearErrorEvent;
         }
     }
 }

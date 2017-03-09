@@ -4,8 +4,8 @@ import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {PortalService} from './shared/services/portal.service';
 import {FunctionsService} from './shared/services/functions.service';
 import {BroadcastService} from './shared/services/broadcast.service';
-import {BroadcastEvent} from './shared/models/broadcast-event'
-import {BusyStateComponent} from './busy-state/busy-state.component';  //Com
+import {BroadcastEvent} from './shared/models/broadcast-event';
+import {BusyStateComponent} from './busy-state/busy-state.component';
 import {ArmService} from './shared/services/arm.service';
 import {FunctionContainer} from './shared/models/function-container';
 import {UserService} from './shared/services/user.service';
@@ -14,7 +14,6 @@ import {MonitoringService} from './shared/services/app-monitoring.service';
 import {BackgroundTasksService} from './shared/services/background-tasks.service';
 import {GlobalStateService} from './shared/services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
-import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 import {PortalResources} from './shared/models/portal-resources';
 import {ConfigService} from './shared/services/config.service';
 
@@ -25,8 +24,6 @@ import {ConfigService} from './shared/services/config.service';
 })
 export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    @ViewChild(LocalDevelopmentInstructionsComponent) localDevelopment: LocalDevelopmentInstructionsComponent;
-    //@ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
 
     public gettingStarted: boolean;
     public ready: boolean = false;
@@ -97,7 +94,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent = this.busyState;
-        this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
     }
 
 

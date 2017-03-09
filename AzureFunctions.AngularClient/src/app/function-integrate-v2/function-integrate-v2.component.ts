@@ -9,9 +9,10 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
+import { PortalResources } from '../shared/models/portal-resources';
+import { ErrorIds } from "../shared/models/error-ids";
 
 @Component({
   selector: 'function-integrate-v2',
@@ -38,15 +39,19 @@ export class FunctionIntegrateV2Component {
         this.pickerType = TemplatePickerType.none;
         this.disabled = this._broadcastService.getDirtyState("function_disabled");
 
-        //if (!this._functionInfo || this._functionInfo.name !== fi.name) {
         this.currentBinding = null;
-        this.currentBindingId = "";
+        this.currentBindingId = '';
         this._functionInfo = fi;
 
         try {
             this._bindingManager.validateConfig(this._functionInfo.config, this._translateService);
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                errorId: ErrorIds.errorParsingConfig,
+                errorLevel: ErrorLevel.UserError
+            });
             this.onEditorChange('advanced');
             return;
         }
@@ -157,8 +162,13 @@ export class FunctionIntegrateV2Component {
 
         try {
             this.updateFunction();
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                errorId: ErrorIds.errorParsingConfig,
+                errorLevel: ErrorLevel.UserError
+            });
             this.onRemoveBinding(binding);
         }
     }

@@ -136,7 +136,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
             .subscribe(key => {
                 this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
+                this.functionStream.next(this.functionInfo);
             }, e => this.clearBusyState());
     }
 
@@ -174,12 +174,14 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 }

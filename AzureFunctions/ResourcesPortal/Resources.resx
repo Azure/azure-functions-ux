@@ -778,10 +778,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes.</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>Unable to retrieve Function App ({{functionApp}})</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>We are unable to reach your function app ({{statusText}}). Please try again later.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -1119,5 +1119,62 @@
   </data>
   <data name="error_shareCodeWithSupport" xml:space="preserve">
     <value>If the problem persists, contact support with the following code {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>We are not able to retrive the list of functions for this function app.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>We are not able to create function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>We are not able to delete the file {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>We are not able to delete function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>We are not able to get the content for {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>Error getting content for file {{fileName}}.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>We are not able to retrive secrets file for {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>We are not able to save the content for {{fileName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>We are not able to retrieve directory content for your function. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>We are unable to get function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>We are unable to retrieve the runtime config. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>We are not able to retrieve the runtime master key. Please try again later.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>We are not able to update function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>The function runtime is unable to start. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>We are not able to delete the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>We are not able to renew the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>We are not able to retrieve the keys for function {{functionName}}.</value>
   </data>
 </root>

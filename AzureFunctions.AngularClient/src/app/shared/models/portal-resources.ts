@@ -222,8 +222,8 @@ export class PortalResources
     public static tryNow_FreeAccountToolTip: string = "tryNow_FreeAccountToolTip";
     public static error_CORSNotConfigured: string = "error_CORSNotConfigured";
     public static error_DnsResolution: string = "error_DnsResolution";
-    public static error_UnableToRetriveFunctionApp: string = "error_UnableToRetriveFunctionApp";
-    public static error_UnableToRetriveFunctions: string = "error_UnableToRetriveFunctions";
+    public static error_UnableToRetrieveFunctionApp: string = "error_UnableToRetrieveFunctionApp";
+    public static error_UnableToRetrieveFunctions: string = "error_UnableToRetrieveFunctions";
     public static tryNow_fewMoreSeconds: string = "tryNow_fewMoreSeconds";
     public static tryNow_hangOn: string = "tryNow_hangOn";
     public static tryNow_discoverMore: string = "tryNow_discoverMore";
@@ -336,5 +336,24 @@ export class PortalResources
     public static backend_error_UnexpectedArmError: string = "backend_error_UnexpectedArmError";
     public static backend_error_UnknownErrorWhileCallingArm: string = "backend_error_UnknownErrorWhileCallingArm";
     public static error_shareCodeWithSupport: string = "error_shareCodeWithSupport";
+    public static error_parsingFunctionListReturenedFromKudu: string = "error_parsingFunctionListReturenedFromKudu";
+    public static error_unableToCreateFunction: string = "error_unableToCreateFunction";
+    public static error_unableToDecryptKeys: string = "error_unableToDecryptKeys";
+    public static error_unableToDeleteFileThroughKudu: string = "error_unableToDeleteFileThroughKudu";
+    public static error_unableToDeleteFunction: string = "error_unableToDeleteFunction";
+    public static error_unableToGetFileContentFromKudu: string = "error_unableToGetFileContentFromKudu";
+    public static error_unableToRetrieveFunctionListFromKudu: string = "error_unableToRetrieveFunctionListFromKudu";
+    public static error_UnableToRetrieveSecretsFileFromKudu: string = "error_UnableToRetrieveSecretsFileFromKudu";
+    public static error_unableToSaveFileContentThroughKudu: string = "error_unableToSaveFileContentThroughKudu";
+    public static error_unableToRetrieveDirectoryContent: string = "error_unableToRetrieveDirectoryContent";
+    public static error_unableToRetrieveFunction: string = "error_unableToRetrieveFunction";
+    public static error_unableToRetrieveRuntimeConfig: string = "error_unableToRetrieveRuntimeConfig";
+    public static error_unableToRetrieveRuntimeKey: string = "error_unableToRetrieveRuntimeKey";
+    public static error_unableToUpdateFunction: string = "error_unableToUpdateFunction";
+    public static error_functionRuntimeIsUnableToStart: string = "error_functionRuntimeIsUnableToStart";
+    public static error_unableToCreateFunctionKey: string = "error_unableToCreateFunctionKey";
+    public static error_unableToDeleteFunctionKey: string = "error_unableToDeleteFunctionKey";
+    public static error_unableToRenewFunctionKey: string = "error_unableToRenewFunctionKey";
+    public static error_unableToRetrieveFunctionKeys: string = "error_unableToRetrieveFunctionKeys";
 }
 

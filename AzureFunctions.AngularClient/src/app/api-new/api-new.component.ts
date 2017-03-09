@@ -7,8 +7,9 @@ import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractCo
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {ErrorEvent} from '../shared/models/error-event';
-import {FunctionInfo} from '../shared/models/function-info';
+import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { FunctionInfo } from '../shared/models/function-info';
+import { ErrorIds } from '../shared/models/error-ids';
 
 @Component({
   selector: 'api-new',
@@ -32,7 +33,7 @@ export class ApiNewComponent implements OnInit {
         private _broadcastService: BroadcastService) {
 
         this.complexForm = fb.group({
-            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
+            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, weï¿½ll default the gender to female.
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
@@ -132,7 +133,12 @@ export class ApiNewComponent implements OnInit {
 
                 if (existingProxy) {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }) });
+                    // No need to log this error as this is just a user error.
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                         message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }),
+                         errorId: ErrorIds.proxyWithSameNameAlreadyExists,
+                         errorLevel: ErrorLevel.UserError
+                    });
                     throw `Proxy with name '${newApiProxy.name}' already exists`;
                 } else {
                     if (this.complexForm.controls["methodSelectionType"].value !== "All") {

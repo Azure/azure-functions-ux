@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {FunctionsService} from '../shared/services/functions.service';
@@ -31,7 +32,7 @@ import {ApiProxy} from '../shared/models/api-proxy';
 @Component({
   selector: 'functions-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']  
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnChanges {
     @ViewChild(SidebarComponent) sideBar: SidebarComponent;
@@ -146,15 +147,18 @@ export class DashboardComponent implements OnChanges {
         this._globalStateService.setBusyState();
         this._functionsService.clearAllCachedData();
 
-        this._functionsService.getFunctions()
+        Observable.zip(
+            this._functionsService.getHostSecretsFromScm(),
+            this._functionsService.getFunctions(),
+            (keys, functions) => ({keys: keys, functions: functions}))
             .subscribe(res => {
-                res = Array.isArray(res) ? res : [];
-                res.unshift(this._functionsService.getNewFunctionNode());
-                this.functionsInfo = res;
+                res.functions = Array.isArray(res.functions) ? res.functions : [];
+                res.functions.unshift(this._functionsService.getNewFunctionNode());
+                this.functionsInfo = res.functions;
                 this._globalStateService.clearBusyState();
-                var selectedFunctionName = (this.selectedFunction ?  this.selectedFunction.name : null ) || Cookie.get('functionName');
+                let selectedFunctionName = (this.selectedFunction ?  this.selectedFunction.name : null ) || Cookie.get('functionName');
                 if (selectedFunctionName) {
-                    var findSelected = this.functionsInfo.find((f) => {
+                    let findSelected = this.functionsInfo.find((f) => {
                         return f.name === selectedFunctionName;
                     });
                     if (findSelected) {
@@ -165,6 +169,7 @@ export class DashboardComponent implements OnChanges {
                 }
             },
             (error: Response) => {
+                this._globalStateService.clearBusyState();
                 this.functionsInfo = [];
             });
 
@@ -180,9 +185,9 @@ export class DashboardComponent implements OnChanges {
                 }
             });
 
-            var selectedApiName = this.selectedApiProxy ? this.selectedApiProxy.name : null;
+            let selectedApiName = this.selectedApiProxy ? this.selectedApiProxy.name : null;
             if (selectedApiName) {
-                var findSelected = this.apiProxies.find((f) => {
+                let findSelected = this.apiProxies.find((f) => {
                     return f.name === selectedApiName;
                 });
                 if (selectedApiName) {
@@ -195,8 +200,6 @@ export class DashboardComponent implements OnChanges {
         });
 
         this._functionsService.warmupMainSite();
-        this._functionsService.getHostSecrets();
-
     }
 
     onRefreshClicked() {
