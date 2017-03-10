@@ -516,28 +516,38 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     checkErrors(functionInfo: FunctionInfo) {
         this._functionsService.getFunctionErrors(functionInfo)
             .subscribe(errors => {
-                if (errors) {
-                    errors.forEach(e => {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
-                            details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
-                            errorId: ErrorIds.generalFunctionErrorFromHost,
-                            errorType: ErrorType.UserError
-                        });
-                        this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
-                    });
-                } else {
-                    this._functionsService.getHostErrors()
-                        .subscribe(errors => errors.forEach(e => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + functionInfo.name);
+                // Give clearing a chance to run
+                setTimeout(() => {
+                    if (errors) {
+                        errors.forEach(e => {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                errorId: ErrorIds.generalHostErrorFromHost,
-                                errorType: ErrorType.RuntimeError
+                                message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
+                                details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
+                                errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
+                                errorType: ErrorType.FunctionError
                             });
-                            this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
-                        }));
-                }
+                            this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
+                        });
+                    } else {
+                        this._functionsService.getHostErrors()
+                            .subscribe(hostErrors => {
+                                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
+                                // Give clearing a chance to run
+                                setTimeout(() => {
+                                    hostErrors.forEach(e => {
+                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                                            errorId: ErrorIds.generalHostErrorFromHost,
+                                            errorType: ErrorType.RuntimeError
+                                        });
+                                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
+                                    });
+                                });
+                            });
+                    }
+                });
             });
     }
 

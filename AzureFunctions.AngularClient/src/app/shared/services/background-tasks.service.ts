@@ -66,15 +66,21 @@ export class BackgroundTasksService {
                 this._armService.getFunctionContainer(this._globalStateService.FunctionContainer.id),
                 (e, c, a, auth, fc) => ({ errors: e, config: c, appSettings: a, authSettings: auth, functionContainer: fc }));
             let handleResult = result => {
-                result.errors.forEach(e => {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: e,
-                        details: `Host Error: ${e}`,
-                        errorId: ErrorIds.generalHostErrorFromHost,
-                        errorType: ErrorType.RuntimeError
+
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
+                // Give clearing a chance to run
+                setTimeout(() => {
+                    result.errors.forEach(e => {
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                            errorId: ErrorIds.generalHostErrorFromHost,
+                            errorType: ErrorType.RuntimeError
+                        });
+                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                     });
-                    this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                 });
+
                 this.setDisabled(result.config);
                 this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
                     (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
