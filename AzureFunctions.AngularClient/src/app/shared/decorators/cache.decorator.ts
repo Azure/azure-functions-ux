@@ -23,7 +23,7 @@ export function Cache(propertyKey?: string, arg?: number) {
                      (functionName === 'getBindingConfig' && window.localStorage.getItem('dev-bindings')))) {
                     return originalMethod.apply(this, args);
                 }
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
             }
 
@@ -39,7 +39,7 @@ export function Cache(propertyKey?: string, arg?: number) {
                         cache.data = r;
                         return cache.data;
                     })
-                    .catch(error => {
+                    .do(null, error => {
                         delete cachedData[key];
                     })
                     .share()
