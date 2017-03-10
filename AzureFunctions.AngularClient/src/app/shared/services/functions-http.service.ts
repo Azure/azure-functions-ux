@@ -88,7 +88,7 @@ export class FunctionsHttpService {
              this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                      message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
                      details: JSON.stringify(error),
-                     errorId: ErrorIds.CorsNotConfigured,
+                     errorId: ErrorIds.corsNotConfigured,
                      errorType: ErrorType.RuntimeError
                  });
              error.isHandled = true;

@@ -31,7 +31,8 @@ export class ErrorListComponent {
                     message: error.message,
                     dateTime: new Date().toISOString(),
                     date: new Date(),
-                    errorEvent: error
+                    errorEvent: error,
+                    dismissable: error.errorType !== ErrorType.Fatal
                 };
 
                 if (!this.errorList.find(e => e.message === errorItem.message)) {

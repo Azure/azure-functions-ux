@@ -25,5 +25,6 @@ export class ErrorIds {
     public static generalFunctionErrorFromHost = '/errors/generalFunctionErrorFromHost';
     public static generalHostErrorFromHost = '/errors/generalHostErrorFromHost';
     public static tryAppServiceError = '/errors/tryAppServiceError';
-    public static CorsNotConfigured = '/errors/CorsNotConfigured';
+    public static corsNotConfigured = '/errors/corsNotConfigured';
+    public static errorCallingDiagnoseApi = '/errors/errorCallingDiagnoseApi';
 }

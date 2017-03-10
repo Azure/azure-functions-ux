@@ -1,3 +1,4 @@
+import { DiagnosticsResult } from './../models/diagnostics-result';
 import { RunResponse } from './../models/run-response';
 import { FunctionsHttpService } from './functions-http.service';
 import { FunctionsResponse } from './../models/functions-response';
@@ -1131,11 +1132,17 @@ export class FunctionsService {
             .map<FunctionKeys>(r => r.json());
     }
 
-    diagnose() {
-        if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
-            this._http.post(Constants.serviceHost + `api/diagnose${this.functionContainer.id}`, this.getPortalHeaders())
-                .subscribe(s => console.log(s.json()), e => console.log(e));
-        }
+    diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
+        return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, this.getPortalHeaders())
+            .map<DiagnosticsResult[]>(r => r.json())
+            .catch((error: Response) => {
+                this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
+                    error: error.text(),
+                    status: error.status.toString(),
+                    armId: functionContainer.id
+                });
+                return Observable.of([]);
+            });
     }
 
     // to talk to scm site

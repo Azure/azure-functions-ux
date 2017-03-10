@@ -15,7 +15,8 @@ import {BackgroundTasksService} from './shared/services/background-tasks.service
 import {GlobalStateService} from './shared/services/global-state.service';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import {PortalResources} from './shared/models/portal-resources';
-import {ConfigService} from './shared/services/config.service';
+import { ConfigService } from './shared/services/config.service';
+import { ErrorEvent, ErrorType } from "./shared/models/error-event";
 
 @Component({
   selector: 'app-root',
@@ -142,7 +143,20 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this._globalStateService.clearBusyState();
                 this.readyFunction = true;
                 this._backgroundTasksService.runTasks();
-
+                this._functionsService.diagnose(functionContainer)
+                    .subscribe(diagnosticsResults => {
+                        if (diagnosticsResults) {
+                            for (let i = 0; i < diagnosticsResults.length; i++) {
+                                if (diagnosticsResults[i].isDiagnosingSuccessful) {
+                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                        message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
+                                        errorId: diagnosticsResults[i].successResult.actionId,
+                                        errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError
+                                    });
+                                }
+                            }
+                        }
+                    });
             } else {
                 this._globalStateService.setBusyState();
                 this._userService.getToken().first().subscribe(() =>
