@@ -1,5 +1,5 @@
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -45,8 +45,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.setBusyState();
                 this.resetState();
                 return fi
-                    ? this._functionsService.getFunctionKeys(fi)
-                    : this._functionsService.getFunctionHostKeys();
+                    ? this._functionsService.getFunctionKeys(fi).catch(error => Observable.of({ keys: [], links: [] }))
+                    : this._functionsService.getFunctionHostKeys().catch(error => Observable.of({ keys: [], links: [] }));
             })
             .subscribe(keys => {
                 this.clearBusyState();
@@ -67,8 +67,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 } else {
                     this.selectKey(null);
                 }
-            }, e => {
-                this.clearBusyState();
             });
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.ResetKeySelection, fi => {
             if ((fi && fi === this.functionInfo) || (!fi && !this.functionInfo)) {
