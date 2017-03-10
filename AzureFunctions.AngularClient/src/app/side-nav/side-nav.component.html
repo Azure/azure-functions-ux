@@ -1,11 +1,14 @@
 <div class="sidenav">
 
     <div id="sidenav-menu">
+
         <input type="text"
             id="sidenav-search"
             placeholder="Search"
             [value]="searchTerm"
             (keyup)="search($event)" />
+
+        <img id="sidenav-search-icon" src="images/search.svg" />
 
         <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="clearSearch()">
             <i class="fa fa-times"></i>

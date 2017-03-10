@@ -20,7 +20,7 @@
             <!-- Custom icon per node -->
             <i *ngIf="child.iconClass" [class]="child.iconClass"></i>
 
-            <span [class.tree-node-disabled]="child.disabled">
+            <span [class.tree-node-disabled]="child.disabled" class="tree-node-title">
                   {{ child.title }}
             </span>
 

@@ -9,6 +9,7 @@
     background-color: $chrome-color;
     bottom: 0;
     z-index: 100;
+    border-right: $border;
 }
 
 #sidenav-menu{
@@ -17,6 +18,20 @@
     >input[type=text]{
         width: 100%;
     }
+}
+
+#sidenav-search{
+    padding-left: 30px;
+}
+
+#sidenav-search-icon{
+    position: absolute;
+    top: 12px;
+    left: 13px;
+    width: 14px;
+    height: 14px;
+
+    @include flip-horizontal();
 }
 
 #sidenav-search-clear{

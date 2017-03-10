@@ -1,6 +1,6 @@
 input[type=text], select{
     background: $body-bg-color;
-    border: 2px solid $border-color;
+    border: $border;
     position: relative;
     vertical-align: middle;
     height: 29px;
