@@ -1159,7 +1159,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to create or update the key {{keyName}} for function {{functionName}}. Please try again later..
+        ///   Looks up a localized string similar to We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
         internal static string error_unableToCreateFunctionKey {
             get {
@@ -1195,7 +1195,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to delete the key {{keyName}} for function {{functionName}}. Please try again later..
+        ///   Looks up a localized string similar to We are not able to delete the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
         internal static string error_unableToDeleteFunctionKey {
             get {
@@ -1213,7 +1213,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to renew the key {{keyName}} for function {{functionName}}. Please try again later..
+        ///   Looks up a localized string similar to We are not able to renew the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
         internal static string error_unableToRenewFunctionKey {
             get {
@@ -1249,7 +1249,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to retrieve the keys for function {{functionName}}..
+        ///   Looks up a localized string similar to We are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
         internal static string error_unableToRetrieveFunctionKeys {
             get {

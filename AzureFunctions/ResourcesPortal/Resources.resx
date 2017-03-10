@@ -1166,15 +1166,15 @@
     <value>The function runtime is unable to start. Please check the runtime logs for any errors or try again later.</value>
   </data>
   <data name="error_unableToCreateFunctionKey" xml:space="preserve">
-    <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+    <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
   </data>
   <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
-    <value>We are not able to delete the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+    <value>We are not able to delete the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
   </data>
   <data name="error_unableToRenewFunctionKey" xml:space="preserve">
-    <value>We are not able to renew the key {{keyName}} for function {{functionName}}. Please try again later.</value>
+    <value>We are not able to renew the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
   </data>
   <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
-    <value>We are not able to retrieve the keys for function {{functionName}}.</value>
+    <value>We are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
   </data>
 </root>
