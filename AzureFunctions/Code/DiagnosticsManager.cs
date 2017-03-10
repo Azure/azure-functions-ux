@@ -211,7 +211,7 @@ namespace AzureFunctions.Code
                             // This is a terminating error. This is almost exactly why this user is seeing errors in the portal.
                             IsTerminating = true,
                             Message = "We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app.",
-                            UserAction = "Follow steps here https://github.com/projectkudu/AzureFunctionsPortal/wiki/Manually-fixing-CryptographicException-when-trying-to-read-function-keys",
+                            UserAction = "Follow steps here https://go.microsoft.com/fwlink/?linkid=844094",
                             ActionId = ActionIds.KeysUnexpectedError
                         }
                     };
