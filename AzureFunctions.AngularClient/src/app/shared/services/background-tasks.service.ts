@@ -1,3 +1,4 @@
+import { FunctionContainer } from './../models/function-container';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { PortalResources } from './../models/portal-resources';
 import {Injectable, ApplicationRef} from '@angular/core';
@@ -85,7 +86,7 @@ export class BackgroundTasksService {
                     });
                 }
                 this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
-                if (result.functionContainer.properties.enabled || result.functionContainer.properties.state === 'Stopped') {
+                if (!result.functionContainer.properties.enabled || result.functionContainer.properties.state === 'Stopped') {
                     let error = result.functionContainer.properties.siteDisabledReason === 1
                         ? PortalResources.error_FunctionExceededQuota
                         : PortalResources.error_siteStopped;
@@ -98,7 +99,7 @@ export class BackgroundTasksService {
                 }
             };
             this._tasks = Observable.timer(1, 60000)
-                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() => tasks())
+                .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string }, functionContainer: FunctionContainer }>(() => tasks())
                 .subscribe(result => handleResult(result));
 
             this._broadcastService.subscribe(BroadcastEvent.RefreshPortal, () => {

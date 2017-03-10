@@ -729,11 +729,11 @@ export class FunctionsService {
             });
     }
 
-    getFunctionHostKeys(): Observable<FunctionKeys> {
+    getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
         if (this.isEasyAuthEnabled) {
             return Observable.of({keys: [], links: []});
         }
-
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
                 if (err.status < 500) {
@@ -753,6 +753,16 @@ export class FunctionsService {
                     });
                 }
                 return keys;
+            })
+            .catch((error: Response) => {
+                if (handleUnauthorized && error.status === 401) {
+                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                        usedKey: this.sanitize(this.masterKey)
+                    });
+                    return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostKeys(false));
+                } else {
+                    throw error;
+                }
             })
             .do(_ => {
                     this.isMultiKeySupported = true;
@@ -868,16 +878,29 @@ export class FunctionsService {
                 });
     }
 
-    getFunctionErrors(fi: FunctionInfo) {
+    getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.isEasyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
                 .map<string[]>(r => r.json().errors || [])
+                .catch((error: Response) => {
+                    if (handleUnauthorized && error.status === 401) {
+                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                            usedKey: this.sanitize(this.masterKey)
+                        });
+                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionErrors(fi, false));
+                    } else {
+                        throw error;
+                    }
+                })
                 .catch<string[]>(e => Observable.of(null));
     }
 
-    getHostErrors() {
+    getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         if (this.isEasyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
@@ -890,6 +913,16 @@ export class FunctionsService {
                     return errorCount + 1;
                 }, 0).delay(2000))
                 .map<string[]>(r => r.json().errors || [])
+                .catch((error: Response) => {
+                    if (handleUnauthorized && error.status === 401) {
+                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                            usedKey: this.sanitize(this.masterKey)
+                        });
+                        return this.getHostSecretsFromScm().flatMap(r => this.getHostErrors(false));
+                    } else {
+                        throw error;
+                    }
+                })
                 .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.functionRuntimeIsUnableToStart),
                     (error: FunctionsResponse) => {
                         if (!error.isHandled) {
@@ -908,12 +941,24 @@ export class FunctionsService {
     }
 
     @Cache()
-    getFunctionHostId() {
+    getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         if (this.isEasyAuthEnabled || !this.masterKey) {
             return Observable.of('');
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
                 .map<string>(r => r.json().id)
+                .catch((error: Response) => {
+                    if (handleUnauthorized && error.status === 401) {
+                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                            usedKey: this.sanitize(this.masterKey)
+                        });
+                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostId(false));
+                    } else {
+                        throw error;
+                    }
+                })
                 .catch(e => Observable.of(''));
         }
     }
@@ -1000,11 +1045,22 @@ export class FunctionsService {
             .retryWhen(this.retryAntares);
     }
 
-    @Cache('href')
-    getFunctionKeys(functionInfo: FunctionInfo): Observable<FunctionKeys> {
+    getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
             .map<FunctionKeys>(r => r.json())
+            .catch((error: Response) => {
+                if (handleUnauthorized && error.status === 401) {
+                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                        usedKey: this.sanitize(this.masterKey)
+                    });
+                    return this.getHostSecretsFromScm().flatMap(r => this.getFunctionKeys(functionInfo, false));
+                } else {
+                    throw error;
+                }
+             })
             .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
                 (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1022,9 +1078,9 @@ export class FunctionsService {
             });
     }
 
-    @ClearCache('clearAllFunction', 'getFunctionKeys')
-    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
-    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo) {
+    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         let url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
             : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
@@ -1044,6 +1100,16 @@ export class FunctionsService {
                 .map<FunctionKey>(r => r.json());
         }
         return result
+            .catch((error: Response) => {
+                if (handleUnauthorized && error.status === 401) {
+                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                        usedKey: this.sanitize(this.masterKey)
+                    });
+                    return this.getHostSecretsFromScm().flatMap(r => this.createKey(keyName, keyValue, functionInfo, false));
+                } else {
+                    throw error;
+                }
+             })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunctionKey + functionInfo + keyName),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -1062,15 +1128,25 @@ export class FunctionsService {
                 });
     }
 
-    @ClearCache('clearAllFunction', 'getFunctionKeys')
-    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
-    deleteKey(key: FunctionKey, functionInfo?: FunctionInfo) {
+    deleteKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         let url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
 
         return this._http.delete(url, { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
+            .catch((error: Response) => {
+                if (handleUnauthorized && error.status === 401) {
+                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                        usedKey: this.sanitize(this.masterKey)
+                    });
+                    return this.getHostSecretsFromScm().flatMap(r => this.deleteKey(key, functionInfo, false));
+                } else {
+                    throw error;
+                }
+             })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunctionKey + functionInfo + key.name),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -1089,14 +1165,24 @@ export class FunctionsService {
                 });
     }
 
-    @ClearCache('clearAllFunction', 'getFunctionKeys')
-    @ClearCache('clearAllFunction', 'getFunctionHostKeys')
-    renewKey(key: FunctionKey, functionInfo?: FunctionInfo) {
+    renewKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+
         let url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
         return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
+            .catch((error: Response) => {
+                if (handleUnauthorized && error.status === 401) {
+                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                        usedKey: this.sanitize(this.masterKey)
+                    });
+                    return this.getHostSecretsFromScm().flatMap(r => this.renewKey(key, functionInfo, false));
+                } else {
+                    throw error;
+                }
+             })
             .do(r => {
                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRenewFunctionKey + functionInfo + key.name);
                    if (!functionInfo && key.name === '_master') {
@@ -1346,5 +1432,13 @@ export class FunctionsService {
         }
 
         this._aiService.trackEvent(name, standardParams);
+    }
+
+    private sanitize(value: string): string {
+        if (value) {
+            return value.substring(0, Math.min(3, value.length));
+        } else {
+            return 'undefined';
+        }
     }
 }

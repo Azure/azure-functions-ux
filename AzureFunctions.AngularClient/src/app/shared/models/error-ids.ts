@@ -29,4 +29,5 @@ export class ErrorIds {
     public static errorCallingDiagnoseApi = '/errors/errorCallingDiagnoseApi';
     public static userDoesntHaveAccess = '/errors/userDoesntHaveAccess';
     public static functionAppStopped = '/errors/functionAppStopped';
+    public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
 }
