@@ -171,12 +171,16 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
-  
+	
+	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\main.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\main.bundle.js
+	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\scripts.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\scripts.bundle.js
+	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\styles.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\styles.bundle.js
+	
 	each Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 		echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
