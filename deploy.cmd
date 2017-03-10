@@ -177,9 +177,11 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	
-	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\main.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\main.bundle.js
-	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\scripts.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\scripts.bundle.js
-	mv %ARTIFACTS%\AzureFunctions.AngularClient\dist\styles.*.bundle.js %ARTIFACTS%\AzureFunctions.AngularClient\dist\styles.bundle.js
+	pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+		mv main.*.bundle.js main.bundle.js
+		mv scripts.*.bundle.js scripts.bundle.js
+		mv styles.*.bundle.js styles.bundle.js
+	popd
 	
 	each Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
