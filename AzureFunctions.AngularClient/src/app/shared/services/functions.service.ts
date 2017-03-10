@@ -1049,7 +1049,13 @@ export class FunctionsService {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(this.retryAntares)
+            .retryWhen(error => error.scan<number>((errorCount, err: FunctionsResponse) => {
+                if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
+                    throw err;
+                } else {
+                    return errorCount + 1;
+                }
+            }, 0).delay(1000))
             .map<FunctionKeys>(r => r.json())
             .catch((error: Response) => {
                 if (handleUnauthorized && error.status === 401) {
