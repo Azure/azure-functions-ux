@@ -1,3 +1,4 @@
+import { ErrorIds } from './shared/models/error-ids';
 import { Constants } from './shared/models/constants';
 import { AiService } from './shared/services/ai.service';
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
@@ -124,12 +125,20 @@ export class AppComponent implements OnInit, AfterViewInit {
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
                     if (!appSettingsAccess) {
-                        this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(PortalResources.error_NoPermissionToAccessApp) });
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._trnaslateService.instant(PortalResources.error_NoPermissionToAccessApp),
+                            errorId: ErrorIds.userDoesntHaveAccess,
+                            errorType: ErrorType.Fatal
+                        });
                     } else {
                         let error = functionContainer.properties.siteDisabledReason === 1
                             ? PortalResources.error_FunctionExceededQuota
                             : PortalResources.error_siteStopped;
-                        this._broadcastService.broadcast(BroadcastEvent.Error, { message: this._trnaslateService.instant(error) });
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._trnaslateService.instant(error),
+                            errorId: ErrorIds.functionAppStopped,
+                            errorType: ErrorType.Fatal
+                        });
                     }
                 }
                 if (authSettings) {

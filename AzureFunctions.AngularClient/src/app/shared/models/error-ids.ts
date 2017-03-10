@@ -27,4 +27,6 @@ export class ErrorIds {
     public static tryAppServiceError = '/errors/tryAppServiceError';
     public static corsNotConfigured = '/errors/corsNotConfigured';
     public static errorCallingDiagnoseApi = '/errors/errorCallingDiagnoseApi';
+    public static userDoesntHaveAccess = '/errors/userDoesntHaveAccess';
+    public static functionAppStopped = '/errors/functionAppStopped';
 }

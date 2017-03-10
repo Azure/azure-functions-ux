@@ -1,3 +1,5 @@
+import { TranslateService } from 'ng2-translate/ng2-translate';
+import { PortalResources } from './../models/portal-resources';
 import {Injectable, ApplicationRef} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import {UserService} from './user.service';
@@ -25,7 +27,8 @@ export class BackgroundTasksService {
         private _globalStateService: GlobalStateService,
         private _armService: ArmService,
         private _aiService: AiService,
-        private _applicationRef: ApplicationRef) {
+        private _applicationRef: ApplicationRef,
+        private _translateService: TranslateService) {
         if (!this._userService.inIFrame) {
             this.runPreIFrameTasks();
         }
@@ -59,7 +62,8 @@ export class BackgroundTasksService {
                 this._armService.getConfig(this._globalStateService.FunctionContainer),
                 this._armService.getFunctionContainerAppSettings(this._globalStateService.FunctionContainer),
                 this._armService.getAuthSettings(this._globalStateService.FunctionContainer),
-                (e, c, a, auth) => ({ errors: e, config: c, appSettings: a, authSettings: auth }));
+                this._armService.getFunctionContainer(this._globalStateService.FunctionContainer.id),
+                (e, c, a, auth, fc) => ({ errors: e, config: c, appSettings: a, authSettings: auth, functionContainer: fc }));
             let handleResult = result => {
                 result.errors.forEach(e => {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -71,7 +75,6 @@ export class BackgroundTasksService {
                     this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                 });
                 this.setDisabled(result.config);
-                let isFunctionApp = this._globalStateService.FunctionContainer.kind === 'functionapp';
                 this._globalStateService.isAlwaysOn = result.config["alwaysOn"] === true ||
                     (this._globalStateService.FunctionContainer.properties && this._globalStateService.FunctionContainer.properties.sku === "Dynamic") ? true : false;
                 this._functionsService.setEasyAuth(result.authSettings);
@@ -82,6 +85,17 @@ export class BackgroundTasksService {
                     });
                 }
                 this._broadcastService.broadcast(BroadcastEvent.VersionUpdated);
+                if (result.functionContainer.properties.enabled || result.functionContainer.properties.state === 'Stopped') {
+                    let error = result.functionContainer.properties.siteDisabledReason === 1
+                        ? PortalResources.error_FunctionExceededQuota
+                        : PortalResources.error_siteStopped;
+
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(error),
+                        errorId: ErrorIds.functionAppStopped,
+                        errorType: ErrorType.Fatal
+                    });
+                }
             };
             this._tasks = Observable.timer(1, 60000)
                 .concatMap<{ errors: string[], config: { [key: string]: string }, appSettings: { [key: string]: string } }>(() => tasks())
