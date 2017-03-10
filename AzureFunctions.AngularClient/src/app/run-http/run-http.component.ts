@@ -14,10 +14,10 @@ import {Constants} from '../shared/models/constants';
 })
 export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
+    @Output() disableTestData = new EventEmitter<boolean>();
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
     availableMethods: string[] = [];
-
 
     constructor(private _translateService: TranslateService) {
     }
@@ -122,6 +122,13 @@ export class RunHttpComponent {
 
         this.valid = !(emptyQuery || emptyHeader);
         this.validChange.emit(this.valid);
+    }
+
+    onChangeMethod(method: string) {
+        this.disableTestData.emit((method.toLowerCase() === 'get' ||
+            method.toLowerCase() === 'delete' ||
+            method.toLowerCase() === 'head' ||
+            method.toLowerCase() === 'options'));
     }
 
     private getQueryParams(url: string): Param[] {

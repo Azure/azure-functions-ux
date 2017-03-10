@@ -162,7 +162,8 @@
                                 <run-http *ngIf="isHttpFunction"
                                           [functionInvokeUrl]="functionInvokeUrl"
                                           [functionInfo]="functionInfo"
-                                          (validChange)="onRunValid($event)">
+                                          (validChange)="onRunValid($event)"
+                                          (disableTestData)="onDisableTestData($event)">
                                 </run-http>
 
                                 <div>

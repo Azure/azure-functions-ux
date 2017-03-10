@@ -584,6 +584,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.showFunctionInvokeUrlModal = false;
     }
 
+    onDisableTestData(disableTestData: boolean) {
+        this.testDataEditor.disabled = disableTestData;
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;

@@ -1,7 +1,7 @@
 <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
 
 <select *ngIf="model"
-        [(ngModel)]="model.method">
+        [(ngModel)]="model.method" (change)="onChangeMethod($event.target.value)">
     <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
 </select>
 

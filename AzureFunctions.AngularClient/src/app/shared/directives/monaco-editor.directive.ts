@@ -63,7 +63,14 @@ export class MonacoEditorDirective {
     }
 
     set disabled(value: boolean) {
-        this._disabled = value;
+        if (value !== this._disabled) {
+            this._disabled = value;
+            if (this._editor) {
+                this._editor.updateOptions({
+                    readOnly: this._disabled
+                })
+            }
+        }
     }
 
     set fileName(filename: string) {
