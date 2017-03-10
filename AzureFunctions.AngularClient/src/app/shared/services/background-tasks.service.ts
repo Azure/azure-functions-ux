@@ -5,7 +5,7 @@ import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {FunctionsService} from './functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
-import { ErrorEvent, ErrorLevel } from '../models/error-event';
+import { ErrorEvent, ErrorType } from '../models/error-event';
 import {Constants} from '../models/constants';
 import {GlobalStateService} from './global-state.service';
 import {ArmService} from './arm.service';
@@ -66,7 +66,7 @@ export class BackgroundTasksService {
                         message: e,
                         details: `Host Error: ${e}`,
                         errorId: ErrorIds.generalHostErrorFromHost,
-                        errorLevel: ErrorLevel.RuntimeError
+                        errorType: ErrorType.RuntimeError
                     });
                     this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                 });
@@ -103,7 +103,7 @@ export class BackgroundTasksService {
                         message: e,
                         details: `Host Error: ${e}`,
                         errorId: ErrorIds.generalHostErrorFromHost,
-                        errorLevel: ErrorLevel.RuntimeError
+                        errorType: ErrorType.RuntimeError
                     }));
 
                 });

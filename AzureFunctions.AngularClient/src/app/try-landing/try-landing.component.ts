@@ -9,7 +9,7 @@ import {FunctionTemplate} from '../shared/models/function-template';
 import {FunctionInfo} from '../shared/models/function-info';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {BindingManager} from '../shared/models/binding-manager';
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {UIResource} from '../shared/models/ui-resource';
 import {FunctionContainer} from '../shared/models/function-container';
@@ -139,7 +139,7 @@ export class TryLandingComponent implements OnInit {
                                         message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                                         details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
                                         errorId: ErrorIds.tryAppServiceError,
-                                        errorLevel: ErrorLevel.Warning
+                                        errorType: ErrorType.Warning
                                     });
                                     this.clearBusyState();
                                     throw error;
@@ -151,7 +151,7 @@ export class TryLandingComponent implements OnInit {
                             message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                             details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
                             errorId: ErrorIds.tryAppServiceError,
-                            errorLevel: ErrorLevel.Warning
+                            errorType: ErrorType.Warning
                         });
                         throw e;
                     }
@@ -206,7 +206,7 @@ export class TryLandingComponent implements OnInit {
                     message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                     details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
                     errorId: ErrorIds.tryAppServiceError,
-                    errorLevel: ErrorLevel.Warning
+                    errorType: ErrorType.Warning
                 });
             });
     }

@@ -1,3 +1,4 @@
+import { RunResponse } from './../models/run-response';
 import { FunctionsHttpService } from './functions-http.service';
 import { FunctionsResponse } from './../models/functions-response';
 import { WebApiException } from './../models/webapi-exception';
@@ -11,7 +12,7 @@ import { Constants } from '../models/constants';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { CreateFunctionInfo } from '../models/create-function-info';
 import { DesignerSchema } from '../models/designer-schema';
-import { ErrorEvent, ErrorLevel } from '../models/error-event';
+import { ErrorEvent, ErrorType } from '../models/error-event';
 import { FunctionContainer } from '../models/function-container';
 import { FunctionInfo } from '../models/function-info';
 import { FunctionKey, FunctionKeys } from '../models/function-key';
@@ -188,7 +189,7 @@ export class FunctionsService {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                         message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
                         errorId: ErrorIds.deserializingKudusFunctionList,
-                        errorLevel: ErrorLevel.Fatal
+                        errorType: ErrorType.Fatal
                     });
                     this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
                         error: e,
@@ -203,7 +204,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
                             errorId: ErrorIds.unableToRetrieveFunctionsList,
-                            errorLevel: ErrorLevel.Fatal
+                            errorType: ErrorType.RuntimeError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveFunctionsList, {
                             content: error.text(),
@@ -248,7 +249,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToGetFileContentFromKudu, {fileName: fileName}),
                             errorId: ErrorIds.unableToRetrieveFileContent + fileName,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveFileContent, {
                             fileHref: fileHref,
@@ -278,7 +279,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToSaveFileContentThroughKudu, {fileName: fileName}),
                             errorId: ErrorIds.unableToSaveFileContent + fileName,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToSaveFileContent, {
                             fileHref: fileHref,
@@ -308,7 +309,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToDeleteFileThroughKudu, {fileName: fileName}),
                             errorId: ErrorIds.unableToDeleteFile + fileName,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToDeleteFile, {
                             fileHref: fileHref,
@@ -369,7 +370,7 @@ export class FunctionsService {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                 message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
                                 errorId: ErrorIds.unableToCreateFunction + functionName,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                             });
                             this.trackEvent(ErrorIds.unableToCreateFunction, {
                                 content: error.text(),
@@ -403,7 +404,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
                             errorId: ErrorIds.unableToCreateFunction + functionName,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToCreateFunction, {
                             content: error.text(),
@@ -548,7 +549,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToDeleteFunction, { functionName: functionInfo.name }),
                             errorId: ErrorIds.unableToDeleteFunction + functionInfo.name,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToDeleteFunction, {
                             content: error.text(),
@@ -588,7 +589,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_UnableToRetrieveSecretsFileFromKudu, { functionName: fi.name }),
                             errorId: ErrorIds.unableToRetrieveSecretsFileFromKudu + fi.name,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveSecretsFileFromKudu, {
                             status: error.status.toString(),
@@ -616,7 +617,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeConfig),
                             errorId: ErrorIds.unableToRetrieveRuntimeConfig,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveRuntimeConfig, {
                             status: error.status.toString(),
@@ -637,7 +638,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
                             errorId: ErrorIds.unableToUpdateFunction + fi.name,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToUpdateFunction, {
                             status: error.status.toString(),
@@ -657,7 +658,7 @@ export class FunctionsService {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction, { functionName: fi.name }),
                     errorId: ErrorIds.unableToRetrieveFunction + fi.name,
-                    errorLevel: ErrorLevel.ApiError
+                    errorType: ErrorType.ApiError
                 });
                 this.trackEvent(ErrorIds.unableToRetrieveFunction, {
                     status: error.status.toString(),
@@ -695,7 +696,7 @@ export class FunctionsService {
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                     message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
                                     errorId: ErrorIds.unableToDecryptKeys,
-                                    errorLevel: ErrorLevel.Fatal
+                                    errorType: ErrorType.RuntimeError
                                 });
                                 this.trackEvent(ErrorIds.unableToDecryptKeys, {
                                     content: error.text(),
@@ -708,7 +709,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
                             errorId: ErrorIds.unableToRetrieveRuntimeKey,
-                            errorLevel: ErrorLevel.Fatal
+                            errorType: ErrorType.RuntimeError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveRuntimeKey, {
                             status: error.status.toString(),
@@ -767,7 +768,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
                             errorId: ErrorIds.unableToRetrieveRuntimeKey,
-                            errorLevel: ErrorLevel.Fatal
+                            errorType: ErrorType.RuntimeError
                         });
 
                         this.trackEvent(ErrorIds.unableToRetrieveRuntimeKey, {
@@ -856,7 +857,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
                             errorId: ErrorIds.unableToUpdateFunction + fi.name,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToUpdateFunction, {
                             status: error.status.toString(),
@@ -894,7 +895,7 @@ export class FunctionsService {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                 message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
                                 errorId: ErrorIds.functionRuntimeIsUnableToStart,
-                                errorLevel: ErrorLevel.RuntimeError
+                                errorType: ErrorType.RuntimeError
                             });
                             this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
                                 status: error.status.toString(),
@@ -969,7 +970,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveDirectoryContent),
                             errorId: ErrorIds.unableToRetrieveDirectoryContent,
-                            errorLevel: ErrorLevel.ApiError
+                            errorType: ErrorType.ApiError
                         });
                         this.trackEvent(ErrorIds.unableToRetrieveDirectoryContent, {
                             content: error.text(),
@@ -1009,7 +1010,7 @@ export class FunctionsService {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                         message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionKeys, { functionName: functionInfo.name }),
                         errorId: ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name,
-                        errorLevel: ErrorLevel.RuntimeError
+                        errorType: ErrorType.RuntimeError
                     });
                     this.trackEvent(ErrorIds.unableToRetrieveFunctionKeys, {
                         status: error.status.toString(),
@@ -1048,7 +1049,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToCreateFunctionKey, { functionName: functionInfo.name, keyName: keyName }),
                             errorId: ErrorIds.unableToCreateFunctionKey + functionInfo + keyName,
-                            errorLevel: ErrorLevel.RuntimeError
+                            errorType: ErrorType.RuntimeError
                         });
                         this.trackEvent(ErrorIds.unableToCreateFunctionKey, {
                             status: error.status.toString(),
@@ -1075,7 +1076,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToDeleteFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
                             errorId: ErrorIds.unableToDeleteFunctionKey + functionInfo + key.name,
-                            errorLevel: ErrorLevel.RuntimeError
+                            errorType: ErrorType.RuntimeError
                         });
                         this.trackEvent(ErrorIds.unableToDeleteFunctionKey, {
                             status: error.status.toString(),
@@ -1106,7 +1107,7 @@ export class FunctionsService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRenewFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
                             errorId: ErrorIds.unableToRenewFunctionKey + functionInfo + key.name,
-                            errorLevel: ErrorLevel.RuntimeError
+                            errorType: ErrorType.RuntimeError
                         });
                         this.trackEvent(ErrorIds.unableToRenewFunctionKey, {
                             status: error.status.toString(),

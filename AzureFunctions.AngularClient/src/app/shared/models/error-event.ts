@@ -1,14 +1,15 @@
 export interface ErrorEvent {
     message: string;
     errorId: string;
-    errorLevel: ErrorLevel;
+    errorType: ErrorType;
     details?: string;
 }
 
-export enum ErrorLevel {
+export enum ErrorType {
     Information,
     Warning,
     UserError,
+    FunctionError,
     RuntimeError,
     ApiError,
     Fatal

@@ -5,7 +5,7 @@ import {FunctionsService} from '../shared/services/functions.service';
 import {PortalService} from '../shared/services/portal.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BindingManager} from '../shared/models/binding-manager';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -52,7 +52,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                 message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                 errorId: ErrorIds.errorParsingConfig,
-                errorLevel: ErrorLevel.UserError
+                errorType: ErrorType.UserError
             });
         }
     }
@@ -94,7 +94,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
-                    errorLevel: ErrorLevel.UserError
+                    errorType: ErrorType.UserError
                 });
             }
         }

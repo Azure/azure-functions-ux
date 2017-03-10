@@ -7,7 +7,7 @@ import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractCo
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { FunctionInfo } from '../shared/models/function-info';
 import { ErrorIds } from '../shared/models/error-ids';
 
@@ -137,7 +137,7 @@ export class ApiNewComponent implements OnInit {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                          message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }),
                          errorId: ErrorIds.proxyWithSameNameAlreadyExists,
-                         errorLevel: ErrorLevel.UserError
+                         errorType: ErrorType.UserError
                     });
                     throw `Proxy with name '${newApiProxy.name}' already exists`;
                 } else {

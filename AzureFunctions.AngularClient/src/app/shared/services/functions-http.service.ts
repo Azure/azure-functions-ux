@@ -1,5 +1,5 @@
 import { ErrorIds } from './../models/error-ids';
-import { ErrorEvent, ErrorLevel } from './../models/error-event';
+import { ErrorEvent, ErrorType } from './../models/error-event';
 import { PortalResources } from './../models/portal-resources';
 import { AiService } from './ai.service';
 import { TranslateService } from 'ng2-translate';
@@ -89,7 +89,7 @@ export class FunctionsHttpService {
                      message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
                      details: JSON.stringify(error),
                      errorId: ErrorIds.CorsNotConfigured,
-                     errorLevel: ErrorLevel.Fatal
+                     errorType: ErrorType.RuntimeError
                  });
              error.isHandled = true;
         }

@@ -9,7 +9,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {PortalService} from '../shared/services/portal.service';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {BindingManager} from '../shared/models/binding-manager';
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import { PortalResources } from '../shared/models/portal-resources';
@@ -90,7 +90,7 @@ export class IntroComponent {
                         message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
                         details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
                         errorId: ErrorIds.unableToCreateFunction,
-                        errorLevel: ErrorLevel.UserError
+                        errorType: ErrorType.UserError
                     });
                     this._aiService.trackEvent(ErrorIds.unableToCreateFunction, {
                         exception: e

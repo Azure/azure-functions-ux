@@ -9,7 +9,7 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from "../shared/models/error-ids";
@@ -50,7 +50,7 @@ export class FunctionIntegrateV2Component {
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                 message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                 errorId: ErrorIds.errorParsingConfig,
-                errorLevel: ErrorLevel.UserError
+                errorType: ErrorType.UserError
             });
             this.onEditorChange('advanced');
             return;
@@ -167,7 +167,7 @@ export class FunctionIntegrateV2Component {
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                 message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                 errorId: ErrorIds.errorParsingConfig,
-                errorLevel: ErrorLevel.UserError
+                errorType: ErrorType.UserError
             });
             this.onRemoveBinding(binding);
         }

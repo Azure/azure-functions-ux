@@ -15,7 +15,7 @@ import {RunFunctionResult} from '../shared/models/run-function-result';
 import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
-import { ErrorEvent, ErrorLevel } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
@@ -411,7 +411,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
-                    errorLevel: ErrorLevel.UserError
+                    errorType: ErrorType.UserError
                 });
                 return;
             }
@@ -522,7 +522,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                             message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
                             details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
                             errorId: ErrorIds.generalFunctionErrorFromHost,
-                            errorLevel: ErrorLevel.UserError
+                            errorType: ErrorType.UserError
                         });
                         this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
                     });
@@ -533,7 +533,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                 message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                                 details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                                 errorId: ErrorIds.generalHostErrorFromHost,
-                                errorLevel: ErrorLevel.RuntimeError
+                                errorType: ErrorType.RuntimeError
                             });
                             this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                         }));
