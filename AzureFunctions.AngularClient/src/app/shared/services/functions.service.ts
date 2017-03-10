@@ -1305,7 +1305,7 @@ export class FunctionsService {
                         objectTolocalize[property] = locString;
                     }
                 }
-                if (Array.isArray(value)) {
+                if (typeof value === 'array') {
                     for (var i = 0; i < value.length; i++) {
                         this.localize(value[i]);
                     }
