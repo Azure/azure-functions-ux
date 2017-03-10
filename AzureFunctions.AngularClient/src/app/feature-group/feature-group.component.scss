@@ -1,8 +1,10 @@
 @import '../../sass/main';
 
 .feature-group-header{
-    margin-bottom: 10px;
-    font-size: 22px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: $border;
+    font-weight: bold;
 }
 
 
@@ -25,8 +27,8 @@
 
 .feature-group-info{
     position: absolute;
-    right: 15px;
-    top: 3px;
+    right: 5px;
+    top: 6px;
 
     i{
         font-size: 15px;

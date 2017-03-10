@@ -17,7 +17,7 @@ import {WebsiteId} from '../../shared/models/portal';
 @Component({
     selector: 'site-manage',
     templateUrl: './site-manage.component.html',
-    styleUrls: ['../site-dashboard/site-dashboard.component.scss'],
+    styleUrls: ['./site-manage.component.scss'],
     inputs: ["siteInput"]
 })
 

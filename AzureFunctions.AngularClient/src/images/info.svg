@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="2.5 2.5 12 12" class="msportalfx-svg-placeholder" role="presentation" focusable="false" aria-hidden="true">
+    <style type="text/css">
+        .msportalfx-svg-c01{ fill: #fff; }
+        .msportalfx-svg-c19{ fill: #0072c6;}
+    </style>
+   <g>
+      <path d="M8.5 14A5.506 5.506 0 0 1 3 8.5C3 5.467 5.467 3 8.5 3 11.532 3 14 5.467 14 8.5c0 3.032-2.468 5.5-5.5 5.5z" class="msportalfx-svg-c19" />
+      <path d="M8.5 3.5c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5 2.243-5 5-5m0-1a6 6 0 1 0 0 12 6 6 0 0 0 0-12z" class="msportalfx-svg-c01" />
+      <circle cx="8.5" cy="5.951" r="0.951" class="msportalfx-svg-c01" />
+      <path d="M8.357 12h.996V7.836H7.656L7.647 12z" class="msportalfx-svg-c01" />
+   </g>
+</svg>

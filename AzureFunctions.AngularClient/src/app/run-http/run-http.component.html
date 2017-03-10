@@ -5,7 +5,7 @@
     <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
 </select>
 
-<div class="text-content" style="padding-top:8px">{{ 'httpRun_query' | translate }}
+<div style="padding-top:8px">{{ 'httpRun_query' | translate }}
 </div>
 
 <div *ngFor="let param of model.queryStringParams; let i = index;" class="pair">
@@ -39,7 +39,7 @@
     </span>
 </div>
 
-<div class="text-content" style="padding-top:8px">{{ 'httpRun_headers' | translate }}</div>
+<div style="padding-top:8px">{{ 'httpRun_headers' | translate }}</div>
 
 <div *ngIf="model.headers.length === 0" class="text-label" style="font-style:italic">
     {{ 'httpRun_noHeaders' | translate }}
