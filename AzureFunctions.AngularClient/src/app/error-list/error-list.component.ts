@@ -42,13 +42,13 @@ export class ErrorListComponent {
             } else {
                 errorItem = this.getGenericError();
                 if (error) {
-                    this._aiService.trackEvent('/errors/portal', {
+                    this._aiService.trackEvent('/errors/portal/unknown', {
                         error: error.details,
                         appName: this._functionsService.getFunctionAppArmId(),
                         displayedGeneric: true.toString()
                     });
                 } else {
-                    this._aiService.trackEvent('/errors/portal', {
+                    this._aiService.trackEvent('/errors/portal/unknown', {
                         error: 'no error info',
                         appName: this._functionsService.getFunctionAppArmId(),
                         displayedGeneric: true.toString()
