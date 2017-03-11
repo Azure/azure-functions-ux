@@ -4,6 +4,7 @@ import {BindingType} from '../shared/models/binding'
 import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {Constants} from '../shared/models/constants';
+import {URLSearchParams} from '@angular/http';
 
 
 @Component({
@@ -75,8 +76,16 @@ export class RunHttpComponent {
                 var findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;
                 });
+
                 if (!findResult) {
                     this.model.queryStringParams.push(p);
+                } else {
+                    // code query parameter was not saved correctly for some of the customers. Last two characters '==' were cutted.
+                    // force to save correct code
+                    if (findResult.name === "code" && p.value !== findResult.value && p.value.startsWith(findResult.value)) {
+                        findResult.value = p.value;
+                    }
+
                 }
             });
             this.change();
@@ -108,7 +117,7 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();
+        this.change();  
     }
 
     change(event?: any) {
@@ -132,6 +141,7 @@ export class RunHttpComponent {
     }
 
     private getQueryParams(url: string): Param[] {
+
         var result = [];
         var urlCopy = url;
 
@@ -145,24 +155,20 @@ export class RunHttpComponent {
             });
         }
 
-        var queryArray = urlCopy.split('?');
-
-        if (queryArray.length > 1) {
-            var query = queryArray[1];
-            var vars = query.split('&');
-            if (vars.length === 1) {
-                vars[0] = query;
-            }
-
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
-                result.push({
-                    name: decodeURIComponent(pair[0]),
-                    value: decodeURIComponent(pair[1]),
-                    isFixed: true
+        var indexOf = urlCopy.indexOf('?');
+        if (indexOf > 0) {
+            var usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
+            usp.paramsMap.forEach((value, key) => {
+                value.forEach((v) => {
+                    result.push({
+                        name: decodeURIComponent(key),
+                        value: decodeURIComponent(v),
+                        isFixed: true
+                    });
                 });
-            }
+            });
         }
+
         return result;
     }
 

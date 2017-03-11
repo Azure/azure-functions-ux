@@ -459,6 +459,7 @@ export class FunctionApp {
         }
 
         var headers = this.getMainSiteHeaders(contentType);
+        headers.delete('x-functions-key');
         model.headers.forEach((h) => {
             headers.append(h.name, h.value);
         });
