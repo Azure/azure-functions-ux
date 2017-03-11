@@ -39,7 +39,7 @@ export class FunctionsHttpService {
      * Performs a request with `post` http method.
      */
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-        return this._http.post(url, options)
+        return this._http.post(url, body, options)
             .catch(e => this.checkCorsError(e));
     }
 
@@ -63,7 +63,7 @@ export class FunctionsHttpService {
      * Performs a request with `patch` http method.
      */
     patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-        return this._http.patch(url, body)
+        return this._http.patch(url, body, options)
             .catch(e => this.checkCorsError(e));
     }
 
