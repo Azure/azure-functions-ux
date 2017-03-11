@@ -1,8 +1,11 @@
-<input id="site-manage-search"
-       type="text"
-       [(ngModel)]="searchTerm"
-       placeholder="Search features" />
+<div id="site-manage-search-container">
+    <input id="site-manage-search"
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search features" />
 
+    <img id="site-manage-search-icon" src="images/search.svg" />
+</div>
 <div>
     <div class="site-manage-col">
         <div *ngFor="let group of groups1" class="site-manage-feature-group">

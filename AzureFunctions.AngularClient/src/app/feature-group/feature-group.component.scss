@@ -9,8 +9,14 @@
 
 
 .feature-group-item{
-    padding: 5px 0px;
+    padding: 5px 45px 5px 0px;
     position: relative;
+
+    .feature-group-item-content{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
     img{
         height: 16px;

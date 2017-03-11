@@ -9,7 +9,7 @@
          
          <div *ngIf="feature.isEmpty">&nbsp;</div>
 
-         <div *ngIf="!feature.isEmpty">
+         <div *ngIf="!feature.isEmpty" class="feature-group-item-content">
             <img [src]="feature.imageUrl" />
 
             <span *ngIf="feature.enabled" class="link" (click)="click(feature)">{{feature.title}}</span>

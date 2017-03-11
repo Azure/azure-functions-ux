@@ -3,10 +3,10 @@
 
     <ul>
       <li *ngFor="let tab of tabs"
-          [class.tab-inactive]="!tab.active"
-          [class.tab-active]="tab.active"
+          [class.tab-label]="!tab.active"
+          [class.tab-label-selected]="tab.active"
           (click)="selectTab(tab)"
-          class="clickable">
+          class="clickable tab">
 
         <span >{{tab.title}}</span>
         <span *ngIf="tab.closeable" (click)="closeTab(tab)"><i class="fa fa-times" aria-hidden="true"></i></span>

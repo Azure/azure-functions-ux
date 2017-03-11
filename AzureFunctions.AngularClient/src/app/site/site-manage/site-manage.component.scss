@@ -1,18 +1,33 @@
 @import '../../../sass/main';
 
-#site-manage-search{
-    width: 25%;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
 #site-manage-container{
     min-width: 1200px;
 }
 
+#site-manage-search-container{
+    width: 25%;
+}
+
+#site-manage-search{
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-left: 30px;
+}
+
+#site-manage-search-icon{
+    position: relative;
+    top: -25px;
+    left: 19px;
+    width: 14px;
+    height: 14px;
+
+    @include flip-horizontal();
+}
+
 .site-manage-col{
     float: left;
-    min-width: 200px;
+    width: 250px;
     margin: 0px 30px 0px 10px;
 }
 

@@ -1,0 +1,45 @@
+.tab-label {
+    @extend .text-level2-heading;
+    padding-bottom: 12px;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    color: $link-color;
+}
+
+.tab-label-selected {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-bottom: 4px solid $default-text-color;
+    cursor: pointer;
+    margin-left: 10px;
+    color: $default-text-color;
+}
+
+.tab-label-disabled {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-bottom: 4px solid #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tab-label-rotate-right {
+    @extend .text-level2-heading;
+    padding-top: 12px; 
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tab-label-rotate {
+    @extend .text-level2-heading;
+    padding: 8px;
+    border-top: 4px solid #ccc;
+    cursor: pointer;
+    margin-left: 10px;
+}
