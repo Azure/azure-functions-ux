@@ -32,7 +32,11 @@ label {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    color: #FFF;
+    // color: #FFF;
+}
+
+.start-banner-header{
+    color: $body-bg-color
 }
 
 .start-banner-content *{

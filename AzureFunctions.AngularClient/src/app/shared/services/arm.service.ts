@@ -25,6 +25,7 @@ export class ArmService {
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';
+    public static availabilityApiVersion = '2015-01-01';
 
     private _initialized = false;
 

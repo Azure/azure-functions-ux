@@ -4,15 +4,15 @@
             <img src="images/stop.svg" />Stop</span>
         <span *ngIf="site?.properties.state === 'Stopped'">
             <img src="images/start.svg" />Start</span>
-    </span> | 
+    </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
         <img src="images/restart.svg" />Restart
-    </span> |
+    </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
         <img src="images/download.svg" />Download Publish Profile
-    </span> |
+    </span>
 
     <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
         [href]="publishProfileLink"
@@ -20,14 +20,67 @@
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="resetPublishCredentials()">
         <img src="images/reset.svg" />Reset Publish Credentials
-    </span> |
+    </span>
     
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
         <img src="images/delete.svg" />Delete
     </span>
 </div>
 
-<div class="site-row-container">
+<div id="essentials-container">
+    <div class="essentials-col">
+        <div>
+            <label>Status</label>
+            <div><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
+        </div>
+
+        <div>
+            <label>Availability</label>
+            <div [class.site-faded-text]="availabilityState === 'unknown'">
+                <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
+            </div>
+        </div>
+    </div>
+
+    <div class="essentials-col">
+        <div>
+            <label>Subscription</label>
+            <div>{{subscriptionId}}</div>
+        </div>
+
+        <div>
+            <label>Subscription Name</label>
+            <div>{{subscriptionName}}</div>
+        </div>
+    </div>
+
+    <div class="essentials-col">
+        <div>
+            <label>Resource Group</label>
+            <div>{{resourceGroup}}</div>
+        </div>
+
+        <div>
+            <label>Location</label>
+            <div>{{location}}</div>
+        </div>
+    </div>
+
+    <div class="essentials-col">
+        <div>
+            <label>URL</label>
+            <div>{{url}}</div>
+        </div>
+
+        <div>
+            <label>App service plan / pricing tier</label>
+            <div>{{plan}}</div>
+        </div>
+    </div>
+
+</div>
+
+<!--<div class="site-row-container">
     <div class="site-row-block">
         <h2>Essentials</h2>
         <div class="box box-site-summary">
@@ -62,14 +115,17 @@
             <site-notifications [siteInput]="site"></site-notifications>
         </div>
     </div>
-</div>
+</div>-->
 
 <!-- Ideally this and any other blocks should be able to add to the flex-box
      and have it automatically wrap to the next row but this works for now -->
+
+<div id="site-enabled-features-container">
 <div class="site-row-block">
     <h2>Configured features</h2>
     <div class="box box-site-summary">
         <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
     </div>
+</div>
 </div>
 

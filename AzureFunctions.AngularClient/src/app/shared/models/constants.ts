@@ -39,3 +39,12 @@ export class SiteTabNames{
 export class Arm{
     public static MaxSubscriptionBatchSize = 40;
 }
+
+export class AvailabilityStates{
+    public static unknown = "unknown";
+    public static unavailable = "unavailable";
+    public static available = "available";
+
+    // Not entirely sure what this means, but it seems to be synonymous with unavailable
+    public static userinitiated = "userinitiated";
+}

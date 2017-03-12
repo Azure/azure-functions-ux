@@ -1,3 +1,6 @@
+import { Subscription } from './../../shared/models/subscription';
+import { AvailabilityStates } from './../../shared/models/constants';
+import { Availability } from './../site-notifications/notifications';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { AiService } from './../../shared/services/ai.service';
 import { AppsNode } from './../../tree-view/apps-node';
@@ -8,7 +11,7 @@ import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { ArmService } from './../../shared/services/arm.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
 import {AuthzService} from '../../shared/services/authz.service';
@@ -23,7 +26,8 @@ interface DataModel
     publishCreds : PublishingCredentials,
     config : ArmObj<SiteConfig>,
     hasWritePermission : boolean,
-    hasReadOnlyLock : boolean
+    hasReadOnlyLock : boolean,
+    availability : ArmObj<Availability>,
 }
 
 @Component({
@@ -33,12 +37,17 @@ interface DataModel
     inputs: ['viewInfoInput']
 })
 
-export class SiteSummaryComponent {
+export class SiteSummaryComponent implements OnDestroy {
 
-    public subscription : string;
+    public subscriptionId : string;
+    public subscriptionName : string;
     public resourceGroup : string;
     public location : string;
     public state : string;
+    public stateIcon : string;
+    public availabilityState : string;
+    public availabilityMesg : string;
+    public availabilityIcon : string;
     public plan : string;
     public url : string;
     public publishingUserName : string;
@@ -48,10 +57,13 @@ export class SiteSummaryComponent {
 
     public publishProfileLink : SafeUrl;
 
+
     @Output() openTabEvent = new Subject<string>();
 
     private _viewInfoStream : Subject<TreeViewInfo>;
     private _viewInfo : TreeViewInfo;
+    private _subsSub : RxSubscription;
+    private _subs : Subscription[];
 
     constructor(
         private _cacheService : CacheService,
@@ -60,6 +72,10 @@ export class SiteSummaryComponent {
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
         private _domSanitizer : DomSanitizer) {
+
+        this._subsSub = this._armService.subscriptions.subscribe(subscriptions =>{
+            this._subs = subscriptions;
+        });
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
@@ -74,7 +90,9 @@ export class SiteSummaryComponent {
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
 
-                this.subscription = descriptor.subscription;
+                this.subscriptionId = descriptor.subscription;
+                this.subscriptionName = this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName;
+
                 this.resourceGroup = descriptor.resourceGroup;
 
                 let serverFarm = site.properties.serverFarmId.split('/')[8];
@@ -83,21 +101,34 @@ export class SiteSummaryComponent {
 
                 this.location = site.location;
                 this.state = site.properties.state;
+                this.stateIcon = this.state === "Running" ? "images/success.svg" : "images/stopped.svg";
+
+                this.availabilityState = null;
+                this.availabilityMesg = "Loading...";
+                this.availabilityIcon = null;
 
                 this.publishingUserName = "Loading...";
                 this.scmType = null;
                 this.publishProfileLink = null;
 
                 let configId = `${site.id}/config/web`;
+                let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
 
                 return Observable.zip<DataModel>(
                     authZService.hasPermission(site.id, [AuthzService.writeScope]),
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
-                    (p, l, c) => ({ hasWritePermission : p, hasReadOnlyLock :l, config : c.json()}))
+                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion),
+                    (p, l, c, a) => ({ 
+                        hasWritePermission : p,
+                        hasReadOnlyLock : l,
+                        config : c.json(),
+                        availability : a.json()
+                    }))
             })
             .flatMap(res =>{
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
+                this._setAvailabilityState(res.availability.properties.availabilityState);
 
                 if(this.hasWriteAccess){
                     return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
@@ -128,6 +159,10 @@ export class SiteSummaryComponent {
         }
 
         this._viewInfoStream.next(viewInfo);
+    }
+
+    ngOnDestroy() {
+        this._subsSub.unsubscribe();
     }
 
     openComponent(component : string){
@@ -227,6 +262,28 @@ export class SiteSummaryComponent {
             .subscribe((site) =>{
                 this._globalStateService.clearBusyState();
             });
+        }
+    }
+
+    private _setAvailabilityState(availabilityState : string){
+        this.availabilityState = availabilityState.toLowerCase();
+        switch (this.availabilityState) {
+            case AvailabilityStates.unknown:
+                this.availabilityIcon = "";
+                this.availabilityMesg = "Not applicable";
+                break;
+            case AvailabilityStates.unavailable:
+                this.availabilityIcon = "images/error.svg";
+                this.availabilityMesg = "Not available"
+                break;
+            case AvailabilityStates.available:
+                this.availabilityIcon = "images/success.svg";
+                this.availabilityMesg = "Available";
+                break;
+            case AvailabilityStates.userinitiated:
+                this.availabilityIcon = "images/info.svg";
+                this.availabilityMesg = "Not available";
+                break;
         }
     }
 
