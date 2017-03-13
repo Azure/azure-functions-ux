@@ -27,6 +27,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             parentNode);
 
         this.title = functionInfo.name;
+        this.iconClass = "tree-node-function-icon";
     }
 
     public handleSelection() : Observable<any>{
@@ -126,7 +127,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/integrate",
             parentNode);
 
-        this.iconClass = "fa fa-flash tree-node-function-icon";
+        this.iconClass = "fa fa-flash tree-node-function-edit-icon";
     }
 }
 
@@ -144,7 +145,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/manage",
             parentNode);
 
-        this.iconClass = "fa fa-cog tree-node-function-icon";
+        this.iconClass = "fa fa-cog tree-node-function-edit-icon";
     }
 
     public remove(){
@@ -172,6 +173,6 @@ export class FunctionMonitorNode extends FunctionEditBaseNode{
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/monitor",
             parentNode);
 
-        this.iconClass = "fa fa-search tree-node-function-icon";
+        this.iconClass = "fa fa-search tree-node-function-edit-icon";
     }
 }

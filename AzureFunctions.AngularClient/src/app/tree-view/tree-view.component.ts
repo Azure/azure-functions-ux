@@ -18,8 +18,14 @@ export class TreeViewComponent{
     }
 
     set levelInput(level : number){
-        let margin = level * 10 + 5;
-        this.margin = margin + "px";
+        if(level >= 1){
+            let margin = level * 10;
+            this.margin = margin + "px";
+        }
+        else{
+            this.margin = "5px";
+        }
+
         this.level = level;
     }
 }

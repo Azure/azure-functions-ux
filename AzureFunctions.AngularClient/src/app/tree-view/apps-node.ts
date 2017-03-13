@@ -13,7 +13,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {ErrorEvent} from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
-    public title = "Function Apps";
+    public title = "All Function Apps";
     public dashboardType = DashboardType.apps;
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);
@@ -27,6 +27,9 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         private _initialResourceId : string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, null);
+
+        this.iconClass = "tree-node-apps-icon"
+        this.showExpandIcon = false;
 
         this.childrenStream.subscribe(children =>{
             this.children = children;

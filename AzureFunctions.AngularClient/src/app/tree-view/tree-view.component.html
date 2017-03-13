@@ -53,6 +53,8 @@
         </span>
     </div>
 
+    <hr *ngIf="level === 0" class="tree-node-separator" />
+
     <!-- Child nodes in the tree if the current node expands -->
     <div *ngIf="child.isExpanded" [class.tree-node-children]="level === 0">
       <tree-view [node]="child" [levelInput]="level + 1"></tree-view>

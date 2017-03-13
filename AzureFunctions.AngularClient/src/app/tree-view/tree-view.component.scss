@@ -16,6 +16,13 @@
     }
 }
 
+hr.tree-node-separator{
+    width: 90%;
+    margin: 0px 10px;
+    border-top: $border;
+    border-top-color: darken($border-color, 10%);
+}
+
 .selected-first-level-node{
     background-color: $body-bg-color;
     border-top: $border;
@@ -64,11 +71,6 @@
     margin-left: 2px;
 }
 
-.tree-node-function-icon{
-    width: 15px;
-    color: $button-bg-color;
-}
-
 .tree-node-menu{
     float: right;
     margin-top: 2px;
@@ -79,6 +81,11 @@
     i{
         margin-left: 5px;
     }
+}
+
+.tree-node-function-edit-icon{
+    width: 15px;
+    color: $button-bg-color;
 }
 
 .tree-node-refresh-icon{
@@ -92,18 +99,31 @@
     margin-top: 1px;
 }
 
-.tree-node-function-app-icon{
-    content:url(images/functions.svg);
+.tree-node-svg-icon{
     height: 18px;
     width: 18px;
     vertical-align: middle;
     margin-left: 2px;
 }
 
+.tree-node-apps-icon{
+    @extend .tree-node-svg-icon;
+    content:url(images/BulletList.svg);
+    vertical-align: text-top;
+    margin-top: -1px;
+}
+
+.tree-node-function-app-icon{
+    @extend .tree-node-svg-icon;
+    content:url(images/functions.svg);
+}
+
+.tree-node-function-icon{
+    @extend .tree-node-svg-icon;
+    content:url(images/DataLakeAnalytics-alt.svg);
+}
+
 .tree-node-api-proxy-icon{
+    @extend .tree-node-svg-icon;
     content:url(images/api-proxy.svg);
-    height: 18px;
-    width: 18px;
-    vertical-align: middle;
-    margin-left: 2px;
 }
