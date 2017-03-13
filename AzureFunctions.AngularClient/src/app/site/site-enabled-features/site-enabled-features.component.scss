@@ -1,12 +1,12 @@
 @import '../../../sass/main';
 
 div.site-enabled-feature{
-    padding : 5px;
+    padding : 6px 0px;
 
     img{
-        height : 22px;
-        width: 22px;
-        margin-right: 5px;
+        height : 16px;
+        width: 16px;
+        margin: 0px 5px;
     }
 
     &:hover{

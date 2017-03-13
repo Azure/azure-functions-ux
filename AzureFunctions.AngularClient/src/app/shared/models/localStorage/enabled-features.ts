@@ -9,7 +9,9 @@ export enum Feature{
     Authentication,
     CustomDomains,
     SSLBinding,
-    ApiDefinition
+    ApiDefinition,
+    WebJobs,
+    SiteExtensions
 }
 
 export interface EnabledFeatures extends StorageItem{

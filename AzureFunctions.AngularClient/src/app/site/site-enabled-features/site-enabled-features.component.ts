@@ -1,3 +1,4 @@
+import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
@@ -35,6 +36,7 @@ export class SiteEnabledFeaturesComponent {
 
     private _site : ArmObj<Site>;
     private _siteSubject = new Subject<ArmObj<Site>>();
+    private _descriptor : SiteDescriptor;
 
     constructor(
         private _cacheService : CacheService,
@@ -48,6 +50,8 @@ export class SiteEnabledFeaturesComponent {
                 this._site = site;
                 this.featureItems = [];
                 this.isLoading = true;
+
+                this._descriptor = new SiteDescriptor(site.id);
 
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
@@ -76,11 +80,12 @@ export class SiteEnabledFeaturesComponent {
                 return Observable.zip(
                     this._getConfigFeatures(r.site),
                     this._getSiteFeatures(r.site),
-                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock));
+                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
+                    this._getWebJobs(r.site),
+                    this._getSiteExtensions(r.site));
             })
             .subscribe((results : EnabledFeatureItem[][]) =>{
                 this.isLoading = false;
-                // this._saveFeatures();
 
                 let latestFeatureItems : EnabledFeatureItem[] = [];
                 results.forEach(result =>{
@@ -130,7 +135,7 @@ export class SiteEnabledFeaturesComponent {
         switch(feature){
             case Feature.Cors:
                 return <EnabledFeatureItem>{
-                    title : "CORS Rules ({0})".format(args),
+                    title : "CORS Rules ({0} defined)".format(args),
                     feature : feature,
                     iconUrl : "images/cors.svg",
                     bladeInfo : {
@@ -207,6 +212,34 @@ export class SiteEnabledFeaturesComponent {
                         }
                     }
                 }
+
+            case Feature.WebJobs:
+                return <EnabledFeatureItem>{
+                    title : "WebJobs ({0} defined)".format(args),
+                    feature : feature,
+                    iconUrl : "images/webjobs.svg",
+                    bladeInfo :
+                    {
+                        detailBlade : "webjobsNewBlade",
+                        detailBladeInputs : {
+                            resourceUri : this._site.id
+                        }
+                    },
+                }
+
+            case Feature.SiteExtensions:
+                return <EnabledFeatureItem>{
+                    title : "Extensions ({0} installed)".format(args),
+                    feature : feature,
+                    iconUrl : "images/extensions.svg",
+                    bladeInfo :
+                    {
+                        detailBlade : "SiteExtensionsListBlade",
+                        detailBladeInputs : {
+                            WebsiteId : this._descriptor.getWebsiteId()
+                        }
+                    },
+                }
         }
     }
 
@@ -278,11 +311,13 @@ export class SiteEnabledFeaturesComponent {
                     items.push(this._getEnabledFeatureItem(Feature.DeploymentSource, config.properties.scmType));
                 }
 
-                if(config.properties.cors
-                    && config.properties.cors.allowedOrigins
-                    && config.properties.cors.allowedOrigins.length > 0){
+                let cors = config.properties.cors;
+                if(cors
+                    && cors.allowedOrigins
+                    && cors.allowedOrigins.length > 0
+                    && this._containsNonDefaultCorsRules(cors.allowedOrigins)){
 
-                    items.push(this._getEnabledFeatureItem(Feature.Cors, config.properties.cors.allowedOrigins.length));
+                    items.push(this._getEnabledFeatureItem(Feature.Cors, cors.allowedOrigins.length));
                 }
 
                 if(config.properties.apiDefinition && config.properties.apiDefinition.url){
@@ -291,6 +326,16 @@ export class SiteEnabledFeaturesComponent {
 
                 return items;
             })
+    }
+
+    private _containsNonDefaultCorsRules(allowedOrigins : string[]){
+        let nonDefaultRule = allowedOrigins.find(o =>{
+            return o.toLowerCase() !== "https://functions.azure.com"
+                && o.toLowerCase() !== "https://functions-staging.azure.com"
+                && o.toLowerCase() !== "https://functions-next.azure.com";
+        })
+
+        return !!nonDefaultRule;
     }
 
     private _getAuthFeatures(
@@ -316,32 +361,32 @@ export class SiteEnabledFeaturesComponent {
         })
     }
 
-    // private _getWebJobs(site : ArmObj<Site>){
-    //     let webJobsId = `${site.id}/webjobs`;
-    //     return this._cacheService.getArm(webJobsId)
-    //         .map(r =>{
-    //             let jobs : any[] = r.json().value;
-    //             let items = null;
+    private _getWebJobs(site : ArmObj<Site>){
+        let webJobsId = `${site.id}/webjobs`;
+        return this._cacheService.getArm(webJobsId)
+            .map(r =>{
+                let jobs : any[] = r.json().value;
+                let items = null;
 
-    //             if(jobs && jobs.length > 0){
-    //                 items = [this._getEnabledFeatureItem(Feature.WebJobs)];
-    //             }
+                if(jobs && jobs.length > 0){
+                    items = [this._getEnabledFeatureItem(Feature.WebJobs, jobs.length)];
+                }
 
-    //             return items;
-    //         });
-    // }
+                return items;
+            });
+    }
 
-    // private _getSiteExtensions(site : ArmObj<Site>){
-    //     let extensionsId = `${site.id}/siteExtensions`;
-    //     return this._cacheService.getArm(extensionsId)
-    //         .map(r =>{
-    //             let extensions : any[] = r.json().value;
-    //             let items = null;
-    //             if(extensions && extensions.length > 0){
-    //                 items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
-    //             }
+    private _getSiteExtensions(site : ArmObj<Site>){
+        let extensionsId = `${site.id}/siteExtensions`;
+        return this._cacheService.getArm(extensionsId)
+            .map(r =>{
+                let extensions : any[] = r.json().value;
+                let items = null;
+                if(extensions && extensions.length > 0){
+                    items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
+                }
 
-    //             return items;
-    //         });
-    // }
+                return items;
+            });
+    }
 }
