@@ -39,6 +39,7 @@ export class ErrorListComponent {
                     this._aiService.trackEvent('/errors/portal/visibleError', {
                         error: error.details,
                         message: error.message,
+                        errorId: error.errorId,
                         displayedGeneric: false.toString(),
                         appName: this._functionsService.getFunctionAppArmId()
                     });
