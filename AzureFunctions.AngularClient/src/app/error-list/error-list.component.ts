@@ -65,11 +65,13 @@ export class ErrorListComponent {
         });
 
         _broadcastService.subscribe<string>(BroadcastEvent.ClearError, errorId => {
-            this.errorList = this.errorList.filter(e => e.errorEvent.errorId !== errorId);
-            this._aiService.trackEvent('/errors/auto-cleared', {
-                errorId: errorId,
-                appName: this._functionsService.getFunctionAppArmId()
-            });
+            if (this.errorList.find(e => e.errorEvent.errorId === errorId)) {
+                this.errorList = this.errorList.filter(e => e.errorEvent.errorId !== errorId);
+                this._aiService.trackEvent('/errors/auto-cleared', {
+                    errorId: errorId,
+                    appName: this._functionsService.getFunctionAppArmId()
+                });
+            }
         });
 
         Observable.timer(1, 60000)
