@@ -355,5 +355,6 @@ export class PortalResources
     public static error_unableToDeleteFunctionKey: string = "error_unableToDeleteFunctionKey";
     public static error_unableToRenewFunctionKey: string = "error_unableToRenewFunctionKey";
     public static error_unableToRetrieveFunctionKeys: string = "error_unableToRetrieveFunctionKeys";
+    public static error_appOffline: string = "error_appOffline";
 }
 

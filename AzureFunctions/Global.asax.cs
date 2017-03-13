@@ -68,6 +68,23 @@ namespace AzureFunctions
         {
             var context = new HttpContextWrapper(HttpContext.Current);
 
+            if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
+            else if (context.Request.Url.AbsolutePath.Equals("/api/ping", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.Write("success");
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
+
             var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
             var route = RouteTable.Routes.GetRouteData(context);
             // If the route is not registerd in the WebAPI RouteTable
@@ -86,12 +103,6 @@ namespace AzureFunctions
                 {
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
-                }
-                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
-                    context.Response.Flush();
-                    context.Response.End();
                 }
                 else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
                 {

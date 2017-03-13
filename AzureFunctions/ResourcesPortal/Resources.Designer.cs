@@ -1078,6 +1078,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
+        /// </summary>
+        internal static string error_appOffline {
+            get {
+                return ResourceManager.GetString("error_appOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CORS is not configured for this function app. Please add {{origin}} to your CORS list..
         /// </summary>
         internal static string error_CORSNotConfigured {

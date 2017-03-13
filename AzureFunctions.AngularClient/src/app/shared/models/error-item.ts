@@ -1,4 +1,4 @@
-import { ErrorEvent } from './error-event';
+import { ErrorEvent, ErrorType } from './error-event';
 
 export interface ErrorItem {
     message: string;
@@ -7,5 +7,6 @@ export interface ErrorItem {
     dismissable: boolean;
     href?: string;
     hrefText?: string;
-    errorEvent: ErrorEvent;
+    errorType: ErrorType;
+    errorIds: string[];
 }

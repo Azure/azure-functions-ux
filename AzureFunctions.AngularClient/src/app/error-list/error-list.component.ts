@@ -31,11 +31,14 @@ export class ErrorListComponent {
                     message: error.message,
                     dateTime: new Date().toISOString(),
                     date: new Date(),
-                    errorEvent: error,
+                    errorType: error.errorType,
+                    errorIds: [error.errorId],
                     dismissable: error.errorType !== ErrorType.Fatal
                 };
-
-                if (!this.errorList.find(e => e.message === errorItem.message)) {
+                let existingError = this.errorList.find(e => e.message === errorItem.message);
+                if (existingError && !existingError.errorIds.find(e => e === error.errorId)) {
+                    existingError.errorIds.push(error.errorId);
+                } else if (!existingError) {
                     this._aiService.trackEvent('/errors/portal/visibleError', {
                         error: error.details,
                         message: error.message,
@@ -44,8 +47,8 @@ export class ErrorListComponent {
                         appName: this._functionsService.getFunctionAppArmId()
                     });
                     this.errorList.push(errorItem);
-                    if (this.errorList.find(e => e.errorEvent.errorType === ErrorType.Fatal)) {
-                        this.errorList = this.errorList.filter(e => e.errorEvent.errorType === ErrorType.Fatal);
+                    if (this.errorList.find(e => e.errorType === ErrorType.Fatal)) {
+                        this.errorList = this.errorList.filter(e => e.errorType === ErrorType.Fatal);
                     }
                 }
             } else {
@@ -66,8 +69,11 @@ export class ErrorListComponent {
         });
 
         _broadcastService.subscribe<string>(BroadcastEvent.ClearError, errorId => {
-            if (this.errorList.find(e => e.errorEvent.errorId === errorId)) {
-                this.errorList = this.errorList.filter(e => e.errorEvent.errorId !== errorId);
+            for (let i = 0; i < this.errorList.length; i++) {
+                this.errorList[i].errorIds = this.errorList[i].errorIds.filter(e => e !== errorId);
+            }
+            if (this.errorList.find(e => e.errorIds.length === 0)) {
+                this.errorList = this.errorList.filter(e => e.errorIds.length !== 0);
                 this._aiService.trackEvent('/errors/auto-cleared', {
                     errorId: errorId,
                     appName: this._functionsService.getFunctionAppArmId()

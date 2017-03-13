@@ -23,8 +23,13 @@ export class FunctionsHttpService {
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+        let urlString = typeof url === 'string' ? url : url.url;
         return this._http.request(url, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(urlString));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -32,7 +37,11 @@ export class FunctionsHttpService {
      */
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.get(url, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -40,7 +49,11 @@ export class FunctionsHttpService {
      */
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.post(url, body, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -48,7 +61,11 @@ export class FunctionsHttpService {
      */
     put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.put(url, body, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -56,7 +73,11 @@ export class FunctionsHttpService {
      */
     delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.delete(url, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -64,7 +85,11 @@ export class FunctionsHttpService {
      */
     patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.patch(url, body, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -72,7 +97,11 @@ export class FunctionsHttpService {
      */
     head(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.head(url, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
     /**
@@ -80,19 +109,46 @@ export class FunctionsHttpService {
      */
     options(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.options(url, options)
-            .catch(e => this.checkCorsError(e));
+            .catch(e => this.checkCorsError(e))
+            .do(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.corsNotConfigured + this.getHostname(url));
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+            });
     }
 
-    private checkCorsError(error: FunctionsResponse): Observable<FunctionsResponse> {
-        if (!error.isHandled && error.status === 0 && error.type === ResponseType.Error) {
-             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                     message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
-                     details: JSON.stringify(error),
-                     errorId: ErrorIds.corsNotConfigured,
-                     errorType: ErrorType.RuntimeError
-                 });
-             error.isHandled = true;
-        }
-        throw error;
+    private checkCorsError(error: FunctionsResponse): Observable<any> {
+        return this._http.get('/api/ping')
+            .catch(e => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_appOffline),
+                        errorId: ErrorIds.applicationOffline,
+                        errorType: ErrorType.Fatal
+                    });
+                    error.isHandled = true;
+                }
+                throw error;
+            })
+            .flatMap(_ => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.applicationOffline);
+                if (!error.isHandled && error.status === 0 && error.type === ResponseType.Error) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
+                        details: JSON.stringify(error),
+                        errorId: ErrorIds.corsNotConfigured + this.getHostname(error.url),
+                        errorType: ErrorType.RuntimeError
+                    });
+                    error.isHandled = true;
+                }
+                throw error;
+            });
+    }
+
+    private getHostname(url: string): string {
+        let anchor = document.createElement('a');
+        anchor.setAttribute('href', url);
+        let link = anchor.hostname;
+        anchor = null;
+        return link;
     }
 }

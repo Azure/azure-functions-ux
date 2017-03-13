@@ -1177,4 +1177,7 @@
   <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
     <value>We are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
   </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>The application is offline. Please check your internet connection.</value>
+  </data>
 </root>

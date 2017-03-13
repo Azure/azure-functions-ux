@@ -30,4 +30,5 @@ export class ErrorIds {
     public static userDoesntHaveAccess = '/errors/userDoesntHaveAccess';
     public static functionAppStopped = '/errors/functionAppStopped';
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
+    public static applicationOffline = '/errors/applicationOffline';
 }
