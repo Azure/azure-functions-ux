@@ -17,7 +17,7 @@ import {FunctionApp} from '../shared/function-app';
 
 export class ProxiesNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = "Proxies (preview)";
-    public dashboardType = DashboardType.none;
+    public dashboardType = DashboardType.proxies;
     public newDashboardType = DashboardType.createProxy;
 
     constructor(
@@ -89,11 +89,11 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
 
         if(!this.children || this.children.length === 0){
             return this.functionApp.getApiProxies()
-            .map(fcs =>{
+            .map(proxies =>{
                 let fcNodes = <ProxyNode[]>[];
-                fcs.forEach(fc => {
-                    fc.functionApp = this.functionApp;
-                    fcNodes.push(new ProxyNode(this.sideNav, this, fc, this))
+                proxies.forEach(proxy => {
+                    proxy.functionApp = this.functionApp;
+                    fcNodes.push(new ProxyNode(this.sideNav, this, proxy, this))
                 });
 
                 this.children = fcNodes;

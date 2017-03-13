@@ -9,7 +9,9 @@
 
             <apps-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'apps'"></apps-list>
             <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
-            
+            <functions-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functions'"></functions-list>
+            <proxies-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxies'"></proxies-list>
+
             <!-- Temporary until Functions is ready to adopt the same font-size as 
                  everywhere else-->
             <div class="function-dashboards">

@@ -1,0 +1,41 @@
+.custom-list-container{
+    padding: 0px 25px;
+    background-color: $body-bg-color;
+
+    h3{
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
+
+.custom-table{
+    border-collapse: inherit;
+    border: $border;
+
+
+    tr{
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+
+        &:hover{
+            background-color: lighten($border-color, 5%);
+        }
+
+        .sortableCol{
+            text-decoration: underline;
+        }
+
+        .notSortableCol{
+            cursor: text;
+        }
+    }
+
+    th{
+        background-color: $border-color;
+        min-width: 200px;
+    }
+
+    th, td{
+        padding: 5px;
+    }
+}

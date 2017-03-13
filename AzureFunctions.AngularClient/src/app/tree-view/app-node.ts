@@ -164,7 +164,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         }
 
-        this.sideNav.updateView(this, this.dashboardType);
+        this.sideNav.updateView(this, this.dashboardType, true);
 
         // Call loadChildren first in case there's currently a load operation going
         return this.loadChildren()

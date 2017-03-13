@@ -16,7 +16,7 @@ import {FunctionApp} from '../shared/function-app';
 
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = "Functions";
-    public dashboardType = DashboardType.none;
+    public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunction;
 
     constructor(

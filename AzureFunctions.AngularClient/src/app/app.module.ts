@@ -90,6 +90,8 @@ import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
  import { ApiDetailsComponent } from './api-details/api-details.component';
  import { ApiNewComponent } from './api-new/api-new.component';
+import { FunctionsListComponent } from './functions-list/functions-list.component';
+import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +165,8 @@ import { FunctionRuntimeComponent } from './site/function-runtime/function-runti
       FunctionRuntimeComponent,
       ApiDetailsComponent,
       ApiNewComponent,
+      FunctionsListComponent,
+      ProxiesListComponent,
   ],
   imports: [
       FormsModule,

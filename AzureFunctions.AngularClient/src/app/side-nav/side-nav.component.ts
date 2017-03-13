@@ -111,9 +111,14 @@ export class SideNavComponent{
         });
     }
 
-    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType) : Observable<boolean>{
+    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType, force? : boolean) : Observable<boolean>{
         if(this.selectedNode){
-            if(this.selectedNode !== newSelectedNode){
+
+            if(!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === dashboardType){
+                return Observable.of(false);
+            }
+            else{
+    
                 if(this.selectedNode.shouldBlockNavChange()){
                     return Observable.of(false);
                 }

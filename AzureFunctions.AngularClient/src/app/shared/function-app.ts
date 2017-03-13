@@ -238,7 +238,7 @@ export class FunctionApp {
     }
 
     getApiProxies() {
-        return this._http.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() })
+        return this._cacheService.get(`${this.azureScmServer}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
             .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
                 if (err.status === 404 || errorCount >= 10) {
                     throw err;

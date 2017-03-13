@@ -1,0 +1,18 @@
+<div class="custom-list-container">
+<h3>Functions</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+<table class="custom-table">
+  <tr>
+    <th>Name</th>
+    <th>Enabled</th>
+  </tr>
+
+  <tr *ngFor="let item of items" (click)="clickRow(item)">
+    <td class="link">{{item.functionInfo.name}}</td>
+    <td>{{!item.functionInfo.config.disabled}}</td>
+  </tr>
+
+  <tr *ngIf="!isLoading && items.length === 0"><td>No results</td></tr>
+  <tr *ngIf="isLoading"><td>Loading...</td></tr>
+  
+</table>
+</div>

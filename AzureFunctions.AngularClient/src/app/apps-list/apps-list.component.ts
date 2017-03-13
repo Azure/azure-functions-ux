@@ -13,6 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class AppsListComponent implements OnInit, OnDestroy {
   public viewInfoStream : Subject<TreeViewInfo>;
   public items : AppNode[] = [];
+  public appsNode : AppsNode;
 
   public sortedColumn : string;
   public sortAscending : boolean;
@@ -26,6 +27,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
       this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
       .switchMap(viewInfo =>{
+        this.appsNode = (<AppsNode>viewInfo.node);
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children =>{
