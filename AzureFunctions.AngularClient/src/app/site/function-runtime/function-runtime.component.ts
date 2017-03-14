@@ -100,6 +100,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
 
             this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            if (!this.routingExtensionVersion) {
+                this.routingExtensionVersion = Constants.disabled;
+            }
             this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
             this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
             this.needUpdateRoutingExtensionVersion
