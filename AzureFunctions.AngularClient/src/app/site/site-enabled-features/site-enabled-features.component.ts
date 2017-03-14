@@ -1,3 +1,4 @@
+import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
@@ -42,7 +43,8 @@ export class SiteEnabledFeaturesComponent {
         private _cacheService : CacheService,
         private _storageService : StorageService,
         private _portalService : PortalService,
-        private _authZService : AuthzService) {
+        private _authZService : AuthzService,
+        private _aiService : AiService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -246,6 +248,11 @@ export class SiteEnabledFeaturesComponent {
     private _saveFeatures(featureItems : EnabledFeatureItem[]){
         let enabledFeatures : EnabledFeature[];
         enabledFeatures = featureItems.map(enabledFeature => {
+            this._aiService.trackEvent('/site/enabledFeatures', {
+                resourceId : this._site.id,
+                featureName : enabledFeature.title
+            });
+
             return {
                 title : enabledFeature.title,
                 feature : enabledFeature.feature

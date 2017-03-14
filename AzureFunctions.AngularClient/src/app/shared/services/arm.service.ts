@@ -1,3 +1,4 @@
+import { Guid } from './../Utilities/Guid';
 import {Http, Headers, Response, Request} from '@angular/http';
 import {Injectable, EventEmitter} from '@angular/core';
 import {Subscription} from '../models/subscription';
@@ -20,6 +21,7 @@ export class ArmService {
     public armUrl = '';
 
     private token: string;
+    private sessionId : string;
     public armApiVersion = '2014-04-01'
     public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
@@ -41,6 +43,7 @@ export class ArmService {
         if ( !window.location.pathname.endsWith('/try')) {
             _userService.getStartupInfo().flatMap(info => {
                 this.token = info.token;
+                this.sessionId = info.sessionId;
                 if(info.subscriptions && info.subscriptions.length > 0){
                     return Observable.of(info.subscriptions);
                 }
@@ -103,6 +106,11 @@ export class ArmService {
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         headers.append('Authorization', `Bearer ${this.token}`);
+        headers.append('x-ms-client-request-id', Guid.newGuid());
+
+        if(this.sessionId){
+            headers.append('x-ms-client-session-id', this.sessionId);
+        }
 
         if(etag){
             headers.append('If-None-Match', etag);

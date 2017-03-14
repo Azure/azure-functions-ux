@@ -58,11 +58,22 @@ export class PortalService {
 
     openBlade(bladeInfo : OpenBladeInfo, source : string){
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
+        this._aiService.trackEvent('/site/open-blade', {
+            targetBlade : bladeInfo.detailBlade,
+            targetExtension : bladeInfo.extension,
+            source : source
+        });
+
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.logAction(source, "open-blade-collector" + name, null);
+        this._aiService.trackEvent('/site/open-collector-blade', {
+            targetBlade : name,
+            source : source
+        });
+
         this.getAppSettingCallback = getAppSettingCallback;
         let payload = {
             resourceId : resourceId,
@@ -74,6 +85,12 @@ export class PortalService {
 
     openCollectorBladeWithInputs(resourceId : string, obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.logAction(source, "open-blade-collector-inputs" + obj.bladeName, null);
+
+        this._aiService.trackEvent('/site/open-collector-blade', {
+            targetBlade : obj.bladeName,
+            source : source
+        });
+
         this.getAppSettingCallback = getAppSettingCallback;
 
         let payload = {

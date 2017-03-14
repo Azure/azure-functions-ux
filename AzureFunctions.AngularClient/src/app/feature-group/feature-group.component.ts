@@ -1,3 +1,4 @@
+import { AiService } from './../shared/services/ai.service';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
 import {ArmService} from '../shared/services/arm.service';
@@ -18,8 +19,9 @@ export class FeatureGroupComponent {
     public filteredFeatures : FeatureItem[];
     public group : FeatureGroup;
     private _emptyItem : FeatureItem;
+    private _searchTerm = "";
 
-    constructor(){
+    constructor(private _aiService : AiService){
         this._emptyItem = new FeatureItem("", "", "");
         this._emptyItem.isEmpty = true;
     }
@@ -30,6 +32,8 @@ export class FeatureGroupComponent {
     }
 
     set searchTerm(term : string){
+        this._searchTerm = term;
+
         if(!term){
             this.filteredFeatures = this.group.features;
         }
@@ -57,6 +61,12 @@ export class FeatureGroupComponent {
     }
 
     click(feature : FeatureItem){
+        
+        this._aiService.trackEvent("/site/feature-click", {
+            featureName : feature.title,
+            isResultsFiltered : !!this._searchTerm ? "true" : "false"
+        })
+
         feature.click();
     }
 }
