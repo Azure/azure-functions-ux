@@ -114,13 +114,13 @@ export class AppComponent implements OnInit, AfterViewInit {
                 // Make sure at least 5 seconds have elapsed since last time the app has been modified.
                 // This delay is to avoid a race condition with negative DNS caching for app host name.
                 // See https://github.com/projectkudu/AzureFunctionsPortal/issues/951
-                let deltaSinceLastModified = this.getDeltaSinceLastModifiedInSeconds(functionContainer);
-                if (deltaSinceLastModified > 0) {
-                    setTimeout(() => {
-                        this.initializeDashboard(functionContainer, appSettingsAccess, authSettings);
-                    }, deltaSinceLastModified * 1000);
-                    return;
-                }
+                // let deltaSinceLastModified = this.getDeltaSinceLastModifiedInSeconds(functionContainer);
+                // if (deltaSinceLastModified > 0) {
+                //     setTimeout(() => {
+                //         this.initializeDashboard(functionContainer, appSettingsAccess, authSettings);
+                //     }, deltaSinceLastModified * 1000);
+                //     return;
+                // }
                 this.functionContainer = functionContainer;
                 if (!functionContainer.tryScmCred && (!appSettingsAccess || !functionContainer.properties.enabled || functionContainer.properties.state === 'Stopped')) {
                     this._globalStateService.GlobalDisabled = true;
