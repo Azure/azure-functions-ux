@@ -23,11 +23,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+    <app-root>Loading...</app-root>
+    @if (isAzure && !isOnPrem)
+    {
+        <script type="text/javascript" src="@cdn/inline.js?v=@version"></script>
+        <script type="text/javascript" src="@cdn/styles.bundle.js?v=@version"></script>
+        <script type="text/javascript" src="@cdn/main.bundle.js?v=@version"></script>
+        <script type="text/javascript" src="@cdn/scripts.bundle.js?v=@version"></script>
+    } else {
+        <script type="text/javascript" src="inline.js"></script>
+        <script type="text/javascript" src="styles.bundle.js"></script>
+        <script type="text/javascript" src="main.bundle.js"></script>
+        <script type="text/javascript" src="scripts.bundle.js"></script>
+    }
+
+    <script src="assets/monaco/min/vs/loader.js"></script>
+
     @{
         if (isAzure && !isOnPrem)
         {
-            <azure-functions-app></azure-functions-app>
-
             if (!string.IsNullOrEmpty(aiIinstrumentationKey))
             {
                 <script type="text/javascript" src="https://az416426.vo.msecnd.net/scripts/a/ai.0.js"></script>
@@ -53,19 +67,5 @@
             <!-- end Mixpanel -->
         }
     }
-    <app-root>Loading...</app-root>
-    @if (isAzure && !isOnPrem)
-    {
-    <script type="text/javascript" src="@cdn/inline.js?v=@version"></script>
-    <script type="text/javascript" src="@cdn/styles.bundle.js?v=@version"></script>
-    <script type="text/javascript" src="@cdn/main.bundle.js?v=@version"></script>
-    <script type="text/javascript" src="@cdn/scripts.bundle.js?v=@version"></script>
-    } else {
-    <script type="text/javascript" src="inline.js"></script>
-    <script type="text/javascript" src="styles.bundle.js"></script>
-    <script type="text/javascript" src="main.bundle.js"></script>
-    <script type="text/javascript" src="scripts.bundle.js"></script>
-    }
-    <script src="assets/monaco/min/vs/loader.js"></script>
 </body>
 </html>
