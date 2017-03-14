@@ -62,6 +62,7 @@ export class FunctionApp {
     private azureAdminKey: string;
     public isMultiKeySupported: boolean = false;
     public isAlwaysOn : boolean = false;
+    public isDeleted = false;
     
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -1130,6 +1131,7 @@ export class FunctionApp {
                         ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
                         : false;
                     if (!isConfigured) {
+                        
                         // CORS Error
                         let message = this._translateService.instant(PortalResources.error_CORSNotConfigured, {
                             origin: window.location.origin
@@ -1138,7 +1140,9 @@ export class FunctionApp {
                             message: message,
                             details: JSON.stringify(error)
                         });
-                                        } else {
+                    }
+                    else {
+
                         // DNS resolution or any error that results from the worker process crashing or restarting
                         this._broadcastService.broadcast<ErrorEvent>(
                             BroadcastEvent.Error,
@@ -1146,24 +1150,30 @@ export class FunctionApp {
                         );
                     }
                 }, (e: Response) => {
-                    let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {
-                        functionApp: this.site.name
-                    });
 
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: message,
-                        details: JSON.stringify(e)
-                    });
+                    if(!this.isDeleted){
+                        let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctionApp, {
+                            functionApp: this.site.name
+                        });
+
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: message,
+                            details: JSON.stringify(e)
+                        });
+                    }
                 });
         } else {
-            let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {
-                statusText: this.statusCodeToText(error.status)
-            });
 
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                message: message,
-                details: JSON.stringify(error)
-            });
+            if(!this.isDeleted){
+                let message = this._translateService.instant(PortalResources.error_UnableToRetriveFunctions, {
+                    statusText: this.statusCodeToText(error.status)
+                });
+
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: message,
+                    details: JSON.stringify(error)
+                });
+            }
         }
         
         throw error;

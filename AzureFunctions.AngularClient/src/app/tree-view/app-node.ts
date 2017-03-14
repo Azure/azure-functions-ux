@@ -231,7 +231,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this._pollingTask = null;
         }
 
-        // this.functionApp = null;
+        if(this.functionApp){
+            this.functionApp.isDeleted = true;
+        }
+
         this.sideNav.globalStateService.setTopBarNotifications([]);
     }
     public setupBackgroundTasks(){
