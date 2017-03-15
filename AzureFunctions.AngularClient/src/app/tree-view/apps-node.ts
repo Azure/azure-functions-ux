@@ -18,7 +18,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
-    private _exactAppSearchExp = 'app:\"(.+)\"';
+    private _exactAppSearchExp = '\"(.+)\"';
 
     constructor(
         sideNav: SideNavComponent,

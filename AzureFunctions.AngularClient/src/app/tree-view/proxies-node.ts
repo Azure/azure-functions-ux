@@ -54,9 +54,10 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
 
     public addChild(functionInfo : ApiProxy){
         functionInfo.functionApp = this.functionApp;
-        
+        this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
+
         let newNode = new ProxyNode(this.sideNav, this, functionInfo, this);
-        this.children.push(newNode);
+        this._addChildAlphabetically(newNode);
         newNode.select();
     }
 

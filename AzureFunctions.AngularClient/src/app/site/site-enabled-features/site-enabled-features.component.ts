@@ -83,7 +83,6 @@ export class SiteEnabledFeaturesComponent {
                     this._getConfigFeatures(r.site),
                     this._getSiteFeatures(r.site),
                     this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
-                    this._getWebJobs(r.site),
                     this._getSiteExtensions(r.site));
             })
             .subscribe((results : EnabledFeatureItem[][]) =>{
@@ -368,20 +367,20 @@ export class SiteEnabledFeaturesComponent {
         })
     }
 
-    private _getWebJobs(site : ArmObj<Site>){
-        let webJobsId = `${site.id}/webjobs`;
-        return this._cacheService.getArm(webJobsId)
-            .map(r =>{
-                let jobs : any[] = r.json().value;
-                let items = null;
+    // private _getWebJobs(site : ArmObj<Site>){
+    //     let webJobsId = `${site.id}/webjobs`;
+    //     return this._cacheService.getArm(webJobsId)
+    //         .map(r =>{
+    //             let jobs : any[] = r.json().value;
+    //             let items = null;
 
-                if(jobs && jobs.length > 0){
-                    items = [this._getEnabledFeatureItem(Feature.WebJobs, jobs.length)];
-                }
+    //             if(jobs && jobs.length > 0){
+    //                 items = [this._getEnabledFeatureItem(Feature.WebJobs, jobs.length)];
+    //             }
 
-                return items;
-            });
-    }
+    //             return items;
+    //         });
+    // }
 
     private _getSiteExtensions(site : ArmObj<Site>){
         let extensionsId = `${site.id}/siteExtensions`;

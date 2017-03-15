@@ -6,7 +6,8 @@
             id="sidenav-search"
             placeholder="Search"
             [value]="searchTerm"
-            (keyup)="search($event)" />
+            (keyup)="search($event)"
+            [class.sidenav-search-highlight]="hasValue" />
 
         <img id="sidenav-search-icon" src="images/search.svg" />
 

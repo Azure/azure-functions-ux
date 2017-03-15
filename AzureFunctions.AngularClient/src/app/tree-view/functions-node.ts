@@ -60,9 +60,10 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public addChild(functionInfo : FunctionInfo){
         functionInfo.functionApp = this.functionApp;
+        this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
         
         let newNode = new FunctionNode(this.sideNav, this, functionInfo, this);
-        this.children.push(newNode);
+        this._addChildAlphabetically(newNode);
         newNode.select();
     }
 

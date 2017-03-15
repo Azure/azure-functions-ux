@@ -178,4 +178,18 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public scopeToNode(){
         this.sideNav.searchExact(this.title);
     }
+
+    protected _addChildAlphabetically(newChild : TreeNode){
+        let i : number;
+        for(i = 0; i < this.children.length; i++){
+            if(newChild.title < this.children[i].title){
+                this.children.splice(i, 0, newChild);
+                break;
+            }
+        }
+
+        if(i === this.children.length){
+            this.children.push(newChild);
+        }
+    }
 }

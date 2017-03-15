@@ -43,6 +43,7 @@ export class SideNavComponent{
     public subscriptionsDisplayText = "";
     @Input() public resourceId : string;
     public searchTerm = "";
+    public hasValue = false;
 
     public selectedNode : TreeNode;
     public selectedDashboardType : DashboardType;
@@ -179,6 +180,8 @@ export class SideNavComponent{
     }
 
     search(event : any){
+        this.hasValue = !!event.target.value;
+
         let startPos = event.target.selectionStart;
         let endPos = event.target.selectionEnd;
 
@@ -196,10 +199,12 @@ export class SideNavComponent{
     }
 
     searchExact(term : string){
-        this._searchTermStream.next(`app:"${term}"`);
+        this.hasValue = !!term;
+        this._searchTermStream.next(`"${term}"`);
     }
 
     clearSearch(){
+        this.hasValue = false;
         this._searchTermStream.next("");
     }
 

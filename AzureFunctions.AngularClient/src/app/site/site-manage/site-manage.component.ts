@@ -218,20 +218,20 @@ export class SiteManageComponent {
                 },
                 this._portalService), 
 
-            new DisableableBladeFeature(
-                "Web jobs",
-                "web jobs",
-                "Info",
-                "images/webjobs.svg",
-                {
-                    detailBlade : "webjobsNewBlade",
-                    detailBladeInputs : {
-                        resourceUri : site.id
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream,                
-                this._dynamicDisableInfo),
+            // new DisableableBladeFeature(
+            //     "Web jobs",
+            //     "web jobs",
+            //     "Info",
+            //     "images/webjobs.svg",
+            //     {
+            //         detailBlade : "webjobsNewBlade",
+            //         detailBladeInputs : {
+            //             resourceUri : site.id
+            //         }
+            //     },
+            //     this._portalService,
+            //     this._hasSiteWritePermissionStream,                
+            //     this._dynamicDisableInfo),
 
             new DisableableBladeFeature(
                 "Backups",
@@ -250,7 +250,7 @@ export class SiteManageComponent {
 
             new BladeFeature(
                 "All settings",
-                "all settings",
+                "all settings support request scale",
                 "Info",
                 "images/webapp.svg",
                 {
@@ -263,9 +263,10 @@ export class SiteManageComponent {
         ]
 
         this.groups1 = [
+            new FeatureGroup("General settings", generalFeatures),
             new FeatureGroup("Code deployment", codeDeployFeatures),
-            new FeatureGroup("Development tools", developmentToolFeatures),
-            new FeatureGroup("General settings", generalFeatures)];
+            new FeatureGroup("Development tools", developmentToolFeatures)
+        ];
     }
 
     private _initCol2Groups(site : ArmObj<Site>){
