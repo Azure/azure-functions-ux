@@ -922,8 +922,8 @@ export class FunctionsService {
     }
 
     private localize(objectTolocalize: any) {
-        if ((typeof value === 'string') && (value.startsWith('$'))) {
-            objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
+        if ((typeof objectTolocalize === 'string') && (objectTolocalize.startsWith('$'))) {
+            objectTolocalize[property] = this._translateService.instant(value.substring(1, objectTolocalize.length));
         }
 
         for (var property in objectTolocalize) {
@@ -941,7 +941,7 @@ export class FunctionsService {
                         objectTolocalize[property] = locString;
                     }
                 }
-                if (typeof value === 'array') {
+                if (Array.isArray(value)) {
                     for (var i = 0; i < value.length; i++) {
                         this.localize(value[i]);
                     }
