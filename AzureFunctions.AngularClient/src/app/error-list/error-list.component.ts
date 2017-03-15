@@ -43,7 +43,7 @@ export class ErrorListComponent {
                     if (this.errorList.find(e => e.errorType === ErrorType.Fatal)) {
                         this.errorList = this.errorList.filter(e => e.errorType === ErrorType.Fatal);
                     }
-                    if (this.errorList.find(e => e.message === error.message)) {
+                    if (this.errorList.find(e => e === errorItem)) {
                         this._aiService.trackEvent('/errors/portal/visibleError', {
                             error: error.details,
                             message: error.message,

@@ -1047,7 +1047,9 @@ export class FunctionsService {
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-
+        if (this.isEasyAuthEnabled) {
+            return Observable.of({ keys: [], links: []});
+        }
         return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
             .retryWhen(error => error.scan<number>((errorCount, err: FunctionsResponse) => {
                 if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
