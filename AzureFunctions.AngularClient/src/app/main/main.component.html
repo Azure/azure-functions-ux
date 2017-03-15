@@ -15,7 +15,13 @@
             <!-- Temporary until Functions is ready to adopt the same font-size as 
                  everywhere else-->
             <div class="function-dashboards">
-                <function-edit [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'function'"></function-edit>
+                <function-edit
+                    [viewInfoInput]="viewInfo"
+                    *ngIf="dashboardType === 'function'
+                            || dashboardType === 'functionIntegrate'
+                            || dashboardType === 'functionManage'
+                            || dashboardType === 'functionMonitor'"></function-edit>
+
                 <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
                 <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
                 <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>

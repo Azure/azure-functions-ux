@@ -1,3 +1,4 @@
+import { AiService } from './../../shared/services/ai.service';
 import { SiteTabNames } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
@@ -30,13 +31,28 @@ export class SiteDashboardComponent {
 
     public activeComponent = "";
 
+    private _tabsLoaded = false;
+    private _traceOnTabSelection = false;
+
     constructor(
         private _cacheService : CacheService,
-        private _globalStateService : GlobalStateService
+        private _globalStateService : GlobalStateService,
+        private _aiService : AiService
      ) {
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
             .switchMap(viewInfo =>{
+                
+                if(!this._tabsLoaded){
+                    // We only set to false on 1st time load because that's the only time
+                    // that we'll update the viewInfoStream, AND call onTabSelected.  Changing
+                    // tabs only calls onTabSelected, and clicking on another app will only
+                    // update the stream.
+                    this._traceOnTabSelection = false;
+                }
+
+                viewInfo.data.siteTraceKey = this._aiService.startTrace();
+
                 this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
@@ -70,6 +86,13 @@ export class SiteDashboardComponent {
     }
 
     onTabSelected(selectedTab: TabComponent) {
+
+        if(this._traceOnTabSelection){
+            this.viewInfo.data.siteTraceKey = this._aiService.startTrace();
+        }
+
+        this._tabsLoaded = true;
+        this._traceOnTabSelection = true;
         this.selectedTabTitle = selectedTab.title;
     }
 

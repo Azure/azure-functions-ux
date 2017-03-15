@@ -1,3 +1,7 @@
+import { GlobalStateService } from './../../shared/services/global-state.service';
+import { CacheService } from './../../shared/services/cache.service';
+import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { AiService } from './../../shared/services/ai.service';
 import { Message } from './../../shared/models/portal';
 import { DisableableBladeFeature, DisableableFeature, DisableInfo } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
@@ -18,7 +22,7 @@ import {WebsiteId} from '../../shared/models/portal';
     selector: 'site-manage',
     templateUrl: './site-manage.component.html',
     styleUrls: ['./site-manage.component.scss'],
-    inputs: ["siteInput"]
+    inputs: ["viewInfoInput"]
 })
 
 export class SiteManageComponent {
@@ -27,7 +31,8 @@ export class SiteManageComponent {
     public groups3 : FeatureGroup[];
 
     public searchTerm = "";
-    private _siteSub = new Subject<ArmObj<Site>>();
+    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfo : TreeViewInfo;
     private _descriptor : SiteDescriptor;
 
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
@@ -37,16 +42,31 @@ export class SiteManageComponent {
 
     @Output() openTabEvent = new Subject<string>();
 
-    set siteInput(site : ArmObj<Site>){
-        this._siteSub.next(site);
+    set viewInfoInput(viewInfo : TreeViewInfo){
+        this._viewInfoStream.next(viewInfo);
     }
 
-    constructor(private _authZService : AuthzService, private _portalService : PortalService){
-        this._siteSub
-        .distinctUntilChanged()
-        .switchMap(site =>{
-            this._portalService.closeBlades();
+    constructor(
+        private _authZService : AuthzService,
+        private _portalService : PortalService,
+        private _aiService : AiService,
+        private _cacheService : CacheService,
+        private _globalStateService : GlobalStateService){
 
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._viewInfo = viewInfo;
+            this._globalStateService.setBusyState();
+            return this._cacheService.getArm(viewInfo.resourceId);
+        })
+        .switchMap(r =>{
+            this._globalStateService.clearBusyState();
+
+            let traceKey = this._viewInfo.data.siteTraceKey;
+            this._aiService.stopTrace("/sites/features-tab-ready", traceKey);
+
+            let site : ArmObj<Site> = r.json();
+            this._portalService.closeBlades();
             this._descriptor = new SiteDescriptor(site.id);
 
             this._dynamicDisableInfo = {

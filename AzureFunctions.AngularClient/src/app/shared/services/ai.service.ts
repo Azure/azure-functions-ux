@@ -1,3 +1,4 @@
+import { Guid } from './../Utilities/Guid';
 import {Injectable} from '@angular/core';
 import {IAppInsights, IConfig, SeverityLevel} from '../models/app-insights';
 
@@ -38,6 +39,8 @@ export class AiService implements IAppInsights {
     * Initialization queue. Contains functions to run when appInsights initializes
     */
     queue: (() => void)[] = run(() => appInsights.queue);
+
+    private _traceStartTimes : {[name: string] : number} = {};
 
     /**
     * Sets the sessionId for all the current events.
@@ -108,7 +111,6 @@ export class AiService implements IAppInsights {
         return appInsights.startTrackEvent(name);
     }
 
-
     /**
      * Log an extended event that you started timing with {@link startTrackEvent}.
      * @param   name    The string you used to identify this event in startTrackEvent.
@@ -119,6 +121,36 @@ export class AiService implements IAppInsights {
     stopTrackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
         mixpanel.track(name, { properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.stopTrackEvent(name, properties, measurements);
+    }
+
+    /**
+     * Start timing an event
+     * @returns    A unique key used to identify a specific call to startTrace
+     */
+    startTrace() : string {
+        let traceKey = Guid.newTinyGuid();
+        this._traceStartTimes[traceKey] = Date.now();
+        return traceKey;
+    }
+
+    /**
+     * Log an extended event that you started timing with {@link startTrace}.
+     * @param   traceKey    The unique key used to identify a specific call to startTrace
+     * @param   properties  map[string, string] - additional data used to filter events and metrics in the portal. Defaults to empty.
+     * @param   measurements    map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.
+     */
+    stopTrace(name : string, traceKey : string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+        
+        let eventStart = this._traceStartTimes[traceKey];
+        if(eventStart){
+            delete this._traceStartTimes[traceKey];
+
+            let duration = Date.now() - eventStart;
+            properties = !!properties ? properties : {};
+            properties["duration"] = duration + "";
+
+            this.trackEvent(name, properties, measurements);
+        }
     }
 
     /**

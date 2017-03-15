@@ -81,7 +81,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 }
 
 export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
-    public dashboardType = DashboardType.function;
+    // public dashboardType = DashboardType.function;
     public showExpandIcon = false;
     
     constructor(
@@ -115,6 +115,7 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
 }
 
 export class FunctionIntegrateNode extends FunctionEditBaseNode{
+    public dashboardType = DashboardType.functionIntegrate
     public title = "Integrate";
 
     constructor(
@@ -132,6 +133,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
 }
 
 export class FunctionManageNode extends FunctionEditBaseNode implements Removable{
+    public dashboardType = DashboardType.functionManage    
     public title = "Manage";
 
     constructor(
@@ -161,6 +163,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 }
 
 export class FunctionMonitorNode extends FunctionEditBaseNode{
+    public dashboardType = DashboardType.functionMonitor;
     public title = "Monitor";
 
     constructor(

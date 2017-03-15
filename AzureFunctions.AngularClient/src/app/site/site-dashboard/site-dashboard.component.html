@@ -9,7 +9,9 @@
         <site-monitor *ngIf="selectedTabTitle === TabNames.monitor" [siteInput]="site"></site-monitor>
     </tab>-->
     <tab [tabTitle]="TabNames.features">
-        <site-manage *ngIf="selectedTabTitle === TabNames.features" [siteInput]="site" (openTabEvent)="openTab($event)"></site-manage>
+        <site-manage *ngIf="selectedTabTitle === TabNames.features"
+                     [viewInfoInput]="viewInfo"
+                     (openTabEvent)="openTab($event)"></site-manage>
     </tab>
     <tab [tabTitle]="TabNames.functionRuntime">
         <function-runtime

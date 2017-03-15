@@ -143,6 +143,9 @@ export class SiteSummaryComponent implements OnDestroy {
             })
             .subscribe(res =>{
                 this._globalStateService.clearBusyState();
+                let traceKey = this._viewInfo.data.siteTraceKey;
+                this._aiService.stopTrace("/sites/overview-tab-ready", traceKey);
+
                 this.scmType = res.config.properties.scmType;
 
                 if(this.hasWriteAccess){

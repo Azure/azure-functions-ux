@@ -112,10 +112,10 @@ export class SideNavComponent{
         });
     }
 
-    updateView(newSelectedNode : TreeNode, dashboardType : DashboardType, force? : boolean) : Observable<boolean>{
+    updateView(newSelectedNode : TreeNode, newDashboardType : DashboardType, force? : boolean) : Observable<boolean>{
         if(this.selectedNode){
 
-            if(!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === dashboardType){
+            if(!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === newDashboardType){
                 return Observable.of(false);
             }
             else{
@@ -128,20 +128,33 @@ export class SideNavComponent{
             }
         }
 
+        this._logDashboardTypeChange(this.selectedDashboardType, newDashboardType);
+
         this.selectedNode = newSelectedNode;
-        this.selectedDashboardType = dashboardType;
+        this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;
 
         let viewInfo = <TreeViewInfo>{
             resourceId : newSelectedNode.resourceId,
-            dashboardType : dashboardType,
-            node : newSelectedNode
+            dashboardType : newDashboardType,
+            node : newSelectedNode,
+            data : {}
         };
 
         this.treeViewInfoEvent.emit(viewInfo);
         this._updateTitle(newSelectedNode);
 
         return newSelectedNode.handleSelection();
+    }
+
+    private _logDashboardTypeChange(oldDashboard : DashboardType, newDashboard : DashboardType){
+        let oldDashboardType = DashboardType[oldDashboard];
+        let newDashboardType = DashboardType[newDashboard];
+
+        this.aiService.trackEvent('/sidenav/change-dashboard', {
+            source : oldDashboardType,
+            dest : newDashboardType
+        })
     }
 
     private _updateTitle(node : TreeNode){

@@ -5,4 +5,5 @@ export interface TreeViewInfo{
     resourceId : string;
     dashboardType : DashboardType;
     node : TreeNode;
+    data : any;
 }

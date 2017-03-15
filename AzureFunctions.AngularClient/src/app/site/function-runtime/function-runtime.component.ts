@@ -47,6 +47,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   private showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
+  private _viewInfo : TreeViewInfo;
   private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
 
@@ -64,7 +65,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
         .switchMap(viewInfo => {
-
+            this._viewInfo = viewInfo;
             this._globalStateService.setBusyState();
 
             this._appNode = (<AppNode>viewInfo.node);
@@ -108,9 +109,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.needUpdateRoutingExtensionVersion
                 = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
 
-
             this._globalStateService.clearBusyState();
-
+            let traceKey = this._viewInfo.data.siteTraceKey;
+            this._aiService.stopTrace("/sites/function-runtime-tab-ready", traceKey);
         });
 
     this.functionStatusOptions = [

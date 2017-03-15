@@ -11,6 +11,9 @@ export enum DashboardType{
     createFunction,
     functions,
     function,
+    functionIntegrate,
+    functionManage,
+    functionMonitor,
     createProxy,
     proxies,
     proxy
