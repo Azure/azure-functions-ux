@@ -11,7 +11,8 @@ export class ErrorIds {
     public static unableToUpdateFunction = '/errors/unableToUpdateFunction';
     public static unableToRetrieveFunction = '/errors/unableToRetrieveFunction';
     public static unableToDecryptKeys = '/errors/unableToDecryptKeys';
-    public static unableToRetrieveRuntimeKey = '/errors/unableToRetrieveRuntimeKey';
+    public static unableToRetrieveRuntimeKeyFromScm = '/errors/unableToRetrieveRuntimeKeyFromScm';
+    public static unableToRetrieveRuntimeKeyFromRuntime = '/errors/unableToRetrieveRuntimeKeyFromRuntime';
     public static unableToRetrieveDirectoryContent = '/errors/unableToRetrieveDirectoryContent';
     public static unableToSyncTriggers = '/errors/unableToSyncTriggers';
     public static unableToCallDiagnoseApi = '/errors/unableToCallDiagnoseApi';

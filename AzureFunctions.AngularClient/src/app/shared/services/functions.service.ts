@@ -687,7 +687,7 @@ export class FunctionsService {
             .do((r: Response) => {
                     let key: { masterKey: string } = r.json();
                     this.masterKey = key.masterKey;
-                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKey);
+                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
                 },
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -709,10 +709,10 @@ export class FunctionsService {
                         }
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                            errorId: ErrorIds.unableToRetrieveRuntimeKey,
+                            errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
                             errorType: ErrorType.RuntimeError
                         });
-                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKey, {
+                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
                             status: error.status.toString(),
                             content: error.text(),
                         });
@@ -766,7 +766,7 @@ export class FunctionsService {
             })
             .do(_ => {
                     this.isMultiKeySupported = true;
-                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKey);
+                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
                 },
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -778,11 +778,11 @@ export class FunctionsService {
 
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                            errorId: ErrorIds.unableToRetrieveRuntimeKey,
+                            errorId: ErrorIds.unableToRetrieveRuntimeKeyFromRuntime,
                             errorType: ErrorType.RuntimeError
                         });
 
-                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKey, {
+                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromRuntime, {
                             status: error.status.toString(),
                             content: error.text(),
                         });
