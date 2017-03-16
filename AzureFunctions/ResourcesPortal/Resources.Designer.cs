@@ -142,7 +142,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxy or function with that name already exsists..
+        ///   Looks up a localized string similar to Proxy or function with that name already exists..
         /// </summary>
         internal static string apiProxy_errorExists {
             get {
@@ -664,7 +664,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a share name where youf function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a share name where your function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
         /// </summary>
         internal static string backend_error_MissingAzureFilesContentShare {
             get {
@@ -700,7 +700,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. Without this setting you&apos;ll always be running the latest version of the runtime even accross major version updates which might contain breaking changes. It&apos;s advised to set that value to the current latest major version (~1) and you&apos;ll get notified with newer versions for update..
+        ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. Without this setting you&apos;ll always be running the latest version of the runtime even across major version updates which might contain breaking changes. It&apos;s advised to set that value to the current latest major version (~1) and you&apos;ll get notified with newer versions for update..
         /// </summary>
         internal static string backend_error_MissingFunctionsExtensionVersionAppSetting {
             get {
@@ -745,7 +745,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Storage account {0} doesn&apos;t support Azure Queues Storage. Functions runtime require queues to work propertly. You&apos;ll have to delete and recreate your function app with a storage account that supports Azure Queues Storage..
+        ///   Looks up a localized string similar to Storage account {0} doesn&apos;t support Azure Queues Storage. Functions runtime require queues to work properly. You&apos;ll have to delete and recreate your function app with a storage account that supports Azure Queues Storage..
         /// </summary>
         internal static string backend_error_StorageAccountDoesntSupportQueues {
             get {
@@ -1132,7 +1132,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to retrive the list of functions for this function app..
+        ///   Looks up a localized string similar to We are not able to retrieve the list of functions for this function app..
         /// </summary>
         internal static string error_parsingFunctionListReturenedFromKudu {
             get {
@@ -1267,7 +1267,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error getting content for file {{fileName}}..
+        ///   Looks up a localized string similar to We are not able to retrieve your functions right now. Please try again later..
         /// </summary>
         internal static string error_unableToRetrieveFunctionListFromKudu {
             get {
@@ -1303,7 +1303,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are not able to retrive secrets file for {{functionName}}. Please try again later..
+        ///   Looks up a localized string similar to We are not able to retrieve secrets file for {{functionName}}. Please try again later..
         /// </summary>
         internal static string error_UnableToRetrieveSecretsFileFromKudu {
             get {
@@ -1483,7 +1483,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage until the next 24 hours timeframe..
+        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage until the next 24 hours time frame..
         /// </summary>
         internal static string functionAppSettings_quotaInfo {
             get {
@@ -1492,7 +1492,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Function App has reached daily usage quota and has been stopped until the next 24 hours timeframe..
+        ///   Looks up a localized string similar to The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame..
         /// </summary>
         internal static string functionAppSettings_quotaWarning {
             get {
@@ -3112,7 +3112,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates.
+        ///   Looks up a localized string similar to &lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the pre-built function templates.
         /// </summary>
         internal static string tutorial_createNew {
             get {

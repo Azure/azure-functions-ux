@@ -581,7 +581,7 @@
     <value>Changes made here will affect all of the functions within your function app.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates</value>
+    <value>&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the pre-built function templates</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
     <value>Develop</value>
@@ -890,7 +890,7 @@
     <value>Daily Usage Quota (GB-Sec)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours timeframe.</value>
+    <value>The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Remove quota</value>
@@ -899,7 +899,7 @@
     <value>Set quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>The Function App will be stopped when reaching daily usage until the next 24 hours timeframe.</value>
+    <value>The Function App will be stopped when reaching daily usage until the next 24 hours time frame.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Are you sure you want to revoke {{name}} key?</value>
@@ -983,7 +983,7 @@
     <value>Backend URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>Proxy or function with that name already exsists.</value>
+    <value>Proxy or function with that name already exists.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Name</value>
@@ -1082,7 +1082,7 @@
     <value>'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is used to host your functions content. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting.</value>
   </data>
   <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
-    <value>'{0}' application setting is missing from your app. This setting contains a share name where youf function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting.</value>
+    <value>'{0}' application setting is missing from your app. This setting contains a share name where your function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting.</value>
   </data>
   <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
     <value>'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken.</value>
@@ -1094,7 +1094,7 @@
     <value>Create the app setting with a valid storage connection string.</value>
   </data>
   <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
-    <value>'{0}' application setting is missing from your app. Without this setting you'll always be running the latest version of the runtime even accross major version updates which might contain breaking changes. It's advised to set that value to the current latest major version (~1) and you'll get notified with newer versions for update.</value>
+    <value>'{0}' application setting is missing from your app. Without this setting you'll always be running the latest version of the runtime even across major version updates which might contain breaking changes. It's advised to set that value to the current latest major version (~1) and you'll get notified with newer versions for update.</value>
   </data>
   <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
     <value>Azure Storage Account connection string stored in '{0}' is null or empty. This is required to have your function app working.</value>
@@ -1109,7 +1109,7 @@
     <value>Update the app setting with a valid existing storage connection string.</value>
   </data>
   <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
-    <value>Storage account {0} doesn't support Azure Queues Storage. Functions runtime require queues to work propertly. You'll have to delete and recreate your function app with a storage account that supports Azure Queues Storage.</value>
+    <value>Storage account {0} doesn't support Azure Queues Storage. Functions runtime require queues to work properly. You'll have to delete and recreate your function app with a storage account that supports Azure Queues Storage.</value>
   </data>
   <data name="backend_error_UnexpectedArmError" xml:space="preserve">
     <value>There seem to be a problem querying Azure backend for your function app.</value>
@@ -1121,7 +1121,7 @@
     <value>If the problem persists, contact support with the following code {{code}}</value>
   </data>
   <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
-    <value>We are not able to retrive the list of functions for this function app.</value>
+    <value>We are not able to retrieve the list of functions for this function app.</value>
   </data>
   <data name="error_unableToCreateFunction" xml:space="preserve">
     <value>We are not able to create function {{functionName}}. Please try again later.</value>
@@ -1139,10 +1139,10 @@
     <value>We are not able to get the content for {{fileName}}. Please try again later.</value>
   </data>
   <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
-    <value>Error getting content for file {{fileName}}.</value>
+    <value>We are not able to retrieve your functions right now. Please try again later.</value>
   </data>
   <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
-    <value>We are not able to retrive secrets file for {{functionName}}. Please try again later.</value>
+    <value>We are not able to retrieve secrets file for {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
     <value>We are not able to save the content for {{fileName}}. Please try again later.</value>
