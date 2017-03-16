@@ -152,19 +152,23 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this._globalStateService.clearBusyState();
                 this.readyFunction = true;
                 this._backgroundTasksService.runTasks();
-                this._functionsService.diagnose(functionContainer)
-                    .subscribe(diagnosticsResults => {
-                        if (diagnosticsResults) {
-                            for (let i = 0; i < diagnosticsResults.length; i++) {
-                                if (diagnosticsResults[i].isDiagnosingSuccessful) {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
-                                        errorId: diagnosticsResults[i].successResult.actionId,
-                                        errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError
-                                    });
+                this._userService.getToken()
+                    .delay(2000)
+                    .subscribe(() => {
+                        this._functionsService.diagnose(functionContainer)
+                            .subscribe(diagnosticsResults => {
+                                if (diagnosticsResults) {
+                                    for (let i = 0; i < diagnosticsResults.length; i++) {
+                                        if (diagnosticsResults[i].isDiagnosingSuccessful) {
+                                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                                message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
+                                                errorId: diagnosticsResults[i].successResult.actionId,
+                                                errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError
+                                            });
+                                        }
+                                    }
                                 }
-                            }
-                        }
+                            });
                     });
             } else {
                 this._globalStateService.setBusyState();
