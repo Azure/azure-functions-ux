@@ -116,7 +116,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 let traceKey = this._viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace("/sites/overview-tab-ready", traceKey);
+                this._aiService.stopTrace("/site/overview-tab-ready", traceKey);
 
                 return Observable.zip<DataModel>(
                     authZService.hasPermission(site.id, [AuthzService.writeScope]),

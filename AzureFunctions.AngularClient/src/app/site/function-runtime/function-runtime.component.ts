@@ -115,7 +115,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
             this._globalStateService.clearBusyState();
             let traceKey = this._viewInfo.data.siteTraceKey;
-            this._aiService.stopTrace("/sites/function-runtime-tab-ready", traceKey);
+            this._aiService.stopTrace("/site/function-runtime-tab-ready", traceKey);
         });
 
     this.functionStatusOptions = [
