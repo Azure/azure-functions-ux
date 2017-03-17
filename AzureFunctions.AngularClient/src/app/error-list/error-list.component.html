@@ -1,6 +1,6 @@
 <div class="error-list">
     <div class="error-box" *ngFor="let error of errorList; let i = index">
-        <div class="clickable close-button" (click)="dismissError(i)">x</div>
+        <div *ngIf="error.dismissable" class="clickable close-button" (click)="dismissError(i)">x</div>
         <div class="error-message">
             <p><strong>Error:</strong></p>
             <p>{{error.message}} <a *ngIf="error.href && error.hrefText" [attr.href]="error.href" target="_blank">{{error.hrefText}}</a></p>

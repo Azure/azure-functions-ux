@@ -16,6 +16,7 @@
         siteDisabledReason?: number;
         state?: string;
         defaultHostName?: string;
+        lastModifiedTimeUtc?: string;
     }
     tryScmCred?: string;
 }

@@ -1,6 +1,6 @@
 import { FunctionApp } from '../shared/function-app';
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs/Rx';
 import {FunctionInfo} from '../shared/models/function-info';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {FunctionKey} from '../shared/models/function-key';
@@ -52,8 +52,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.setBusyState();
                 this.resetState();
                 return fi
-                 ? this.functionApp.getFunctionKeys(fi)
-                 : this.functionApp.getFunctionHostKeys();
+                    ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of({ keys: [], links: [] }))
+                    : this.functionApp.getFunctionHostKeys().catch(error => Observable.of({ keys: [], links: [] }));
             })
             .subscribe(keys => {
                 this.clearBusyState();
@@ -74,8 +74,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 } else {
                     this.selectKey(null);
                 }
-            }, e => {
-                this.clearBusyState();
             });
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.ResetKeySelection, fi => {
             if ((fi && fi === this.functionInfo) || (!fi && !this.functionInfo)) {
@@ -144,7 +142,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
             .subscribe(key => {
                 this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
+                this.functionStream.next(this.functionInfo);
             }, e => this.clearBusyState());
     }
 
@@ -182,12 +180,14 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 }

@@ -27,7 +27,6 @@ import {LanguageService} from './shared/services/language.service';
 import { AppComponent } from './app.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import { BusyStateComponent } from './busy-state/busy-state.component';
-import { LocalDevelopmentInstructionsComponent } from './local-development-instructions/local-development-instructions.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-state.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -88,22 +87,22 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
- import { ApiDetailsComponent } from './api-details/api-details.component';
- import { ApiNewComponent } from './api-new/api-new.component';
+import { ApiDetailsComponent } from './api-details/api-details.component';
+import { ApiNewComponent } from './api-new/api-new.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
+import { FunctionsHttpService } from './shared/services/functions-http.service';
 
 @NgModule({
   declarations: [
       AppComponent,
       nvD3,
       FileSelectDirective,
-      FileDropDirective,      
+      FileDropDirective,
 
       GettingStartedComponent,
       BusyStateComponent,
-      LocalDevelopmentInstructionsComponent,
       DashboardComponent,
       TryNowBusyStateComponent,
       TopBarComponent,
@@ -201,7 +200,8 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
       UtilitiesService,
       BackgroundTasksService,
       GlobalStateService,
-      AiService
+      AiService,
+      FunctionsHttpService
   ],
   bootstrap: [AppComponent]
 })

@@ -96,7 +96,7 @@
                     </div>
 
                     <!-- Logs -->
-                    <div class="dev-flex-column"> 
+                    <div class="dev-flex-column">
 
                         <div *ngIf="!bottomTab" class="bottom-bar-closed">
                             <span class="tab-label-disabled" (click)="clickRightTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
@@ -183,7 +183,7 @@
 
                                         <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                         <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode < 99 || runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                     </div>
 
                                     <pre class="run-pre-regular">{{runResult?.content}}</pre>

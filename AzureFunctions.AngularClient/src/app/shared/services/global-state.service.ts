@@ -7,7 +7,6 @@ import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
 import {BusyStateComponent} from '../../busy-state/busy-state.component';
 import {AiService} from './ai.service';
-import {LocalDevelopmentInstructionsComponent} from '../../local-development-instructions/local-development-instructions.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {FunctionsService} from './functions.service';
 import {Observable, Subscription as RxSubscription, BehaviorSubject, Subject} from 'rxjs/Rx';
@@ -16,7 +15,6 @@ import {Observable, Subscription as RxSubscription, BehaviorSubject, Subject} fr
 export class GlobalStateService {
     public _functionsService: FunctionsService;
     public showTryView: boolean;
-    public isRunningLocal: boolean = false;
     public showTopbar: boolean;
     public isAlwaysOn: boolean = true;
     public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -26,13 +24,11 @@ export class GlobalStateService {
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
     private _globalBusyStateComponent: BusyStateComponent;
-    private _localDevelopmentInstructions: LocalDevelopmentInstructionsComponent;
     private _dashboardComponent: DashboardComponent;
     private _shouldBeBusy: boolean;
     private _token: string;
     private _tryAppServicetoken: string;
     private _scmCreds: string;
-    private _localMode: boolean = false;
     private _globalDisabled: boolean = false;
 
 
@@ -146,31 +142,7 @@ export class GlobalStateService {
        this._globalDisabled = value;
    }
 
-   showLocalDevelopInstructions() {
-       this._localDevelopmentInstructions.show();
-   }
-
-   set LocalDevelopmentInstructionsComponent(value: LocalDevelopmentInstructionsComponent) {
-       this._localDevelopmentInstructions = value;
-   }
-
-   set DashboardComponent(value: DashboardComponent) {
-       this._dashboardComponent = value;
-   }
-
-   checkLocalFunctionsServer() {
-       return this._functionsService.checkLocalFunctionsServer();
-   }
-
-   switchToLocalServer() {
-       this.isRunningLocal = true;
-       this._functionsService.switchToLocalServer();
-       this._dashboardComponent.onRefreshClicked();
-   }
-
-   switchToAzure() {
-       this.isRunningLocal = false;
-       this._functionsService.switchToAzure();
-       this._dashboardComponent.onRefreshClicked();
-   }
+    set DashboardComponent(value: DashboardComponent) {
+        this._dashboardComponent = value;
+    }
 }

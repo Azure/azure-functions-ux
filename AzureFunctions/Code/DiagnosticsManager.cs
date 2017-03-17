@@ -42,10 +42,10 @@ namespace AzureFunctions.Code
         ///           This is created by Kudu or the runtime; however it seems to be very common for people
         ///           to get in a state where the encryption keys can't decrypt that key, and the apps are in
         ///           a completely broken state until this is corrected.
-        ///     5. Check cross stamp issues.
+        ///     // 5. Check cross stamp issues.
         ///           This is another very common issue where after scaling to a non-home stamp, the scaled site
         ///           doesn't work on the non-home stamp and it's very hard to get what is going on there.
-        ///     6. Check runtime errors.
+        ///     // 6. Check runtime errors.
         ///           This will probably need to be expanded as we only look for some general markers now, but we
         ///           can do more heuristics to figure out what's wrong with the runtime.
         /// <param name="armId">A full ARM Id for a FunctionApp to be diagnosed for any issues.</param>
@@ -105,26 +105,11 @@ namespace AzureFunctions.Code
                         .Concat(masterKeyResult.DiagnosticsResults);
             }
 
-            // check if it's some cross stamp issue
-            var checkCrossStampResult = await CheckCrossStampResult(functionApp, masterKeyResult.Data);
-            if (checkReturn(checkCrossStampResult))
-            {
-                return resourceCheckResult.DiagnosticsResults
-                        .Concat(appSettingsCheckResult.DiagnosticsResults)
-                        .Concat(new[] { storageCheckResult })
-                        .Concat(masterKeyResult.DiagnosticsResults)
-                        .Concat(new[] { checkCrossStampResult });
-            }
-
-            // Check runtime state.
-            var checkFunctionRuntimeResult = await CheckFunctionRuntimeResult(functionApp, masterKeyResult.Data);
-
             // No need to call checkReturn here since it's the last check anyway.
             return resourceCheckResult.DiagnosticsResults
                     .Concat(appSettingsCheckResult.DiagnosticsResults)
                     .Concat(new[] { storageCheckResult })
-                    .Concat(masterKeyResult.DiagnosticsResults)
-                    .Concat(new[] { checkCrossStampResult, checkFunctionRuntimeResult });
+                    .Concat(masterKeyResult.DiagnosticsResults);
         }
 
         private async Task<DiagnosticsResult> CheckFunctionRuntimeResult(ArmResource<ArmFunctionApp> functionApp, string masterKey)
@@ -211,7 +196,7 @@ namespace AzureFunctions.Code
                             // This is a terminating error. This is almost exactly why this user is seeing errors in the portal.
                             IsTerminating = true,
                             Message = "We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app.",
-                            UserAction = "Follow steps here https://github.com/projectkudu/AzureFunctionsPortal/wiki/Manually-fixing-CryptographicException-when-trying-to-read-function-keys",
+                            UserAction = "Follow steps here https://go.microsoft.com/fwlink/?linkid=844094",
                             ActionId = ActionIds.KeysUnexpectedError
                         }
                     };
@@ -632,7 +617,6 @@ namespace AzureFunctions.Code
                     Code = GetSupportErrorCode(ActionIds.AppIsMisconfiguredInAzure, functionApp),
                     SuccessResult = new DiagnoseSuccessResult
                     {
-                        IsTerminating = true,
                         Message = "Your function app has client certificate authentication enabled. This causes the UI to not work for function runtime scenarios (running, checking for runtime errors, access keys, etc).",
                         UserAction = "You should still be able to manage your functions. If you want the runtime to work, consider disabling client certificate on the app.",
                         ActionId = ActionIds.AppIsMisconfiguredInAzure

@@ -1,10 +1,11 @@
 import { FunctionApp } from './../shared/function-app';
+import { ErrorIds } from './../shared/models/error-ids';
 import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {PortalService} from '../shared/services/portal.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BindingManager} from '../shared/models/binding-manager';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -51,8 +52,13 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
         try {
             this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });                        
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                errorId: ErrorIds.errorParsingConfig,
+                errorType: ErrorType.UserError
+            });
         }
     }
 
@@ -88,8 +94,13 @@ export class FunctionIntegrateComponent implements OnDestroy {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                 });
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
             } catch (e) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                    errorId: ErrorIds.errorParsingConfig,
+                    errorType: ErrorType.UserError
+                });
             }
         }
     }

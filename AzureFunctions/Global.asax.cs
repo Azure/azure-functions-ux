@@ -69,6 +69,33 @@ namespace AzureFunctions
         {
             var context = new HttpContextWrapper(HttpContext.Current);
 
+            if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
+            else if (context.Request.Url.AbsolutePath.Equals("/api/ping", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.Write("success");
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
+
+            var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+            var route = RouteTable.Routes.GetRouteData(context);
+            // If the route is not registerd in the WebAPI RouteTable
+            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+            // If the route doesn't have authenticated value assume true
+            var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+            // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
+            // context.Request.UrlReferrer = null evals to true, is okay in this case
+            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
+
             // TODO: Enable authentication for prod scenario's once we get Antares whitelisting
             if (context.Request.Url.IsLoopback && !SecurityManager.TryAuthenticateRequest(context))
             {
@@ -83,12 +110,6 @@ namespace AzureFunctions
                 {
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
-                }
-                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
-                    context.Response.Flush();
-                    context.Response.End();
                 }
                 else if (!isFile)
                 {
@@ -261,7 +282,7 @@ namespace AzureFunctions
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

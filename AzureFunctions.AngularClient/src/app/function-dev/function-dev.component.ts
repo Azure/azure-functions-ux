@@ -15,14 +15,15 @@ import {RunFunctionResult} from '../shared/models/run-function-result';
 import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {AiService} from '../shared/services/ai.service';
 import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
 import {BindingManager} from '../shared/models/binding-manager';
-import {RunHttpComponent} from '../run-http/run-http.component';
+import { RunHttpComponent } from '../run-http/run-http.component';
+import { ErrorIds } from "../shared/models/error-ids";
 
 
 @Component({
@@ -63,7 +64,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public running: Subscription;
     public showFunctionInvokeUrl: boolean = false;
     public showFunctionKey: boolean = false;
-    public showFunctionInvokeUrlModal: boolean = false;    
+    public showFunctionInvokeUrlModal: boolean = false;
     public showFunctionKeyModal: boolean = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
@@ -254,7 +255,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
 
-        if (this.editorContainer) {            
+        if (this.editorContainer) {
             this.editorContainer.nativeElement.style.width = editorContainerWidth + "px";
             this.editorContainer.nativeElement.style.height = editorContainerHeight + "px";
         }
@@ -365,7 +366,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         setTimeout(() => {
             this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         });
-        
+
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
@@ -414,8 +415,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {
                 this._bindingManager.validateConfig(JSON.parse(this.updatedContent), this._translateService);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
             } catch (e) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) })
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                    errorId: ErrorIds.errorParsingConfig,
+                    errorType: ErrorType.UserError
+                });
                 return;
             }
         }
@@ -518,25 +524,40 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     checkErrors(functionInfo: FunctionInfo) {
         this.functionApp.getFunctionErrors(functionInfo)
-        .subscribe(errors => {
-            if (errors) {
-                errors.forEach(e => {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
-                        details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }) });
-                    this._aiService.trackEvent('/errors/function', { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
+            .subscribe(errors => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + functionInfo.name);
+                // Give clearing a chance to run
+                setTimeout(() => {
+                    if (errors) {
+                        errors.forEach(e => {
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
+                                details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
+                                errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
+                                errorType: ErrorType.FunctionError
+                            });
+                            this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
+                        });
+                    } else {
+                        this.functionApp.getHostErrors()
+                            .subscribe(hostErrors => {
+                                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
+                                // Give clearing a chance to run
+                                setTimeout(() => {
+                                    hostErrors.forEach(e => {
+                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                                            errorId: ErrorIds.generalHostErrorFromHost,
+                                            errorType: ErrorType.RuntimeError
+                                        });
+                                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
+                                    });
+                                });
+                            });
+                    }
                 });
-            } else {
-                this.functionApp.getHostErrors()
-                .subscribe(errors => errors.forEach(e => {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                        details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e })
-                    });
-                    this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
-                }));
-           }
-        });
+            });
     }
 
     get codeEditor(): MonacoEditorDirective {

@@ -8,9 +8,10 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
+import { PortalResources } from '../shared/models/portal-resources';
+import { ErrorIds } from "../shared/models/error-ids";
 
 @Component({
     selector: 'function-integrate-v2',
@@ -20,7 +21,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 })
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
-    @Output() changeEditor = new EventEmitter<string>();    
+    @Output() changeEditor = new EventEmitter<string>();
 
     public disabled: boolean;
     public model: BindingList = new BindingList();
@@ -47,8 +48,13 @@ export class FunctionIntegrateV2Component {
 
         try {
             this._bindingManager.validateConfig(this.functionInfo.config, this._translateService);
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                errorId: ErrorIds.errorParsingConfig,
+                errorType: ErrorType.UserError
+            });
             this.onEditorChange('advanced');
             return;
         }
@@ -160,8 +166,13 @@ export class FunctionIntegrateV2Component {
 
         try {
             this.updateFunction();
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.errorParsingConfig, {error: e}) });
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
+                errorId: ErrorIds.errorParsingConfig,
+                errorType: ErrorType.UserError
+            });
             this.onRemoveBinding(binding);
         }
     }

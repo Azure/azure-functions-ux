@@ -23,32 +23,31 @@ import {MainComponent} from './main/main.component';
 // import {TranslateService} from 'ng2-translate/ng2-translate';
 // import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 // import {PortalResources} from './shared/models/portal-resources';
-import {ConfigService} from './shared/services/config.service'; 
+import {ConfigService} from './shared/services/config.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
 })
-
 export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
     public showTryView: boolean;
-    
+
     private _startupInfo : StartupInfo;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     constructor(
-        private _configService: ConfigService, 
+        private _configService: ConfigService,
         private _portalService: PortalService,
         private _armService: ArmService,
         private _userService: UserService,
-        private _functionsService : FunctionsService,
-        private _backgroundTasksService : BackgroundTasksService,
-        private _languageService : LanguageService,
-        private _globalStateService : GlobalStateService,
-        private _broadcastService : BroadcastService
+        private _functionsService: FunctionsService,
+        private _backgroundTasksService: BackgroundTasksService,
+        private _languageService: LanguageService,
+        private _globalStateService: GlobalStateService,
+        private _broadcastService: BroadcastService,
     ) {
         this.ready = false;
 
@@ -90,7 +89,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
-        // this._globalStateService.LocalDevelopmentInstructionsComponent = this.localDevelopment;
     }
 
     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
@@ -107,6 +105,46 @@ export class AppComponent implements OnInit, AfterViewInit {
             this.gettingStarted = false;
         }
     }
+
+
+    /**
+     * Make sure at least 5 seconds have elapsed since last time the app has been modified.
+     * This delay is to avoid a race condition with negative DNS caching for app host name.
+     * See https://github.com/projectkudu/AzureFunctionsPortal/issues/95
+     * Max = 5 Seconds, Min = 0 Seconds
+     * @param functionContainer an ARM object for the function app.
+     */
+    // private getDeltaSinceLastModifiedInSeconds(functionContainer: FunctionContainer): number {
+    //     if (functionContainer.properties.lastModifiedTimeUtc) {
+    //         let lastModifiedTime = new Date(functionContainer.properties.lastModifiedTimeUtc);
+    //         let timeDiff = (new Date().getTime() - lastModifiedTime.getTime()) / 1000;
+    //         let deltaTime = 5 - timeDiff;
+    //         this._aiService.trackEvent('/portal/LoadingPortal', {
+    //             lastModifiedTime: lastModifiedTime.toISOString(),
+    //             timeDiff: timeDiff.toString(),
+    //             delta: deltaTime.toString(),
+    //             appName: functionContainer.id
+    //         });
+    //         if (deltaTime < 0) {
+    //             return 0;
+    //         } else if (deltaTime > 5) {
+    //             return 5;
+    //         } else {
+    //             return deltaTime;
+    //         }
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+
+    // private logFunctionsRuntimeVersion(resourceId: string) {
+    //     this._armService.getFunctionContainerAppSettings(resourceId)
+    //         .subscribe(settings => {
+    //             if (settings) {
+    //                 this._aiService.trackEvent('/values/runtime_version', { runtime: settings[Constants.runtimeVersionAppSettingName], appName: resourceId });
+    //             }
+    //         });
+    // }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&

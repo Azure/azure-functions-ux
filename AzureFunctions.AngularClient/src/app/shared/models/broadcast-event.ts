@@ -15,5 +15,6 @@ export enum BroadcastEvent {
     ApiProxyAdded,
     ApiProxyDeleted,
     ApiProxySelected,
-    ApiProxyUpdated
+    ApiProxyUpdated,
+    ClearError
 }
