@@ -61,7 +61,6 @@ export class SiteManageComponent {
         })
         .switchMap(r =>{
             this._globalStateService.clearBusyState();
-
             let traceKey = this._viewInfo.data.siteTraceKey;
             this._aiService.stopTrace("/sites/features-tab-ready", traceKey);
 
