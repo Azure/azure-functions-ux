@@ -8,7 +8,7 @@ h1, h2, h3, h4{
 }
 
 .error-output {
-    color: $danger-color;
+    color: $error-color;
 }
 
 .text {
@@ -60,21 +60,4 @@ h1, h2, h3, h4{
     @extend .text;
     color: $success-color;
     font-size: 12px;
-}
-
-// TODO: Get rid of these styles.
-.success{
-    color: $success-color;
-}
-
-.warning{
-    color: $warning-color;
-}
-
-.danger{
-    color: $danger-color;
-}
-
-.disabled{
-    color : $disabled-color;
 }

@@ -25,7 +25,7 @@
 }
 
 .sidenav-search-highlight{
-    background-color: $warning-faded-color;
+    background-color: $warning-color-faded;
 }
 
 #sidenav-search-icon{
@@ -42,7 +42,7 @@
     position: absolute;
     top: 9px;
     right: 13px;
-    color: $danger-color;
+    color: $error-color;
     font-size: 16px;
 }
 

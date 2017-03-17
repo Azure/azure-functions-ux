@@ -1,11 +1,4 @@
-// TODO: Get rid of this style
-$danger-color : #d43f3a;
-
 $default-text-color: #464f59;
-
-$link-color : #0058ad;
-
-$button-bg-color : #0058ad;
 
 $body-bg-color : #fff;
 
@@ -19,13 +12,22 @@ $disabled-color: rgba(#7f7f7f, .7);
 
 $border-color: darken($chrome-color, 10%);
 
-$success-color: #5db300;
-
-$error-color: #e81123;
-
-$warning-color: #ff8c00;
-$warning-faded-color: rgba($warning-color, 0.18);
-
 $tree-node-selection-color: #e1efff;
 
 $border: 1px $border-color solid;
+
+// Background colors:
+$success-color: #5db300;
+$success-color-faded: rgba($success-color, 0.18);
+
+$error-color: #e81123;
+$error-color-faded: rgba($error-color, 0.18);
+
+$warning-color: #ff8c00;
+$warning-color-faded: rgba($warning-color, 0.18);
+
+$primary-color: #0058ad;
+$primary-color-faded: rgba($primary-color, 0.18);
+
+$alt1-color: #6917aa;
+$alt1-color-faded: rgba($alt1-color, 0.18);

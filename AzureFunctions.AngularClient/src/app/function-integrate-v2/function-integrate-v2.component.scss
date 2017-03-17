@@ -13,13 +13,13 @@
 
 .list-special .list-group-item:hover {
     background-color: #BFC9D0 !important;
-    color: $link-color !important;
+    color: $primary-color !important;
     cursor: pointer !important; 
 }
 
 .list-special .list-group-item.active {
     background-color: #BFC9D0 !important;
-    color: $link-color !important;
+    color: $primary-color !important;
     cursor: pointer !important; 
 }
 
@@ -33,7 +33,7 @@
     top: 0;
     right: 0;
     padding: 7px;
-    color: $link-color;
+    color: $primary-color;
 }
 
 .button-title {

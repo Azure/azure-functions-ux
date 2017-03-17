@@ -19,7 +19,7 @@
 
 .top-bar {
     background-color: #E6E7E8;
-    color: $link-color;
+    color: $primary-color;
     height: 40px;
     // z-index: 100;
 }
@@ -38,7 +38,7 @@
 
     &:hover{
         background-color: $body-bg-color;
-        border: 1px $link-color solid;
+        border: 1px $primary-color solid;
     }
 }
 

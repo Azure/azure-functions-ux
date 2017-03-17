@@ -57,7 +57,6 @@ export class SiteSummaryComponent implements OnDestroy {
 
     public publishProfileLink : SafeUrl;
 
-
     @Output() openTabEvent = new Subject<string>();
 
     private _viewInfoStream : Subject<TreeViewInfo>;

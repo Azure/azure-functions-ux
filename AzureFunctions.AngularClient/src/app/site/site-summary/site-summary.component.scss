@@ -1,12 +1,7 @@
 @import '../../../sass/main';
 
-#site-dashboard-container{
-    padding-top: 5px;
-}
-
 .site-faded-text{
     font-style: italic;
-    // color: darken($chrome-color, 30%);
     color: $disabled-color;
 }
 
@@ -34,8 +29,6 @@
         }
     }
 }
-
-///////////
 
 #essentials-container{
     border-top: $border;
@@ -73,74 +66,3 @@
     width: 300px;
 
 }
-
-///////////
-
-.site-row-container{
-    display: flex;
-    margin-top: 10px;
-}
-
-.site-row-block{
-    flex-grow: 1;
-    width: 50%;
-
-    h2{
-        font-size: 22px;
-    }
-}
-
-.box{
-    border: 2px solid #DEDEDE;
-    padding: 10px;
-}
-
-.box-site-summary{
-    height: 250px;
-}
-
-.box-site-notifications{
-    overflow-y: auto;
-    padding: 0px;
-}
-
-.site-summary-col{
-    label{
-        margin-bottom: 0px;
-    }
-
-    div{
-        margin-bottom: 5px;
-    }
-}
-
-.site-summary-left, .site-summary-right{
-    width: 50%;
-    display: inline-block
-}
-
-.site-summary-right{
-    float: right;
-}
-
-.site-summary-left > div, .site-summary-right > div{
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 97%;
-    overflow: hidden;
-}
-
-
-// %site-notification-element{
-//     padding: 5px;
-// }
-
-// div.site-notification-element-odd{
-//     @extend %site-notification-element;
-//     background-color: #f5f6f7;
-// }
-
-// div.site-notification-element-even{
-//     @extend %site-notification-element;
-//     background-color: #FFFFFF;
-// }
