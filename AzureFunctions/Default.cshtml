@@ -4,12 +4,20 @@
     var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
     bool isOnPrem = System.Configuration.ConfigurationManager.AppSettings["RuntimeType"] == "OnPrem";
 
-    var cdn = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME") == "production"
-        ? "https://functions.azureedge.net"
-        : string.Empty;
-                var version = AzureFunctions.Common.Constants.CurrentCommitId;
-                var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
-                var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
+    var slotName = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME");
+    var cdn = string.Empty;
+    if(slotName == "production")
+    {
+        cdn = "https://functions.azureedge.net";
+    }
+    else if(slotName == "next")
+    {
+        cdn = "https://functions-next.azureedge.net";
+    }
+
+    var version = AzureFunctions.Common.Constants.CurrentCommitId;
+    var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
+    var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
 }
 <head>
     <meta charset="utf-8">
