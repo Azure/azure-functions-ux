@@ -1228,7 +1228,7 @@ export class FunctionsService {
     }
 
     diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
-        return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', this.getPortalHeaders())
+        return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', { headers: this.getPortalHeaders() })
             .map<DiagnosticsResult[]>(r => r.json())
             .catch((error: Response) => {
                 this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
