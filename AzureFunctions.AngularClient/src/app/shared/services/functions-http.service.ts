@@ -10,7 +10,6 @@ import { FunctionsResponse } from './../models/functions-response';
 import { Injectable } from '@angular/core';
 import { Http, Request, Response, RequestOptionsArgs, ResponseType, ConnectionBackend, RequestOptions } from '@angular/http';
 import { BroadcastEvent } from '../models/broadcast-event';
-import { GlobalStateService } from "./global-state.service";
 
 @Injectable()
 export class FunctionsHttpService {
@@ -18,7 +17,6 @@ export class FunctionsHttpService {
     constructor(private _http: Http,
                 private _armService: ArmService,
                 private _broadcastService: BroadcastService,
-                private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService,
                 private _aiService: AiService) {
 
@@ -131,32 +129,32 @@ export class FunctionsHttpService {
                         error.isHandled = true;
                     }
                     throw error;
-                })
-                .flatMap(_ => {
-                    if (this._globalStateService.FunctionContainer && this._globalStateService.FunctionContainer.id) {
-                        return this._armService.getConfig(this._globalStateService.FunctionContainer)
-                            .do(config => {
-                                let cors: { allowedOrigins: string[] } = <any>config['cors'];
-                                let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
-                                    ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
-                                    : false;
-                                if (!isConfigured) {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
-                                        details: JSON.stringify(error),
-                                        errorId: ErrorIds.corsNotConfigured + this.getHostname(error.url),
-                                        errorType: ErrorType.RuntimeError
-                                    });
-                                    error.isHandled = true;
-                                }
-                                throw error;
-                            }, err => {
-                                throw error;
-                            });
-                    } else {
-                        throw error;
-                    }
                 });
+                // .flatMap(_ => {
+                //     if (this._globalStateService.FunctionContainer && this._globalStateService.FunctionContainer.id) {
+                //         return this._armService.getConfig(this._globalStateService.FunctionContainer)
+                //             .do(config => {
+                //                 let cors: { allowedOrigins: string[] } = <any>config['cors'];
+                //                 let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
+                //                     ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
+                //                     : false;
+                //                 if (!isConfigured) {
+                //                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                //                         message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
+                //                         details: JSON.stringify(error),
+                //                         errorId: ErrorIds.corsNotConfigured + this.getHostname(error.url),
+                //                         errorType: ErrorType.RuntimeError
+                //                     });
+                //                     error.isHandled = true;
+                //                 }
+                //                 throw error;
+                //             }, err => {
+                //                 throw error;
+                //             });
+                //     } else {
+                //         throw error;
+                //     }
+                // });
         } else {
             throw error;
         }

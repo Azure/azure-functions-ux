@@ -1,3 +1,4 @@
+import { FunctionsHttpService } from './../shared/services/functions-http.service';
 import { Http } from '@angular/http';
 import { CacheService } from './../shared/services/cache.service';
 import { AuthzService } from './../shared/services/authz.service';
@@ -43,7 +44,7 @@ export class TryLandingComponent implements OnInit {
     private _functionApp : FunctionApp;
 
     constructor(
-        private _httpService : Http,
+        private _httpService : FunctionsHttpService,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,

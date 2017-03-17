@@ -1,3 +1,4 @@
+import { FunctionsHttpService } from './../shared/services/functions-http.service';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
@@ -59,7 +60,7 @@ export class SideNavComponent{
         public armService : ArmService,
         public cacheService : CacheService,
         public functionsService : FunctionsService,
-        public http : Http,
+        public http : FunctionsHttpService,
         public globalStateService : GlobalStateService,
         public broadcastService : BroadcastService,
         public translateService : TranslateService,
@@ -102,8 +103,8 @@ export class SideNavComponent{
                     this.searchTerm = term;
                 })
 
-                // Get the streams in the top-level nodes moving 
-                this._searchTermStream.next(""); 
+                // Get the streams in the top-level nodes moving
+                this._searchTermStream.next("");
 
                 if(this.subscriptionOptions.length === 0){
                     this._setupInitialSubscriptions(info.resourceId);
@@ -119,7 +120,7 @@ export class SideNavComponent{
                 return Observable.of(false);
             }
             else{
-    
+
                 if(this.selectedNode.shouldBlockNavChange()){
                     return Observable.of(false);
                 }
@@ -203,7 +204,7 @@ export class SideNavComponent{
         // the searchTerm, we end up resetting the cursor.  It's better than before, but
         // it's still not great because if the user types really fast, the cursor still moves.
         this._searchTermStream.next(event.target.value);
-        
+
         if(event.target.value.length !== startPos){
             setTimeout(() =>{
                 event.target.selectionStart = startPos;
@@ -258,8 +259,8 @@ export class SideNavComponent{
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText : string){
         this.subscriptionsDisplayText = "";
-        setTimeout(() =>{ 
-            this.subscriptionsDisplayText = displayText; 
+        setTimeout(() =>{
+            this.subscriptionsDisplayText = displayText;
         }, 10);
     }
 
