@@ -18,7 +18,7 @@
   display: none;
   font-size: 12px;
   font-family: 'Helvetica',sans-serif;
-  left: -145px;
+  left: -142px;
   padding: 5px 10px;
   position: absolute;
   width: 300px;
@@ -38,6 +38,7 @@
 
 .pop-over-container .pop-over {
   bottom: 24px;
+  white-space: initial;
 }
 .pop-over-container .pop-over:before {
   border-top: 7px solid rgba(0, 0, 0, 0.85);
