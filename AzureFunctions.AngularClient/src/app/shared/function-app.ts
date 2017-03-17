@@ -190,7 +190,7 @@ export class FunctionApp {
             .retry()
             .subscribe(r =>{})
 
-                this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+                this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/`;
                 this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
                 this.siteName = this.site.name;
 
@@ -247,7 +247,7 @@ export class FunctionApp {
     // }
 
     getFunctions() {
-        return this._cacheService.get(`${this._scmUrl}/functions`, false, this.getScmSiteHeaders())
+        return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
             .map<FunctionInfo[]>((r: Response) => {
                 try {
