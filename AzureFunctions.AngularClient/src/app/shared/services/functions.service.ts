@@ -703,6 +703,7 @@ export class FunctionsService {
                                     content: error.text(),
                                     status: error.status.toString()
                                 });
+                                return;
                             }
                         } catch (e) {
                             // no-op
