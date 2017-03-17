@@ -55,11 +55,24 @@ export class SiteDashboardComponent {
 
                 this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
-                return this._cacheService.getArm(viewInfo.resourceId);
+
+                return this._cacheService.getArm(viewInfo.resourceId)
             })
-            .subscribe(r =>{
-                let site : ArmObj<Site> = r.json();
+            .do(null, e =>{
+                let message = "There was an error retrieving information about your app."
+                if(e && e.status === 404){
+                    let descriptor = new SiteDescriptor(this.viewInfo.resourceId);
+                    message = `The app '${descriptor.site}' could not be found`;
+                }
+
+                this._globalStateService.setDisabledMessage(message);
                 this._globalStateService.clearBusyState();
+            })
+            .retry()
+            .subscribe(r =>{
+                this._globalStateService.clearBusyState();
+
+                let site : ArmObj<Site> = r.json();
                 this.site = site;
 
                 // Is a bit hacky but seems to work well enough in waiting for the tabs to load.
@@ -78,7 +91,7 @@ export class SiteDashboardComponent {
                     }
                 },
                 100);
-            })
+            });
     }
 
     set viewInfoInput(viewInfo : TreeViewInfo){

@@ -67,7 +67,11 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         }
 
         this.sideNav.updateView(this, this.dashboardType)
-        .subscribe(() =>{
+        .do(null, e =>{
+            this.sideNav.aiService.trackException(e, "TreeNode.select()");
+        })
+        .retry()
+        .subscribe(r =>{
 
             // If updating the view didn't also populate children,
             // then we'll load them manally here.
@@ -87,8 +91,22 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public refresh(event? : any){
         this.isLoading = true;
         this.handleRefresh()
-        .subscribe(() =>{
-            this.sideNav.updateView(this, this.sideNav.selectedDashboardType).subscribe(() =>{});            
+        .do(null, e =>{
+            this.sideNav.aiService.trackException(e, "TreeNode.refresh()");
+        })
+        .retry()
+        .subscribe(r =>{
+            if(!r){
+                return;
+            }
+
+            this.sideNav.updateView(this, this.sideNav.selectedDashboardType)
+            .do(null, e=>{
+                this.sideNav.aiService.trackException(e, "TreeNode.refresh().updateView()");
+            })
+            .retry()
+            .subscribe(() =>{});            
+
             this.isLoading = false;
         });
 
@@ -120,6 +138,10 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
     private _loadAndExpandChildrenIfSingle(){
         this.loadChildren()
+        .do(null, e =>{
+            this.sideNav.aiService.trackException(e, "TreeNode._loadAndExpandChildrenIfSingle().loadChildren()");
+        })
+        .retry()
         .subscribe(() =>{
             this.isLoading = false;
             if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
@@ -129,7 +151,12 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public openCreateNew(event){
-        this.sideNav.updateView(this, this.newDashboardType).subscribe(() =>{});
+        this.sideNav.updateView(this, this.newDashboardType)
+        .do(null, e=>{
+            this.sideNav.aiService.trackException(e, "TreeNode.openCreateNew().updateView()");            
+        })
+        .retry()
+        .subscribe(() =>{});
         
         if(event){
             event.stopPropagation();            

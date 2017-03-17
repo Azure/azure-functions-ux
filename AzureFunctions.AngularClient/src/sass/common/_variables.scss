@@ -24,9 +24,8 @@ $success-color: #5db300;
 $error-color: #e81123;
 
 $warning-color: #ff8c00;
+$warning-faded-color: rgba($warning-color, 0.18);
 
 $tree-node-selection-color: #e1efff;
 
 $border: 1px $border-color solid;
-
-$status-bar-bg-color: rgba($warning-color, 0.18);

@@ -76,6 +76,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 (s: Response, a: Response) => ({ siteResponse: s, appsettingsResponse: a }))
 
         })
+        .do(null, e =>{
+          this._aiService.trackException(e, "function-runtime");
+        })
+        .retry()
         .subscribe(r => {
             let appSettings: ArmObj<any> = r.appsettingsResponse.json();
             this.site = r.siteResponse.json();

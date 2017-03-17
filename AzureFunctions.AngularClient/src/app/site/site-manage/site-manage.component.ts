@@ -89,6 +89,10 @@ export class SiteManageComponent {
                 (s, p, l) => ({ hasSiteWritePermissions : s, hasPlanReadPermissions : p, hasReadOnlyLock : l})
             )
         })
+        .do(null, e =>{
+            this._aiService.trackException(e, "site-manage");
+        })
+        .retry()
         .subscribe(r =>{
             let hasSiteWritePermissions = r.hasSiteWritePermissions && !r.hasReadOnlyLock;
             let siteWriteDisabledMessage = "";

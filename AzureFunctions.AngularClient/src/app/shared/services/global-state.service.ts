@@ -21,6 +21,7 @@ export class GlobalStateService {
     public isAlwaysOn: boolean = true;
     public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
     public topBarNotificationsStream = new Subject<TopBarNotification[]>();
+    public disabledMessage = new Subject<string>();
 
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
@@ -111,6 +112,10 @@ export class GlobalStateService {
 
     setTopBarNotifications(items : TopBarNotification[]){
         this.topBarNotificationsStream.next(items);
+    }
+
+    setDisabledMessage(message : string){
+        this.disabledMessage.next(message);
     }
 
     get CurrentToken(): string {

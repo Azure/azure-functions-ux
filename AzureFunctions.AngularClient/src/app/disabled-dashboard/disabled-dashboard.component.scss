@@ -1,0 +1,34 @@
+@import '../../sass/main';
+
+.disabled-container{
+    position: absolute;
+    left: $sidenav-width;  
+    width: calc(100% - #{$sidenav-width});  
+}
+
+#disabled-background{
+    @extend .disabled-container;
+    z-index: 100;
+    opacity: 0.4;
+    height: 100%;
+    background-color: rgba($disabled-color, .5);
+}
+
+#disabled-message{
+    @extend .disabled-container;
+    z-index: 101;
+    // height: 100%;
+
+    color: black;
+    text-align: center;
+    top: calc(50% - 100px);
+
+    span{
+        background-color: $chrome-color;
+        padding: 20px;
+        min-width: 300px;
+        max-width: 600px;
+        display: inline-block;
+        border: 1px solid #000;
+    }
+}

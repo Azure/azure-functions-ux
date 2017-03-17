@@ -205,7 +205,8 @@ export class TryLandingComponent implements OnInit {
             this._armService,
             this._cacheService,
             this._languageService,
-            this._authZService);
+            this._authZService,
+            this._aiService);
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();

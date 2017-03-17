@@ -1,3 +1,4 @@
+import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
@@ -131,7 +132,8 @@ export class FunctionApp {
         private _armService: ArmService,
         private _cacheService: CacheService,
         private _languageService : LanguageService,
-        private _authZService : AuthzService) {
+        private _authZService : AuthzService,
+        private _aiService : AiService) {
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
@@ -168,20 +170,23 @@ export class FunctionApp {
 
                 return Observable.of(null);
             })
-            .subscribe(r =>{
+            .do(null, e =>{
+                this._aiService.trackException(e, "FunctionApp().getStartupInfo()");
             })
+            .retry()
+            .subscribe(r =>{})
 
-            this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
-            this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
-            this.siteName = this.site.name;
-            this.azureMainServer = this.mainSiteUrl;
-            this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-            this.localServer = 'https://localhost:6061';
+                this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+                this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+                this.siteName = this.site.name;
+                this.azureMainServer = this.mainSiteUrl;
+                this.azureScmServer = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+                this.localServer = 'https://localhost:6061';
 
-            let fc = <FunctionContainer>site;
-            if (fc.tryScmCred != null) {
-                this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
-            }
+                let fc = <FunctionContainer>site;
+                if (fc.tryScmCred != null) {
+                    this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
+                }
         }
         
         if (Cookie.get('TryAppServiceToken')) {

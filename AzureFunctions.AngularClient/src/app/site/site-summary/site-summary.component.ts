@@ -79,13 +79,12 @@ export class SiteSummaryComponent implements OnDestroy {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .distinctUntilChanged()
             .switchMap(viewInfo =>{
                 this._viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
-            .switchMap(r =>{
+            .flatMap(r =>{
                 let site : ArmObj<Site> = r.json();
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
@@ -128,6 +127,10 @@ export class SiteSummaryComponent implements OnDestroy {
                     }))
             })
             .flatMap(res =>{
+                if(!res){
+                    return Observable.of(null);
+                }
+
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
                 this._setAvailabilityState(res.availability.properties.availabilityState);
 
@@ -141,8 +144,13 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 return Observable.of(res);
             })
-            .subscribe(res =>{
+            .do(null, e =>{
+                this._aiService.trackException(e, "site-summary");
+            })
+            .retry()
+            .subscribe((res : DataModel) =>{
                 this._globalStateService.clearBusyState();
+
                 let traceKey = this._viewInfo.data.siteTraceKey;
                 this._aiService.stopTrace("/sites/overview-tab-ready", traceKey);
 
@@ -162,7 +170,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        this._viewInfoStream.next(viewInfo);
+        this._viewInfoStream.next(viewInfo);        
     }
 
     ngOnDestroy() {

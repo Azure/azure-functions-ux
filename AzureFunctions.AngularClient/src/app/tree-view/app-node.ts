@@ -108,7 +108,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             (h, r, s) =>({ hasWritePermission : h, hasReadOnlyLock : r, siteResponse : s})
         )
 
-        .switchMap(r =>{
+        .flatMap(r =>{
 
             this.isLoading = false;
 
@@ -125,7 +125,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.armService,
                     this.sideNav.cacheService,
                     this.sideNav.languageService,
-                    this.sideNav.authZService
+                    this.sideNav.authZService,
+                    this.sideNav.aiService
                 );
 
                 let functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);
@@ -151,13 +152,15 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.supportsRefresh = true;
             return Observable.of(null);
         })
-        .map(r =>{
+        .do(r =>{
             if(this.inSelectedTree){
                 this.children.forEach(c => c.inSelectedTree = true);
             }
             
             this._loadingObservable = null;
-            return r;
+            // return r;
+        }, e =>{
+            this.isLoading = false;
         })
     }
 
@@ -167,11 +170,9 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         }
 
-        this.sideNav.updateView(this, this.dashboardType, true);
-
         // Call loadChildren first in case there's currently a load operation going
-        return this.loadChildren()
-        .switchMap(() =>{
+        return this.sideNav.updateView(this, this.dashboardType, true)
+        .flatMap(r =>{
             this.sideNav.aiService.trackEvent('/actions/refresh');
             this.functionApp.fireSyncTrigger();
             this.sideNav.cacheService.clearCache();
@@ -179,12 +180,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.functionApp = null;
             return this.initialize();
         })
-        .map(() =>{
+        .do(() =>{
             this.isLoading = false;
             if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
                 this.children[0].toggle(null);
-            }
-        });
+            }            
+        })
     }
 
     public remove(){

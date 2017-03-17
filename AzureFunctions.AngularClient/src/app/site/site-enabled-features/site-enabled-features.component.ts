@@ -85,6 +85,10 @@ export class SiteEnabledFeaturesComponent {
                     this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
                     this._getSiteExtensions(r.site));
             })
+            .do(null, e =>{
+                this._aiService.trackException(e, "site-enabled-features");
+            })
+            .retry()
             .subscribe((results : EnabledFeatureItem[][]) =>{
                 this.isLoading = false;
 

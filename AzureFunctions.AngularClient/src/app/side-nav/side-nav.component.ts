@@ -141,6 +141,7 @@ export class SideNavComponent{
             data : {}
         };
 
+        this.globalStateService.setDisabledMessage(null);
         this.treeViewInfoEvent.emit(viewInfo);
         this._updateTitle(newSelectedNode);
 
