@@ -2,9 +2,11 @@
     border: none;
 }
 
-.panel-title{
-    font-weight: bold;
+.binding-title{
     margin-right: 10px;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .panel-heading, .panel-body{
@@ -42,7 +44,7 @@
 
 input, select{
     background: #fff;
-    border: 2px solid #dedede;
+    border: 1px solid #dedede;
     position: relative;
     vertical-align: middle;
     height: 29px;

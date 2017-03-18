@@ -18,13 +18,13 @@
 }
 
 .list-special .list-group-item.active {
-    background-color: #BFC9D0 !important;
+    background-color: $tree-node-selection-color !important;
     color: $primary-color !important;
     cursor: pointer !important; 
 }
 
 .column-title{
-    font-size: 18px;
+    @extend .text-level1-heading;
     margin-top: 20px;
     margin-bottom: 10px;
 }

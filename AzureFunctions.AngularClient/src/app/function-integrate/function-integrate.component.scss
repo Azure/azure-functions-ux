@@ -2,6 +2,7 @@
 
 h2.dev-block-header{
     display: inline;
+    @extend .text-level1-heading;
 }
 
 div.dev-block-header{

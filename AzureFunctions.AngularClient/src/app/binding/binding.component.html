@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <!--//TODO move to css -->
-            <h3 class="panel-title pull-left">
+            <h3 class="binding-title pull-left">
                 {{model.label}}
             </h3>
             <span *ngIf="!disabled && canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">{{ 'binding_delete' | translate }}</span>
@@ -46,7 +46,7 @@
 
     <div *ngIf="model.actions && model.actions.length > 0" class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title pull-left">
+            <h3 class="binding-title pull-left">
                 {{ 'binding_actions' | translate }}
             </h3>
         </div>

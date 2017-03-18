@@ -119,7 +119,7 @@ drop-down{
 /* Purposely not setting class directly on path because IE doesn't seem to like
    dynamic classes on SVG elements */
 .tp-template-icon-selected > svg > path{
-    fill: #419BF3;
+    fill: $link-color;
 }
 
 .tp-template-content .glyphicon{
