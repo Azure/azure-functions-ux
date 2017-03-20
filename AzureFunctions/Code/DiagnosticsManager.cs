@@ -180,35 +180,55 @@ namespace AzureFunctions.Code
             }
             else if (masterKeyResult.Error.StatusCode == HttpStatusCode.InternalServerError)
             {
-                // This is most probably the crypto issue.
-                // However to be sure, check the content for a WebApiException that says so.
-                var content = await masterKeyResult.Error.Content.ReadAsAsync<WebApiException>();
-                if (!string.IsNullOrEmpty(content.ExceptionType) &&
-                    content.ExceptionType.Equals("System.Security.Cryptography.CryptographicException", StringComparison.OrdinalIgnoreCase))
+                try
                 {
-                    // Yep it's the crypto error, build the correct DiagnosticsResult object
-                    result = new DiagnosticsResult
+                    // This is most probably the crypto issue.
+                    // However to be sure, check the content for a WebApiException that says so.
+                    var content = await masterKeyResult.Error.Content.ReadAsAsync<WebApiException>();
+                    if (!string.IsNullOrEmpty(content.ExceptionType) &&
+                        content.ExceptionType.Equals("System.Security.Cryptography.CryptographicException", StringComparison.OrdinalIgnoreCase))
                     {
-                        IsDiagnosingSuccessful = true,
-                        Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, content, masterKeyResult.Error, functionApp),
-                        SuccessResult = new DiagnoseSuccessResult
+                        // Yep it's the crypto error, build the correct DiagnosticsResult object
+                        result = new DiagnosticsResult
                         {
-                            // This is a terminating error. This is almost exactly why this user is seeing errors in the portal.
-                            IsTerminating = true,
-                            Message = "We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app.",
-                            UserAction = "Follow steps here https://go.microsoft.com/fwlink/?linkid=844094",
-                            ActionId = ActionIds.KeysUnexpectedError
-                        }
-                    };
+                            IsDiagnosingSuccessful = true,
+                            Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, content, masterKeyResult.Error, functionApp),
+                            SuccessResult = new DiagnoseSuccessResult
+                            {
+                                // This is a terminating error. This is almost exactly why this user is seeing errors in the portal.
+                                IsTerminating = true,
+                                Message = "We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app.",
+                                UserAction = "Follow steps here https://go.microsoft.com/fwlink/?linkid=844094",
+                                ActionId = ActionIds.KeysUnexpectedError
+                            }
+                        };
+                    }
+                    else
+                    {
+                        result = new DiagnosticsResult
+                        {
+                            IsDiagnosingSuccessful = true,
+                            Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, masterKeyResult.Error, functionApp),
+                            SuccessResult = new DiagnoseSuccessResult
+                            {
+                                // Even though we don't know what's going on, we still mark it as terminating because we can't get
+                                // the masterkey still.
+                                IsTerminating = true,
+                                Message = "We are unable to access your function keys.",
+                                UserAction = "If the error persists, please contact support.",
+                                ActionId = ActionIds.KeysUnexpectedError
+                            }
+                        };
+                    }
                 }
-                else
+                catch
                 {
                     // Though it's a 500, it's not the crypto error. I don't know of any other reason this API might return 500
                     // but handle that nonetheless.
                     result = new DiagnosticsResult
                     {
                         IsDiagnosingSuccessful = true,
-                        Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, content, masterKeyResult.Error, functionApp),
+                        Code = GetSupportErrorCode(ActionIds.KeysUnexpectedError, masterKeyResult.Error, functionApp),
                         SuccessResult = new DiagnoseSuccessResult
                         {
                             // Even though we don't know what's going on, we still mark it as terminating because we can't get
