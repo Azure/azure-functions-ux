@@ -32,4 +32,5 @@ export class ErrorIds {
     public static functionAppStopped = '/errors/functionAppStopped';
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
+    public static failedToQueryArmResource = '/errors/failedToQueryArmResource';
 }

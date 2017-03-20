@@ -2,7 +2,6 @@ import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
 import { WebApiException } from './models/webapi-exception';
 import { FunctionsResponse } from './models/functions-response';
-import { FunctionsHttpService } from './services/functions-http.service';
 import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
@@ -123,7 +122,7 @@ export class FunctionApp {
 
     constructor(
         public site: ArmObj<Site>,
-        private _http: FunctionsHttpService,
+        private _http: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
@@ -190,7 +189,7 @@ export class FunctionApp {
             .retry()
             .subscribe(r =>{})
 
-                this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/api`;
+                this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/`;
                 this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
                 this.siteName = this.site.name;
 
@@ -247,7 +246,7 @@ export class FunctionApp {
     // }
 
     getFunctions() {
-        return this._cacheService.get(`${this._scmUrl}/functions`, false, this.getScmSiteHeaders())
+        return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
             .map<FunctionInfo[]>((r: Response) => {
                 try {

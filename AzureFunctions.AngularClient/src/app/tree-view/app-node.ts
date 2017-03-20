@@ -1,3 +1,5 @@
+import { PortalResources } from './../shared/models/portal-resources';
+import { ErrorIds } from './../shared/models/error-ids';
 import { AuthzService } from './../shared/services/authz.service';
 import { FunctionNode } from './function-node';
 import { async } from '@angular/core/testing';
@@ -19,7 +21,7 @@ import {FunctionApp} from '../shared/function-app';
 import { Observable, Subscription as RxSubscription, ReplaySubject } from 'rxjs/Rx';
 import {Constants} from '../shared/models/constants';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable{
     public supportsAdvanced = true;
@@ -57,7 +59,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
         this.title = _siteArmCacheObj.name;
         this.location = _siteArmCacheObj.location;
-        
+
         let descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
@@ -113,7 +115,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.isLoading = false;
 
             let site : ArmObj<Site> = r.siteResponse.json();
-            
+
             if(!this.functionApp){
                 this.functionApp = new FunctionApp(
                     site,
@@ -156,7 +158,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             if(this.inSelectedTree){
                 this.children.forEach(c => c.inSelectedTree = true);
             }
-            
+
             this._loadingObservable = null;
             // return r;
         }, e =>{
@@ -184,7 +186,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.isLoading = false;
             if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
                 this.children[0].toggle(null);
-            }            
+            }
         })
     }
 
@@ -261,7 +263,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     .subscribe((result : {errors : string[], configResponse : Response, appSettingResponse : Response}) => {
                         this._handlePollingTaskResult(result);
                     });
-            }       
+            }
         })
     }
 
@@ -271,16 +273,26 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             let notifications : TopBarNotification[] = [];
 
             if(result.errors){
-                result.errors.forEach(e => {
-                    this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: e, details: `Host Error: ${e}` });
-                    this.sideNav.aiService.trackEvent('/errors/host', { error: e, app: this.resourceId });
-                });
+
+                this.sideNav.broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
+                 // Give clearing a chance to run
+                 setTimeout(() => {
+                     result.errors.forEach(e => {
+                         this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                             message: this.sideNav.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                             details: this.sideNav.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
+                             errorId: ErrorIds.generalHostErrorFromHost,
+                             errorType: ErrorType.RuntimeError
+                         });
+                         this.sideNav.aiService.trackEvent('/errors/host', { error: e, app: this.resourceId });
+                     });
+                 });
             }
 
             if(result.configResponse){
                 let config = result.configResponse.json();
                 this.functionApp.isAlwaysOn = config.properties.alwaysOn === true || this.functionApp.site.properties.sku === "Dynamic";
-                
+
                 if(!this.functionApp.isAlwaysOn){
                     notifications.push({
                         message : '"Always On" setting is set to Off.',
@@ -313,6 +325,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
 
             this.sideNav.globalStateService.setTopBarNotifications(notifications);
-        }        
+        }
     }
 }

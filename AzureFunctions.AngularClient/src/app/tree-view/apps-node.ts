@@ -1,3 +1,4 @@
+import { ErrorIds } from './../shared/models/error-ids';
 import { Arm } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
 import { Response } from '@angular/http';
@@ -10,7 +11,7 @@ import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = "All Function Apps";
@@ -127,7 +128,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 err = { message : "Failed to query for resources."}
             }
 
-            this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: err.message, details: err.code });
+            this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                message: err.message,
+                details: err.code,
+                errorId: ErrorIds.failedToQueryArmResource,
+                errorType: ErrorType.ApiError
+            });
             return Observable.of(null);
         })
         .switchMap<{ term : string, children : TreeNode[]}>(r =>{
@@ -179,7 +185,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         throw Error("Not implemented yet");
     }
 
-    public removeChild(child : TreeNode, callRemoveOnChild? : boolean){        
+    public removeChild(child : TreeNode, callRemoveOnChild? : boolean){
         let removeIndex = this.children.findIndex((childNode : TreeNode) =>{
             return childNode.resourceId === child.resourceId;
         })
@@ -197,7 +203,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         }
         else{
             url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
-            
+
             for(let i = 0; i < subs.length; i++){
                 url += `subscriptionId eq '${subs[i].subscriptionId}'`;
                 if(i < subs.length - 1){
@@ -224,7 +230,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         }
         else{
             url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(resourceType eq 'microsoft.web/sites') and (`;
-            
+
             for(let i = 0; i < subs.length; i++){
                 url += `subscriptionId eq '${subs[i].subscriptionId}'`;
                 if(i < subs.length - 1){
