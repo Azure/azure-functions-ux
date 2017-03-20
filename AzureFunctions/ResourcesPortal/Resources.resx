@@ -452,7 +452,7 @@
     <value>Run</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json</value>
+    <value>Read only - because you have started editing with source control, this view is read only.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Advanced editor</value>

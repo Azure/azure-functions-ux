@@ -1690,7 +1690,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only. You can edit these settings in function.json.
+        ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only..
         /// </summary>
         internal static string functionEdit_readOnly {
             get {
