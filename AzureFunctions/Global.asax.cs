@@ -86,25 +86,16 @@ namespace AzureFunctions
                 return;
             }
 
-            var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
-            var route = RouteTable.Routes.GetRouteData(context);
-            // If the route is not registerd in the WebAPI RouteTable
-            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-            // If the route doesn't have authenticated value assume true
-            var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-            // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
-            // context.Request.UrlReferrer = null evals to true, is okay in this case
-            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             // TODO: Enable authentication for prod scenario's once we get Antares whitelisting
             if (context.Request.Url.IsLoopback && !SecurityManager.TryAuthenticateRequest(context))
             {
+                var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
                 var route = RouteTable.Routes.GetRouteData(context);
                 // If the route is not registerd in the WebAPI RouteTable
                 //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
                 // If the route doesn't have authenticated value assume true
                 var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-                var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
 
                 if (isAuthenticated)
                 {
