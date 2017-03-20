@@ -1,13 +1,13 @@
+@import '../../../sass/main';
+
 #function-runtime-container{
     padding: 20px 35px;    
     padding: 15px;
 }
 
 h2 {
-    font-size: 15px;
-    font-weight: normal;
+    @extend .text-label;
     margin: 0px;
-    margin-bottom: 2px;    
 }
 
 #heading {
@@ -23,7 +23,7 @@ h2 {
 .setting-wrapper {
     display: flex;
     flex-direction: column;
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .setting-wrapper-disabled {
@@ -32,15 +32,10 @@ h2 {
 }
 
 .setting-wrapper > label {
-    font-size: 18px;
-    font-weight: normal;
+    font-weight:bold;
     margin: 0px;
-    padding-bottom: 8px;
 }
 
-.setting-wrapper > div {
-    padding: 0px 0 0px 20px;
-}
 
 /* start range */
 /* http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
@@ -183,8 +178,7 @@ input[type=text], select{
     }
 
     .features-wrapper-disabled > div > div {
-        padding: 1px 10px 10px 0;
-        font-size: 13px;
+        padding: 0px 10px 10px 0;
     }
 
     .features-wrapper-disabled > div > div:first-child {
