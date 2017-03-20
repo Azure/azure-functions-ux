@@ -92,7 +92,6 @@ import { ApiNewComponent } from './api-new/api-new.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
-import { FunctionsHttpService } from './shared/services/functions-http.service';
 
 @NgModule({
   declarations: [
@@ -200,8 +199,7 @@ import { FunctionsHttpService } from './shared/services/functions-http.service';
       UtilitiesService,
       BackgroundTasksService,
       GlobalStateService,
-      AiService,
-      FunctionsHttpService
+      AiService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,3 @@
-import { FunctionsHttpService } from './../shared/services/functions-http.service';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
@@ -60,7 +59,7 @@ export class SideNavComponent{
         public armService : ArmService,
         public cacheService : CacheService,
         public functionsService : FunctionsService,
-        public http : FunctionsHttpService,
+        public http : Http,
         public globalStateService : GlobalStateService,
         public broadcastService : BroadcastService,
         public translateService : TranslateService,

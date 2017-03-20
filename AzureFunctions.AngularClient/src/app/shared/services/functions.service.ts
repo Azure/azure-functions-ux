@@ -41,7 +41,6 @@ import {Site} from '../models/arm/site';
 import {FunctionApp} from '../function-app';
 import {SiteDescriptor} from '../resourceDescriptors';
 import { AiService } from './ai.service';
-import { FunctionsHttpService } from './functions-http.service';
 import { ErrorIds } from '../models/error-ids';
 
 declare var mixpanel: any;
@@ -120,7 +119,7 @@ export class FunctionsService {
     private functionContainer: FunctionContainer;
 
     constructor(
-        private _http: FunctionsHttpService,
+        private _http: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
