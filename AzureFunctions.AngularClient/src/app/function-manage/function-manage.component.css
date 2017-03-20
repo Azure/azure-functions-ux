@@ -39,7 +39,7 @@ pre {
 #submit-delete {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #submit-button {
@@ -47,7 +47,6 @@ pre {
     display: inline;
     padding: 6px 25px 6px 25px;
     font-size: 14px;
-    width: 500px;
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;

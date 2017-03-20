@@ -5,7 +5,7 @@ drop-down{
 }
 
 .tp-templates{
-    border: 1px solid #D4D2D2;
+    border: 2px solid #D4D2D2;
     margin-top: 5px;
     max-height: 375px;
     overflow-y: scroll;
@@ -22,7 +22,7 @@ drop-down{
 }
 
 .tp-template-disabled:hover{
-    border: 3px solid #C2C5C9;
+    border: 2px solid #C2C5C9;
     cursor: not-allowed;
     background: lightgray;
 }
@@ -37,15 +37,15 @@ drop-down{
 }
 
 .tp-template:hover{
-    border: 3px solid #C2C5C9;
+    border: 2px solid $primary-color;
 }
 
 .tp-template-selected{
-    border: 3px solid $primary-color !important;
+    border: 2px solid $primary-color !important;
 }
 
 .tp-template-selected:hover{
-    border: 3px solid #419BF3;
+    border: 2px solid $primary-color;
 }
 
 .tp-template-container{
@@ -65,13 +65,13 @@ drop-down{
     width: 175px;
     height: 175px;
     margin: 5px;
-    border: 1px solid #C2C5C9;
+    border: 2px solid #C2C5C9;
     vertical-align: top;
     background: silver;
 }
 
 .tp-template-func-disabled:hover{
-    border: 3px solid #C2C5C9;
+    border: 2px solid #C2C5C9;
     cursor: not-allowed;
     background: lightgray;
 }
@@ -81,25 +81,18 @@ drop-down{
     width: 175px;
     height: 175px;
     margin: 5px;
-    border: 1px solid #C2C5C9;
+    border: 2px solid #C2C5C9;
     vertical-align: top;
 }
 
 .tp-template-func:hover{
-    border: 3px solid #C2C5C9;
+    border: 2px solid $primary-color;
     cursor: default;
 }
 
-.tp-template-func:hover > .tp-template-func-description{
-    margin: 3px;
-}
-
-.tp-template-selected > .tp-template-func-description{
-    margin: 3px;
-}
 
 .tp-template-func-title{
-    padding-top: 10px;
+    padding: 10px 5px 10px 5px;
     padding-bottom: 10px;
     background-color: #E6E7E8;
     text-align: center;
@@ -126,7 +119,7 @@ drop-down{
 /* Purposely not setting class directly on path because IE doesn't seem to like
    dynamic classes on SVG elements */
 .tp-template-icon-selected > svg > path{
-    fill: #419BF3;
+    fill: $primary-color;
 }
 
 .tp-template-content .glyphicon{
