@@ -1,3 +1,5 @@
+import { PortalResources } from './../../shared/models/portal-resources';
+import { TranslateService } from 'ng2-translate';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
@@ -51,7 +53,8 @@ export class SiteManageComponent {
         private _portalService : PortalService,
         private _aiService : AiService,
         private _cacheService : CacheService,
-        private _globalStateService : GlobalStateService){
+        private _globalStateService : GlobalStateService,
+        private _translateService : TranslateService){
 
         this._viewInfoStream
         .switchMap(viewInfo =>{
@@ -70,7 +73,7 @@ export class SiteManageComponent {
 
             this._dynamicDisableInfo = {
                 enabled : site.properties.sku !== "Dynamic",
-                disableMessage : "This feature is not supported for apps on a Consumption plan"
+                disableMessage : this._translateService.instant(PortalResources.featureNotSupportedConsumption)
             }
 
             this._disposeGroups();
@@ -97,10 +100,10 @@ export class SiteManageComponent {
             let siteWriteDisabledMessage = "";
 
             if(!r.hasSiteWritePermissions){
-                siteWriteDisabledMessage = "You must have write permissions on the current app in order to use this feature";
+                siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureRequiresWritePermissionOnApp);
             }
             else if(r.hasReadOnlyLock){
-                siteWriteDisabledMessage = "This feature is disabled because the app has a ReadOnly lock on it.";
+                siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureDisabledReadOnlyLockOnApp);
             }
 
             this._hasSiteWritePermissionStream.next({
@@ -110,7 +113,7 @@ export class SiteManageComponent {
 
             this._hasPlanReadPermissionStream.next({
                 enabled : r.hasPlanReadPermissions,
-                disableMessage : "You must have read permissions on the associated App Service plan in order to use this feature"
+                disableMessage : this._translateService.instant(PortalResources.featureDisabledNoPermissionToPlan)
             })
         });
     }
@@ -149,9 +152,11 @@ export class SiteManageComponent {
     private _initCol1Groups(site : ArmObj<Site>){
         let codeDeployFeatures = [
             new DisableableBladeFeature(
-                "Deployment source",
-                "continuous deployment source github bitbucket dropbox onedrive vsts visual studio code vso",
-                "Deployment source info",
+                this._translateService.instant(PortalResources.feature_deploymentSourceName),
+                this._translateService.instant(PortalResources.continuousDeployment) +
+                    " " + this._translateService.instant(PortalResources.source) +
+                    "  github bitbucket dropbox onedrive vsts vso",
+                this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
                 "images/deployment-source.svg",
                 {
                     detailBlade : "ContinuousDeploymentListBlade",
@@ -164,9 +169,9 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),
 
             new BladeFeature(
-                "Deployment credentials",
-                "deployment credentials",
-                "Info",
+                this._translateService.instant(PortalResources.feature_deploymentCredsName),
+                this._translateService.instant(PortalResources.feature_deploymentCredsName),
+                this._translateService.instant(PortalResources.feature_deploymentCredsInfo),
                 "images/deployment-credentials.svg",
                 {
                     detailBlade : "FtpCredentials",
@@ -179,9 +184,10 @@ export class SiteManageComponent {
 
         let developmentToolFeatures = [
             new DisableableBladeFeature(
-                "Console",
-                "console debug",
-                "Info",
+                this._translateService.instant(PortalResources.feature_consoleName),
+                this._translateService.instant(PortalResources.feature_consoleName) + 
+                    " " +this._translateService.instant(PortalResources.debug),
+                this._translateService.instant(PortalResources.feature_consoleInfo),
                 "images/console.svg",
                 {
                     detailBlade : "ConsoleBlade",
@@ -192,16 +198,16 @@ export class SiteManageComponent {
                 this._portalService,
                 this._hasSiteWritePermissionStream),
            
-            new OpenKuduFeature(site, this._hasSiteWritePermissionStream),
+            new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService),
 
-            new OpenEditorFeature(site, this._hasSiteWritePermissionStream), 
+            new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService), 
 
-            new OpenResourceExplorer(site),
+            new OpenResourceExplorer(site, this._translateService),
 
             new DisableableBladeFeature(
-                "Extensions",
-                "Extensions",
-                "Info",
+                this._translateService.instant(PortalResources.feature_extensionsName),
+                this._translateService.instant(PortalResources.feature_extensionsName),
+                this._translateService.instant(PortalResources.feature_extensionsInfo),
                 "images/extensions.svg",
                 {
                     detailBlade : "SiteExtensionsListBlade",
@@ -216,9 +222,11 @@ export class SiteManageComponent {
 
         let generalFeatures = [
             new BladeFeature(
-                "Application settings",
-                "application settings connection strings java php .net",
-                "Info",
+                this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                this._translateService.instant(PortalResources.feature_applicationSettingsName) + 
+                    " " + this._translateService.instant(PortalResources.connectionStrings) +
+                    " java php .net",
+                this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
                 "images/application-settings.svg",
                 {
                     detailBlade : "WebsiteConfigSiteSettings",
@@ -229,9 +237,9 @@ export class SiteManageComponent {
                 this._portalService),   
 
             new BladeFeature(
-                "Properties",
-                "properties",
-                "Info",
+                this._translateService.instant(PortalResources.feature_propertiesName),
+                this._translateService.instant(PortalResources.feature_propertiesName),
+                this._translateService.instant(PortalResources.feature_propertiesInfo),
                 "images/properties.svg",
                 {
                     detailBlade : "PropertySheetBlade",
@@ -241,25 +249,10 @@ export class SiteManageComponent {
                 },
                 this._portalService), 
 
-            // new DisableableBladeFeature(
-            //     "Web jobs",
-            //     "web jobs",
-            //     "Info",
-            //     "images/webjobs.svg",
-            //     {
-            //         detailBlade : "webjobsNewBlade",
-            //         detailBladeInputs : {
-            //             resourceUri : site.id
-            //         }
-            //     },
-            //     this._portalService,
-            //     this._hasSiteWritePermissionStream,                
-            //     this._dynamicDisableInfo),
-
             new DisableableBladeFeature(
-                "Backups",
-                "backups",
-                "Info",
+                this._translateService.instant(PortalResources.feature_backupsName),
+                this._translateService.instant(PortalResources.feature_backupsName),
+                this._translateService.instant(PortalResources.feature_backupsInfo),
                 "images/backups.svg",
                 {
                     detailBlade : "Backup",
@@ -272,8 +265,10 @@ export class SiteManageComponent {
                 this._dynamicDisableInfo),
 
             new BladeFeature(
-                "All settings",
-                "all settings support request scale",
+                this._translateService.instant(PortalResources.feature_allSettingsName),
+                this._translateService.instant(PortalResources.feature_allSettingsName) +
+                    " " + this._translateService.instant(PortalResources.supportRequest) +
+                    " " + this._translateService.instant(PortalResources.scale),
                 "Info",
                 "images/webapp.svg",
                 {
@@ -286,9 +281,9 @@ export class SiteManageComponent {
         ]
 
         this.groups1 = [
-            new FeatureGroup("General settings", generalFeatures),
-            new FeatureGroup("Code deployment", codeDeployFeatures),
-            new FeatureGroup("Development tools", developmentToolFeatures)
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_developmentTools), developmentToolFeatures)
         ];
     }
 
@@ -296,9 +291,11 @@ export class SiteManageComponent {
         
         let networkFeatures = [
             new DisableableBladeFeature(
-                "Networking",
-                "networking",
-                "Info",
+                this._translateService.instant(PortalResources.feature_networkingName),
+                this._translateService.instant(PortalResources.feature_networkingName) + 
+                    " " + this._translateService.instant(PortalResources.hybridConnections) + 
+                    " vnet",
+                this._translateService.instant(PortalResources.feature_networkingInfo),
                 "images/networking.svg",
                 {
                     detailBlade : "NetworkSummaryBlade",
@@ -313,7 +310,7 @@ export class SiteManageComponent {
             new DisableableBladeFeature(
                 "SSL",
                 "ssl",
-                "Info",
+                this._translateService.instant(PortalResources.feature_sslInfo),                
                 "images/ssl.svg",
                 {
                     detailBlade : "CertificatesBlade",
@@ -323,9 +320,9 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),
 
             new DisableableBladeFeature(
-                "Custom domains",
-                "custom domains",
-                "Info",
+                this._translateService.instant(PortalResources.feature_customDomainsName),                
+                this._translateService.instant(PortalResources.feature_customDomainsName),
+                this._translateService.instant(PortalResources.feature_customDomainsInfo),
                 "images/custom-domains.svg",
                 {                
                     detailBlade : "CustomDomainsAndSSL",
@@ -338,9 +335,11 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),
 
             new DisableableBladeFeature(
-                "Authentication / Authorization",
-                "authentication authorization aad google facebook microsoft",
-                "Info",
+                this._translateService.instant(PortalResources.feature_authName),   
+                this._translateService.instant(PortalResources.authentication) +
+                    " " + this._translateService.instant(PortalResources.authorization) +
+                    " aad google facebook microsoft",
+                this._translateService.instant(PortalResources.feature_authInfo),
                 "images/authentication.svg",
                 {
                     detailBlade : "AppAuth",
@@ -350,9 +349,9 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),
 
             new DisableableBladeFeature(
-                "Push notifications",
-                "push",
-                "Info",
+                this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
                 "images/push.svg",
                 {
                     detailBlade : "PushRegistrationBlade",
@@ -364,9 +363,9 @@ export class SiteManageComponent {
 
         let monitoringFeatures = [
             new BladeFeature(
-                "Diagnostic logs",
-                "diagnostic logs",
-                "Info",
+                this._translateService.instant(PortalResources.feature_diagnosticLogsName),
+                this._translateService.instant(PortalResources.feature_diagnosticLogsName),
+                this._translateService.instant(PortalResources.feature_diagnosticLogsInfo),
                 "images/diagnostic-logs.svg",
                 {
                     detailBlade : "WebsiteLogsBlade",
@@ -375,9 +374,9 @@ export class SiteManageComponent {
                 this._portalService),
 
             new DisableableBladeFeature(
-                "Log streaming",
-                "log streaming",
-                "Info",
+                this._translateService.instant(PortalResources.feature_logStreamingName),
+                this._translateService.instant(PortalResources.feature_logStreamingName),
+                this._translateService.instant(PortalResources.feature_logStreamingInfo),
                 "images/log-stream.svg",
                 {
                     detailBlade : "LogStreamBlade",
@@ -387,9 +386,9 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),
 
             new DisableableBladeFeature(
-                "Process Explorer",
-                "process explorer",
-                "Info",
+                this._translateService.instant(PortalResources.feature_processExplorerName),
+                this._translateService.instant(PortalResources.feature_processExplorerName),
+                this._translateService.instant(PortalResources.feature_processExplorerInfo),                
                 "images/process-explorer.svg",
                 {
                     detailBlade : "ProcExpNewBlade",
@@ -399,9 +398,9 @@ export class SiteManageComponent {
                 this._hasSiteWritePermissionStream),            
 
             new BladeFeature(
-                "Security scanning",
-                "security scanning tinfoil",
-                "Info",
+                this._translateService.instant(PortalResources.feature_securityScanningName),
+                this._translateService.instant(PortalResources.feature_securityScanningName) + " tinfoil",
+                this._translateService.instant(PortalResources.feature_securityScanningInfo),
                 "images/tinfoil-flat-21px.png",
                 {
                     detailBlade : "TinfoilSecurityBlade",
@@ -411,8 +410,8 @@ export class SiteManageComponent {
         ]
 
         this.groups2 = [
-            new FeatureGroup("Networking", networkFeatures),
-            new FeatureGroup("Monitoring", monitoringFeatures)];
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_monitoring), monitoringFeatures)];
     }
 
     private _initCol3Groups(site : ArmObj<Site>){
@@ -420,7 +419,7 @@ export class SiteManageComponent {
             new BladeFeature(
                 "CORS",
                 "cors api",
-                "Info",
+                this._translateService.instant(PortalResources.feature_corsInfo),
                 "images/cors.svg",
                 {
                     detailBlade : "ApiCors",
@@ -429,9 +428,9 @@ export class SiteManageComponent {
                 this._portalService),
 
             new BladeFeature(
-                "API Definition",
-                "api definition swagger",
-                "Info",
+                this._translateService.instant(PortalResources.feature_apiDefinitionName),                
+                this._translateService.instant(PortalResources.feature_apiDefinitionName) + " swagger",
+                this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
                 "images/api-definition.svg",
                 {
                     detailBlade : "ApiDefinition",
@@ -442,9 +441,10 @@ export class SiteManageComponent {
 
         let appServicePlanFeatures = [
             new DisableableBladeFeature(
-                "App Service plan",
-                "app service plan scale",
-                "Info",
+                this._translateService.instant(PortalResources.appServicePlan),                
+                this._translateService.instant(PortalResources.appServicePlan) +
+                    " " + this._translateService.instant(PortalResources.scale),
+                this._translateService.instant(PortalResources.feature_appServicePlanInfo),
                 "images/app-service-plan.svg",
                 {
                     detailBlade : "WebHostingPlanBlade",
@@ -454,9 +454,9 @@ export class SiteManageComponent {
                 this._hasPlanReadPermissionStream),
 
             new DisableableBladeFeature(
-                "Quotas",
-                "quotas",
-                "Info",
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasName),
+                this._translateService.instant(PortalResources.feature_quotasInfo),
                 "images/quotas.svg",
                 {
                     detailBlade : "QuotasBlade",
@@ -471,9 +471,11 @@ export class SiteManageComponent {
 
         let resourceManagementFeatures = [
             new BladeFeature(
-                "Activity log",
-                "activity log events",
-                "Info",
+                this._translateService.instant(PortalResources.feature_activityLogName), 
+                this._translateService.instant(PortalResources.feature_activityLogName) +
+                    " " + this._translateService.instant(PortalResources.feature_activityLogName) +
+                    " " + this._translateService.instant(PortalResources.events),
+                this._translateService.instant(PortalResources.feature_activityLogInfo),
                 "images/activity-log.svg",
                 {
                     detailBlade : "EventsBrowseBlade",
@@ -486,9 +488,9 @@ export class SiteManageComponent {
             ),
 
             new BladeFeature(
-                "Access control (IAM)",
-                "access control rbac",
-                "Info",
+                this._translateService.instant(PortalResources.feature_accessControlName),
+                this._translateService.instant(PortalResources.feature_accessControlName) + " rbac",
+                this._translateService.instant(PortalResources.feature_accessControlInfo),
                 "images/access-control.svg",
                 {
                     detailBlade : "UserAssignmentsV2Blade",
@@ -501,9 +503,9 @@ export class SiteManageComponent {
             ),            
 
             new BladeFeature(
-                "Tags",
-                "tags",
-                "Info",
+                this._translateService.instant(PortalResources.feature_tagsName),
+                this._translateService.instant(PortalResources.feature_tagsName),
+                this._translateService.instant(PortalResources.feature_tagsInfo),
                 "images/tags.svg",
                 {
                     detailBlade : "ResourceTagsListBlade",
@@ -516,9 +518,9 @@ export class SiteManageComponent {
             ),        
 
             new BladeFeature(
-                "Locks",
-                "locks",
-                "Info",
+                this._translateService.instant(PortalResources.feature_locksName),
+                this._translateService.instant(PortalResources.feature_locksName),
+                this._translateService.instant(PortalResources.feature_locksInfo),
                 "images/locks.svg",
                 {
                     detailBlade : "LocksBlade",
@@ -532,9 +534,11 @@ export class SiteManageComponent {
             // new NotImplementedFeature("Clone app", "clone app", "Info"),  // TODO: ellhamai - Need to implent
 
             new BladeFeature(
-                "Automation script",
-                "export template arm azure resource manager api",
-                "Info",
+                this._translateService.instant(PortalResources.feature_automationScriptName),
+                this._translateService.instant(PortalResources.feature_automationScriptName) +
+                    " " + this._translateService.instant(PortalResources.template) +
+                    " arm",
+                this._translateService.instant(PortalResources.feature_automationScriptInfo),
                 "images/automation-script.svg",
                 {
                     detailBlade : "TemplateViewerBlade",
@@ -557,8 +561,8 @@ export class SiteManageComponent {
 
         this.groups3 = [
             new FeatureGroup("APIs", apiManagementFeatures),
-            new FeatureGroup("App Service Plan", appServicePlanFeatures),
-            new FeatureGroup("Resource management", resourceManagementFeatures)];
+            new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
     }
 
     openTab(tabName : string){
@@ -569,12 +573,13 @@ export class SiteManageComponent {
 export class OpenKuduFeature extends DisableableFeature{
         constructor(
             private _site : ArmObj<Site>,
-            disableInfoStream : Subject<DisableInfo>){
+            disableInfoStream : Subject<DisableInfo>,
+            private _translateService : TranslateService){
         
         super(
-            "Advanced tools",
-            "kudu advanced tools",
-            "Info",
+            _translateService.instant(PortalResources.feature_advancedToolsName),
+            _translateService.instant(PortalResources.feature_advancedToolsName) + " kudu",
+            _translateService.instant(PortalResources.feature_advancedToolsInfo),
             "images/advanced-tools.svg",
             disableInfoStream);
     }
@@ -586,12 +591,12 @@ export class OpenKuduFeature extends DisableableFeature{
 }
 
 export class OpenEditorFeature extends DisableableFeature{
-        constructor(private _site : ArmObj<Site>, disabledInfoStream : Subject<DisableInfo>){
+        constructor(private _site : ArmObj<Site>, disabledInfoStream : Subject<DisableInfo>, private _translateService : TranslateService){
 
         super(
-            "App service editor",
-            "app service editor visual studio online",
-            "Info",
+            _translateService.instant(PortalResources.feature_appServiceEditorName),            
+            _translateService.instant(PortalResources.feature_appServiceEditorName),
+            _translateService.instant(PortalResources.feature_appServiceEditorInfo),
             "images/appsvc-editor.svg",
             disabledInfoStream);
     }
@@ -603,8 +608,12 @@ export class OpenEditorFeature extends DisableableFeature{
 }
 
 export class OpenResourceExplorer extends FeatureItem{
-        constructor(private _site : ArmObj<Site>){
-        super("Explore the API", "resource explorer", "Info", "images/resource-explorer.svg");
+        constructor(private _site : ArmObj<Site>, private _translateService : TranslateService){
+        super(
+            _translateService.instant(PortalResources.feature_resourceExplorerName),
+            _translateService.instant(PortalResources.feature_resourceExplorerName),
+            _translateService.instant(PortalResources.feature_resourceExplorerInfo),
+            "images/resource-explorer.svg");
     }
 
     click(){

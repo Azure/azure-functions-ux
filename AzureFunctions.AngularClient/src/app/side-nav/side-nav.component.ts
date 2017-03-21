@@ -1,3 +1,4 @@
+import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
@@ -175,11 +176,11 @@ export class SideNavComponent{
         }
 
         if(!title){
-            title = "Function Apps";
+            title = this.translateService.instant(PortalResources.functionApps);
             subtitle = "";
         }
         else{
-            subtitle = "Function Apps";
+            subtitle = this.translateService.instant(PortalResources.functionApps);;
         }
 
         this.portalService.updateBladeInfo(title, subtitle);
@@ -243,10 +244,10 @@ export class SideNavComponent{
         this._subscriptionsStream.next(subscriptions);
 
         if(subscriptions.length === this.subscriptionOptions.length){
-            this._updateSubDisplayText("All subscriptions");
+            this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_AllSubscriptions));
         }
         else if(subscriptions.length > 1){
-            this._updateSubDisplayText(`${subscriptions.length} subscriptions`);
+            this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
         }
         else{
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);

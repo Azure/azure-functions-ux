@@ -313,11 +313,23 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Search features</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Subscription</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
+    <value>Subscription name</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Resource group</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Location</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
@@ -326,7 +338,7 @@
     <value>Function app settings</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>A new version of Azure Functions is available. To upgrade visit</value>
+    <value>A new version of Azure Functions is available. To upgrade, click here</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Quickstart</value>
@@ -1065,6 +1077,309 @@
   </data>
   <data name="httpRun_noHeaders" xml:space="preserve">
     <value>There are no headers</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>All subscriptions</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} subscriptions</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Functions (No Access)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Functions (ReadOnly Lock)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Functions (Stopped)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>New Function</value>
+  </data>  
+  <data name="functionApps" xml:space="preserve">
+    <value>Function Apps</value>
+  </data>
+  <data name="functionAppsAll" xml:space="preserve">
+    <value>All Function Apps</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Download publish profile</value>
+  </data>  
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Reset publish credentials</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Availability</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Configured features</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Quick links to your features will show up here after you've configured them from the "Features" tab above.</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>There was an error retrieving information about the app '{0}'</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>The app '{0}' could not be found</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>This feature is not supported for apps on a Consumption plan</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to use this feature</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This feature is disabled because the app has a ReadOnly lock on it</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>You must have read permissions on the associated App Service plan in order to use this feature</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Deployment source</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Set up and manage deployments to your app from VSTS, OneDrive, GitHub, BitBucket, or DropBox</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Deployment credentials</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Set your account-level (not app-level) deployment credentials.  To change your app-level credentials (aka 'Publish Credentials'), go to the 'Overview' tab and choose 'Reset'.</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Explore your apps file system from an interactive web-based console</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Extend the management capability of your app by installing add-ons</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Manage app settings, connection strings, runtime settings, and more...</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>Get general information about your app</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Backups</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Manage backups for the content of your app.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>All settings</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Code Deployment</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Development tools</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Networking</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Manage VNET and Hybrid connections for your app</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Manage VNET and Hybrid connections for your app</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Upload or import an existing certificate to configure SSL bindings for your app</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Custom domains</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Purchase custom domains and add them to your app</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Authentication / Authorization</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Enable and configure how users authenticate with your application</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Push notifications</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Enables you to send fast, scalable, and cross-platform mobile push notifications utilizing Notification Hubs</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Diagnostic logs</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Configure where and when to log application or server events</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Log streaming</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>View logs being generated from your application in real-time.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Process explorer</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>Examine details about your application processes, memory usage, and CPU utilization.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Security scanning</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Enable security scanning for your app powered by Tinfoil Security</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Monitoring</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Configure Cross-Origin Resource Sharing (CORS) rules for your app</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>API definition</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>Configure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>Manage the plan that your app is running on</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Quotas</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Monitor file system usage quotas</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Activity log</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>View historical information about operations being performed on your app</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Access control (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Configure who has access to your app</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Manage tags that are associated with your app</value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Locks</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Lock down what types of operations may be performed on your app</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Automation script</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Resource management</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Advanced tools</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Use an advanced set of tools to manage your app</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service editor</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>Edit code directly on your app</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Explorer the API</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Explorer the Azure ResourceManager API to manage your app</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Platform features</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>App Service plan</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>App Service plan / pricing tier</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Authorization</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Hybrid connections</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>support request</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>scale</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Connection strings</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Continuous deployment</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>We are not able to access your Azure settings for your function app.</value>

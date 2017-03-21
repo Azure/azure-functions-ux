@@ -37,7 +37,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public location : string;
 
     public functionApp : FunctionApp;
-    public openFunctionTab = false;
+    public openFunctionSettingsTab = false;
 
     public iconClass = "tree-node-function-app-icon";
 
@@ -227,7 +227,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public openSettings() {
-        this.openFunctionTab = true;
+        this.openFunctionSettingsTab = true;
         this.select();
     }
 
@@ -295,7 +295,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
                 if(!this.functionApp.isAlwaysOn){
                     notifications.push({
-                        message : '"Always On" setting is set to Off.',
+                        message : this.sideNav.translateService.instant(PortalResources.topBar_alwaysOn),
                         iconClass: 'fa fa-exclamation-triangle warning',
                         learnMoreLink : 'https://go.microsoft.com/fwlink/?linkid=830855',
                         clickCallback : null
@@ -314,7 +314,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
                 if(!isLatestFunctionRuntime){
                     notifications.push({
-                        message : 'A new version of Azure Functions is available. Click to visit settings.',
+                        message : this.sideNav.translateService.instant(PortalResources.topBar_newVersion),
                         iconClass: 'fa fa-info link',
                         learnMoreLink : 'https://go.microsoft.com/fwlink/?linkid=829530',
                         clickCallback : () =>{

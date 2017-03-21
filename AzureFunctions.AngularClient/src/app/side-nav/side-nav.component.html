@@ -4,7 +4,7 @@
 
         <input type="text"
             id="sidenav-search"
-            placeholder="Search"
+            placeholder="{{ 'search' | translate }}"
             [value]="searchTerm"
             (keyup)="search($event)"
             [class.sidenav-search-highlight]="hasValue" />

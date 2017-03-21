@@ -1,3 +1,5 @@
+import { PortalResources } from './../../shared/models/portal-resources';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteTabNames } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
@@ -37,8 +39,9 @@ export class SiteDashboardComponent {
     constructor(
         private _cacheService : CacheService,
         private _globalStateService : GlobalStateService,
-        private _aiService : AiService
-     ) {
+        private _aiService : AiService,
+        private _translateService : TranslateService) {
+
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
             .switchMap(viewInfo =>{
@@ -59,10 +62,10 @@ export class SiteDashboardComponent {
                 return this._cacheService.getArm(viewInfo.resourceId)
             })
             .do(null, e =>{
-                let message = "There was an error retrieving information about your app."
+                let descriptor = new SiteDescriptor(this.viewInfo.resourceId);                
+                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
                 if(e && e.status === 404){
-                    let descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                    message = `The app '${descriptor.site}' could not be found`;
+                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
                 this._globalStateService.setDisabledMessage(message);
@@ -80,14 +83,14 @@ export class SiteDashboardComponent {
                 // time the component is loaded.
                 setTimeout(() =>{
                     let appNode = <AppNode>this.viewInfo.node;
-                    if(appNode.openFunctionTab && this.tabs && this.tabs.tabs){
+                    if(appNode.openFunctionSettingsTab && this.tabs && this.tabs.tabs){
                         let tabs = this.tabs.tabs.toArray();
                         let functionTab = tabs.find(t => t.title === SiteTabNames.functionRuntime);
                         if(functionTab){
                             this.tabs.selectTab(functionTab);
                         }
 
-                        appNode.openFunctionTab = false;
+                        appNode.openFunctionSettingsTab = false;
                     }
                 },
                 100);

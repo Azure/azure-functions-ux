@@ -1,17 +1,17 @@
 <div class="site-summary-actions">
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="toggleState()">
         <span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">
-            <img src="images/stop.svg" />Stop</span>
+            <img src="images/stop.svg" />{{'stop' | translate}}</span>
         <span *ngIf="site?.properties.state === 'Stopped'">
-            <img src="images/start.svg" />Start</span>
+            <img src="images/start.svg" />{{ 'start' | translate}}</span>
     </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
-        <img src="images/restart.svg" />Restart
+        <img src="images/restart.svg" />{{ ' restart' | translate }}
     </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
-        <img src="images/download.svg" />Download Publish Profile
+        <img src="images/download.svg" />{{ 'downloadProfile' | translate}}
     </span>
 
     <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
@@ -19,7 +19,7 @@
         [download]="site?.name + '.PublishSettings'"></a>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="resetPublishCredentials()">
-        <img src="images/reset.svg" />Reset Publish Credentials
+        <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
     </span>
     
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
@@ -30,12 +30,12 @@
 <div id="essentials-container">
     <div class="essentials-col">
         <div>
-            <label>Status</label>
+            <label>{{'status' | translate}}</label>
             <div><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
         </div>
 
         <div [class.invisible]="site?.properties.sku === 'Dynamic'">
-            <label>Availability</label>
+            <label>{{'availability' | translate}}</label>
             <div [class.site-faded-text]="availabilityState === 'unknown'">
                 <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
             </div>
@@ -44,24 +44,24 @@
 
     <div class="essentials-col">
         <div>
-            <label>Subscription</label>
-            <div>{{subscriptionId}}</div>
+            <label>{{'subscriptionName' | translate}}</label>
+            <div>{{subscriptionName}}</div>
         </div>
 
         <div>
-            <label>Subscription Name</label>
-            <div>{{subscriptionName}}</div>
+            <label>{{'subscription' | translate}}</label>
+            <div>{{subscriptionId}}</div>
         </div>
     </div>
 
     <div class="essentials-col">
         <div>
-            <label>Resource Group</label>
+            <label>{{'resourceGroup' | translate}}</label>
             <div>{{resourceGroup}}</div>
         </div>
 
         <div>
-            <label>Location</label>
+            <label>{{'location' | translate}}</label>
             <div>{{location}}</div>
         </div>
     </div>
@@ -73,7 +73,7 @@
         </div>
 
         <div>
-            <label>App service plan / pricing tier</label>
+            <label>{{'appServicePlanPricingTier' | translate}}</label>
             <div>{{plan}}</div>
         </div>
     </div>
@@ -82,7 +82,7 @@
 
 <div id="site-summary-body">
 <div id="site-summary-features">
-    <h3>Configured features</h3>
+    <h3>{{ 'enabledFeatures_header' | translate }}</h3>
     <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
 </div>
 </div>

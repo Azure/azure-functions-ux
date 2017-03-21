@@ -503,7 +503,7 @@ export class FunctionApp {
 
     getNewFunctionNode(): FunctionInfo {
         return {
-            name: this._translateService.instant(PortalResources.sideBar_newFunction),
+            name: this._translateService.instant(PortalResources.newFunction),
             href: null,
             config: null,
             script_href: null,

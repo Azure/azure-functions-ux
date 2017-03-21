@@ -27,13 +27,10 @@ import {LanguageService} from './shared/services/language.service';
 import { AppComponent } from './app.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import { BusyStateComponent } from './busy-state/busy-state.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { TryNowBusyStateComponent } from './try-now-busy-state/try-now-busy-state.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { DropDownComponent } from './drop-down/drop-down.component';
 import { TryNowComponent } from './try-now/try-now.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { SidebarPipe } from './sidebar/pipes/sidebar.pipe';
 import { FunctionEditComponent } from './function-edit/function-edit.component';
 import { TrialExpiredComponent } from './trial-expired/trial-expired.component';
 import { FunctionNewComponent } from './function-new/function-new.component';
@@ -102,13 +99,10 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
 
       GettingStartedComponent,
       BusyStateComponent,
-      DashboardComponent,
       TryNowBusyStateComponent,
       TopBarComponent,
       DropDownComponent,
       TryNowComponent,
-      SidebarComponent,
-      SidebarPipe,
       FunctionEditComponent,
       TrialExpiredComponent,
       FunctionNewComponent,

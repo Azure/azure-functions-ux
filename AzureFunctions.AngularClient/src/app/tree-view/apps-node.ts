@@ -1,4 +1,5 @@
 import { ErrorIds } from './../shared/models/error-ids';
+import { PortalResources } from './../shared/models/portal-resources';
 import { Arm } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
 import { Response } from '@angular/http';
@@ -14,7 +15,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
-    public title = "All Function Apps";
+    public title = this.sideNav.translateService.instant(PortalResources.functionAppsAll);
     public dashboardType = DashboardType.apps;
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);
@@ -238,13 +239,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 }
             }
 
-            // let regexResult = this._exactAppSearchExp.exec(term);
-            // if(regexResult && regexResult.length > 1){
-            //     url += `) and (name eq '${regexResult[1]}')`;
-            // }
-            // else{
             url += `) and (substringof('${term}', name))`;
-            // }
         }
 
         return url;

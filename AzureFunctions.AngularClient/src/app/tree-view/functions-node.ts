@@ -15,7 +15,7 @@ import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
 
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
-    public title = "Functions";
+    public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunction;
 
@@ -37,16 +37,16 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
                     return this._updateTreeForStartedSite();
                 }
                 else if(!r.hasWritePermission){
-                    return this._updateTreeForNonUsableState("Functions (No Access)");
+                    return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
                 }
                 else{
-                    return this._updateTreeForNonUsableState("Functions (ReadOnly Lock)");
+                    return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
                 }
             })
 
         }
         else{
-            return this._updateTreeForNonUsableState("Functions (Stopped)");
+            return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped));
         }
     }
 

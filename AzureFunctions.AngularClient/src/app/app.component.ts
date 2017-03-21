@@ -7,7 +7,6 @@ import { GlobalStateService } from './shared/services/global-state.service';
 import { LanguageService } from './shared/services/language.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import { Constants } from './shared/models/constants';
 import { AiService } from './shared/services/ai.service';
 import {PortalService} from './shared/services/portal.service';

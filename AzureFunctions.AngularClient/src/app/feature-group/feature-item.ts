@@ -46,12 +46,16 @@ export class DisableableFeature extends FeatureItem{
         info : string,
         imageUrl : string,
         private _disableInfoStream? : Subject<DisableInfo>,
-        overrideDisableInfoStream? : DisableInfo        
+        overrideDisableInfo? : DisableInfo // If the feature is known to be disabled before any async logic, then use this disable immediately
     ){
         super(title, keywords, info, imageUrl);
 
-        if(overrideDisableInfoStream && !overrideDisableInfoStream.enabled){
-            this.warning = overrideDisableInfoStream.disableMessage;
+        if(overrideDisableInfo){
+            if(!overrideDisableInfo.enabled){
+                this.warning = overrideDisableInfo.disableMessage;
+            }
+
+            this.enabled = overrideDisableInfo.enabled;
         }
         else if(_disableInfoStream){
             this._enabledRxSub = _disableInfoStream.subscribe(info =>{
@@ -81,8 +85,8 @@ export class DisableableBladeFeature extends DisableableFeature{
         protected _bladeInfo : OpenBladeInfo,        
         protected _portalService : PortalService,
         disableInfoStream? : Subject<DisableInfo>,        
-        overrideDisableInfoStream? : DisableInfo){
-        super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfoStream);
+        overrideDisableInfo? : DisableInfo){
+        super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
     }
 
     click(){

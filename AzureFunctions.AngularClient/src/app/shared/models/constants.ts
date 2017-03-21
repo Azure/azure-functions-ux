@@ -29,8 +29,8 @@ export class Constants {
 export class SiteTabNames{
     public static overview = "Overview";
     public static monitor = "Monitor";
-    public static features = "Features";
-    public static functionRuntime = "Function App Runtime";
+    public static features = "Platform features";
+    public static functionRuntime = "Settings";
     public static apiDefinition = "API Definition";
     public static troubleshoot = "Troubleshoot";
     public static deploymentSource = "Deployment Source";

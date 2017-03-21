@@ -1,5 +1,5 @@
 <div *ngIf="featureItems.length === 0 && !isLoading" class="site-enabled-feature">
-    Quick links to your features will show up here after you've configured them from the "Features" tab above.
+    {{ 'enabledFeatures_description' | translate}}
 </div>
 
 <div *ngFor="let featureItem of featureItems" class="site-enabled-feature">
@@ -7,4 +7,4 @@
     <span class="link" (click)="openFeature(featureItem)">{{featureItem.title}}</span>
 </div>
 
-<div *ngIf="isLoading" class="site-enabled-feature">Loading...</div>
+<div *ngIf="isLoading" class="site-enabled-feature">{{ 'functionMonitor_loading' | translate }}</div>
