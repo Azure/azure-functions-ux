@@ -1798,6 +1798,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Keys feature is not available because Authentication/Authorization is enabled for this Function App..
+        /// </summary>
+        internal static string functionKeys_easyAuthWarning {
+            get {
+                return ResourceManager.GetString("functionKeys_easyAuthWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (Required).
         /// </summary>
         internal static string functionKeys_enterKeyName {

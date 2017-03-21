@@ -26,6 +26,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() inputChange: any;
     @Output() selectedKey = new EventEmitter<string>();
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
+    public easeAuthEnabled: boolean = false;
 
     private functionStream: Subject<FunctionInfo>;
     private functionAppStream: Subject<FunctionApp>;
@@ -51,11 +52,22 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             .switchMap(fi => {
                 this.setBusyState();
                 this.resetState();
+
+                this.functionApp.checkIfEasyAuthEnabled().subscribe((result: any) => {
+                    this.easeAuthEnabled = result;
+                });
+
                 return fi
                     ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of({ keys: [], links: [] }))
                     : this.functionApp.getFunctionHostKeys().catch(error => Observable.of({ keys: [], links: [] }));
+
             })
             .subscribe(keys => {
+                
+                if (this.easeAuthEnabled) {
+                    keys = { keys: [], links: [] };
+                }
+
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {
@@ -115,6 +127,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     showOrHideNewKeyUi() {
+        if (this.easeAuthEnabled) {
+            return;
+        }
+
         if (this.addingNew) {
             this.resetState();
         } else {

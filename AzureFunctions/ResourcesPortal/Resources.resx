@@ -1498,4 +1498,7 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>ACTIONS</value>
   </data>
+  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
+    <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
+  </data>
 </root>

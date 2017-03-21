@@ -1,4 +1,9 @@
 <div class="wrapper" [class.wrapper-border]="showBorders">
+
+    <div *ngIf="easeAuthEnabled" class="alert alert-warning alert-dismissible" role="alert">
+        {{ 'functionKeys_easyAuthWarning' | translate }}
+    </div>
+
     <busy-state></busy-state>
     <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
     <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
@@ -30,9 +35,9 @@
             </tr>
         </tbody>
     </table>
-    <div class="custom-button" (click)="showOrHideNewKeyUi()">
+    <div class="custom-button" (click)="showOrHideNewKeyUi()" [class.disabled]="easeAuthEnabled">
         <span *ngIf="!addingNew && functionInfo">
-            {{ 'functionKeys_addNewFunctionKey' | translate}}
+            {{ 'functionKeys_addNewFunctionKey' | translate}}   
         </span>
         <span *ngIf="!addingNew && !functionInfo">
             {{ 'functionKeys_addNewAdminKey' | translate}}
