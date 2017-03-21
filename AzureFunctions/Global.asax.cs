@@ -64,7 +64,6 @@ namespace AzureFunctions
             SecurityManager.PutOnCorrectTenant(context);
         }
 
-        // TODO: ellhamai - Temporary hack to get around FE auth whitelisting
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
@@ -86,23 +85,26 @@ namespace AzureFunctions
                 return;
             }
 
+            var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
+            var route = RouteTable.Routes.GetRouteData(context);
+            // If the route is not registerd in the WebAPI RouteTable
+            //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
+            // If the route doesn't have authenticated value assume true
+            var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
+            // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
+            // context.Request.UrlReferrer = null evals to true, is okay in this case
+            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
 
-            // TODO: Enable authentication for prod scenario's once we get Antares whitelisting
-            if (context.Request.Url.IsLoopback && !SecurityManager.TryAuthenticateRequest(context))
+            if (!isFile              //skip auth for files
+                && !isTryPageRequested  //when requesting /try users can be unauthenticated
+                && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
-                var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
-                var route = RouteTable.Routes.GetRouteData(context);
-                // If the route is not registerd in the WebAPI RouteTable
-                //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-                // If the route doesn't have authenticated value assume true
-                var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-
                 if (isAuthenticated)
                 {
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
                 }
-                else if (!isFile)
+                else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
                 {
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
@@ -110,44 +112,6 @@ namespace AzureFunctions
                 }
             }
         }
-
-        //protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        //{
-        //    var context = new HttpContextWrapper(HttpContext.Current);
-
-        //    var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
-        //    var route = RouteTable.Routes.GetRouteData(context);
-        //    // If the route is not registerd in the WebAPI RouteTable
-        //    //      then it's not an API route, which means it's a resource (*.js, *.css, *.cshtml), not authenticated.
-        //    // If the route doesn't have authenticated value assume true
-        //    var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
-        //    // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
-        //    // context.Request.UrlReferrer = null evals to true, is okay in this case
-        //    var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
-
-        //    if (   !isFile              //skip auth for files
-        //        && !isTryPageRequested  //when requesting /try users can be unauthenticated
-        //        && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
-        //    {
-        //        if (isAuthenticated)
-        //        {
-        //            context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
-        //            context.Response.StatusCode = 403; // Forbidden
-        //        }
-        //        else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
-        //        {
-        //            context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
-        //            context.Response.Flush();
-        //            context.Response.End();
-        //        }
-        //        else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
-        //        {
-        //            context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
-        //            context.Response.StatusCode = 302;
-        //            context.Response.End();
-        //        }
-        //    }
-        //}
 
         private IContainer InitAutofacContainer()
         {
