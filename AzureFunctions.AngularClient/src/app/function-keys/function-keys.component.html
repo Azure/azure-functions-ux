@@ -1,13 +1,13 @@
-<div class="wrapper" [class.wrapper-border]="showBorders" style="padding: 10px;">
+<div class="wrapper" [class.wrapper-border]="showBorders">
     <busy-state></busy-state>
-    <h4 *ngIf="functionInfo"> {{'functionKeys_title' | translate}} </h4>
-    <h4 *ngIf="!functionInfo"> {{'adminKeys_title' | translate}} </h4>
+    <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
+    <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
     <table class="table-function">
         <thead>
             <tr class="not-clickable">
                 <th width="15%">{{'functionKeys_keyName' | translate}}</th>
                 <th width="50%">{{'functionKeys_keyValue' | translate}}</th>
-                <th width="35%"></th>
+                <th width="35%" style="text-align: left;">{{'functionKeys_actions' | translate}}</th>
             </tr>
         </thead>
         <tbody>

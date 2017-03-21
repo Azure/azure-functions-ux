@@ -1744,7 +1744,16 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add new admin key.
+        ///   Looks up a localized string similar to ACTIONS.
+        /// </summary>
+        internal static string functionKeys_actions {
+            get {
+                return ResourceManager.GetString("functionKeys_actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add new host key.
         /// </summary>
         internal static string functionKeys_addNewAdminKey {
             get {
@@ -1807,7 +1816,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key Name.
+        ///   Looks up a localized string similar to NAME.
         /// </summary>
         internal static string functionKeys_keyName {
             get {
@@ -1816,7 +1825,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key Value.
+        ///   Looks up a localized string similar to VALUE.
         /// </summary>
         internal static string functionKeys_keyValue {
             get {

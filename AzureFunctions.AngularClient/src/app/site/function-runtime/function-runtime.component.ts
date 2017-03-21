@@ -20,6 +20,7 @@ import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { TranslateService } from 'ng2-translate/ng2-translate';
+import { FunctionApp} from './../../shared/function-app';
 
 @Component({
   selector: 'function-runtime',
@@ -37,6 +38,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public dailyMemoryTimeQuota: string;
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
+  public functionApp: FunctionApp;
 
   public functionStatusOptions: SelectOption<boolean>[];
   public needUpdateRoutingExtensionVersion: boolean;
@@ -69,6 +71,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._globalStateService.setBusyState();
 
             this._appNode = (<AppNode>viewInfo.node);
+            this.functionApp = this._appNode.functionApp;
 
             return Observable.zip(
                 this._cacheService.getArm(viewInfo.resourceId),

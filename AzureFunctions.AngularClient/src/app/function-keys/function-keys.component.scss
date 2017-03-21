@@ -1,5 +1,11 @@
 @import '../../sass/main';
 
+.title {
+    @extend .text-label;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
 .wrapper {
     position: relative;
 }
@@ -25,7 +31,13 @@ td {
 }
 
 table {
-    margin-bottom: 40px;
+    margin-bottom: 15px;
+}
+
+tr {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: #E6E7E8;
 }
 
 tr:hover {
