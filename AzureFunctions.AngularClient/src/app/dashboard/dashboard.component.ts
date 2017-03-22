@@ -145,7 +145,7 @@ export class DashboardComponent implements OnChanges {
 
     initFunctions() {
         this._globalStateService.setBusyState();
-        this._functionsService.clearAllCachedData();
+        // this._functionsService.clearAllCachedData();
 
         Observable.zip(
             this._functionsService.getHostSecretsFromScm(),

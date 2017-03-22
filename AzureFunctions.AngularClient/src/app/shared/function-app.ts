@@ -189,15 +189,17 @@ export class FunctionApp {
             .retry()
             .subscribe(r =>{})
 
-                this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}/`;
-                this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
-                this.siteName = this.site.name;
-
-                let fc = <FunctionContainer>site;
-                if (fc.tryScmCred != null) {
-                    this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
-                }
+            let fc = <FunctionContainer>site;
+            if (fc.tryScmCred != null) {
+                this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
+            }
         }
+
+        this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+        this.siteName = this.site.name;
+
+
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
             let templateId = Cookie.get('templateId');

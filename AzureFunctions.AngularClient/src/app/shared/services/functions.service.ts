@@ -331,7 +331,7 @@ export class FunctionsService {
          try {
             if (localStorage.getItem('dev-templates')) {
                 let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
-                this.localize(devTemplate);
+                // this.localize(devTemplate);
                 return Observable.of(devTemplate);
             }
         } catch (e) {
@@ -343,7 +343,7 @@ export class FunctionsService {
             .retryWhen(this.retryAntares)
             .map<FunctionTemplate[]>(r => {
                 let object = r.json();
-                this.localize(object);
+                // this.localize(object);
                 return object;
             });
     }
@@ -380,13 +380,6 @@ export class FunctionsService {
                             });
                         }
                     });
-    }
-
-    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
-        let url = `${this._scmUrl}/api/settings`;
-        return this._http.get(url, { headers: this.getScmSiteHeaders() })
-            .retryWhen(this.retryAntares)
-            .map<{ [key: string]: string }>(r => r.json());
     }
 
     @ClearCache('getFunctions')
@@ -834,9 +827,9 @@ export class FunctionsService {
     //     }
     // }
 
-    get HostSecrets() {
-        return this.masterKey;
-    }
+    // get HostSecrets() {
+    //     return this.masterKey;
+    // }
 
     getTrialResource(provider?: string): Observable<UIResource> {
         let url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
@@ -865,45 +858,45 @@ export class FunctionsService {
             .map<UIResource>(r => r.json());
     }
 
-    updateFunction(fi: FunctionInfo) {
-        ClearAllFunctionCache(fi);
-        return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getScmSiteHeaders() })
-            .map<FunctionInfo>(r => r.json())
-            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
-                            errorId: ErrorIds.unableToUpdateFunction + fi.name,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToUpdateFunction, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                    }
-                });
-    }
+    // updateFunction(fi: FunctionInfo) {
+    //     ClearAllFunctionCache(fi);
+    //     return this._http.put(fi.href, JSON.stringify(fi), { headers: this.getScmSiteHeaders() })
+    //         .map<FunctionInfo>(r => r.json())
+    //         .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
+    //             (error: FunctionsResponse) => {
+    //                 if (!error.isHandled) {
+    //                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+    //                         message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
+    //                         errorId: ErrorIds.unableToUpdateFunction + fi.name,
+    //                         errorType: ErrorType.ApiError
+    //                     });
+    //                     this.trackEvent(ErrorIds.unableToUpdateFunction, {
+    //                         status: error.status.toString(),
+    //                         content: error.text(),
+    //                     });
+    //                 }
+    //             });
+    // }
 
-    getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
-        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.isEasyAuthEnabled
-            ? Observable.of([])
-            : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(this.retryAntares)
-                .map<string[]>(r => r.json().errors || [])
-                .catch((error: Response) => {
-                    if (handleUnauthorized && error.status === 401) {
-                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                            usedKey: this.sanitize(this.masterKey)
-                        });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionErrors(fi, false));
-                    } else {
-                        throw error;
-                    }
-                })
-                .catch<string[]>(e => Observable.of(null));
-    }
+    // getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
+    //     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+    //     return this.isEasyAuthEnabled
+    //         ? Observable.of([])
+    //         : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+    //             .retryWhen(this.retryAntares)
+    //             .map<string[]>(r => r.json().errors || [])
+    //             .catch((error: Response) => {
+    //                 if (handleUnauthorized && error.status === 401) {
+    //                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+    //                         usedKey: this.sanitize(this.masterKey)
+    //                     });
+    //                     return this.getHostSecretsFromScm().flatMap(r => this.getFunctionErrors(fi, false));
+    //                 } else {
+    //                     throw error;
+    //                 }
+    //             })
+    //             .catch<string[]>(e => Observable.of(null));
+    // }
 
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
@@ -947,28 +940,28 @@ export class FunctionsService {
         }
     }
 
-    @Cache()
-    getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
-        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+    // @Cache()
+    // getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
+    //     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        if (this.isEasyAuthEnabled || !this.masterKey) {
-            return Observable.of('');
-        } else {
-            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                .map<string>(r => r.json().id)
-                .catch((error: Response) => {
-                    if (handleUnauthorized && error.status === 401) {
-                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                            usedKey: this.sanitize(this.masterKey)
-                        });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostId(false));
-                    } else {
-                        throw error;
-                    }
-                })
-                .catch(e => Observable.of(''));
-        }
-    }
+    //     if (this.isEasyAuthEnabled || !this.masterKey) {
+    //         return Observable.of('');
+    //     } else {
+    //         return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+    //             .map<string>(r => r.json().id)
+    //             .catch((error: Response) => {
+    //                 if (handleUnauthorized && error.status === 401) {
+    //                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+    //                         usedKey: this.sanitize(this.masterKey)
+    //                     });
+    //                     return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostId(false));
+    //                 } else {
+    //                     throw error;
+    //                 }
+    //             })
+    //             .catch(e => Observable.of(''));
+    //     }
+    // }
 
     getFunctionAppArmId() {
         if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
@@ -980,61 +973,61 @@ export class FunctionsService {
         }
     }
 
-    setEasyAuth(config: { [key: string]: any }) {
-        this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
-    }
+    // setEasyAuth(config: { [key: string]: any }) {
+    //     this.isEasyAuthEnabled = config['enabled'] && config['unauthenticatedClientAction'] !== 1;
+    // }
 
-    getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
-        return this._http.get(url, { headers: this.getScmSiteHeaders() })
-            .catch(e => Observable.of({ json: () => [] }))
-            .flatMap<string>(r => {
-                let files: any[] = r.json();
-                if (files.length > 0) {
-                    let headers = this.getScmSiteHeaders();
-                    headers.append('Range', `bytes=-${range}`);
+    // getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
+    //     let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
+    //     return this._http.get(url, { headers: this.getScmSiteHeaders() })
+    //         .catch(e => Observable.of({ json: () => [] }))
+    //         .flatMap<string>(r => {
+    //             let files: any[] = r.json();
+    //             if (files.length > 0) {
+    //                 let headers = this.getScmSiteHeaders();
+    //                 headers.append('Range', `bytes=-${range}`);
 
-                    files
-                        .map(e => { e.parsedTime = new Date(e.mtime); return e; })
-                        .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
+    //                 files
+    //                     .map(e => { e.parsedTime = new Date(e.mtime); return e; })
+    //                     .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
-                    return this._http.get(files.pop().href, { headers: headers })
-                        .map<string>(f => {
-                            let content = f.text();
-                            let index = content.indexOf('\n');
-                            return index !== -1
-                                ? content.substring(index + 1)
-                                : content;
-                        });
-                } else {
-                    return Observable.of('');
-                }
-            });
-    }
+    //                 return this._http.get(files.pop().href, { headers: headers })
+    //                     .map<string>(f => {
+    //                         let content = f.text();
+    //                         let index = content.indexOf('\n');
+    //                         return index !== -1
+    //                             ? content.substring(index + 1)
+    //                             : content;
+    //                     });
+    //             } else {
+    //                 return Observable.of('');
+    //             }
+    //         });
+    // }
 
-    @Cache('href')
-    getVfsObjects(fi: FunctionInfo | string) {
-        let href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-        return this._http.get(href, { headers: this.getScmSiteHeaders() })
-            .map<VfsObject[]>(e => e.json())
-            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveDirectoryContent),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveDirectoryContent),
-                            errorId: ErrorIds.unableToRetrieveDirectoryContent,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveDirectoryContent, {
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
-    }
+    // @Cache('href')
+    // getVfsObjects(fi: FunctionInfo | string) {
+    //     let href = typeof fi === 'string' ? fi : fi.script_root_path_href;
+    //     return this._http.get(href, { headers: this.getScmSiteHeaders() })
+    //         .map<VfsObject[]>(e => e.json())
+    //         .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveDirectoryContent),
+    //             (error: FunctionsResponse) => {
+    //                 if (!error.isHandled) {
+    //                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+    //                         message: this._translateService.instant(PortalResources.error_unableToRetrieveDirectoryContent),
+    //                         errorId: ErrorIds.unableToRetrieveDirectoryContent,
+    //                         errorType: ErrorType.ApiError
+    //                     });
+    //                     this.trackEvent(ErrorIds.unableToRetrieveDirectoryContent, {
+    //                         content: error.text(),
+    //                         status: error.status.toString()
+    //                     });
+    //                 }
+    //             });
+    // }
 
-    @ClearCache('clearAllCachedData')
-    clearAllCachedData() { }
+    // @ClearCache('clearAllCachedData')
+    // clearAllCachedData() { }
 
     getLatestRuntime() {
         return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
@@ -1050,24 +1043,24 @@ export class FunctionsService {
             .subscribe(success => console.log(success), error => console.log(error));
     }
 
-    @Cache()
-    getJson(uri: string) {
-        return this._http.get(uri, { headers: this.getMainSiteHeaders() })
-            .map<FunctionKeys>(r => r.json());
-    }
+    // @Cache()
+    // getJson(uri: string) {
+    //     return this._http.get(uri, { headers: this.getMainSiteHeaders() })
+    //         .map<FunctionKeys>(r => r.json());
+    // }
 
-    diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
-        return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', { headers: this.getPortalHeaders() })
-            .map<DiagnosticsResult[]>(r => r.json())
-            .catch((error: Response) => {
-                this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
-                    error: error.text(),
-                    status: error.status.toString(),
-                    armId: functionContainer.id
-                });
-                return Observable.of([]);
-            });
-    }
+    // diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
+    //     return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', { headers: this.getPortalHeaders() })
+    //         .map<DiagnosticsResult[]>(r => r.json())
+    //         .catch((error: Response) => {
+    //             this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
+    //                 error: error.text(),
+    //                 status: error.status.toString(),
+    //                 armId: functionContainer.id
+    //             });
+    //             return Observable.of([]);
+    //         });
+    // }
 
     // to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
@@ -1129,7 +1122,7 @@ export class FunctionsService {
         }
 
         for (var property in objectTolocalize) {
-
+            
             if (property === 'files' || property === 'defaultValue') {
                 continue;
             }
