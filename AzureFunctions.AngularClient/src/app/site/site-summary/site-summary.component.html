@@ -7,7 +7,7 @@
     </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
-        <img src="images/restart.svg" />{{ ' restart' | translate }}
+        <img src="images/restart.svg" />{{ 'restart' | translate }}
     </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
