@@ -72,11 +72,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
-            if(!this._loadingObservable){
-                this._loadingObservable = this.initialize(false);
-            }
-
-            return this._loadingObservable;
+            return this.initialize(false);
         }
 
         return Observable.of({});
@@ -84,11 +80,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
     public loadChildren(){
         if(!this.disabled){
-            if(!this._loadingObservable){
-                this._loadingObservable = this.initialize(true);
-            }
-
-            return this._loadingObservable;
+            return this.initialize(true);
         }
 
         return Observable.of({});
@@ -103,13 +95,16 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.supportsRefresh = false;
         this.isLoading = true;
 
-        return Observable.zip(
+        if(this._loadingObservable){
+            return this._loadingObservable;
+        }
+
+        this._loadingObservable = Observable.zip(
             this.sideNav.authZService.hasPermission(this._siteArmCacheObj.id, [AuthzService.writeScope]),
             this.sideNav.authZService.hasReadOnlyLock(this._siteArmCacheObj.id),
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
             (h, r, s) =>({ hasWritePermission : h, hasReadOnlyLock : r, siteResponse : s})
         )
-
         .flatMap(r =>{
 
             this.isLoading = false;
@@ -139,7 +134,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this.children = [ functionsNode, proxiesNode ];
 
                 if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
-                    return this.setupBackgroundTasks()
+                    return this._setupBackgroundTasks()
                     .map(() =>{
                         this.supportsRefresh = true;
                     });
@@ -155,15 +150,18 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         })
         .do(r =>{
+
             if(this.inSelectedTree){
                 this.children.forEach(c => c.inSelectedTree = true);
             }
 
             this._loadingObservable = null;
-            // return r;
         }, e =>{
             this.isLoading = false;
         })
+        .share()
+
+        return this._loadingObservable;
     }
 
     public handleRefresh() : Observable<any>{
@@ -243,7 +241,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
         this.sideNav.globalStateService.setTopBarNotifications([]);
     }
-    public setupBackgroundTasks(){
+
+    private _setupBackgroundTasks(){
 
         return this.functionApp.initKeysAndWarmupMainSite()
         .catch((err : any) => Observable.of(null))
