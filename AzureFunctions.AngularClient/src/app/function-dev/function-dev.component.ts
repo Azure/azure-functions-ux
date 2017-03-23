@@ -129,8 +129,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
                     if (httpModel.body !== undefined) {
                         this.testContent = httpModel.body;
-                        // Remove "code" param fix
-                        this.saveTestData();
                     }
                 } catch (e) {
                     // it's not run http model
@@ -184,6 +182,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 setTimeout(() => {
                     this.onResize();
+                    // Remove "code" param fix
+                    this.saveTestData();
                 }, 0);
 
                 if (!this._functionsService.isMultiKeySupported) {
