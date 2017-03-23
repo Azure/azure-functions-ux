@@ -76,7 +76,7 @@ export class RunHttpComponent {
                     return qp.name === p.name;
                 });
                 if (!findResult) {
-                    this.model.queryStringParams.push(p);
+                    this.model.queryStringParams.splice(0,0, p);
                 }
             });
             this.change();
