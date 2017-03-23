@@ -44,11 +44,11 @@ hr.tree-node-separator{
 }
 
 .tree-node:hover{
-    background-color: darken($border-color, 3%);
+    background-color: $tree-node-hover-color;
 }
 
 .tree-node-selected{
-    background-color: $tree-node-selection-color;
+    background-color: $tree-node-selection-color !important;
 }
 
 .tree-node-advanced-enabled{

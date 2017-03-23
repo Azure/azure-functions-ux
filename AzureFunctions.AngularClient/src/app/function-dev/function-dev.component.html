@@ -31,7 +31,7 @@
                     <div class="left-container">
 
                         <!-- Header -->
-                        <div style="display:flex;">
+                        <div style="display:flex;align-items: center;">
                             <span class="text-level1-heading">{{fileName}}</span>
                             <span>
                                 <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>

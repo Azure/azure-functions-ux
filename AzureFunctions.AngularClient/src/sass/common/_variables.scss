@@ -14,6 +14,8 @@ $border-color: darken($chrome-color, 10%);
 
 $tree-node-selection-color: #e1efff;
 
+$tree-node-hover-color: rgba($tree-node-selection-color, 0.5);
+
 $border: 1px $border-color solid;
 
 // Background colors:

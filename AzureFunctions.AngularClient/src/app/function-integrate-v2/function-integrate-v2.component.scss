@@ -12,7 +12,7 @@
 }
 
 .list-special .list-group-item:hover {
-    background-color: #BFC9D0 !important;
+    background-color: $tree-node-hover-color !important;
     color: $primary-color !important;
     cursor: pointer !important; 
 }

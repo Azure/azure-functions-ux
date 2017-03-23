@@ -1,17 +1,21 @@
 .tab-label {
-    @extend .text-level2-heading;
+    @extend .text-tab;
     padding-bottom: 12px;
     padding-top: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
     color: $primary-color;
 }
 
+.tab-label:hover {
+    color: $default-text-color;
+}
+
 .tab-label-selected {
-    @extend .text-level2-heading;
-    padding: 8px;
+    @extend .text-tab;
+    padding: 8px 5px 8px 5px;
     border-bottom: 4px solid $default-text-color;
     cursor: pointer;
     margin-left: 10px;
@@ -19,26 +23,26 @@
 }
 
 .tab-label-disabled {
-    @extend .text-level2-heading;
-    padding: 8px;
+    @extend .text-tab;
+    padding: 8px 5px 8px 5px;
     border-bottom: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;
 }
 
 .tab-label-rotate-right {
-    @extend .text-level2-heading;
+    @extend .text-tab;
     padding-top: 12px; 
     padding-bottom: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 5x;
+    padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
 }
 
 .tab-label-rotate {
-    @extend .text-level2-heading;
-    padding: 8px;
+    @extend .text-tab;
+    padding: 8px 5px 8px 5px;
     border-top: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;

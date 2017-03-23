@@ -6,7 +6,8 @@
 }
 
 .dev-border {
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 .dev-flex-column {
@@ -39,9 +40,9 @@
     margin-left: 0px;
     line-height: 25px;
     padding: 5px;
-    height: 50px;
+    height: 40px;
     display: flex;
-    align-content: center;
+    align-items: center;
 }
 
 .cancel-button {
@@ -145,7 +146,7 @@
     border-top: 1px solid #ccc;
     display: flex;
     flex-direction: row-reverse; 
-    padding: 9px 10px 9px 0px;
+    padding: 10px 10px 9px 0px;
 }
 
 .hidden {

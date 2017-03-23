@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .wrapper {
     position: relative;
 }
@@ -5,7 +7,7 @@
 .file, .folder {
     padding: 5px;
     vertical-align: middle;
-    line-height: 1.8;
+    line-height: 2.2;
     white-space: nowrap;
 }
 
@@ -16,13 +18,17 @@
 .file-container {
     flex-grow: 1;
     height: 100%;
-    border-top: 1px solid #ccc;    
+    border-top: 1px solid #ccc;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.file:hover, .selected {
-    background-color: #e8f4ff;
+.file:hover {
+    background-color: $tree-node-hover-color;
+}
+
+.selected {
+    background-color: $tree-node-selection-color !important;
 }
 
 .heading {
@@ -59,5 +65,5 @@ label {
 }
 
 .root-folder {
-    padding: 10px 0px 0px 10px;
+    padding: 20px 0px 0px 10px;
 }
