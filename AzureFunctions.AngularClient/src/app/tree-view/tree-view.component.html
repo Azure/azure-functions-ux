@@ -1,6 +1,7 @@
 <ul class="tree">
   <li *ngFor="let child of node.children"
-    [class.selected-first-level-node]="level === 1 && child.inSelectedTree">
+    [class.selected-first-level-node]="level === 1 && child.inSelectedTree && !showTryView"
+    [class.try-root-node]="level === 0 && showTryView">
 
     <div (mouseenter)="child.showMenu = true"
          (mouseleave)="child.showMenu = false"
@@ -44,7 +45,7 @@
                   class="fa fa-refresh tree-node-refresh-icon"
                   title="Refresh"></i>
 
-                <i *ngIf="child.supportsScope"
+                <i *ngIf="child.supportsScope && !showTryView"
                   class="fa fa-angle-double-right tree-node-scope-icon"
                   (click)="child.scopeToNode()"
                   title="Scope to this app"></i>
@@ -53,7 +54,7 @@
         </span>
     </div>
 
-    <hr *ngIf="level === 0" class="tree-node-separator" />
+    <hr *ngIf="level === 0 && !showTryView" class="tree-node-separator" />
 
     <!-- Child nodes in the tree if the current node expands -->
     <div *ngIf="child.isExpanded" [class.tree-node-children]="level === 0">

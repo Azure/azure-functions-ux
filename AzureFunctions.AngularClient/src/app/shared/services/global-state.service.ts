@@ -36,7 +36,7 @@ export class GlobalStateService {
       private _armService: ArmService,
       private _aiService: AiService) {
         this._appSettings = {};
-        this.showTryView = window.location.pathname.endsWith('/try');
+        this.showTryView = window.location.pathname.toLowerCase().endsWith('/try');
         this._userService.getStartupInfo().subscribe(info => this._token = info.token);
         this.enabledApiProxy.next(false);
     }
@@ -59,20 +59,8 @@ export class GlobalStateService {
         return this._appSettings[Constants.routingExtensionVersionAppSettingName];
     }
 
-    get IsLatestRoutingVersion(): boolean {
-        return (this.RoutingExtensionVersion ? Constants.routingExtensionVersion === this.RoutingExtensionVersion || Constants.latest === this.RoutingExtensionVersion.toLowerCase() : false);
-    }
-
     get IsRoutingEnabled() {
         return this.RoutingExtensionVersion && this.RoutingExtensionVersion.toLowerCase() !== Constants.disabled;
-    }
-
-    set AppSettings(value: { [key: string]: string }) {
-        if (value) {
-            this._appSettings = value;
-        }
-
-        this.enabledApiProxy.next(this.RoutingExtensionVersion && this.RoutingExtensionVersion !== Constants.disabled);
     }
 
     set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {
@@ -116,14 +104,6 @@ export class GlobalStateService {
 
     get CurrentToken(): string {
         return this._token;
-    }
-
-    get TryAppServiceScmCreds(): string {
-        return this._scmCreds;
-    }
-
-    set TryAppServiceScmCreds(scmCreds: string) {
-        this._scmCreds = scmCreds;
     }
 
    get TryAppServiceToken(): string {

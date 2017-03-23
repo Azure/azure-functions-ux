@@ -199,6 +199,7 @@ export class AiService implements IAppInsights {
      */
     @AiDefined()
     trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, severityLevel?: SeverityLevel) {
+        console.log(exception);
         return appInsights.trackException(exception, handledAt, properties, measurements);
     }
 

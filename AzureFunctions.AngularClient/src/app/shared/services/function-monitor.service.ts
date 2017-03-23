@@ -41,7 +41,7 @@ export class FunctionMonitorService {
     getDataForSelectedFunction(functionInfo : FunctionInfo, host: string) {
         var url = functionInfo.functionApp.getScmUrl() + "/azurejobs/api/functions/definitions?host=" + host + "&limit=11";
         return this._http.get(url, {
-            headers: this.getHeadersForScmSite(this._globalStateService.TryAppServiceScmCreds)
+            headers: this.getHeadersForScmSite(functionInfo.functionApp.tryFunctionsScmCreds)
         })
         .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase()));
     }
@@ -50,7 +50,7 @@ export class FunctionMonitorService {
     getInvocationsDataForSelctedFunction(functionApp : FunctionApp, functionId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
         return this._http.get(url, {
-            headers: this.getHeadersForScmSite(this._globalStateService.TryAppServiceScmCreds)
+            headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
             .map<FunctionInvocations[]>(r => r.json().entries)
             .catch(e => Observable.of([]))
@@ -59,7 +59,7 @@ export class FunctionMonitorService {
     getInvocationDetailsForSelectedInvocation(functionApp : FunctionApp, invocationId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/functions/invocations/" + invocationId;
         return this._http.get(url, {
-            headers: this.getHeadersForScmSite(this._globalStateService.TryAppServiceScmCreds)
+            headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
             .map<any>(r => r.json())
             .catch(e => Observable.of(null));
@@ -68,7 +68,7 @@ export class FunctionMonitorService {
     getOutputDetailsForSelectedInvocation(functionApp : FunctionApp, invocationId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/log/output/" + invocationId;
         return this._http.get(url, {
-            headers: this.getHeadersForScmSite(this._globalStateService.TryAppServiceScmCreds)
+            headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
             .map<string>(r => r.text())
             .catch(e => Observable.of(""))

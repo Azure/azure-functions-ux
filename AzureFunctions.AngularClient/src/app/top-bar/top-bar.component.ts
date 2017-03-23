@@ -62,7 +62,7 @@ export class TopBarComponent implements OnInit {
         if(this.inIFrame){
             this.visible = this.topBarNotifications && this.topBarNotifications.length > 0;
         }
-        else{
+        else if(!this._globalStateService.showTryView){
             this.visible = true;
         }
     }

@@ -1,3 +1,5 @@
+import { FunctionInfo } from './../shared/models/function-info';
+import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
@@ -33,7 +35,8 @@ import {Http, Headers, Response, Request} from '@angular/http';
 @Component({
   selector: 'side-nav',
   templateUrl: './side-nav.component.html',
-  styleUrls: ['./side-nav.component.scss']
+  styleUrls: ['./side-nav.component.scss'],
+  inputs: ['tryFunctionAppInput']
 })
 export class SideNavComponent{
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
@@ -42,7 +45,10 @@ export class SideNavComponent{
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public selectedSubscriptions : Subscription[] = [];
     public subscriptionsDisplayText = "";
-    @Input() public resourceId : string;
+    
+    public resourceId : string;
+    public initialResourceId : string;
+
     public searchTerm = "";
     public hasValue = false;
 
@@ -55,6 +61,16 @@ export class SideNavComponent{
     private _searchTermStream = new Subject<string>();
 
     private _initialized = false;
+
+    private _tryFunctionAppStream = new Subject<FunctionApp>();
+    // public tryFunctions = false;
+    public tryFunctionApp : FunctionApp;
+
+    set tryFunctionAppInput(functionApp : FunctionApp){
+        if(functionApp){
+            this._tryFunctionAppStream.next(functionApp);
+        }
+    }
 
     constructor(
         public armService : ArmService,
@@ -97,7 +113,6 @@ export class SideNavComponent{
                     appsNode.select();
                 }, 10);
 
-
                 this._searchTermStream
                 .subscribe(term =>{
                     this.searchTerm = term;
@@ -111,6 +126,35 @@ export class SideNavComponent{
                 }
             }
         });
+
+        this._tryFunctionAppStream
+        .flatMap(tryFunctionApp => {
+            this.tryFunctionApp = tryFunctionApp;
+            return tryFunctionApp.getFunctions();
+        })
+        .subscribe(functions =>{
+            this.globalStateService.clearBusyState();
+
+            let functionInfo : FunctionInfo = null;
+            if(functions && functions.length > 0){
+                this.initialResourceId = `${this.tryFunctionApp.site.id}/functions/${functions[0].name}`;
+            }
+            else{
+                this.initialResourceId = this.tryFunctionApp.site.id;
+            }
+
+            let appNode = new AppNode(
+                this,
+                this.tryFunctionApp.site,
+                null,
+                [],
+                false);
+            
+            appNode.select();
+
+            this.rootNode = new TreeNode(this, null, null);
+            this.rootNode.children = [appNode];
+        })
     }
 
     updateView(newSelectedNode : TreeNode, newDashboardType : DashboardType, force? : boolean) : Observable<boolean>{

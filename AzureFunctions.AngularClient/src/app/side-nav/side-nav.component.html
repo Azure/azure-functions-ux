@@ -1,6 +1,6 @@
-<div class="sidenav">
+<div class="sidenav" [class.sidenav-try]="tryFunctionApp">
 
-    <div id="sidenav-menu">
+    <div id="sidenav-menu" *ngIf="!tryFunctionApp">
 
         <input type="text"
             id="sidenav-search"
@@ -24,8 +24,9 @@
 
     </div>
 
-    <div *ngIf="selectedSubscriptions.length > 0">
-        <tree-view [node]="rootNode" [levelInput]="0"></tree-view>
+    <!--<div *ngIf="selectedSubscriptions.length > 0">-->
+    <div>
+        <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
     </div>
 
 </div>

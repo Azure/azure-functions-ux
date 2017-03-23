@@ -13,7 +13,7 @@ declare var mixpanel: any;
 @Component({
   selector: 'try-now',
   templateUrl: './try-now.component.html',
-  styleUrls: ['./try-now.component.css']
+  styleUrls: ['./try-now.component.scss']
 })
 export class TryNowComponent implements OnInit {
     private uiResource: UIResource;

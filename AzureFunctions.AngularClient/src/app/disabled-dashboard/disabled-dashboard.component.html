@@ -1,5 +1,5 @@
 <div *ngIf="!!message">
-  <div id="disabled-background"></div>
+  <div class="disabled-background" [class.disabled-background-try]="showTryView"></div>
   <div id="disabled-message">
     <span>{{message}}</span>
   </div>

@@ -14,13 +14,16 @@ export class AuthzService {
     public static deleteScope = "./delete";
     public static actionScope = "./action"
 
+    public static permissionsSuffix = "/providers/microsoft.authorization/permissions";
+    public static authSuffix = "/providers/Microsoft.Authorization/locks";
+
     private _wildCardEscapeSequence = "\\*";
 
     constructor(private _cacheService : CacheService, private _armService : ArmService){
     }
 
     hasPermission(resourceId : string, requestedActions : string[]) : Observable<boolean>{
-        let authId = `${resourceId}/providers/microsoft.authorization/permissions`;
+        let authId = `${resourceId}${AuthzService.permissionsSuffix}`;
         return this._cacheService.getArm(authId, false, this._armService.armPermissionsVersion)
         .map(r =>{
             let permissionsSet = r.json().value;
@@ -36,7 +39,7 @@ export class AuthzService {
     }
 
     private _getLocks(resourceId : string){
-        let lockId = `${resourceId}/providers/Microsoft.Authorization/locks`;
+        let lockId = `${resourceId}${AuthzService.authSuffix}`;
         return this._cacheService.getArm(lockId, false, this._armService.armLocksApiVersion)
         .map(r =>{
             return <ArmObj<Lock>[]>r.json().value;

@@ -1,3 +1,4 @@
+import { GlobalStateService } from './../shared/services/global-state.service';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {ArmService} from '../shared/services/arm.service';
 import {TreeNode} from './tree-node';
@@ -14,7 +15,10 @@ export class TreeViewComponent{
     margin : string;
     level : number;
 
-    constructor(private _armService : ArmService) {
+    public showTryView = false;
+
+    constructor(globalStateService : GlobalStateService) {
+        this.showTryView = globalStateService.showTryView;
     }
 
     set levelInput(level : number){
