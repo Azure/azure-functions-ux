@@ -1,5 +1,6 @@
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TranslateService } from 'ng2-translate';
+import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
@@ -47,7 +48,8 @@ export class SiteEnabledFeaturesComponent {
         private _portalService : PortalService,
         private _authZService : AuthzService,
         private _aiService : AiService,
-        private _translateService : TranslateService) {
+        private _translateService : TranslateService,
+        private _globalStateService : GlobalStateService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -89,7 +91,12 @@ export class SiteEnabledFeaturesComponent {
                     this._getSiteExtensions(r.site));
             })
             .do(null, e =>{
-                this._aiService.trackException(e, "site-enabled-features");
+                if(!this._globalStateService.showTryView){
+                    this._aiService.trackException(e, "site-enabled-features");
+                }
+                else{
+                    this.isLoading = false;
+                }
             })
             .retry()
             .subscribe((results : EnabledFeatureItem[][]) =>{

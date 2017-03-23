@@ -12,6 +12,11 @@
     border-right: $border;
 }
 
+.sidenav-try{
+    height: calc(100% - $top-bar-height);
+    top: $top-bar-height;
+}
+
 #sidenav-menu{
     padding: 5px;
 

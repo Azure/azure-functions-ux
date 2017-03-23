@@ -6,12 +6,17 @@
     width: calc(100% - #{$sidenav-width});  
 }
 
-#disabled-background{
+.disabled-background{
     @extend .disabled-container;
     z-index: 100;
     opacity: 0.4;
     height: 100%;
     background-color: rgba($disabled-color, .5);
+}
+
+.disabled-background-try{
+    height: calc(100% - $top-bar-height);
+    top: $top-bar-height;
 }
 
 #disabled-message{

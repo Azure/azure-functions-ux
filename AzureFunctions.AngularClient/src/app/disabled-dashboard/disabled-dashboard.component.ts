@@ -8,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisabledDashboardComponent implements OnInit {
   public message : string = null;
+  public showTryView = false;
 
   constructor(globalStateService : GlobalStateService) {
     globalStateService.disabledMessage.subscribe(message =>{
       this.message = message;
     })
+
+    this.showTryView = globalStateService.showTryView;
   }
 
   ngOnInit() {

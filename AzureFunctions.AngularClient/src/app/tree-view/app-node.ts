@@ -1,3 +1,4 @@
+import { ArmTryService } from './../shared/services/arm-try.service';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ErrorIds } from './../shared/models/error-ids';
 import { AuthzService } from './../shared/services/authz.service';
@@ -107,34 +108,12 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             (h, r, s) =>({ hasWritePermission : h, hasReadOnlyLock : r, siteResponse : s})
         )
         .flatMap(r =>{
-
             this.isLoading = false;
 
             let site : ArmObj<Site> = r.siteResponse.json();
 
             if(!this._functionApp){
-                this._functionApp = new FunctionApp(
-                    site,
-                    this.sideNav.http,
-                    this.sideNav.userService,
-                    this.sideNav.globalStateService,
-                    this.sideNav.translateService,
-                    this.sideNav.broadcastService,
-                    this.sideNav.armService,
-                    this.sideNav.cacheService,
-                    this.sideNav.languageService,
-                    this.sideNav.authZService,
-                    this.sideNav.aiService
-                );
-
-                this.functionAppStream.next(this._functionApp);
-
-                let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
-                let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
-                functionsNode.toggle(null);
-                proxiesNode.toggle(null);
-
-                this.children = [ functionsNode, proxiesNode ];
+                this._setupFunctionApp(site);
 
                 if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
                     return this._setupBackgroundTasks()
@@ -165,6 +144,40 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         .share()
 
         return this._loadingObservable;
+    }
+
+    private _setupFunctionApp(site : ArmObj<Site>){
+        if(this.sideNav.tryFunctionApp){
+            this._functionApp = this.sideNav.tryFunctionApp;
+
+            let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+            functionsNode.toggle(null);
+            this.children = [ functionsNode ];
+        }
+        else{
+            this._functionApp = new FunctionApp(
+                site,
+                this.sideNav.http,
+                this.sideNav.userService,
+                this.sideNav.globalStateService,
+                this.sideNav.translateService,
+                this.sideNav.broadcastService,
+                this.sideNav.armService,
+                this.sideNav.cacheService,
+                this.sideNav.languageService,
+                this.sideNav.authZService,
+                this.sideNav.aiService
+            );
+
+            this.functionAppStream.next(this._functionApp);
+
+            let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+            let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
+            functionsNode.toggle(null);
+            proxiesNode.toggle(null);
+
+            this.children = [ functionsNode, proxiesNode ];
+        }
     }
 
     public handleRefresh() : Observable<any>{

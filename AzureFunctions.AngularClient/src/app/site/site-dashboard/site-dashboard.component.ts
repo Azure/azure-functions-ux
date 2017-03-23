@@ -45,7 +45,12 @@ export class SiteDashboardComponent {
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
             .switchMap(viewInfo =>{
-                
+                this.viewInfo = viewInfo;
+
+                if(this._globalStateService.showTryView){
+                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
+                }
+
                 if(!this._tabsLoaded){
                     // We only set to false on 1st time load because that's the only time
                     // that we'll update the viewInfoStream, AND call onTabSelected.  Changing
@@ -56,7 +61,6 @@ export class SiteDashboardComponent {
 
                 viewInfo.data.siteTraceKey = this._aiService.startTrace();
 
-                this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
 
                 return this._cacheService.getArm(viewInfo.resourceId)
@@ -67,6 +71,8 @@ export class SiteDashboardComponent {
                 if(e && e.status === 404){
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
+
+                this._aiService.trackException(e, "site-dashboard");
 
                 this._globalStateService.setDisabledMessage(message);
                 this._globalStateService.clearBusyState();

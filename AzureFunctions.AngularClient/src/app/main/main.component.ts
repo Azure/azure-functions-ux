@@ -1,5 +1,6 @@
+import { FunctionApp } from './../shared/function-app';
 import { TopRightMenuComponent } from './../top-right-menu/top-right-menu.component';
-import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input, Output } from '@angular/core';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {DashboardType} from '../tree-view/models/dashboard-type';
@@ -17,6 +18,8 @@ export class MainComponent {
     public viewInfo : TreeViewInfo;
     public dashboardType : string;
     public inIFrame : boolean;
+
+    @Input() tryFunctionApp: FunctionApp;
 
     constructor(private _userService : UserService, private _globalStateService : GlobalStateService) {
         this.inIFrame = _userService.inIFrame;

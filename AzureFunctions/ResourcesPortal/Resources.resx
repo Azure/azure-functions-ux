@@ -1252,6 +1252,9 @@
   <data name="tab_settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>Managing your Function app is not available for this trial.</value>
+  </data>
   <data name="template" xml:space="preserve">
     <value>Template</value>
   </data>

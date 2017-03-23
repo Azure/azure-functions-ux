@@ -380,6 +380,7 @@ export class PortalResources
     public static tab_overview: string = "tab_overview";
     public static tab_features: string = "tab_features";
     public static tab_settings: string = "tab_settings";
+    public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
     public static events: string = "events";
     public static appServicePlan: string = "appServicePlan";

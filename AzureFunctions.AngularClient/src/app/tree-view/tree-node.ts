@@ -140,8 +140,27 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         })
         .subscribe(() =>{
             this.isLoading = false;
-            if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
-                this.children[0].toggle(null);
+            if(this.children && this.children.length > 0){
+                let matchingChild = this.children.find(c =>{
+                    return this.sideNav.initialResourceId && this.sideNav.initialResourceId.toLowerCase().startsWith(`${this.resourceId}/${c.title}`.toLowerCase());
+                })
+
+                if(matchingChild){
+                    matchingChild.select();
+                }
+                else if(this.children.length === 1 && !this.children[0].isExpanded){
+                    this.children[0].toggle(null);
+                }
+                else{
+                    this.sideNav.initialResourceId = null;
+                }
+            }
+            else{
+                this.sideNav.initialResourceId = null;
+            }
+
+            if(this.sideNav.initialResourceId && this.sideNav.initialResourceId.toLowerCase() === this.resourceId.toLowerCase()){
+                this.sideNav.initialResourceId = null;
             }
         });
     }

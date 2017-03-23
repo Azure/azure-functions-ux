@@ -30,6 +30,11 @@ hr.tree-node-separator{
     margin-right: 1px;
 }
 
+.try-root-node{
+    @extend .selected-first-level-node;
+    padding-top: 5px;
+}
+
 // Styles for regular nodes
 .tree-node{
     height: 32px;
@@ -59,7 +64,7 @@ hr.tree-node-separator{
     max-height: calc(100% - 104px);
     width: $sidenav-width;
     overflow-y: auto;
-    position: absolute;
+    // position: absolute;
     margin-top: 1px;
 }
 
