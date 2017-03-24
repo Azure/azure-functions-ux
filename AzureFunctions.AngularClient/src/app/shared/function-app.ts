@@ -186,7 +186,6 @@ export class FunctionApp {
             }, e => {
                 this._aiService.trackException(e, "FunctionApp().getStartupInfo()");
             })
-            .retry()
             .subscribe(r =>{})
 
             let fc = <FunctionContainer>site;

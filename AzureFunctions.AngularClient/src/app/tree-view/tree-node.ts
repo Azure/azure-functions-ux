@@ -70,7 +70,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         .do(null, e =>{
             this.sideNav.aiService.trackException(e, "TreeNode.select()");
         })
-        .retry()
         .subscribe(r =>{
 
             // If updating the view didn't also populate children,
@@ -94,7 +93,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         .do(null, e =>{
             this.sideNav.aiService.trackException(e, "TreeNode.refresh()");
         })
-        .retry()
         .subscribe(r =>{
             if(!r){
                 return;
@@ -104,7 +102,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             .do(null, e=>{
                 this.sideNav.aiService.trackException(e, "TreeNode.refresh().updateView()");
             })
-            .retry()
             .subscribe(() =>{});            
 
             this.isLoading = false;
@@ -141,7 +138,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         .do(null, e =>{
             this.sideNav.aiService.trackException(e, "TreeNode._loadAndExpandChildrenIfSingle().loadChildren()");
         })
-        .retry()
         .subscribe(() =>{
             this.isLoading = false;
             if(this.children && this.children.length === 1 && !this.children[0].isExpanded){
@@ -155,7 +151,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         .do(null, e=>{
             this.sideNav.aiService.trackException(e, "TreeNode.openCreateNew().updateView()");            
         })
-        .retry()
         .subscribe(() =>{});
         
         if(event){
