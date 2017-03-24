@@ -75,7 +75,12 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
-    
+
+    public openQuickstart() {
+        this.newDashboardType = DashboardType.quickstart;
+        this.openCreateNew();
+    }
+
     public dispose(newSelectedNode? : TreeNode){
         this.parent.dispose(newSelectedNode);
     }

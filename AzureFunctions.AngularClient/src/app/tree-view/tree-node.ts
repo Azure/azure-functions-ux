@@ -146,7 +146,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         });
     }
 
-    public openCreateNew(event){
+    public openCreateNew(event? : any){
         this.sideNav.updateView(this, this.newDashboardType)
         .do(null, e=>{
             this.sideNav.aiService.trackException(e, "TreeNode.openCreateNew().updateView()");            

@@ -8,7 +8,10 @@
     </div>
 
     <div *ngIf="!disabled && functionsInfo">
-        <h3>{{ 'functionNew_chooseTemplate' | translate }}</h3>
+        <div class="choose">
+            <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
+            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
+        </div>
         <template-picker
             [functionAppInput]="functionApp"
             [type]="type"

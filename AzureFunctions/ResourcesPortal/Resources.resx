@@ -166,7 +166,7 @@
     <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template</value>
+    <value>Choose a template below or go to the</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
@@ -993,7 +993,7 @@
   </data>
   <data name="newFunction" xml:space="preserve">
     <value>New Function</value>
-  </data>  
+  </data>
   <data name="functionApps" xml:space="preserve">
     <value>Function Apps</value>
   </data>
@@ -1011,7 +1011,7 @@
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Download publish profile</value>
-  </data>  
+  </data>
   <data name="resetPubCredentials" xml:space="preserve">
     <value>Reset publish credentials</value>
   </data>
@@ -1107,9 +1107,6 @@
   </data>
   <data name="feature_networkingName" xml:space="preserve">
     <value>Networking</value>
-  </data>
-  <data name="feature_networkingInfo" xml:space="preserve">
-    <value>Manage VNET and Hybrid connections for your app</value>
   </data>
   <data name="feature_networkingInfo" xml:space="preserve">
     <value>Manage VNET and Hybrid connections for your app</value>
@@ -1413,5 +1410,8 @@
   </data>
   <data name="functionKeys_easyAuthWarning" xml:space="preserve">
     <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>quickstart</value>
   </data>
 </root>

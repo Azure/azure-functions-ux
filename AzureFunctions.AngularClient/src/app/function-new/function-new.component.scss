@@ -20,3 +20,15 @@ input{
 input.input-error {
     padding-right:25px;
 }
+
+.quickstart {
+    color: $primary-color;
+}
+
+.quickstart:hover {
+    cursor: pointer;
+}
+
+.choose {
+    padding-bottom:10px;
+}

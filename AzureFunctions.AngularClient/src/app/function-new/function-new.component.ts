@@ -19,6 +19,7 @@ import {AiService} from '../shared/services/ai.service';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
+import {AppNode} from '../tree-view/app-node';
 
 @Component({
   selector: 'function-new',
@@ -189,6 +190,10 @@ export class FunctionNewComponent {
             this._bindingComponents.push(component);
         }
         this.validate();
+    }
+
+    quickstart() {
+        this.selectedNode.openQuickstart();
     }
 
     private validate() {

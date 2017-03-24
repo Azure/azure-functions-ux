@@ -16,5 +16,6 @@ export enum DashboardType{
     functionMonitor,
     createProxy,
     proxies,
-    proxy
+    proxy,
+    quickstart
 }

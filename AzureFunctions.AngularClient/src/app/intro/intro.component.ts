@@ -14,17 +14,37 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from "../shared/models/error-ids";
+import {FunctionsNode} from '../tree-view/functions-node';
+import {FunctionApp} from '../shared/function-app';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 
 @Component({
   selector: 'intro',
   templateUrl: './intro.component.html',
-  styleUrls: ['./intro.component.css']
+  styleUrls: ['./intro.component.css'],
+  inputs: ['viewInfoInput']
 })
 export class IntroComponent {
     @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
+
+
+    public functionApp: FunctionApp;
+    private selectedNode: FunctionsNode;
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._globalStateService.setBusyState();
+        this.selectedNode = <FunctionsNode>viewInfoInput.node;
+        this.functionApp = this.selectedNode.functionApp;
+        this.functionApp.getFunctions()
+            .subscribe(fcs => {
+                this._globalStateService.clearBusyState();
+                this.functionsInfo = fcs;
+            });
+        this._globalStateService.clearBusyState();
+    }
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -55,7 +75,7 @@ export class IntroComponent {
         }
 
         this._globalStateService.setBusyState();
-        this._functionsService.getTemplates().subscribe((templates) => {
+        this.functionApp.getTemplates().subscribe((templates) => {
             var selectedTemplate: FunctionTemplate = templates.find((t) => {
                 return t.id === this.selectedFunction + "-" + this.selectedLanguage;
             });
@@ -67,16 +87,17 @@ export class IntroComponent {
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                    this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
+                    this.functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
-                            this._broadcastService.broadcast<TutorialEvent>(
-                                BroadcastEvent.TutorialStep,
-                                {
-                                    functionInfo: res,
-                                    step: TutorialStep.Waiting
-                                });
-                            this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                            this.selectedNode.addChild(res);
+                            //this._broadcastService.broadcast<TutorialEvent>(
+                            //    BroadcastEvent.TutorialStep,
+                            //    {
+                            //        functionInfo: res,
+                            //        step: TutorialStep.Waiting
+                            //    });
+                            //this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                             this._globalStateService.clearBusyState();
                         },
                         e => {
