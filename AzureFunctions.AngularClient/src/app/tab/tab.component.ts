@@ -6,7 +6,8 @@ import { Component, Input } from '@angular/core';
     templateUrl: './tab.component.html'
 })
 export class TabComponent {
-    @Input('tabTitle') title: string;
+    @Input() title : string;
+    @Input() id : string;
     @Input() active = false;
     @Input() closeable = false;
 }

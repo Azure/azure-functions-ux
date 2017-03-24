@@ -1,7 +1,7 @@
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabNames } from './../../shared/models/constants';
+import { SiteTabIds } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
@@ -23,14 +23,14 @@ import {Site} from '../../shared/models/arm/site';
 })
 
 export class SiteDashboardComponent {
-    public selectedTabTitle: string = SiteTabNames.overview;
+    @ViewChild(TabsComponent) tabs : TabsComponent;
+
+    public selectedTabId: string = SiteTabIds.overview;
     public site : ArmObj<Site>;
     public viewInfoStream : Subject<TreeViewInfo>;
     public viewInfo : TreeViewInfo;
-    @ViewChild(TabsComponent) tabs : TabsComponent;
-
-    public TabNames = SiteTabNames;
-
+    public TabIds = SiteTabIds;
+    public Resources = PortalResources;
     public activeComponent = "";
 
     private _tabsLoaded = false;
@@ -85,7 +85,7 @@ export class SiteDashboardComponent {
                     let appNode = <AppNode>this.viewInfo.node;
                     if(appNode.openFunctionSettingsTab && this.tabs && this.tabs.tabs){
                         let tabs = this.tabs.tabs.toArray();
-                        let functionTab = tabs.find(t => t.title === SiteTabNames.functionRuntime);
+                        let functionTab = tabs.find(t => t.title === SiteTabIds.functionRuntime);
                         if(functionTab){
                             this.tabs.selectTab(functionTab);
                         }
@@ -109,7 +109,7 @@ export class SiteDashboardComponent {
 
         this._tabsLoaded = true;
         this._traceOnTabSelection = true;
-        this.selectedTabTitle = selectedTab.title;
+        this.selectedTabId = selectedTab.id;
     }
 
     onTabClosed(closedTab: TabComponent){

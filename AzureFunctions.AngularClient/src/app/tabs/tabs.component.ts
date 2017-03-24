@@ -28,7 +28,7 @@ export class TabsComponent implements AfterContentInit {
     }
 
     selectTab(tab: TabComponent) {
-        this._aiService.trackEvent("/sites/open-tab", { name : tab.title });
+        this._aiService.trackEvent("/sites/open-tab", { name : tab.id });
         this.selectTabHelper(tab);
     }
 

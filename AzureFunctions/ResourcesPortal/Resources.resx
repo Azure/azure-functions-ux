@@ -349,60 +349,6 @@
   <data name="all" xml:space="preserve">
     <value>All</value>
   </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Advanced Settings</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Allow clients to more easily consume your HTTP-triggered functions</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Allow your HTTP-triggered functions to be called from within a web browser</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API definition</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentication/Authorization</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continuous Integration</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configure authentication</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Configure API metadata</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configure continuous integration</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Configure CORS</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Deploy your function code from GitHub, Visual Studio Team Services, and more</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>For functions that use the HTTP trigger, you can require calls to be authenticated</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Go to App Service Settings</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Manage your function app like any other App Service instance.</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Memory Size</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtime version: Latest ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
-  </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>App executions</value>
   </data>
@@ -661,12 +607,6 @@
   <data name="resourceSelect" xml:space="preserve">
     <value>Waiting for the resource</value>
   </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
-  </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>We've enjoyed hosting your functions !</value>
   </data>
@@ -742,33 +682,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>Error deleting file: {{fileName}}</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Application settings</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Manage environment variables and connection strings for your function app</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Dev Console</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>In-portal console for accessing your function app’s file system</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Access advanced functionality of App Service like uploading zips, killing processes, and more</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configure app settings</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Open dev console</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Go to Kudu</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported.</value>
   </data>
@@ -777,9 +690,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>Less than 1 minute</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Not available during your free trial! Create a free Azure account by clicking the link above</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!</value>
@@ -928,30 +838,6 @@
   <data name="test" xml:space="preserve">
     <value>Test</value>
   </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>Deploy</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>Develop</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>Manage</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service Settings</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Advanced Features. Access all the underlying features of Azure App Service</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service Editor</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>In portal editor with an integrated console and streaming logs</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Go to App Service Editor</value>
-  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
@@ -1008,6 +894,15 @@
   </data>
   <data name="apiProxy_seectedMethods" xml:space="preserve">
     <value>Selected methods</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>function app settings</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (preview)</value>
@@ -1198,6 +1093,9 @@
   <data name="feature_allSettingsName" xml:space="preserve">
     <value>All settings</value>
   </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>Show all settings available to your app</value>
+  </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>General Settings</value>
   </data>
@@ -1332,6 +1230,21 @@
   </data>
   <data name="feature_resourceExplorerInfo" xml:space="preserve">
     <value>Explorer the Azure ResourceManager API to manage your app</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>CORS Rules ({0} defined)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Deployment source configured with {0}</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL certificates</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>WebJobs ({0} defined)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Extensions ({0} installed)</value>
   </data>
   <data name="tab_overview" xml:space="preserve">
     <value>Overview</value>

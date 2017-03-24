@@ -1,3 +1,5 @@
+import { PortalResources } from './../../shared/models/portal-resources';
+import { TranslateService } from 'ng2-translate';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
@@ -44,7 +46,8 @@ export class SiteEnabledFeaturesComponent {
         private _storageService : StorageService,
         private _portalService : PortalService,
         private _authZService : AuthzService,
-        private _aiService : AiService) {
+        private _aiService : AiService,
+        private _translateService : TranslateService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -140,7 +143,7 @@ export class SiteEnabledFeaturesComponent {
         switch(feature){
             case Feature.Cors:
                 return <EnabledFeatureItem>{
-                    title : "CORS Rules ({0} defined)".format(args),
+                    title : this._translateService.instant(PortalResources.featureEnabled_cors).format(args),
                     feature : feature,
                     iconUrl : "images/cors.svg",
                     bladeInfo : {
@@ -153,7 +156,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.DeploymentSource:
                 return <EnabledFeatureItem>{
-                    title : "Deployment source configured with {0}".format(args),
+                    title : this._translateService.instant(PortalResources.featureEnabled_deploymentSource).format(args),
                     feature : feature,
                     iconUrl : "images/deployment-source.svg",
                     bladeInfo : {
@@ -167,7 +170,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.Authentication:
                 return <EnabledFeatureItem>{
-                    title : "Authentication",
+                    title : this._translateService.instant(PortalResources.authentication),
                     feature : feature,
                     iconUrl : "images/authentication.svg",
                     bladeInfo : {
@@ -180,7 +183,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.CustomDomains:
                 return <EnabledFeatureItem>{
-                    title : "Custom domains",
+                    title : this._translateService.instant(PortalResources.feature_customDomainsName),
                     feature : feature,
                     iconUrl : "images/custom-domains.svg",
                     bladeInfo : {
@@ -194,7 +197,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.SSLBinding:
                 return <EnabledFeatureItem>{
-                    title : "SSL certificates",
+                    title : this._translateService.instant(PortalResources.featureEnabled_sslCert),
                     feature : feature,
                     iconUrl : "images/ssl.svg",
                     bladeInfo : {
@@ -207,7 +210,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.ApiDefinition:
                 return <EnabledFeatureItem>{
-                    title : "API definition",
+                    title : this._translateService.instant(PortalResources.feature_apiDefinitionName),
                     feature : feature,
                     iconUrl : "images/api-definition.svg",
                     bladeInfo : {
@@ -220,7 +223,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.WebJobs:
                 return <EnabledFeatureItem>{
-                    title : "WebJobs ({0} defined)".format(args),
+                    title : this._translateService.instant(PortalResources.featureEnabled_webjobs).format(args),
                     feature : feature,
                     iconUrl : "images/webjobs.svg",
                     bladeInfo :
@@ -234,7 +237,7 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.SiteExtensions:
                 return <EnabledFeatureItem>{
-                    title : "Extensions ({0} installed)".format(args),
+                    title : this._translateService.instant(PortalResources.featureEnabled_extensions).format(args),
                     feature : feature,
                     iconUrl : "images/extensions.svg",
                     bladeInfo :
@@ -253,7 +256,7 @@ export class SiteEnabledFeaturesComponent {
         enabledFeatures = featureItems.map(enabledFeature => {
             this._aiService.trackEvent('/site/enabledFeatures', {
                 resourceId : this._site.id,
-                featureName : enabledFeature.title
+                featureName : Feature[enabledFeature.feature]
             });
 
             return {

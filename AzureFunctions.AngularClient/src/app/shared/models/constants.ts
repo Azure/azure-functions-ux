@@ -26,7 +26,7 @@ export class Constants {
     public static httpMethods = new HttpMethods();
 }
 
-export class SiteTabNames{
+export class SiteTabIds{
     public static overview = "Overview";
     public static monitor = "Monitor";
     public static features = "Platform features";
