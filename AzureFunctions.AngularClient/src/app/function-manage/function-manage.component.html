@@ -6,7 +6,7 @@
         <div class="configure-wrapper">
             <div>{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo">
-                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="valueChange.next($event)"></radio-selector>
+                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
         [functionInfo]="functionInfo"></function-keys>
 
     <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
-    
+
     <function-keys
         *ngIf="functionApp?.isMultiKeySupported"
         [functionApp]="functionApp"></function-keys>

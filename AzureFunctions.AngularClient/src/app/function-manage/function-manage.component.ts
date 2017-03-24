@@ -27,6 +27,7 @@ export class FunctionManageComponent {
     public functionApp : FunctionApp;
     private _viewInfoStream : Subject<TreeViewInfo>;
     private _functionNode : FunctionManageNode;
+    private functionStateValueChange: Subject<boolean>;
 
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
@@ -58,6 +59,24 @@ export class FunctionManageComponent {
                 displayLabel: this._translateService.instant(PortalResources.disabled),
                 value: true
             }];
+
+            this.functionStateValueChange = new Subject<boolean>();
+            this.functionStateValueChange
+                .switchMap<FunctionInfo>(state => {
+                     let originalState = this.functionInfo.config.disabled;
+                     this._globalStateService.setBusyState();
+                     this.functionInfo.config.disabled = state;
+                     return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
+                 })
+                 .do(null, originalState => {
+                     this.functionInfo.config.disabled = originalState;
+                     this._globalStateService.clearBusyState();
+                 })
+                .retry()
+                .subscribe(fi => {
+                    this._globalStateService.clearBusyState();
+                    this.functionInfo.config.disabled = fi.config.disabled;
+                });
     }
 
     set viewInfoInput(viewInfo : TreeViewInfo){
