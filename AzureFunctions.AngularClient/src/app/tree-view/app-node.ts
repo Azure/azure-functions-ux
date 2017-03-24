@@ -36,7 +36,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public resourceGroup : string;
     public location : string;
 
-    public functionApp : FunctionApp;
+    public functionAppStream = new ReplaySubject(1);
+    private _functionApp : FunctionApp;
     public openFunctionSettingsTab = false;
 
     public iconClass = "tree-node-function-app-icon";
@@ -111,8 +112,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
             let site : ArmObj<Site> = r.siteResponse.json();
 
-            if(!this.functionApp){
-                this.functionApp = new FunctionApp(
+            if(!this._functionApp){
+                this._functionApp = new FunctionApp(
                     site,
                     this.sideNav.http,
                     this.sideNav.userService,
@@ -126,8 +127,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                     this.sideNav.aiService
                 );
 
-                let functionsNode = new FunctionsNode(this.sideNav, this.functionApp, this);
-                let proxiesNode = new ProxiesNode(this.sideNav, this.functionApp, this);
+                this.functionAppStream.next(this._functionApp);
+
+                let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+                let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
                 functionsNode.toggle(null);
                 proxiesNode.toggle(null);
 
@@ -174,10 +177,13 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         return this.sideNav.updateView(this, this.dashboardType, true)
         .flatMap(r =>{
             this.sideNav.aiService.trackEvent('/actions/refresh');
-            this.functionApp.fireSyncTrigger();
+            this._functionApp.fireSyncTrigger();
             this.sideNav.cacheService.clearCache();
             this.dispose();
-            this.functionApp = null;
+
+            this._functionApp = null;
+            this.functionAppStream.next(null);
+
             return this.initialize();
         })
         .do(() =>{
@@ -235,8 +241,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this._pollingTask = null;
         }
 
-        if(this.functionApp){
-            this.functionApp.isDeleted = true;
+        if(this._functionApp){
+            this._functionApp.isDeleted = true;
         }
 
         this.sideNav.globalStateService.setTopBarNotifications([]);
@@ -244,7 +250,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
     private _setupBackgroundTasks(){
 
-        return this.functionApp.initKeysAndWarmupMainSite()
+        return this._functionApp.initKeysAndWarmupMainSite()
         .catch((err : any) => Observable.of(null))
         .map(() =>{
 
@@ -253,7 +259,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this._pollingTask = Observable.timer(1, 60000)
                     .concatMap<{ errors: string[], configResponse: Response, appSettingResponse : Response}>(() => {
                         return Observable.zip(
-                            this.functionApp.getHostErrors().catch(e => Observable.of([])),
+                            this._functionApp.getHostErrors().catch(e => Observable.of([])),
                             this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                             this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
                             (e : string[], c : Response, a : Response) => ({ errors: e, configResponse: c, appSettingResponse : a }))
@@ -290,9 +296,9 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
             if(result.configResponse){
                 let config = result.configResponse.json();
-                this.functionApp.isAlwaysOn = config.properties.alwaysOn === true || this.functionApp.site.properties.sku === "Dynamic";
+                this._functionApp.isAlwaysOn = config.properties.alwaysOn === true || this._functionApp.site.properties.sku === "Dynamic";
 
-                if(!this.functionApp.isAlwaysOn){
+                if(!this._functionApp.isAlwaysOn){
                     notifications.push({
                         message : this.sideNav.translateService.instant(PortalResources.topBar_alwaysOn),
                         iconClass: 'fa fa-exclamation-triangle warning',

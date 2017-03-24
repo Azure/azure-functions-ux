@@ -71,12 +71,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._globalStateService.setBusyState();
 
             this._appNode = (<AppNode>viewInfo.node);
-            this.functionApp = this._appNode.functionApp;
 
             return Observable.zip(
                 this._cacheService.getArm(viewInfo.resourceId),
                 this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`),
-                (s: Response, a: Response) => ({ siteResponse: s, appsettingsResponse: a }))
+                this._appNode.functionAppStream,
+                (s: Response, a: Response, fa : FunctionApp) => ({ siteResponse: s, appsettingsResponse: a, functionApp: fa }))
 
         })
         .do(null, e =>{
@@ -85,6 +85,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
         .retry()
         .subscribe(r => {
             let appSettings: ArmObj<any> = r.appsettingsResponse.json();
+
+            this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
 
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
@@ -140,7 +142,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
             })
             .subscribe(r => {
-                this._appNode.functionApp.fireSyncTrigger();
+                this.functionApp.fireSyncTrigger();
                 this.apiProxiesEnabled = value;
                 this.needUpdateRoutingExtensionVersion = false;
                 this.routingExtensionVersion = Constants.routingExtensionVersion;

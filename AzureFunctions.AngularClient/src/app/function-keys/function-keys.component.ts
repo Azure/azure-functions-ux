@@ -30,6 +30,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
     private functionStream: Subject<FunctionInfo>;
     private functionAppStream: Subject<FunctionApp>;
+
+
     private keys: Array<FunctionKey>;
     private addingNew: boolean;
     private newKeyName: string;
@@ -46,10 +48,16 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.functionAppStream = new Subject<FunctionApp>();
 
         this.functionAppStream
-            .switchMap(fa =>{
-                return this.functionStream;
-            })
-            .switchMap(fi => {
+            .merge(this.functionStream)
+            .switchMap((r : any) => {
+                
+                let functionApp = r && (<FunctionInfo>r).functionApp;
+                let fi : FunctionInfo;
+                if(functionApp){
+                    this.functionApp = functionApp;
+                    fi = r;
+                }
+
                 this.setBusyState();
                 this.resetState();
 
@@ -105,8 +113,14 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
     handleInitAndChanges() {
         this.resetState();
-        this.functionStream.next(this.functionInfo);
-        this.functionAppStream.next(this.functionApp);
+
+        if(this.functionApp){
+            this.functionAppStream.next(this.functionApp);
+        }
+
+        if(this.functionInfo){
+            this.functionStream.next(this.functionInfo);
+        }
     }
 
     ngOnDestroy() {
