@@ -1,28 +1,30 @@
+import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
+import { ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import {TranslateModule} from 'ng2-translate';
+import { TranslateModule } from 'ng2-translate';
 import { nvD3 } from 'ng2-nvd3';
-import {FileSelectDirective, FileDropDirective, FileUploader} from 'ng2-file-upload/ng2-file-upload';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
-import {ConfigService} from './shared/services/config.service';
-import {FunctionsService} from './shared/services/functions.service';
-import {UserService} from './shared/services/user.service';
-import {PortalService} from './shared/services/portal.service';
-import {BroadcastService} from './shared/services/broadcast.service';
-import {FunctionMonitorService} from './shared/services/function-monitor.service'
-import {ArmService} from './shared/services/arm.service';
-import {CacheService} from './shared/services/cache.service';
-import {AuthzService} from './shared/services/authz.service';
-import {LocalStorageService} from './shared/services/local-storage.service';
-import {TelemetryService} from './shared/services/telemetry.service';
-import {UtilitiesService} from './shared/services/utilities.service';
-import {BackgroundTasksService} from './shared/services/background-tasks.service';
-import {GlobalStateService} from './shared/services/global-state.service';
-import {AiService} from './shared/services/ai.service';
-import {LanguageService} from './shared/services/language.service';
+import { ConfigService } from './shared/services/config.service';
+import { FunctionsService } from './shared/services/functions.service';
+import { UserService } from './shared/services/user.service';
+import { PortalService } from './shared/services/portal.service';
+import { BroadcastService } from './shared/services/broadcast.service';
+import { FunctionMonitorService } from './shared/services/function-monitor.service'
+import { ArmService } from './shared/services/arm.service';
+import { CacheService } from './shared/services/cache.service';
+import { AuthzService } from './shared/services/authz.service';
+import { LocalStorageService } from './shared/services/local-storage.service';
+import { TelemetryService } from './shared/services/telemetry.service';
+import { UtilitiesService } from './shared/services/utilities.service';
+import { BackgroundTasksService } from './shared/services/background-tasks.service';
+import { GlobalStateService } from './shared/services/global-state.service';
+import { AiService } from './shared/services/ai.service';
+import { LanguageService } from './shared/services/language.service';
 
 import { AppComponent } from './app.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
@@ -91,110 +93,114 @@ import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
 
 @NgModule({
-  declarations: [
-      AppComponent,
-      nvD3,
-      FileSelectDirective,
-      FileDropDirective,
+    declarations: [
+        AppComponent,
+        nvD3,
+        FileSelectDirective,
+        FileDropDirective,
 
-      GettingStartedComponent,
-      BusyStateComponent,
-      TryNowBusyStateComponent,
-      TopBarComponent,
-      DropDownComponent,
-      TryNowComponent,
-      FunctionEditComponent,
-      TrialExpiredComponent,
-      FunctionNewComponent,
-      IntroComponent,
-      TutorialComponent,
-      SourceControlComponent,
-      FunctionDevComponent,
-      BindingComponent,
-      TooltipContentComponent,
-      TooltipDirective,
-      ErrorListComponent,
-      TemplatePickerComponent,
-      PopOverComponent,
-      BindingInputComponent,
-      BindingDesignerComponent,
-      SecretsBoxContainerComponent,
-      SecretsBoxInputDirective,
-      AggregateBlockComponent,
-      CopyPreComponent,
-      FileExplorerComponent,
-      FunctionIntegrateV2Component,
-      FunctionIntegrateComponent,
-      FunctionKeysComponent,
-      FunctionManageComponent,
-      FunctionMonitorComponent,
-      LogStreamingComponent,
-      RadioSelectorComponent,
-      RunHttpComponent,
-      TableFunctionMonitorComponent,
-      TryLandingComponent,
-      AggregateBlockPipe,
-      FunctionDesignerComponent,
-      MonacoEditorDirective,
-      TableFunctionMonitorPipe,
-      MainComponent,
-      SideNavComponent,
-      TreeViewComponent,
-      SiteDashboardComponent,
-      TabsComponent,
-      TabComponent,
-      BreadcrumbsComponent,
-      SiteSummaryComponent,
-      SiteEnabledFeaturesComponent,
-      SiteNotificationsComponent,
-      AccordionComponent,
-      SiteManageComponent,
-      FeatureGroupComponent,
-      DeploymentSourceComponent,
-      DeploymentSourceSetupComponent,
-      MultiDropDownComponent,
-      TopRightMenuComponent,
-      AppsListComponent,
-      FunctionRuntimeComponent,
-      ApiDetailsComponent,
-      ApiNewComponent,
-      FunctionsListComponent,
-      ProxiesListComponent,
-      DisabledDashboardComponent,
-  ],
-  imports: [
-      FormsModule,
-      ReactiveFormsModule,
+        GettingStartedComponent,
+        BusyStateComponent,
+        TryNowBusyStateComponent,
+        TopBarComponent,
+        DropDownComponent,
+        TryNowComponent,
+        FunctionEditComponent,
+        TrialExpiredComponent,
+        FunctionNewComponent,
+        IntroComponent,
+        TutorialComponent,
+        SourceControlComponent,
+        FunctionDevComponent,
+        BindingComponent,
+        TooltipContentComponent,
+        TooltipDirective,
+        ErrorListComponent,
+        TemplatePickerComponent,
+        PopOverComponent,
+        BindingInputComponent,
+        BindingDesignerComponent,
+        SecretsBoxContainerComponent,
+        SecretsBoxInputDirective,
+        AggregateBlockComponent,
+        CopyPreComponent,
+        FileExplorerComponent,
+        FunctionIntegrateV2Component,
+        FunctionIntegrateComponent,
+        FunctionKeysComponent,
+        FunctionManageComponent,
+        FunctionMonitorComponent,
+        LogStreamingComponent,
+        RadioSelectorComponent,
+        RunHttpComponent,
+        TableFunctionMonitorComponent,
+        TryLandingComponent,
+        AggregateBlockPipe,
+        FunctionDesignerComponent,
+        MonacoEditorDirective,
+        TableFunctionMonitorPipe,
+        MainComponent,
+        SideNavComponent,
+        TreeViewComponent,
+        SiteDashboardComponent,
+        TabsComponent,
+        TabComponent,
+        BreadcrumbsComponent,
+        SiteSummaryComponent,
+        SiteEnabledFeaturesComponent,
+        SiteNotificationsComponent,
+        AccordionComponent,
+        SiteManageComponent,
+        FeatureGroupComponent,
+        DeploymentSourceComponent,
+        DeploymentSourceSetupComponent,
+        MultiDropDownComponent,
+        TopRightMenuComponent,
+        AppsListComponent,
+        FunctionRuntimeComponent,
+        ApiDetailsComponent,
+        ApiNewComponent,
+        FunctionsListComponent,
+        ProxiesListComponent,
+        DisabledDashboardComponent,
+    ],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
 
-    BrowserModule,
-    FormsModule,
-      HttpModule,
-      TranslateModule.forRoot()
-  ],
-  providers: [
-      ConfigService,
-      {
-          provide: APP_INITIALIZER,
-          useFactory: (config: ConfigService) => () => config.loadConfig(),
-          deps: [ConfigService],
-          multi: true
-      },
-      FunctionsService,
-      UserService,
-      LanguageService,
-      PortalService,
-      BroadcastService,
-      FunctionMonitorService,
-      ArmService,
-      CacheService,
-      AuthzService,
-      LocalStorageService,
-      TelemetryService,
-      UtilitiesService,
-      BackgroundTasksService,
-      GlobalStateService,
-      AiService
-  ],
-  bootstrap: [AppComponent]
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        TranslateModule.forRoot()
+    ],
+    providers: [
+        ConfigService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (config: ConfigService) => () => config.loadConfig(),
+            deps: [ConfigService],
+            multi: true
+        },
+        FunctionsService,
+        UserService,
+        LanguageService,
+        PortalService,
+        BroadcastService,
+        FunctionMonitorService,
+        ArmService,
+        CacheService,
+        AuthzService,
+        LocalStorageService,
+        TelemetryService,
+        UtilitiesService,
+        BackgroundTasksService,
+        GlobalStateService,
+        AiService,
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
