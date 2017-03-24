@@ -196,236 +196,11 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced Settings.
-        /// </summary>
-        internal static string appFunctionSettings_AdvancedSettings {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_AdvancedSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Allow clients to more easily consume your HTTP-triggered functions.
-        /// </summary>
-        internal static string appFunctionSettings_allowClients {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_allowClients", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Allow your HTTP-triggered functions to be called from within a web browser.
-        /// </summary>
-        internal static string appFunctionSettings_allowYour {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_allowYour", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to API definition.
-        /// </summary>
-        internal static string appFunctionSettings_apiDefiition {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_apiDefiition", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Proxies (preview).
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
             get {
                 return ResourceManager.GetString("appFunctionSettings_apiProxies", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to App Service Settings.
-        /// </summary>
-        internal static string appFunctionSettings_appServiceSettings {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_appServiceSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Advanced Features. Access all the underlying features of Azure App Service.
-        /// </summary>
-        internal static string appFunctionSettings_appServiceSettings_desc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_appServiceSettings_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Application settings.
-        /// </summary>
-        internal static string appFunctionSettings_appSettings {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_appSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configure app settings.
-        /// </summary>
-        internal static string appFunctionSettings_appSettingsButtonLabel {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_appSettingsButtonLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage environment variables and connection strings for your function app.
-        /// </summary>
-        internal static string appFunctionSettings_appSettingsDesc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_appSettingsDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Authentication/Authorization.
-        /// </summary>
-        internal static string appFunctionSettings_auth {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_auth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Continuous Integration.
-        /// </summary>
-        internal static string appFunctionSettings_CI {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_CI", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configure authentication.
-        /// </summary>
-        internal static string appFunctionSettings_configAuth {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_configAuth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configure API metadata.
-        /// </summary>
-        internal static string appFunctionSettings_configureAPI {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_configureAPI", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configure continuous integration.
-        /// </summary>
-        internal static string appFunctionSettings_configureCI {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_configureCI", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configure CORS.
-        /// </summary>
-        internal static string appFunctionSettings_configureCors {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_configureCors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deploy your function code from GitHub, Visual Studio Team Services, and more.
-        /// </summary>
-        internal static string appFunctionSettings_deploy {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_deploy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deploy.
-        /// </summary>
-        internal static string appFunctionSettings_deploy_title {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_deploy_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dev Console.
-        /// </summary>
-        internal static string appFunctionSettings_devConsole {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_devConsole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open dev console.
-        /// </summary>
-        internal static string appFunctionSettings_devConsoleButtonLabel {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_devConsoleButtonLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In-portal console for accessing your function app’s file system.
-        /// </summary>
-        internal static string appFunctionSettings_devConsoleDesc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_devConsoleDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Develop.
-        /// </summary>
-        internal static string appFunctionSettings_develop {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_develop", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to App Service Editor.
-        /// </summary>
-        internal static string appFunctionSettings_editor {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_editor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In portal editor with an integrated console and streaming logs.
-        /// </summary>
-        internal static string appFunctionSettings_editor_desc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_editor_desc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to For functions that use the HTTP trigger, you can require calls to be authenticated.
-        /// </summary>
-        internal static string appFunctionSettings_forFunc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_forFunc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not available during your free trial! Create a free Azure account by clicking the link above.
-        /// </summary>
-        internal static string appFunctionSettings_FreeAccountToolTip {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_FreeAccountToolTip", resourceCulture);
             }
         }
         
@@ -457,78 +232,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Go to App Service Settings.
-        /// </summary>
-        internal static string appFunctionSettings_goToAppSettings {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_goToAppSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Go to App Service Editor.
-        /// </summary>
-        internal static string appFunctionSettings_gotoEditor {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_gotoEditor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Kudu.
-        /// </summary>
-        internal static string appFunctionSettings_kudu {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_kudu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Go to Kudu.
-        /// </summary>
-        internal static string appFunctionSettings_kuduButtonLabel {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_kuduButtonLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Access advanced functionality of App Service like uploading zips, killing processes, and more.
-        /// </summary>
-        internal static string appFunctionSettings_kuduDesc {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_kuduDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage.
-        /// </summary>
-        internal static string appFunctionSettings_manage {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_manage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage your function app like any other App Service instance..
-        /// </summary>
-        internal static string appFunctionSettings_manageFunction {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_manageFunction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Memory Size.
-        /// </summary>
-        internal static string appFunctionSettings_memory {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_memory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
         /// </summary>
         internal static string appFunctionSettings_proxyRuntimeVersion1 {
@@ -543,24 +246,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_proxyRuntimeVersion2 {
             get {
                 return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Runtime version: Latest ({{latestExtensionVersion}}).
-        /// </summary>
-        internal static string appFunctionSettings_runtimeVersion1 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_runtimeVersion1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
-        /// </summary>
-        internal static string appFunctionSettings_runtimeVersion2 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_runtimeVersion2", resourceCulture);
             }
         }
         
@@ -1537,6 +1222,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show all settings available to your app.
+        /// </summary>
+        internal static string feature_allSettingsInfo {
+            get {
+                return ResourceManager.GetString("feature_allSettingsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All settings.
         /// </summary>
         internal static string feature_allSettingsName {
@@ -2028,6 +1722,51 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string featureDisabledReadOnlyLockOnApp {
             get {
                 return ResourceManager.GetString("featureDisabledReadOnlyLockOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CORS Rules ({0} defined).
+        /// </summary>
+        internal static string featureEnabled_cors {
+            get {
+                return ResourceManager.GetString("featureEnabled_cors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deployment source configured with {0}.
+        /// </summary>
+        internal static string featureEnabled_deploymentSource {
+            get {
+                return ResourceManager.GetString("featureEnabled_deploymentSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extensions ({0} installed).
+        /// </summary>
+        internal static string featureEnabled_extensions {
+            get {
+                return ResourceManager.GetString("featureEnabled_extensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSL certificates.
+        /// </summary>
+        internal static string featureEnabled_sslCert {
+            get {
+                return ResourceManager.GetString("featureEnabled_sslCert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WebJobs ({0} defined).
+        /// </summary>
+        internal static string featureEnabled_webjobs {
+            get {
+                return ResourceManager.GetString("featureEnabled_webjobs", resourceCulture);
             }
         }
         
@@ -2991,6 +2730,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string httpRun_noHeaders {
             get {
                 return ResourceManager.GetString("httpRun_noHeaders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no query parameters.
+        /// </summary>
+        internal static string httpRun_noQuery {
+            get {
+                return ResourceManager.GetString("httpRun_noQuery", resourceCulture);
             }
         }
         

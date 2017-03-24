@@ -8,30 +8,32 @@
 <div style="padding-top:8px">{{ 'httpRun_query' | translate }}
 </div>
 
-<div *ngFor="let param of model.queryStringParams; let i = index;" class="pair">
-
-    <input *ngIf="!param.isFixed" type="text" class="name"
-           [(ngModel)]="param.name"
-           (ngModelChange)="change($event)"
-           placeholder="name">
-
-    <div class="name-fixed" *ngIf="param.isFixed">{{param.name}}</div>
-
-    <pop-over *ngIf="!param.name" [isInputError]="true" class="error-fix">
-    </pop-over>
-
-    <input type="text" class="value"
-           [(ngModel)]="param.value"
-           (ngModelChange)="change($event)"
-           placeholder="value">
-    <!--<pop-over *ngIf="!param.value" [isInputError]="true">
-    </pop-over>-->
-
-    <span class="text-hl">
-        <i *ngIf="!param.isFixed" class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
-        <i *ngIf="param.isFixed" class="fa fa-remove delete"></i>
-    </span>
+<div *ngIf="model.headers.length === 0" class="text-label" style="font-style:italic">
+    {{ 'httpRun_noQuery' | translate }}
 </div>
+
+<ng-container *ngFor="let param of model.queryStringParams; let i = index;">
+    <div *ngIf="!param.isFixed" class="pair">
+        <input type="text" class="name"
+               [(ngModel)]="param.name"
+               (ngModelChange)="change($event)"
+               placeholder="name">
+
+        <pop-over *ngIf="!param.name" [isInputError]="true" class="error-fix">
+        </pop-over>
+
+        <input type="text" class="value"
+               [(ngModel)]="param.value"
+               (ngModelChange)="change($event)"
+               placeholder="value">
+        <!--<pop-over *ngIf="!param.value" [isInputError]="true">
+        </pop-over>-->
+
+        <span class="text-hl">
+            <i class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
+        </span>
+    </div>
+</ng-container>
 
 <div>
     <span class="text-hl" (click)="addQueryStringParam()">

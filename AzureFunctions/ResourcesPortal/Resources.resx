@@ -1417,4 +1417,7 @@
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
     <value>quickstart</value>
   </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>There are no query parameters</value>
+  </data>
 </root>
