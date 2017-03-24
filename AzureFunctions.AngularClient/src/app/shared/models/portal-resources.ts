@@ -327,6 +327,7 @@ export class PortalResources
     public static feature_backupsName: string = "feature_backupsName";
     public static feature_backupsInfo: string = "feature_backupsInfo";
     public static feature_allSettingsName: string = "feature_allSettingsName";
+    public static feature_allSettingsInfo: string = "feature_allSettingsInfo";
     public static feature_generalSettings: string = "feature_generalSettings";
     public static feature_codeDeployment: string = "feature_codeDeployment";
     public static feature_developmentTools: string = "feature_developmentTools";
@@ -432,5 +433,6 @@ export class PortalResources
     public static error_appOffline: string = "error_appOffline";
     public static functionKeys_actions: string = "functionKeys_actions";
     public static functionKeys_easyAuthWarning: string = "functionKeys_easyAuthWarning";
+    public static functionNew_chooseTemplateQuickstart: string = "functionNew_chooseTemplateQuickstart";
 }
 
