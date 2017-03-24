@@ -117,7 +117,8 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
-    private tryAppServiceUrl = 'https://tryappservice.azure.com';
+    private _tryAppServiceUrl = 'https://tryappservice.azure.com';
+    public tryFunctionsScmCreds : string;
     // private functionContainer: FunctionContainer;
 
     constructor(
@@ -188,16 +189,16 @@ export class FunctionApp {
             })
             .subscribe(r =>{})
 
-            let fc = <FunctionContainer>site;
-            if (fc.tryScmCred != null) {
-                this._globalStateService.TryAppServiceScmCreds = fc.tryScmCred;
-            }
         }
 
         this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
         this.siteName = this.site.name;
 
+        let fc = <FunctionContainer>site;
+        if (fc.tryScmCred != null) {
+            this.tryFunctionsScmCreds = fc.tryScmCred;
+        }
 
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
@@ -466,7 +467,7 @@ export class FunctionApp {
                     });
     }
 
-    getFunctionContainerAppSettings(functionContainer: FunctionContainer) {
+    getFunctionContainerAppSettings() {
         let url = `${this._scmUrl}/api/settings`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
@@ -749,25 +750,6 @@ export class FunctionApp {
                 });
     }
 
-    //@Cache('href')
-    //getFunction(fi: FunctionInfo) {
-    //    return this._http.get(fi.href, { headers: this.getScmSiteHeaders() })
-    //        .map<FunctionInfo>(r => r.json())
-    //        .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunction + fi.name),
-    //            (error: FunctionsResponse) => {
-    //            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-    //                message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction, { functionName: fi.name }),
-    //                errorId: ErrorIds.unableToRetrieveFunction + fi.name,
-    //                errorType: ErrorType.ApiError
-    //            });
-    //            this.trackEvent(ErrorIds.unableToRetrieveFunction, {
-    //                status: error.status.toString(),
-    //                content: error.text(),
-    //            });
-    //            return Observable.of('');
-    //        });
-    //}
-
     getScmUrl() {
         return this._scmUrl;
     }
@@ -923,7 +905,7 @@ export class FunctionApp {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        let url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '');
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
@@ -932,7 +914,7 @@ export class FunctionApp {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        let url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '')
             + '&templateId=' + encodeURIComponent(selectedTemplate.id)
             + '&functionName=' + encodeURIComponent(functionName);
@@ -1341,6 +1323,10 @@ export class FunctionApp {
     }
 
     public checkIfEasyAuthEnabled(){
+        if(this.tryFunctionsScmCreds){
+            return Observable.of(false);
+        }
+
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
         .map(r =>{
             let auth : ArmObj<any> = r.json();
@@ -1378,8 +1364,9 @@ export class FunctionApp {
         if (!this._globalStateService.showTryView && this.token) {
             headers.append('Authorization', `Bearer ${this.token}`);
         }
-        if (this._globalStateService.TryAppServiceScmCreds) {
-            headers.append('Authorization', `Basic ${this._globalStateService.TryAppServiceScmCreds}`);
+
+        if (this.tryFunctionsScmCreds) {
+            headers.append('Authorization', `Basic ${this.tryFunctionsScmCreds}`);
         }
         return headers;
     }
@@ -1584,8 +1571,10 @@ export class FunctionApp {
                 })
                 .flatMap(_ => {
                     if (this.site && this.site.id) {
-                        return this._armService.getConfig(this.site.id)
-                            .do(config => {
+                        return this._cacheService.getArm(`${this.site.id}/config/web`)
+                        // return this._armService.getConfig(this.site.id)
+                            .do(r => {
+                                let config = r.json().properties;
                                 let cors: { allowedOrigins: string[] } = <any>config['cors'];
                                 let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
                                     ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)

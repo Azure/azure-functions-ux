@@ -1,3 +1,4 @@
+import { FunctionApp } from './shared/function-app';
 import { BusyStateComponent } from './busy-state/busy-state.component';
 import { environment } from './../environments/environment.prod';
 import { StartupInfo } from './shared/models/portal';
@@ -31,7 +32,8 @@ import {ConfigService} from './shared/services/config.service';
 export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
-    public showTryView: boolean;
+    public showTryLanding: boolean;
+    public tryFunctionApp : FunctionApp;
 
     private _startupInfo : StartupInfo;
 
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
         this.ready = false;
 
-        this.showTryView = window.location.pathname.endsWith('/try');
+        this.showTryLanding = window.location.pathname.endsWith('/try');
 
         if (_userService.inIFrame ||
             window.location.protocol === 'http:') {
@@ -99,58 +101,30 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
-            this._startupInfo.resourceId = functionContainer.id;
-            this._userService.updateStartupInfo(this._startupInfo);
+
+            if(this._startupInfo){
+                this._startupInfo.resourceId = functionContainer.id;
+                this._userService.updateStartupInfo(this._startupInfo);
+            }
+
             this.gettingStarted = false;
+            this.showTryLanding = false;
         }
     }
 
-
-    /**
-     * Make sure at least 5 seconds have elapsed since last time the app has been modified.
-     * This delay is to avoid a race condition with negative DNS caching for app host name.
-     * See https://github.com/projectkudu/AzureFunctionsPortal/issues/95
-     * Max = 5 Seconds, Min = 0 Seconds
-     * @param functionContainer an ARM object for the function app.
-     */
-    // private getDeltaSinceLastModifiedInSeconds(functionContainer: FunctionContainer): number {
-    //     if (functionContainer.properties.lastModifiedTimeUtc) {
-    //         let lastModifiedTime = new Date(functionContainer.properties.lastModifiedTimeUtc);
-    //         let timeDiff = (new Date().getTime() - lastModifiedTime.getTime()) / 1000;
-    //         let deltaTime = 5 - timeDiff;
-    //         this._aiService.trackEvent('/portal/LoadingPortal', {
-    //             lastModifiedTime: lastModifiedTime.toISOString(),
-    //             timeDiff: timeDiff.toString(),
-    //             delta: deltaTime.toString(),
-    //             appName: functionContainer.id
-    //         });
-    //         if (deltaTime < 0) {
-    //             return 0;
-    //         } else if (deltaTime > 5) {
-    //             return 5;
-    //         } else {
-    //             return deltaTime;
-    //         }
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-
-    // private logFunctionsRuntimeVersion(resourceId: string) {
-    //     this._armService.getFunctionContainerAppSettings(resourceId)
-    //         .subscribe(settings => {
-    //             if (settings) {
-    //                 this._aiService.trackEvent('/values/runtime_version', { runtime: settings[Constants.runtimeVersionAppSettingName], appName: resourceId });
-    //             }
-    //         });
-    // }
+    initializeTryDashboard(functionApp : FunctionApp){
+        this._globalStateService.setBusyState();
+        this._broadcastService.clearAllDirtyStates();
+        this.gettingStarted = false;
+        this.showTryLanding = false;
+        this.tryFunctionApp = functionApp;
+    }
 
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             this._configService.isAzure() &&
             window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1 &&
-            !this._globalStateService.TryAppServiceScmCreds) {
+            window.location.search.indexOf("ibiza=disabled") === -1) {
 
             var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();

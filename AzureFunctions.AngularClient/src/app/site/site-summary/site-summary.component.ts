@@ -80,10 +80,17 @@ export class SiteSummaryComponent implements OnDestroy {
         this._viewInfoStream
             .switchMap(viewInfo =>{
                 this._viewInfo = viewInfo;
+
+                // let appNode = <AppNode>viewInfo.node;
+                // if(appNode.sideNav.tryFunctionapp){
+                //     return Observable.of(null);
+                // }
+
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .flatMap(r =>{
+
                 let site : ArmObj<Site> = r.json();
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
@@ -93,9 +100,6 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.resourceGroup = descriptor.resourceGroup;
 
-                let serverFarm = site.properties.serverFarmId.split('/')[8];
-
-                this.plan = `${serverFarm} (${site.properties.sku.replace("Dynamic", "Consumption")})`;
                 this.url = `https://${site.properties.defaultHostName}`;
 
                 this.location = site.location;
@@ -109,6 +113,10 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.publishingUserName = "Loading...";
                 this.scmType = null;
                 this.publishProfileLink = null;
+
+                let serverFarm = site.properties.serverFarmId.split('/')[8];
+                this.plan = `${serverFarm} (${site.properties.sku.replace("Dynamic", "Consumption")})`;
+
 
                 let configId = `${site.id}/config/web`;
                 let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
@@ -130,9 +138,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     }))
             })
             .flatMap(res =>{
-                if(!res){
-                    return Observable.of(null);
-                }
 
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
                 this._setAvailabilityState(res.availability.properties.availabilityState);
@@ -148,10 +153,22 @@ export class SiteSummaryComponent implements OnDestroy {
                 return Observable.of(res);
             })
             .do(null, e =>{
-                this._aiService.trackException(e, "site-summary");
+                this._globalStateService.clearBusyState();
+
+                if(!this._globalStateService.showTryView){
+                    this._aiService.trackException(e, "site-summary");                
+                }
+                else{
+                    this._setAvailabilityState(AvailabilityStates.available);
+                    this.plan = "Trial";
+                }
             })
             .retry()
             .subscribe((res : DataModel) =>{
+                if(!res){
+                    return;
+                }
+
                 this.scmType = res.config.properties.scmType;
 
                 if(this.hasWriteAccess){

@@ -1,6 +1,14 @@
 <busy-state name='global'></busy-state>
 <disabled-dashboard></disabled-dashboard>
 <error-list></error-list>
-<main *ngIf="!showTryView && !gettingStarted && ready"></main>
-<getting-started *ngIf="!showTryView && gettingStarted && ready" (userReady)="initializeDashboard($event)"></getting-started>
-<try-landing *ngIf="showTryView" (tryFunctionsContainer)="initializeDashboard($event)"></try-landing>
+<main
+    *ngIf="!showTryLanding && !gettingStarted && ready"
+    [tryFunctionApp]="tryFunctionApp"></main>
+
+<getting-started
+    *ngIf="!showTryLanding && gettingStarted && ready"
+    (userReady)="initializeDashboard($event)"></getting-started>
+
+<try-landing
+    *ngIf="showTryLanding"
+    (tryFunctionApp)="initializeTryDashboard($event)"></try-landing>

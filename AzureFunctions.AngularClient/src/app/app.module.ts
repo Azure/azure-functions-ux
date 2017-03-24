@@ -1,3 +1,4 @@
+import { ArmTryService } from './shared/services/arm-try.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
@@ -185,7 +186,11 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
       PortalService,
       BroadcastService,
       FunctionMonitorService,
-      ArmService,
+    //   ArmService,
+      {
+          provide: ArmService,
+          useClass: window.location.pathname.toLowerCase() === "/try" ? ArmTryService : ArmService
+      },
       CacheService,
       AuthzService,
       LocalStorageService,

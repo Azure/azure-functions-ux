@@ -15,6 +15,20 @@ import {PortalResources} from '../models/portal-resources';
 import {ArmObj, ArmArrayResult} from '../models/arm/arm-obj';
 import {ConfigService} from './config.service';
 
+// export interface IArmService{
+
+//     get(resourceId : string, apiVersion? : string);
+
+//     delete(resourceId : string, apiVersion? : string);
+
+//     put(resourceId : string, body : any, apiVersion? : string);
+
+//     post(resourceId : string, body : any, apiVersion? : string);
+
+//     send(method : string, url : string, body? : any, etag? : string, headers? : Headers);
+
+// }
+
 @Injectable()
 export class ArmService {
     public subscriptions = new ReplaySubject<Subscription[]>(1);
@@ -34,7 +48,7 @@ export class ArmService {
     constructor(private _http: Http,
         private _configService: ConfigService,
         private _userService: UserService,
-        private _aiService: AiService,
+        protected _aiService: AiService,
         private _translateService: TranslateService) {
 
         this.armUrl = this._configService.getAzureResourceManagerEndpoint();
@@ -118,17 +132,4 @@ export class ArmService {
 
         return headers;
     }
-
-//////////////////////////////
-// TODO: Remove the methods below from this service
-/////////////////////////////
-
-    getConfig(resourceId : string) {
-        var url = `${this.armUrl}${resourceId}/config/web?api-version=${this.websiteApiVersion}`;
-        return this._http.get(url, { headers: this._getHeaders() })
-            .map<{ [key: string]: string }>(r => r.json().properties);
-    }
-
-
-
 }

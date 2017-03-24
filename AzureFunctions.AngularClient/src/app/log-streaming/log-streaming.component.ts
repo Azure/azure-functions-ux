@@ -123,8 +123,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             let url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
 
             this.xhReq.open('GET', url, true);
-            if (this._globalStateService.TryAppServiceScmCreds) {
-                this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.TryAppServiceScmCreds}`);
+            if (this.functionInfo.functionApp.tryFunctionsScmCreds) {
+                this.xhReq.setRequestHeader('Authorization', `Basic ${this.functionInfo.functionApp.tryFunctionsScmCreds}`);
             } else {
                 this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
             }

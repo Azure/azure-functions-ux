@@ -1,3 +1,5 @@
+import { ArmTryService } from './../shared/services/arm-try.service';
+import { Subject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { CacheService } from './../shared/services/cache.service';
 import { AuthzService } from './../shared/services/authz.service';
@@ -33,7 +35,7 @@ import {AiService} from '../shared/services/ai.service';
 })
 export class TryLandingComponent implements OnInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
+    @Output() tryFunctionApp: Subject<FunctionApp>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
     loginOptions: boolean = false;
@@ -54,7 +56,7 @@ export class TryLandingComponent implements OnInit {
         private _cacheService : CacheService,
         private _languageService : LanguageService,
         private _authZService : AuthzService) {
-        this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
+        this.tryFunctionApp = new Subject<FunctionApp>();
     }
 
     ngOnInit() {
@@ -218,16 +220,20 @@ export class TryLandingComponent implements OnInit {
             this._authZService,
             this._aiService);
 
+        (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
+
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
-        this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
-            .subscribe(a => this._globalStateService.AppSettings = a);
+        // this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
+            // .subscribe(a => {
+            //     this._globalStateService.AppSettings = a;
+            // });
         this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
                 this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "success", first: "true" });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this.tryFunctionsContainer.emit(tryfunctionContainer);
+                this.tryFunctionApp.next(this._functionApp);
             },
             e => {
                 this.clearBusyState();

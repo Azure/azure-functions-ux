@@ -1,6 +1,8 @@
+@import '../../sass/main';
+
 .wrapper {
     background-color: #539CF6;
-    height: 40px;
+    height: $top-bar-height;
     width: 100%;
     font-size: medium;
     display: block;
