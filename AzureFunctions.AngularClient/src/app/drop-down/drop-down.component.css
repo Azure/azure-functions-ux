@@ -9,7 +9,6 @@
 .drop-down-select {
     background: transparent;
     border: none;
-    font-size: 14px;
     filter: alpha(opacity=0);
     height: 25px;
     opacity: 0;

@@ -8,7 +8,7 @@
 <div style="padding-top:8px">{{ 'httpRun_query' | translate }}
 </div>
 
-<div *ngIf="model.headers.length === 0" class="text-label" style="font-style:italic">
+<div *ngIf="model.queryStringParams.length === 1" class="text-label" style="font-style:italic">
     {{ 'httpRun_noQuery' | translate }}
 </div>
 
