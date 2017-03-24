@@ -392,11 +392,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 // Remove doubled slashes
-                var path = '/' + result + code;
+                var path = '/' + result;
                 var find = '//';
                 var re = new RegExp(find, 'g');
                 path = path.replace(re, '/');
-                path = path.replace('/?', '?');
+                path = path.replace('/?', '?') + code;
 
                 setTimeout(() => {
                     this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
