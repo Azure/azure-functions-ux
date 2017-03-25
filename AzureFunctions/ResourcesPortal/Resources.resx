@@ -232,31 +232,40 @@
     <value>Your subscription</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Choose a language:</value>
+    <value>2. Choose a language</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Choose a scenario:</value>
+    <value>1. Choose a scenario</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>Create this function</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Create your own custom function</value>
+    <value>create your own custom function</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Custom function</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Data processing</value>
   </data>
+  <data name="intro_or" xml:space="preserve">
+    <value>or</value>
+  </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>Welcome to Azure Functions! Get started quickly with a premade function.</value>
+    <value>Get started quickly with a premade function</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Or get started on your own</value>
+    <value>Get started on your own</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>Keep using this quickstart</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>If you'd prefer another supported language, choose</value>
+    <value>For F#, PowerShell, Python, and Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>start from source control.</value>
+    <value>Start from source control.</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Timer</value>

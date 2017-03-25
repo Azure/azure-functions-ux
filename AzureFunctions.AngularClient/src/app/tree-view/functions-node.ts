@@ -1,3 +1,5 @@
+import { QuickstartSettings } from './../shared/models/localStorage/local-storage';
+import { IntroComponent } from './../intro/intro.component';
 import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
@@ -17,13 +19,25 @@ import {FunctionApp} from '../shared/function-app';
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
-    public newDashboardType = DashboardType.createFunction;
+    public newDashboardType = DashboardType.functionQuickstart;
 
     constructor(
         sideNav : SideNavComponent,
         public functionApp : FunctionApp,
         parentNode : TreeNode){
         super(sideNav, functionApp.site.id + "/functions", parentNode);
+    }
+
+    public openCreateNew(event? : any){
+        let quickstart = <QuickstartSettings>this.sideNav.localStorageService.getItem(IntroComponent.storageKey);
+        if(quickstart && quickstart.disabled){
+            this.newDashboardType = DashboardType.createFunction;
+        }
+        else{
+            this.newDashboardType = DashboardType.functionQuickstart;
+        }
+
+        super.openCreateNew(event);
     }
 
     public loadChildren(){
@@ -76,9 +90,14 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
 
+    public openCustomCreate(){
+        this.newDashboardType = DashboardType.createFunction;
+        super.openCreateNew();        
+    }
+
     public openQuickstart() {
-        this.newDashboardType = DashboardType.quickstart;
-        this.openCreateNew();
+        this.newDashboardType = DashboardType.functionQuickstart;
+        super.openCreateNew();
     }
 
     public dispose(newSelectedNode? : TreeNode){
@@ -96,7 +115,8 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     private _updateTreeForStartedSite(){
         this.title = this.sideNav.translateService.instant(PortalResources.sidebar_Functions);
-        this.newDashboardType = DashboardType.createFunction;
+        // this.newDashboardType = DashboardType.createFunction;
+        this.newDashboardType = DashboardType.functionQuickstart;
         this.showExpandIcon = true;
 
         if(!this.children || this.children.length === 0){

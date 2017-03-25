@@ -44,7 +44,9 @@ export class PortalResources
     public static intro_chooseScenario: string = "intro_chooseScenario";
     public static intro_createThisFunction: string = "intro_createThisFunction";
     public static intro_createYourOwn: string = "intro_createYourOwn";
+    public static intro_customFunction: string = "intro_customFunction";
     public static intro_dataProcessing: string = "intro_dataProcessing";
+    public static intro_or: string = "intro_or";
     public static intro_getStarted: string = "intro_getStarted";
     public static intro_getStartedOn: string = "intro_getStartedOn";
     public static intro_ifYou: string = "intro_ifYou";

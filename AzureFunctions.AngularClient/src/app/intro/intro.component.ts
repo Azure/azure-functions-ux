@@ -1,3 +1,5 @@
+import { StorageItem, QuickstartSettings } from './../shared/models/localStorage/local-storage';
+import { LocalStorageService } from './../shared/services/local-storage.service';
 import { AiService } from './../shared/services/ai.service';
 import {Component, Input} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
@@ -16,12 +18,13 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from "../shared/models/error-ids";
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { DashboardType } from "../tree-view/models/dashboard-type";
 
 @Component({
   selector: 'intro',
   templateUrl: './intro.component.html',
-  styleUrls: ['./intro.component.css'],
+  styleUrls: ['./intro.component.scss'],
   inputs: ['viewInfoInput']
 })
 export class IntroComponent {
@@ -30,8 +33,9 @@ export class IntroComponent {
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
 
-
     public functionApp: FunctionApp;
+    public useQuickstartAsDefault : boolean;
+    public static storageKey = '/functions/quickstart';
     private selectedNode: FunctionsNode;
 
     set viewInfoInput(viewInfoInput: TreeViewInfo) {
@@ -44,6 +48,9 @@ export class IntroComponent {
                 this.functionsInfo = fcs;
             });
         this._globalStateService.clearBusyState();
+
+        let quickstart = <QuickstartSettings>this.selectedNode.sideNav.localStorageService.getItem(IntroComponent.storageKey);
+        this.useQuickstartAsDefault = !quickstart || !quickstart.disabled;
     }
 
     constructor(private _functionsService: FunctionsService,
@@ -51,7 +58,8 @@ export class IntroComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _localStorageService : LocalStorageService) {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
@@ -124,11 +132,26 @@ export class IntroComponent {
     }
 
     createFromScratch() {
-        this._portalService.logAction('intro-create-from-scratch', 'created');
-        this._broadcastService.broadcast(BroadcastEvent.FunctionSelected, this.functionsInfo[0]);
+        let functionsNode = this.selectedNode;
+        functionsNode.openCustomCreate();
     }
 
     startFromSC() {
-        // this._portalService.openBlade("ContinuousDeploymentListBlade", "intro");
+        this._portalService.openBlade({
+            detailBlade : "ContinuousDeploymentListBlade",
+            detailBladeInputs : {
+                id : this.functionApp.site.id,
+                ResourceId : this.functionApp.site.id
+            }
+        },
+        "intro");
+    }
+
+    changeDefault(clickEvent : any){
+        let enabled = clickEvent.srcElement.checked;
+        this._localStorageService.setItem(IntroComponent.storageKey, <QuickstartSettings>{
+            id : IntroComponent.storageKey,
+            disabled : !enabled
+        });
     }
 }

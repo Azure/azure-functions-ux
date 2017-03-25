@@ -4,7 +4,7 @@
 	 viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
 
     <style type="text/css">
-        .fill-color{ fill: #FFFFFF; }
+        .fill-color{ fill: #464f59; }
     </style>
 <g>
 	<path class="fill-color" d="M8.4,48h34.5V13.5L31.4,2h-23L8.4,48z M37.4,13.5h-6.1V7.4L37.4,13.5z M12.2,5.8h15.3v11.5H39v26.8H12.2

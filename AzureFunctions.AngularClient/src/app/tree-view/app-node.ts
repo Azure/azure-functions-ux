@@ -132,6 +132,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         })
         .do(r =>{
+            this.isLoading = false;
 
             if(this.inSelectedTree){
                 this.children.forEach(c => c.inSelectedTree = true);

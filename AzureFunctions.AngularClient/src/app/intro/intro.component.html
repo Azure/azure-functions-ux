@@ -1,85 +1,82 @@
-<div class="intro-container">
-      <div class="intro-body">
-        <h2>{{ 'intro_getStarted' | translate }}</h2>
-        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
-        <div>
-            <div class="intro-template"
-                 (click)="onFunctionCliked('TimerTrigger')"
-                 [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
+<div id="intro-container">
+<div id="intro-header">
+    <img src="images/functions.svg" />
 
-                <div><img src="images/timer-template.svg" /></div>
+    <h2>{{ 'intro_getStarted' | translate }}</h2>
+    <div class="text-level1-heading">{{ 'intro_chooseScenario' | translate }}</div>
+    <div id="intro-templates">
+        <div class="intro-template"
+            (click)="onFunctionCliked('TimerTrigger')"
+            [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
+
+            <div class="intro-template-icon">
+                <img src="images/timer-template-dark.svg" />
                 <div>{{ 'intro_timer' | translate }}</div>
             </div>
 
-            <div class="intro-template"
-                 (click)="onFunctionCliked('QueueTrigger')"
-                 [class.intro-template-selected]="selectedFunction === 'QueueTrigger'">
+        </div>
 
-                <div><img src="images/data-process-template.svg" /></div>
+        <div class="intro-template"
+            (click)="onFunctionCliked('QueueTrigger')"
+            [class.intro-template-selected]="selectedFunction === 'QueueTrigger'">
+
+            <div class="intro-template-icon">
+                <img src="images/data-process-template-dark.svg" />
                 <div>{{ 'intro_dataProcessing' | translate}}</div>
             </div>
-
-            <div class="intro-template"
-                 (click)="onFunctionCliked('HttpTrigger')"
-                 [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
-
-                <div><img src="images/webhook-api-template.svg" /></div>
-                <div>{{ 'intro_webHook' | translate }}</div>
-            </div>
+            
         </div>
-        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
-        {{ 'intro_ifYou' | translate }}
-        <span class="link" (click)='createFromScratch()'>
-            "{{ 'intro_createYourOwn' | translate }}".
-        </span>
-        <div class="intro-lang-container">
-            <div class="intro-template-lang"
-                 (click)="onLanguageCliked('CSharp')"
-                 [class.intro-template-lang-selected]="selectedLanguage === 'CSharp'">
 
-                <div>C#</div>
+        <div class="intro-template"
+            (click)="onFunctionCliked('HttpTrigger')"
+            [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
+
+            <div class="intro-template-icon">
+                <img src="images/webhook-api-template-dark.svg" />
+                <div>{{ 'intro_webHook' | translate }}</div>                
             </div>
-            <div class="intro-template-lang"
-                 (click)="onLanguageCliked('JavaScript')"
-                 [class.intro-template-lang-selected]="selectedLanguage === 'JavaScript'">
-
-                <div>JavaScript</div>
-            </div>
-            <!--<div class="intro-template-lang"
-                 (click)="onLanguageCliked('Powershell')"
-                 [class.intro-template-lang-selected]="selectedLanguage === 'Powershell'">
-
-                <div>PowerShell</div>-->
-            </div>
-        <div>
-            <button class="custom-button"
-                    (click)="onCreateNewFunction()"
-                    [disabled]="!selectedFunction">
-                {{ 'intro_createThisFunction' | translate }}
-            </button>
-
         </div>
     </div>
 
-            <div class="intro-footer">
-                <h3>{{ 'intro_getStartedOn' | translate }}</h3>
-                <div>
-                    <span class="link" (click)='createFromScratch()'>
-                        {{ 'intro_createYourOwn' | translate }}
-                    </span>
-                    {{ 'or' | translate }}
-                    <span *ngIf="!_globalStateService.showTryView" class="link" (click)='startFromSC()'>
-                        {{ 'intro_startSC' | translate }}
-                    </span>
-                    <label *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip" tooltipPlacement="right" class="link-disabled">
-                        {{ 'intro_startSC' | translate }}
-                    </label>
-                    <tooltip-content #freeAccountTooltip>
-                        <p>
-                            {{ 'tryNow_FreeAccountToolTip' | translate }}
-                        </p>
-                    </tooltip-content>
-                </div>
-            </div>
+    <div class="text-level1-heading">{{ 'intro_chooseLanguage' | translate }}</div>
 
-        </div> <!-- /intro-container -->
+
+    <div id="intro-lang-radios">
+        <input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp
+        <input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript
+    </div>
+
+    <div id="intro-lang-custom">
+        {{ 'intro_ifYou' | translate }}
+        <span class="link" (click)='createFromScratch()'>
+            {{ 'intro_createYourOwn' | translate }}.
+        </span>
+    </div>
+
+    <div>
+        <button class="custom-button"
+                (click)="onCreateNewFunction()"
+                [disabled]="!selectedFunction">
+            {{ 'intro_createThisFunction' | translate }}
+        </button>
+
+    </div>
+</div>  <!-- /intro-header -->
+
+<div class="circle text-level1-heading">
+    {{ 'intro_or' | translate}}
+</div>
+
+<div id="intro-footer">
+    <h3>{{ 'intro_getStartedOn' | translate }}</h3>
+    <div class="link" (click)='createFromScratch()'>
+        {{ 'intro_customFunction' | translate }}
+    </div>
+    <div class="link" (click)='startFromSC()'>
+        {{ 'intro_startSC' | translate }}
+    </div>
+    <div id="intro-disable">
+        <input type="checkbox" [(ngModel)]="useQuickstartAsDefault" (click)="changeDefault($event)"/>{{ 'intro_keepUsingQuickstart' | translate}}
+    </div>
+</div>  <!-- /intro-footer -->
+</div> <!-- /intro-container -->

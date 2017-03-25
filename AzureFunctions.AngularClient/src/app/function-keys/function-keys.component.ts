@@ -1,3 +1,4 @@
+import { AiService } from './../shared/services/ai.service';
 import { FunctionApp } from '../shared/function-app';
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
@@ -41,7 +42,9 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     constructor(
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _utilities: UtilitiesService) {
+        private _utilities: UtilitiesService,
+        private _aiService : AiService) {
+
         this.validKey = false;
         this.keys = [];
         this.functionStream = new Subject<FunctionInfo>();
@@ -70,6 +73,11 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     : this.functionApp.getFunctionHostKeys().catch(error => Observable.of({ keys: [], links: [] }));
 
             })
+            .do(null, e =>{
+                this._aiService.trackException(e, "/errors/function-keys");
+                console.error(e);
+            })
+            .retry()
             .subscribe(keys => {
                 
                 if (this.easeAuthEnabled) {

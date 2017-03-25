@@ -1,3 +1,4 @@
+import { StorageItem } from './local-storage';
 import {EnabledFeature} from './enabled-features';
 
 export interface StorageItem{
@@ -6,4 +7,8 @@ export interface StorageItem{
 
 export interface StoredSubscriptions extends StorageItem{
     subscriptions : string[];
+}
+
+export interface QuickstartSettings extends StorageItem{
+    disabled : boolean;
 }
