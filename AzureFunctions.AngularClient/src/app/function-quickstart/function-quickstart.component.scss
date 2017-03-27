@@ -1,11 +1,13 @@
 @import '../../sass/main';
 
 #quickstart-container{
-    // font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
     text-align: center;
-    // padding: 25px;
     height: 100%;
     background-color: $qs-footer-bg-color;
+
+    .text-level1-heading{
+        font-weight: lighter;
+    }
 }
 
 #quickstart-header{
@@ -21,6 +23,7 @@
         font-size: 26px;
         color: $value-text-color;
         margin: 15px 0px 25px 0px;
+        font-weight: lighter;
     }
 
     .text-level1-heading{
@@ -40,9 +43,8 @@
 
 .quickstart-template{
     display: inline-block;
-    border: 2px solid transparent;
+    margin: 0px 2px;
     font-size: 16px;
-    margin: 0px 7px;
     cursor: pointer;
 
     .quickstart-template-icon{
@@ -50,12 +52,13 @@
         padding: 10px;
         width: 150px;
         height: 80px;
-        box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.2);
+        box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.5);
 
         >div{
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            margin-top: 5px;
         }
     }
 
@@ -65,15 +68,18 @@
     }
 
     &:hover{
-        border: 2px solid #C2C5C9;
+        box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);        
+        margin: 0px 2px;
     }
 }
 
 .quickstart-template-selected{
     border: 2px solid $primary-color;
+    margin: 0px;
 
     &:hover{
         border: 2px solid $primary-color;
+        margin: 0px;
     }
 }
 
@@ -116,6 +122,7 @@
         margin-top: 0px;
         font-size: 26px;
         color: $body-bg-color;
+        font-weight: lighter;
     }
 
     .link{

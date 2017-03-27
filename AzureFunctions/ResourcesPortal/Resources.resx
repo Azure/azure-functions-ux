@@ -265,7 +265,7 @@
     <value>For F#, PowerShell, Python, and Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>Start from source control.</value>
+    <value>Start from source control</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Timer</value>
