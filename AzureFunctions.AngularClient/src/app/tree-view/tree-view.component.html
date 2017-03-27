@@ -10,7 +10,7 @@
          [class.tree-node-selected]="child.sideNav && child.sideNav.resourceId === child.resourceId"
          (click)="child.select()">
 
-        <span *ngIf="!child.isNewNode" class="tree-node-content" [style.margin-left]="margin">
+        <span class="tree-node-content" [style.margin-left]="margin">
 
             <!-- Expand node icon -->
             <i class="fa"
@@ -30,15 +30,16 @@
 
             <!-- Optional menu icons that show up on right side of each node -->
             <span class="tree-node-menu">
-              <i *ngIf="!!child.newDashboardType && child.inSelectedTree"
-                  (click)="child.openCreateNew($event)"
-                  class="fa fa-plus"
-                  title="New"></i>
 
               <span *ngIf="child.showMenu || child.inSelectedTree">
                 <i *ngIf="child.disabled"
                   class="fa fa-info-circle"
                   title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+
+                <i *ngIf="!!child.newDashboardType"
+                    (click)="child.openCreateNew($event)"
+                    class="fa fa-plus"
+                    title="New"></i>
 
                 <i *ngIf="child.supportsRefresh"
                   (click)="child.refresh($event)"

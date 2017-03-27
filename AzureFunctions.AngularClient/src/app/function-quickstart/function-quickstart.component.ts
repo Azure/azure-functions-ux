@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs/Rx';
+import { AppNode } from './../tree-view/app-node';
 import { StorageItem, QuickstartSettings } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { AiService } from './../shared/services/ai.service';
@@ -36,22 +38,8 @@ export class FunctionQuickstartComponent {
     public functionApp: FunctionApp;
     public useQuickstartAsDefault : boolean;
     public static storageKey = '/functions/quickstart';
-    private selectedNode: FunctionsNode;
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
-        this._globalStateService.setBusyState();
-        this.selectedNode = <FunctionsNode>viewInfoInput.node;
-        this.functionApp = this.selectedNode.functionApp;
-        this.functionApp.getFunctions()
-            .subscribe(fcs => {
-                this._globalStateService.clearBusyState();
-                this.functionsInfo = fcs;
-            });
-        this._globalStateService.clearBusyState();
-
-        let quickstart = <QuickstartSettings>this.selectedNode.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
-        this.useQuickstartAsDefault = !quickstart || !quickstart.disabled;
-    }
+    private functionsNode: FunctionsNode;
+    private _viewInfoStream = new Subject<TreeViewInfo>();
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -63,6 +51,32 @@ export class FunctionQuickstartComponent {
 
         this.selectedFunction = "TimerTrigger";
         this.selectedLanguage = "CSharp";
+
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._globalStateService.setBusyState();
+            this.functionsNode = <FunctionsNode>viewInfo.node;
+            this.functionApp = this.functionsNode.functionApp;
+
+            return this.functionApp.getFunctions();
+        })
+        .do(null, e =>{
+            this._aiService.trackException(e, '/errors/function-quickstart');
+            console.error(e);
+        })
+        .retry()
+        .subscribe(fcs =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = fcs;
+
+            let quickstart = <QuickstartSettings>this.functionsNode.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
+            this.useQuickstartAsDefault = !quickstart || !quickstart.disabled;            
+        })
+    }
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._viewInfoStream.next(viewInfoInput);
+
     }
 
     onFunctionCliked(selectedFunction: string) {
@@ -98,7 +112,7 @@ export class FunctionQuickstartComponent {
                     this.functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
-                            this.selectedNode.addChild(res);
+                            this.functionsNode.addChild(res);
                             //this._broadcastService.broadcast<TutorialEvent>(
                             //    BroadcastEvent.TutorialStep,
                             //    {
@@ -132,7 +146,7 @@ export class FunctionQuickstartComponent {
     }
 
     createFromScratch() {
-        let functionsNode = this.selectedNode;
+        let functionsNode = this.functionsNode;
         functionsNode.openCustomCreate();
     }
 

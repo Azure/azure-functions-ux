@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Rx';
 import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {BindingComponent} from '../binding/binding.component';
@@ -34,29 +35,6 @@ export class FunctionNewComponent {
     private selectedNode : FunctionsNode;
     private functionsInfo : FunctionInfo[];
 
-    set viewInfoInput(viewInfoInput : TreeViewInfo){
-        this._globalStateService.setBusyState();
-        this.selectedNode = <FunctionsNode>viewInfoInput.node;
-        this.functionApp = this.selectedNode.functionApp;
-        this.functionApp.getFunctions()
-        .subscribe(fcs =>{
-            this._globalStateService.clearBusyState();
-            this.functionsInfo = fcs;
-
-            if (this._action && this.functionsInfo && !this.selectedTemplate) {
-                this.selectedTemplateId = this._action.templateId;
-            }
-        })
-    }
-
-    set action(action: Action) {
-        this._action = action;
-        if (this._action && this.functionsInfo && !this.selectedTemplate) {
-            //this.onTemplatePickUpComplete(this._action.templateId);
-            this.selectedTemplateId = this._action.templateId;
-        }
-    }
-
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
@@ -80,6 +58,8 @@ export class FunctionNewComponent {
     ];
     private _action: Action;
 
+    private _viewInfoStream = new Subject<TreeViewInfo>();
+
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         private _broadcastService: BroadcastService,
@@ -89,6 +69,39 @@ export class FunctionNewComponent {
         private _aiService: AiService) {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
+
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._globalStateService.setBusyState();
+            this.selectedNode = <FunctionsNode>viewInfo.node;
+            this.functionApp = this.selectedNode.functionApp;
+            return this.functionApp.getFunctions()
+        })
+        .do(null, e =>{
+            this._aiService.trackException(e, '/errors/function-new');
+            console.error(e);
+        })
+        .retry()
+        .subscribe(fcs =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = fcs;
+
+            if (this._action && this.functionsInfo && !this.selectedTemplate) {
+                this.selectedTemplateId = this._action.templateId;
+            }            
+        })
+    }
+
+    set viewInfoInput(viewInfoInput : TreeViewInfo){
+        this._viewInfoStream.next(viewInfoInput);
+    }
+
+    set action(action: Action) {
+        this._action = action;
+        if (this._action && this.functionsInfo && !this.selectedTemplate) {
+            //this.onTemplatePickUpComplete(this._action.templateId);
+            this.selectedTemplateId = this._action.templateId;
+        }
     }
 
     onTemplatePickUpComplete(templateName: string) {

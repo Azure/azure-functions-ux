@@ -88,6 +88,10 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
         this.newDashboardType = DashboardType.createProxy;
         this.showExpandIcon = true;
 
+        if(this.parent.inSelectedTree){
+            this.inSelectedTree = true;
+        }
+
         if(!this.children || this.children.length === 0){
             return this.functionApp.getApiProxies()
             .map(proxies =>{

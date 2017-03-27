@@ -18,9 +18,9 @@
                     || dashboardType === 'functionMonitor'"></function-edit>
 
         <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
+        <function-quickstart [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functionQuickstart'"></function-quickstart>
         <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
         <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>
-        <function-quickstart [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functionQuickstart'"></function-quickstart>
 
     </div>
 </div>

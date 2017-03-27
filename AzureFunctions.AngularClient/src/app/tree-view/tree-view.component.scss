@@ -41,6 +41,7 @@ hr.tree-node-separator{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    position: relative;
 
     .tree-node-content{
         position: relative;

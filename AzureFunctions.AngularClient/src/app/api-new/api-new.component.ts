@@ -1,3 +1,5 @@
+import { AiService } from './../shared/services/ai.service';
+import { Subject, Observable } from 'rxjs/Rx';
 import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -31,35 +33,14 @@ export class ApiNewComponent implements OnInit {
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public functionsInfo: FunctionInfo[];
-    private selectedNode: ProxiesNode;
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
-        this._globalStateService.setBusyState();
-        this.selectedNode = <ProxiesNode>viewInfoInput.node;
-        this.functionApp = this.selectedNode.functionApp;
-        var fetchDone = false;
-        this.functionApp.getFunctions()
-            .subscribe(fcs => {
-                if (fetchDone) {
-                    this._globalStateService.clearBusyState();
-                }
-                fetchDone = true;
-                this.functionsInfo = fcs;
-            });
-        this.functionApp.getApiProxies()
-            .subscribe(proxies => {
-                if (fetchDone) {
-                    this._globalStateService.clearBusyState();
-                }
-                fetchDone = true;
-                this.apiProxies = proxies;
-            });
-    }
+    private _proxiesNode: ProxiesNode;
+    private _viewInfoStream = new Subject<TreeViewInfo>();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _aiService : AiService) {
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
@@ -82,6 +63,31 @@ export class ApiNewComponent implements OnInit {
         });
 
         this.isEnabled = this._globalStateService.IsRoutingEnabled;
+
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._globalStateService.setBusyState();
+            this._proxiesNode = <ProxiesNode>viewInfo.node;
+            this.functionApp = this._proxiesNode.functionApp;
+            return Observable.zip(
+                this.functionApp.getFunctions(),
+                this.functionApp.getApiProxies(),
+                (f, p) =>({ fcs : f, proxies : p}))
+        })
+        .do(null, e =>{
+            this._aiService.trackException(e, '/errors/api-new');
+            console.error(e);
+        })
+        .retry()
+        .subscribe(res =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = res.fcs;
+            this.apiProxies = res.proxies;
+        })
+    }
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._viewInfoStream.next(viewInfoInput);
     }
 
     onFunctionAppSettingsClicked(event: any) {
@@ -186,7 +192,7 @@ export class ApiNewComponent implements OnInit {
 
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this.selectedNode.addChild(newApiProxy);
+                    this._proxiesNode.addChild(newApiProxy);
                     //this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
                 });
             });

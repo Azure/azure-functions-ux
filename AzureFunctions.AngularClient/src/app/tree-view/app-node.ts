@@ -217,8 +217,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public dispose(newSelectedNode? : TreeNode){
-        this.inSelectedTree = false;
-        this.children.forEach(c => c.inSelectedTree = false);
 
         // Ensures that we're only disposing if you're selecting a node that's not a child of the
         // the current app node.
@@ -233,6 +231,9 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 return;
             }
         }
+
+        this.inSelectedTree = false;
+        this.children.forEach(c => c.inSelectedTree = false);
 
         if(this._loadingObservable){
             this._loadingObservable.subscribe(() =>{
