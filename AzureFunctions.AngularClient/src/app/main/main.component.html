@@ -20,7 +20,7 @@
         <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
         <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
         <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>
-        <intro [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functionQuickstart'"></intro>
+        <function-quickstart [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functionQuickstart'"></function-quickstart>
 
     </div>
 </div>

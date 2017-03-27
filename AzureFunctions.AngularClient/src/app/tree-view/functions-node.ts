@@ -1,5 +1,5 @@
+import { FunctionQuickstartComponent } from './../function-quickstart/function-quickstart.component';
 import { QuickstartSettings } from './../shared/models/localStorage/local-storage';
-import { IntroComponent } from './../intro/intro.component';
 import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
@@ -29,7 +29,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     }
 
     public openCreateNew(event? : any){
-        let quickstart = <QuickstartSettings>this.sideNav.localStorageService.getItem(IntroComponent.storageKey);
+        let quickstart = <QuickstartSettings>this.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
         if(quickstart && quickstart.disabled){
             this.newDashboardType = DashboardType.createFunction;
         }

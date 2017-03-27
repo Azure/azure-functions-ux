@@ -131,8 +131,8 @@
     <None Include="src\app\getting-started\getting-started.component.scss" />
     <Content Include="src\app\functions-list\functions-list.component.html" />
     <Content Include="src\app\getting-started\getting-started.component.html" />
-    <Content Include="src\app\intro\intro.component.css" />
-    <Content Include="src\app\intro\intro.component.html" />
+    <Content Include="src\app\function-quickstart\function-quickstart.component.css" />
+    <Content Include="src\app\function-quickstart\function-quickstart.component.html" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
     <Content Include="src\app\function-new\function-new.component.scss" />
@@ -352,8 +352,8 @@
     <TypeScriptCompile Include="src\app\getting-started\getting-started.component.spec.ts" />
     <TypeScriptCompile Include="src\app\getting-started\getting-started.component.ts" />
     <TypeScriptCompile Include="src\app\index.ts" />
-    <TypeScriptCompile Include="src\app\intro\intro.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\intro\intro.component.ts" />
+    <TypeScriptCompile Include="src\app\function-quickstart\function-quickstart.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\function-quickstart\function-quickstart.component.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.spec.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
     <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />

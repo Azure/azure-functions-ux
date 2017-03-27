@@ -22,12 +22,12 @@ import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from "../tree-view/models/dashboard-type";
 
 @Component({
-  selector: 'intro',
-  templateUrl: './intro.component.html',
-  styleUrls: ['./intro.component.scss'],
+  selector: 'function-quickstart',
+  templateUrl: './function-quickstart.component.html',
+  styleUrls: ['./function-quickstart.component.scss'],
   inputs: ['viewInfoInput']
 })
-export class IntroComponent {
+export class FunctionQuickstartComponent {
     @Input() functionsInfo: FunctionInfo[];
     selectedFunction: string;
     selectedLanguage: string;
@@ -49,7 +49,7 @@ export class IntroComponent {
             });
         this._globalStateService.clearBusyState();
 
-        let quickstart = <QuickstartSettings>this.selectedNode.sideNav.localStorageService.getItem(IntroComponent.storageKey);
+        let quickstart = <QuickstartSettings>this.selectedNode.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
         this.useQuickstartAsDefault = !quickstart || !quickstart.disabled;
     }
 
@@ -149,8 +149,8 @@ export class IntroComponent {
 
     changeDefault(clickEvent : any){
         let enabled = clickEvent.srcElement.checked;
-        this._localStorageService.setItem(IntroComponent.storageKey, <QuickstartSettings>{
-            id : IntroComponent.storageKey,
+        this._localStorageService.setItem(FunctionQuickstartComponent.storageKey, <QuickstartSettings>{
+            id : FunctionQuickstartComponent.storageKey,
             disabled : !enabled
         });
     }

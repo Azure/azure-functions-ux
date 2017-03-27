@@ -1,37 +1,37 @@
-<div id="intro-container">
-<div id="intro-header">
+<div id="quickstart-container">
+<div id="quickstart-header">
     <img src="images/functions.svg" />
 
     <h2>{{ 'intro_getStarted' | translate }}</h2>
     <div class="text-level1-heading">{{ 'intro_chooseScenario' | translate }}</div>
-    <div id="intro-templates">
-        <div class="intro-template"
+    <div id="quickstart-templates">
+        <div class="quickstart-template"
             (click)="onFunctionCliked('TimerTrigger')"
-            [class.intro-template-selected]="selectedFunction === 'TimerTrigger'">
+            [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
 
-            <div class="intro-template-icon">
+            <div class="quickstart-template-icon">
                 <img src="images/timer-template-dark.svg" />
                 <div>{{ 'intro_timer' | translate }}</div>
             </div>
 
         </div>
 
-        <div class="intro-template"
+        <div class="quickstart-template"
             (click)="onFunctionCliked('QueueTrigger')"
-            [class.intro-template-selected]="selectedFunction === 'QueueTrigger'">
+            [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
 
-            <div class="intro-template-icon">
+            <div class="quickstart-template-icon">
                 <img src="images/data-process-template-dark.svg" />
                 <div>{{ 'intro_dataProcessing' | translate}}</div>
             </div>
             
         </div>
 
-        <div class="intro-template"
+        <div class="quickstart-template"
             (click)="onFunctionCliked('HttpTrigger')"
-            [class.intro-template-selected]="selectedFunction === 'HttpTrigger'">
+            [class.quickstart-template-selected]="selectedFunction === 'HttpTrigger'">
 
-            <div class="intro-template-icon">
+            <div class="quickstart-template-icon">
                 <img src="images/webhook-api-template-dark.svg" />
                 <div>{{ 'intro_webHook' | translate }}</div>                
             </div>
@@ -41,12 +41,12 @@
     <div class="text-level1-heading">{{ 'intro_chooseLanguage' | translate }}</div>
 
 
-    <div id="intro-lang-radios">
+    <div id="quickstart-lang-radios">
         <input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp
         <input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript
     </div>
 
-    <div id="intro-lang-custom">
+    <div id="quickstart-lang-custom">
         {{ 'intro_ifYou' | translate }}
         <span class="link" (click)='createFromScratch()'>
             {{ 'intro_createYourOwn' | translate }}.
@@ -67,15 +67,15 @@
     {{ 'intro_or' | translate}}
 </div>
 
-<div id="intro-footer">
+<div id="quickstart-footer">
     <h3>{{ 'intro_getStartedOn' | translate }}</h3>
-    <div class="link" (click)='createFromScratch()'>
-        {{ 'intro_customFunction' | translate }}
+    <div>
+        <span class="link" (click)='createFromScratch()'>{{ 'intro_customFunction' | translate }}</span>
     </div>
-    <div class="link" (click)='startFromSC()'>
-        {{ 'intro_startSC' | translate }}
+    <div>
+        <span class="link" (click)='startFromSC()'>{{ 'intro_startSC' | translate }}</span>
     </div>
-    <div id="intro-disable">
+    <div id="quickstart-disable">
         <input type="checkbox" [(ngModel)]="useQuickstartAsDefault" (click)="changeDefault($event)"/>{{ 'intro_keepUsingQuickstart' | translate}}
     </div>
 </div>  <!-- /intro-footer -->

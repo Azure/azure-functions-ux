@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { IntroComponent } from './intro.component';
+import { FunctionQuickstartComponent } from './function-quickstart.component';
 
-describe('IntroComponent', () => {
-  let component: IntroComponent;
-  let fixture: ComponentFixture<IntroComponent>;
+describe('FunctionQuickstartComponent', () => {
+  let component: FunctionQuickstartComponent;
+  let fixture: ComponentFixture<FunctionQuickstartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IntroComponent ]
+      declarations: [ FunctionQuickstartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IntroComponent);
+    fixture = TestBed.createComponent(FunctionQuickstartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

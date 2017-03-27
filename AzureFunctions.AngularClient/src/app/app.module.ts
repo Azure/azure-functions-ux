@@ -37,7 +37,7 @@ import { TryNowComponent } from './try-now/try-now.component';
 import { FunctionEditComponent } from './function-edit/function-edit.component';
 import { TrialExpiredComponent } from './trial-expired/trial-expired.component';
 import { FunctionNewComponent } from './function-new/function-new.component';
-import { IntroComponent } from './intro/intro.component';
+import { FunctionQuickstartComponent } from './function-quickstart/function-quickstart.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { SourceControlComponent } from './source-control/source-control.component';
 import { FunctionDevComponent } from './function-dev/function-dev.component';
@@ -109,7 +109,7 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
         FunctionEditComponent,
         TrialExpiredComponent,
         FunctionNewComponent,
-        IntroComponent,
+        FunctionQuickstartComponent,
         TutorialComponent,
         SourceControlComponent,
         FunctionDevComponent,

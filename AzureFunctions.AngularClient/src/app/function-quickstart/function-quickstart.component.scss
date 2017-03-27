@@ -1,6 +1,6 @@
 @import '../../sass/main';
 
-#intro-container{
+#quickstart-container{
     // font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
     text-align: center;
     // padding: 25px;
@@ -8,7 +8,7 @@
     background-color: $qs-footer-bg-color;
 }
 
-#intro-header{
+#quickstart-header{
     background-color: $qs-header-bg-color;
     padding: 25px 25px 40px 25px;
 
@@ -34,18 +34,18 @@
 
 }
 
-#intro-templates{
+#quickstart-templates{
     margin-bottom: 30px;
 }
 
-.intro-template{
+.quickstart-template{
     display: inline-block;
     border: 2px solid transparent;
     font-size: 16px;
     margin: 0px 7px;
     cursor: pointer;
 
-    .intro-template-icon{
+    .quickstart-template-icon{
         background-color: $body-bg-color;
         padding: 10px;
         width: 150px;
@@ -69,7 +69,7 @@
     }
 }
 
-.intro-template-selected{
+.quickstart-template-selected{
     border: 2px solid $primary-color;
 
     &:hover{
@@ -77,29 +77,15 @@
     }
 }
 
-// .intro-template:hover, .intro-template-lang:hover{
-//     border: 3px solid #C2C5C9;
-// }
-
-// .intro-template-selected, .intro-template-selected:hover, .intro-template-lang-selected, .intro-template-lang-selected:hover{
-//     border: 3px solid #419BF3;
-// }
-
-
-// .intro-template div:nth-of-type(2){ 
-//     margin-top: 15px;
-// }
-
-.intro-template-lang{
+.quickstart-template-lang{
     padding: 10px;
     display: inline-block;
     font-size: 16px;
     width: 156px;
 }
 
-#intro-lang-radios{
+#quickstart-lang-radios{
     @extend .text-subheading;
-    // padding-top : 10px;
     margin-bottom: 15px;
     color: $value-text-color;
 
@@ -108,7 +94,7 @@
     }
 }
 
-#intro-lang-custom{
+#quickstart-lang-custom{
     margin-bottom: 25px;
 }
 
@@ -122,7 +108,7 @@
     padding-top: 3px;
 }
 
-#intro-footer{
+#quickstart-footer{
     padding: 16px 25px 25px 25px;
     color: $body-bg-color;
 
@@ -138,7 +124,7 @@
     }
 }
 
-#intro-disable{
+#quickstart-disable{
     margin-top: 7px;
 
     input{
@@ -146,14 +132,7 @@
         margin-right: 5px;
     }
 }
-// .intro-footer span{
-//     font-size: 16px;
-//     color: #0076DA;
-// }
 
-// .custom-button{
-//     margin: 30px 0px;
-// }
 .link-disabled {
     cursor: not-allowed;
     background-color: lightgray;
