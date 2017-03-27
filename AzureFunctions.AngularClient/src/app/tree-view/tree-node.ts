@@ -55,7 +55,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         public resourceId : string,
         public parent : TreeNode){}
 
-    public select() : void {
+    public select(force? : boolean) : void {
         if(this.disabled || !this.resourceId){
             return;
         }
@@ -66,7 +66,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.isExpanded = true;
         }
 
-        this.sideNav.updateView(this, this.dashboardType)
+        this.sideNav.updateView(this, this.dashboardType, force)
         .do(null, e =>{
             this.sideNav.aiService.trackException(e, "TreeNode.select()");
         })

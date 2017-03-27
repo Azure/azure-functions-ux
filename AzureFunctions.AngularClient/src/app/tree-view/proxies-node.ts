@@ -46,6 +46,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
+            this.parent.inSelectedTree = true;
             return (<AppNode>this.parent).initialize();
         }
 

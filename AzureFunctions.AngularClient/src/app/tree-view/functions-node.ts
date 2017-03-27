@@ -66,6 +66,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     public handleSelection() : Observable<any>{
         if(!this.disabled){
+            this.parent.inSelectedTree = true;
             return (<AppNode>this.parent).initialize();
         }
 

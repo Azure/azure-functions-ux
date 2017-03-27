@@ -246,9 +246,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public openSettings() {
-        debugger;
         this.openFunctionSettingsTab = true;
-        this.select();
+        this.select(true /* force */);
     }
 
     private _dispose(){
