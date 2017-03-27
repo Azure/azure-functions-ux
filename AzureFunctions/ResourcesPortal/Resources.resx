@@ -989,13 +989,22 @@
     <value>{0} subscriptions</value>
   </data>
   <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
-    <value>Functions (No Access)</value>
+    <value>Functions (No access)</value>
   </data>
   <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
-    <value>Functions (ReadOnly Lock)</value>
+    <value>Functions (ReadOnly lock)</value>
   </data>
   <data name="sideNav_FunctionsStopped" xml:space="preserve">
     <value>Functions (Stopped)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxies (No access)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxies (Stopped)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxies (ReadOnly lock)</value>
   </data>
   <data name="functions" xml:space="preserve">
     <value>Functions</value>

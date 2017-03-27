@@ -295,6 +295,9 @@ export class PortalResources
     public static sideNav_FunctionsNoAccess: string = "sideNav_FunctionsNoAccess";
     public static sideNav_FunctionsReadOnlyLock: string = "sideNav_FunctionsReadOnlyLock";
     public static sideNav_FunctionsStopped: string = "sideNav_FunctionsStopped";
+    public static sideNav_ProxiesNoAccess: string = "sideNav_ProxiesNoAccess";
+    public static sideNav_ProxiesStopped: string = "sideNav_ProxiesStopped";
+    public static sideNav_ProxiesReadOnlyLock: string = "sideNav_ProxiesReadOnlyLock";
     public static functions: string = "functions";
     public static newFunction: string = "newFunction";
     public static functionApps: string = "functionApps";

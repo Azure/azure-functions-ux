@@ -1,3 +1,6 @@
+import { AppNode } from './../tree-view/app-node';
+import { Constants } from './../shared/models/constants';
+import { CacheService } from './../shared/services/cache.service';
 import { AiService } from './../shared/services/ai.service';
 import { Subject, Observable } from 'rxjs/Rx';
 import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
@@ -27,7 +30,6 @@ export class ApiNewComponent implements OnInit {
 
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
-    @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     isEnabled: boolean;
 
     public functionApp: FunctionApp;
@@ -40,7 +42,8 @@ export class ApiNewComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
-        private _aiService : AiService) {
+        private _aiService : AiService,
+        private _cacheService : CacheService) {
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
@@ -62,17 +65,19 @@ export class ApiNewComponent implements OnInit {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this.isEnabled = this._globalStateService.IsRoutingEnabled;
-
         this._viewInfoStream
         .switchMap(viewInfo =>{
             this._globalStateService.setBusyState();
             this._proxiesNode = <ProxiesNode>viewInfo.node;
             this.functionApp = this._proxiesNode.functionApp;
+
+            // Should be okay to query app settings without checkout RBAC/locks since this component
+            // shouldn't load unless you have write access.
             return Observable.zip(
                 this.functionApp.getFunctions(),
                 this.functionApp.getApiProxies(),
-                (f, p) =>({ fcs : f, proxies : p}))
+                this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true),
+                (f, p, a) =>({ fcs : f, proxies : p, appSettings : a.json()}))
         })
         .do(null, e =>{
             this._aiService.trackException(e, '/errors/api-new');
@@ -83,6 +88,9 @@ export class ApiNewComponent implements OnInit {
             this._globalStateService.clearBusyState();
             this.functionsInfo = res.fcs;
             this.apiProxies = res.proxies;
+
+            let extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
         })
     }
 
@@ -91,7 +99,8 @@ export class ApiNewComponent implements OnInit {
     }
 
     onFunctionAppSettingsClicked(event: any) {
-        this.functionAppSettingsClicked.emit(event);
+        let appNode = <AppNode>this._proxiesNode.parent;
+        appNode.openSettings();
     }
 
     static validateUrl(): ValidatorFn {
