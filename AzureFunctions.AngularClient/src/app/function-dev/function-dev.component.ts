@@ -24,6 +24,7 @@ import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directiv
 import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from "../shared/models/error-ids";
+import {HttpRunModel, Param} from '../shared/models/http-run';
 
 
 @Component({
@@ -188,6 +189,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 setTimeout(() => {
                     this.onResize();
+                    // Remove "code" param fix
+                    this.saveTestData();
                 }, 0);
 
                 if (!this.functionApp.isMultiKeySupported) {
@@ -612,7 +615,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
-            return JSON.stringify(this.runHttp.model);
+            // remove "code" param fix
+            var clonedModel: HttpRunModel = JSON.parse(JSON.stringify(this.runHttp.model));
+            var codeIndex = clonedModel.queryStringParams.findIndex(p => p.name === 'code');
+
+            if (codeIndex > -1) {
+                clonedModel.queryStringParams.splice(codeIndex, 1);
+            }
+
+            return JSON.stringify(clonedModel);
         } else {
             return this.updatedTestContent !== undefined ? this.updatedTestContent : this.functionInfo.test_data;
         }

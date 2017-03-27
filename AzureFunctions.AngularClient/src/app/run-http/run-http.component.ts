@@ -78,14 +78,7 @@ export class RunHttpComponent {
                 });
 
                 if (!findResult) {
-                    this.model.queryStringParams.push(p);
-                } else {
-                    // code query parameter was not saved correctly for some of the customers. Last two characters '==' were cutted.
-                    // force to save correct code
-                    if (findResult.name === "code" && p.value !== findResult.value && p.value.startsWith(findResult.value)) {
-                        findResult.value = p.value;
-                    }
-
+                    this.model.queryStringParams.splice(0,0, p);
                 }
             });
             this.change();
