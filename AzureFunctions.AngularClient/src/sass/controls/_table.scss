@@ -6,12 +6,18 @@
         display: inline-block;
         margin-right: 10px;
     }
+
+    img{
+        vertical-align: middle;
+        margin-bottom: 12px;
+        margin-right: 5px;
+        width: 32px;
+        height: 32px;
+    }
 }
 
 .custom-table{
     border-collapse: inherit;
-    border: $border;
-
 
     tr{
         border-bottom: 1px solid $border-color;
@@ -21,21 +27,24 @@
             background-color: lighten($border-color, 5%);
         }
 
-        .sortableCol{
-            text-decoration: underline;
-        }
+        &.header-row:hover{
+            background-color: $body-bg-color;
 
-        .notSortableCol{
-            cursor: text;
         }
     }
 
     th{
-        background-color: $border-color;
+        @extend .text-list-col-heading;
         min-width: 200px;
+        cursor: text;
+
+        &.sortable{
+            cursor: pointer;
+        }
     }
 
     th, td{
-        padding: 5px;
+        padding: 7px 5px;
+        border-bottom: $border;
     }
 }

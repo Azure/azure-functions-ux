@@ -15,7 +15,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
-    public title = this.sideNav.translateService.instant(PortalResources.functionAppsAll);
+    public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);

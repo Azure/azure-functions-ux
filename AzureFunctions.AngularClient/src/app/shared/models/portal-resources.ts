@@ -76,6 +76,7 @@ export class PortalResources
     public static subscriptionName: string = "subscriptionName";
     public static resourceGroup: string = "resourceGroup";
     public static location: string = "location";
+    public static noResults: string = "noResults";
     public static topBar_changeMade: string = "topBar_changeMade";
     public static topBar_functionAppSettings: string = "topBar_functionAppSettings";
     public static topBar_newVersion: string = "topBar_newVersion";
@@ -301,7 +302,6 @@ export class PortalResources
     public static functions: string = "functions";
     public static newFunction: string = "newFunction";
     public static functionApps: string = "functionApps";
-    public static functionAppsAll: string = "functionAppsAll";
     public static stop: string = "stop";
     public static start: string = "start";
     public static restart: string = "restart";

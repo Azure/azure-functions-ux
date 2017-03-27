@@ -49,6 +49,12 @@ h1, h2, h3, h4{
     color: #595959;
 }
 
+.text-list-col-heading {
+    @extend .text;
+    font-size: 10px;
+    color: $value-text-color;
+}
+
 .message-error {
     @extend .text;
     color: $error-color;

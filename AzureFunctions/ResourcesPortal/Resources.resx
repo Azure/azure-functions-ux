@@ -340,6 +340,9 @@
   <data name="location" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="noResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>Changes made to the current function will be lost. Are you sure you want to continue?</value>
   </data>
@@ -1014,9 +1017,6 @@
   </data>
   <data name="functionApps" xml:space="preserve">
     <value>Function Apps</value>
-  </data>
-  <data name="functionAppsAll" xml:space="preserve">
-    <value>All Function Apps</value>
   </data>
   <data name="stop" xml:space="preserve">
     <value>Stop</value>
