@@ -49,6 +49,7 @@ export class PortalResources
     public static intro_or: string = "intro_or";
     public static intro_getStarted: string = "intro_getStarted";
     public static intro_getStartedOn: string = "intro_getStartedOn";
+    public static intro_keepUsingQuickstart: string = "intro_keepUsingQuickstart";
     public static intro_ifYou: string = "intro_ifYou";
     public static intro_startSC: string = "intro_startSC";
     public static intro_timer: string = "intro_timer";
@@ -437,5 +438,6 @@ export class PortalResources
     public static functionKeys_actions: string = "functionKeys_actions";
     public static functionKeys_easyAuthWarning: string = "functionKeys_easyAuthWarning";
     public static functionNew_chooseTemplateQuickstart: string = "functionNew_chooseTemplateQuickstart";
+    public static httpRun_noQuery: string = "httpRun_noQuery";
 }
 
