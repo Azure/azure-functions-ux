@@ -15,14 +15,22 @@ h1, h2, h3, h4{
     color: #000000;
 }
 
+.text-main2-heading{
+    font-size: 26px;
+    color: $value-text-color;
+    font-weight: lighter;
+}
+
 .text-level1-heading {
     @extend .text;
     font-size: 18px;
+    font-weight: lighter;
 }
 
 .text-level2-heading {
     @extend .text;
     font-size: 15px;
+    font-weight: lighter;
 }
 
 .text-subheading {
@@ -53,6 +61,7 @@ h1, h2, h3, h4{
     @extend .text;
     font-size: 10px;
     color: $value-text-color;
+    font-weight: bold;
 }
 
 .message-error {
