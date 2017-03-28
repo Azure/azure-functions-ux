@@ -19,7 +19,7 @@ export class FeatureItem{
     public warning : string;
     public isHighlighted : boolean;
     public isEmpty : boolean;   // Used to reserve blank space when filtering results
-
+    public highlight : boolean;
     public imageUrl = "images/activity-log.svg";
 
     constructor(title : string, keywords : string, info : string, imageUrl? : string){

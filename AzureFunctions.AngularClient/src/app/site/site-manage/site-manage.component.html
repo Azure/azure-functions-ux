@@ -11,7 +11,7 @@
     <div class="site-manage-col">
         <div *ngFor="let group of groups1" class="site-manage-feature-group">
             <feature-group [inputGroup]="group"
-                        [searchTerm]="searchTerm"
+                        [searchTermInput]="searchTerm"
                         (openTab)="openTab($event)">
             </feature-group>
         </div>
@@ -19,13 +19,13 @@
 
     <div class="site-manage-col">
         <div *ngFor="let group of groups2" class="site-manage-feature-group">
-            <feature-group [inputGroup]="group" [searchTerm]="searchTerm"></feature-group>
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm"></feature-group>
         </div>
     </div>
 
     <div class="site-manage-col">
         <div *ngFor="let group of groups3" class="site-manage-feature-group">
-            <feature-group [inputGroup]="group" [searchTerm]="searchTerm"></feature-group>
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm"></feature-group>
         </div>
     </div>
 

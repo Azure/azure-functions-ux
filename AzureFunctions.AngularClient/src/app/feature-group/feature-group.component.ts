@@ -11,60 +11,36 @@ import {FeatureItem} from './feature-item';
     selector: 'feature-group',
     templateUrl: './feature-group.component.html',
     styleUrls: ['./feature-group.component.scss'],
-    inputs : ['inputGroup', 'searchTerm']
+    inputs : ['inputGroup', 'searchTermInput']
 })
 
 export class FeatureGroupComponent {
 
-    public filteredFeatures : FeatureItem[];
     public group : FeatureGroup;
-    private _emptyItem : FeatureItem;
-    private _searchTerm = "";
+    public searchTerm = "";
 
     constructor(private _aiService : AiService){
-        this._emptyItem = new FeatureItem("", "", "");
-        this._emptyItem.isEmpty = true;
     }
 
     set inputGroup(group : FeatureGroup){
         this.group = group;
-        this.filteredFeatures = this.group.features;
+        this.group.features.forEach(f => f.keywords = f.keywords.toLowerCase());
     }
 
-    set searchTerm(term : string){
-        this._searchTerm = term;
+    set searchTermInput(term : string){
+        this.searchTerm = term;
+        term = term.toLowerCase();
 
-        if(!term){
-            this.filteredFeatures = this.group.features;
-        }
-
-        let features : FeatureItem[] = [];
         this.group.features.forEach(feature =>{
-            if(feature.keywords.toLowerCase().indexOf(term.toLowerCase()) > -1){
-                features.push(feature);
-            }
+            feature.highlight = feature.keywords.indexOf(term) > -1;
         })
-
-        let numEmptyItemsToAdd = 0;
-        if(features.length === 0){
-            numEmptyItemsToAdd = this.group.features.length;
-        }
-        else if(features.length !== this.group.features.length){
-            numEmptyItemsToAdd = this.group.features.length - features.length;
-        }
-
-        for(let i = 0; i < numEmptyItemsToAdd; i++){
-            features.push(this._emptyItem);
-        }
-
-        this.filteredFeatures = features;
     }
 
     click(feature : FeatureItem){
         
         this._aiService.trackEvent("/site/feature-click", {
             featureName : feature.title,
-            isResultsFiltered : !!this._searchTerm ? "true" : "false"
+            isResultsFiltered : !!this.searchTerm ? "true" : "false"
         })
 
         feature.click();

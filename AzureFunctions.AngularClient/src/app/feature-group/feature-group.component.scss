@@ -7,7 +7,6 @@
     font-weight: bold;
 }
 
-
 .feature-group-item{
     padding: 5px 45px 5px 0px;
     position: relative;
@@ -25,10 +24,14 @@
         margin-bottom: 2px;
         margin-left: 3px;
     }
-}
 
-.feature-group-item-hover:hover{
-    background-color: $chrome-color;
+    &:hover{
+        background-color: $chrome-color;
+    }
+
+    .feature-group-result-title{
+        background-color: $highlight-text-color;
+    }
 }
 
 .feature-group-info{
