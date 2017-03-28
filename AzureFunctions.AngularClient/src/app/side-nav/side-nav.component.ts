@@ -4,7 +4,7 @@ import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { Arm } from './../shared/models/constants';
-import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { FormControl } from '@angular/forms';
@@ -97,7 +97,8 @@ export class SideNavComponent{
             // blade, but that's a pretty large change and this should be sufficient for now.
             if(!this._initialized){
                 this._initialized = true;
-                this.resourceId = !!this.resourceId ? this.resourceId : info.resourceId;
+                // this.resourceId = !!this.resourceId ? this.resourceId : info.resourceId;
+                this.initialResourceId = info.resourceId;
 
                 let appsNode = new AppsNode(
                     this,
@@ -119,7 +120,19 @@ export class SideNavComponent{
                 })
 
                 // Get the streams in the top-level nodes moving
-                this._searchTermStream.next("");
+                if(this.initialResourceId){
+                    let descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
+                    if(descriptor.site){
+                        this._searchTermStream.next(`"${descriptor.site}"`);
+                        this.hasValue = true;            
+                    }
+                    else{
+                        this._searchTermStream.next("");
+                    }
+                }
+                else{
+                    this._searchTermStream.next("");
+                }
 
                 if(this.subscriptionOptions.length === 0){
                     this._setupInitialSubscriptions(info.resourceId);
@@ -189,7 +202,7 @@ export class SideNavComponent{
         this.globalStateService.setDisabledMessage(null);
         this.treeViewInfoEvent.emit(viewInfo);
         this._updateTitle(newSelectedNode);
-
+        this.portalService.closeBlades();
         return newSelectedNode.handleSelection();
     }
 
