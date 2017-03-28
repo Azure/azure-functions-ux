@@ -24,6 +24,11 @@ pre {
     color: #fff;
 }
 
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
 .btn-icon {        
     color: #539CF6;
     background-image: url(images/icon-collapse.svg);
