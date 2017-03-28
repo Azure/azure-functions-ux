@@ -49,6 +49,12 @@
         color: $label-text-color;
     }
 
+    .link{
+        &:hover{
+            color: $primary-color-hover;
+        }
+    }
+
     > div{
         padding: 10px;
     }

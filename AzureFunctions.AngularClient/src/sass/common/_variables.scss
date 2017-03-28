@@ -34,6 +34,7 @@ $warning-color-faded: rgba($warning-color, 0.18);
 
 $primary-color: #0058ad;
 $primary-color-faded: rgba($primary-color, 0.18);
+$primary-color-hover: lighten($primary-color, 10%);
 
 $alt1-color: #6917aa;
 $alt1-color-faded: rgba($alt1-color, 0.18);
