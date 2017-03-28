@@ -27,7 +27,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             parentNode);
 
         this.title = functionInfo.name;
-        this.iconClass = "tree-node-function-icon";
+        this.iconClass = "tree-node-svg-icon";
+        this.iconUrl = "images/DataLakeAnalytics-alt.svg";
     }
 
     public handleSelection() : Observable<any>{

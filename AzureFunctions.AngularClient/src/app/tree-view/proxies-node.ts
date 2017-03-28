@@ -25,6 +25,9 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
         public functionApp : FunctionApp,
         parentNode : TreeNode){
         super(sideNav, functionApp.site.id + "/proxies", parentNode);
+
+        this.iconClass = "tree-node-collection-icon"
+        this.iconUrl = "images/BulletList.svg";
     }
 
     public loadChildren(){

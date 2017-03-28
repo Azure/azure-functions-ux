@@ -19,7 +19,9 @@
                 (click)="child.toggle($event)"></i>
 
             <!-- Custom icon per node -->
-            <i *ngIf="child.iconClass" [class]="child.iconClass"></i>
+            <i *ngIf="child.iconClass" [class]="child.iconClass">
+              <img *ngIf="child.iconUrl" [src]="child.iconUrl" />
+            </i>
 
             <span [class.tree-node-disabled]="child.disabled" class="tree-node-title">
                   {{ child.title }}

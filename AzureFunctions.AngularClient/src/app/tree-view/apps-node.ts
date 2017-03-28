@@ -30,7 +30,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, null);
 
-        this.iconClass = "tree-node-apps-icon"
+        this.iconClass = "tree-node-collection-icon"
+        this.iconUrl = "images/BulletList.svg";
         this.showExpandIcon = false;
 
         this.childrenStream.subscribe(children =>{

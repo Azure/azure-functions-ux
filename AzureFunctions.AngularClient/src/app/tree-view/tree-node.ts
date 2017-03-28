@@ -39,6 +39,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public isExpanded : boolean;
     public showExpandIcon : boolean = true;
     public iconClass : string;
+    public iconUrl : string;
     public isLoading : boolean;
     public children : TreeNode[] = [];
     public title : string;

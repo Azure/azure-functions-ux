@@ -26,6 +26,9 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         public functionApp : FunctionApp,
         parentNode : TreeNode){
         super(sideNav, functionApp.site.id + "/functions", parentNode);
+
+        this.iconClass = "tree-node-collection-icon"
+        this.iconUrl = "images/BulletList.svg";
     }
 
     public openCreateNew(event? : any){
