@@ -18,17 +18,17 @@ export class SwaggerFrameDirective {
     }
 
     private onFrameLoaded(): void {
-        let swaggerEditor = this.iframeElement.contentDocument["swaggerEditor"];
+        let iswaggerEditor = this.iframeElement.contentDocument["iswaggerEditor"];
 
-        if (swaggerEditor) {
-            this.initiateSwaggerEditor(swaggerEditor);
+        if (iswaggerEditor) {
+            this.initiateSwaggerEditor(iswaggerEditor);
         }
         else {
-            this.iframeElement.contentDocument.addEventListener("swaggerFacadeReady", this.onSwaggerFacadeReady.bind(this));
+            this.iframeElement.contentDocument.addEventListener("iswaggerEditorReady", this.onISwaggerEditorReady.bind(this));
         }
     }
 
-    private onSwaggerFacadeReady(event: CustomEvent): void {
+    private onISwaggerEditorReady(event: CustomEvent): void {
         this.initiateSwaggerEditor(event.detail as ISwaggerEditor);
     }
 
