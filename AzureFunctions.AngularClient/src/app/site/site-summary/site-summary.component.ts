@@ -1,3 +1,4 @@
+import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
 import { AvailabilityStates } from './../../shared/models/constants';
 import { Availability } from './../site-notifications/notifications';
@@ -70,6 +71,7 @@ export class SiteSummaryComponent implements OnDestroy {
         private _armService : ArmService,
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
+        private _portalService : PortalService,
         private _domSanitizer : DomSanitizer) {
 
         this._subsSub = this._armService.subscriptions.subscribe(subscriptions =>{
@@ -296,6 +298,44 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._globalStateService.clearBusyState();
             });
         }
+    }
+
+    openSubscriptionBlade(){
+        // You shouldn't need to reference the menu blade directly, but I think the subscription
+        // blade hasn't registered its asset type properly
+        this._portalService.openBlade({
+            detailBlade : "ResourceMenuBlade",
+            detailBladeInputs : {
+                id : `/subscriptions/${this.subscriptionId}`
+            },
+            extension : "HubsExtension"
+        },
+        "site-summary");
+    }
+
+    openResourceGroupBlade(){
+
+        this._portalService.openBlade({
+            detailBlade : "ResourceGroupMapBlade",
+            detailBladeInputs : {
+                id : `/subscriptions/${this.subscriptionId}/resourceGroups/${this.resourceGroup}`
+            },
+            extension : "HubsExtension"
+        },
+        "site-summary");
+    }
+
+    openUrl(){
+        window.open(this.url);
+    }
+
+    openPlanBlade(){
+        this._portalService.openBlade({
+                detailBlade : "WebHostingPlanBlade",
+                detailBladeInputs : { id : this.site.properties.serverFarmId }
+            },
+            "site-summary"
+        );
     }
 
     private _setAvailabilityState(availabilityState : string){

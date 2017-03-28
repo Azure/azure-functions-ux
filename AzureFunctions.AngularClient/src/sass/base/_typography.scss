@@ -54,7 +54,7 @@ h1, h2, h3, h4{
 .text-label {
     @extend .text;
     font-size: 12px;
-    color: #595959;
+    color: $label-text-color;
 }
 
 .text-list-col-heading {

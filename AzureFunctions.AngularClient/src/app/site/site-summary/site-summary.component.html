@@ -45,7 +45,7 @@
     <div class="essentials-col">
         <div>
             <label>{{'subscriptionName' | translate}}</label>
-            <div>{{subscriptionName}}</div>
+            <div class="link" (click)="openSubscriptionBlade()">{{subscriptionName}}</div>
         </div>
 
         <div>
@@ -57,7 +57,7 @@
     <div class="essentials-col">
         <div>
             <label>{{'resourceGroup' | translate}}</label>
-            <div>{{resourceGroup}}</div>
+            <div class="link" (click)="openResourceGroupBlade()">{{resourceGroup}}</div>
         </div>
 
         <div>
@@ -69,12 +69,12 @@
     <div class="essentials-col">
         <div>
             <label>URL</label>
-            <div>{{url}}</div>
+            <div class="link" (click)="openUrl()">{{url}}</div>
         </div>
 
         <div>
             <label>{{'appServicePlanPricingTier' | translate}}</label>
-            <div>{{plan}}</div>
+            <div class="link" (click)="openPlanBlade()">{{plan}}</div>
         </div>
     </div>
 
