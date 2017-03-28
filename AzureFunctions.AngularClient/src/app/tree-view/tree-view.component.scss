@@ -86,6 +86,10 @@ hr.tree-node-separator{
 
     i{
         margin-left: 5px;
+        
+        &:hover{
+            color: #0074e0;
+        }
     }
 }
 

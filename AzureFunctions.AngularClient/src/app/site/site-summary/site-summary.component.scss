@@ -6,13 +6,13 @@
 }
 
 .site-summary-actions{
-    padding: 12px 10px;
+    padding-left: 12px;
 
     img{
         height: 15px;
         width: 15px;
         vertical-align: top;
-        margin: 2px 5px 0px 12px;
+        margin-right: 5px;
     }
 
     .disabled-action{
@@ -22,7 +22,8 @@
     }
 
     >span{
-        padding: 5px;
+        padding: 12px;
+        display: inline-block;
         
         &:hover{
             background-color: $chrome-color;
