@@ -380,5 +380,8 @@ export class PortalResources
     public static error_unableToloadGeneratedAPIDefinition: string = "error_unableToloadGeneratedAPIDefinition";
     public static swaggerDefinition_delete: string = "swaggerDefinition_delete";
     public static swaggerDefinition_prompt: string = "swaggerDefinition_prompt";
+    public static swaggerDefinition_documentation: string = "swaggerDefinition_documentation";
+    public static swaggerDefinition_feature_overview: string = "swaggerDefinition_feature_overview";
+    public static swaggerDefinition_getting_started: string = "swaggerDefinition_getting_started";
 }
 

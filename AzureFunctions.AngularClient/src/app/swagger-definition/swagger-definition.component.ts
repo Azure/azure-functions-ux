@@ -27,6 +27,7 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class SwaggerDefinitionComponent implements OnInit {
     public isFullscreen: boolean;
     public keyVisible: boolean;
+    public documentationVisible: boolean;    
     public swaggerEnabled: boolean;
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
@@ -138,6 +139,10 @@ export class SwaggerDefinitionComponent implements OnInit {
 
     public toggleKeyVisibility(): void {
         this.keyVisible = !this.keyVisible;
+    }
+
+    public toggleDocumentationVisibility(): void {
+        this.documentationVisible = !this.documentationVisible;
     }
 
     public saveChanges(): void {

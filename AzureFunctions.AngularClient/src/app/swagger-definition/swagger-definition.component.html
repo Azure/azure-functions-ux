@@ -51,6 +51,24 @@
                     <button *ngIf="!swaggerEnabled" class="custom-btn btn-solid medium" style="margin-top: 10px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
                 </div>
             </div>
+            <div>
+                <div style="padding-left: 4px;">
+                    <i class="fa clickable" [class.fa-plus]="!documentationVisible" [class.fa-minus]="documentationVisible" (click)="toggleDocumentationVisibility()"></i>
+                    <label class="setting-title-collapsible">{{'swaggerDefinition_documentation' | translate}}</label>
+                </div>
+                <div [class.collapse]="!documentationVisible">
+                    <div class="setting-wrapper operation">
+                        <ul>
+                            <li>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started" target="_blank">{{'swaggerDefinition_getting_started' | translate}}</a>
+                            </li>
+                            <li>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition" target="_blank">{{'swaggerDefinition_feature_overview' | translate}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         <div *ngIf="swaggerEnabled" class="section-right full-height">
             <div class="topbar">

@@ -2833,6 +2833,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        internal static string swaggerDefinition_documentation {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_documentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expand.
         /// </summary>
         internal static string swaggerDefinition_expand {
@@ -2847,6 +2856,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string swaggerDefinition_external {
             get {
                 return ResourceManager.GetString("swaggerDefinition_external", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read the feature overview.
+        /// </summary>
+        internal static string swaggerDefinition_feature_overview {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_feature_overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check out our getting started tutorial.
+        /// </summary>
+        internal static string swaggerDefinition_getting_started {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_getting_started", resourceCulture);
             }
         }
         
