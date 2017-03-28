@@ -30,7 +30,7 @@ export class SwaggerDefinitionComponent implements OnInit {
     public swaggerEnabled: boolean;
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
-    private _functionContainer: FunctionContainer;    
+    private _functionContainer: FunctionContainer;
     public swaggerStatusOptions: SelectOption<boolean>[];
     private valueChange: Subject<boolean>;
     private functionStream: Subject<FunctionKey>;
@@ -164,15 +164,19 @@ export class SwaggerDefinitionComponent implements OnInit {
                 return;
             }
 
-            if (!swaggerDocument &&
-                !error &&
-                confirm(this._translateService.instant(PortalResources.swaggerDefinition_delete))) {
-                this._functionsService.deleteSwaggerDocument(this.swaggerURL).
-                    subscribe(() => {
-                        this._globalStateService.clearBusyState();
-                    }, e => {
-                        this._globalStateService.clearBusyState();
-                    });
+            if (!swaggerDocument && !error) {
+                var confirmDelete = confirm(this._translateService.instant(PortalResources.swaggerDefinition_delete));
+                if (confirmDelete) {
+                    this._functionsService.deleteSwaggerDocument(this.swaggerURL).
+                        subscribe(() => {
+                            this._globalStateService.clearBusyState();
+                        }, e => {
+                            this._globalStateService.clearBusyState();
+                        });
+                } else {
+                    this.assignDocumentToEditor(this.swaggerDocument);
+                    this._globalStateService.clearBusyState();
+                }
                 return;
             }
         });
