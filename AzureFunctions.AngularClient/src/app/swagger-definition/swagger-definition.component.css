@@ -31,7 +31,6 @@ ul {
 
 .btn-icon {        
     color: #539CF6;
-    background-image: url(images/icon-collapse.svg);
     background-repeat: no-repeat;
     background-position: 5px center;
     background-size: 16px 16px;
@@ -42,6 +41,14 @@ ul {
     border: 1px solid transparent;
     white-space: nowrap;    
     font-size: 14px;        
+}
+
+.expand-icon {
+    background-image: url(images/icon-expand.svg);
+}
+
+.collapse-icon {
+    background-image: url(images/icon-collapse.svg);
 }
 
 .btn-invert {
