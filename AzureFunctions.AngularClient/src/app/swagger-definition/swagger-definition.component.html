@@ -77,10 +77,10 @@
                     <button class="custom-btn btn-invert left" (click)="resetEditor()">{{ 'cancel' | translate }}</button>
                 </div>
                 <div class="header right">
-                    <button class="btn-icon" *ngIf="!isFullscreen" (click)="isFullscreen = true">
+                    <button class="btn-icon expand-icon" *ngIf="!isFullscreen" (click)="isFullscreen = true">
                         {{'swaggerDefinition_expand' | translate}}
                     </button>
-                    <button class="btn-icon" *ngIf="isFullscreen" (click)="isFullscreen = false">
+                    <button class="btn-icon collapse-icon" *ngIf="isFullscreen" (click)="isFullscreen = false">
                         {{'swaggerDefinition_collapse' | translate}}
                     </button>
                 </div>
