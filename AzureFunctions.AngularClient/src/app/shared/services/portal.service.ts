@@ -1,3 +1,4 @@
+import { PinPartInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
@@ -112,6 +113,10 @@ export class PortalService {
         };
 
         this.postMessage(Verbs.updateBladeInfo, JSON.stringify(payload));
+    }
+
+    pinPart(pinPartInfo : PinPartInfo){
+        this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
     }
 
     logAction(subcomponent: string, action: string, data?: any): void{

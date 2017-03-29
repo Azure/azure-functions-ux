@@ -49,6 +49,7 @@ export class Verbs{
     public static logMessage = "log-message";
     public static setDirtyState = "set-dirtystate";
     public static setupOAuth = "setup-oauth";
+    public static pinPart = "pin-part";
 
     // Requests from Ibiza
     public static sendStartupInfo = "send-startup-info";
@@ -82,3 +83,63 @@ export interface UpdateBladeInfo{
     title? : string,
     subtitle? : string
 };
+
+export interface PinPartInfo{
+    partSize : PartSize;
+    partInput : any,
+}
+
+export enum PartSize {
+    /**
+     * A tile that is 1 column x 1 row.
+     */
+    Mini = 0,
+    /**
+     * A tile that is 2 columns x 1 row.
+     */
+    Small = 1,
+    /**
+     * A tile that is 2 columns x 2 rows.
+     */
+    Normal = 2,
+    /**
+     * A tile that is 4 columns x 2 rows.
+     */
+    Wide = 3,
+    /**
+     * A tile that is 2 columns x 4 rows.
+     */
+    Tall = 4,
+    /**
+     * A tile that is 6 columns x 4 rows.
+     */
+    HeroWide = 5,
+    /**
+     * A tile that is 4 columns x 6 rows.
+     */
+    HeroTall = 6,
+    /**
+     * A tile that is 6 columns by unbounded rows that fits the content.
+     */
+    HeroWideFitHeight = 7,
+    /**
+     * A tile that expands all the available columns by unbounded rows that fits the content.
+     */
+    FullWidthFitHeight = 8,
+    /**
+     * A tile that fits all the available space of the content area it occupies.
+     */
+    FitToContainer = 9,
+    /**
+     * A tile that is 4 columns x 4 rows.
+     */
+    Large = 10,
+    /**
+     * A tile that is 6 columns x 6 rows.
+     */
+    Hero = 11,
+    /**
+     * A tile with a custom size.
+     */
+    Custom = 99,
+}

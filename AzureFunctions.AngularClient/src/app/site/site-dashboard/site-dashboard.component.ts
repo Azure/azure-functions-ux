@@ -1,3 +1,4 @@
+import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 import { AiService } from './../../shared/services/ai.service';
@@ -13,7 +14,8 @@ import {TreeViewInfo} from '../../tree-view/models/tree-view-info';
 import {DashboardType} from '../../tree-view/models/dashboard-type';
 import {Descriptor, SiteDescriptor} from '../../shared/resourceDescriptors';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
-import {Site} from '../../shared/models/arm/site';
+import { Site } from '../../shared/models/arm/site';
+import { PartSize } from "../../shared/models/portal";
 
 @Component({
     selector: 'site-dashboard',
@@ -40,7 +42,8 @@ export class SiteDashboardComponent {
         private _cacheService : CacheService,
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
-        private _translateService : TranslateService) {
+        private _translateService : TranslateService,
+        private _portalService : PortalService) {
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
@@ -130,5 +133,14 @@ export class SiteDashboardComponent {
             let tabs = this.tabs.tabs.toArray();
             this.tabs.selectTab(tabs[tabs.length-1]);
         }, 100);
+    }
+
+    pinPart(){
+        this._portalService.pinPart({
+            partSize : PartSize.Normal,
+            partInput : {
+                id : this.viewInfo.resourceId
+            }
+        })
     }
 }
