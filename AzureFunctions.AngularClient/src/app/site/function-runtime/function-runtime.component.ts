@@ -148,7 +148,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this.routingExtensionVersion = Constants.routingExtensionVersion;
                 this._globalStateService.clearBusyState();
                 this._cacheService.clearCachePrefix(this.site.id);
-                this._appNode.refresh();
             });
     });
   }
