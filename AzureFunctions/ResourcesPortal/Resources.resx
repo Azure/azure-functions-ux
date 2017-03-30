@@ -1042,6 +1042,18 @@
   <data name="availability" xml:space="preserve">
     <value>Availability</value>
   </data>
+  <data name="available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>No access</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Not applicable</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Not available</value>
+  </data>  
   <data name="enabledFeatures_header" xml:space="preserve">
     <value>Configured features</value>
   </data>
@@ -1053,6 +1065,18 @@
   </data>
   <data name="siteDashboard_appNotFound" xml:space="preserve">
     <value>The app '{0}' could not be found</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Are you sure you would like to stop '{0}'</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid.</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Are you sure you would like to restart '{0}'</value>
   </data>
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>

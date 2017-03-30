@@ -1,3 +1,5 @@
+import { PortalResources } from './../../shared/models/portal-resources';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
 import { AvailabilityStates } from './../../shared/models/constants';
@@ -64,6 +66,7 @@ export class SiteSummaryComponent implements OnDestroy {
     private _viewInfo : TreeViewInfo;
     private _subsSub : RxSubscription;
     private _subs : Subscription[];
+    private _blobUrl : string;
 
     constructor(
         private _cacheService : CacheService,
@@ -72,7 +75,8 @@ export class SiteSummaryComponent implements OnDestroy {
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
         private _portalService : PortalService,
-        private _domSanitizer : DomSanitizer) {
+        private _domSanitizer : DomSanitizer,
+        private _translateService : TranslateService) {
 
         this._subsSub = this._armService.subscriptions.subscribe(subscriptions =>{
             this._subs = subscriptions;
@@ -82,11 +86,6 @@ export class SiteSummaryComponent implements OnDestroy {
         this._viewInfoStream
             .switchMap(viewInfo =>{
                 this._viewInfo = viewInfo;
-
-                // let appNode = <AppNode>viewInfo.node;
-                // if(appNode.sideNav.tryFunctionapp){
-                //     return Observable.of(null);
-                // }
 
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
@@ -109,10 +108,10 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.stateIcon = this.state === "Running" ? "images/success.svg" : "images/stopped.svg";
 
                 this.availabilityState = null;
-                this.availabilityMesg = "Loading...";
+                this.availabilityMesg = this._translateService.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
 
-                this.publishingUserName = "Loading...";
+                this.publishingUserName = this._translateService.instant(PortalResources.functionMonitor_loading);
                 this.scmType = null;
                 this.publishProfileLink = null;
 
@@ -177,7 +176,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.publishingUserName = res.publishCreds.properties.publishingUserName;
                 }
                 else{
-                    this.publishingUserName = "No access";
+                    this.publishingUserName = this._translateService.instant(PortalResources.noAccess);
                 }
             });
     }
@@ -192,6 +191,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
     ngOnDestroy() {
         this._subsSub.unsubscribe();
+        this._cleanupBlob();
     }
 
     openComponent(component : string){
@@ -204,7 +204,7 @@ export class SiteSummaryComponent implements OnDestroy {
         }
 
         if(this.site.properties.state === "Running"){
-            let confirmResult = confirm(`Are you sure you would like to stop ${this.site.name}`);
+            let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_stopConfirmation).format(this.site.name));
             if(confirmResult){
                 this._stopOrStartSite(true);
             }
@@ -221,26 +221,37 @@ export class SiteSummaryComponent implements OnDestroy {
 
         this._armService.post(`${this.site.id}/publishxml`, null)
         .subscribe(response =>{
+
+            // Currently, Edge doesn' respect the "download" attribute to name the file from blob
+            // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
+
             let publishXml = response.text();
 
             // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
             let windowUrl = window.URL || (<any>window).webkitURL;
             let blob = new Blob([publishXml], { type: 'application/octet-stream' });
+            this._cleanupBlob();
 
             // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
-            let blobUrl = windowUrl.createObjectURL(blob);
-            this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(blobUrl);
+            this._blobUrl = windowUrl.createObjectURL(blob);
+            this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
             setTimeout(() =>{
                 if(event.srcElement.nextElementSibling.id === "hidden-publish-profile-link"){
                     event.srcElement.nextElementSibling.click();
                 }
 
-                windowUrl.revokeObjectURL(blobUrl);
                 this.publishProfileLink = null;
-            },
-            10);
+            });
         });
+    }
+
+    private _cleanupBlob(){
+        let windowUrl = window.URL || (<any>window).webkitURL;
+        if(this._blobUrl){
+            windowUrl.revokeObjectURL(this._blobUrl);
+            this._blobUrl = null;
+        }
     }
 
     resetPublishCredentials(){
@@ -248,7 +259,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(`Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid.`);
+        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_resetProfileConfirmation));
         if(confirmResult){
             this._globalStateService.setBusyState();
             this._armService.post(`${this.site.id}/newpassword`, null)
@@ -263,7 +274,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(`Deleting web app '${this.site.name}' will delete the web app and all of its deployment slots. Are you sure you want to delete '${this.site.name}'?`);
+        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
         if(confirmResult){
             let site = this.site;
             let appNode = <AppNode>this._viewInfo.node;
@@ -290,7 +301,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
         let site = this.site;
 
-        let confirmResult = confirm(`Are you sure you would like to restart ${site.name}`);
+        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if(confirmResult){
             this._globalStateService.setBusyState();
             this._armService.post(`${site.id}/restart`, null)
@@ -343,19 +354,19 @@ export class SiteSummaryComponent implements OnDestroy {
         switch (this.availabilityState) {
             case AvailabilityStates.unknown:
                 this.availabilityIcon = "";
-                this.availabilityMesg = "Not applicable";
+                this.availabilityMesg = this._translateService.instant(PortalResources.notApplicable);
                 break;
             case AvailabilityStates.unavailable:
                 this.availabilityIcon = "images/error.svg";
-                this.availabilityMesg = "Not available"
+                this.availabilityMesg = this._translateService.instant(PortalResources.notAvailable);
                 break;
             case AvailabilityStates.available:
                 this.availabilityIcon = "images/success.svg";
-                this.availabilityMesg = "Available";
+                this.availabilityMesg = this._translateService.instant(PortalResources.available);
                 break;
             case AvailabilityStates.userinitiated:
                 this.availabilityIcon = "images/info.svg";
-                this.availabilityMesg = "Not available";
+                this.availabilityMesg = this._translateService.instant(PortalResources.notAvailable);
                 break;
         }
     }
