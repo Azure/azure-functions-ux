@@ -8,7 +8,6 @@
     margin: 0px;
     list-style-type: none;
     padding-left: 0px;
-    // font-size: 14px;
     line-height: 25px;
 
     li{
@@ -46,6 +45,15 @@ hr.tree-node-separator{
     .tree-node-content{
         position: relative;
         top: 2px;
+
+        .fa.fa-caret-right, .fa.fa-caret-down{
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        .fa.fa-caret-right{
+            margin-right: 2px;
+        }
     }
 }
 
@@ -94,6 +102,8 @@ hr.tree-node-separator{
 }
 
 .tree-node-function-edit-icon{
+    margin-left: 12px;
+    font-size: 14px;
     width: 15px;
     color: $primary-color;
 }
@@ -109,10 +119,10 @@ hr.tree-node-separator{
     margin-top: 1px;
 }
 
-.tree-node-svg-icon{    
+.tree-node-svg-icon{
     img{
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
         vertical-align: middle;
         margin-left: 2px;
     }
@@ -120,10 +130,15 @@ hr.tree-node-separator{
 
 .tree-node-collection-icon{
     img{
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
         vertical-align: text-top;
         margin-top: -1px;
-        margin-left: 3px;
+        margin-left: 2px;
     }
+}
+
+.root-node-collection-icon{
+    @extend .tree-node-collection-icon;
+    margin-left: 5px;
 }

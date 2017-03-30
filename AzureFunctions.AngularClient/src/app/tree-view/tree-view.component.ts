@@ -23,7 +23,7 @@ export class TreeViewComponent{
 
     set levelInput(level : number){
         if(level >= 1){
-            let margin = level * 10;
+            let margin = level * 11;
             this.margin = margin + "px";
         }
         else{

@@ -13,11 +13,12 @@
         <span class="tree-node-content" [style.margin-left]="margin">
 
             <!-- Expand node icon -->
-            <i class="fa"
-                [class.fa-caret-right]="child.showExpandIcon && !child.isExpanded"
-                [class.fa-caret-down]="child.showExpandIcon && child.isExpanded"
-                (click)="child.toggle($event)"></i>
-
+            <i *ngIf="child.showExpandIcon"
+              class="fa"
+              [class.fa-caret-right]="!child.isExpanded"
+              [class.fa-caret-down]="child.isExpanded"
+              (click)="child.toggle($event)"></i>
+            
             <!-- Custom icon per node -->
             <i *ngIf="child.iconClass" [class]="child.iconClass">
               <img *ngIf="child.iconUrl" [src]="child.iconUrl" />
