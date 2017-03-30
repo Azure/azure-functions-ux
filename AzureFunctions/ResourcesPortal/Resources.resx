@@ -1261,4 +1261,7 @@
   <data name="swaggerDefinition_getting_started" xml:space="preserve">
     <value>Check out our getting started tutorial</value>
   </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Click "Load Generated API Definition" to get started</value>
+  </data>
 </root>

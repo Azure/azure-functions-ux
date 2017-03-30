@@ -109,7 +109,7 @@ export class SwaggerDefinitionComponent implements OnInit {
         }
 
         if (!this.swaggerDocument) {
-            this.swaggerDocument = {};
+            this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
         }
 
         this.swaggerEditor.setDocument(this.swaggerDocument);
@@ -289,7 +289,7 @@ export class SwaggerDefinitionComponent implements OnInit {
                 return this._functionsService.getSwaggerDocument(key);
             }).catch(error => {
                 // get document fails                
-                return Observable.of({});
+                return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
             }).flatMap(swaggerDoc => {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);

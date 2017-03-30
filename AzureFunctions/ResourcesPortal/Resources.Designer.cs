@@ -2914,6 +2914,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #Click &quot;Load Generated API Definition&quot; to get started.
+        /// </summary>
+        internal static string swaggerDefinition_placeHolder {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_placeHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to Power Apps + Flow.
         /// </summary>
         internal static string swaggerDefinition_powerAppsFlow {
