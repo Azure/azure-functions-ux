@@ -1058,7 +1058,7 @@
     <value>Configured features</value>
   </data>
   <data name="enabledFeatures_description" xml:space="preserve">
-    <value>Quick links to your features will show up here after you've configured them from the "Features" tab above.</value>
+    <value>Quick links to your features will show up here after you've configured them from the "Platform features" tab above.</value>
   </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>There was an error retrieving information about the app '{0}'</value>
