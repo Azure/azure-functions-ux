@@ -1,4 +1,4 @@
-import { PinPartInfo } from './../models/portal';
+import { PinPartInfo, GetStartupInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
@@ -46,9 +46,14 @@ export class PortalService {
 
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
+        let appsvc = (<any>window).appsvc;
+        let getStartupInfoObj : GetStartupInfo = {
+            iframeHostName : appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
+        };
+
         // This is a required message. It tells the shell that your iframe is ready to receive messages.
         this.postMessage(Verbs.ready, null);
-        this.postMessage(Verbs.getStartupInfo, null);
+        this.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
             if (error.details) {
