@@ -222,8 +222,6 @@ export class SiteSummaryComponent implements OnDestroy {
         this._armService.post(`${this.site.id}/publishxml`, null)
         .subscribe(response =>{
 
-            // Currently, Edge doesn' respect the "download" attribute to name the file from blob
-            // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
 
             let publishXml = response.text();
 
@@ -232,17 +230,24 @@ export class SiteSummaryComponent implements OnDestroy {
             let blob = new Blob([publishXml], { type: 'application/octet-stream' });
             this._cleanupBlob();
 
-            // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
-            this._blobUrl = windowUrl.createObjectURL(blob);
-            this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
+            if(window.navigator.msSaveOrOpenBlob){
+                // Currently, Edge doesn' respect the "download" attribute to name the file from blob
+                // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
+                window.navigator.msSaveOrOpenBlob(blob, `${this.site.name}.PublishSettings`);
+            }
+            else{
+                // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
+                this._blobUrl = windowUrl.createObjectURL(blob);
+                this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
-            setTimeout(() =>{
-                if(event.srcElement.nextElementSibling.id === "hidden-publish-profile-link"){
-                    event.srcElement.nextElementSibling.click();
-                }
+                setTimeout(() =>{
+                    if(event.srcElement.nextElementSibling.id === "hidden-publish-profile-link"){
+                        event.srcElement.nextElementSibling.click();
+                    }
 
-                this.publishProfileLink = null;
-            });
+                    this.publishProfileLink = null;
+                });
+            }
         });
     }
 
