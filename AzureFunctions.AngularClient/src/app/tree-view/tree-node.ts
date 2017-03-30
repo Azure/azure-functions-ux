@@ -224,7 +224,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     protected _addChildAlphabetically(newChild : TreeNode){
         let i : number;
         for(i = 0; i < this.children.length; i++){
-            if(newChild.title < this.children[i].title){
+            if(newChild.title.toLowerCase() < this.children[i].title.toLowerCase()){
                 this.children.splice(i, 0, newChild);
                 break;
             }

@@ -287,12 +287,13 @@ export class SiteSummaryComponent implements OnDestroy {
             this._globalStateService.setBusyState();
 
             // If appNode is still loading, then deleting the app before it's done could cause a race condition
-            appNode.loadChildren()
+            appNode.initialize()
             .switchMap(() =>{
                 appNode.dispose();
                 return this._armService.delete(`${site.id}`, null);
             })
             .subscribe(response =>{
+                appNode.sideNav.search("");
                 this._globalStateService.clearBusyState();
                 (<AppNode>appNode).remove();
             });

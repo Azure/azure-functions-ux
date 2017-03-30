@@ -252,21 +252,27 @@ export class SideNavComponent{
     }
 
     search(event : any){
-        this.hasValue = !!event.target.value;
+        if(typeof event === "string"){
+            this._searchTermStream.next(event);
+            this.hasValue = !!event;
+        }
+        else{
+            this.hasValue = !!event.target.value;
 
-        let startPos = event.target.selectionStart;
-        let endPos = event.target.selectionEnd;
+            let startPos = event.target.selectionStart;
+            let endPos = event.target.selectionEnd;
 
-        // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
-        // the searchTerm, we end up resetting the cursor.  It's better than before, but
-        // it's still not great because if the user types really fast, the cursor still moves.
-        this._searchTermStream.next(event.target.value);
+            // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
+            // the searchTerm, we end up resetting the cursor.  It's better than before, but
+            // it's still not great because if the user types really fast, the cursor still moves.
+            this._searchTermStream.next(event.target.value);
 
-        if(event.target.value.length !== startPos){
-            setTimeout(() =>{
-                event.target.selectionStart = startPos;
-                event.target.selectionEnd = endPos;
-            });
+            if(event.target.value.length !== startPos){
+                setTimeout(() =>{
+                    event.target.selectionStart = startPos;
+                    event.target.selectionEnd = endPos;
+                });
+            }
         }
     }
 

@@ -192,7 +192,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.needUpdateExtensionVersion = false;
         this._globalStateService.clearBusyState();
         this._cacheService.clearCachePrefix(this.site.id);
-        this._appNode.refresh();
       });
   }
 
@@ -208,7 +207,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
               this.needUpdateRoutingExtensionVersion  = false;
               this._globalStateService.clearBusyState();
               this._cacheService.clearCachePrefix(this.site.id);
-              this._appNode.refresh();
       });
   }
 
