@@ -10,6 +10,10 @@ export interface Data{
     data: any;
 }
 
+export interface GetStartupInfo{
+    iframeHostName : string
+}
+
 export interface StartupInfo{
     token : string;
     subscriptions : Subscription[];
