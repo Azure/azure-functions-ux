@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="database.sql" />
+    <Content Include="iframe-loading.css" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

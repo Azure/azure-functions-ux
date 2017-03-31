@@ -18,7 +18,7 @@
     var version = AzureFunctions.Common.Constants.CurrentCommitId;
     var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
     var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
-    
+
 }
 <head>
     <meta charset="utf-8">
@@ -38,9 +38,16 @@
             }
         };
     </script>
+    <link rel="stylesheet" type="text/css" href="/iframe-loading.css"
 </head>
 <body>
-    <app-root></app-root>
+    <app-root>
+        <div class="fxs-progress">
+            <div class="fxs-progress-dots">
+                <div></div><div></div><div></div>
+            </div>
+        </div>
+    </app-root>
     @if (isAzure && !isOnPrem)
     {
         <script type="text/javascript" src="@cdn/inline.js?v=@version"></script>
