@@ -15,9 +15,10 @@
             </div>
             <div [class.collapse]="!swaggerEnabled">
                 <label class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
-                <div class="setting-wrapper">
-                    <!--<button class="custom-btn btn-solid medium">Download Function Keys</button>-->
-                    <button class="custom-btn btn-solid medium" (click)='openBlade("ExportToPowerApps")'>{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
+                <div class="setting-wrapper"> 
+                    <!--<button class="custom-btn btn-solid medium">Download Function Keys</button>-->                                       
+                    <button *ngIf="!showTryView" class="custom-btn btn-solid medium" (click)='openBlade("ExportToPowerApps")'>{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
+                    <button *ngIf="showTryView" class="custom-btn btn-disabled medium" [tooltip]="freeAccountTooltip">{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
                 </div>
             </div>
             <div [class.collapse]="!swaggerEnabled">
@@ -48,7 +49,8 @@
                     </div>
                 </div>
                 <div class="setting-wrapper column">
-                    <button *ngIf="!swaggerEnabled" class="custom-btn btn-solid medium" style="margin-top: 10px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
+                    <button *ngIf="!swaggerEnabled && !showTryView" class="custom-btn btn-solid medium" style="margin-top: 10px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
+                    <button *ngIf="!swaggerEnabled && showTryView" class="custom-btn btn-disabled medium" style="margin-top: 10px" [tooltip]="freeAccountTooltip">{{'swaggerDefinition_setExternal' | translate}}</button>
                 </div>
             </div>
             <div>
@@ -91,3 +93,8 @@
         </div>
     </div>
 </div>
+<tooltip-content #freeAccountTooltip>
+    <p>
+        {{ 'appFunctionSettings_FreeAccountToolTip' | translate }}
+    </p>
+</tooltip-content>

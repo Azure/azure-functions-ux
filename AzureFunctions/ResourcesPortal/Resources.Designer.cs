@@ -2968,7 +2968,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consume your HTTP triggered Functions in a variety of services using an Open API 2.0 (Swagger) definition.
+        ///   Looks up a localized string similar to Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition.
         /// </summary>
         internal static string swaggerDefinition_subtitle {
             get {

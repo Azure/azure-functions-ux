@@ -27,7 +27,7 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class SwaggerDefinitionComponent implements OnInit {
     public isFullscreen: boolean;
     public keyVisible: boolean;
-    public documentationVisible: boolean;    
+    public documentationVisible: boolean;
     public swaggerEnabled: boolean;
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
@@ -37,6 +37,7 @@ export class SwaggerDefinitionComponent implements OnInit {
     private functionStream: Subject<FunctionKey>;
     private swaggerKey: string;
     private swaggerURL: string;
+    private showTryView: boolean;
 
     constructor(private _aiService: AiService,
         private _portalService: PortalService,
@@ -55,7 +56,7 @@ export class SwaggerDefinitionComponent implements OnInit {
                 displayLabel: this._translateService.instant(PortalResources.swaggerDefinition_external),
                 value: false
             }];
-
+        this.showTryView = this._globalStateService.showTryView;
         this.valueChange = new Subject<boolean>();
         this.valueChange
             .subscribe((swaggerEnabled: boolean) => {
