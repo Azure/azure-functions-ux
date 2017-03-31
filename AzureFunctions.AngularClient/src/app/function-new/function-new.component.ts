@@ -20,7 +20,8 @@ import {AiService} from '../shared/services/ai.service';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
-import {AppNode} from '../tree-view/app-node';
+import { AppNode } from '../tree-view/app-node';
+import { DashboardType } from "../tree-view/models/dashboard-type";
 
 @Component({
   selector: 'function-new',
@@ -32,7 +33,7 @@ import {AppNode} from '../tree-view/app-node';
 export class FunctionNewComponent {
 
     public functionApp : FunctionApp;
-    private selectedNode : FunctionsNode;
+    private functionsNode : FunctionsNode;
     private functionsInfo : FunctionInfo[];
 
     elementRef: ElementRef;
@@ -73,8 +74,8 @@ export class FunctionNewComponent {
         this._viewInfoStream
         .switchMap(viewInfo =>{
             this._globalStateService.setBusyState();
-            this.selectedNode = <FunctionsNode>viewInfo.node;
-            this.functionApp = this.selectedNode.functionApp;
+            this.functionsNode = <FunctionsNode>viewInfo.node;
+            this.functionApp = this.functionsNode.functionApp;
             return this.functionApp.getFunctions()
         })
         .do(null, e =>{
@@ -206,7 +207,7 @@ export class FunctionNewComponent {
     }
 
     quickstart() {
-        this.selectedNode.openQuickstart();
+        this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
     }
 
     private validate() {
@@ -253,7 +254,7 @@ export class FunctionNewComponent {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "success", first: "false" });
                 // this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this.selectedNode.addChild(res);
+                this.functionsNode.addChild(res);
                 this._globalStateService.clearBusyState();
             },
             e => {

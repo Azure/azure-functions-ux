@@ -19,7 +19,7 @@ import {FunctionApp} from '../shared/function-app';
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
-    public newDashboardType = DashboardType.functionQuickstart;
+    public newDashboardType = DashboardType.createFunctionAutoDetect;
 
     constructor(
         sideNav : SideNavComponent,
@@ -29,18 +29,6 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
         this.iconClass = "tree-node-collection-icon"
         this.iconUrl = "images/BulletList.svg";
-    }
-
-    public openCreateNew(event? : any){
-        let quickstart = <QuickstartSettings>this.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
-        if(quickstart && quickstart.disabled){
-            this.newDashboardType = DashboardType.createFunction;
-        }
-        else{
-            this.newDashboardType = DashboardType.functionQuickstart;
-        }
-
-        super.openCreateNew(event);
     }
 
     public loadChildren(){
@@ -94,14 +82,9 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
 
-    public openCustomCreate(){
-        this.newDashboardType = DashboardType.createFunction;
-        super.openCreateNew();        
-    }
-
-    public openQuickstart() {
-        this.newDashboardType = DashboardType.functionQuickstart;
-        super.openCreateNew();
+    public openCreateDashboard(dashboardType : DashboardType){
+        this.newDashboardType = dashboardType;
+        this.openCreateNew();
     }
 
     public dispose(newSelectedNode? : TreeNode){
@@ -119,7 +102,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
     private _updateTreeForStartedSite(){
         this.title = this.sideNav.translateService.instant(PortalResources.sidebar_Functions);
-        this.newDashboardType = DashboardType.functionQuickstart;
+        this.newDashboardType = DashboardType.createFunctionAutoDetect;
         this.showExpandIcon = true;
 
         if(this.parent.inSelectedTree){

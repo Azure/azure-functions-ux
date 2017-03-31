@@ -36,8 +36,6 @@ export class FunctionQuickstartComponent {
     bc: BindingManager = new BindingManager();
 
     public functionApp: FunctionApp;
-    public useQuickstartAsDefault : boolean;
-    public static storageKey = '/functions/quickstart';
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo>();
 
@@ -68,9 +66,6 @@ export class FunctionQuickstartComponent {
         .subscribe(fcs =>{
             this._globalStateService.clearBusyState();
             this.functionsInfo = fcs;
-
-            let quickstart = <QuickstartSettings>this.functionsNode.sideNav.localStorageService.getItem(FunctionQuickstartComponent.storageKey);
-            this.useQuickstartAsDefault = !quickstart || !quickstart.disabled;            
         })
     }
 
@@ -147,7 +142,7 @@ export class FunctionQuickstartComponent {
 
     createFromScratch() {
         let functionsNode = this.functionsNode;
-        functionsNode.openCustomCreate();
+        functionsNode.openCreateDashboard(DashboardType.createFunction);
     }
 
     startFromSC() {
@@ -159,13 +154,5 @@ export class FunctionQuickstartComponent {
             }
         },
         "intro");
-    }
-
-    changeDefault(clickEvent : any){
-        let enabled = clickEvent.srcElement.checked;
-        this._localStorageService.setItem(FunctionQuickstartComponent.storageKey, <QuickstartSettings>{
-            id : FunctionQuickstartComponent.storageKey,
-            disabled : !enabled
-        });
     }
 }

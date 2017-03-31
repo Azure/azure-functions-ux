@@ -37,7 +37,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public resourceGroup : string;
     public location : string;
 
-    public functionAppStream = new ReplaySubject(1);
+    public functionAppStream = new ReplaySubject<FunctionApp>(1);
     private _functionApp : FunctionApp;
     public openFunctionSettingsTab = false;
 

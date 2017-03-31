@@ -92,6 +92,7 @@ import { ApiNewComponent } from './api-new/api-new.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
+import { CreateFunctionWrapperComponent } from './create-function-wrapper/create-function-wrapper.component';
 
 @NgModule({
     declarations: [
@@ -164,6 +165,7 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
         FunctionsListComponent,
         ProxiesListComponent,
         DisabledDashboardComponent,
+        CreateFunctionWrapperComponent,
     ],
     imports: [
         FormsModule,
