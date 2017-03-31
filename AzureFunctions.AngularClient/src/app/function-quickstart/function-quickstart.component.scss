@@ -114,13 +114,15 @@
 	width: 35px;
 	height: 35px;
     margin: auto;
-    transform: translateY(-50%);
     padding-top: 3px;
+    position: relative;
+    top: -33px;
 }
 
 #quickstart-footer{
     padding: 16px 25px 25px 25px;
     color: $body-bg-color;
+    background-color: $qs-footer-bg-color;
 
     .text-main2-heading{
         margin-top: 0px;
