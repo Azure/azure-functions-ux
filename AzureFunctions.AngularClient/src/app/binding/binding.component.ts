@@ -160,7 +160,7 @@ export class BindingComponent{
             }
 
             this.model.actions = [];
-            if (!this.newFunction && bindingSchema.actions) {                
+            if (!this.newFunction && bindingSchema && bindingSchema.actions) {
                 bindingSchema.actions.forEach((a) => {
                     if (a.templateId) {
                         this.model.actions.push(a);
@@ -353,7 +353,7 @@ export class BindingComponent{
                                 });
                                 //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
                                 setTimeout(() => this.model.orderInputs(), 0);
-                                
+
 
                             };
                             if (isHidden) {
@@ -392,7 +392,7 @@ export class BindingComponent{
                 this.model.documentation = marked(bindingSchema.documentation);
                 this.setStorageInformation(selectedStorage);
             }
-        });        
+        });
     }
 
     removeClicked() {
@@ -452,14 +452,14 @@ export class BindingComponent{
             }
 
             if (setting && setting.name === "route") {
-                if (setting.value && setting.value.charAt(0) == "/") { 
+                if (setting.value && setting.value.charAt(0) == "/") {
                     setting.value = setting.value.substr(1);
                 }
             }
         });
 
         this.bindingValue.settings.forEach((setting) => {
-            
+
         });
 
         this.setLabel();
