@@ -1586,7 +1586,7 @@ export class FunctionApp {
                                 let config = r.json().properties;
                                 let cors: { allowedOrigins: string[] } = <any>config['cors'];
                                 let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
-                                    ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
+                                    ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin || o === '*')
                                     : false;
                                 if (!isConfigured) {
                                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
