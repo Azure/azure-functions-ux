@@ -57,7 +57,13 @@ ul {
     color: #539CF6;
 }
 
-
+.btn-disabled {
+    border: 1px solid transparent; 
+    outline: none;
+    background-color: lightgray;
+    cursor: not-allowed;        
+    color: #fff;
+}
 
 .column {
     flex-direction: column;

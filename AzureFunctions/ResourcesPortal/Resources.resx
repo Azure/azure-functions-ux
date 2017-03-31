@@ -1232,7 +1232,7 @@
     <value>API Definition Source</value>
   </data>
   <data name="swaggerDefinition_subtitle" xml:space="preserve">
-    <value>Consume your HTTP triggered Functions in a variety of services using an Open API 2.0 (Swagger) definition</value>
+    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
   </data>
   <data name="swaggerDefinition_title" xml:space="preserve">
     <value>Function API Definition (Swagger)</value>
