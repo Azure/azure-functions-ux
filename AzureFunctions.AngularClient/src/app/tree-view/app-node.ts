@@ -278,6 +278,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                             this._functionApp.getHostErrors().catch(e => Observable.of([])),
                             this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                             this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
+                            this._functionApp.pingScmSite(),
                             (e : string[], c : Response, a : Response) => ({ errors: e, configResponse: c, appSettingResponse : a }))
                     })
                     .catch(e => Observable.of({}))

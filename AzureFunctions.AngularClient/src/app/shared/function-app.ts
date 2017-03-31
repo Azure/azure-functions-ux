@@ -1347,6 +1347,15 @@ export class FunctionApp {
             });
     }
 
+    /**
+     * This method just pings the room of the SCM site. It doesn't care about the response in anyway or use it.
+     */
+    pingScmSite() {
+        return this._cacheService.get(this._scmUrl, true, this.getScmSiteHeaders())
+            .map(_ => null)
+            .catch(e => Observable.of(null));
+    }
+
     private getExtensionVersion(){
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`)
         .map(r =>{
