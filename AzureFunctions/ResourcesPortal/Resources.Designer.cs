@@ -349,6 +349,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        internal static string available {
+            get {
+                return ResourceManager.GetString("available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure Functions.
         /// </summary>
         internal static string azureFunctions {
@@ -853,7 +862,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick links to your features will show up here after you&apos;ve configured them from the &quot;Features&quot; tab above..
+        ///   Looks up a localized string similar to Quick links to your features will show up here after you&apos;ve configured them from the &quot;Platform features&quot; tab above..
         /// </summary>
         internal static string enabledFeatures_description {
             get {
@@ -1168,7 +1177,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure who has access to your app.
+        ///   Looks up a localized string similar to Configure Role-Based Access Control (RBAC) for your app..
         /// </summary>
         internal static string feature_accessControlInfo {
             get {
@@ -1186,7 +1195,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View historical information about operations being performed on your app.
+        ///   Looks up a localized string similar to View management operations that have been performed on your app..
         /// </summary>
         internal static string feature_activityLogInfo {
             get {
@@ -1204,7 +1213,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use an advanced set of tools to manage your app.
+        ///   Looks up a localized string similar to Use Kudu to inspect environment variables, access the debug console, upload zips, view processes, and more..
         /// </summary>
         internal static string feature_advancedToolsInfo {
             get {
@@ -1213,7 +1222,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced tools.
+        ///   Looks up a localized string similar to Advanced tools (Kudu).
         /// </summary>
         internal static string feature_advancedToolsName {
             get {
@@ -1222,7 +1231,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show all settings available to your app.
+        ///   Looks up a localized string similar to View all App Service settings..
         /// </summary>
         internal static string feature_allSettingsInfo {
             get {
@@ -1258,7 +1267,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more....
+        ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more..
         /// </summary>
         internal static string feature_applicationSettingsInfo {
             get {
@@ -1276,7 +1285,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit code directly on your app.
+        ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
         internal static string feature_appServiceEditorInfo {
             get {
@@ -1285,7 +1294,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App Service editor.
+        ///   Looks up a localized string similar to App Service Editor.
         /// </summary>
         internal static string feature_appServiceEditorName {
             get {
@@ -1294,7 +1303,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage the plan that your app is running on.
+        ///   Looks up a localized string similar to An App Service plan is the container for your app. The App Service plan settings will determine the location, features, cost and compute resources associated with your app..
         /// </summary>
         internal static string feature_appServicePlanInfo {
             get {
@@ -1303,7 +1312,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable and configure how users authenticate with your application.
+        ///   Looks up a localized string similar to Use Authentication / Authorization to protect your application and work with per-user data..
         /// </summary>
         internal static string feature_authInfo {
             get {
@@ -1321,7 +1330,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.
+        ///   Looks up a localized string similar to Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code..
         /// </summary>
         internal static string feature_automationScriptInfo {
             get {
@@ -1339,7 +1348,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage backups for the content of your app..
+        ///   Looks up a localized string similar to Use Backup and Restore to easily create automatic or manual backups..
         /// </summary>
         internal static string feature_backupsInfo {
             get {
@@ -1366,7 +1375,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explore your apps file system from an interactive web-based console.
+        ///   Looks up a localized string similar to Explore your app&apos;s file system from an interactive web-based console..
         /// </summary>
         internal static string feature_consoleInfo {
             get {
@@ -1384,7 +1393,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Cross-Origin Resource Sharing (CORS) rules for your app.
+        ///   Looks up a localized string similar to Configure Cross-Origin Resource Sharing (CORS) rules for your app..
         /// </summary>
         internal static string feature_corsInfo {
             get {
@@ -1393,7 +1402,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Purchase custom domains and add them to your app.
+        ///   Looks up a localized string similar to Configure and purchase custom domain names..
         /// </summary>
         internal static string feature_customDomainsInfo {
             get {
@@ -1411,7 +1420,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set your account-level (not app-level) deployment credentials.  To change your app-level credentials (aka &apos;Publish Credentials&apos;), go to the &apos;Overview&apos; tab and choose &apos;Reset&apos;..
+        ///   Looks up a localized string similar to Configure Azure account-level deployment credentials. To change your app-level credentials (also known as &apos;Publish Credentials&apos;), choose &apos;Reset publish credentials&apos; in the &apos;Overview&apos; tab. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=846056&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
         internal static string feature_deploymentCredsInfo {
             get {
@@ -1429,7 +1438,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set up and manage deployments to your app from VSTS, OneDrive, GitHub, BitBucket, or DropBox.
+        ///   Looks up a localized string similar to Configure and manage deployment options for your app, including continuous deployment form VSTS, Github and Bitbucket as well as trigger deployments form OneDrive, Dropbox, external Git and more..
         /// </summary>
         internal static string feature_deploymentSourceInfo {
             get {
@@ -1438,7 +1447,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deployment source.
+        ///   Looks up a localized string similar to Deployment options.
         /// </summary>
         internal static string feature_deploymentSourceName {
             get {
@@ -1456,7 +1465,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure where and when to log application or server events.
+        ///   Looks up a localized string similar to Configure where and when to log application and server events..
         /// </summary>
         internal static string feature_diagnosticLogsInfo {
             get {
@@ -1474,7 +1483,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extend the management capability of your app by installing add-ons.
+        ///   Looks up a localized string similar to Extensions add functionality to your entire app..
         /// </summary>
         internal static string feature_extensionsInfo {
             get {
@@ -1501,7 +1510,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lock down what types of operations may be performed on your app.
+        ///   Looks up a localized string similar to Lock resources to prevent unexpected changes or deletions..
         /// </summary>
         internal static string feature_locksInfo {
             get {
@@ -1519,7 +1528,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View logs being generated from your application in real-time..
+        ///   Looks up a localized string similar to View real-time application logs..
         /// </summary>
         internal static string feature_logStreamingInfo {
             get {
@@ -1546,7 +1555,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage VNET and Hybrid connections for your app.
+        ///   Looks up a localized string similar to Securely access resources through VNET Integration and Hybrid Connections..
         /// </summary>
         internal static string feature_networkingInfo {
             get {
@@ -1564,7 +1573,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Examine details about your application processes, memory usage, and CPU utilization..
+        ///   Looks up a localized string similar to View details on application processes, memory usage, and CPU utilization..
         /// </summary>
         internal static string feature_processExplorerInfo {
             get {
@@ -1582,7 +1591,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get general information about your app.
+        ///   Looks up a localized string similar to View properties of your app..
         /// </summary>
         internal static string feature_propertiesInfo {
             get {
@@ -1600,7 +1609,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enables you to send fast, scalable, and cross-platform mobile push notifications utilizing Notification Hubs.
+        ///   Looks up a localized string similar to Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs..
         /// </summary>
         internal static string feature_pushNotificationsInfo {
             get {
@@ -1618,7 +1627,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monitor file system usage quotas.
+        ///   Looks up a localized string similar to Monitor file system usage quotas..
         /// </summary>
         internal static string feature_quotasInfo {
             get {
@@ -1636,7 +1645,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explorer the Azure ResourceManager API to manage your app.
+        ///   Looks up a localized string similar to Explore management APIs with Azure Resource Explorer (preview)..
         /// </summary>
         internal static string feature_resourceExplorerInfo {
             get {
@@ -1645,7 +1654,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explorer the API.
+        ///   Looks up a localized string similar to Resource Explorer.
         /// </summary>
         internal static string feature_resourceExplorerName {
             get {
@@ -1663,7 +1672,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable security scanning for your app powered by Tinfoil Security.
+        ///   Looks up a localized string similar to Enable security scanning for your app with Tinfoil Security..
         /// </summary>
         internal static string feature_securityScanningInfo {
             get {
@@ -1681,7 +1690,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload or import an existing certificate to configure SSL bindings for your app.
+        ///   Looks up a localized string similar to Configure SSL bindings for your app using either a certificate you purchased externally or an App Service Certificate..
         /// </summary>
         internal static string feature_sslInfo {
             get {
@@ -1690,7 +1699,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage tags that are associated with your app.
+        ///   Looks up a localized string similar to Tags are key/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups. .
         /// </summary>
         internal static string feature_tagsInfo {
             get {
@@ -1708,7 +1717,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must have read permissions on the associated App Service plan in order to use this feature.
+        ///   Looks up a localized string similar to You must have Read permissions on the associated App Service plan in order to use this feature.
         /// </summary>
         internal static string featureDisabledNoPermissionToPlan {
             get {
@@ -1902,15 +1911,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionApps {
             get {
                 return ResourceManager.GetString("functionApps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All Function Apps.
-        /// </summary>
-        internal static string functionAppsAll {
-            get {
-                return ResourceManager.GetString("functionAppsAll", resourceCulture);
             }
         }
         
@@ -2797,7 +2797,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2) Choose a language:.
+        ///   Looks up a localized string similar to 2. Choose a language.
         /// </summary>
         internal static string intro_chooseLanguage {
             get {
@@ -2806,7 +2806,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1) Choose a scenario:.
+        ///   Looks up a localized string similar to 1. Choose a scenario.
         /// </summary>
         internal static string intro_chooseScenario {
             get {
@@ -2824,11 +2824,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create your own custom function.
+        ///   Looks up a localized string similar to create your own custom function.
         /// </summary>
         internal static string intro_createYourOwn {
             get {
                 return ResourceManager.GetString("intro_createYourOwn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom function.
+        /// </summary>
+        internal static string intro_customFunction {
+            get {
+                return ResourceManager.GetString("intro_customFunction", resourceCulture);
             }
         }
         
@@ -2842,7 +2851,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to Azure Functions! Get started quickly with a premade function..
+        ///   Looks up a localized string similar to Get started quickly with a premade function.
         /// </summary>
         internal static string intro_getStarted {
             get {
@@ -2851,7 +2860,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Or get started on your own.
+        ///   Looks up a localized string similar to Get started on your own.
         /// </summary>
         internal static string intro_getStartedOn {
             get {
@@ -2860,11 +2869,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you&apos;d prefer another supported language, choose.
+        ///   Looks up a localized string similar to For F#, PowerShell, Python, and Batch,.
         /// </summary>
         internal static string intro_ifYou {
             get {
                 return ResourceManager.GetString("intro_ifYou", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep using this quickstart.
+        /// </summary>
+        internal static string intro_keepUsingQuickstart {
+            get {
+                return ResourceManager.GetString("intro_keepUsingQuickstart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to or.
+        /// </summary>
+        internal static string intro_or {
+            get {
+                return ResourceManager.GetString("intro_or", resourceCulture);
             }
         }
         
@@ -2905,7 +2932,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to start from source control..
+        ///   Looks up a localized string similar to Start from source control.
         /// </summary>
         internal static string intro_startSC {
             get {
@@ -3072,6 +3099,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string next {
             get {
                 return ResourceManager.GetString("next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No access.
+        /// </summary>
+        internal static string noAccess {
+            get {
+                return ResourceManager.GetString("noAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results.
+        /// </summary>
+        internal static string noResults {
+            get {
+                return ResourceManager.GetString("noResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not applicable.
+        /// </summary>
+        internal static string notApplicable {
+            get {
+                return ResourceManager.GetString("notApplicable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        internal static string notAvailable {
+            get {
+                return ResourceManager.GetString("notAvailable", resourceCulture);
             }
         }
         
@@ -3310,7 +3373,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Functions (No Access).
+        ///   Looks up a localized string similar to Functions (No access).
         /// </summary>
         internal static string sideNav_FunctionsNoAccess {
             get {
@@ -3319,7 +3382,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Functions (ReadOnly Lock).
+        ///   Looks up a localized string similar to Functions (ReadOnly lock).
         /// </summary>
         internal static string sideNav_FunctionsReadOnlyLock {
             get {
@@ -3333,6 +3396,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string sideNav_FunctionsStopped {
             get {
                 return ResourceManager.GetString("sideNav_FunctionsStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxies (No access).
+        /// </summary>
+        internal static string sideNav_ProxiesNoAccess {
+            get {
+                return ResourceManager.GetString("sideNav_ProxiesNoAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxies (ReadOnly lock).
+        /// </summary>
+        internal static string sideNav_ProxiesReadOnlyLock {
+            get {
+                return ResourceManager.GetString("sideNav_ProxiesReadOnlyLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proxies (Stopped).
+        /// </summary>
+        internal static string sideNav_ProxiesStopped {
+            get {
+                return ResourceManager.GetString("sideNav_ProxiesStopped", resourceCulture);
             }
         }
         
@@ -3360,6 +3450,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string siteDashboard_getAppError {
             get {
                 return ResourceManager.GetString("siteDashboard_getAppError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_deleteConfirmation {
+            get {
+                return ResourceManager.GetString("siteSummary_deleteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid..
+        /// </summary>
+        internal static string siteSummary_resetProfileConfirmation {
+            get {
+                return ResourceManager.GetString("siteSummary_resetProfileConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you would like to restart &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_restartConfirmation {
+            get {
+                return ResourceManager.GetString("siteSummary_restartConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you would like to stop &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopConfirmation {
+            get {
+                return ResourceManager.GetString("siteSummary_stopConfirmation", resourceCulture);
             }
         }
         
@@ -3409,7 +3535,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subscription.
+        ///   Looks up a localized string similar to Subscription ID.
         /// </summary>
         internal static string subscription {
             get {
@@ -3418,7 +3544,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subscription name.
+        ///   Looks up a localized string similar to Subscription.
         /// </summary>
         internal static string subscriptionName {
             get {
@@ -3675,6 +3801,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string trigger {
             get {
                 return ResourceManager.GetString("trigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Managing your Function app is not available for this trial..
+        /// </summary>
+        internal static string try_appDisabled {
+            get {
+                return ResourceManager.GetString("try_appDisabled", resourceCulture);
             }
         }
         

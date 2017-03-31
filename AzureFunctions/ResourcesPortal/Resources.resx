@@ -1053,7 +1053,7 @@
   </data>
   <data name="notAvailable" xml:space="preserve">
     <value>Not available</value>
-  </data>  
+  </data>
   <data name="enabledFeatures_header" xml:space="preserve">
     <value>Configured features</value>
   </data>
@@ -1088,55 +1088,55 @@
     <value>This feature is disabled because the app has a ReadOnly lock on it</value>
   </data>
   <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
-    <value>You must have read permissions on the associated App Service plan in order to use this feature</value>
+    <value>You must have Read permissions on the associated App Service plan in order to use this feature</value>
   </data>
   <data name="feature_deploymentSourceName" xml:space="preserve">
-    <value>Deployment source</value>
+    <value>Deployment options</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Set up and manage deployments to your app from VSTS, OneDrive, GitHub, BitBucket, or DropBox</value>
+    <value>Configure and manage deployment options for your app, including continuous deployment form VSTS, Github and Bitbucket as well as trigger deployments form OneDrive, Dropbox, external Git and more.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Deployment credentials</value>
   </data>
   <data name="feature_deploymentCredsInfo" xml:space="preserve">
-    <value>Set your account-level (not app-level) deployment credentials.  To change your app-level credentials (aka 'Publish Credentials'), go to the 'Overview' tab and choose 'Reset'.</value>
+    <value>Configure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="feature_consoleName" xml:space="preserve">
     <value>Console</value>
   </data>
   <data name="feature_consoleInfo" xml:space="preserve">
-    <value>Explore your apps file system from an interactive web-based console</value>
+    <value>Explore your app's file system from an interactive web-based console.</value>
   </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
-    <value>Extend the management capability of your app by installing add-ons</value>
+    <value>Extensions add functionality to your entire app.</value>
   </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
-    <value>Manage app settings, connection strings, runtime settings, and more...</value>
+    <value>Manage app settings, connection strings, runtime settings, and more.</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>
   </data>
   <data name="feature_propertiesInfo" xml:space="preserve">
-    <value>Get general information about your app</value>
+    <value>View properties of your app.</value>
   </data>
   <data name="feature_backupsName" xml:space="preserve">
     <value>Backups</value>
   </data>
   <data name="feature_backupsInfo" xml:space="preserve">
-    <value>Manage backups for the content of your app.</value>
+    <value>Use Backup and Restore to easily create automatic or manual backups.</value>
   </data>
   <data name="feature_allSettingsName" xml:space="preserve">
     <value>All settings</value>
   </data>
   <data name="feature_allSettingsInfo" xml:space="preserve">
-    <value>Show all settings available to your app</value>
+    <value>View all App Service settings.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>General Settings</value>
@@ -1151,58 +1151,58 @@
     <value>Networking</value>
   </data>
   <data name="feature_networkingInfo" xml:space="preserve">
-    <value>Manage VNET and Hybrid connections for your app</value>
+    <value>Securely access resources through VNET Integration and Hybrid Connections.</value>
   </data>
   <data name="feature_sslInfo" xml:space="preserve">
-    <value>Upload or import an existing certificate to configure SSL bindings for your app</value>
+    <value>Configure SSL bindings for your app using either a certificate you purchased externally or an App Service Certificate.</value>
   </data>
   <data name="feature_customDomainsName" xml:space="preserve">
     <value>Custom domains</value>
   </data>
   <data name="feature_customDomainsInfo" xml:space="preserve">
-    <value>Purchase custom domains and add them to your app</value>
+    <value>Configure and purchase custom domain names.</value>
   </data>
   <data name="feature_authName" xml:space="preserve">
     <value>Authentication / Authorization</value>
   </data>
   <data name="feature_authInfo" xml:space="preserve">
-    <value>Enable and configure how users authenticate with your application</value>
+    <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Push notifications</value>
   </data>
   <data name="feature_pushNotificationsInfo" xml:space="preserve">
-    <value>Enables you to send fast, scalable, and cross-platform mobile push notifications utilizing Notification Hubs</value>
+    <value>Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs.</value>
   </data>
   <data name="feature_diagnosticLogsName" xml:space="preserve">
     <value>Diagnostic logs</value>
   </data>
   <data name="feature_diagnosticLogsInfo" xml:space="preserve">
-    <value>Configure where and when to log application or server events</value>
+    <value>Configure where and when to log application and server events.</value>
   </data>
   <data name="feature_logStreamingName" xml:space="preserve">
     <value>Log streaming</value>
   </data>
   <data name="feature_logStreamingInfo" xml:space="preserve">
-    <value>View logs being generated from your application in real-time.</value>
+    <value>View real-time application logs.</value>
   </data>
   <data name="feature_processExplorerName" xml:space="preserve">
     <value>Process explorer</value>
   </data>
   <data name="feature_processExplorerInfo" xml:space="preserve">
-    <value>Examine details about your application processes, memory usage, and CPU utilization.</value>
+    <value>View details on application processes, memory usage, and CPU utilization.</value>
   </data>
   <data name="feature_securityScanningName" xml:space="preserve">
     <value>Security scanning</value>
   </data>
   <data name="feature_securityScanningInfo" xml:space="preserve">
-    <value>Enable security scanning for your app powered by Tinfoil Security</value>
+    <value>Enable security scanning for your app with Tinfoil Security.</value>
   </data>
   <data name="feature_monitoring" xml:space="preserve">
     <value>Monitoring</value>
   </data>
   <data name="feature_corsInfo" xml:space="preserve">
-    <value>Configure Cross-Origin Resource Sharing (CORS) rules for your app</value>
+    <value>Configure Cross-Origin Resource Sharing (CORS) rules for your app.</value>
   </data>
   <data name="feature_apiDefinitionName" xml:space="preserve">
     <value>API definition</value>
@@ -1211,64 +1211,64 @@
     <value>Configure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API.</value>
   </data>
   <data name="feature_appServicePlanInfo" xml:space="preserve">
-    <value>Manage the plan that your app is running on</value>
+    <value>An App Service plan is the container for your app. The App Service plan settings will determine the location, features, cost and compute resources associated with your app.</value>
   </data>
   <data name="feature_quotasName" xml:space="preserve">
     <value>Quotas</value>
   </data>
   <data name="feature_quotasInfo" xml:space="preserve">
-    <value>Monitor file system usage quotas</value>
+    <value>Monitor file system usage quotas.</value>
   </data>
   <data name="feature_activityLogName" xml:space="preserve">
     <value>Activity log</value>
   </data>
   <data name="feature_activityLogInfo" xml:space="preserve">
-    <value>View historical information about operations being performed on your app</value>
+    <value>View management operations that have been performed on your app.</value>
   </data>
   <data name="feature_accessControlName" xml:space="preserve">
     <value>Access control (IAM)</value>
   </data>
   <data name="feature_accessControlInfo" xml:space="preserve">
-    <value>Configure who has access to your app</value>
+    <value>Configure Role-Based Access Control (RBAC) for your app.</value>
   </data>
   <data name="feature_tagsName" xml:space="preserve">
     <value>Tags</value>
   </data>
   <data name="feature_tagsInfo" xml:space="preserve">
-    <value>Manage tags that are associated with your app</value>
+    <value>Tags are key/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups. </value>
   </data>
   <data name="feature_locksName" xml:space="preserve">
     <value>Locks</value>
   </data>
   <data name="feature_locksInfo" xml:space="preserve">
-    <value>Lock down what types of operations may be performed on your app</value>
+    <value>Lock resources to prevent unexpected changes or deletions.</value>
   </data>
   <data name="feature_automationScriptName" xml:space="preserve">
     <value>Automation script</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
-    <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code</value>
+    <value>Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code.</value>
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resource management</value>
   </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
-    <value>Advanced tools</value>
+    <value>Advanced tools (Kudu)</value>
   </data>
   <data name="feature_advancedToolsInfo" xml:space="preserve">
-    <value>Use an advanced set of tools to manage your app</value>
+    <value>Use Kudu to inspect environment variables, access the debug console, upload zips, view processes, and more.</value>
   </data>
   <data name="feature_appServiceEditorName" xml:space="preserve">
-    <value>App Service editor</value>
+    <value>App Service Editor</value>
   </data>
   <data name="feature_appServiceEditorInfo" xml:space="preserve">
-    <value>Edit code directly on your app</value>
+    <value>App Service Editor provides an in-browser editing experience for your code.</value>
   </data>
   <data name="feature_resourceExplorerName" xml:space="preserve">
-    <value>Explorer the API</value>
+    <value>Resource Explorer</value>
   </data>
   <data name="feature_resourceExplorerInfo" xml:space="preserve">
-    <value>Explorer the Azure ResourceManager API to manage your app</value>
+    <value>Explore management APIs with Azure Resource Explorer (preview).</value>
   </data>
   <data name="featureEnabled_cors" xml:space="preserve">
     <value>CORS Rules ({0} defined)</value>
