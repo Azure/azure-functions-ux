@@ -151,7 +151,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
-                    : {name: this.fileName, href: res.functionInfo.script_href, mime: 'file'};
+                    : {name: this.fileName, href: href, mime: 'file'};
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
