@@ -36,14 +36,14 @@ hr.tree-node-separator{
 
 // Styles for regular nodes
 .tree-node{
-    height: 32px;
+    height: 34px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     position: relative;
+    padding-top: 4px;
 
     .tree-node-content{
-        position: relative;
         top: 2px;
 
         .fa.fa-caret-right, .fa.fa-caret-down{
@@ -86,11 +86,11 @@ hr.tree-node-separator{
 }
 
 .tree-node-menu{
-    float: right;
-    margin-top: 2px;
     margin-right: 10px;
     font-size: 20px;
     color: $primary-color;
+    position: absolute;
+    right: 5px;
 
     i{
         margin-left: 5px;
