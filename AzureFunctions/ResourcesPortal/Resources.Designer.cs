@@ -979,6 +979,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_unableToCreateSwaggerKey {
+            get {
+                return ResourceManager.GetString("error_unableToCreateSwaggerKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094.
         /// </summary>
         internal static string error_unableToDecryptKeys {
@@ -1015,11 +1024,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_unableToDeleteSwaggerData {
+            get {
+                return ResourceManager.GetString("error_unableToDeleteSwaggerData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We are not able to get the content for {{fileName}}. Please try again later..
         /// </summary>
         internal static string error_unableToGetFileContentFromKudu {
             get {
                 return ResourceManager.GetString("error_unableToGetFileContentFromKudu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_unableToGetSystemKey {
+            get {
+                return ResourceManager.GetString("error_unableToGetSystemKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_unableToloadGeneratedAPIDefinition {
+            get {
+                return ResourceManager.GetString("error_unableToloadGeneratedAPIDefinition", resourceCulture);
             }
         }
         
@@ -1128,6 +1164,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string error_unableToUpdateFunction {
             get {
                 return ResourceManager.GetString("error_unableToUpdateFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to update the runtime config. Please try again later..
+        /// </summary>
+        internal static string error_unableToUpdateRuntimeConfig {
+            get {
+                return ResourceManager.GetString("error_unableToUpdateRuntimeConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to update the API definition. Please check the runtime logs for any errors or try again later..
+        /// </summary>
+        internal static string error_unableToUpdateSwaggerData {
+            get {
+                return ResourceManager.GetString("error_unableToUpdateSwaggerData", resourceCulture);
             }
         }
         
@@ -3634,6 +3688,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to stop app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully stopped app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source.
         /// </summary>
         internal static string source {
@@ -3702,6 +3783,204 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string supportRequest {
             get {
                 return ResourceManager.GetString("supportRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse.
+        /// </summary>
+        internal static string swaggerDefinition_collapse {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_collapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete your API definition?.
+        /// </summary>
+        internal static string swaggerDefinition_delete {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        internal static string swaggerDefinition_documentation {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_documentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand.
+        /// </summary>
+        internal static string swaggerDefinition_expand {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_expand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External URL.
+        /// </summary>
+        internal static string swaggerDefinition_external {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_external", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read the feature overview.
+        /// </summary>
+        internal static string swaggerDefinition_feature_overview {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_feature_overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check out our getting started tutorial.
+        /// </summary>
+        internal static string swaggerDefinition_getting_started {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_getting_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function.
+        /// </summary>
+        internal static string swaggerDefinition_internal {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_internal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API definition key.
+        /// </summary>
+        internal static string swaggerDefinition_key {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load API definition.
+        /// </summary>
+        internal static string swaggerDefinition_loadDefinition {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_loadDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate API definition template.
+        /// </summary>
+        internal static string swaggerDefinition_loadGeneratedDefinition {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_loadGeneratedDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Power Apps + Flow.
+        /// </summary>
+        internal static string swaggerDefinition_powerAppsFlow {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_powerAppsFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot save malformed API definition..
+        /// </summary>
+        internal static string swaggerDefinition_prompt {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renew.
+        /// </summary>
+        internal static string swaggerDefinition_renew {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_renew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Revert to last save.
+        /// </summary>
+        internal static string swaggerDefinition_revert {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_revert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set external definition URL.
+        /// </summary>
+        internal static string swaggerDefinition_setExternal {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_setExternal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API definition source.
+        /// </summary>
+        internal static string swaggerDefinition_source {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition.
+        /// </summary>
+        internal static string swaggerDefinition_subtitle {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function API definition (Swagger).
+        /// </summary>
+        internal static string swaggerDefinition_title {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API definition URL.
+        /// </summary>
+        internal static string swaggerDefinition_url {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use your API definition.
+        /// </summary>
+        internal static string swaggerDefinition_useAPIdefinition {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_useAPIdefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API definition (preview).
+        /// </summary>
+        internal static string tab_api_definition {
+            get {
+                return ResourceManager.GetString("tab_api_definition", resourceCulture);
             }
         }
         
