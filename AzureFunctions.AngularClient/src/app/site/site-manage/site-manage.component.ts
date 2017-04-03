@@ -480,7 +480,9 @@ export class SiteManageComponent {
                 {
                     detailBlade : "EventsBrowseBlade",
                     detailBladeInputs : {
-                        id : site.id
+                        queryInputs : {
+                            id : site.id
+                        }
                     },
                     extension : "Microsoft_Azure_Monitoring"
                 },
