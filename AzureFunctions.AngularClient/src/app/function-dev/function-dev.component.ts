@@ -414,11 +414,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     saveScript(dontClearBusy?: boolean) {
         // Only save if the file is dirty
-        if (!this.scriptFile.isDirty) return;
+        if (!this.scriptFile.isDirty) {
+             return;
+        }
+        let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {
                 this._bindingManager.validateConfig(JSON.parse(this.updatedContent), this._translateService);
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
+                syncTriggers = true;
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
@@ -436,14 +440,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
-                if (!dontClearBusy)
+                if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
+                }
                 if (typeof r !== 'string' && r.isDirty) {
                     r.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
                     this._portalService.setDirtyState(false);
                 }
                 this.content = this.updatedContent;
+                if (syncTriggers) {
+                    this.functionApp.fireSyncTrigger();
+                }
             });
     }
 
