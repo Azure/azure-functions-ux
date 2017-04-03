@@ -122,7 +122,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             url = this._getArmSearchUrl(term, subsBatch, nextLink);
         }
 
-        return this.sideNav.cacheService.get(url)
+        return this.sideNav.cacheService.get(url, false, null, true)
         .catch(e =>{
             let err = e && e.json && e.json().error;
 

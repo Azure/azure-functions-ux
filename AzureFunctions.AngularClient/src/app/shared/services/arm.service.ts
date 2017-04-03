@@ -44,6 +44,7 @@ export class ArmService {
     public static availabilityApiVersion = '2015-01-01';
 
     private _initialized = false;
+    private _invokeId = 100;
 
     constructor(private _http: Http,
         private _configService: ConfigService,
@@ -81,12 +82,22 @@ export class ArmService {
         .map<Subscription[]>(r => r.json().value);
     }
 
-    send(method : string, url : string, body? : any, etag? : string, headers? : Headers){
+    send(method : string, url : string, body? : any, etag? : string, headers? : Headers, invokeApi? : boolean){
+
+        headers = headers ? headers : this._getHeaders(etag);
+
+        if(invokeApi){
+            let pathAndQuery = url.slice(this.armUrl.length);
+            pathAndQuery = encodeURI(pathAndQuery);
+            headers.append('x-ms-path-query', pathAndQuery);
+            url = `${this.armUrl}/api/invoke?_=${this._invokeId++}`;
+        }
+
         let request = new Request({
             url : url,
             method : method,
             search : null,
-            headers :  headers ? headers : this._getHeaders(etag),
+            headers :  headers,
             body : body ? body : null
 
         });

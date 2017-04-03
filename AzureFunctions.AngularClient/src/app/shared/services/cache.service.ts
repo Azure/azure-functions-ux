@@ -32,9 +32,9 @@ export class CacheService {
         setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
     }
 
-    getArm(resourceId : string, force? : boolean, apiVersion? : string) : Observable<Response>{
+    getArm(resourceId : string, force? : boolean, apiVersion? : string, invokeApi? : boolean) : Observable<Response>{
         let url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "GET", force);
+        return this._send(url, "GET", force, null, null, invokeApi);
     }
 
     postArm(resourceId : string, force? : boolean, apiVersion? : string) : Observable<Response>{
@@ -53,8 +53,8 @@ export class CacheService {
         });
     }
 
-    get(url : string, force? : boolean, headers? : Headers){
-        return this._send(url, "GET", force, headers);
+    get(url : string, force? : boolean, headers? : Headers, invokeApi? : boolean){
+        return this._send(url, "GET", force, headers, null, invokeApi);
     }
 
     post(url : string, force? : boolean, headers? : Headers, content? : any){
@@ -124,7 +124,8 @@ export class CacheService {
         method : string,
         force : boolean,
         headers? : Headers,
-        content? : any) {
+        content? : any,
+        invokeApi? : boolean) {
 
         let key = url.toLowerCase();
 
@@ -150,7 +151,7 @@ export class CacheService {
                 headers.append('If-None-Match', etag);
             }
 
-            let responseObs = this._armService.send(method, url, content, etag, headers)
+            let responseObs = this._armService.send(method, url, content, etag, headers, invokeApi)
             .map(response =>{
                 return this._mapAndCacheResponse(response, key);
             })
