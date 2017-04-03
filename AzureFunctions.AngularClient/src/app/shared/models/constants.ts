@@ -48,3 +48,8 @@ export class AvailabilityStates{
     // Not entirely sure what this means, but it seems to be synonymous with unavailable
     public static userinitiated = "userinitiated";
 }
+
+export class NotificationIds{
+    public static alwaysOn = "alwaysOn";
+    public static newRuntimeVersion = "newRuntimeVersion";
+}

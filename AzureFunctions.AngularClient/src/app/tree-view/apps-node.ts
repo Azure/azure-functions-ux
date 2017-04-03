@@ -194,7 +194,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         this._removeHelper(removeIndex, callRemoveOnChild);
         this.childrenStream.next(<AppNode[]>this.children);
-        this.sideNav.cacheService.clearCachePrefix(`${this.sideNav.armService.armUrl}/resources`);
+        this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
     }
 
     private _getArmCacheUrl(subs: Subscription[], nextLink : string, type1 : string, type2? : string){

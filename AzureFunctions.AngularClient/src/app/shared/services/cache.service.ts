@@ -66,9 +66,16 @@ export class CacheService {
         this._cache = new Cache();
     }
 
+    clearArmIdCachePrefix(armIdPrefix : string){
+        let prefix = `${this._armService.armUrl}${armIdPrefix}`;
+        this.clearCachePrefix(prefix);
+    }
+
     clearCachePrefix(prefix : string){
+        prefix = prefix.toLowerCase();
+
         for(let key in this._cache){
-            if(key.startsWith(prefix.toLowerCase()) && this._cache.hasOwnProperty(key)){
+            if(key.startsWith(prefix) && this._cache.hasOwnProperty(key)){
                 delete this._cache[key];
             }
         }

@@ -1,3 +1,4 @@
+import { NotificationIds } from './../../shared/models/constants';
 import { Response } from '@angular/http';
 import { LanguageService } from './../../shared/services/language.service';
 import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
@@ -74,7 +75,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
             return Observable.zip(
                 this._cacheService.getArm(viewInfo.resourceId),
-                this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`),
+                this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`, true),
                 this._appNode.functionAppStream,
                 (s: Response, a: Response, fa : FunctionApp) => ({ siteResponse: s, appsettingsResponse: a, functionApp: fa }))
 
@@ -147,7 +148,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this.needUpdateRoutingExtensionVersion = false;
                 this.routingExtensionVersion = Constants.routingExtensionVersion;
                 this._globalStateService.clearBusyState();
-                this._cacheService.clearCachePrefix(this.site.id);
+                this._cacheService.clearArmIdCachePrefix(this.site.id);
             });
     });
   }
@@ -191,7 +192,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .subscribe(r =>{
         this.needUpdateExtensionVersion = false;
         this._globalStateService.clearBusyState();
-        this._cacheService.clearCachePrefix(this.site.id);
+        this._cacheService.clearArmIdCachePrefix(this.site.id);
+        this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
       });
   }
 
@@ -206,7 +208,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           .subscribe(r => {
               this.needUpdateRoutingExtensionVersion  = false;
               this._globalStateService.clearBusyState();
-              this._cacheService.clearCachePrefix(this.site.id);
+              this._cacheService.clearArmIdCachePrefix(this.site.id);
       });
   }
 

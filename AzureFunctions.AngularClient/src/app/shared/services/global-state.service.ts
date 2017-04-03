@@ -9,7 +9,7 @@ import {BusyStateComponent} from '../../busy-state/busy-state.component';
 import {AiService} from './ai.service';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {FunctionsService} from './functions.service';
-import {Observable, Subscription as RxSubscription, BehaviorSubject, Subject} from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subject, ReplaySubject } from 'rxjs/Rx';
 
 @Injectable()
 export class GlobalStateService {
@@ -18,7 +18,7 @@ export class GlobalStateService {
     public showTopbar: boolean;
     public isAlwaysOn: boolean = true;
     public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public topBarNotificationsStream = new Subject<TopBarNotification[]>();
+    public topBarNotificationsStream = new ReplaySubject<TopBarNotification[]>(1);
     public disabledMessage = new Subject<string>();
 
     private _functionContainer: FunctionContainer;

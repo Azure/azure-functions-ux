@@ -20,7 +20,7 @@ import {FunctionsNode} from './functions-node';
 import {ProxiesNode} from './proxies-node';
 import {FunctionApp} from '../shared/function-app';
 import { Observable, Subscription as RxSubscription, ReplaySubject } from 'rxjs/Rx';
-import {Constants} from '../shared/models/constants';
+import { Constants, NotificationIds } from '../shared/models/constants';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
@@ -212,8 +212,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public remove(){
         (<AppsNode>this.parent).removeChild(this, false);
 
-        let clearUrl = `${this.sideNav.armService.armUrl}${this.resourceId}`;
-        this.sideNav.cacheService.clearCachePrefix(clearUrl);
+        this.sideNav.cacheService.clearArmIdCachePrefix(this.resourceId);
         this.dispose();
     }
 
@@ -244,6 +243,15 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         else{
             this._dispose();
         }
+    }
+
+    public clearNotification(id : string){
+        this.sideNav.globalStateService.topBarNotificationsStream
+        .take(1)
+        .subscribe(notifications =>{
+            notifications = notifications.filter(n => n.id !== id);
+            this.sideNav.globalStateService.setTopBarNotifications(notifications);
+        })
     }
 
     public openSettings() {
@@ -317,6 +325,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
                 if(!this._functionApp.isAlwaysOn){
                     notifications.push({
+                        id : NotificationIds.alwaysOn,
                         message : this.sideNav.translateService.instant(PortalResources.topBar_alwaysOn),
                         iconClass: 'fa fa-exclamation-triangle warning',
                         learnMoreLink : 'https://go.microsoft.com/fwlink/?linkid=830855',
@@ -336,6 +345,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
                 if(!isLatestFunctionRuntime){
                     notifications.push({
+                        id : NotificationIds.newRuntimeVersion,
                         message : this.sideNav.translateService.instant(PortalResources.topBar_newVersion),
                         iconClass: 'fa fa-info link',
                         learnMoreLink : 'https://go.microsoft.com/fwlink/?linkid=829530',
