@@ -1135,6 +1135,9 @@
   <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
     <value>You must have Read permissions on the associated App Service plan in order to use this feature</value>
   </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
   <data name="feature_deploymentSourceName" xml:space="preserve">
     <value>Deployment options</value>
   </data>

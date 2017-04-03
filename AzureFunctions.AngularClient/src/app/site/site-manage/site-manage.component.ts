@@ -560,7 +560,7 @@ export class SiteManageComponent {
         ]
 
         this.groups3 = [
-            new FeatureGroup("APIs", apiManagementFeatures),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
     }

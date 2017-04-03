@@ -340,6 +340,7 @@ export class PortalResources
     public static featureRequiresWritePermissionOnApp: string = "featureRequiresWritePermissionOnApp";
     public static featureDisabledReadOnlyLockOnApp: string = "featureDisabledReadOnlyLockOnApp";
     public static featureDisabledNoPermissionToPlan: string = "featureDisabledNoPermissionToPlan";
+    public static feature_api: string = "feature_api";
     public static feature_deploymentSourceName: string = "feature_deploymentSourceName";
     public static feature_deploymentSourceInfo: string = "feature_deploymentSourceInfo";
     public static feature_deploymentCredsName: string = "feature_deploymentCredsName";
