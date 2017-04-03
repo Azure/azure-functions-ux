@@ -92,7 +92,7 @@
     <Content Include="src\app\binding\binding.component.css" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
-    <Content Include="src\app\busy-state\busy-state.component.css" />
+    <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />

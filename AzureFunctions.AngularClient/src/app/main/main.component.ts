@@ -14,10 +14,11 @@ import {BusyStateComponent} from '../busy-state/busy-state.component';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements AfterViewInit {
     public viewInfo : TreeViewInfo;
     public dashboardType : string;
     public inIFrame : boolean;
+    @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     @Input() tryFunctionApp: FunctionApp;
 
@@ -37,4 +38,8 @@ export class MainComponent {
         this.viewInfo = viewInfo;
         this.dashboardType = DashboardType[viewInfo.dashboardType];
      }
+
+    ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
+    }
 }

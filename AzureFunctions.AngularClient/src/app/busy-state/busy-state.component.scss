@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .container {
     height: 100%;
     width: 100%;
@@ -14,6 +16,11 @@
 
 .global {
     position: fixed;
+}
+
+.busy-dashboard{
+  width: calc(100% - #{$sidenav-width});
+  margin-left: $sidenav-width;
 }
 
 @-webkit-keyframes fxs-progress-animatedEllipses {

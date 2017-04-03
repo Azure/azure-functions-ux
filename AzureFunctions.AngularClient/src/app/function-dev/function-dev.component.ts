@@ -493,12 +493,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             });
         }
 
-        var busyComponent = this.BusyStates.toArray().find(e => e.name === 'run-busy');
-
-        if (busyComponent) {
-            busyComponent.setBusyState();
-        }
-
+        this._globalStateService.setBusyState();
         this.saveTestData();
 
         if (this.runHttp) {
@@ -509,10 +504,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (this.httpRunLogs) {
                 this.httpRunLogs.clearLogs();
             }
-            this.runFunctionInternal(busyComponent);
+            this.runFunctionInternal();
 
         } else {
-            this.runFunctionInternal(busyComponent);
+            this.runFunctionInternal();
         }
 
     }
@@ -640,7 +635,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         });
     }
 
-    private runFunctionInternal(busyComponent: BusyStateComponent) {
+    private runFunctionInternal() {
 
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
@@ -652,9 +647,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             this.running = result.subscribe(r => {
                 this.runResult = r;
-                if (busyComponent) {
-                    busyComponent.clearBusyState();
-                }
+                this._globalStateService.clearBusyState();
                 delete this.running;
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);
