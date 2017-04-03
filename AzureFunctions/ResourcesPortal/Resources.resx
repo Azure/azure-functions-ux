@@ -1069,14 +1069,59 @@
   <data name="siteSummary_stopConfirmation" xml:space="preserve">
     <value>Are you sure you would like to stop '{0}'</value>
   </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>Stopping app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Starting app '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>Successfully stopped app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Successfully started app '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Failed to stop app '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Failed to start app '{0}'</value>
+  </data>
   <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
     <value>Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Resetting publishing profile</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Successfully reset publishing profile</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Failed to reset publishing profile</value>
   </data>
   <data name="siteSummary_deleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete '{0}'</value>
   </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>Deleting app '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>Successfully deleted app '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Failed to delete app '{0}'</value>
+  </data>
   <data name="siteSummary_restartConfirmation" xml:space="preserve">
     <value>Are you sure you would like to restart '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>Restarting app '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>Successfully restarted app '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Failed to restart app '{0}'</value>
   </data>
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>

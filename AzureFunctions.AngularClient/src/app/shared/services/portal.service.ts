@@ -1,4 +1,4 @@
-import { PinPartInfo, GetStartupInfo } from './../models/portal';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
@@ -19,12 +19,14 @@ export class PortalService {
     private setupOAuthObservable : Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
+    private notificationStartStream : Subject<NotificationStartedInfo>;
 
     constructor(private _broadcastService : BroadcastService,
      private _aiService: AiService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
+        this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
         if (this.inIFrame()){
             this.initializeIframe();
@@ -124,6 +126,33 @@ export class PortalService {
         this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
     }
 
+    startNotification(title : string, description : string){
+        let payload : NotificationInfo = {
+            state : "start",
+            title : title,
+            description : description
+        };
+
+        this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+        return this.notificationStartStream;
+    }
+
+    stopNotification(id : string, success : boolean, description : string){
+        let state = "success";
+        if(!success){
+            state = "fail";
+        }
+
+        let payload : NotificationInfo = {
+            id : id,
+            state : state,
+            title : null,
+            description : description
+        };
+
+        this.postMessage(Verbs.setNotification, JSON.stringify(payload));        
+    }
+
     logAction(subcomponent: string, action: string, data?: any): void{
         let actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
@@ -180,8 +209,10 @@ export class PortalService {
             }
         }
         else if(methodName === Verbs.sendOAuthInfo){
-            let info = <SetupOAuthResponse>data;
-            this.setupOAuthObservable.next(info);
+            this.setupOAuthObservable.next(data);
+        }
+        else if(methodName === Verbs.sendNotificationStarted){
+            this.notificationStartStream.next(data);
         }
     }
 

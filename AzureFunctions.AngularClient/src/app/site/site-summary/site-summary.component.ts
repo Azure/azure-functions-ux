@@ -266,10 +266,32 @@ export class SiteSummaryComponent implements OnDestroy {
 
         let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_resetProfileConfirmation));
         if(confirmResult){
+
+            let notificationId = null;
             this._globalStateService.setBusyState();
-            this._armService.post(`${this.site.id}/newpassword`, null)
+            this._portalService.startNotification(
+                this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
+                this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
+            .first()
+            .switchMap(r =>{
+                notificationId = r.id;
+                return this._armService.post(`${this.site.id}/newpassword`, null)
+            })
             .subscribe(response =>{
                 this._globalStateService.clearBusyState();
+                this._portalService.stopNotification(
+                    notificationId,
+                    true,
+                    this._translateService.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
+            },
+            e =>{
+                this._globalStateService.clearBusyState();                
+                this._portalService.stopNotification(
+                    notificationId,
+                    false,
+                    this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyFail));
+
+                this._aiService.trackException(e, '/errors/site-summary/reset-profile');
             });
         }
     }
@@ -283,19 +305,41 @@ export class SiteSummaryComponent implements OnDestroy {
         if(confirmResult){
             let site = this.site;
             let appNode = <AppNode>this._viewInfo.node;
+            let notificationId = null;
 
             this._globalStateService.setBusyState();
-
-            // If appNode is still loading, then deleting the app before it's done could cause a race condition
-            appNode.initialize()
+            this._portalService.startNotification(
+                this._translateService.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name),
+                this._translateService.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name))
+            .first()
+            .switchMap(r =>{
+                notificationId = r.id;
+                
+                // If appNode is still loading, then deleting the app before it's done could cause a race condition
+                return appNode.initialize();
+            })
             .switchMap(() =>{
                 appNode.dispose();
                 return this._armService.delete(`${site.id}`, null);
             })
             .subscribe(response =>{
+                this._portalService.stopNotification(
+                    notificationId,
+                    true,
+                    this._translateService.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));                
+
                 appNode.sideNav.search("");
                 this._globalStateService.clearBusyState();
                 (<AppNode>appNode).remove();
+            },
+            e =>{
+                this._globalStateService.clearBusyState();                
+                this._portalService.stopNotification(
+                    notificationId,
+                    false,
+                    this._translateService.instant(PortalResources.siteSummary_deleteNotifyFail).format(site.name));
+
+                this._aiService.trackException(e, '/errors/site-summary/delete-app');
             });
         }
     }
@@ -306,13 +350,35 @@ export class SiteSummaryComponent implements OnDestroy {
         }
 
         let site = this.site;
+        let notificationId = null;
 
         let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if(confirmResult){
             this._globalStateService.setBusyState();
-            this._armService.post(`${site.id}/restart`, null)
-            .subscribe((site) =>{
+
+            this._portalService.startNotification(
+                this._translateService.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
+                this._translateService.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name))
+            .first()
+            .switchMap(r =>{
+                notificationId = r.id;
+                return this._armService.post(`${site.id}/restart`, null)
+            })
+            .subscribe(() =>{
                 this._globalStateService.clearBusyState();
+                this._portalService.stopNotification(
+                    notificationId,
+                    true,
+                    this._translateService.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
+            },
+            e =>{
+                this._globalStateService.clearBusyState();                
+                this._portalService.stopNotification(
+                    notificationId,
+                    false,
+                    this._translateService.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
+
+                this._aiService.trackException(e, '/errors/site-summary/restart-app');
             });
         }
     }
@@ -381,11 +447,21 @@ export class SiteSummaryComponent implements OnDestroy {
         // Save reference to current values in case user clicks away
         let site = this.site;
         let appNode = <AppNode>this._viewInfo.node;
+        let notificationId = null;
 
         let action = stop ? "stop" : "start";
+        let notifyTitle = stop
+            ? this._translateService.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
+            : this._translateService.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
         this._globalStateService.setBusyState();
-        this._armService.post(`${site.id}/${action}`, null)
+
+        this._portalService.startNotification(notifyTitle, notifyTitle)
+        .first()
+        .switchMap(r =>{
+            notificationId = r.id;
+            return this._armService.post(`${site.id}/${action}`, null);
+        })
         .switchMap(()=>{
             return this._cacheService.getArm(`${site.id}`, true);
         })
@@ -397,9 +473,30 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.site = refreshedSite;
             }
 
+            let notifySuccess = stop
+                ? this._translateService.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
+                : this._translateService.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
+
             this._globalStateService.clearBusyState();
+            this._portalService.stopNotification(
+                notificationId,
+                true,
+                notifySuccess);
 
             appNode.refresh();
+        },
+        e =>{
+            let notifyFail = stop
+                ? this._translateService.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
+                : this._translateService.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
+
+            this._globalStateService.clearBusyState();                
+            this._portalService.stopNotification(
+                notificationId,
+                false,
+                notifyFail);
+
+            this._aiService.trackException(e, '/errors/site-summary/stop-start');
         })
     }
 }

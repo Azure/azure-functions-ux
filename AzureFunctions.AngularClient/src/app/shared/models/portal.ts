@@ -54,12 +54,14 @@ export class Verbs{
     public static setDirtyState = "set-dirtystate";
     public static setupOAuth = "setup-oauth";
     public static pinPart = "pin-part";
+    public static setNotification = "set-notification";
 
     // Requests from Ibiza
     public static sendStartupInfo = "send-startup-info";
     public static sendAppSettingName = "send-appSettingName";
     public static sendToken = "send-token";
     public static sendOAuthInfo = "send-oauth-info";
+    public static sendNotificationStarted = "send-notification-started";
 }
 
 export enum LogEntryLevel {
@@ -91,6 +93,17 @@ export interface UpdateBladeInfo{
 export interface PinPartInfo{
     partSize : PartSize;
     partInput : any,
+}
+
+export interface NotificationInfo{
+    id? : string,
+    state : string,  // start, success, fail
+    title : string,
+    description : string
+}
+
+export interface NotificationStartedInfo{
+    id : string
 }
 
 export enum PartSize {
