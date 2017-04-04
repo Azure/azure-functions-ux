@@ -1,22 +1,4 @@
-.custom-list-container{
-    padding: 0px 25px;
-    background-color: $body-bg-color;
-
-    h3{
-        display: inline-block;
-        margin-right: 10px;
-    }
-
-    img{
-        vertical-align: middle;
-        margin-bottom: 12px;
-        margin-right: 5px;
-        width: 32px;
-        height: 32px;
-    }
-}
-
-.custom-table{
+.tbl{
     border-collapse: inherit;
 
     tr{
@@ -37,14 +19,15 @@
         @extend .text-list-col-heading;
         min-width: 200px;
         cursor: text;
-
-        &.sortable{
-            cursor: pointer;
-        }
+        text-transform: uppercase;
     }
 
     th, td{
         padding: 7px 5px;
         border-bottom: $border;
+    }
+
+    .sortable{
+        cursor: pointer;
     }
 }

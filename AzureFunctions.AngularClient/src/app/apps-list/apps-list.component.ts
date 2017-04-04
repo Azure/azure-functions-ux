@@ -12,7 +12,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class AppsListComponent implements OnInit, OnDestroy {
   public viewInfoStream : Subject<TreeViewInfo>;
-  public items : AppNode[] = [];
+  public apps : AppNode[] = [];
   public appsNode : AppsNode;
 
   public sortedColumn : string;
@@ -34,7 +34,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
         this.sortedColumn = "";
         this.sortAscending = true;
 
-        this.items = children;
+        this.apps = children;
         this._origRefToItems = children;
       });
     
@@ -53,39 +53,5 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   clickRow(item : AppNode){
     item.sideNav.searchExact(item.title);
-  }
-
-  sortByColumn(name : string){
-    // Make a copy because we don't want to sort the tree sorting
-    if(this.items === this._origRefToItems){
-      this.items = [].concat(this._origRefToItems);
-    }
-
-    if(this.sortedColumn && this.sortedColumn === name){
-      this.sortAscending = !this.sortAscending;
-    }
-    else{
-      this.sortedColumn = name;
-      this.sortAscending = true;
-    }
-
-    this.items = this.items.sort((a : AppNode, b : AppNode) => {
-      if(this.sortAscending){
-        if(this.sortedColumn === 'name'){
-          return a.title.localeCompare(b.title);
-        }
-        else{
-          return a.subscription.localeCompare(b.subscription);
-        }
-      }
-      else{
-        if(this.sortedColumn === 'name'){
-          return b.title.localeCompare(a.title);
-        }
-        else{
-          return b.subscription.localeCompare(a.subscription);
-        }
-      }
-    })
   }
 }

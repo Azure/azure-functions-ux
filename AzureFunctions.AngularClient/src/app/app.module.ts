@@ -1,3 +1,5 @@
+import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
+import { TblComponent } from './controls/tbl/tbl.component';
 import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
 import { ErrorHandler } from '@angular/core';
 import { ArmTryService } from './shared/services/arm-try.service';
@@ -96,6 +98,7 @@ import { CreateFunctionWrapperComponent } from './create-function-wrapper/create
 import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-definition.component';
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -169,6 +172,8 @@ import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.direct
         SwaggerFrameDirective,
         DisabledDashboardComponent,
         CreateFunctionWrapperComponent,
+        TblComponent,
+        TblThComponent,
     ],
     imports: [
         FormsModule,

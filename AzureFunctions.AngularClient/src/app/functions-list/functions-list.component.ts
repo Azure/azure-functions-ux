@@ -6,6 +6,12 @@ import { Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
+interface FunctionItem{
+  name : string,
+  disabled : boolean,
+  node : FunctionNode
+}
+
 @Component({
   selector: 'functions-list',
   templateUrl: './functions-list.component.html',
@@ -14,7 +20,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 })
 export class FunctionsListComponent implements OnInit, OnDestroy {
   public viewInfoStream : Subject<TreeViewInfo>;
-  public items : FunctionNode[] = [];
+  public functions : FunctionItem[] = [];
   public isLoading : boolean;
 
   private _viewInfoSubscription : RxSubscription;
@@ -33,7 +39,14 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(() =>{
         this.isLoading = false;
-        this.items = <FunctionNode[]>this._functionsNode.children;
+        this.functions = (<FunctionNode[]>this._functionsNode.children)
+        .map(c =>{
+          return <FunctionItem>{
+            name : c.title,
+            disabled : c.functionInfo.config.disabled,
+            node : c
+          }
+        });
       })
   }
 
@@ -48,7 +61,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
     this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item : FunctionNode){
-    item.select();
+  clickRow(item : FunctionItem){
+    item.node.select();
   }
 }

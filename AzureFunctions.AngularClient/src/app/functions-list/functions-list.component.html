@@ -1,22 +1,22 @@
-<div class="custom-list-container">
+<div class="list-collection-container">
 <img src="images/function_f.svg" />
 <h3 class="text-main2-heading">{{ 'functions' | translate }}</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
-<table class="custom-table">
+
+<tbl [items]="functions" #table="tbl">
   <tr class="header-row">
-    <th>{{ ('_name' | translate).toUpperCase() }}</th>
-    <th>{{ ('enabled' | translate).toUpperCase() }}</th>
+    <th><tbl-th name="name">{{ '_name' | translate }}</tbl-th></th>
+    <th><tbl-th name="disabled">{{ 'enabled' | translate }}</tbl-th></th>
   </tr>
 
-  <tr *ngFor="let item of items" (click)="clickRow(item)">
-    <td class="link">{{item.functionInfo.name}}</td>
-    <td>{{!item.functionInfo.config.disabled}}</td>
+  <tr *ngFor="let item of table.items" (click)="clickRow(item)">
+    <td class="link">{{item.name}}</td>
+    <td>{{!item.disabled}}</td>
   </tr>
 
-  <tr *ngIf="items.length === 0 || isLoading">
-    <td *ngIf="isLoading">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!isLoading && items.length === 0">{{'noResults' | translate}}</td>
-    <td></td>
+  <tr *ngIf="table.items.length === 0 || isLoading">
+    <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
+    <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
   </tr>
 
-</table>
+</tbl>
 </div>

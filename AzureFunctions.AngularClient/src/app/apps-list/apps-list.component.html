@@ -1,35 +1,25 @@
-<div class="custom-list-container">
+<div class="list-collection-container">
 <img src="images/functions.svg" />
 <h3 class="text-main2-heading">{{ 'functionApps' | translate}}</h3><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
-<table class="custom-table">
+
+<tbl [items]="apps" #table="tbl">
   <tr class="header-row">
-    <th class="sortable" (click)="sortByColumn('name')">{{ ('_name' | translate).toUpperCase()}}
-      <i class="fa"
-        [class.fa-chevron-up]="sortedColumn === 'name' && sortAscending"
-        [class.fa-chevron-down]="(sortedColumn === 'name' && !sortAscending) || !sortedColumn"></i>
-    </th>
-    <th class="sortable" (click)="sortByColumn('subscription')">{{ ('subscription' | translate).toUpperCase() }} 
-      <i class="fa"
-        [class.fa-chevron-up]="sortedColumn === 'subscription' && sortAscending"
-        [class.fa-chevron-down]="(sortedColumn === 'subscription' && !sortAscending) || !sortedColumn"></i>
-    </th>
-    <th>{{ ('resourceGroup' | translate).toUpperCase() }}</th>
-    <th>{{ ('location' | translate).toUpperCase() }}</th>
+    <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
+    <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
+    <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
+    <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
   </tr>
 
-  <tr *ngFor="let item of items" (click)="clickRow(item)">
-    <td class="link">{{item.title}}</td>
+  <tr *ngFor="let item of table.items">
+    <td class="link" (click)="clickRow(item)">{{item.title}}</td>
     <td>{{item.subscription}}</td>
     <td>{{item.resourceGroup}}</td>
-    <td>{{item.location}}</td>
+    <td>{{item.location}}</td>    
   </tr>
 
-  <tr *ngIf="items.length === 0 || appsNode?.isLoading">    
-    <td *ngIf="appsNode?.isLoading">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!appsNode?.isLoading && items.length === 0">{{'noResults' | translate}}</td>
-    <td></td>
-    <td></td>
-    <td></td>
+  <tr *ngIf="table.items.length === 0 || appsNode?.isLoading">    
+    <td *ngIf="appsNode?.isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
+    <td *ngIf="!appsNode?.isLoading && table.items.length === 0" colspan="4">{{'noResults' | translate}}</td>
   </tr>
-</table>
+</tbl>
 </div>

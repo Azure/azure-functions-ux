@@ -1,7 +1,13 @@
+import { ProxyNode } from './../tree-view/proxy-node';
 import { ProxiesNode } from './../tree-view/proxies-node';
 import { Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+
+interface ProxyItem{
+  name : string,
+  url : string
+}
 
 @Component({
   selector: 'proxies-list',
@@ -11,7 +17,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 })
 export class ProxiesListComponent implements OnInit {
   public viewInfoStream : Subject<TreeViewInfo>;
-  public items : ProxiesNode[] = [];
+  public proxies : ProxyItem[] = [];
   public isLoading : boolean;
 
   private _viewInfoSubscription : RxSubscription;
@@ -30,7 +36,13 @@ export class ProxiesListComponent implements OnInit {
       })
       .subscribe(() =>{
         this.isLoading = false;
-        this.items = <ProxiesNode[]>this._proxiesNode.children;
+        this.proxies = (<ProxyNode[]>this._proxiesNode.children)
+        .map(p =>{
+          return <ProxyItem>{
+            name : p.title,
+            url : p.proxy.backendUri
+          }
+        });
       })
   }
 
