@@ -42,9 +42,11 @@ export class BroadcastService {
         emitter.emit(obj);
     }
 
-    subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void): Subscription {
+    subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj?: any) => void, throttleTime?: number): Subscription {
         var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
-        return emitter.subscribe(callback, errorCallback, completedCallback);
+        return throttleTime
+            ? emitter.throttleTime(throttleTime).subscribe(callback, errorCallback, completedCallback)
+            : emitter.subscribe(callback, errorCallback, completedCallback);
     }
 
     setDirtyState(reason?: string) {
