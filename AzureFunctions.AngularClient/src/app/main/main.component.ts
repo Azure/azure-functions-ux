@@ -40,6 +40,7 @@ export class MainComponent implements AfterViewInit {
      }
 
     ngAfterViewInit() {
+        this._globalStateService.clearBusyState();
         this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
     }
 }
