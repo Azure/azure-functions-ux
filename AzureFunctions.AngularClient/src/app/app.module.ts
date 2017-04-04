@@ -93,6 +93,8 @@ import { FunctionsListComponent } from './functions-list/functions-list.componen
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
 import { CreateFunctionWrapperComponent } from './create-function-wrapper/create-function-wrapper.component';
+import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-definition.component';
+import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 
 @NgModule({
     declarations: [
@@ -164,6 +166,8 @@ import { CreateFunctionWrapperComponent } from './create-function-wrapper/create
         ApiNewComponent,
         FunctionsListComponent,
         ProxiesListComponent,
+        SwaggerDefinitionComponent,
+        SwaggerFrameDirective,
         DisabledDashboardComponent,
         CreateFunctionWrapperComponent,
     ],

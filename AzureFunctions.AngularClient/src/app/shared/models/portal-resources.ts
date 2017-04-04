@@ -466,5 +466,33 @@ export class PortalResources
     public static functionKeys_easyAuthWarning: string = "functionKeys_easyAuthWarning";
     public static functionNew_chooseTemplateQuickstart: string = "functionNew_chooseTemplateQuickstart";
     public static httpRun_noQuery: string = "httpRun_noQuery";
+    public static swaggerDefinition_collapse: string = "swaggerDefinition_collapse";
+    public static swaggerDefinition_delete: string = "swaggerDefinition_delete";
+    public static swaggerDefinition_documentation: string = "swaggerDefinition_documentation";
+    public static swaggerDefinition_expand: string = "swaggerDefinition_expand";
+    public static swaggerDefinition_external: string = "swaggerDefinition_external";
+    public static swaggerDefinition_feature_overview: string = "swaggerDefinition_feature_overview";
+    public static swaggerDefinition_getting_started: string = "swaggerDefinition_getting_started";
+    public static swaggerDefinition_internal: string = "swaggerDefinition_internal";
+    public static swaggerDefinition_key: string = "swaggerDefinition_key";
+    public static swaggerDefinition_loadDefinition: string = "swaggerDefinition_loadDefinition";
+    public static swaggerDefinition_loadGeneratedDefinition: string = "swaggerDefinition_loadGeneratedDefinition";
+    public static swaggerDefinition_powerAppsFlow: string = "swaggerDefinition_powerAppsFlow";
+    public static swaggerDefinition_prompt: string = "swaggerDefinition_prompt";
+    public static swaggerDefinition_renew: string = "swaggerDefinition_renew";
+    public static swaggerDefinition_setExternal: string = "swaggerDefinition_setExternal";
+    public static swaggerDefinition_source: string = "swaggerDefinition_source";
+    public static swaggerDefinition_subtitle: string = "swaggerDefinition_subtitle";
+    public static swaggerDefinition_title: string = "swaggerDefinition_title";
+    public static swaggerDefinition_url: string = "swaggerDefinition_url";
+    public static swaggerDefinition_useAPIdefinition: string = "swaggerDefinition_useAPIdefinition";
+    public static tab_api_definition: string = "tab_api_definition";
+    public static error_unableToCreateSwaggerKey: string = "error_unableToCreateSwaggerKey";
+    public static error_unableToDeleteSwaggerData: string = "error_unableToDeleteSwaggerData";
+    public static error_unableToGetSystemKey: string = "error_unableToGetSystemKey";
+    public static error_unableToloadGeneratedAPIDefinition: string = "error_unableToloadGeneratedAPIDefinition";
+    public static error_unableToUpdateRuntimeConfig: string = "error_unableToUpdateRuntimeConfig";
+    public static error_unableToUpdateSwaggerData: string = "error_unableToUpdateSwaggerData";
+    public static swaggerDefinition_revert: string = "swaggerDefinition_revert";
 }
 

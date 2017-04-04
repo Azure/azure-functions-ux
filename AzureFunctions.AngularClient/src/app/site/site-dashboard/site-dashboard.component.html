@@ -17,5 +17,9 @@
             [viewInfoInput]="viewInfo"
             (openTabEvent)="openTab($event)"></site-manage>
     </tab>
+
+    <tab [title]="_translateService.instant(Resources.tab_api_definition)" [id]="TabIds.apiDefinition">
+        <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
+    </tab>
 </tabs>
 </div>

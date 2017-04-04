@@ -85,9 +85,9 @@ IF NOT DEFINED ANGUALR_CLI (
   :: Install angular-cli
   echo Installing angular-cli
   call npm install -g angular-cli@1.0.0-beta.19-3
-  
+
   IF !ERRORLEVEL! NEQ 0 goto error
-  
+
   SET ANGUALR_CLI=true
 )
 
@@ -161,7 +161,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF %ERRORLEVEL% EQU 2 echo XTRA
 		IF %ERRORLEVEL% EQU 1 echo OKCOPY
 		IF %ERRORLEVEL% EQU 0 echo No Change
-	) 
+	)
 
 	pushd "%ARTIFACTS%\AzureFunctions.AngularClient"
 	echo Restore npm packages
@@ -176,14 +176,14 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
-	
+
 	pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		mv main.*.bundle.js main.bundle.js
 		mv scripts.*.bundle.js scripts.bundle.js
 		mv styles.*.bundle.js styles.bundle.js
 	popd
-	
-	each Copy angular output to the temporary path
+
+	echo Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 		echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
 		call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
@@ -205,7 +205,31 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF %ERRORLEVEL% EQU 2 echo XTRA
 		IF %ERRORLEVEL% EQU 1 echo OKCOPY
 		IF %ERRORLEVEL% EQU 0 echo No Change
-	) 
+
+		IF EXIST "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" (
+			echo Copy Swagger Editor to output
+			echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
+			call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
+			:: http://ss64.com/nt/robocopy-exit.html
+			IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
+			IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
+			IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
+			IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
+			IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
+			IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
+			IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
+			IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
+			IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
+			IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
+			IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
+			IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
+			IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
+			IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
+			IF %ERRORLEVEL% EQU 2 echo XTRA
+			IF %ERRORLEVEL% EQU 1 echo OKCOPY
+			IF %ERRORLEVEL% EQU 0 echo No Change
+		)
+	)
 )
 
 :: 4. KuduSync

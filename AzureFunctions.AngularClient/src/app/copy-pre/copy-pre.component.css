@@ -14,3 +14,7 @@ i {
     font-size: 20px;
     padding-left: 5px;
 }
+
+pre {
+    white-space: normal;
+}
