@@ -475,7 +475,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
             let notifySuccess = stop
                 ? this._translateService.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
-                : this._translateService.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
+                : this._translateService.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
 
             this._globalStateService.clearBusyState();
             this._portalService.stopNotification(

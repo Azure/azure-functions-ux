@@ -322,6 +322,7 @@ export class PortalResources
     public static siteSummary_stopNotifyTitle: string = "siteSummary_stopNotifyTitle";
     public static siteSummary_startNotifyTitle: string = "siteSummary_startNotifyTitle";
     public static siteSummary_stopNotifySuccess: string = "siteSummary_stopNotifySuccess";
+    public static siteSummary_startNotifySuccess: string = "siteSummary_startNotifySuccess";
     public static siteSummary_stopNotifyFail: string = "siteSummary_stopNotifyFail";
     public static siteSummary_startNotifyFail: string = "siteSummary_startNotifyFail";
     public static siteSummary_resetProfileConfirmation: string = "siteSummary_resetProfileConfirmation";

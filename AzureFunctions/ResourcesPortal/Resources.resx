@@ -1078,7 +1078,7 @@
   <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
     <value>Successfully stopped app '{0}'</value>
   </data>
-  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
     <value>Successfully started app '{0}'</value>
   </data>
   <data name="siteSummary_stopNotifyFail" xml:space="preserve">
