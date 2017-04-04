@@ -150,9 +150,16 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 return armObj.kind === "functionapp";
             })
             .map(armObj =>{
-                let newNode = new AppNode(this.sideNav, armObj, this, subscriptions);
-                if(newNode.resourceId === this._initialResourceId){
-                    newNode.select();
+
+                let newNode : AppNode;
+                if(armObj.id === this.sideNav.selectedNode.resourceId){
+                    newNode = <AppNode>this.sideNav.selectedNode;
+                }
+                else{
+                    newNode = new AppNode(this.sideNav, armObj, this, subscriptions);
+                    if(newNode.resourceId === this._initialResourceId){
+                        newNode.select();
+                    }
                 }
 
                 return newNode;
