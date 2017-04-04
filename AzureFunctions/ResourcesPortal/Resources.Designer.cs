@@ -1249,6 +1249,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to API.
+        /// </summary>
+        internal static string feature_api {
+            get {
+                return ResourceManager.GetString("feature_api", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API..
         /// </summary>
         internal static string feature_apiDefinitionInfo {
@@ -3463,11 +3472,65 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_deleteNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_deleteNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully deleted app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_deleteNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_deleteNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_deleteNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_deleteNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid..
         /// </summary>
         internal static string siteSummary_resetProfileConfirmation {
             get {
                 return ResourceManager.GetString("siteSummary_resetProfileConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to reset publishing profile.
+        /// </summary>
+        internal static string siteSummary_resetProfileNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_resetProfileNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully reset publishing profile.
+        /// </summary>
+        internal static string siteSummary_resetProfileNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_resetProfileNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resetting publishing profile.
+        /// </summary>
+        internal static string siteSummary_resetProfileNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_resetProfileNotifyTitle", resourceCulture);
             }
         }
         
@@ -3481,11 +3544,92 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to restart app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_restartNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_restartNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully restarted app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_restartNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_restartNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restarting app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_restartNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_restartNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_startNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_startNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully started app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_startNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_startNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_startNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_startNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you would like to stop &apos;{0}&apos;.
         /// </summary>
         internal static string siteSummary_stopConfirmation {
             get {
                 return ResourceManager.GetString("siteSummary_stopConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to stop app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifyFail {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifyFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully stopped app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifySuccess {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifySuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping app &apos;{0}&apos;.
+        /// </summary>
+        internal static string siteSummary_stopNotifyTitle {
+            get {
+                return ResourceManager.GetString("siteSummary_stopNotifyTitle", resourceCulture);
             }
         }
         
