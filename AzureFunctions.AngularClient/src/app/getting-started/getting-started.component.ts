@@ -268,7 +268,7 @@ export class GettingStartedComponent implements OnInit {
         var body = {
             location: geoRegion
         };
-        this._armService.put(id, JSON.stringify(body), this._armService.armApiVersion)
+        this._armService.put(id, body, this._armService.armApiVersion)
         .subscribe(
             r => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
             e => this.completeError(result, e));
