@@ -3769,6 +3769,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to overwrite the API definition in the editor?.
+        /// </summary>
+        internal static string swaggerDefinition_confirmOverwrite {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_confirmOverwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete your API definition?.
         /// </summary>
         internal static string swaggerDefinition_delete {
@@ -3855,6 +3864,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string swaggerDefinition_loadGeneratedDefinition {
             get {
                 return ResourceManager.GetString("swaggerDefinition_loadGeneratedDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #Click &quot;Load Generated API Definition&quot; to get started.
+        /// </summary>
+        internal static string swaggerDefinition_placeHolder {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_placeHolder", resourceCulture);
             }
         }
         

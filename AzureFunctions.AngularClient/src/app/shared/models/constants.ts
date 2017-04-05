@@ -27,6 +27,7 @@ export class Constants {
     public static swaggerSecretName = "swaggerdocumentationkey";
     public static portalHostName = "https://portal.azure.com";
     public static webAppsHostName = "https://web1.appsvcux.ext.azure.com";
+    public static msPortalHostName = "https://ms.portal.azure.com";
 }
 
 export class SiteTabIds{

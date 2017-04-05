@@ -179,7 +179,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         }
 
         if (!this.swaggerDocument) {
-            this.swaggerDocument = {};
+            this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
         }
 
         this.swaggerEditor.setDocument(this.swaggerDocument);
@@ -191,11 +191,17 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         }
     }
     public LoadGeneratedDataInEditor() {
-        this.functionApp.getGeneratedSwaggerData(this.swaggerKey)
-            .subscribe((swaggerDoc: any) => {
-                this.swaggerDocument = swaggerDoc;
-                this.assignDocumentToEditor(swaggerDoc);
-            });
+        this.swaggerEditor.getDocument((swaggerDocument, error) => {
+            if (((!swaggerDocument || swaggerDocument == this._translateService.instant(PortalResources.swaggerDefinition_placeHolder))
+                && !error)
+                || confirm(this._translateService.instant(PortalResources.swaggerDefinition_confirmOverwrite))) {
+                this.functionApp.getGeneratedSwaggerData(this.swaggerKey)
+                    .subscribe((swaggerDoc: any) => {
+                        this.swaggerDocument = swaggerDoc;
+                        this.assignDocumentToEditor(swaggerDoc);
+                    });
+            }
+        });
     }
 
     public toggleKeyVisibility(): void {
@@ -235,6 +241,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 if (confirmDelete) {
                     this.functionApp.deleteSwaggerDocument(this.swaggerURL).
                         subscribe(() => {
+                            this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                             this._globalStateService.clearBusyState();
                         }, e => {
                             this._globalStateService.clearBusyState();
@@ -288,14 +295,21 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     configChange = true;
                 }
 
-                if (!config.properties.cors.allowedOrigins.includes(Constants.portalHostName)) {
-                    config.properties.cors.allowedOrigins.push(Constants.portalHostName)
-                    configChange = true;
-                }
+                if (!config.properties.cors.allowedOrigins.includes("*")) {
+                    if (!config.properties.cors.allowedOrigins.includes(Constants.portalHostName)) {
+                        config.properties.cors.allowedOrigins.push(Constants.portalHostName)
+                        configChange = true;
+                    }
 
-                if (!config.properties.cors.allowedOrigins.includes(Constants.webAppsHostName)) {
-                    config.properties.cors.allowedOrigins.push(Constants.webAppsHostName)
-                    configChange = true;
+                    if (!config.properties.cors.allowedOrigins.includes(Constants.webAppsHostName)) {
+                        config.properties.cors.allowedOrigins.push(Constants.webAppsHostName)
+                        configChange = true;
+                    }
+
+                    if (!config.properties.cors.allowedOrigins.includes(Constants.msPortalHostName)) {
+                        config.properties.cors.allowedOrigins.push(Constants.msPortalHostName)
+                        configChange = true;
+                    }
                 }
 
                 if (configChange) {
@@ -342,7 +356,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }).flatMap(key => {
                 if (!key) {
                     // will be passed to swagger doc
-                    return Observable.of({});
+                    return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
                 }
                 this.swaggerKey = key;
                 this.swaggerURL = this.getUpdatedSwaggerURL(key);
@@ -351,7 +365,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .retry(1)
             .catch(error => {
                 // get document fails                
-                return Observable.of({});
+                return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
             }).flatMap(swaggerDoc => {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);

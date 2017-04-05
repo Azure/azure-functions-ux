@@ -1,4 +1,4 @@
-<div class="wrapper">    
+<div class="wrapper">
     <div>
         <div class="section-left full-height" [class.collapse]="isFullscreen">
             <div>
@@ -7,16 +7,10 @@
                 <label class="subtitle">{{'swaggerDefinition_subtitle' | translate}}</label>
             </div>
             <div [class.collapse]="!swaggerEnabled">
-                <label class="setting-title">{{'swaggerDefinition_loadDefinition' | translate}}</label>
-                <div class="setting-wrapper">
-                    <button class="custom-button medium" (click)='LoadGeneratedDataInEditor()'>{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
-                </div>
-            </div>
-            <div [class.collapse]="!swaggerEnabled">
                 <label class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
                 <div class="setting-wrapper">
                     <!--<button class="custom-button medium">Download Function Keys</button>-->
-                    <button class="custom-button medium" (click)='openBlade("ExportToPowerApps")'>{{'swaggerDefinition_powerAppsFlow' | translate}}</button>                    
+                    <button class="custom-button medium" style="margin-left:0px;" (click)='openBlade("ExportToPowerApps")'>{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
                 </div>
             </div>
             <div [class.collapse]="!swaggerEnabled">
@@ -30,11 +24,11 @@
                     <i class="fa clickable link" [class.fa-plus]="!keyVisible" [class.fa-minus]="keyVisible" (click)="toggleKeyVisibility()"></i>
                     <label class="setting-title-collapsible link" (click)="toggleKeyVisibility()">{{'swaggerDefinition_key' | translate}}</label>
                 </div>
-                <div class="link" [class.collapse]="!keyVisible">
+                <div [class.collapse]="!keyVisible">
                     <div class="setting-wrapper" style="padding-bottom:0px;">
                         <copy-pre [content]="swaggerKey"></copy-pre>
                     </div>
-                    <div class="setting-wrapper operation">
+                    <div class="setting-wrapper operation link">
                         <span (click)="renewSwaggerSecret()"><i class="fa fa-refresh"></i> {{'swaggerDefinition_renew' | translate}}</span>
                     </div>
                 </div>
@@ -47,7 +41,7 @@
                     </div>
                 </div>
                 <div class="setting-wrapper column">
-                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top: 10px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>                    
+                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
                 </div>
             </div>
             <div>
@@ -73,7 +67,8 @@
             <div class="topbar">
                 <div class="header left">
                     <button class="custom-button left" (click)="saveChanges()">{{ 'save' | translate }}</button>
-                    <button class="custom-button-invert left" (click)="resetEditor()">{{ 'swaggerDefinition_revert' | translate }}</button>
+                    <button class="custom-button-invert left medium" (click)="resetEditor()">{{ 'swaggerDefinition_revert' | translate }}</button>
+                    <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()'>{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
                 </div>
                 <div class="header right">
                     <span class="link icon expand-icon" *ngIf="!isFullscreen" (click)="isFullscreen = true">
