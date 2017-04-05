@@ -135,7 +135,10 @@ export class AppComponent implements OnInit, AfterViewInit {
                     var portalHostName = 'https://portal.azure.com';
                     var environment = '';
                     if (window.location.host.indexOf('staging') !== -1) {
-                        environment = '?websitesextension_functionsstaged=true';
+                        // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
+                        environment = '?feature.canmodifystamps=true&BizTalkExtension=canary&WebsitesExtension=canary&feature.fastmanifest=false&appsvc.env=stage';
+                        // environment = '?websitesextension_functionsstaged=true';
+                        
                     } else if (window.location.host.indexOf('next') !== -1) {
 
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
