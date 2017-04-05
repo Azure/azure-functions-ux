@@ -163,10 +163,12 @@
     <Content Include="src\app\site\site-manage\site-manage.component.html" />
     <Content Include="src\app\site\site-notifications\site-notifications.component.html" />
     <Content Include="src\app\site\site-summary\site-summary.component.html" />
+    <Content Include="src\app\site\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
+    <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
     <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
@@ -221,6 +223,8 @@
     <Content Include="src\images\Functions.svg" />
     <Content Include="src\images\generic-template.svg" />
     <Content Include="src\images\GitHub_65.png" />
+    <Content Include="src\images\icon-collapse.svg" />
+    <Content Include="src\images\icon-expand.svg" />
     <Content Include="src\images\iot-template.svg" />
     <Content Include="src\images\landing-page.png" />
     <Content Include="src\images\localgit_45.png" />
@@ -245,6 +249,7 @@
     <Content Include="src\images\stack.svg" />
     <Content Include="src\images\start.svg" />
     <Content Include="src\images\stop.svg" />
+    <Content Include="src\images\swagger-definition.svg" />
     <Content Include="src\images\swap.svg" />
     <Content Include="src\images\tags.svg" />
     <Content Include="src\images\timer-template.svg" />
@@ -500,6 +505,11 @@
     <TypeScriptCompile Include="src\app\site\site-notifications\site-notifications.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-summary\site-summary.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-summary\site-summary.component.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-definition\swagger-definition.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-definition\swagger-definition.component.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\ISwaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\swagger-frame.directive.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />

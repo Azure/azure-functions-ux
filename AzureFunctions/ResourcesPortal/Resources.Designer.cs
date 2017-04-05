@@ -3688,33 +3688,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to stop app &apos;{0}&apos;.
-        /// </summary>
-        internal static string siteSummary_stopNotifyFail {
-            get {
-                return ResourceManager.GetString("siteSummary_stopNotifyFail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully stopped app &apos;{0}&apos;.
-        /// </summary>
-        internal static string siteSummary_stopNotifySuccess {
-            get {
-                return ResourceManager.GetString("siteSummary_stopNotifySuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stopping app &apos;{0}&apos;.
-        /// </summary>
-        internal static string siteSummary_stopNotifyTitle {
-            get {
-                return ResourceManager.GetString("siteSummary_stopNotifyTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Source.
         /// </summary>
         internal static string source {
