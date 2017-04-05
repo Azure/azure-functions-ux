@@ -118,931 +118,1480 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="azureFunctions" xml:space="preserve">
-    <value>[io2Ya][ÿèAzure Functions !!! !!]</value>
+    <value>[io2Ya][¢îAzure Functions !!! !!]</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>[R71II][ÔÄCancel !!!]</value>
+    <value>[R71II][õÇCancel !!!]</value>
   </data>
   <data name="configure" xml:space="preserve">
-    <value>[oYutu][ÑàConfigure !!! ]</value>
+    <value>[oYutu][áÓConfigure !!! ]</value>
   </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
-    <value>[17ym6][©@Create Function Error: {{error}} !!! !!! !!! ]</value>
+    <value>[17ym6][ÌßCreate Function Error: {{error}} !!! !!! !!! ]</value>
   </data>
   <data name="functionCreateErrorMessage" xml:space="preserve">
-    <value>[S6XZZ][ÔïFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
+    <value>[S6XZZ][ÜûFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionDev_functionErrorDetails" xml:space="preserve">
-    <value>[3Qo2N][ÃâFunction Error: {{error}} !!! !!! !!]</value>
+    <value>[3Qo2N][úÄFunction Error: {{error}} !!! !!! !!]</value>
   </data>
   <data name="functionDev_functionErrorMessage" xml:space="preserve">
-    <value>[oR0Kt][¥ïFunction (${{name}}) Error: {{error}} !!! !!! !!! !!]</value>
+    <value>[oR0Kt][ÒÙFunction (${{name}}) Error: {{error}} !!! !!! !!! !!]</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>[z2m32][¢ìFunction Url: !!! !!]</value>
+    <value>[z2m32][£ÿFunction Url !!! !]</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>[G33l1][åÕGitHub Secret: !!! !!]</value>
+    <value>[G33l1][ïÂGitHub Secret !!! !!]</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
-    <value>[hZWeI][éÃHide files !!! !]</value>
+    <value>[hZWeI][ÂÇHide files !!! !]</value>
   </data>
   <data name="functionDev_hostErrorMessage" xml:space="preserve">
-    <value>[rzF0R][µìHost Error: {{error}} !!! !!! ]</value>
+    <value>[rzF0R][ÚÚHost Error: {{error}} !!! !!! ]</value>
   </data>
   <data name="functionDev_Output" xml:space="preserve">
-    <value>[9j93r][ôÕOutput !!!]</value>
+    <value>[9j93r][ÛØOutput !!!]</value>
   </data>
   <data name="functionDev_requestBody" xml:space="preserve">
-    <value>[DNy8f][ÆèRequest body !!! !]</value>
+    <value>[DNy8f][ªÿRequest body !!! !]</value>
   </data>
   <data name="functionDev_saveAndRun" xml:space="preserve">
-    <value>[pb8gF][ö¢Save and run !!! !]</value>
+    <value>[pb8gF][âÿSave and run !!! !]</value>
   </data>
   <data name="functionDev_status" xml:space="preserve">
-    <value>[wZz1H][äæStatus: !!!]</value>
+    <value>[wZz1H][ÝýStatus: !!!]</value>
   </data>
   <data name="functionDev_viewFiles" xml:space="preserve">
-    <value>[4oKjj][ßÛView Files !!! !]</value>
+    <value>[4oKjj][îæView files !!! !]</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>[aVe0w][üÚChoose a template !!! !!!]</value>
+    <value>[aVe0w][ÅÝChoose a template below or go to the !!! !!! !!! !!]</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>[oNfto][ÒáThis template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[oNfto][ÉèThis template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
-    <value>[rtEBl][ÓíFunction name !!! !!]</value>
+    <value>[rtEBl][æïFunction name !!! !!]</value>
   </data>
   <data name="functionNew_functionNameRequired" xml:space="preserve">
-    <value>[5Uup0][ÎìA function name is required !!! !!! !!]</value>
+    <value>[5Uup0][ÓáA function name is required !!! !!! !!]</value>
   </data>
   <data name="functionNew_nameYourFunction" xml:space="preserve">
-    <value>[WF8As][ÝòName your function !!! !!!]</value>
+    <value>[WF8As][ÕËName your function !!! !!!]</value>
   </data>
   <data name="gettingStarted_createGetStarted" xml:space="preserve">
-    <value>[D06QT][ðÿCreate + get started !!! !!! ]</value>
+    <value>[D06QT][åýCreate + get started !!! !!! ]</value>
   </data>
   <data name="gettingStarted_functionApps" xml:space="preserve">
-    <value>[JzUDJ][ÄÀFunction Apps !!! !!]</value>
+    <value>[JzUDJ][ÆéFunction Apps !!! !!]</value>
   </data>
   <data name="gettingStarted_getStarted" xml:space="preserve">
-    <value>[vUqFJ][ØåGet started with Azure Functions !!! !!! !!! ]</value>
+    <value>[vUqFJ][ÆµGet started with Azure Functions !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_newFunctionApp" xml:space="preserve">
-    <value>[hnFfT][æßNew function app !!! !!!]</value>
+    <value>[hnFfT][êðNew function app !!! !!!]</value>
   </data>
   <data name="gettingStarted_noFunApps" xml:space="preserve">
-    <value>[GIcnj][ÆòYour subscription contains no function apps. These are containers where your functions are executed. Create one now. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[GIcnj][ðöYour subscription contains no function apps. These are containers where your functions are executed. Create one now. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_orCreate" xml:space="preserve">
-    <value>[Mi23r][ÿÒOr create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[Mi23r][ÆÊOr create a function app from &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;Azure Portal&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_selectLocation" xml:space="preserve">
-    <value>[Zm41F][ùìSelect Location !!! !!]</value>
+    <value>[Zm41F][ÝêSelect Location !!! !!]</value>
   </data>
   <data name="gettingStarted_selectSubscription" xml:space="preserve">
-    <value>[Qo5CI][øÝSelect Subscription !!! !!! ]</value>
+    <value>[Qo5CI][ÏµSelect Subscription !!! !!! ]</value>
   </data>
   <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
-    <value>[l0pIk][ÿÞSubscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[l0pIk][©ãSubscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_thisSub" xml:space="preserve">
-    <value>[z9IKp][ÐªThis subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[z9IKp][öÎThis subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_validateContainer1" xml:space="preserve">
-    <value>[u4WqF][âòThe name must be at least 2 characters !!! !!! !!! !!]</value>
+    <value>[u4WqF][ç¥The name must be at least 2 characters !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_validateContainer2" xml:space="preserve">
-    <value>[IiOWb][ÞßThe name must be at most 60 characters !!! !!! !!! !!]</value>
+    <value>[IiOWb][ðÓThe name must be at most 60 characters !!! !!! !!! !!]</value>
   </data>
   <data name="gettingStarted_validateContainer3" xml:space="preserve">
-    <value>[2ldyz][ÄäThe name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number) !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[2ldyz][¥ÓThe name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number) !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="gettingStarted_validateContainer4" xml:space="preserve">
-    <value>[Cey3j][§Þfunction app name {{funcName}} isn't available !!! !!! !!! !!! !]</value>
+    <value>[Cey3j][Ëþfunction app name {{funcName}} isn't available !!! !!! !!! !!! !]</value>
   </data>
   <data name="gettingStarted_youNeed" xml:space="preserve">
-    <value>[pMcuB][ÓñYou need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[pMcuB][ü¥You need an Azure subscription in order to use this service. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Click here&lt;/a&gt; to create a free trial subscription !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
-    <value>[6S9B6][ÅÚYour function apps !!! !!!]</value>
+    <value>[6S9B6][ÉÀYour function apps !!! !!!]</value>
   </data>
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
-    <value>[6fq5Y][ÅÞYour subscription !!! !!!]</value>
+    <value>[6fq5Y][ÍÉYour subscription !!! !!!]</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>[pcHSk][@ø2) Choose a language: !!! !!! ]</value>
+    <value>[pcHSk][§ÿ2. Choose a language !!! !!! ]</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>[cQIBg][Îä1) Choose a scenario: !!! !!! ]</value>
+    <value>[cQIBg][ÏÑ1. Choose a scenario !!! !!! ]</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
-    <value>[2PwH3][ÏñCreate this function !!! !!! ]</value>
+    <value>[2PwH3][ÔÂCreate this function !!! !!! ]</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>[BxjYr][Ä§Create your own custom function !!! !!! !!! ]</value>
+    <value>[BxjYr][ÏÑcreate your own custom function !!! !!! !!! ]</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>[rQH0f][£ùCustom function !!! !!]</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
-    <value>[q007q][ÙòData processing !!! !!]</value>
+    <value>[q007q][µÔData processing !!! !!]</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>[lUgaS][ýÀThe faster way to functions !!! !!! !!]</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>[6044v][ªâor !!]</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
-    <value>[AmEoC][åþGet started quickly with a premade function !!! !!! !!! !!! ]</value>
+    <value>[AmEoC][ÖÆGet started quickly with a premade function !!! !!! !!! !!! ]</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>[qgdAc][ÐÔOr get started on your own !!! !!! !!]</value>
+    <value>[qgdAc][ÆôGet started on your own !!! !!! !]</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>[VOCqm][ðÄKeep using this quickstart !!! !!! !!]</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>[ym8CF][ï©If you'd prefer another supported language, choose !!! !!! !!! !!! !!!]</value>
+    <value>[ym8CF][ÃæFor F#, PowerShell, Python, and Batch, !!! !!! !!! !!]</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>[UC498][Áÿstart from source control. !!! !!! !!]</value>
+    <value>[UC498][ñìStart from source control !!! !!! !!]</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
-    <value>[OwYIy][ÏÒTimer !!!]</value>
+    <value>[OwYIy][êìTimer !!!]</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
-    <value>[hp33d][øÜWebhook + API !!! !!]</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>[MAxDP][ýøWrite any function in minutes - whether to run a simple job that cleans up a database or to build a more complex architecture. Creating functions is easier than ever before, whatever your chosen OS, platform, or development method. No install required. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[hp33d][ÈÂWebhook + API !!! !!]</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
-    <value>[l94nS][¢ûClear !!!]</value>
+    <value>[l94nS][íðClear !!!]</value>
   </data>
   <data name="logStreaming_copied" xml:space="preserve">
-    <value>[9d0rU][ïñCopied! !!!]</value>
+    <value>[9d0rU][ÞåCopied! !!!]</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>[uRHXZ][ÈãCopy Logs !!! ]</value>
+    <value>[uRHXZ][ÙÌCopy logs !!! ]</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
-    <value>[quafK][ïÎPause !!!]</value>
+    <value>[quafK][ÏÑPause !!!]</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
-    <value>[512zy][ð¥Start !!!]</value>
+    <value>[512zy][©öStart !!!]</value>
   </data>
   <data name="logStreaming_tooManyLogs" xml:space="preserve">
-    <value>[MXQBR][ÈµToo many logs. Refresh rate: {{seconds}} seconds. !!! !!! !!! !!! !!]</value>
+    <value>[MXQBR][ÇïToo many logs. Refresh rate: {{seconds}} seconds. !!! !!! !!! !!! !!]</value>
   </data>
   <data name="_name" xml:space="preserve">
-    <value>[cNops][õÓName !!]</value>
+    <value>[cNops][¥ôName !!]</value>
     <comment>Can't use "name" as key because typescript has own name property for the object</comment>
   </data>
   <data name="open" xml:space="preserve">
-    <value>[SUapk][ùþOpen !!]</value>
+    <value>[SUapk][êïOpen !!]</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>[90m4i][ÔÑor !!]</value>
+    <value>[90m4i][üþor !!]</value>
   </data>
   <data name="readOnly" xml:space="preserve">
-    <value>[p67R2][©ãRead only - because you have started editing with source control, this view is read only. !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[p67R2][ÓÈRead only - because you have started editing with source control, this view is read only. !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="region" xml:space="preserve">
-    <value>[Xv714][¥ÎRegion !!!]</value>
+    <value>[Xv714][ÊòRegion !!!]</value>
   </data>
   <data name="run" xml:space="preserve">
-    <value>[NR2Ak][Û¥Run !!]</value>
+    <value>[NR2Ak][ÖÖRun !!]</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>[ZTiYZ][åÚSave !!]</value>
+    <value>[ZTiYZ][ØèSave !!]</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
-    <value>[eskne][ÕÞChanges made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[eskne][ÞøChanges made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="sideBar_newFunction" xml:space="preserve">
-    <value>[mzJsh][ôëNew Function !!! !]</value>
+    <value>[mzJsh][èåNew Function !!! !]</value>
   </data>
   <data name="sideBar_refresh" xml:space="preserve">
-    <value>[2JBgw][ªòRefresh !!!]</value>
+    <value>[2JBgw][þßRefresh !!!]</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
-    <value>[Gri6g][ÀµSearch !!!]</value>
+  <data name="search" xml:space="preserve">
+    <value>[Wv03z][ÓëSearch !!!]</value>
+  </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>[WeDEG][@þSearch features !!! !!]</value>
   </data>
   <data name="subscription" xml:space="preserve">
-    <value>[cGfKd][©ÐSubscription !!! !]</value>
+    <value>[cGfKd][ÎÖSubscription ID !!! !!]</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
+    <value>[9AWwS][ûìSubscription !!! !]</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>[EMtWd][ËÂResource group !!! !!]</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>[kfZFk][ÛÌLocation !!! ]</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>[gnNUQ][ðùNo results !!! !]</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
-    <value>[OfSsG][¢çChanges made to the current function will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[OfSsG][ÅïChanges made to the current function will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="topBar_functionAppSettings" xml:space="preserve">
-    <value>[mVGCu][ÅµFunction app settings !!! !!! ]</value>
+    <value>[mVGCu][ÒäFunction app settings !!! !!! ]</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>[T5Tpi][ñïA new version of Azure Functions is available. To upgrade visit !!! !!! !!! !!! !!! !!!]</value>
+    <value>[T5Tpi][ÑÁA new version of Azure Functions is available. To upgrade, click here !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
-    <value>[cjfhr][ÙðQuickstart !!! !]</value>
+    <value>[cjfhr][Ô¥Quickstart !!! !]</value>
   </data>
   <data name="topBar_usage" xml:space="preserve">
-    <value>[9xZ9t][ÐòUsage !!!]</value>
+    <value>[9xZ9t][ÒüUsage !!!]</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>[U3vby][ÑÈAll !!]</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>[8x1fG][ÀðAdvanced Settings !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>[WUUsP][ÝåAllow clients to more easily consume your HTTP-triggered functions !!! !!! !!! !!! !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>[cGmyO][ÑÙAllow your HTTP-triggered functions to be called from within a web browser !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>[U669i][ÒÓAPI definition !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>[YW3u4][ÜÌAuthentication/Authorization !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>[J9ERx][ïïContinuous Integration !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>[Amuav][©çConfigure authentication !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>[QdNuq][ÚýConfigure API metadata !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>[vP6Rz][¥ØConfigure continuous integration !!! !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>[t1kTJ][Ô§Configure CORS !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>[1gUpF][ÈíDeploy your function code from GitHub, Visual Studio Team Services, and more !!! !!! !!! !!! !!! !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>[IdyEg][ýËFor functions that use the HTTP trigger, you can require calls to be authenticated !!! !!! !!! !!! !!! !!! !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>[nFUXm][ëÉfunction app settings !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>[jqGaK][ÊËGo to App Service Settings !!! !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>[lpg0i][õÏManage your function app like any other App Service instance. !!! !!! !!! !!! !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>[QGT6K][ôÊMemory Size !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>[tG54I][çðRuntime version: Latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>[URiez][æ©Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[U3vby][ÏìAll !!]</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
-    <value>[yo2If][ÉÛApp executions !!! !!]</value>
+    <value>[yo2If][©ÌApp executions !!! !!]</value>
   </data>
   <data name="appMonitoring_appUsage" xml:space="preserve">
-    <value>[3dLXg][ªþApp Usage(Gb Sec) !!! !!!]</value>
+    <value>[3dLXg][çµApp Usage(Gb Sec) !!! !!!]</value>
   </data>
   <data name="appMonitoring_functionAppUsage" xml:space="preserve">
-    <value>[b4tIr][ÂÏFunction App Usage !!! !!!]</value>
+    <value>[b4tIr][ßÅFunction App Usage !!! !!!]</value>
   </data>
   <data name="appMonitoring_noData" xml:space="preserve">
-    <value>[OPtrV][ëÔNo data available !!! !!!]</value>
+    <value>[OPtrV][ÊâNo data available !!! !!!]</value>
   </data>
   <data name="appMonitoring_ofExecutions" xml:space="preserve">
-    <value>[03hIV][Õõof executions !!! !!]</value>
+    <value>[03hIV][ÖÏof executions !!! !!]</value>
   </data>
   <data name="binding_parameterName" xml:space="preserve">
-    <value>[Wtqp5][ÏÐParameter name !!! !!]</value>
+    <value>[Wtqp5][ÌÁParameter name !!! !!]</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>[28Gw1][ÑýClose !!!]</value>
+    <value>[28Gw1][ÿäClose !!!]</value>
   </data>
   <data name="config" xml:space="preserve">
-    <value>[fiRY6][ðÌConfig !!!]</value>
+    <value>[fiRY6][êÞConfig !!!]</value>
   </data>
   <data name="cors" xml:space="preserve">
-    <value>[Oi4NP][µùCORS !!]</value>
+    <value>[Oi4NP][ýçCORS !!]</value>
   </data>
   <data name="create" xml:space="preserve">
-    <value>[j7hh7][¥óCreate !!!]</value>
+    <value>[j7hh7][øÞCreate !!!]</value>
   </data>
   <data name="dashboard_yourTrialExpiered" xml:space="preserve">
-    <value>[w6XMR][êîYour trial has expired !!! !!! !]</value>
+    <value>[w6XMR][ÉÿYour trial has expired !!! !!! !]</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>[aHE4R][õÄDisabled !!! ]</value>
+    <value>[aHE4R][ÂÓDisabled !!! ]</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>[5tA68][ÊÞEnabled !!!]</value>
+    <value>[5tA68][ÝçEnabled !!!]</value>
   </data>
   <data name="errorList_here" xml:space="preserve">
-    <value>[StZeI][ãðhere !!]</value>
+    <value>[StZeI][Ëähere !!]</value>
   </data>
   <data name="errorList_youMay" xml:space="preserve">
-    <value>[qnJ4m][µãYou may be experiencing an error. If you're having issues, please post them !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[qnJ4m][ïÓYou may be experiencing an error. If you're having issues, please post them !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
-    <value>[rAcqH][ÞýError parsing config: {{error}} !!! !!! !!! ]</value>
+    <value>[rAcqH][ößError parsing config: {{error}} !!! !!! !!! ]</value>
   </data>
   <data name="features" xml:space="preserve">
-    <value>[m0qJa][Â£Features !!! ]</value>
+    <value>[m0qJa][ôåFeatures !!! ]</value>
   </data>
   <data name="filedRequired" xml:space="preserve">
-    <value>[qPCpe][îäThis field is required !!! !!! !]</value>
+    <value>[qPCpe][ìÇThis field is required !!! !!! !]</value>
   </data>
   <data name="functionDev_code" xml:space="preserve">
-    <value>[J8v9W][ÖîCode !!]</value>
+    <value>[J8v9W][Ä£Code !!]</value>
   </data>
   <data name="functionDev_run" xml:space="preserve">
-    <value>[wmrlO][óûRun !!]</value>
+    <value>[wmrlO][ÚøRun !!]</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>[L3v4Z][äÄRead only - because you have started editing with source control, this view is read only. You can edit these settings in function.json !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[L3v4Z][ä¢Read only - because you have started editing with source control, this view is read only. !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
-    <value>[XKoih][øÓAdvanced editor !!! !!]</value>
+    <value>[XKoih][áÑAdvanced editor !!! !!]</value>
   </data>
   <data name="functionIntegrate_changesLost1" xml:space="preserve">
-    <value>[UPPmU][ûæChanges made will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!]</value>
+    <value>[UPPmU][ÝÎChanges made will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionIntegrate_changesLost2" xml:space="preserve">
-    <value>[oEF4e][úÒChanges made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[oEF4e][@ÍChanges made to function {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionIntegrate_settingName" xml:space="preserve">
-    <value>[m230i][Æ@Setting name: !!! !!]</value>
+    <value>[m230i][ÕíSetting name: !!! !!]</value>
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
-    <value>[0m98f][ÏËStandard editor !!! !!]</value>
+    <value>[0m98f][âÉStandard editor !!! !!]</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
-    <value>[ofcbI][ðËAre you sure you want to delete Function {{name}}? !!! !!! !!! !!! !!!]</value>
+    <value>[ofcbI][ÁÇAre you sure you want to delete Function {{name}}? !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="functionMonitor_loading" xml:space="preserve">
-    <value>[z94cm][ÛÛLoading ... !!! !]</value>
+    <value>[z94cm][âðLoading ... !!! !]</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>[r059Y][ÞùRecent success count !!! !!! ]</value>
+    <value>[r059Y][éÌSuccess count since !!! !!! ]</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>[U9g38][ØÚRecent errors count !!! !!! ]</value>
+    <value>[U9g38][ÙÝError count since !!! !!!]</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
-    <value>[a9qoH][ïâInvocation log !!! !!]</value>
+    <value>[a9qoH][ÔéInvocation log !!! !!]</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>[kXEkP][µöInvocation details !!! !!!]</value>
+    <value>[kXEkP][ïáInvocation details !!! !!!]</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
-    <value>[5w5KC][ÉòLogs !!]</value>
+    <value>[5w5KC][µçLogs !!]</value>
   </data>
   <data name="functionMonitor_pulseUrl" xml:space="preserve">
-    <value>[gcbE8][Ãàlive event stream !!! !!!]</value>
+    <value>[gcbE8][ìülive event stream !!! !!!]</value>
   </data>
   <data name="functionMonitorTable_functionColumn" xml:space="preserve">
-    <value>[kN17H][ÉçFunction !!! ]</value>
+    <value>[kN17H][£ãFunction !!! ]</value>
   </data>
   <data name="functionMonitorTable_statusColumn" xml:space="preserve">
-    <value>[m5m6f][ÔéStatus !!!]</value>
+    <value>[m5m6f][ãèStatus !!!]</value>
   </data>
   <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
-    <value>[BASuW][ÃÁDetails: Last ran !!! !!!]</value>
+    <value>[BASuW][éªDetails: Last ran !!! !!!]</value>
   </data>
   <data name="functionMonitorTable_durationColumn" xml:space="preserve">
-    <value>[QYcnf][ÎÅ(duration) !!! !]</value>
+    <value>[QYcnf][ÂÀ(duration) !!! !]</value>
   </data>
   <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
-    <value>[t55X6][§ÜParameter !!! ]</value>
+    <value>[t55X6][ÛÌParameter !!! ]</value>
   </data>
   <data name="functionService_authIsEnabled" xml:space="preserve">
-    <value>[pie5F][ÐÐAuthentication is enabled for the function app. Disable authentication before running the function. !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[pie5F][ÕÈAuthentication is enabled for the function app. Disable authentication before running the function. !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="functionService_errorRunningFunc" xml:space="preserve">
-    <value>[g55Ib][ÈÐThere was an error running function ({{name}}). Check logs output for the full error. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[g55Ib][ÁÛThere was an error running function ({{name}}). Check logs output for the full error. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="input" xml:space="preserve">
-    <value>[ni51t][ÀÔInputs !!!]</value>
+    <value>[ni51t][ÇáInputs !!!]</value>
   </data>
   <data name="logStreaming_logs" xml:space="preserve">
-    <value>[BxGrN][íÖLogs !!]</value>
+    <value>[BxGrN][ößLogs !!]</value>
   </data>
   <data name="newInput" xml:space="preserve">
-    <value>[9mkDf][£øNew Input !!! ]</value>
+    <value>[9mkDf][@ÐNew Input !!! ]</value>
   </data>
   <data name="newOutput" xml:space="preserve">
-    <value>[u0x1V][õ£New Output !!! !]</value>
+    <value>[u0x1V][âÀNew Output !!! !]</value>
   </data>
   <data name="newTrigger" xml:space="preserve">
-    <value>[fpntM][úÿNew Trigger !!! !]</value>
+    <value>[fpntM][ÜóNew Trigger !!! !]</value>
   </data>
   <data name="next" xml:space="preserve">
-    <value>[e1rTR][ÒÔNext !!]</value>
+    <value>[e1rTR][øÜNext !!]</value>
   </data>
   <data name="notValidValue" xml:space="preserve">
-    <value>[azTKD][ÇáNot valid value !!! !!]</value>
+    <value>[azTKD][ÿøNot valid value !!! !!]</value>
   </data>
   <data name="output" xml:space="preserve">
-    <value>[F4dds][ÇªOutputs !!!]</value>
+    <value>[F4dds][Ö¥Outputs !!!]</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>[vrdXE][¢ÆSelect !!!]</value>
+    <value>[vrdXE][ÓøSelect !!!]</value>
   </data>
   <data name="tabNames_develop" xml:space="preserve">
-    <value>[DqD6m][Ü§Develop !!!]</value>
+    <value>[DqD6m][äÞDevelop !!!]</value>
   </data>
   <data name="tabNames_integrate" xml:space="preserve">
-    <value>[hvG21][¢ýIntegrate !!! ]</value>
+    <value>[hvG21][ýöIntegrate !!! ]</value>
   </data>
   <data name="tabNames_manage" xml:space="preserve">
-    <value>[50Yko][éÅManage !!!]</value>
+    <value>[50Yko][ÉõManage !!!]</value>
   </data>
   <data name="tabNames_monitor" xml:space="preserve">
-    <value>[Bo1ZH][¢ÅMonitor !!!]</value>
+    <value>[Bo1ZH][ãÁMonitor !!!]</value>
   </data>
   <data name="templatePicker_chooseInput" xml:space="preserve">
-    <value>[h8mDd][ÙøChoose an input binding !!! !!! !]</value>
+    <value>[h8mDd][ÂÛChoose an input binding !!! !!! !]</value>
   </data>
   <data name="templatePicker_chooseOutput" xml:space="preserve">
-    <value>[FibqR][æ©Choose an output binding !!! !!! !]</value>
+    <value>[FibqR][ÈúChoose an output binding !!! !!! !]</value>
   </data>
   <data name="templatePicker_chooseTemplate" xml:space="preserve">
-    <value>[4b5uS][ìÊChoose a template !!! !!!]</value>
+    <value>[4b5uS][ÖËChoose a template !!! !!!]</value>
   </data>
   <data name="templatePicker_chooseTrigger" xml:space="preserve">
-    <value>[uB8CD][ìÄChoose a trigger !!! !!!]</value>
+    <value>[uB8CD][ùùChoose a trigger !!! !!!]</value>
   </data>
   <data name="templatePicker_language" xml:space="preserve">
-    <value>[dppNp][Û@Language: !!! ]</value>
+    <value>[dppNp][âíLanguage: !!! ]</value>
   </data>
   <data name="templatePicker_scenario" xml:space="preserve">
-    <value>[AMJtI][ÅóScenario: !!! ]</value>
+    <value>[AMJtI][ðÑScenario: !!! ]</value>
   </data>
   <data name="trigger" xml:space="preserve">
-    <value>[1Gq31][áËTriggers !!! ]</value>
+    <value>[1Gq31][ÁÁTriggers !!! ]</value>
   </data>
   <data name="tryNow_trialExpired" xml:space="preserve">
-    <value>[Nav0l][ðúTrial expired !!! !!]</value>
+    <value>[Nav0l][ùËTrial expired !!! !!]</value>
   </data>
   <data name="tutorial_changesMade" xml:space="preserve">
-    <value>[z6q5S][ÊÖChanges made here will affect all of the functions within your function app. !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[z6q5S][ÀëChanges made here will affect all of the functions within your function app. !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>[4WGl6][óÈ&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the prebuilt function templates !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[4WGl6][ôÉ&lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the pre-built function templates !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
-    <value>[EazO5][ùÌDevelop !!!]</value>
+    <value>[EazO5][âËDevelop !!!]</value>
   </data>
   <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
-    <value>[cIfph][µ§&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[cIfph][ðÛ&lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;here&lt;/a&gt; !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="tutorial_functionAppSettings" xml:space="preserve">
-    <value>[Z0a96][óæFunction App Settings !!! !!! ]</value>
+    <value>[Z0a96][§âFunction App Settings !!! !!! ]</value>
   </data>
   <data name="tutorial_integrate" xml:space="preserve">
-    <value>[Xw7Ys][ëñIntegrate !!! ]</value>
+    <value>[Xw7Ys][ÐÚIntegrate !!! ]</value>
   </data>
   <data name="tutorial_integrateYourFunction" xml:space="preserve">
-    <value>[kjLVb][áÃIntegrating your functions with other services and data sources is easy. !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[kjLVb][ÿòIntegrating your functions with other services and data sources is easy. !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tutorial_nextSteps" xml:space="preserve">
-    <value>[YhOTp][é¢Next Steps !!! !]</value>
+    <value>[YhOTp][ñªNext Steps !!! !]</value>
   </data>
   <data name="tutorial_setUpAutomated" xml:space="preserve">
-    <value>[BuAxL][íêSet up automated actions based on external triggers, include other input data sources, and send the output to multiple targets. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[BuAxL][ÅÝSet up automated actions based on external triggers, include other input data sources, and send the output to multiple targets. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_skip" xml:space="preserve">
-    <value>[uVXps][§ÿSkip the tour and start coding !!! !!! !!!]</value>
+    <value>[uVXps][ÃÀSkip the tour and start coding !!! !!! !!!]</value>
   </data>
   <data name="tutorial_theFastestWayNode" xml:space="preserve">
-    <value>[xujYO][íÌThe fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[xujYO][ÒæThe fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_thisPageInclude" xml:space="preserve">
-    <value>[Oeh5e][ìßThis page also includes a log stream and a test console for helping you debug your function. !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[Oeh5e][µþThis page also includes a log stream and a test console for helping you debug your function. !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_tweakThisSample" xml:space="preserve">
-    <value>[SrGrl][ßÀ&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[SrGrl][æÀ&lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tutorial_yourFunction" xml:space="preserve">
-    <value>[c2DAb][æÄYour functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[c2DAb][ó¢Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>[BsMNY][ØòUpdate !!!]</value>
+    <value>[BsMNY][ó@Update !!!]</value>
   </data>
   <data name="bindingInput_select" xml:space="preserve">
-    <value>[93db5][ÄËselect !!!]</value>
+    <value>[93db5][ÍÜselect !!!]</value>
   </data>
   <data name="binding_delete" xml:space="preserve">
-    <value>[Px7eu][ËËdelete !!!]</value>
+    <value>[Px7eu][Éídelete !!!]</value>
   </data>
   <data name="bindingsValidationDirectionMissed" xml:space="preserve">
-    <value>[TFETU][î£Parameter 'direction' is missed. !!! !!! !!! ]</value>
+    <value>[TFETU][ÎàParameter 'direction' is missed. !!! !!! !!! ]</value>
   </data>
   <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
-    <value>[yKPGF][ÍüUnknown direction: '{{direction}}'. !!! !!! !!! !]</value>
+    <value>[yKPGF][àÑUnknown direction: '{{direction}}'. !!! !!! !!! !]</value>
   </data>
   <data name="bindingsValidationNameDublicate" xml:space="preserve">
-    <value>[88vLi][éèParameter name must be unique in a function: '{{functionName}}' !!! !!! !!! !!! !!! !!!]</value>
+    <value>[88vLi][åöParameter name must be unique in a function: '{{functionName}}' !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="bindingsValidationNameMissed" xml:space="preserve">
-    <value>[wAfYV][ù©Parameter 'name' is missed. !!! !!! !!]</value>
+    <value>[wAfYV][ÎíParameter 'name' is missed. !!! !!! !!]</value>
   </data>
   <data name="bindingsValidationTypeMIssed" xml:space="preserve">
-    <value>[UPyLm][óèParameter 'type' is missed. !!! !!! !!]</value>
+    <value>[UPyLm][áÒParameter 'type' is missed. !!! !!! !!]</value>
   </data>
   <data name="bindingsValidationTypeUnknown" xml:space="preserve">
-    <value>[dBgLF][âµUnknown type: '{{type}}'. !!! !!! !!]</value>
+    <value>[dBgLF][ÀÛUnknown type: '{{type}}'. !!! !!! !!]</value>
   </data>
   <data name="resourceSelect" xml:space="preserve">
-    <value>[H9FOe][ÁÓWaiting for the resource !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>[qso5Y][ÔÛRuntime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>[YFkSm][ÂóRuntime version: latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!!]</value>
+    <value>[H9FOe][üÈWaiting for the resource !!! !!! !]</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
-    <value>[C0x5g][ôéWe've enjoyed hosting your functions ! !!! !!! !!! !!]</value>
+    <value>[C0x5g][ÙÐWe've enjoyed hosting your functions ! !!! !!! !!! !!]</value>
   </data>
   <data name="trialExpired_signupForAzure" xml:space="preserve">
-    <value>[pEr2v][ðÛYour trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[pEr2v][ÈÃYour trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
-    <value>[MmFW5][©éChoose an auth provider !!! !!! !]</value>
+    <value>[MmFW5][ÿõChoose an auth provider !!! !!! !]</value>
   </data>
   <data name="tryLanding_microsoftAcccount" xml:space="preserve">
-    <value>[xGxmh][ÂöMicrosoft Account !!! !!!]</value>
+    <value>[xGxmh][ÔàMicrosoft Account !!! !!!]</value>
   </data>
   <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
-    <value>[Y7sP3][ÈöCreate a free Azure account !!! !!! !!]</value>
+    <value>[Y7sP3][ïÉCreate a free Azure account !!! !!! !!]</value>
   </data>
   <data name="tryNow_extendTrial" xml:space="preserve">
-    <value>[MpBJl][ªªExtend trial to 24 hours !!! !!! !]</value>
+    <value>[MpBJl][ÐÚExtend trial to 24 hours !!! !!! !]</value>
   </data>
   <data name="tryNow_trialTimeRemaining" xml:space="preserve">
-    <value>[li1Tb][ÛÜFree Trial - Time remaining: !!! !!! !!!]</value>
+    <value>[li1Tb][§ãFree Trial - Time remaining: !!! !!! !!!]</value>
   </data>
   <data name="tryLanding_functionError" xml:space="preserve">
-    <value>[XItrU][ÁÏFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
+    <value>[XItrU][ßöFunction creation error! Please try again. !!! !!! !!! !!! ]</value>
   </data>
   <data name="tryLanding_functionErrorDetails" xml:space="preserve">
-    <value>[eNJlt][õØCreate Function Error !!! !!! ]</value>
+    <value>[eNJlt][îëCreate Function Error !!! !!! ]</value>
   </data>
   <data name="tryLanding_ifYou" xml:space="preserve">
-    <value>[JyFkD][ÓòIf you'd prefer another supported language, you can choose one later in the functions portal. !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[JyFkD][ËìIf you'd prefer another supported language, you can choose one later in the functions portal. !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tryNow_minutes" xml:space="preserve">
-    <value>[795ge][ªÉ minutes !!! ]</value>
+    <value>[795ge][ãÏ minutes !!! ]</value>
   </data>
   <data name="bindingInput_new" xml:space="preserve">
-    <value>[ECXmU][ÀÃnew !!]</value>
+    <value>[ECXmU][Ý£new !!]</value>
   </data>
   <data name="integrate_inputsHelp" xml:space="preserve">
-    <value>[SP7uC][µæInput bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[SP7uC][µíInput bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="integrate_outputsHelp" xml:space="preserve">
-    <value>[PEQE2][ÆêOutputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[PEQE2][ÏÆOutputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="integrate_triggersHelp" xml:space="preserve">
-    <value>[l09UW][ÝèTriggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[l09UW][ãÁTriggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="binding_createNewFunction" xml:space="preserve">
-    <value>[ocAoW][ÊµCreate a new function triggered by this output !!! !!! !!! !!! !]</value>
+    <value>[ocAoW][åÄCreate a new function triggered by this output !!! !!! !!! !!! !]</value>
   </data>
   <data name="binding_documentation" xml:space="preserve">
-    <value>[wMNk4][ìÌDocumentation !!! !!]</value>
+    <value>[wMNk4][ßþDocumentation !!! !!]</value>
   </data>
   <data name="binding_go" xml:space="preserve">
-    <value>[q11Kx][§äGo !!]</value>
+    <value>[q11Kx][ëÇGo !!]</value>
   </data>
   <data name="copypre_copied" xml:space="preserve">
-    <value>[Gtjfq][æ£Copied! !!!]</value>
+    <value>[Gtjfq][öèCopied! !!!]</value>
   </data>
   <data name="copypre_copyClipboard" xml:space="preserve">
-    <value>[BpNYe][¢ÂCopy to clipboard !!! !!!]</value>
+    <value>[BpNYe][ÝÔCopy to clipboard !!! !!!]</value>
   </data>
   <data name="fileExplorer_changesLost" xml:space="preserve">
-    <value>[mC5qm][ööChanges made to current file will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[mC5qm][ÔÌChanges made to current file will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="fileExplorer_deletePromt" xml:space="preserve">
-    <value>[NAlJ6][ÜÀAre you sure you want to delete {{fileName}} !!! !!! !!! !!! ]</value>
+    <value>[NAlJ6][î£Are you sure you want to delete {{fileName}} !!! !!! !!! !!! ]</value>
   </data>
   <data name="fileExplorer_editingBinary" xml:space="preserve">
-    <value>[RGD9i][©òEditing binary files is not supported. !!! !!! !!! !!]</value>
+    <value>[RGD9i][çÄEditing binary files is not supported. !!! !!! !!! !!]</value>
   </data>
   <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
-    <value>[TOGJS][ÊæError creating file: {{fileName}} !!! !!! !!! !]</value>
+    <value>[TOGJS][µíError creating file: {{fileName}} !!! !!! !!! !]</value>
   </data>
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
-    <value>[KcPQJ][ÓÏError deleting file: {{fileName}} !!! !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>[ppLE7][ãýApplication settings !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>[YzX2g][ÃÌManage environment variables and connection strings for your function app !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>[ckMMW][òÆDev Console !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>[Izdgz][þÂIn-portal console for accessing your function app’s file system !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>[I349Y][áÄKudu !!]</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>[ThQpw][ÂÖAccess advanced functionality of App Service like uploading zips, killing processes, and more !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>[cwVVG][øãConfigure app settings !!! !!! !]</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>[cCOFb][þÀOpen dev console !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>[zWbs7][ÌéGo to Kudu !!! !]</value>
+    <value>[KcPQJ][ÆðError deleting file: {{fileName}} !!! !!! !!! !]</value>
   </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
-    <value>[ODzDm][ÀãThe fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[ODzDm][ÆÓThe fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="binding_actions" xml:space="preserve">
-    <value>[thyZd][ËåActions !!!]</value>
+    <value>[thyZd][ÊêActions !!!]</value>
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
-    <value>[tFzAi][îÏLess than 1 minute !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>[Jk5zY][Ü©Not available during your free trial! Create a free Azure account by clicking the link above !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[tFzAi][ðÇLess than 1 minute !!! !!!]</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
-    <value>[QIBBg][íªSigning up for a free Azure account unlocks all Functions capabilities without worrying about time limits! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[QIBBg][ðúSigning up for a free Azure account unlocks all Functions capabilities without worrying about time limits! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="error_CORSNotConfigured" xml:space="preserve">
-    <value>[BBlkj][µþCORS is not configured for this function app. Please add {{origin}} to your CORS list. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[BBlkj][©ìCORS is not configured for this function app. Please add {{origin}} to your CORS list. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="error_DnsResolution" xml:space="preserve">
-    <value>[Kw2qm][ô@We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[Kw2qm][æïWe are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
-    <value>[36sqx][óêUnable to retrieve Function App ({{functionApp}}) !!! !!! !!! !!! !!]</value>
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
+    <value>[QKjJG][ÿéUnable to retrieve Function App ({{functionApp}}) !!! !!! !!! !!! !!]</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
-    <value>[HnqIC][©íWe are unable to reach your function app ({{statusText}}). Please try again later. !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
+    <value>[jb97o][ÐÁWe are unable to reach your function app ({{statusText}}). Please try again later. !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
-    <value>[0A9sc][öýJust a few more seconds... !!! !!! !!]</value>
+    <value>[0A9sc][òÏJust a few more seconds... !!! !!! !!]</value>
   </data>
   <data name="tryNow_hangOn" xml:space="preserve">
-    <value>[7LEKN][ÚÏHang on while we put the 'fun' in functions... !!! !!! !!! !!! !]</value>
+    <value>[7LEKN][ôýHang on while we put the 'fun' in functions... !!! !!! !!! !!! !]</value>
   </data>
   <data name="tryNow_discoverMore" xml:space="preserve">
-    <value>[0j5Pw][ûýDiscover more !!! !!]</value>
+    <value>[0j5Pw][¥ÀDiscover more !!! !!]</value>
   </data>
   <data name="fileExplorer_add" xml:space="preserve">
-    <value>[oXxpn][ÍåAdd !!]</value>
+    <value>[oXxpn][ÉÒAdd !!]</value>
   </data>
   <data name="fileExplorer_delete" xml:space="preserve">
-    <value>[ek1a0][ªÛDelete !!!]</value>
+    <value>[ek1a0][ÒÌDelete !!!]</value>
   </data>
   <data name="fileExplorer_edit" xml:space="preserve">
-    <value>[onXWc][¥µEdit !!]</value>
+    <value>[onXWc][ãêEdit !!]</value>
   </data>
   <data name="fileExplorer_upload" xml:space="preserve">
-    <value>[G927o][ÚÂUpload !!!]</value>
+    <value>[G927o][©õUpload !!!]</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
-    <value>[eJppo][æãOne or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[eJppo][ñäOne or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
-    <value>[X3JOA][ÿõA File with the name {{fileName}} already exists. !!! !!! !!! !!! !!]</value>
+    <value>[X3JOA][¥ÒA File with the name {{fileName}} already exists. !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionNew_functionExsists" xml:space="preserve">
-    <value>[M24Zk][@ÝFunction with name '{{name}}' already exists. !!! !!! !!! !!! !]</value>
+    <value>[M24Zk][ÛèFunction with name '{{name}}' already exists. !!! !!! !!! !!! !]</value>
   </data>
   <data name="binding_storageAccountKey" xml:space="preserve">
-    <value>[EnwGU][ÊñAccount Key: !!! !]</value>
+    <value>[EnwGU][ÓµAccount Key: !!! !]</value>
   </data>
   <data name="binding_storageAccountName" xml:space="preserve">
-    <value>[gXF2N][£ÐAccount Name: !!! !!]</value>
+    <value>[gXF2N][ÙåAccount Name: !!! !!]</value>
   </data>
   <data name="binding_storageInfoFooter" xml:space="preserve">
-    <value>[DXio5][ÒþYou can now view the blobs, queues and tables associated with this storage binding. !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[DXio5][ÿüYou can now view the blobs, queues and tables associated with this storage binding. !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="binding_storageInfoHeader" xml:space="preserve">
-    <value>[X9hDS][¢§Connecting to your Storage Account !!! !!! !!! !]</value>
+    <value>[X9hDS][âíConnecting to your Storage Account !!! !!! !!! !]</value>
   </data>
   <data name="binding_storageInfoHeader2" xml:space="preserve">
-    <value>[c4Tku][ïáDownload Storage explorer from here:       !!! !!! !!! !!! ]</value>
+    <value>[c4Tku][òÆDownload Storage explorer from here:       !!! !!! !!! !!! ]</value>
   </data>
   <data name="binding_storageInfoHeader3" xml:space="preserve">
-    <value>[wASvF][@©Connect using these credentials: !!! !!! !!! ]</value>
+    <value>[wASvF][Î@Connect using these credentials: !!! !!! !!! ]</value>
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
-    <value>[126IU][ÔÓLearn more !!! !]</value>
+    <value>[126IU][ßÀLearn more !!! !]</value>
   </data>
   <data name="httpRun_addHeader" xml:space="preserve">
-    <value>[gtBG3][Ê£Add header !!! !]</value>
+    <value>[gtBG3][Í©Add header !!! !]</value>
   </data>
   <data name="httpRun_addParameter" xml:space="preserve">
-    <value>[BKdUW][ìÎAdd parameter !!! !!]</value>
+    <value>[BKdUW][úçAdd parameter !!! !!]</value>
   </data>
   <data name="httpRun_httpMethod" xml:space="preserve">
-    <value>[pDm22][ÆïHTTP method !!! !]</value>
+    <value>[pDm22][èäHTTP method !!! !]</value>
   </data>
   <data name="httpRun_query" xml:space="preserve">
-    <value>[6HP2E][ÌëQuery !!!]</value>
+    <value>[6HP2E][©ÓQuery !!!]</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>[xhZqa][Îª"Always On" setting is set to off !!! !!! !!! !]</value>
+    <value>[xhZqa][ô§'AlwaysOn' is not enabled. Your app may not function properly !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
-    <value>[j7Dwg][ÇÑAzure Functions release notes. !!! !!! !!!]</value>
+    <value>[j7Dwg][ÞÿAzure Functions release notes. !!! !!! !!!]</value>
   </data>
   <data name="adminKeys_title" xml:space="preserve">
-    <value>[paZ7w][æøHost Keys (All functions) !!! !!! !!]</value>
+    <value>[paZ7w][ïòHost Keys (All functions) !!! !!! !!]</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>[46BXr][@ñAdd new admin key !!! !!!]</value>
+    <value>[46BXr][üáAdd new host key !!! !!!]</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
-    <value>[HdFLd][ÁÝAdd new function key !!! !!! ]</value>
+    <value>[HdFLd][ÌÞAdd new function key !!! !!! ]</value>
   </data>
   <data name="functionKeys_clickToShow" xml:space="preserve">
-    <value>[cCZiE][çÐClick to show !!! !!]</value>
+    <value>[cCZiE][ÊÿClick to show !!! !!]</value>
   </data>
   <data name="functionKeys_discard" xml:space="preserve">
-    <value>[mTH2T][âäDiscard !!!]</value>
+    <value>[mTH2T][ëÕDiscard !!!]</value>
   </data>
   <data name="functionKeys_enterKeyName" xml:space="preserve">
-    <value>[4QSZ9][ðÎ(Required) !!! !]</value>
+    <value>[4QSZ9][öÏ(Required) !!! !]</value>
   </data>
   <data name="functionKeys_enterKeyValue" xml:space="preserve">
-    <value>[EUUtC][ûñ(Optional) Leave empty to auto-generate a key. !!! !!! !!! !!! !]</value>
+    <value>[EUUtC][Ý@(Optional) Leave empty to auto-generate a key. !!! !!! !!! !!! !]</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>[erPUO][óÓKey Name !!! ]</value>
+    <value>[erPUO][äÜNAME !!]</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>[mUjmH][ÏÿKey Value !!! ]</value>
+    <value>[mUjmH][äîVALUE !!!]</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
-    <value>[JSzQT][§õFunction Keys !!! !!]</value>
+    <value>[JSzQT][ÿýFunction Keys !!! !!]</value>
   </data>
   <data name="binding_storageConnectionString" xml:space="preserve">
-    <value>[MSHjP][@ÂConnection String: !!! !!!]</value>
+    <value>[MSHjP][ÀÂConnection String: !!! !!!]</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
-    <value>[ROnSW][ÒïDaily Usage Quota (GB-Sec) !!! !!! !!]</value>
+    <value>[ROnSW][À©Daily Usage Quota (GB-Sec) !!! !!! !!]</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>[IkdMH][ÏëThe Function App has reached daily usage quota and has been stopped until the next 24 hours timeframe. !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[IkdMH][þÒThe Function App has reached daily usage quota and has been stopped until the next 24 hours time frame. !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
-    <value>[x3Egh][ÊñRemove quota !!! !]</value>
+    <value>[x3Egh][èúRemove quota !!! !]</value>
   </data>
   <data name="functionAppSettings_setQuota" xml:space="preserve">
-    <value>[l3EAu][ÉáSet quota !!! ]</value>
+    <value>[l3EAu][ãªSet quota !!! ]</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>[asz3b][á£The Function App will be stopped when reaching daily usage until the next 24 hours timeframe. !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[asz3b][ÅäThe Function App will be stopped when reaching daily usage until the next 24 hours time frame. !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
-    <value>[t45zF][àæAre you sure you want to revoke {{name}} key? !!! !!! !!! !!! !]</value>
+    <value>[t45zF][ûªAre you sure you want to revoke {{name}} key? !!! !!! !!! !!! !]</value>
   </data>
   <data name="keys" xml:space="preserve">
-    <value>[WtYrO][À£Keys !!]</value>
+    <value>[WtYrO][ðÈKeys !!]</value>
   </data>
   <data name="functionNew_nameError" xml:space="preserve">
-    <value>[KrHSb][õÚThe name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_"). !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[KrHSb][Ñ£The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes ("-"), and underscores ("_"). !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
   </data>
   <data name="functionDev_loading" xml:space="preserve">
-    <value>[6XWuz][ÙÀLoading.. !!! ]</value>
+    <value>[6XWuz][õÇLoading.. !!! ]</value>
   </data>
   <data name="test" xml:space="preserve">
-    <value>[v8xCB][àÈTest !!]</value>
-  </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>[YmU5c][öèDeploy !!!]</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>[RyH7M][ÞÛDevelop !!!]</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>[ICErc][øñManage !!!]</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>[ig5tp][üØApp Service Settings !!! !!! ]</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>[QxoJ8][ùñAdvanced Features. Access all the underlying features of Azure App Service !!! !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>[NB4SM][ÅòApp Service Editor !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>[k60nu][íÜIn portal editor with an integrated console and streaming logs !!! !!! !!! !!! !!! !!!]</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>[ybKTN][ÝñGo to App Service Editor !!! !!! !]</value>
+    <value>[v8xCB][õ¢Test !!]</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
-    <value>[TKXLS][áÔRuntime version !!! !!]</value>
+    <value>[TKXLS][ÒØRuntime version !!! !!]</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
-    <value>[lPVP6][ÌôYour function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+    <value>[lPVP6][ñßYour function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
   </data>
   <data name="error_siteStopped" xml:space="preserve">
-    <value>[twIVl][ÙªYour function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[twIVl][¢þYour function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="error_NoPermissionToAccessApp" xml:space="preserve">
-    <value>[XTkxH][áÔYou don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+    <value>[XTkxH][¥èYou don't have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="errorUniqueParameterName" xml:space="preserve">
-    <value>[z6S2c][ÍÔParameter name must be unique. !!! !!! !!!]</value>
+    <value>[z6S2c][óÂParameter name must be unique. !!! !!! !!!]</value>
   </data>
   <data name="binding_useFunctionReturnValue" xml:space="preserve">
-    <value>[IjLOy][ËãUse function return value !!! !!! !!]</value>
+    <value>[IjLOy][ú¢Use function return value !!! !!! !!]</value>
   </data>
   <data name="functionEdit_functionState" xml:space="preserve">
-    <value>[gQuLe][ãôFunction State !!! !!]</value>
+    <value>[gQuLe][úðFunction State !!! !!]</value>
   </data>
   <data name="off" xml:space="preserve">
-    <value>[3o2Ex][äõOff !!]</value>
+    <value>[3o2Ex][íÎOff !!]</value>
   </data>
   <data name="on" xml:space="preserve">
-    <value>[v4Xef][óöOn !!]</value>
+    <value>[v4Xef][§ùOn !!]</value>
   </data>
   <data name="topBar_functionApiSettings" xml:space="preserve">
-    <value>[l5gut][ìèAPI settings !!! !]</value>
+    <value>[l5gut][µñAPI settings !!! !]</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>[fGlxB][ßôNew API Proxy !!! !!]</value>
+    <value>[fGlxB][ÚëNew proxy !!! ]</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
-    <value>[j0s0Z][öûAll methods !!! !]</value>
+    <value>[j0s0Z][ÍñAll methods !!! !]</value>
   </data>
   <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
-    <value>[BwuPT][ÓòAllowed HTTP methods !!! !!! ]</value>
+    <value>[BwuPT][ÓÝAllowed HTTP methods !!! !!! ]</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>[3zNSV][ÅÉBackend URL !!! !]</value>
+    <value>[3zNSV][ÖôBackend URL !!! !]</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>[HI9GS][êêAPI proxy or function with that name already exsists. !!! !!! !!! !!! !!! ]</value>
+    <value>[HI9GS][©ìProxy or function with that name already exists. !!! !!! !!! !!! !!]</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
-    <value>[L8VLo][ñÄName !!]</value>
+    <value>[L8VLo][ùòName !!]</value>
   </data>
   <data name="apiProxy_proxyUrl" xml:space="preserve">
-    <value>[aDXoP][ñãProxy URL !!! ]</value>
+    <value>[aDXoP][çûProxy URL !!! ]</value>
   </data>
   <data name="apiProxy_routeTemplate" xml:space="preserve">
-    <value>[4OcB6][µÀRoute template !!! !!]</value>
+    <value>[4OcB6][ÊÐRoute template !!! !!]</value>
   </data>
   <data name="apiProxy_seectedMethods" xml:space="preserve">
-    <value>[FYnNM][ñðSelected methods !!! !!!]</value>
+    <value>[FYnNM][öÿSelected methods !!! !!!]</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>[nFUXm][È@function app settings !!! !!! ]</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>[qso5Y][ûöRuntime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>[YFkSm][ðâRuntime version: latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>[9lEjA][ÌõAPI proxies (preview) !!! !!! ]</value>
+    <value>[9lEjA][þÍProxies (preview) !!! !!!]</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>[rW6W8][ÇíProxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+    <value>[rW6W8][Ã¥Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}). !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>[jrmCP][èÿProxy runtime version: latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!! !]</value>
+    <value>[jrmCP][ÛãProxy runtime version: latest ({{latestExtensionVersion}}) !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>[DGX5K][À§Use API proxies !!! !!]</value>
+    <value>[DGX5K][ØüEnable Azure Functions Proxies (preview) !!! !!! !!! !!!]</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>[QEqL7][ÓÂAPI proxies are currently disabled. To enable, visit !!! !!! !!! !!! !!!]</value>
+    <value>[QEqL7][ÉãAzure Functions Proxies are currently disabled. To enable, visit !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>[ISiRw][ïïChanges made to API proxy {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !!]</value>
+    <value>[ISiRw][éÇChanges made to proxy {{name}} will be lost. Are you sure you want to continue? !!! !!! !!! !!! !!! !!! !!! !]</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
-    <value>[tnqJ7][ÝØProxy with name '{{name}}' already exists !!! !!! !!! !!!]</value>
+    <value>[tnqJ7][Þ¥Proxy with name '{{name}}' already exists !!! !!! !!! !!!]</value>
   </data>
   <data name="discrard" xml:space="preserve">
-    <value>[rhlUu][ËÑDiscard !!!]</value>
+    <value>[rhlUu][Ì©Discard !!!]</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
-    <value>[xdErx][ÐèFunctions !!! ]</value>
+    <value>[xdErx][ËÐFunctions !!! ]</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>[tqw1e][âõSign in with Facebook !!! !!! ]</value>
+    <value>[tqw1e][ãÂSign in with Facebook !!! !!! ]</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>[WO5nN][ÜßSign in with GitHub !!! !!! ]</value>
+    <value>[WO5nN][ÐÅSign in with GitHub !!! !!! ]</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>[X6DKg][ØñSign in with Google !!! !!! ]</value>
+    <value>[X6DKg][à¥Sign in with Google !!! !!! ]</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>[FL7vG][èÂSign in with Microsoft !!! !!! !]</value>
+    <value>[FL7vG][ÚÁSign in with Microsoft !!! !!! !]</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>[nMo9Z][ÀçBackend URL must start with 'http://' or 'https://' !!! !!! !!! !!! !!!]</value>
+    <value>[nMo9Z][µúBackend URL must start with 'http://' or 'https://' !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>[XsfS6][êÕCopy !!]</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>[IPDd7][ÕÆRenew !!!]</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>[g265R][âíRevoke !!!]</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>[8bIOe][éÃCollapse !!! ]</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>[ocOfh][§ØExpand !!!]</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>[m6jL5][ÓÞ&lt;/&gt; Get function URL !!! !!! ]</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>[eN8G3][öý&lt;/&gt; Get GitHub secret !!! !!! ]</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>[2Em0O][ÄÅHeaders !!!]</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>[1aGsR][Ë@There are no headers !!! !!! ]</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>[pmSwO][åöAll subscriptions !!! !!!]</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>[uMBhy][Éæ{0} subscriptions !!! !!!]</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>[vZ7Bd][ôîFunctions (No access) !!! !!! ]</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>[O2pHZ][òÃFunctions (ReadOnly lock) !!! !!! !!]</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>[EKf4n][øáFunctions (Stopped) !!! !!! ]</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>[8f72t][ïÄProxies (No access) !!! !!! ]</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>[kGBpC][äÖProxies (Stopped) !!! !!!]</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>[atLg0][ÄÿProxies (ReadOnly lock) !!! !!! !]</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>[VHO8Q][ìõFunctions !!! ]</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>[zYKDm][©ÂNew Function !!! !]</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>[sSKm2][ßÔFunction Apps !!! !!]</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>[Suz6N][ÑðStop !!]</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>[jEjj0][îõStart !!!]</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>[nsHwD][ñ§Restart !!!]</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>[IId24][ìéDownload publish profile !!! !!! !]</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>[4E7dY][ªùReset publish credentials !!! !!! !!]</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>[P3ijB][ïÖDelete !!!]</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>[gr7nB][ãÃStatus !!!]</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>[PPGdx][êçAvailability !!! !]</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>[Rg83J][æßAvailable !!! ]</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>[CXoAP][£üNo access !!! ]</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>[dD1nf][ÖðNot applicable !!! !!]</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>[v2ybf][ôñNot available !!! !!]</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>[WtWPr][øÿConfigured features !!! !!! ]</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>[TTRUj][ãÓQuick links to your features will show up here after you've configured them from the "Platform features" tab above. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>[17Hb9][ìïThere was an error retrieving information about the app '{0}' !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>[qTCMA][Ú©The app '{0}' could not be found !!! !!! !!! ]</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>[VqLFR][üðAre you sure you would like to stop '{0}' !!! !!! !!! !!!]</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>[4CGT0][äåStopping app '{0}' !!! !!!]</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>[ekCYB][ñÝStarting app '{0}' !!! !!!]</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>[7gKHc][ÚùSuccessfully stopped app '{0}' !!! !!! !!!]</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>[0wR3v][øÐSuccessfully started app '{0}' !!! !!! !!!]</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>[2qgZZ][áøFailed to stop app '{0}' !!! !!! !]</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>[aGMIP][õ¢Failed to start app '{0}' !!! !!! !!]</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>[DFbYX][ÒªAre you sure you want to reset your publish profile? Profiles downloaded previously will become invalid. !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>[4fpVw][ÎÄResetting publishing profile !!! !!! !!!]</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>[a3Jat][ÎáSuccessfully reset publishing profile !!! !!! !!! !!]</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>[QqK8f][ÎêFailed to reset publishing profile !!! !!! !!! !]</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>[Z8blP][ÝçAre you sure you want to delete '{0}' !!! !!! !!! !!]</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>[52jLn][õÚDeleting app '{0}' !!! !!!]</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>[zMndx][ÿóSuccessfully deleted app '{0}' !!! !!! !!!]</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>[d0Oqx][ÔÔFailed to delete app '{0}' !!! !!! !!]</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>[lKW4B][ÙìAre you sure you would like to restart '{0}' !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>[Qyh1I][ÚÅRestarting app '{0}' !!! !!! ]</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>[N5WOH][ÛøSuccessfully restarted app '{0}' !!! !!! !!! ]</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>[fz1FM][æ©Failed to restart app '{0}' !!! !!! !!]</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>[jpXTk][õ@This feature is not supported for apps on a Consumption plan !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>[qd6IQ][èÕYou must have write permissions on the current app in order to use this feature !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>[712lG][ÂÊThis feature is disabled because the app has a ReadOnly lock on it !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>[EpXji][©ÿYou must have Read permissions on the associated App Service plan in order to use this feature !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>[zxYV9][ÜëAPI !!]</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>[CFtjV][ÞâDeployment options !!! !!!]</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>[0JCcY][Â¢Configure and manage deployment options for your app, including continuous deployment form VSTS, Github and Bitbucket as well as trigger deployments form OneDrive, Dropbox, external Git and more. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>[Yvhge][ýüDeployment credentials !!! !!! !]</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>[mWkr2][ÓËConfigure Azure account-level deployment credentials. To change your app-level credentials (also known as 'Publish Credentials'), choose 'Reset publish credentials' in the 'Overview' tab. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Learn more&lt;/a&gt;. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>[O6WB1][éØConsole !!!]</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>[NoMcv][ëøExplore your app's file system from an interactive web-based console. !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>[oK4fh][ªÞExtensions !!! !]</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>[HoN7I][äýExtensions add functionality to your entire app. !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>[4HfJf][ÉÍApplication settings !!! !!! ]</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>[Jaewj][ØËManage app settings, connection strings, runtime settings, and more. !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>[Xf4aE][éªProperties !!! !]</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>[VSoAq][ÚßView properties of your app. !!! !!! !!!]</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>[AacQo][ïÉBackups !!!]</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>[mpx8N][õ§Use Backup and Restore to easily create automatic or manual backups. !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>[KlJLU][þïAll settings !!! !]</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>[7i2fY][ÿÒView all App Service settings. !!! !!! !!!]</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>[vYoSx][ÿÎGeneral Settings !!! !!!]</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>[jBK08][êöCode Deployment !!! !!]</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>[yFyZs][ÏñDevelopment tools !!! !!!]</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>[hsNk1][ïâNetworking !!! !]</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>[McG3k][ìËSecurely access resources through VNET Integration and Hybrid Connections. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>[2qHpU][Ð©Configure SSL bindings for your app using either a certificate you purchased externally or an App Service Certificate. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>[Dpt6o][ÙÝCustom domains !!! !!]</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>[2jED3][@æConfigure and purchase custom domain names. !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>[A4M9T][öÅAuthentication / Authorization !!! !!! !!!]</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>[LDdvE][àÔUse Authentication / Authorization to protect your application and work with per-user data. !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>[eT8r1][ÂìPush notifications !!! !!!]</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>[x7Kgu][àÞSend fast, scalable, and cross-platform mobile push notifications using Notification Hubs. !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>[LJCnd][ÀÚDiagnostic logs !!! !!]</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>[ZvSd4][ÖîConfigure where and when to log application and server events. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>[iTGu1][ÄÜLog streaming !!! !!]</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>[erdLM][ÆûView real-time application logs. !!! !!! !!! ]</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>[LxlAV][úõProcess explorer !!! !!!]</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>[aGiK7][ÓÊView details on application processes, memory usage, and CPU utilization. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>[KL5p5][üéSecurity scanning !!! !!!]</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>[eMcsP][éùEnable security scanning for your app with Tinfoil Security. !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>[JkgTe][áÔMonitoring !!! !]</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>[d63px][ÝÛConfigure Cross-Origin Resource Sharing (CORS) rules for your app. !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>[HZs7I][ôñAPI definition !!! !!]</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>[tPx3x][èÍConfigure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>[m3I1v][ÇÏAn App Service plan is the container for your app. The App Service plan settings will determine the location, features, cost and compute resources associated with your app. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>[8m1dh][@àQuotas !!!]</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>[84VZ1][îÅMonitor file system usage quotas. !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>[u4ara][ÎìActivity log !!! !]</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>[zH2Kt][ÌÁView management operations that have been performed on your app. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>[K3627][ÍôAccess control (IAM) !!! !!! ]</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>[rdcI0][úªConfigure Role-Based Access Control (RBAC) for your app. !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>[axWqb][üÌTags !!]</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>[ul9nk][þíTags are key/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups.  !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>[AJdtj][ìÅLocks !!!]</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>[ahTMZ][þôLock resources to prevent unexpected changes or deletions. !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>[z4HmW][Þ©Automation script !!! !!!]</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>[vVAN4][úÄAutomate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>[hQFVK][ÒÈResource management !!! !!! ]</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>[00JJA][íæAdvanced tools (Kudu) !!! !!! ]</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>[mDuLz][ÏÌUse Kudu to inspect environment variables, access the debug console, upload zips, view processes, and more. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>[7SOPq][ÍþApp Service Editor !!! !!!]</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>[j1sR8][ÄñApp Service Editor provides an in-browser editing experience for your code. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>[9jh51][ùÅResource Explorer !!! !!!]</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>[4jCFN][ðÑExplore management APIs with Azure Resource Explorer (preview). !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>[F31oN][@ÞCORS Rules ({0} defined) !!! !!! !]</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>[HNhDW][ÚøDeployment source configured with {0} !!! !!! !!! !!]</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>[LHVxe][úøSSL certificates !!! !!!]</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>[FmEKt][¥àWebJobs ({0} defined) !!! !!! ]</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>[lgND1][ÙÉExtensions ({0} installed) !!! !!! !!]</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>[cEFX1][õÂOverview !!! ]</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>[XjE8q][ÀÁPlatform features !!! !!!]</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>[bQrEZ][©óSettings !!! ]</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>[FmJBy][Ð§Managing your Function app is not available for this trial. !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>[Nyxzz][Ä©Template !!! ]</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>[O9ZVx][íÁEvents !!!]</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>[XOGqi][¥ÈApp Service plan !!! !!!]</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>[Ep7ZZ][ÏàApp Service plan / pricing tier !!! !!! !!! ]</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>[refs6][@ñAuthentication !!! !!]</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>[lFBC2][ùÞAuthorization !!! !!]</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>[d86ro][ÒáHybrid connections !!! !!!]</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>[lKqDp][Àûsupport request !!! !!]</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>[B5Bnd][åÝscale !!!]</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>[TGaI7][ÕÌConnection strings !!! !!!]</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>[c8xo6][ìÀDebug !!!]</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>[idt2l][ÅøContinuous deployment !!! !!! ]</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>[vbdk7][ïâSource !!!]</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>[B7fBh][ÈëWe are not able to access your Azure settings for your function app. !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>[BUnjj][ëêFirst make sure you have proper access to the Azure resource {0}. If you dotTry refreshing the portal to renew your authentication token. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>[KngnQ][ÛÌPlease check the storage account connection string in application settings as it appears to be invalid. !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>[A9CoY][çªUpdate the app setting with a valid storage connection string. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>[V1vac][àâ'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is used to host your functions content. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>[SkOYm][ÀÝ'{0}' application setting is missing from your app. This setting contains a share name where your function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>[6uI0W][ßì'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>[KPa7R][À§'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the functions runtime to handle multiple instances synchronization, log invocation results, and other infrastructure jobs. Your function app will not work correctly without that setting. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>[xMA9r][ÏêCreate the app setting with a valid storage connection string. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>[KV55C][Åò'{0}' application setting is missing from your app. Without this setting you'll always be running the latest version of the runtime even across major version updates which might contain breaking changes. It's advised to set that value to the current latest major version (~1) and you'll get notified with newer versions for update. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>[bntRS][ÒóAzure Storage Account connection string stored in '{0}' is null or empty. This is required to have your function app working. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>[aQUvT][áçUpdate the app setting with a valid storage connection string. !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>[mJiuX][ãÇStorage account {0} doesn't exist. Deleting the storage account the function app is using will cause the function app to stop working.  !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>[12MKK][ÙØUpdate the app setting with a valid existing storage connection string. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>[zKm4a][ÐâStorage account {0} doesn't support Azure Queues Storage. Functions runtime require queues to work properly. You'll have to delete and recreate your function app with a storage account that supports Azure Queues Storage. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>[oFzW4][åØThere seem to be a problem querying Azure backend for your function app. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>[RUkcZ][ÑÜThere seem to be a problem querying Azure backend for your function app. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>[cF2yV][ªÂIf the problem persists, contact support with the following code {{code}} !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>[Ak6He][ñÓWe are not able to retrieve the list of functions for this function app. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>[CUb5G][õ¢We are not able to create function {{functionName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>[mz5ka][ÝÒWe are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094 !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>[8eHRp][àåWe are not able to delete the file {{fileName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>[921Pl][ÒæWe are not able to delete function {{functionName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>[n3ZhE][ÒçWe are not able to get the content for {{fileName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>[6xua9][ëôWe are not able to retrieve your functions right now. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>[Mq223][ÍùWe are not able to retrieve secrets file for {{functionName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>[d1vn7][îÙWe are not able to save the content for {{fileName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>[GCI35][ÐÖWe are not able to retrieve directory content for your function. Please try again later. !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>[t4Mct][é@We are unable to get function {{functionName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>[WuvPO][ÇñWe are unable to retrieve the runtime config. Please try again later. !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>[xtFcf][òìWe are not able to retrieve the runtime master key. Please try again later. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>[b4qdt][õÿWe are not able to update function {{functionName}}. Please try again later. !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>[NXrAF][ýðThe function runtime is unable to start. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>[hnooV][èÇWe are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>[YBZ0y][ìÝWe are not able to delete the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>[LM61O][ÅúWe are not able to renew the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>[MF3jJ][ÒÚWe are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>[Y4myA][ôªThe application is offline. Please check your internet connection. !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>[dwixq][òÜACTIONS !!!]</value>
+  </data>
+  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
+    <value>[cWAfk][ÍýThe Keys feature is not available because Authentication/Authorization is enabled for this Function App. !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>[NYo3z][ññquickstart !!! !]</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>[TCWwD][éôThere are no query parameters !!! !!! !!!]</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>[tJL99][íçCollapse !!! ]</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>[ckWwM][çÓAre you sure you want to delete your API definition? !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>[Vv7Oc][ñÆDocumentation !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>[jCjLN][ÖìExpand !!!]</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>[IF9rQ][ëäExternal URL !!! !]</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>[4l8QL][óíRead the feature overview !!! !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>[YoTQF][áâCheck out our getting started tutorial !!! !!! !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>[GTle9][ÀéFunction !!! ]</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>[T84bF][ÔêAPI definition key !!! !!!]</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>[azP36][§ÉLoad API definition !!! !!! ]</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>[GW7Lo][ËÒGenerate API definition template !!! !!! !!! ]</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>[64oB2][æ£Export to Power Apps + Flow !!! !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>[ERMjP][ÆÐCannot save malformed API definition. !!! !!! !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>[3MNSt][ÁÊRenew !!!]</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>[DHcyM][ÏéSet external definition URL !!! !!! !!]</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>[pjq3N][¥àAPI definition source !!! !!! ]</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>[ZmaYW][åàConsume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition !!! !!! !!! !!! !!! !!! !!! !!! !!! !]</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>[ARPZs][ËõFunction API definition (Swagger) !!! !!! !!! !]</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>[vesbU][ãÑAPI definition URL !!! !!!]</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>[nx1L4][ÒßUse your API definition !!! !!! !]</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>[oOnhd][ÄÒAPI definition (preview) !!! !!! !]</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>[fph36][ÉòWe are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>[2pH3A][ÞÃWe are not able to delete the API defintion. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>[tzO0c][ÿÏWe are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>[0wF6y][ØÂWe are not able to load the generated API definition. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!]</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>[V4UHe][ÄÅWe are unable to update the runtime config. Please try again later. !!! !!! !!! !!! !!! !!! ]</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>[3XtJs][§ýWe are not able to update the API definition. Please check the runtime logs for any errors or try again later. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>[H6hhu][ÄÖRevert to last save !!! !!! ]</value>
   </data>
 </root>

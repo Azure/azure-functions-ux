@@ -139,10 +139,10 @@
     <value>関数 (${{name}}) エラー: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>関数の URL:</value>
+    <value>関数の URL</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHub シークレット:</value>
+    <value>GitHub シークレット</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>ファイルを非表示にする</value>
@@ -166,7 +166,7 @@
     <value>ファイルの表示</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>テンプレートの選択</value>
+    <value>以下からテンプレートを選択するか、</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>このテンプレートは試験段階であり、まだ完全にはサポートされていません。問題が発生した場合には、&lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub リポジトリ&lt;/a&gt;でバグを報告してください。</value>
@@ -232,10 +232,10 @@
     <value>サブスクリプション</value>
   </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) 言語の選択:</value>
+    <value>2. 言語を選択します</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) シナリオの選択:</value>
+    <value>1. シナリオを選択します</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>この関数を作成する</value>
@@ -243,32 +243,35 @@
   <data name="intro_createYourOwn" xml:space="preserve">
     <value>カスタム関数を作成する</value>
   </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>カスタム関数</value>
+  </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>データ処理</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>関数への早道</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>または</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
     <value>用意されている関数を使ってすぐに使用を開始する</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>または、自分の関数に対する作業を開始する</value>
+    <value>関数を独自に作成する</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>このクイックスタートの使用を続ける</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>サポートされている別の言語をご希望の場合には、</value>
+    <value>F#、PowerShell、Python、Batch の場合には、</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>ソース管理から開始します。</value>
+    <value>ソース管理から開始する</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>タイマー</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>webhook + API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>データベースをクリーンアップするシンプルなジョブの実行から、もっと複雑なアーキテクチャの構築まで、どのような関数でも数分のうちに作成できます。OS、プラットフォーム、開発手法を問わず、関数の作成を今までにないほど簡単に行えます。インストールも必要ありません。</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>クリア</value>
@@ -319,11 +322,26 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>最新の情報に更新</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>検索する</value>
   </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>機能の検索</value>
+  </data>
   <data name="subscription" xml:space="preserve">
+    <value>サブスクリプション ID</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
     <value>サブスクリプション</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>リソース グループ</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>結果がありません</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>現在の関数に対する変更が失われます。続行してもよろしいですか?</value>
@@ -332,7 +350,7 @@
     <value>Function App の設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>新しいバージョンの Azure Functions が利用できます。アップグレードするには、次の場所に移動してください</value>
+    <value>新しいバージョンの Azure Functions が利用できます。アップグレードするには、ここをクリックしてください</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>クイック スタート</value>
@@ -342,60 +360,6 @@
   </data>
   <data name="all" xml:space="preserve">
     <value>すべて</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>HTTP によってトリガーされる関数をクライアントがもっと簡単に使用できるようになります</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>HTTP によってトリガーされる関数を Web ブラウザーから呼び出せるようになります</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API 定義</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>認証/承認</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>継続的インテグレーション</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>認証の構成</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>API メタデータの構成</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>継続的インテグレーションの構成</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>CORS の構成</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>GitHub、Visual Studio Team Services などから関数のコードをデプロイします</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>HTTP トリガーを使用する関数について、呼び出しに認証を必須とすることができます</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>App Service の設定に移動</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>他の App Service インスタンスのように Function App を管理します。</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>メモリ サイズ</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>ランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>ランタイム バージョン: {{extensionVersion}}。新しいバージョンが利用できます ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>アプリの実行</value>
@@ -458,7 +422,7 @@
     <value>実行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>読み取り専用 - ソース管理の編集を開始したため、このビューは読み取り専用です。これらの設定は function.json で編集できます</value>
+    <value>読み取り専用 - ソース管理の編集を開始したため、このビューは読み取り専用です。</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>詳細エディター</value>
@@ -482,10 +446,10 @@
     <value>読み込んでいます...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>最近の成功数</value>
+    <value>成功数の起算時点</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>最近のエラー数</value>
+    <value>エラー数の起算時点</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>起動ログ</value>
@@ -655,12 +619,6 @@
   <data name="resourceSelect" xml:space="preserve">
     <value>リソースを待機しています</value>
   </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>ランタイム バージョン: {{extensionVersion}}。新しいバージョンが利用できます ({{latestExtensionVersion}})。</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>ランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
-  </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>関数のホストをお試しいただきありがとうございました。</value>
   </data>
@@ -736,33 +694,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>ファイルの削除エラー: {{fileName}}</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>アプリケーション設定</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Function App の環境変数と接続文字列を管理します</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>開発者コンソール</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Function App のファイル システムにアクセスするためのポータル内コンソール</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>zip のアップロード、プロセスの中止など、App Service の高度な機能にアクセスします</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>アプリケーション設定の構成</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>開発者コンソールを開く</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Kudu に移動</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>コード エディターを使用すると最も早くコードを編集できますが、Git を使用することもできます。この例では C# を使用していますが、他の言語も多数サポートされています。</value>
   </data>
@@ -771,9 +702,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>1 分未満</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>無料試用版では利用できません。上のリンクをクリックして無料の Azure アカウントを作成してください</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>無料の Azure アカウントにサインアップすると、あらゆる関数機能のロックが解除され、時間の制約を気にすることなく使用できます。</value>
@@ -784,10 +712,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>Function App に到達できません。アプリで一時的な問題が発生しているか、アプリが起動に失敗していることが考えられます。ログを確認するか、数分後にもう一度やり直してください。</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>Function App ({{functionApp}}) を取得できません</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>Function App ({{statusText}}) に到達できません。後でもう一度やり直してください。</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -854,7 +782,7 @@
     <value>クエリ</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>"常にオン" の設定がオフになります</value>
+    <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
@@ -863,7 +791,7 @@
     <value>ホスト キー (すべての関数)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>新しい管理者キーの追加</value>
+    <value>新しいホスト キーの追加</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
     <value>新しい関数キーの追加</value>
@@ -881,10 +809,10 @@
     <value>(省略可能) キーを自動生成するには、空のままにしてください。</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>キー名</value>
+    <value>名前</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>キー値</value>
+    <value>値</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
     <value>関数キー</value>
@@ -922,30 +850,6 @@
   <data name="test" xml:space="preserve">
     <value>テスト</value>
   </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>展開</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>開発</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>管理</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service の設定</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>高度な機能です。Azure App Service を支える機能すべてにアクセスします</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service エディター</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>一体型コンソールとストリーミング ログを備えたポータル内エディター</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>App Service エディターに移動</value>
-  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>ランタイム バージョン</value>
   </data>
@@ -977,7 +881,7 @@
     <value>API 設定</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>新しい API プロキシ</value>
+    <value>新しいプロキシ</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
     <value>すべてのメソッド</value>
@@ -989,7 +893,7 @@
     <value>バックエンド URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>その名前のプロキシまたは関数が既に存在します。</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>名前</value>
@@ -1003,8 +907,17 @@
   <data name="apiProxy_seectedMethods" xml:space="preserve">
     <value>選択したメソッド</value>
   </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Function App の設定</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>ランタイム バージョン: {{extensionVersion}}。新しいバージョンが利用できます ({{latestExtensionVersion}})。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>ランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
+  </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>API プロキシ (プレビュー)</value>
+    <value>プロキシ (プレビュー)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
     <value>プロキシのランタイム バージョン: {{extensionVersion}}。新しいバージョン ({{latestExtensionVersion}}) が利用可能です。</value>
@@ -1013,13 +926,13 @@
     <value>プロキシのランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>API プロキシを使用する</value>
+    <value>Azure Functions プロキシの有効化 (プレビュー)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>現在、Azure Functions プロキシが無効になっています。有効にするには、</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>API プロキシ {{name}} に対して行った変更が失われます。続行してもよろしいですか?</value>
+    <value>プロキシ {{name}} に対して行った変更が失われます。続行してもよろしいですか?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
@@ -1031,18 +944,654 @@
     <value>関数</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>Sign in with Facebook</value>
+    <value>Facebook アカウントでサインイン</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>Sign in with GitHub</value>
+    <value>GitHub アカウントでサインイン</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>Sign in with Google</value>
+    <value>Google アカウントでサインイン</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Sign in with Microsoft</value>
+    <value>Microsoft アカウントでサインイン</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>Backend URL must start with 'http://' or 'https://'</value>
+    <value>バックエンド URL の最初の部分は、'http://' と 'https://' のいずれかにする必要があります</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>取り消し</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>折りたたみ</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>展開</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; 関数の URL の取得</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; GitHub シークレットの取得</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>ヘッダー</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>ヘッダーがありません</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>すべてのサブスクリプション</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} 個のサブスクリプション</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>関数 (アクセス不可)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>関数 (ReadOnly ロック)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>関数 (停止)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>プロキシ (アクセス不可)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>プロキシ (停止)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>プロキシ (ReadOnly ロック)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>関数</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>新しい関数</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Function App</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>再開</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>発行プロファイルのダウンロード</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>発行資格情報のリセット</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>ステータス</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>可用性</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>使用可能</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>アクセスなし</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>適用外</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>使用できません</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>構成済みの機能</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>上の [Platform features] タブで機能を構成すると、その機能へのクイック リンクがここに表示されます。</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>アプリ '{0}' に関する情報を取得している間にエラーが発生しました</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>アプリ '{0}' が見つかりませんでした</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>'{0}' を停止してもよろしいですか</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>アプリ '{0}' を停止しています</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Starting app '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>アプリ '{0}' を正常に停止しました</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>アプリ '{0}' を正常に起動しました</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>アプリ '{0}' を停止できませんでした</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>アプリ '{0}' を起動できませんでした</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>発行プロファイルをリセットしてもよろしいですか? 以前にダウンロードしたプロファイルは無効になります。</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>発行プロファイルをリセットしています</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>発行プロファイルが正常にリセットされました</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>発行プロファイルをリセットできませんでした</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>'{0}' を削除しますか?</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>アプリ '{0}' を削除しています</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>アプリ '{0}' を正常に削除しました</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>アプリ '{0}' を削除できませんでした</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>'{0}' を再起動してもよろしいですか</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>アプリ '{0}' を再起動しています</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>アプリ '{0}' を正常に再起動しました</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>アプリ '{0}' を再起動できませんでした</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>従量課金プランのアプリでは、この機能がサポートされていません</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>この機能を使用するには、現在のアプリに対する書き込みアクセス許可が必要です</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>この機能は無効になっています。アプリでこの機能に対して ReadOnly ロックが設定されています</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>この機能を使用するには、関連する App Service プランに対する読み取りアクセス許可が必要です</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>展開オプション</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>VSTS、GitHub、Bitbucket からの継続的デプロイのほか、OneDrive、DropBox、外部 Git などからのトリガー デプロイなど、アプリのデプロイ オプションを構成および管理します。</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>デプロイ資格情報</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Azure アカウントレベルのデプロイ資格情報を構成します。アプリレベルの資格情報 (つまり、'発行資格情報') を変更するには、[概要] タブで [Reset publish credentials] を選択してください。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;詳細情報&lt;/a&gt;。</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>コンソール</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Web ベースの対話型コンソールでアプリのファイル システムを調査します。</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>拡張機能</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>拡張機能では、アプリ全体に機能を追加できます。</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>アプリケーション設定</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>アプリの設定、接続文字列、ランタイム設定などを管理します。</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>アプリのプロパティを表示します。</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>バックアップ</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>バックアップと復元を使えば、自動または手動のバックアップを簡単に作成できます。</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>すべての設定</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>App Service の設定をすべて表示します。</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>全般設定</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>コード デプロイ</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>開発ツール</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>VNET 統合とハイブリッド接続によりリソースに安全にアクセスします。</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>外部から購入した証明書または App Service 証明書を使用してアプリに SSL バインディングを構成します。</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>カスタム ドメイン</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>カスタム ドメイン名を構成および購入します。</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>認証/承認</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>アプリケーションを保護してユーザーごとのデータを取り扱うには、認証/承認を使用します。</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>プッシュ通知</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Notification Hubs を使って高速、スケーラブル、かつクロスプラットフォームのモバイル プッシュ通知を送信します。</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>診断ログ</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>アプリケーション イベントとサーバー イベントのログを記録する場所とタイミングを構成します。</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>ログ ストリーミング</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>リアルタイムのアプリケーション ログを表示します。</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>プロセス エクスプローラー</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>アプリケーション プロセス、メモリ使用量、CPU 使用率に関する詳細を表示します。</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>セキュリティ スキャン</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Tinfoil Security によるアプリのセキュリティ スキャンを有効にします。</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>監視中</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>アプリにクロスオリジン リソース共有 (CORS) 規則を構成します。</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>API 定義</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>API に関する説明を記述した Swagger 2.0 メタデータの場所を構成します。これにより、他のユーザーに API を発見および利用してもらいやすくなります。</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>App Service プランはアプリのコンテナーです。App Service プランの設定で、アプリに関連する場所、機能、コスト、コンピューティング リソースが決定されます。</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>クォータ</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>ファイル システム使用量のクォータを監視します。</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>アクティビティ ログ</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>自分のアプリを対象として実行された管理操作を表示します。</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>アクセス制御 (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>アプリにロールベースのアクセス制御 (RBAC) を構成します。</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>タグとは、リソースをカテゴリに分けるためのキーと値のペアです。同じタグを多数のリソースやリソース グループに適用することによって、該当するリソースの課金状況を一括して確認できます。</value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>ロック</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>リソースをロックすると、予期せぬ変更や削除を予防できます。</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Automation スクリプト</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Azure Resource Manager テンプレートを使って、リソースのデプロイを 1 つの連携した操作として自動化します。リソースと構成可能な入力パラメーターを定義して、スクリプトまたはコードでデプロイします。</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>リソース管理</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>高度なツール (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>環境変数の調査、デバッグ コンソールへのアクセス、zip のアップロード、プロセスの表示などには、Kudu を使用します。</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service エディター</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>App Service エディターは、ブラウザー上でコードを編集できるツールです。</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>リソース エクスプローラー</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Azure Resource Explorer (プレビュー) を使って管理 API を探します。</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>CORS 規則 ({0} 件が定義済み)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>{0} を使って構成されたデプロイ ソース</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL 証明書</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>Web ジョブ ({0} 件が定義済み)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>拡張機能 ({0} 件がインストール済み)</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>プラットフォーム機能</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>この試用版では、Function App の管理機能は利用できません。</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>テンプレート</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>App Service プラン</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>App Service プラン/価格レベル</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>認証</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>承認</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>ハイブリッド接続</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>サポート リクエスト</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>スケール</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>接続文字列</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>デバッグ</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>継続的デプロイ</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>Function App の Azure 設定にアクセスできません。</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>まず、Azure リソース {0} に対して適切なアクセス権があるかどうかを確認してください。アクセス権がない場合には、認証トークンの更新のためポータルを最新の情報に更新してください。</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>ストレージ アカウントの接続文字列が無効である可能性があります。アプリケーション設定でストレージ アカウントの接続文字列を確認してください。</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツのホストに使用する Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この Function App の削除および再作成が必要になることがあります。</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数コンテンツが存在する共有の名前が含まれます。この設定がないと、アプリが完全に破損します。このアプリケーション設定の値にアクセスできなくなった場合には、この Function App の削除および再作成が必要になることがあります。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数の監視ビューで必要になる Azure ストレージ アカウントの接続文字列が含まれています。ここに呼び出しデータが集まり、集まったデータが監視ビューに表示されます。監視ビューが破損している可能性があります。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定には、関数ランタイムが複数のインスタンスの同期、ログの呼び出し結果、その他のインフラストラクチャ ジョブを処理する際に必要になる Azure ストレージ アカウントの接続文字列が含まれています。この設定がないと、Function App が正しく動作しなくなります。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>有効なストレージ接続文字列を使ってアプリの設定を作成してください。</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>アプリにアプリケーション設定 '{0}' がありません。この設定がないと、メジャー バージョンの更新により大幅な変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、最新のメジャー バージョン (1 など) に設定しておくことをお勧めします。更新用に新しいバージョンが公開されたときは、通知を受信します。</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>'{0}' に格納されている Azure ストレージ アカウントの接続文字列が null であるか、空です。Function App が動作するには、接続文字列が必要です。</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>ストレージ アカウント {0} が存在しません。Function App が使用しているストレージ アカウントを削除すると、Function App の動作が停止します。</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>既存の有効なストレージ接続文字列を使ってアプリの設定を更新してください。</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>ストレージ アカウント {0} は、Azure Queue Storage をサポートしていません。Functions ランタイムでは、キューが正常に動作する必要があります。Azure Queue Storage をサポートしているストレージ アカウントを使った Function App をいったん削除してから、もう一度作成する必要があります。</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>Function App の Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>Function App の Azure バックエンドに対するクエリ実行に問題が発生しているようです。</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>問題が解決しない場合は、サポートにお問い合わせのうえ、コード {{code}} をお伝えください</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>この Function App の関数の一覧を取得できません。</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>関数 {{functionName}} を作成できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>関数のアクセス キーの暗号化を解除できません。このエラーは、アプリを一旦削除してから同じ名前で再度作成した場合や、別の Function App からキーをコピーした場合に発生することがあります。この問題を解決するには、こちら (https://go.microsoft.com/fwlink/?linkid=844094) の手順に従ってください</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>ファイル {{fileName}} を削除できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>関数 {{functionName}} を削除できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>ファイル {{fileName}} のコンテンツを取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>現在、関数を取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>{{functionName}} のシークレット ファイルを取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>ファイル {{fileName}} のコンテンツを保存できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>関数のディレクトリ コンテンツを取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>関数 {{functionName}} を取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>ランタイム構成を取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>ランタイム マスター キーを取得できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>関数 {{functionName}} を更新できません。後でもう一度やり直してください。</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>関数ランタイムが起動できません。ランタイムのログでエラーを確認のうえ、もう一度やり直してください。</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>関数 {{functionName}} のキー {{keyName}} を作成または更新できません。このエラーは、ランタイムが関数を読み込めなかった場合に発生することがあります。他の関数エラーがないかを確認してください。</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>関数 {{functionName}} のキー {{keyName}} を削除できません。このエラーは、ランタイムが関数を読み込めなかった場合に発生することがあります。他の関数エラーがないかを確認してください。</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>関数 {{functionName}} のキー {{keyName}} を更新できません。このエラーは、ランタイムが関数を読み込めなかった場合に発生することがあります。他の関数エラーがないかを確認してください。</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>関数 {{functionName}} のキーを取得できません。このエラーは、ランタイムが関数を読み込めなかった場合に発生することがあります。他の関数エラーがないかを確認してください。</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>アプリケーションがオフラインになっています。インターネット接続を確認してください。</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>アクション</value>
+  </data>
+  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
+    <value>この Function App では認証/承認が有効になっていないため、キー機能を利用できません。</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>クイックスタート</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>クエリ パラメーターがありません</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Are you sure you want to delete your API definition?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>External URL</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Read the feature overview</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Check out our getting started tutorial</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>API definition key</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Load API definition</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Generate API definition template</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Export to Power Apps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Cannot save malformed API definition.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Renew</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Set external definition URL</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>API definition source</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Function API definition (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>API definition URL</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Use your API definition</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>API definition (preview)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>We are unable to update the runtime config. Please try again later.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Revert to last save</value>
   </data>
 </root>
