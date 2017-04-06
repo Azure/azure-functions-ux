@@ -48,7 +48,6 @@ export class SiteDashboardComponent {
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
             .switchMap(viewInfo =>{
-                this.viewInfo = viewInfo;
 
                 if(this._globalStateService.showTryView){
                     this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
@@ -66,7 +65,10 @@ export class SiteDashboardComponent {
 
                 this._globalStateService.setBusyState();
 
-                return this._cacheService.getArm(viewInfo.resourceId)
+                return Observable.zip(
+                    Observable.of(viewInfo),
+                    this._cacheService.getArm(viewInfo.resourceId),
+                    (v, s) => ({ viewInfo : v, site : s}));
             })
             .do(null, e =>{
                 let descriptor = new SiteDescriptor(this.viewInfo.resourceId);                
@@ -83,8 +85,9 @@ export class SiteDashboardComponent {
             .retry()
             .subscribe(r =>{
                 this._globalStateService.clearBusyState();
+                this.viewInfo = r.viewInfo;
 
-                let site : ArmObj<Site> = r.json();
+                let site : ArmObj<Site> = r.site.json();
                 this.site = site;
 
                 // Is a bit hacky but seems to work well enough in waiting for the tabs to load.
