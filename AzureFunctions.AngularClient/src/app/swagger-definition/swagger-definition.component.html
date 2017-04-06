@@ -1,0 +1,93 @@
+<div class="wrapper">
+    <busy-state></busy-state>
+    <div>
+        <div class="section-left full-height" [class.collapse]="isFullscreen">
+            <div>
+                <label class="title">{{'swaggerDefinition_title' | translate}}</label>
+                <br>
+                <label class="subtitle">{{'swaggerDefinition_subtitle' | translate}}</label>
+            </div>
+            <div [class.collapse]="!swaggerEnabled">
+                <label class="setting-title">{{'swaggerDefinition_loadDefinition' | translate}}</label>
+                <div class="setting-wrapper">
+                    <button class="custom-btn btn-solid medium" (click)='LoadGeneratedDataInEditor()'>{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
+                </div>
+            </div>
+            <div [class.collapse]="!swaggerEnabled">
+                <label class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
+                <div class="setting-wrapper">
+                    <!--<button class="custom-btn btn-solid medium">Download Function Keys</button>-->
+                    <button class="custom-btn btn-solid medium" (click)='openBlade("ExportToPowerApps")'>{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
+                </div>
+            </div>
+            <div [class.collapse]="!swaggerEnabled">
+                <label class="setting-title">{{'swaggerDefinition_url' | translate}}</label>
+                <div class="setting-wrapper">
+                    <copy-pre [content]="swaggerURL"></copy-pre>
+                </div>
+            </div>
+            <div [class.collapse]="!swaggerEnabled">
+                <div style="padding-left: 4px;">
+                    <i class="fa clickable" [class.fa-plus]="!keyVisible" [class.fa-minus]="keyVisible" (click)="toggleKeyVisibility()"></i>
+                    <label class="setting-title-collapsible">{{'swaggerDefinition_key' | translate}}</label>
+                </div>
+                <div [class.collapse]="!keyVisible">
+                    <div class="setting-wrapper" style="padding-bottom:0px;">
+                        <copy-pre [content]="swaggerKey"></copy-pre>
+                    </div>
+                    <div class="setting-wrapper operation">
+                        <span (click)="renewSwaggerSecret()"><i class="fa fa-refresh"></i> {{'swaggerDefinition_renew' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="setting-title">{{'swaggerDefinition_source' | translate}}</label>
+                <div class="setting-wrapper">
+                    <div style="min-width: 240px">
+                        <radio-selector [options]="swaggerStatusOptions" [defaultValue]="swaggerEnabled" (value)="valueChange.next($event)"></radio-selector>
+                    </div>
+                </div>
+                <div class="setting-wrapper column">
+                    <button *ngIf="!swaggerEnabled" class="custom-btn btn-solid medium" style="margin-top: 10px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
+                </div>
+            </div>
+            <div>
+                <div style="padding-left: 4px;">
+                    <i class="fa clickable" [class.fa-plus]="!documentationVisible" [class.fa-minus]="documentationVisible" (click)="toggleDocumentationVisibility()"></i>
+                    <label class="setting-title-collapsible">{{'swaggerDefinition_documentation' | translate}}</label>
+                </div>
+                <div [class.collapse]="!documentationVisible">
+                    <div class="setting-wrapper operation">
+                        <ul>
+                            <li>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started" target="_blank">{{'swaggerDefinition_getting_started' | translate}}</a>
+                            </li>
+                            <li>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition" target="_blank">{{'swaggerDefinition_feature_overview' | translate}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="swaggerEnabled" class="section-right full-height">
+            <div class="topbar">
+                <div class="header left">
+                    <button class="custom-btn btn-solid left" (click)="saveChanges()">{{ 'save' | translate }}</button>
+                    <button class="custom-btn btn-invert left" (click)="resetEditor()">{{ 'cancel' | translate }}</button>
+                </div>
+                <div class="header right">
+                    <button class="btn-icon expand-icon" *ngIf="!isFullscreen" (click)="isFullscreen = true">
+                        {{'swaggerDefinition_expand' | translate}}
+                    </button>
+                    <button class="btn-icon collapse-icon" *ngIf="isFullscreen" (click)="isFullscreen = false">
+                        {{'swaggerDefinition_collapse' | translate}}
+                    </button>
+                </div>
+            </div>
+            <div class="editor">
+                <swagger-frame (onSwaggerEditorReady)="onSwaggerEditorReady($event)"></swagger-frame>
+            </div>
+        </div>
+    </div>
+</div>

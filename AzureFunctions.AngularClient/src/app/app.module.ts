@@ -102,7 +102,6 @@ import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.direct
         nvD3,
         FileSelectDirective,
         FileDropDirective,
-
         GettingStartedComponent,
         BusyStateComponent,
         TryNowBusyStateComponent,
@@ -174,8 +173,6 @@ import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.direct
     imports: [
         FormsModule,
         ReactiveFormsModule,
-
-
         BrowserModule,
         FormsModule,
         HttpModule,

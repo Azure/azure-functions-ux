@@ -4002,7 +4002,6 @@ namespace AzureFunctions.ResourcesPortal {
             }
         }
         
-        
         /// <summary>
         ///   Looks up a localized string similar to Develop.
         /// </summary>

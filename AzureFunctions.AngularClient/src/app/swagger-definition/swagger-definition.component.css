@@ -1,0 +1,243 @@
+pre {
+    white-space: normal;
+}
+
+.custom-btn {
+    margin-left: 15px;
+    display: inline;
+    padding: 5px 45px 5px 45px;
+    font-size: 14px;
+    cursor: pointer;
+    background-image: none;     
+}
+
+.medium {
+    width: 240px;    
+    padding: 5px;    
+    margin-left: 0px;    
+    min-width: 200px;
+}
+
+.btn-solid {    
+    border: 1px solid transparent;    
+    background-color: #539CF6;
+    color: #fff;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.btn-icon {        
+    color: #539CF6;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-size: 16px 16px;
+    padding-left: 25px;    
+    background-color: transparent;    
+    touch-action: manipulation;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;    
+    font-size: 14px;        
+}
+
+.expand-icon {
+    background-image: url(images/icon-expand.svg);
+}
+
+.collapse-icon {
+    background-image: url(images/icon-collapse.svg);
+}
+
+.btn-invert {
+    border: 1px solid #539CF6;
+    background-color: #fff;
+    color: #539CF6;
+}
+
+
+
+.column {
+    flex-direction: column;
+}
+
+.collapse {    
+    width: 0px;
+    flex-grow: 0;
+    display: none;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0px;
+    padding-bottom: 3px;
+}
+
+.setting-title {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+.operation {
+    margin-right: 20px;
+    cursor: pointer;
+    color: #337ab7;
+}
+
+.setting-title-collapsible {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0px;    
+    padding-bottom: 10px;
+}
+
+.hide {
+    opacity: 0.7;
+    background: #CCC;
+    pointer-events: none;
+
+}
+.setting-wrapper {
+    padding: 0px 20px 15px 20px;
+    display: flex;
+}
+
+.subtitle {
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0px;    
+}
+
+.function-icon {    
+    height: 15px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;         
+}
+
+.wrapper > div {
+    flex-grow: 1;
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
+
+.section-left {
+    flex-grow: 1;
+    width: 20%;
+}
+
+.section-left > div:first-child {
+    padding: 20px;
+}
+
+.section-left > div {
+    flex-grow: 1;
+    border-top: none;        
+    align-items: center;
+    justify-content: center;
+    /*padding-bottom: 15px;    */
+}
+
+.section-right {
+    flex-grow: 3;
+    width: 75%;
+    display: flex;
+    flex-direction: column;              
+}
+
+.full-height {
+    height: calc(100vh - 5px);
+}
+
+.editor {
+    height: calc(100% - 50px);
+    border: 1px solid #ccc;
+}
+
+.header {    
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    height: 50px;
+    flex: 1;
+}
+
+.checkbox-label {
+    margin: 0px;    
+    text-align: left;
+    padding-left: 0px;
+    font-weight: normal;    
+    font-size: 15px;
+    vertical-align: middle;    
+}
+
+.checkbox {
+    display: inline;
+    margin-left: 20px;
+    height: 15px;
+    width: 15px;
+    margin: 0;
+    vertical-align: middle;    
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.right {
+    justify-content: flex-end;
+    margin-right: 15px;
+}
+
+.topbar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-content: center;
+    border: 1px solid #ccc;
+}
+
+.copy-icon {
+    margin: auto;
+    margin-left: 0px;
+    font-size: 18px;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.bubble-label {        
+    font-size: 15px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    display: block;
+    padding: 5px;
+    padding-right: 10px;    
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+    border-radius: 0;
+}

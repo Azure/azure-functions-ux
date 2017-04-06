@@ -166,6 +166,8 @@
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
+    <Content Include="src\app\swagger-definition\swagger-definition.component.css" />
+    <Content Include="src\app\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
@@ -512,6 +514,11 @@
     <TypeScriptCompile Include="src\app\site\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
+    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\ISwaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\swagger-frame.directive.ts" />
+    <TypeScriptCompile Include="src\app\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.pipe.spec.ts" />
