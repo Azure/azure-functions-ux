@@ -1142,7 +1142,7 @@
     <value>Deployment options</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Configure and manage deployment options for your app, including continuous deployment form VSTS, Github and Bitbucket as well as trigger deployments form OneDrive, Dropbox, external Git and more.</value>
+    <value>Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Deployment credentials</value>
