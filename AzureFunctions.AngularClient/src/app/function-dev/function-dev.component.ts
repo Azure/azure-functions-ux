@@ -521,7 +521,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     cancelCurrentRun() {
-        this.BusyStates.toArray().find(e => e.name === 'run-busy').clearBusyState();
+        this._globalStateService.clearBusyState();
         if (this.running) {
             this.running.unsubscribe();
             delete this.running;
@@ -660,7 +660,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);
                 }
-            });
+            }, error => this._globalStateService.clearBusyState());
         }
     }
 }
