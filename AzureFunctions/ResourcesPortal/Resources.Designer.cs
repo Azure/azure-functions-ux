@@ -4002,6 +4002,7 @@ namespace AzureFunctions.ResourcesPortal {
             }
         }
         
+        
         /// <summary>
         ///   Looks up a localized string similar to Develop.
         /// </summary>
@@ -4143,6 +4144,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_functionAppSettings {
             get {
                 return ResourceManager.GetString("topBar_functionAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Definition (preview).
+        /// </summary>
+        internal static string topBar_functionSwaggerDefinition {
+            get {
+                return ResourceManager.GetString("topBar_functionSwaggerDefinition", resourceCulture);
             }
         }
         
