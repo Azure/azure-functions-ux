@@ -52,8 +52,9 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
 
         this.functionAppStream
             .merge(this.functionStream)
+            .debounceTime(100)
             .switchMap((r : any) => {
-                
+
                 let functionApp = r && (<FunctionInfo>r).functionApp;
                 let fi : FunctionInfo;
                 if(functionApp){
@@ -79,7 +80,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             })
             .retry()
             .subscribe(keys => {
-                
+
                 if (this.easeAuthEnabled) {
                     keys = { keys: [], links: [] };
                 }
@@ -122,11 +123,11 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     handleInitAndChanges() {
         this.resetState();
 
-        if(this.functionApp){
+        if (this.functionApp) {
             this.functionAppStream.next(this.functionApp);
         }
 
-        if(this.functionInfo){
+        if (this.functionInfo) {
             this.functionStream.next(this.functionInfo);
         }
     }
