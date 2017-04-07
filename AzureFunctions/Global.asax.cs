@@ -219,6 +219,10 @@ namespace AzureFunctions
             builder.RegisterType<TelemetryClient>()
                 .As<TelemetryClient>()
                 .InstancePerRequest();
+
+            builder.RegisterType<PassThroughRequestManager>()
+                .As<IPassThroughRequestManager>()
+                .InstancePerRequest();
         }
 
         private void RegisterRoutes(HttpConfiguration config)
@@ -238,6 +242,8 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+
+            config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authrnticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

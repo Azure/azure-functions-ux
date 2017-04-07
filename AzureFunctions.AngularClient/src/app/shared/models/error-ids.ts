@@ -35,9 +35,10 @@ export class ErrorIds {
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
     public static failedToQueryArmResource = '/errors/failedToQueryArmResource';
-    public static unableToGetSystemKey = '/errors/unableToGetSystemKey';    
+    public static unableToGetSystemKey = '/errors/unableToGetSystemKey';
     public static unableToUpdateSwaggerData = '/errors/unableToUpdateSwaggerData';
     public static unableToDeleteSwaggerData = '/errors/unableToDeleteSwaggerData';
     public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
-    public static malformedAPIDefinition = '/errors/malformedAPIDefinition';    
+    public static malformedAPIDefinition = '/errors/malformedAPIDefinition';
+    public static passThroughApiError = '/errors/passThroughApiError';
 }
