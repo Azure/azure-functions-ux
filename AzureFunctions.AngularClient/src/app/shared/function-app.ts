@@ -135,7 +135,7 @@ export class FunctionApp {
         private _authZService: AuthzService,
         private _aiService: AiService) {
 
-        this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _translateService, () => this.getPortalHeaders());
+        this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
