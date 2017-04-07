@@ -96,6 +96,7 @@
     <Content Include="src\app\busy-state\busy-state.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
+    <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.html" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
@@ -106,6 +107,7 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.scss" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.scss" />
+    <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
@@ -315,8 +317,12 @@
     <TypeScriptCompile Include="src\app\breadcrumbs\breadcrumbs.component.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.spec.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\tbl\tbl-th\tbl-th.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\tbl\tbl.component.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.spec.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.ts" />
+    <TypeScriptCompile Include="src\app\create-function-wrapper\create-function-wrapper.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\create-function-wrapper\create-function-wrapper.component.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
@@ -604,7 +610,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
