@@ -1,3 +1,6 @@
+import { TabsComponent } from './../../tabs/tabs.component';
+import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
+import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { DropDownElement } from '../../shared/models/drop-down-element';
@@ -50,18 +53,21 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private _viewInfoSub: RxSubscription;
     private _viewInfo: TreeViewInfo;
     private _appNode: AppNode;
+    private _busyState : BusyStateComponent;
 
     constructor(private _aiService: AiService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
+        tabsComponent : TabsComponent
     ) {
+        this._busyState = tabsComponent.busyState;
+
         this._viewInfoSub = this._viewInfoStream
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
-                this._globalStateService.setBusyState();
+                this._busyState.setBusyState();
 
                 this._appNode = (<AppNode>viewInfo.node);
 
@@ -78,7 +84,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .do(null, e => {
                 this._aiService.trackException(e, "swagger-definition");
                 this.swaggerEnabled = false;
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
             })
             .retry()
             .flatMap(jsonObj => {
@@ -98,7 +104,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 return Observable.of(this.swaggerEnabled);
             })
             .subscribe(swaggerEnabled => {
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
                 let traceKey = this._viewInfo.data.siteTraceKey;
                 this._aiService.stopTrace("/site/function-definition-tab-ready", traceKey);
             });
@@ -116,14 +122,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         this.valueChange = new Subject<boolean>();
         this.valueChange
             .subscribe((swaggerEnabled: boolean) => {
-                this._globalStateService.setBusyState();
+                this._busyState.setBusyState();
                 if (this.swaggerEnabled == swaggerEnabled) {
-                    this._globalStateService.clearBusyState();
+                    this._busyState.clearBusyState();
                 } else {
                     this.swaggerEnabled = swaggerEnabled;
                     this.setSwaggerEndpointState(swaggerEnabled)
                         .subscribe((result) => {
-                            this._globalStateService.clearBusyState();
+                            this._busyState.clearBusyState();
                         })
                 }
             });
@@ -138,6 +144,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             this._viewInfoSub.unsubscribe();
             this._viewInfoSub = null;
         }
+
+        this._busyState.clearBusyState();
     }
 
     openBlade(name: string) {
@@ -154,7 +162,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 var jsonString = JSON.stringify(jsonObj);
                 return this.functionApp.saveHostJson(jsonString);
             }).catch(error => {
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
                 return Observable.of(null);
             }).flatMap(config => {
                 if (config == null) {
@@ -213,7 +221,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     public saveChanges(): void {
-        this._globalStateService.setBusyState();
+        this._busyState.setBusyState();
         this.swaggerEditor.getDocument((swaggerDocument, error) => {
             if (error) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -221,7 +229,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     errorId: ErrorIds.malformedAPIDefinition,
                     errorType: ErrorType.UserError
                 });
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
                 return;
             }
 
@@ -229,9 +237,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.functionApp.addOrUpdateSwaggerDocument(this.swaggerURL, swaggerDocument).
                     subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument;
-                        this._globalStateService.clearBusyState();
+                        this._busyState.clearBusyState();
                     }, e => {
-                        this._globalStateService.clearBusyState();
+                        this._busyState.clearBusyState();
                     });
                 return;
             }
@@ -242,13 +250,13 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     this.functionApp.deleteSwaggerDocument(this.swaggerURL).
                         subscribe(() => {
                             this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
-                            this._globalStateService.clearBusyState();
+                            this._busyState.clearBusyState();
                         }, e => {
-                            this._globalStateService.clearBusyState();
+                            this._busyState.clearBusyState();
                         });
                 } else {
                     this.assignDocumentToEditor(this.swaggerDocument);
-                    this._globalStateService.clearBusyState();
+                    this._busyState.clearBusyState();
                 }
                 return;
             }
@@ -256,19 +264,19 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     public resetEditor(): void {
-        this._globalStateService.setBusyState();
+        this._busyState.setBusyState();
         this.functionApp.getSwaggerDocument(this.swaggerKey)
             .subscribe((swaggerDoc: any) => {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
             }, e => {
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
             });
     }
 
     public renewSwaggerSecret() {
-        this._globalStateService.setBusyState()
+        this._busyState.setBusyState()
         this.createSwaggerSecret()
             .flatMap(key => {
                 this.swaggerKey = key;
@@ -278,7 +286,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .catch(error => {
                 return Observable.of(false);
             }).subscribe(result => {
-                this._globalStateService.clearBusyState();
+                this._busyState.clearBusyState();
             });
     }
 
