@@ -1,5 +1,6 @@
+import { BusyStateComponent } from './../busy-state/busy-state.component';
 import { AiService } from './../shared/services/ai.service';
-import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter } from '@angular/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 import { PortalService } from '../shared/services/portal.service';
 
@@ -10,6 +11,7 @@ import { PortalService } from '../shared/services/portal.service';
 })
 export class TabsComponent implements AfterContentInit {
 
+    @ViewChild(BusyStateComponent) busyState : BusyStateComponent;
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
     @Output() tabSelected = new EventEmitter<TabComponent>();
     @Output() tabClosed = new EventEmitter<TabComponent>();
