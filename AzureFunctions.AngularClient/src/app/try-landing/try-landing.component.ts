@@ -96,7 +96,21 @@ export class TryLandingComponent implements OnInit {
             }
         });
 
-        var result = this._functionsService.getNewFunctionNode();
+        let result = {
+            name: this._translateService.instant(PortalResources.sideBar_newFunction),
+            href: null,
+            config: null,
+            script_href: null,
+            template_id: null,
+            clientOnly: true,
+            isDeleted: false,
+            secrets_file_href: null,
+            test_data: null,
+            script_root_path_href: null,
+            config_href: null,
+            functionApp : null
+        };
+        
         this.functionsInfo.push(result);
     }
 

@@ -96,7 +96,6 @@
     <Content Include="src\app\busy-state\busy-state.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
-    <Content Include="src\app\dashboard\dashboard.component.html" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
@@ -153,8 +152,6 @@
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
     <Content Include="src\app\side-nav\side-nav.component.html" />
-    <Content Include="src\app\sidebar\sidebar.component.css" />
-    <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\site\deployment-source-setup\deployment-source-setup.component.html" />
     <Content Include="src\app\site\deployment-source\deployment-source.component.html" />
     <Content Include="src\app\site\function-runtime\function-runtime.component.html" />
@@ -166,8 +163,6 @@
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
-    <Content Include="src\app\swagger-definition\swagger-definition.component.css" />
-    <Content Include="src\app\swagger-definition\swagger-definition.component.html" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
@@ -322,8 +317,6 @@
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.spec.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.ts" />
-    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
@@ -485,10 +478,6 @@
     <TypeScriptCompile Include="src\app\shared\Utilities\resources.ts" />
     <TypeScriptCompile Include="src\app\side-nav\side-nav.component.spec.ts" />
     <TypeScriptCompile Include="src\app\side-nav\side-nav.component.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.spec.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source-setup\deployment-source-setup.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source-setup\deployment-source-setup.component.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source\deployment-source.component.spec.ts" />
@@ -514,11 +503,6 @@
     <TypeScriptCompile Include="src\app\site\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
-    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\swagger-definition\swagger-definition.component.ts" />
-    <TypeScriptCompile Include="src\app\swagger-frame\ISwaggerEditor.ts" />
-    <TypeScriptCompile Include="src\app\swagger-frame\swagger-frame.directive.ts" />
-    <TypeScriptCompile Include="src\app\swagger-frame\swaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.pipe.spec.ts" />
@@ -576,7 +560,6 @@
   <ItemGroup>
     <Content Include="src\app\api-details\api-details.component.css" />
     <None Include="src\app\api-new\api-new.component.scss" />
-    <Content Include="src\app\dashboard\dashboard.component.scss" />
     <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,6 @@ import {ArmService} from './arm.service';
 import {Constants} from '../models/constants';
 import {BusyStateComponent} from '../../busy-state/busy-state.component';
 import {AiService} from './ai.service';
-import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {FunctionsService} from './functions.service';
 import { Observable, BehaviorSubject, Subject, ReplaySubject } from 'rxjs/Rx';
 
@@ -24,7 +23,6 @@ export class GlobalStateService {
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
     private _globalBusyStateComponent: BusyStateComponent;
-    private _dashboardComponent: DashboardComponent;
     private _shouldBeBusy: boolean;
     private _token: string;
     private _tryAppServicetoken: string;
@@ -121,8 +119,4 @@ export class GlobalStateService {
    set GlobalDisabled(value: boolean) {
        this._globalDisabled = value;
    }
-
-    set DashboardComponent(value: DashboardComponent) {
-        this._dashboardComponent = value;
-    }
 }
