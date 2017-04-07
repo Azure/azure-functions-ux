@@ -1,3 +1,4 @@
+import { FunctionApp } from './../shared/function-app';
 import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {BindingList} from '../shared/models/binding-list';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action} from '../shared/models/binding';
@@ -23,13 +24,13 @@ export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
     @Output() changeEditor = new EventEmitter<string>();
 
-    public disabled: boolean;
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
     public currentBinding: UIFunctionBinding = null;
     public currentBindingId: string = "";
     public functionInfo: FunctionInfo;
+    public functionApp: FunctionApp;
 
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
@@ -37,14 +38,10 @@ export class FunctionIntegrateV2Component {
     set selectedFunction(fi: FunctionInfo) {
         this.pickerType = TemplatePickerType.none;
 
-        fi.functionApp.checkIfDisabled()
-        .subscribe(disabled =>{
-            this.disabled = disabled;
-        })
-
         this.currentBinding = null;
         this.currentBindingId = "";
         this.functionInfo = fi;
+        this.functionApp = fi.functionApp;
 
         try {
             this._bindingManager.validateConfig(this.functionInfo.config, this._translateService);

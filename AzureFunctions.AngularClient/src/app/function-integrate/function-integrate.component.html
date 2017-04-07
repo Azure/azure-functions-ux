@@ -2,7 +2,7 @@
     <div class="col-md-10">
         <h2 class="dev-block-header">{{ 'config' | translate }}</h2>
         <div *ngIf="isDirty" class="dev-block-header">
-            <button (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
+            <button [fnWriteAccess]="functionApp" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
         <div class="gutter-container" style="padding-top: 5px">
@@ -11,7 +11,7 @@
                  (onContentChanged)="contentChanged($event)"
                  [content]="configContent"
                  fileName="function.json"
-                 [disabled]="disabled"
+                 [fnWriteAccess]="functionApp"
                  [functionAppInput]="functionApp">
             </div>
         </div>
@@ -20,4 +20,3 @@
         <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('standard')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_standardEditor' | translate }}</div>
     </div>
 </div>
-

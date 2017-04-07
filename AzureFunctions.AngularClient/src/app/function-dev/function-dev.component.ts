@@ -45,7 +45,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild('bottomContainer') bottomContainer: ElementRef;
 
     @Input() selectedFunction: FunctionInfo;
-    public disabled: boolean;
     public functionInfo: FunctionInfo;
     public functionUpdate: Subscription;
     public scriptFile: VfsObject;
@@ -122,13 +121,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
-                    this.functionApp.checkIfDisabled(),
                     this.functionApp.checkIfEasyAuthEnabled(),
-                    (s, f, d, e) => ({ secrets: s, functionInfo: f, disabled: d, easyAuthEnabled : e}))
+                    (s, f, d, e) => ({ secrets: s, functionInfo: f, easyAuthEnabled : e}));
             })
             .subscribe(res => {
                 this._isEasyAuthEnabled = res.easyAuthEnabled;
-                this.disabled = res.disabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
                 this.runValid = true;

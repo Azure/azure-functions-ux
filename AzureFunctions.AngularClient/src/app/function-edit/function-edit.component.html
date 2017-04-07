@@ -13,7 +13,10 @@
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
 <div *ngIf="tabId === 'manage'" class="function-edit-content">
-    <function-manage [viewInfoInput]="viewInfo"></function-manage>    
+    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert" style="margin-bottom: 0px">
+        {{ 'functionEdit_readOnly' | translate }}
+    </div>
+    <function-manage [viewInfoInput]="viewInfo"></function-manage>
 </div>
 <div *ngIf="tabId === 'monitor'" class="function-edit-content">
     <function-monitor [selectedFunction]="selectedFunction"></function-monitor>

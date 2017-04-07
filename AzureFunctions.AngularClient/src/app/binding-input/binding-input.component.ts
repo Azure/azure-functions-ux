@@ -17,7 +17,6 @@ import {Subscription, Subject} from 'rxjs/Rx';
   selector: 'binding-input',
   templateUrl: './binding-input.component.html',
   styleUrls: ['./binding-input.component.css'],
-  inputs: ["functionAppInput", "input"]
 })
 export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
@@ -28,8 +27,7 @@ export class BindingInputComponent {
     public functionReturnValue: boolean;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
-    private _functionAppStream = new Subject<FunctionApp>();
-    public functionApp : FunctionApp;
+    @Input() public functionApp: FunctionApp;
 
     constructor(
         private _portalService: PortalService,
@@ -38,23 +36,9 @@ export class BindingInputComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService) {
         this.showTryView = this._globalStateService.showTryView;
-
-        this._functionAppStream
-            .distinctUntilChanged()
-            .switchMap(fi =>{
-                this.functionApp = fi;
-                return this.functionApp.checkIfDisabled();
-            })
-            .subscribe(disabled =>{
-                this.disabled = disabled;
-            })
     }
 
-    set functionAppInput(functionApp : FunctionApp){
-        this._functionAppStream.next(functionApp);
-    }
-
-    set input(input: BindingInputBase<any>) {
+    @Input('input') set input(input: BindingInputBase<any>) {
         if (input.type === SettingType.picker) {
             var picker = <PickerInput>input;
             if (!input.value && picker.items) {

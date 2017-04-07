@@ -97,6 +97,7 @@ import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashbo
 import { CreateFunctionWrapperComponent } from './create-function-wrapper/create-function-wrapper.component';
 import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-definition.component';
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
+import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
 
 
 @NgModule({
@@ -174,6 +175,7 @@ import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.direct
         CreateFunctionWrapperComponent,
         TblComponent,
         TblThComponent,
+        FnWriteAccessDirective
     ],
     imports: [
         FormsModule,

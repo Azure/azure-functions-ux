@@ -19,7 +19,6 @@ import {PortalResources} from '../shared/models/portal-resources';
 })
 export class FunctionIntegrateComponent implements OnDestroy {
     @Output() changeEditor = new EventEmitter<string>();
-    public disabled: boolean;
 
     public _selectedFunction: FunctionInfo;
     public configContent: string;
@@ -39,10 +38,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     set selectedFunction(value: FunctionInfo) {
         this.functionApp = value.functionApp;
-        this.functionApp.checkIfDisabled()
-        .subscribe(disabled =>{
-            this.disabled = disabled;
-        })
 
         this._selectedFunction = value;
         this._originalContent = JSON.stringify(value.config, undefined, 2);;

@@ -23,7 +23,7 @@ import {FunctionApp} from '../shared/function-app';
 export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
-    @Input() functionInfo: FunctionInfo;    
+    @Input() functionInfo: FunctionInfo;
     @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
     @Output() closeClicked = new EventEmitter<any>();
@@ -41,7 +41,7 @@ export class FileExplorerComponent implements OnChanges {
     private binaryExtensions = ['.zip', '.exe', '.dll', '.png', '.jpeg', '.jpg', '.gif', '.bmp', '.ico', '.pdf', '.so', '.ttf', '.bz2', '.gz', '.jar', '.cab', '.tar', '.iso', '.img', '.dmg'];
 
     public uploader: FileUploader;
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
 
     constructor(
         private _globalStateService: GlobalStateService,
