@@ -1,13 +1,13 @@
-<div class="newfunc-container">
+<div class="newfunc-container" >
 
-    <div *ngIf="disabled">
+    <div *ngIf="functionApp?.checkIfDisabled() | async">
         <br />
         <div class="alert alert-warning alert-dismissible" role="alert">
             {{ 'readOnly' | translate }}
         </div>
     </div>
 
-    <div *ngIf="!disabled && functionsInfo">
+    <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
             <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
             <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>

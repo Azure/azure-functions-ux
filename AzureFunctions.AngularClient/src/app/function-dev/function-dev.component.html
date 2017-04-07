@@ -31,7 +31,7 @@
                         <div style="display:flex;align-items: center;">
                             <span class="text-level1-heading">{{fileName}}</span>
                             <span>
-                                <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
+                                <button [fnWriteAccess]="functionApp" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
                             </span>
                             <span>
                                 <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
@@ -84,7 +84,7 @@
                                  (onContentChanged)="contentChanged($event)"
                                  [content]="content"
                                  [fileName]="fileName"
-                                 [disabled]="disabled"
+                                 [fnWriteAccess]="functionApp"
                                  [functionAppInput]="functionApp">
                             </div>
 
@@ -247,7 +247,7 @@
 
                             <function-keys
                                 [autoSelect]="autoSelectAdminKey"
-                                [functionApp]="functionApp"                                
+                                [functionApp]="functionApp"
                                 [enableKeySelect]="true"
                                 (selectedKey)="selectedKeyStream.next($event)"
                                 [inputChange]="functionInfo"></function-keys>

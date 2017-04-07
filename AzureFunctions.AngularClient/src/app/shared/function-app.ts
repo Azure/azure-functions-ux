@@ -1298,7 +1298,8 @@ export class FunctionApp {
             } else {
                 return false;
             }
-        });
+        })
+        .catch(e => Observable.of(false));
     }
 
     public checkIfEasyAuthEnabled(){

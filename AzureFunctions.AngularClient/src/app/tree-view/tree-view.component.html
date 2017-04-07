@@ -18,7 +18,7 @@
               [class.fa-caret-right]="!child.isExpanded"
               [class.fa-caret-down]="child.isExpanded"
               (click)="child.toggle($event)"></i>
-            
+
             <!-- Custom icon per node -->
             <i *ngIf="child.iconClass" [class]="child.iconClass">
               <img *ngIf="child.iconUrl" [src]="child.iconUrl" />

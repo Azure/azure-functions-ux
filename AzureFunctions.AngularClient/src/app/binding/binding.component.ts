@@ -40,7 +40,6 @@ export class BindingComponent{
     @Output() cancel = new EventEmitter<void>();
 
     public newFunction: boolean = false;
-    public disabled: boolean;
     public storageAccountName: string;
     public storageAccountKey: string;
     public storageConnectionString: string;
@@ -69,24 +68,19 @@ export class BindingComponent{
 
         let funcStream = this._functionAppStream
             .distinctUntilChanged()
-            .switchMap(functionApp =>{
+            .switchMap(functionApp => {
                 this.functionApp = functionApp;
-                return Observable.zip(
-                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
-                    this.functionApp.checkIfDisabled(),
-                    (a, d) => ({appSettings : a.json(), disabled : d}));
+                return this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`).map(r => ({appSettings: r}));
             });
 
         funcStream.merge(this._bindingStream)
-        .subscribe((res : {appSettings : any, disabled : boolean}) =>{
-            if(res.appSettings){
+        .subscribe((res: { appSettings: any }) => {
+            if (res.appSettings) {
                 this._appSettings = res.appSettings.properties;
-                this.disabled = res.disabled;
+            } else {
+                this._updateBinding(<any> res);
             }
-            else{
-                this._updateBinding(<any>res);
-            }
-        })
+        });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'

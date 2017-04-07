@@ -1,18 +1,15 @@
 <div class="wrapper">
-        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-        {{ 'functionEdit_readOnly' | translate }}
-    </div>
     <div id="function-settings">
         <div class="configure-wrapper">
             <div>{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo">
-                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <radio-selector [fnWriteAccess]="functionApp" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
             </div>
         </div>
     </div>
 
     <div id="submit-delete">
-        <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
+        <button type="button" [fnWriteAccess]="functionApp" id="submit-button" (click)="deleteFunction()">Delete</button>
     </div>
 
     <function-keys

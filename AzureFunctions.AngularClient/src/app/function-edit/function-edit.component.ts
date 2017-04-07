@@ -43,7 +43,7 @@ export class FunctionEditComponent {
         private _userService: UserService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _translateService: TranslateService) {        
+        private _translateService: TranslateService) {
         this.inIFrame = this._userService.inIFrame;
 
         this.DevelopTab = _translateService.instant("tabNames_develop");
@@ -59,10 +59,9 @@ export class FunctionEditComponent {
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
 
                 let segments = viewInfo.resourceId.split("/");
-                if(segments.length === 11){
+                if (segments.length === 11) {
                     this.tabId = "develop";
-                }
-                else{
+                } else {
                     this.tabId = segments[segments.length - 1];
                 }
 
