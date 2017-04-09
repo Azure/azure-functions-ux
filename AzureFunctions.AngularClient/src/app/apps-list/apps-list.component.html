@@ -3,7 +3,7 @@
 <h3 class="text-main2-heading">{{ 'functionApps' | translate}}</h3><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <tbl [items]="apps" #table="tbl">
-  <tr class="header-row">
+  <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
     <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>

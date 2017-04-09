@@ -1,5 +1,5 @@
 import { TblComponent } from './../tbl.component';
-import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Directive, HostListener, Input, ElementRef, AfterContentInit } from '@angular/core';
 
 @Component({
   selector: 'tbl-th',
@@ -11,7 +11,7 @@ import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@
           [class.fa-chevron-down]="(table.sortedColName === name && !table.sortAscending) || !table.sortedColName"></i>
     </div>`
 })
-export class TblThComponent implements OnInit {
+export class TblThComponent implements OnInit, AfterContentInit {
 
   @Input() name : string;
 
@@ -21,6 +21,16 @@ export class TblThComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterContentInit() {
+    let element = this._el.nativeElement;
+    if(element.parentElement
+      && element.parentElement.parentElement
+      && element.parentElement.parentElement.tagName === "TR"){
+
+      element.parentElement.parentElement.classList.add("header-row");
+    }
   }
 
   sort() {

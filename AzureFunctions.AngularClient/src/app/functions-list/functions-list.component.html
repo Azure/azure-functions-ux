@@ -3,7 +3,7 @@
 <h3 class="text-main2-heading">{{ 'functions' | translate }}</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <tbl [items]="functions" #table="tbl">
-  <tr class="header-row">
+  <tr>
     <th><tbl-th name="name">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="disabled">{{ 'enabled' | translate }}</tbl-th></th>
   </tr>
