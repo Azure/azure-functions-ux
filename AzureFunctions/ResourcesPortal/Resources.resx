@@ -1600,4 +1600,22 @@
   <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
     <value>Are you sure you want to overwrite the API definition in the editor?</value>
   </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Use your API definition to access your Functions from within &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; and &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Create a sparse definition with the metadata from your HTTP triggered functions.
+Fill in the &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;operation objects&lt;/a&gt;, and other information about your API before use.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>This key secures your API Definition from access to anyone without the key. 
+It does not secure the underlying API. See each Function to see their key security.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Set to "Function" to enable a hosted API definition and template definition generation. 
+Set to "External URL" to use an API definition that is hosted elsewhere.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Use this URL to directly access your API definition and import into 3rd party tools </value>
+  </data>
 </root>

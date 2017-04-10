@@ -1501,7 +1501,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure and manage deployment options for your app, including continuous deployment form VSTS, Github and Bitbucket as well as trigger deployments form OneDrive, Dropbox, external Git and more..
+        ///   Looks up a localized string similar to Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more..
         /// </summary>
         internal static string feature_deploymentSourceInfo {
             get {
@@ -3805,6 +3805,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use your API definition to access your Functions from within &lt;a href=&quot;https://powerapps.microsoft.com/en-us/&quot; target=&quot;_blank&quot;&gt;PowerApps&lt;/a&gt; and &lt;a href=&quot;https://ms.flow.microsoft.com/en-us/&quot; target=&quot;_blank&quot;&gt;Flow&lt;/a&gt;. .
+        /// </summary>
+        internal static string swaggerDefinition_exporthelp {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_exporthelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External URL.
         /// </summary>
         internal static string swaggerDefinition_external {
@@ -3819,6 +3828,16 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string swaggerDefinition_feature_overview {
             get {
                 return ResourceManager.GetString("swaggerDefinition_feature_overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a sparse definition with the metadata from your HTTP triggered functions.
+        ///Fill in the &lt;a href=&quot;http://swagger.io/specification/#operationObject&quot; target=&quot;_blank&quot;&gt;operation objects&lt;/a&gt;, and other information about your API before use..
+        /// </summary>
+        internal static string swaggerDefinition_generateHelp {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_generateHelp", resourceCulture);
             }
         }
         
@@ -3850,6 +3869,16 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key. 
+        ///It does not secure the underlying API. See each Function to see their key security..
+        /// </summary>
+        internal static string swaggerDefinition_keyHelp {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_keyHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load API definition.
         /// </summary>
         internal static string swaggerDefinition_loadDefinition {
@@ -3868,7 +3897,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Click &quot;Load Generated API Definition&quot; to get started.
+        ///   Looks up a localized string similar to #Click &quot;Generate API definition template&quot; to get started.
         /// </summary>
         internal static string swaggerDefinition_placeHolder {
             get {
@@ -3931,6 +3960,16 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation. 
+        ///Set to &quot;External URL&quot; to use an API definition that is hosted elsewhere..
+        /// </summary>
+        internal static string swaggerDefinition_sourceHelp {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_sourceHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition.
         /// </summary>
         internal static string swaggerDefinition_subtitle {
@@ -3954,6 +3993,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string swaggerDefinition_url {
             get {
                 return ResourceManager.GetString("swaggerDefinition_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this URL to directly access your API definition and import into 3rd party tools .
+        /// </summary>
+        internal static string swaggerDefinition_urlHelp {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_urlHelp", resourceCulture);
             }
         }
         
@@ -4143,15 +4191,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_functionAppSettings {
             get {
                 return ResourceManager.GetString("topBar_functionAppSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to API Definition (preview).
-        /// </summary>
-        internal static string topBar_functionSwaggerDefinition {
-            get {
-                return ResourceManager.GetString("topBar_functionSwaggerDefinition", resourceCulture);
             }
         }
         
