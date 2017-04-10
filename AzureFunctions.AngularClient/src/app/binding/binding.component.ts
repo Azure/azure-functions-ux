@@ -76,7 +76,7 @@ export class BindingComponent{
         funcStream.merge(this._bindingStream)
         .subscribe((res: { appSettings: any }) => {
             if (res.appSettings) {
-                this._appSettings = res.appSettings.properties;
+                this._appSettings = res.appSettings.json().properties;
             } else {
                 this._updateBinding(<any> res);
             }
