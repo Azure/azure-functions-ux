@@ -77,7 +77,7 @@ export class SiteDashboardComponent {
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
-                this._aiService.trackException(e, "site-dashboard");
+                this._aiService.trackException(e, "/errors/site-dashboard");
 
                 this._globalStateService.setDisabledMessage(message);
                 this._globalStateService.clearBusyState();

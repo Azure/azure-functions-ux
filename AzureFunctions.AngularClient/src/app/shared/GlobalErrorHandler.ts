@@ -9,6 +9,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   
   handleError(error) {
     this._aiService.trackException(error, '/errors/unhandled');
-    console.log(error);
+    console.error(error);
   }
 }

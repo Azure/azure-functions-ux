@@ -69,7 +69,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
         this.sideNav.updateView(this, this.dashboardType, force)
         .do(null, e =>{
-            this.sideNav.aiService.trackException(e, "TreeNode.select()");
+            this.sideNav.aiService.trackException(e, "/errors/tree-node/select");
         })
         .subscribe(r =>{
 
@@ -92,7 +92,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         this.isLoading = true;
         this.handleRefresh()
         .do(null, e =>{
-            this.sideNav.aiService.trackException(e, "TreeNode.refresh()");
+            this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh");
         })
         .subscribe(r =>{
             if(!r){
@@ -101,7 +101,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
             this.sideNav.updateView(this, this.sideNav.selectedDashboardType)
             .do(null, e=>{
-                this.sideNav.aiService.trackException(e, "TreeNode.refresh().updateView()");
+                this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh/update-view");
             })
             .subscribe(() =>{});            
 
@@ -137,7 +137,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     private _loadAndExpandChildrenIfSingle(){
         this.loadChildren()
         .do(null, e =>{
-            this.sideNav.aiService.trackException(e, "TreeNode._loadAndExpandChildrenIfSingle().loadChildren()");
+            this.sideNav.aiService.trackException(e, "/errors/tree-node/expand-single/load-children");
         })
         .subscribe(() =>{
             this.isLoading = false;
@@ -169,7 +169,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public openCreateNew(event? : any){
         this.sideNav.updateView(this, this.newDashboardType)
         .do(null, e=>{
-            this.sideNav.aiService.trackException(e, "/errors/tree-node/update-view");
+            this.sideNav.aiService.trackException(e, "/errors/tree-node/open-create/update-view");
         })
         .subscribe(() =>{});
         
