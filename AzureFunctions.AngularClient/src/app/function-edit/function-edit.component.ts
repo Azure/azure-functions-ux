@@ -53,7 +53,6 @@ export class FunctionEditComponent {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .distinctUntilChanged()
             .switchMap(viewInfo =>{
                 this.viewInfo = viewInfo;
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;

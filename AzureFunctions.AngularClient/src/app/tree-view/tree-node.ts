@@ -95,11 +95,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh");
         })
         .subscribe(r =>{
-            if(!r){
-                return;
-            }
-
-            this.sideNav.updateView(this, this.sideNav.selectedDashboardType)
+            this.sideNav.updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, true)
             .do(null, e=>{
                 this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh/update-view");
             })

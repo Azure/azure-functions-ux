@@ -188,9 +188,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             return Observable.of(null);
         }
 
-        // Call loadChildren first in case there's currently a load operation going
-        return this.sideNav.updateView(this, this.dashboardType, true)
-        .flatMap(r =>{
+        // Make sure there isn't a load operation currently being performed
+        let loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
+        return loadObs
+        .flatMap(() =>{
             this.sideNav.aiService.trackEvent('/actions/refresh');
             this._functionApp.fireSyncTrigger();
             this.sideNav.cacheService.clearCache();
@@ -270,6 +271,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         }
 
         this.sideNav.globalStateService.setTopBarNotifications([]);
+        this.sideNav.broadcastService.clearAllDirtyStates();
     }
 
     private _setupBackgroundTasks(){

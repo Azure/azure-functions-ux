@@ -36,7 +36,6 @@ export class FunctionManageComponent {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .distinctUntilChanged()
             .switchMap(viewInfo =>{
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;

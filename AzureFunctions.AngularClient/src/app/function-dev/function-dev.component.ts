@@ -112,7 +112,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
-            .distinctUntilChanged()
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
                 this._globalStateService.setBusyState();
