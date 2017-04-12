@@ -121,7 +121,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
-                    this.functionApp.checkIfEasyAuthEnabled(),
+                    this.functionApp.getAuthSettings(),
                     (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e}))
             })
             .subscribe(res => {

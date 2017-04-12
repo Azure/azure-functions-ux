@@ -494,6 +494,7 @@ export class PortalResources
     public static error_unableToUpdateRuntimeConfig: string = "error_unableToUpdateRuntimeConfig";
     public static error_unableToUpdateSwaggerData: string = "error_unableToUpdateSwaggerData";
     public static swaggerDefinition_revert: string = "swaggerDefinition_revert";
+    public static binding_AADLinkAuth: string = "binding_AADLinkAuth";
     public static swaggerDefinition_placeHolder: string = "swaggerDefinition_placeHolder";
     public static swaggerDefinition_confirmOverwrite: string = "swaggerDefinition_confirmOverwrite";
     public static swaggerDefinition_exporthelp: string = "swaggerDefinition_exporthelp";
@@ -501,6 +502,5 @@ export class PortalResources
     public static swaggerDefinition_keyHelp: string = "swaggerDefinition_keyHelp";
     public static swaggerDefinition_sourceHelp: string = "swaggerDefinition_sourceHelp";
     public static swaggerDefinition_urlHelp: string = "swaggerDefinition_urlHelp";
-	public static binding_AADLinkAuth: string = "binding_AADLinkAuth";
 }
 

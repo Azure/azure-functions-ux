@@ -74,8 +74,8 @@ export class BindingComponent{
                 this.functionApp = functionApp;
                 return Observable.zip(
                     this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
-                    this.functionApp.checkIfDisabled(),
-                    (a, e) => ({appSettings : a.json(), disabled : d, authSettings: e}));
+                    this.functionApp.getAuthSettings(),
+                    (a, e) => ({appSettings : a.json(), authSettings: e}));
             });
 
         funcStream.merge(this._bindingStream)
@@ -638,7 +638,6 @@ export class BindingComponent{
 
    private filterWarnings() {
        if (this.model.warnings) {
-           debugger;
            this.model.warnings.forEach((w) => {
                var array = w.variablePath.split('.');
                var showWarning: any = this;

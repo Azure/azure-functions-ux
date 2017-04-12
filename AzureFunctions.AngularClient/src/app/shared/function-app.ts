@@ -803,7 +803,7 @@ export class FunctionApp {
 
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-    return this.checkIfEasyAuthEnabled()
+    return this.getAuthSettings()
         .flatMap(r =>{
             if (r.easyAuthEnabled) {
             return Observable.of({keys: [], links: []});
@@ -947,7 +947,7 @@ export class FunctionApp {
 
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
+        return this.getAuthSettings()
         .flatMap((authSettings : AuthSettings) =>{
             return authSettings.easyAuthEnabled
             ? Observable.of([])
@@ -970,7 +970,7 @@ export class FunctionApp {
 
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
+        return this.getAuthSettings()
         .flatMap(authSettings =>{
             if (authSettings.easyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
@@ -1015,7 +1015,7 @@ export class FunctionApp {
     @Cache()
     getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
+        return this.getAuthSettings()
             .flatMap(authSettings => {
                 if (authSettings.easyAuthEnabled || !this.masterKey) {
                     return Observable.of('');
@@ -1109,7 +1109,7 @@ export class FunctionApp {
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
+        return this.getAuthSettings()
             .flatMap(authSettings => {
                 if (authSettings.easyAuthEnabled) {
                     return Observable.of({ keys: [], links: [] });
@@ -1303,7 +1303,7 @@ export class FunctionApp {
         .catch(e => Observable.of(false));
     }
 
-    public checkIfEasyAuthEnabled(): Observable<AuthSettings>{
+    public getAuthSettings(): Observable<AuthSettings>{
         if(this.tryFunctionsScmCreds){
             return Observable.of({
                 easyAuthEnabled: false,
@@ -1475,7 +1475,7 @@ export class FunctionApp {
     private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {
         return response
             .catch((e: Response) => {
-                return this.checkIfEasyAuthEnabled()
+                return this.getAuthSettings()
                 .flatMap(authSettings =>{
                     if (authSettings.easyAuthEnabled) {
                         return Observable.of({
