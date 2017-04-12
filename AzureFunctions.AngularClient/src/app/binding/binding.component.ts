@@ -14,6 +14,7 @@ import {Validator} from '../shared/models/binding';
 import {FunctionApp} from '../shared/function-app';
 import {CacheService} from '../shared/services/cache.service';
 import {ArmObj} from '../shared/models/arm/arm-obj';
+import {AuthSettings} from '../shared/models/auth-settings';
 
 declare var jQuery: any;
 declare var marked: any;
@@ -49,7 +50,8 @@ export class BindingComponent{
     public hasInputsToShow = false;
     public isDirty: boolean = false;
     public isDocShown: boolean = false;
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
+    public authSettings: AuthSettings;
 
     private _functionAppStream = new Subject<any>();
     private _bindingStream = new Subject<UIFunctionBinding>();
@@ -70,17 +72,25 @@ export class BindingComponent{
             .distinctUntilChanged()
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
-                return this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`).map(r => ({appSettings: r}));
+                return Observable.zip(
+                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
+                    this.functionApp.checkIfDisabled(),
+                    (a, e) => ({appSettings : a.json(), disabled : d, authSettings: e}));
             });
 
         funcStream.merge(this._bindingStream)
-        .subscribe((res: { appSettings: any }) => {
-            if (res.appSettings) {
-                this._appSettings = res.appSettings.json().properties;
-            } else {
-                this._updateBinding(<any> res);
+            .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
+            if(res.appSettings){
+                this._appSettings = res.appSettings.properties;
             }
-        });
+            else{
+                this._updateBinding(<any>res);
+            }
+            if (res.authSettings) {
+                this.authSettings = res.authSettings;
+                this.filterWarnings();
+            }
+        })
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
@@ -154,12 +164,17 @@ export class BindingComponent{
             }
 
             this.model.actions = [];
-            if (!this.newFunction && bindingSchema && bindingSchema.actions) {
-                bindingSchema.actions.forEach((a) => {
-                    if (a.templateId) {
-                        this.model.actions.push(a);
-                    }
-                });
+            this.model.warnings = [];
+            if (!this.newFunction && bindingSchema) {
+                if (bindingSchema.actions) {
+                    bindingSchema.actions.forEach((a) => {
+                        if (a.templateId) {
+                            this.model.actions.push(a);
+                        }
+                    });
+                }
+                this.model.warnings = bindingSchema.warnings;
+                this.filterWarnings();
             }
 
             this.setLabel();
@@ -488,6 +503,15 @@ export class BindingComponent{
         this.isDocShown = value;
     }
 
+    onAuth() {
+        this._portalService.openBlade({
+            detailBlade: "AppAuth",
+            detailBladeInputs: { id: this.functionApp.site.id }
+        },
+            "binding"
+        );
+    }
+
     private setStorageInformation(selectedStorage: string) {
         this.storageAccountKey = undefined;
         this.storageAccountName = undefined;
@@ -609,6 +633,23 @@ export class BindingComponent{
             return account;
        } else {
            return [];
+       }
+    }
+
+   private filterWarnings() {
+       if (this.model.warnings) {
+           debugger;
+           this.model.warnings.forEach((w) => {
+               var array = w.variablePath.split('.');
+               var showWarning: any = this;
+               array.forEach((part) => {
+                   showWarning = showWarning[part];
+               });
+
+               if (showWarning === true) {
+                   w.visible = true;
+               }
+           });
        }
    }
 }

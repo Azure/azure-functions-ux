@@ -1594,6 +1594,9 @@
   <data name="swaggerDefinition_revert" xml:space="preserve">
     <value>Revert to last save</value>
   </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Configure App Service Authentication / Authorization</value>
+  </data>
   <data name="swaggerDefinition_placeHolder" xml:space="preserve">
     <value>#Click "Generate API definition template" to get started</value>
   </data>

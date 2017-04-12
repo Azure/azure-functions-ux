@@ -501,5 +501,6 @@ export class PortalResources
     public static swaggerDefinition_keyHelp: string = "swaggerDefinition_keyHelp";
     public static swaggerDefinition_sourceHelp: string = "swaggerDefinition_sourceHelp";
     public static swaggerDefinition_urlHelp: string = "swaggerDefinition_urlHelp";
+	public static binding_AADLinkAuth: string = "binding_AADLinkAuth";
 }
 

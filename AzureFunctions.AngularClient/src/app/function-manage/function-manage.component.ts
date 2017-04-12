@@ -44,7 +44,7 @@ export class FunctionManageComponent {
                 return Observable.zip(
                     this.functionApp.checkIfDisabled(),
                     this.functionApp.checkIfEasyAuthEnabled(),
-                    (d, e) =>({ disabled : d, easyAuthEnabled : e}))
+                    (d, e) => ({ disabled: d, easyAuthEnabled: e.easyAuthEnabled}))
             })
             .subscribe(res =>{
                 this.disabled = res.disabled;

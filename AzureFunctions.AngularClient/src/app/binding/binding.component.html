@@ -1,4 +1,12 @@
 <div *ngIf="hasInputsToShow">
+
+    <ng-container *ngFor="let w of model.warnings">
+        <div *ngIf="w.visible" [class.alert-info]="w.type === 'Info'" [class.alert-warning]="w.type === 'Warning'" class="alert alert-dismissible" role="alert">
+            {{ w.text }}
+            <div *ngIf="w.addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
+        </div>
+    </ng-container>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <!--//TODO move to css -->

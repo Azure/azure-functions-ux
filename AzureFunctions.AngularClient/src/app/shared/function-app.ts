@@ -45,6 +45,7 @@ import {StartupInfo} from './models/portal';
 import {CacheService} from './services/cache.service';
 import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
+import {AuthSettings} from './models/auth-settings';
 
 declare var mixpanel: any;
 
@@ -803,8 +804,8 @@ export class FunctionApp {
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
     return this.checkIfEasyAuthEnabled()
-        .flatMap(enabled =>{
-            if (enabled) {
+        .flatMap(r =>{
+            if (r.easyAuthEnabled) {
             return Observable.of({keys: [], links: []});
         }
         return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
@@ -947,8 +948,8 @@ export class FunctionApp {
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.checkIfEasyAuthEnabled()
-        .flatMap((isEasyAuthEnabled : boolean) =>{
-        return isEasyAuthEnabled
+        .flatMap((authSettings : AuthSettings) =>{
+            return authSettings.easyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
@@ -970,8 +971,8 @@ export class FunctionApp {
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.checkIfEasyAuthEnabled()
-        .flatMap(isEasyAuthEnabled =>{
-        if (isEasyAuthEnabled || !this.masterKey) {
+        .flatMap(authSettings =>{
+            if (authSettings.easyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -1015,8 +1016,8 @@ export class FunctionApp {
     getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.checkIfEasyAuthEnabled()
-            .flatMap(isEasyAuthEnabled => {
-                if (isEasyAuthEnabled || !this.masterKey) {
+            .flatMap(authSettings => {
+                if (authSettings.easyAuthEnabled || !this.masterKey) {
                     return Observable.of('');
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -1109,8 +1110,8 @@ export class FunctionApp {
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.checkIfEasyAuthEnabled()
-            .flatMap(isEasyAuthEnabled => {
-                if (isEasyAuthEnabled) {
+            .flatMap(authSettings => {
+                if (authSettings.easyAuthEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
                 return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
@@ -1302,15 +1303,23 @@ export class FunctionApp {
         .catch(e => Observable.of(false));
     }
 
-    public checkIfEasyAuthEnabled(){
+    public checkIfEasyAuthEnabled(): Observable<AuthSettings>{
         if(this.tryFunctionsScmCreds){
-            return Observable.of(false);
+            return Observable.of({
+                easyAuthEnabled: false,
+                AADConfigured: false,
+                AADNotConfigured: false
+            });
         }
 
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
-        .map(r =>{
+            .map(r => {
             let auth : ArmObj<any> = r.json();
-            return auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1;
+            return {
+                easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
+                AADConfigured: auth.properties['clientId'] ? true : false,
+                AADNotConfigured: auth.properties['clientId'] ? false : true
+            }
         });
     }
 
@@ -1467,8 +1476,8 @@ export class FunctionApp {
         return response
             .catch((e: Response) => {
                 return this.checkIfEasyAuthEnabled()
-                .flatMap(isEasyAuthEnabled => {
-                    if (isEasyAuthEnabled) {
+                .flatMap(authSettings =>{
+                    if (authSettings.easyAuthEnabled) {
                         return Observable.of({
                             status: 401,
                             statusText: this.statusCodeToText(401),

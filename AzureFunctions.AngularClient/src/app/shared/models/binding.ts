@@ -20,7 +20,8 @@
     mobileTable = <any>"mobileTable",
     notificationHub = <any>"notificationHub",
     sendGrid = <any>"sendGrid",
-    twilioSms = <any>"twilioSms"
+    twilioSms = <any>"twilioSms",
+    aadtoken = <any>"aadtoken"
 }
 
 export interface BindingConfig {
@@ -38,6 +39,7 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
+    warnings: Warning[];
     filters?: string[];
     enabledInTryMode?: boolean;
     actions: Action[];
@@ -70,6 +72,13 @@ export interface RuleValue {
     display: string;
     hiddenSettings: string[];
     shownSettings: string[];
+}
+
+export interface Warning {
+    text: string;
+    type: string;
+    variablePath: string;
+    visible?: boolean; // for UI only
 }
 
 export interface Validator {

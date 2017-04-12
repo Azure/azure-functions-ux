@@ -520,6 +520,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configure App Service Authentication / Authorization.
+        /// </summary>
+        internal static string binding_AADLinkAuth {
+            get {
+                return ResourceManager.GetString("binding_AADLinkAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         internal static string binding_actions {
