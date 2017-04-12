@@ -10,8 +10,9 @@
 > nuget restore
 > msbuild AzureFunctions.sln
 > npm install -g angular-cli
+> npm install -g yarn
 > cd AzureFunctions.AngularClient
-> npm install
+> yarn install
 > ng build --watch
  ```
 
