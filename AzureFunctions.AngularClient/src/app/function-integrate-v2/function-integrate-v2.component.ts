@@ -45,13 +45,7 @@ export class FunctionIntegrateV2Component {
 
         try {
             this._bindingManager.validateConfig(this.functionInfo.config, this._translateService);
-            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                errorId: ErrorIds.errorParsingConfig,
-                errorType: ErrorType.UserError
-            });
             this.onEditorChange('advanced');
             return;
         }
