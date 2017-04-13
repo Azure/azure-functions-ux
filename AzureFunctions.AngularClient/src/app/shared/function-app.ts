@@ -1288,7 +1288,7 @@ export class FunctionApp {
     @Cache()
     getJson(uri: string) {
         return this._http.get(uri, { headers: this.getMainSiteHeaders() })
-            .map<FunctionKeys>(r => r.json());
+            .map<any>(r => r.json());
     }
     checkIfDisabled() {
         return this._cacheService.getArm(`${this.site.id}/config/web`)

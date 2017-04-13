@@ -416,7 +416,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {
-                this._bindingManager.validateConfig(JSON.parse(this.updatedContent), this._translateService);
+                JSON.parse(this.updatedContent);
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
                 syncTriggers = true;
             } catch (e) {
@@ -428,6 +428,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 return;
             }
         }
+
         this._globalStateService.setBusyState();
 
         if (this.scriptFile.name.toLowerCase() === "function.json") {
