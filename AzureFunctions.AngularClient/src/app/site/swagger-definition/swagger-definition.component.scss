@@ -5,8 +5,8 @@ pre {
 }
 
 .medium {
-    width: 240px;    
-    padding: 5px;        
+    width: 240px;
+    padding: 5px;
     min-width: 200px;
 }
 
@@ -15,26 +15,26 @@ ul {
     padding-left: 0px;
 }
 
-.icon {         
+.icon {
     background-repeat: no-repeat;
-    background-position: 4px center;    
+    background-position: 4px center;
     background-size: 14px;
-    padding-left: 22px;        
+    padding-left: 22px;
 }
 
 .expand-icon {
-    background-image: url(images/icon-expand.svg);
+    background-image: url(/images/icon-expand.svg);
 }
 
 .collapse-icon {
-    background-image: url(images/icon-collapse.svg);
+    background-image: url(/images/icon-collapse.svg);
 }
 
 .column {
     flex-direction: column;
 }
 
-.collapse {    
+.collapse {
     width: 0px;
     flex-grow: 0;
     display: none;
@@ -57,13 +57,13 @@ ul {
 
 .operation {
     margin-right: 20px;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .setting-title-collapsible {
     font-size: 15px;
     font-weight: normal;
-    margin: 0px;    
+    margin: 0px;
     padding-bottom: 10px;
 }
 
@@ -81,16 +81,16 @@ ul {
 .subtitle {
     font-size: 12px;
     font-weight: normal;
-    margin: 0px;    
+    margin: 0px;
 }
 
-.function-icon {    
+.function-icon {
     height: 15px;
 }
 
 .wrapper {
     display: flex;
-    flex-direction: column;         
+    flex-direction: column;
 }
 
 .wrapper > div {
@@ -114,16 +114,16 @@ ul {
 
 .section-left > div {
     flex-grow: 1;
-    border-top: none;        
+    border-top: none;
     align-items: center;
-    justify-content: center;    
+    justify-content: center;
 }
 
 .section-right {
     flex-grow: 3;
     width: 75%;
     display: flex;
-    flex-direction: column;              
+    flex-direction: column;
 }
 
 .full-height {
@@ -135,22 +135,22 @@ ul {
     border: 1px solid #ccc;
 }
 
-.header {    
+.header {
     border-top: none;
     display: flex;
     flex-direction: row;
-    align-items: center;    
+    align-items: center;
     height: 50px;
     flex: 1;
 }
 
 .checkbox-label {
-    margin: 0px;    
+    margin: 0px;
     text-align: left;
     padding-left: 0px;
-    font-weight: normal;    
+    font-weight: normal;
     font-size: 15px;
-    vertical-align: middle;    
+    vertical-align: middle;
 }
 
 .checkbox {
@@ -159,7 +159,7 @@ ul {
     height: 15px;
     width: 15px;
     margin: 0;
-    vertical-align: middle;    
+    vertical-align: middle;
 }
 
 .left {
