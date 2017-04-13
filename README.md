@@ -9,7 +9,7 @@
 > cd AzureFunctionsPortal
 > nuget restore
 > msbuild AzureFunctions.sln
-> npm install -g angular-cli
+> npm install -g @angular/cli
 > npm install -g yarn
 > cd AzureFunctions.AngularClient
 > yarn install

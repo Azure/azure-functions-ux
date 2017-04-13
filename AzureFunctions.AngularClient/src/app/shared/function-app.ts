@@ -808,7 +808,7 @@ export class FunctionApp {
             return Observable.of({keys: [], links: []});
         }
         return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+            .retryWhen(e => e.scan((errorCount : number, err: Response) => {
                 if (err.status < 500 && err.status !== 0) {
                     throw err;
                 }
@@ -1114,7 +1114,7 @@ export class FunctionApp {
                     return Observable.of({ keys: [], links: [] });
                 }
                 return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
-                    .retryWhen(error => error.scan<number>((errorCount, err: FunctionsResponse) => {
+                    .retryWhen(error => error.scan((errorCount : number, err: FunctionsResponse) => {
                         if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
                             throw err;
                         } else {

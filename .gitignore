@@ -1,5 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+
 # compiled output
 /dist
 /tmp
@@ -10,6 +23,7 @@
 /bower_components
 
 # IDEs and editors
+.vs/*
 /.idea
 /.vscode
 .project
@@ -42,3 +56,12 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config

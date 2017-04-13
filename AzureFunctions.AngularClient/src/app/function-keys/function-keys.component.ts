@@ -1,3 +1,4 @@
+import { FunctionKeys } from './../shared/models/function-key';
 import { AiService } from './../shared/services/ai.service';
 import { FunctionApp } from '../shared/function-app';
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
@@ -70,8 +71,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 });
 
                 return fi
-                    ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of({ keys: [], links: [] }))
-                    : this.functionApp.getFunctionHostKeys().catch(error => Observable.of({ keys: [], links: [] }));
+                    ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
+                    : this.functionApp.getFunctionHostKeys().catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
 
             })
             .do(null, e =>{
