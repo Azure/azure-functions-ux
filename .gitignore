@@ -11,6 +11,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+AzureFunctions/ng
 
 
 # compiled output
@@ -19,7 +20,7 @@ bld/
 /out-tsc
 
 # dependencies
-/node_modules
+node_modules/
 /bower_components
 
 # IDEs and editors
