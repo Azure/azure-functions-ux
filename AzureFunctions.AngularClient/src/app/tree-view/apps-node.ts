@@ -138,8 +138,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             });
             return Observable.of(null);
         })
-        .switchMap<{ term : string, children : TreeNode[]}>(r =>{
-
+        .switchMap(r =>{
             if(!r){
                 return Observable.of(r);
             }
