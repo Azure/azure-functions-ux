@@ -43,7 +43,7 @@ export class LanguageService {
             this._getApiControllerHeaders(null))
 
             .retryWhen(this._retryAntares)
-            .map<any>(r => {
+            .map(r => {
                 var resources = r.json();
 
                 this._translateService.setDefaultLang("en");

@@ -274,7 +274,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.sideNav.broadcastService.clearAllDirtyStates();
     }
 
-    private _setupBackgroundTasks(){
+    private _setupBackgroundTasks() {
 
         return this._functionApp.initKeysAndWarmupMainSite()
         .catch((err : any) => Observable.of(null))
@@ -283,14 +283,15 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             if(!this._pollingTask){
 
                 this._pollingTask = Observable.timer(1, 60000)
-                    .concatMap<{ errors: string[], configResponse: Response, appSettingResponse : Response}>(() => {
-                        return Observable.zip(
+                    .concatMap(() => {
+                        let val = Observable.zip(
                             this._functionApp.getHostErrors().catch(e => Observable.of([])),
                             this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                             this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
                             this._functionApp.pingScmSite(),
-                            (e : string[], c : Response, a : Response) => ({ errors: e, configResponse: c, appSettingResponse : a }))
-                    })
+                            (e: string[], c: Response, a: Response) => ({ errors: e, configResponse: c, appSettingResponse: a }))
+                        return val;
+                  })
                     .catch(e => Observable.of({}))
                     .subscribe((result : {errors : string[], configResponse : Response, appSettingResponse : Response}) => {
                         this._handlePollingTaskResult(result);

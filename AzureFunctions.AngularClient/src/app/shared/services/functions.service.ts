@@ -109,10 +109,10 @@ export class FunctionsService {
         let url = `${Constants.serviceHost}api/templates?runtime='latest'`;
         return this._http.get(url, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
-            .map<FunctionTemplate[]>(r => {
+            .map(r => {
                 let object = r.json();
                 // this.localize(object);
-                return object;
+                return <FunctionTemplate[]>object;
             });
     }
 
@@ -120,7 +120,7 @@ export class FunctionsService {
     getDesignerSchema() {
         return this._http.get('mocks/function-json-schema.json')
             .retryWhen(this.retryAntares)
-            .map<DesignerSchema>(r => r.json());
+            .map(r => <DesignerSchema>r.json());
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
@@ -129,7 +129,7 @@ export class FunctionsService {
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryGetTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
@@ -147,7 +147,7 @@ export class FunctionsService {
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryCreateTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     getFunctionAppArmId() {
@@ -225,7 +225,7 @@ export class FunctionsService {
     private getLocalizedResources(lang: string, runtime: string): Observable<any> {
         return this._http.get(Constants.serviceHost + `api/resources?name=${lang}&runtime=${runtime}`, { headers: this.getPortalHeaders() })
             .retryWhen(this.retryAntares)
-            .map<any>(r => {
+            .map(r => {
                 let resources = r.json();
 
                 this._translateService.setDefaultLang('en');

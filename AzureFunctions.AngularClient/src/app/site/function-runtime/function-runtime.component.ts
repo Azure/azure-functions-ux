@@ -273,6 +273,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
     site.properties.containerSize = nMemorySize;
 
     return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, site)
-      .map<ArmObj<Site>>(r => r.json());
+      .map(r => <ArmObj<Site>>(r.json()));
   }
 }

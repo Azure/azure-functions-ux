@@ -13,7 +13,7 @@ export class ConfigService {
 
     loadConfig() {
         var observable = this.http.get(Constants.serviceHost + 'api/config')
-            .map<any>((response) => {
+            .map((response) => {
                 var res = response.json();
                 return res;
             });

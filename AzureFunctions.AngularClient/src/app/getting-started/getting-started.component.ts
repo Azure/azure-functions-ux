@@ -63,7 +63,7 @@ export class GettingStartedComponent implements OnInit {
         this.geoRegions = [];
         this.functionContainerNameEvent = new EventEmitter<string>();
         this.functionContainerNameEvent
-            .switchMap<{ isValid: boolean; reason: string }>(() => this.validateContainerName(this.functionContainerName))
+            .switchMap(() => this.validateContainerName(this.functionContainerName))
             .subscribe(v => {
                 this.isValidContainerName = v.isValid;
                 this.validationError = v.reason;
@@ -171,24 +171,24 @@ export class GettingStartedComponent implements OnInit {
             return Observable.of({ isValid: false, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer3) });
         } else {
             return this._validateSiteNameAvailable(this.selectedSubscription.subscriptionId, name)
-                .map<{ isValid: boolean; reason: string }>(v => ({ isValid: v, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer4, { funcName: name }) }));
+                .map(v => ({ isValid: v, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer4, { funcName: name }) }));
         }
     }
 
     private _validateSiteNameAvailable(subscriptionId: string, containerName: string) {
         var id = `/subscriptions/${subscriptionId}/providers/Microsoft.Web/ishostnameavailable/${containerName}`;
         return this._armService.get(id, this._armService.websiteApiVersion)
-            .map<boolean>(r => r.json().properties);
+            .map(r => <boolean>(r.json().properties));
     }
 
     private _getDynamicStampLocations(subscriptionId: string): Observable<{ name: string; displayName: string }[]> {
         var dynamicUrl = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this._armService.websiteApiVersion}`;
         var geoFencedId = `/subscriptions/${subscriptionId}/providers/Microsoft.Web`;
         return Observable.zip(
-            this._armService.send("GET", dynamicUrl).map<{ name: string; displayName: string }[]>(r => r.json().value.map(e => e.properties)),
-            this._armService.get(geoFencedId, "2014-04-01").map<string[]>(r => [].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() == 'sites').map(e => e.locations))),
+            this._armService.send("GET", dynamicUrl).map(r => <{ name: string; displayName: string }[]>(r.json().value.map(e => e.properties))),
+            this._armService.get(geoFencedId, "2014-04-01").map(r => <string[]>([].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() == 'sites').map(e => e.locations)))),
             (d: {name: string, displayName: string}[], g: string[]) => ({dynamicEnabled: d, geoFenced: g})
-        ).map<{ name: string; displayName: string }[]>(result => result.dynamicEnabled.filter(e => !!result.geoFenced.find(g => g.toLowerCase() === e.name.toLowerCase())));
+        ).map(result => <{ name: string; displayName: string }[]>(result.dynamicEnabled.filter(e => !!result.geoFenced.find(g => g.toLowerCase() === e.name.toLowerCase()))));
     }
 
     private _warmUpFunctionApp(armId: string) {
@@ -202,7 +202,7 @@ export class GettingStartedComponent implements OnInit {
     private _getFunctionContainers(subscription: string) {
         var url = `${this._armService.armUrl}/subscriptions/${subscription}/resources?api-version=${this._armService.armApiVersion}&$filter=resourceType eq 'Microsoft.Web/sites'`;
         return this._armService.send("GET", url)
-        .map<FunctionContainer[]>(r => {
+        .map(r => {
             var sites: FunctionContainer[] = r.json().value;
             return sites.filter(e => e.kind === 'functionapp');
         });
@@ -251,7 +251,7 @@ export class GettingStartedComponent implements OnInit {
         };
 
         this._armService.get(providersId, this._armService.armApiVersion )
-            .map<string[]>(r => r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace']))
+            .map(r => <string[]>(r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace'])))
             .subscribe(
             p => registerProviders(p),
             e => registerProviders());
@@ -260,7 +260,7 @@ export class GettingStartedComponent implements OnInit {
     private _getResourceGroup(subscription: string, geoRegion: string): Observable<ResourceGroup> {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
         return this._armService.get(id, this._armService.armApiVersion)
-        .map<ResourceGroup>(r => r.json());
+        .map(r => r.json());
     }
 
     private _createResourceGroup(subscription: string, geoRegion: string, functionAppName: string, result: Subject<FunctionContainer>) {
@@ -277,7 +277,7 @@ export class GettingStartedComponent implements OnInit {
     private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccount> {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts`;
         return this._armService.get(id, this._armService.storageApiVersion)
-        .map<StorageAccount>(r => {
+        .map(r => {
             var accounts: StorageAccount[] = r.json().value;
             return accounts.find(sa => sa.name.startsWith('azurefunctions'));
         });
@@ -294,7 +294,7 @@ export class GettingStartedComponent implements OnInit {
             this._getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
         } else  {
             this._armService.get(id, this._armService.storageApiVersion)
-                .map<StorageAccount>(r => r.json())
+                .map(r => <StorageAccount>(r.json()))
                 .subscribe(
                 sa => {
                     if (sa.properties.provisioningState === 'Succeeded') {
@@ -360,7 +360,7 @@ export class GettingStartedComponent implements OnInit {
     private _getStorageAccountSecrets(subscription: string, geoRegion: string, storageAccount: StorageAccount, functionAppName: string, result: Subject<FunctionContainer>) {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys`;
         return this._armService.post(id, null, this._armService.storageApiVersion)
-        .map<{ key1: string, key2: string }>(r => r.json())
+        .map(r => <{ key1: string, key2: string }>(r.json()))
         .subscribe(
             secrets => this._createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
             error => this.completeError(result, error)
@@ -392,7 +392,7 @@ export class GettingStartedComponent implements OnInit {
         };
 
         this._armService.put(id, body, this._armService.websiteApiVersion)
-        .map<FunctionContainer>(r => r.json())
+        .map(r => <FunctionContainer>(r.json()))
         .subscribe(
             r =>  this.complete(result, r),
             e => this.completeError(result, e));

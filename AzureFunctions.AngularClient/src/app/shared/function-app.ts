@@ -254,9 +254,9 @@ export class FunctionApp {
     getFunctions() {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
-            .map<FunctionInfo[]>((r: Response) => {
+            .map((r: Response) => {
                 try {
-                    return r.json();
+                    return <FunctionInfo[]>r.json();
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -270,7 +270,7 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    return [];
+                    return <FunctionInfo[]>[];
                 }
             })
             .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
@@ -301,7 +301,7 @@ export class FunctionApp {
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
-            .map<any>(r => {
+            .map(r => {
                 return ApiProxy.fromJson(r.json());
             });
     }
@@ -323,7 +323,7 @@ export class FunctionApp {
         let fileHref = typeof file === 'string' ? file : file.href;
         let fileName = this.getFileName(file);
         return this._http.get(fileHref, { headers: this.getScmSiteHeaders() })
-            .map<string>(r => r.text())
+            .map(r => r.text())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFileContent + fileName),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -353,7 +353,7 @@ export class FunctionApp {
         }
 
         return this._http.put(fileHref, updatedContent, { headers: headers })
-            .map<VfsObject | string>(r => file)
+            .map(r => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToSaveFileContent + fileName),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -383,7 +383,7 @@ export class FunctionApp {
         }
 
         return this._http.delete(fileHref, { headers: headers })
-            .map<VfsObject | string>(r => file)
+            .map(r => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFile + fileName),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -425,7 +425,7 @@ export class FunctionApp {
                  this.getPortalHeaders())
          })
         .retryWhen(this.retryAntares)
-        .map<FunctionTemplate[]>(r => {
+        .map(r => {
             var object = r.json();
             this.localize(object);
             return object;
@@ -442,11 +442,11 @@ export class FunctionApp {
                 containerScmUrl: this._scmUrl
             };
             observable = this._http.put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
-                .map<FunctionInfo>(r => r.json());
+                .map(r => r.json());
         } else {
             observable = this._http
                 .put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
-                .map<FunctionInfo>(r => r.json());
+                .map(r => r.json());
         }
 
         return observable
@@ -470,7 +470,7 @@ export class FunctionApp {
         let url = `${this._scmUrl}/api/settings`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
-            .map<{ [key: string]: string }>(r => r.json());
+            .map(r => <{ [key: string]: string }>r.json());
     }
 
     @ClearCache('getFunctions')
@@ -483,7 +483,7 @@ export class FunctionApp {
         let url = `${this._scmUrl}/api/functions/${functionName}`;
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunction + functionName),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -499,7 +499,6 @@ export class FunctionApp {
                     }
                 });
     }
-
 
     getNewFunctionNode(): FunctionInfo {
         return {
@@ -632,7 +631,7 @@ export class FunctionApp {
     @ClearCache('clearAllCachedData')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
-            .map<string>(r => r.statusText)
+            .map(r => r.statusText)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -654,7 +653,7 @@ export class FunctionApp {
     getDesignerSchema() {
         return this._http.get(Constants.serviceHost + 'mocks/function-json-schema.json')
             .retryWhen(this.retryAntares)
-            .map<DesignerSchema>(r => r.json());
+            .map(r => <DesignerSchema>r.json());
     }
 
     initKeysAndWarmupMainSite() {
@@ -674,7 +673,7 @@ export class FunctionApp {
     @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getScmSiteHeaders() })
-            .map<FunctionSecrets>(r => r.json())
+            .map(r => <FunctionSecrets>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveSecretsFileFromKudu + fi.name),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -696,12 +695,12 @@ export class FunctionApp {
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
             .retryWhen(this.retryAntares)
-            .map<FunctionSecrets>(e => secrets);
+            .map(e => <FunctionSecrets>secrets);
     }
 
     getHostJson() {
         return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
-            .map<any>(r => r.json())
+            .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -722,7 +721,7 @@ export class FunctionApp {
     saveFunction(fi: FunctionInfo, config: any) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify({ config: config }), { headers: this.getScmSiteHeaders() })
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -794,7 +793,7 @@ export class FunctionApp {
 
     legacyGetHostSecrets() {
         return this._http.get(`${this._scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
-            .map<string>(r => r.json().masterKey)
+            .map(r => <string>r.json().masterKey)
             .do(h => {
                 this.masterKey = h;
                 this.isMultiKeySupported = false;
@@ -818,7 +817,7 @@ export class FunctionApp {
                 }
                 return errorCount + 1;
             }, 0).delay(400))
-            .map<FunctionKeys>(r => {
+            .map(r => {
                 let keys: FunctionKeys = r.json();
                 if (keys && Array.isArray(keys.keys)) {
                     keys.keys.unshift({
@@ -881,10 +880,10 @@ export class FunctionApp {
             return this._cacheService.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + extensionVersion, false, this.getPortalHeaders());
         })
         .retryWhen(this.retryAntares)
-        .map<BindingConfig>(r => {
+        .map(r => {
             var object = r.json();
             this.localize(object);
-            return object;
+            return <BindingConfig>object;
         });
     }
 
@@ -898,7 +897,7 @@ export class FunctionApp {
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryGetTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
@@ -916,7 +915,7 @@ export class FunctionApp {
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryCreateTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     updateFunction(fi: FunctionInfo) {
@@ -928,7 +927,7 @@ export class FunctionApp {
             }
         }
         return this._http.put(fi.href, JSON.stringify(fiCopy), { headers: this.getScmSiteHeaders() })
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -953,7 +952,7 @@ export class FunctionApp {
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
-                .map<string[]>(r => r.json().errors || [])
+                .map(r => <string[]>(r.json().errors || []))
                 .catch((error: Response) => {
                     if (handleUnauthorized && error.status === 401) {
                         this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
@@ -964,7 +963,7 @@ export class FunctionApp {
                         throw error;
                     }
                 })
-                .catch<string[]>(e => Observable.of(null));
+                .catch(e => Observable.of(null));
             });
     }
 
@@ -983,7 +982,7 @@ export class FunctionApp {
                     }
                     return errorCount + 1;
                 }, 0).delay(2000))
-                .map<string[]>(r => r.json().errors || [])
+                .map(r => <string[]>(r.json().errors || []))
                 .catch((error: Response) => {
                     if (handleUnauthorized && error.status === 401) {
                         this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
@@ -1021,7 +1020,7 @@ export class FunctionApp {
                     return Observable.of('');
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                        .map<string>(r => r.json().id)
+                        .map(r => <string>(r.json().id))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
@@ -1051,7 +1050,7 @@ export class FunctionApp {
         let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .catch(e => Observable.of({ json: () => [] }))
-            .flatMap<string>(r => {
+            .flatMap(r => {
                 let files: any[] = r.json();
                 if (files.length > 0) {
                     let headers = this.getScmSiteHeaders();
@@ -1062,12 +1061,12 @@ export class FunctionApp {
                         .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
                     return this._http.get(files.pop().href, { headers: headers })
-                        .map<string>(f => {
+                        .map(f => {
                             let content = f.text();
                             let index = content.indexOf('\n');
-                            return index !== -1
+                            return <string>(index !== -1
                                 ? content.substring(index + 1)
-                                : content;
+                                : content);
                         });
                 } else {
                     return Observable.of('');
@@ -1079,7 +1078,7 @@ export class FunctionApp {
     getVfsObjects(fi: FunctionInfo | string) {
         let href = typeof fi === 'string' ? fi : fi.script_root_path_href;
         return this._http.get(href, { headers: this.getScmSiteHeaders() })
-            .map<VfsObject[]>(e => e.json())
+            .map(e => <VfsObject[]>e.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveDirectoryContent),
                 (error: FunctionsResponse) => {
                     if (!error.isHandled) {
@@ -1122,7 +1121,7 @@ export class FunctionApp {
                             return errorCount + 1;
                         }
                     }, 0).delay(1000))
-                    .map<FunctionKeys>(r => r.json())
+                    .map(r => <FunctionKeys>r.json())
                     .catch((error: Response) => {
                         if (handleUnauthorized && error.status === 401) {
                             this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
@@ -1166,11 +1165,11 @@ export class FunctionApp {
             };
             result =  this._http.put(url, JSON.stringify(body), { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
-                .map<FunctionKey>(r => r.json());
+                .map(r => <FunctionKey>r.json());
         } else {
             result = this._http.post(url, '', { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
-                .map<FunctionKey>(r => r.json());
+                .map(r => <FunctionKey>r.json());
         }
         return result
             .catch((error: Response) => {
@@ -1288,7 +1287,7 @@ export class FunctionApp {
     @Cache()
     getJson(uri: string) {
         return this._http.get(uri, { headers: this.getMainSiteHeaders() })
-            .map<FunctionKeys>(r => r.json());
+            .map(r => <FunctionKeys>r.json());
     }
     checkIfDisabled() {
         return this._cacheService.getArm(`${this.site.id}/config/web`)
@@ -1325,7 +1324,7 @@ export class FunctionApp {
 
     diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
         return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', { headers: this.getPortalHeaders() })
-            .map<DiagnosticsResult[]>(r => r.json())
+            .map(r => <DiagnosticsResult[]>r.json())
             .catch((error: Response) => {
                 this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
                     error: error.text(),
@@ -1513,7 +1512,7 @@ export class FunctionApp {
                     }
                 });
             })
-            .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
+            .map(r => <RunFunctionResult>({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
     /**
@@ -1569,7 +1568,7 @@ export class FunctionApp {
 
     getGeneratedSwaggerData(key: string) {
         let url: string = this.getMainSiteUrl() + "/admin/host/swagger/default?code=" + key;
-        return this._http.get(url).map<any>(r => { return r.json() })
+        return this._http.get(url).map(r => { return r.json() })
         .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1588,11 +1587,11 @@ export class FunctionApp {
 
     getSwaggerDocument(key: string) {
         let url: string = this.getMainSiteUrl() + "/admin/host/swagger?code=" + key;
-        return this._http.get(url).map<any>(r => { return r.json() });
+        return this._http.get(url).map(r => { return r.json() });
     }
 
     addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {
-        return this._http.post(swaggerUrl, content).map<any>(r => { return r.json() })
+        return this._http.post(swaggerUrl, content).map(r => { return r.json() })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateSwaggerData),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1631,7 +1630,7 @@ export class FunctionApp {
         let headers = this.getScmSiteHeaders();
         headers.append('If-Match', '*');
         return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
-            .map<any>(r => r.json())
+            .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateRuntimeConfig),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1672,13 +1671,13 @@ export class FunctionApp {
     getSystemKey() {
         let masterKey = this.masterKey
                 ? Observable.of(this.masterKey)
-                : this.getHostSecretsFromScm().map<string>(r => r.json().masterKey);
+                : this.getHostSecretsFromScm().map(r => <string>r.json().masterKey);
 
         return masterKey
             .flatMap(r => {
                 let headers = this.getMainSiteHeaders();
                 return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
-                    .map<FunctionKeys>(r => r.json())
+                    .map(r => <FunctionKeys>r.json())
                     .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
                     (error: FunctionsResponse) => {
                         if (!error.isHandled) {

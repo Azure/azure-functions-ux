@@ -19,7 +19,7 @@ export class UserService {
     private currentStartupInfo : StartupInfo;
     // private languageSubject: ReplaySubject<string>;
     // private currentToken: string;
-    
+
 
     constructor(private _http: Http, private _aiService: AiService, private _portalService : PortalService) {
         // this.tokenSubject = new ReplaySubject<string>(1);
@@ -43,12 +43,12 @@ export class UserService {
     getTenants() {
         return this._http.get(Constants.serviceHost + 'api/tenants')
             .catch(e => Observable.of({ json: () => [] }))
-            .map<TenantInfo[]>(r => r.json());
+            .map(r => <TenantInfo[]>r.json());
     }
 
     getUser() {
         return this._http.get(Constants.serviceHost + 'api/token')
-            .map<User>(r => r.json());
+            .map(r => <User>r.json());
     }
 
 
@@ -63,7 +63,7 @@ export class UserService {
                 effectiveLocale : this.currentStartupInfo.effectiveLocale,
                 resourceId : this.currentStartupInfo.resourceId
             }
-            
+
             this.startupInfoSubject.next(this.currentStartupInfo);
 
             try {

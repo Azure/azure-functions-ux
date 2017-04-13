@@ -43,7 +43,7 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionInfo.functionApp.tryFunctionsScmCreds)
         })
-        .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase()));
+        .map(r => <FunctionAggregates>(r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase())));
     }
 
 
@@ -52,7 +52,7 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<FunctionInvocations[]>(r => r.json().entries)
+            .map(r => <FunctionInvocations[]>r.json().entries)
             .catch(e => Observable.of([]))
     }
 
@@ -61,7 +61,7 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<any>(r => r.json())
+            .map(r => r.json())
             .catch(e => Observable.of(null));
     }
 
@@ -70,7 +70,7 @@ export class FunctionMonitorService {
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<string>(r => r.text())
+            .map(r => r.text())
             .catch(e => Observable.of(""))
     }
 }

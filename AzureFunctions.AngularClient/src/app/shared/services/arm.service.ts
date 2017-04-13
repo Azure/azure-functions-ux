@@ -79,7 +79,7 @@ export class ArmService {
     private getSubscriptions() {
         var url = `${this.armUrl}/subscriptions?api-version=2014-04-01`;
         return this._http.get(url, { headers: this._getHeaders() })
-        .map<Subscription[]>(r => r.json().value);
+        .map(r => <Subscription[]>(r.json().value));
     }
 
     send(method : string, url : string, body? : any, etag? : string, headers? : Headers, invokeApi? : boolean){

@@ -61,7 +61,7 @@ export class FunctionManageComponent {
 
             this.functionStateValueChange = new Subject<boolean>();
             this.functionStateValueChange
-                .switchMap<FunctionInfo>(state => {
+                .switchMap(state => {
                      let originalState = this.functionInfo.config.disabled;
                      this._globalStateService.setBusyState();
                      this.functionInfo.config.disabled = state;
