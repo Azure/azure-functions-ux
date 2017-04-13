@@ -41,6 +41,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _functionApp : FunctionApp;
     public openFunctionSettingsTab = false;
 
+    public nodeClass = "tree-node app-node";
     public iconClass = "tree-node-svg-icon";
     public iconUrl = "images/functions.svg";
 
