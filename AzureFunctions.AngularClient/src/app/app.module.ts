@@ -99,6 +99,9 @@ import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-de
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
 
+export function ConfigLoader(config: ConfigService) {
+  return config.loadConfig()
+}
 
 @NgModule({
     declarations: [
@@ -189,7 +192,8 @@ import { FnWriteAccessDirective } from './shared/directives/fn-write-access.dire
         ConfigService,
         {
             provide: APP_INITIALIZER,
-            useFactory: (config: ConfigService) => () => config.loadConfig(),
+            // useFactory: (config: ConfigService) => () => config.loadConfig(),
+            useFactory: ConfigLoader,
             deps: [ConfigService],
             multi: true
         },
