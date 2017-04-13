@@ -323,7 +323,7 @@ export class GettingStartedComponent implements OnInit {
             }
         };
         this._armService.put(id, body, this._armService.storageApiVersion)
-        .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+        .retryWhen(e => e.scan((errorCount : number, err: Response) => {
             if (errorCount >= 5) {
                 throw err;
             }
@@ -348,7 +348,7 @@ export class GettingStartedComponent implements OnInit {
             .subscribe(r => {
             }, error => {
                 return this._armService.put(id, body, this._armService.armLocksApiVersion)
-                    .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
+                    .retryWhen(e => e.scan((errorCount : number, err: Response) => {
                         if (errorCount >= 5) {
                             throw err;
                         }

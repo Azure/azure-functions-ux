@@ -238,7 +238,7 @@ export class FunctionsService {
     }
 
     private retryAntares(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: FunctionsResponse) => {
+        return error.scan((errorCount : number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
                 throw err;
             } else {
@@ -248,7 +248,7 @@ export class FunctionsService {
     }
 
     private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: Response) => {
+        return error.scan((errorCount : number, err: Response) => {
             // 400 => you already have a resource, 403 => No login creds provided
             if (err.status === 400 || err.status === 403 || errorCount >= 10) {
                 throw err;
@@ -259,7 +259,7 @@ export class FunctionsService {
     }
 
     private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: Response) => {
+        return error.scan((errorCount : number, err: Response) => {
             // 403 => No login creds provided
             if (err.status === 403 || errorCount >= 10) {
                 throw err;

@@ -70,7 +70,7 @@ export class LanguageService {
     }
 
     private _retryAntares(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: Response) => {
+        return error.scan((errorCount : number, err: Response) => {
             if (errorCount >= 10) {
                 throw err;
             } else {

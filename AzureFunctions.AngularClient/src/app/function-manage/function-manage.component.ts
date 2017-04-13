@@ -72,7 +72,7 @@ export class FunctionManageComponent {
                      this._globalStateService.clearBusyState();
                  })
                 .retry()
-                .subscribe(fi => {
+                .subscribe((fi : FunctionInfo) => {
                     this._globalStateService.clearBusyState();
                     this.functionInfo.config.disabled = fi.config.disabled;
                 });
