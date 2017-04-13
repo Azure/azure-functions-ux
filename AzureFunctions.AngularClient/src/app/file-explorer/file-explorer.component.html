@@ -21,7 +21,7 @@
             <i class="fa fa-folder-open-o"></i>
             {{currentTitle}}
         </div>
-        <div class="clickable shifted" *ngFor="let folder of folders"
+        <div class="clickable file shifted" *ngFor="let folder of folders"
              (click)="selectVfsObject(folder)">
             <i class="fa fa-folder-o"></i>
             {{folder.name}}
