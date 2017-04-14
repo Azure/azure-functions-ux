@@ -17,7 +17,7 @@ export class TryNowBusyStateComponent implements OnInit {
     private outputArrowClass: string;
     private outputStoreClass: string;
     private frame: number;
-    private isIE: boolean;
+    public isIE: boolean;
 
     ngOnInit() {
         this.isIE = navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;

@@ -27,7 +27,6 @@ export class TopBarComponent implements OnInit {
     public inIFrame: boolean;
     // public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
-    private showTryView; boolean;
 
     public visible = false;
     public topBarNotifications : TopBarNotification[] = [];
@@ -58,7 +57,11 @@ export class TopBarComponent implements OnInit {
         // });
     }
 
-    private _setVisible(){
+    private get showTryView() {
+      return this._globalStateService.showTryView;
+    }
+
+    private _setVisible() {
         if(this.inIFrame){
             this.visible = this.topBarNotifications && this.topBarNotifications.length > 0;
         }
@@ -68,7 +71,7 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.showTryView = this._globalStateService.showTryView;
+        this._globalStateService.showTryView = this._globalStateService.showTryView;
         if (!this.showTryView) {
 
             // nothing to do if we're running in an iframe

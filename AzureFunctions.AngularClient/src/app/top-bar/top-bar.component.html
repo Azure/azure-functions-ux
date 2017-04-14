@@ -1,7 +1,6 @@
 <div class="top-bar-container">
-    <try-now *ngIf="_globalStateService?.showTryView && !gettingStarted"></try-now>
+    <try-now *ngIf="showTryView && !gettingStarted"></try-now>
     <div *ngIf="visible" class="top-bar" [class.top-bar-getting-started]="gettingStarted">
-         <!--*ngIf="(needUpdateExtensionVersion || (user && currentTenant && !inIFrame) || !_globalStateService.isAlwaysOn)">-->
         <div *ngIf="!inIFrame" class="azure-logo left">
             <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
         </div>

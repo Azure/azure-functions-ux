@@ -3,7 +3,7 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {FunctionsService} from '../shared/services/functions.service';
-import {FileUploader} from 'ng2-file-upload/ng2-file-upload';
+import {FileUploader} from 'ng2-file-upload';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';

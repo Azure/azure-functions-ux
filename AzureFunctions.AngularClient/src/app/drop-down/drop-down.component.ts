@@ -15,7 +15,7 @@ export class DropDownComponent<T> {
     public empty: any;
     public disabled: boolean;
     public value: EventEmitter<T>;
-    private _options: DropDownElement<T>[];
+    public _options: DropDownElement<T>[];
     public selectedElement: DropDownElement<T>;
 
     constructor() {

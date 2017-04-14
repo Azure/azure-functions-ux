@@ -1,6 +1,8 @@
 <div class="site-summary-actions">
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="toggleState()">
-        <span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">
+        <!--<span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">-->
+        <!--TODO: papa -isBusy doesn't exist on this service'-->
+        <span *ngIf="site?.properties.state === 'Running'">
             <img src="images/stop.svg" />{{'stop' | translate}}</span>
         <span *ngIf="site?.properties.state === 'Stopped'">
             <img src="images/start.svg" />{{ 'start' | translate}}</span>
@@ -21,7 +23,7 @@
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="resetPublishCredentials()">
         <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
     </span>
-    
+
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
         <img src="images/delete.svg" />Delete
     </span>

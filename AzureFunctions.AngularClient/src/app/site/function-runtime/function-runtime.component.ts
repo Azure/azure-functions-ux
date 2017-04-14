@@ -21,7 +21,7 @@ import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
-import { FunctionApp} from './../../shared/function-app';
+import { FunctionApp } from './../../shared/function-app';
 
 @Component({
   selector: 'function-runtime',
@@ -50,7 +50,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   private showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
-  private _viewInfo : TreeViewInfo;
+  private _viewInfo: TreeViewInfo;
   private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
 
@@ -67,89 +67,89 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
-        .switchMap(viewInfo => {
-            this._viewInfo = viewInfo;
-            this._globalStateService.setBusyState();
+      .switchMap(viewInfo => {
+        this._viewInfo = viewInfo;
+        this._globalStateService.setBusyState();
 
-            this._appNode = (<AppNode>viewInfo.node);
+        this._appNode = (<AppNode>viewInfo.node);
 
-            return Observable.zip(
-                this._cacheService.getArm(viewInfo.resourceId),
-                this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`, true),
-                this._appNode.functionAppStream,
-                (s: Response, a: Response, fa : FunctionApp) => ({ siteResponse: s, appsettingsResponse: a, functionApp: fa }))
+        return Observable.zip(
+          this._cacheService.getArm(viewInfo.resourceId),
+          this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`, true),
+          this._appNode.functionAppStream,
+          (s: Response, a: Response, fa: FunctionApp) => ({ siteResponse: s, appsettingsResponse: a, functionApp: fa }))
 
-        })
-        .do(null, e =>{
-          this._aiService.trackException(e, "function-runtime");
-        })
-        .retry()
-        .subscribe(r => {
-            let appSettings: ArmObj<any> = r.appsettingsResponse.json();
+      })
+      .do(null, e => {
+        this._aiService.trackException(e, "function-runtime");
+      })
+      .retry()
+      .subscribe(r => {
+        let appSettings: ArmObj<any> = r.appsettingsResponse.json();
 
-            this.functionApp = r.functionApp;
-            this.site = r.siteResponse.json();
+        this.functionApp = r.functionApp;
+        this.site = r.siteResponse.json();
 
-            this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
-                ? this.site.properties.dailyMemoryTimeQuota.toString()
-                : "0";
+        this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
+          ? this.site.properties.dailyMemoryTimeQuota.toString()
+          : "0";
 
-            if (this.dailyMemoryTimeQuota === "0") {
-                this.dailyMemoryTimeQuota = "";
-            }
-            else {
-                this.showDailyMemoryInfo = true;
-            }
+        if (this.dailyMemoryTimeQuota === "0") {
+          this.dailyMemoryTimeQuota = "";
+        }
+        else {
+          this.showDailyMemoryInfo = true;
+        }
 
-            this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
+        this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
 
-            this.memorySize = this.site.properties.containerSize;
-            this.latestExtensionVersion = Constants.runtimeVersion;
-            this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
+        this.memorySize = this.site.properties.containerSize;
+        this.latestExtensionVersion = Constants.runtimeVersion;
+        this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
 
-            this.needUpdateExtensionVersion =
-                Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
+        this.needUpdateExtensionVersion =
+          Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
 
-            this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-            if (!this.routingExtensionVersion) {
-                this.routingExtensionVersion = Constants.disabled;
-            }
-            this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
-            this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
-            this.needUpdateRoutingExtensionVersion
-                = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
+        this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+        if (!this.routingExtensionVersion) {
+          this.routingExtensionVersion = Constants.disabled;
+        }
+        this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
+        this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
+        this.needUpdateRoutingExtensionVersion
+          = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
 
-            this._globalStateService.clearBusyState();
-            let traceKey = this._viewInfo.data.siteTraceKey;
-            this._aiService.stopTrace("/site/function-runtime-tab-ready", traceKey);
-        });
+        this._globalStateService.clearBusyState();
+        let traceKey = this._viewInfo.data.siteTraceKey;
+        this._aiService.stopTrace("/site/function-runtime-tab-ready", traceKey);
+      });
 
     this.functionStatusOptions = [
-        {
-            displayLabel: this._translateService.instant(PortalResources.off),
-            value: false
-        }, {
-            displayLabel: this._translateService.instant(PortalResources.on),
-            value: true
-        }];
+      {
+        displayLabel: this._translateService.instant(PortalResources.off),
+        value: false
+      }, {
+        displayLabel: this._translateService.instant(PortalResources.on),
+        value: true
+      }];
 
     this.valueChange = new Subject<boolean>();
     this.valueChange.subscribe((value: boolean) => {
-        this._globalStateService.setBusyState();
-        var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+      this._globalStateService.setBusyState();
+      var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
-        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-            .flatMap(r => {
-                return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
-            })
-            .subscribe(r => {
-                this.functionApp.fireSyncTrigger();
-                this.apiProxiesEnabled = value;
-                this.needUpdateRoutingExtensionVersion = false;
-                this.routingExtensionVersion = Constants.routingExtensionVersion;
-                this._globalStateService.clearBusyState();
-                this._cacheService.clearArmIdCachePrefix(this.site.id);
-            });
+      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+        .flatMap(r => {
+          return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
+        })
+        .subscribe(r => {
+          this.functionApp.fireSyncTrigger();
+          this.apiProxiesEnabled = value;
+          this.needUpdateRoutingExtensionVersion = false;
+          this.routingExtensionVersion = Constants.routingExtensionVersion;
+          this._globalStateService.clearBusyState();
+          this._cacheService.clearArmIdCachePrefix(this.site.id);
+        });
     });
   }
 
@@ -189,7 +189,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .flatMap(r => {
         return this._updateContainerVersion(this.site, r.json());
       })
-      .subscribe(r =>{
+      .subscribe(r => {
         this.needUpdateExtensionVersion = false;
         this._globalStateService.clearBusyState();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
@@ -198,17 +198,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   updateRouingExtensionVersion() {
-      this._aiService.trackEvent('/actions/app_settings/update_routing_version');
-      this._globalStateService.setBusyState();
+    this._aiService.trackEvent('/actions/app_settings/update_routing_version');
+    this._globalStateService.setBusyState();
 
-      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .flatMap(r => {
-              return this._updateProxiesVersion(this.site, r.json());
-          })
-          .subscribe(r => {
-              this.needUpdateRoutingExtensionVersion  = false;
-              this._globalStateService.clearBusyState();
-              this._cacheService.clearArmIdCachePrefix(this.site.id);
+    this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+      .flatMap(r => {
+        return this._updateProxiesVersion(this.site, r.json());
+      })
+      .subscribe(r => {
+        this.needUpdateRoutingExtensionVersion = false;
+        this._globalStateService.clearBusyState();
+        this._cacheService.clearArmIdCachePrefix(this.site.id);
       });
   }
 
@@ -248,7 +248,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   private _updateProxiesVersion(site: ArmObj<Site>, appSettings: ArmObj<any>, value?: string) {
     if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
-        delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+      delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }
     appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : Constants.routingExtensionVersion;
 
@@ -274,5 +274,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, site)
       .map(r => <ArmObj<Site>>(r.json()));
+  }
+
+  private get GlobalDisabled() {
+    return this._globalStateService.GlobalDisabled;
   }
 }

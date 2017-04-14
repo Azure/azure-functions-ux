@@ -181,6 +181,10 @@ export class SiteSummaryComponent implements OnDestroy {
             });
     }
 
+    private get showTryView() {
+      return this._globalStateService.showTryView;
+    }
+
     set viewInfoInput(viewInfo : TreeViewInfo){
         if(!viewInfo){
             return;

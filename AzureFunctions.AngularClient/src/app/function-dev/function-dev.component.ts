@@ -223,7 +223,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.onResize();
     }
 
-    private onResize(ev?: any) {
+    public onResize(ev?: any) {
 
         var functionNameHeight = 46;
         var editorPadding = 25;

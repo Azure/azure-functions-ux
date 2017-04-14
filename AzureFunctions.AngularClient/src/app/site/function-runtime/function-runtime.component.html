@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div *ngIf="!_globalStateService?.GlobalDisabled" class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
+    <div *ngIf="!GlobalDisabled" class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
         <label>{{ 'runtimeVersion' | translate }}</label>
         <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
@@ -64,8 +64,8 @@
 
     <function-keys
         [autoSelect]="true"
-        [functionApp]="functionApp"        
+        [functionApp]="functionApp"
         [enableKeySelect]="false"></function-keys>
 
-    
+
 </div>
