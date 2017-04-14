@@ -29,7 +29,7 @@ export class TableFunctionMonitorComponent implements OnChanges {
     constructor(
         private _functionMonitorService: FunctionMonitorService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService) { }
+        public globalStateService: GlobalStateService) { }
 
     showDetails(rowData: FunctionInvocations) {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(this.selectedFunction.functionApp, rowData.id)

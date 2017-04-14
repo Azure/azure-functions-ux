@@ -21,7 +21,6 @@ import {AuthzService} from '../../shared/services/authz.service';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PublishingCredentials} from '../../shared/models/publishing-credentials';
 import {SiteEnabledFeaturesComponent} from '../site-enabled-features/site-enabled-features.component';
-import {SiteNotificationsComponent} from '../site-notifications/site-notifications.component';
 import {Site} from '../../shared/models/arm/site';
 
 interface DataModel
