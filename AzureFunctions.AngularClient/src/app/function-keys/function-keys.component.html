@@ -36,7 +36,7 @@
         </tbody>
     </table>
     <div class="custom-button" (click)="showOrHideNewKeyUi()" [class.disabled]="easeAuthEnabled">
-        <span *ngIf="!addingNew && functionInfo">
+        <span *ngIf="!addingNew && !!functionInfo">
             {{ 'functionKeys_addNewFunctionKey' | translate}}   
         </span>
         <span *ngIf="!addingNew && !functionInfo">

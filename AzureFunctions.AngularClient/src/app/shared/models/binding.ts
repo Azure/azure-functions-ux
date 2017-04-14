@@ -47,7 +47,7 @@ export interface Binding {
 
 export interface Setting {
     name: string;
-    value: SettingType;
+    value: string;
     resource?: ResourceType;
     required?: boolean;
     label: string;
@@ -106,14 +106,14 @@ export enum ResourceType {
     ApiHub = <any>"ApiHub"
 }
 
-export enum SettingType {
-    string = <any>"string",
-    boolean = <any>"boolean",
-    label = <any>"label",
-    enum = <any>"enum",
-    int = <any>"int",
-    picker = <any>"picker",
-    checkBoxList = <any>"checkBoxList"
+export class SettingType{
+    public static string = "string";
+    public static boolean = "boolean";
+    public static label = "label";
+    public static enum = "enum";
+    public static int = "int";
+    public static picker = "picker";
+    public static checkBoxList = "checkBoxList";
 }
 
 export interface UIFunctionConfig {
