@@ -1,5 +1,5 @@
 import { FunctionContainer } from './../models/function-container';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../models/portal-resources';
 import {Injectable, ApplicationRef} from '@angular/core';
 import {Http, Headers} from '@angular/http';

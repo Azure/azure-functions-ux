@@ -1,6 +1,6 @@
 import { Headers, Response } from '@angular/http';
 import { Constants } from './../models/constants';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { CacheService } from './cache.service';
 import { Subject, Observable } from 'rxjs/Rx';
 import { StartupInfo } from './../models/portal';

@@ -5,7 +5,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalService} from '../shared/services/portal.service';
 import {ErrorItem} from '../shared/models/error-item';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
 import {Observable} from 'rxjs/Rx';

@@ -8,7 +8,7 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {Subscription, Subject, ReplaySubject} from 'rxjs/Rx';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Validator} from '../shared/models/binding';
 import {FunctionApp} from '../shared/function-app';

@@ -2,7 +2,7 @@ import {Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {BindingType} from '../shared/models/binding'
 import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {Constants} from '../shared/models/constants';
 import {URLSearchParams} from '@angular/http';
 
@@ -110,7 +110,7 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();  
+        this.change();
     }
 
     change(event?: any) {

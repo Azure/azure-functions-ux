@@ -16,7 +16,7 @@ import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import {TelemetryService} from '../shared/services/telemetry.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {TenantInfo} from '../shared/models/tenant-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
 

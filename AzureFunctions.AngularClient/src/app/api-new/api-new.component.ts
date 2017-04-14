@@ -5,7 +5,7 @@ import { AiService } from './../shared/services/ai.service';
 import { Subject, Observable } from 'rxjs/Rx';
 import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {ApiProxy} from '../shared/models/api-proxy';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';

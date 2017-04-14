@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'try-now-busy-state',

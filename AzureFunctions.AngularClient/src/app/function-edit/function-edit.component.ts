@@ -11,7 +11,7 @@ import {Observable, Subject} from 'rxjs/Rx';
 import {FunctionSecrets} from '../shared/models/function-secrets';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionNode} from '../tree-view/function-node';

@@ -4,7 +4,7 @@ import { FunctionApp } from '../shared/function-app';
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
 import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {FunctionKey} from '../shared/models/function-key';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {BroadcastService} from '../shared/services/broadcast.service';

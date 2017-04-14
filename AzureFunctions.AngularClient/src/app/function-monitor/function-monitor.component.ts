@@ -5,7 +5,7 @@ import {FunctionInvocations} from '../shared/models/function-monitor';
 import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 
 declare let moment: any;
@@ -59,7 +59,7 @@ export class FunctionMonitorComponent implements OnChanges {
                 formatTo: "number"
             }
         ];
-        let firstOfMonth = moment().startOf('month');        
+        let firstOfMonth = moment().startOf('month');
         let site = this.selectedFunction.functionApp.getSiteName();
         this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM Do")}`;
         this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM Do")}`;
@@ -67,9 +67,9 @@ export class FunctionMonitorComponent implements OnChanges {
         var hostId = !!host ? host : "";
         this._functionMonitorService.getDataForSelectedFunction(this.selectedFunction, hostId).subscribe(data => {
             this.functionId = !!data ? data.functionId : "";
-            this.successAggregate = !!data ? data.successCount.toString() : 
+            this.successAggregate = !!data ? data.successCount.toString() :
                 this._translateService.instant(PortalResources.appMonitoring_noData);
-            this.errorsAggregate = !!data ? data.failedCount.toString() : 
+            this.errorsAggregate = !!data ? data.failedCount.toString() :
                 this._translateService.instant(PortalResources.appMonitoring_noData);
 
             // if no data from function monitoring we don't call the Invocations API since this will return 404

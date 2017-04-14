@@ -20,7 +20,7 @@ import {MainComponent} from './main/main.component';
 // import {MonitoringService} from './shared/services/app-monitoring.service';
 // import {BackgroundTasksService} from './shared/services/background-tasks.service';
 // import {GlobalStateService} from './shared/services/global-state.service';
-// import {TranslateService} from 'ng2-translate/ng2-translate';
+// import {TranslateService} from '@ngx-translate/core';
 // import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 // import {PortalResources} from './shared/models/portal-resources';
 import {ConfigService} from './shared/services/config.service';
@@ -138,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
                         environment = '?feature.fastmanifest=false&appsvc.env=stage';
                         // environment = '?websitesextension_functionsstaged=true';
-                        
+
                     } else if (window.location.host.indexOf('next') !== -1) {
 
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.

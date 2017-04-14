@@ -23,7 +23,7 @@ import {RunFunctionResult} from '../models/run-function-result';
 import {Constants} from '../models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
 import {GlobalStateService} from './global-state.service';
-import {TranslateService} from 'ng2-translate/ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 import {PortalResources} from '../models/portal-resources';
 import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resource';
 import {Cookie} from 'ng2-cookies/ng2-cookies';

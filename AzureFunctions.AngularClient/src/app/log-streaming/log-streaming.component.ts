@@ -8,7 +8,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {ErrorEvent} from '../shared/models/error-event';
 import {UtilitiesService} from '../shared/services/utilities.service';
 import {Subscription} from 'Rxjs/rx';
-import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslatePipe} from '@ngx-translate/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
 
 @Component({

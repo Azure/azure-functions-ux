@@ -16,11 +16,11 @@ import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { FunctionsService } from '../../shared/services/functions.service';
 import { Constants } from '../../shared/models/constants';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { TranslatePipe } from 'ng2-translate/ng2-translate';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp} from './../../shared/function-app';
 
 @Component({

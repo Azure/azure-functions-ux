@@ -7,7 +7,7 @@ import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/mode
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Subject} from 'rxjs/Rx';
 
@@ -260,7 +260,7 @@ export class TemplatePickerComponent {
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
-                    enabledInTryMode: binding.enabledInTryMode 
+                    enabledInTryMode: binding.enabledInTryMode
             });
 
             }

@@ -24,7 +24,7 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {UIResource} from '../shared/models/ui-resource';
 import {FunctionContainer} from '../shared/models/function-container';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
 
@@ -110,7 +110,7 @@ export class TryLandingComponent implements OnInit {
             config_href: null,
             functionApp : null
         };
-        
+
         this.functionsInfo.push(result);
     }
 

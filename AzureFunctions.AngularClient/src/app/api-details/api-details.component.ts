@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {ApiProxy} from '../shared/models/api-proxy';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -23,12 +23,12 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
     styleUrls: ['../api-new/api-new.component.scss', '../binding-input/binding-input.component.css'],
     inputs: ['viewInfoInput']
 })
-export class ApiDetailsComponent implements OnInit {    
+export class ApiDetailsComponent implements OnInit {
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
     proxyUrl: string;
-    isEnabled: boolean;    
-    
+    isEnabled: boolean;
+
 
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
@@ -64,11 +64,11 @@ export class ApiDetailsComponent implements OnInit {
         private _broadcastService: BroadcastService) {
 
         this.initComplexFrom();
-    }   
+    }
 
     onFunctionAppSettingsClicked(event: any) {
         (<AppNode>this.proxiesNode.parent).openSettings();
-        
+
     }
 
     private initEdit() {
@@ -130,7 +130,7 @@ export class ApiDetailsComponent implements OnInit {
     onCancelClick() {
         this.apiProxyEdit = this.apiProxyEdit;
     }
-    
+
     onReset() {
         this.initComplexFrom();
         this.initEdit();

@@ -10,7 +10,7 @@ import {UserService} from './user.service';
 import {Constants} from '../models/constants';
 import {ClearCache} from '../decorators/cache.decorator';
 import {AiService} from './ai.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../models/portal-resources';
 import {ArmObj, ArmArrayResult} from '../models/arm/arm-obj';
 import {ConfigService} from './config.service';

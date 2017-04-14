@@ -1,6 +1,6 @@
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteTabIds } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
@@ -71,7 +71,7 @@ export class SiteDashboardComponent {
                     (v, s) => ({ viewInfo : v, site : s}));
             })
             .do(null, e =>{
-                let descriptor = new SiteDescriptor(this.viewInfo.resourceId);                
+                let descriptor = new SiteDescriptor(this.viewInfo.resourceId);
                 let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
                 if(e && e.status === 404){
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
@@ -131,7 +131,7 @@ export class SiteDashboardComponent {
 
     openTab(component : string){
         this.activeComponent = component;
-        
+
         setTimeout(() =>{
             let tabs = this.tabs.tabs.toArray();
             this.tabs.selectTab(tabs[tabs.length-1]);

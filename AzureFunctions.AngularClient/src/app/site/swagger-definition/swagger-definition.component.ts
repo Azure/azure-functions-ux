@@ -13,7 +13,7 @@ import { PortalService } from '../../shared/services/portal.service';
 import { Subject, Observable, Subscription as RxSubscription } from 'rxjs/Rx';
 import { FunctionKey, FunctionKeys } from '../../shared/models/function-key';
 import { Constants } from '../../shared/models/constants';
-import { TranslateService, TranslatePipe } from 'ng2-translate/ng2-translate';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event';
@@ -372,7 +372,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             })
             .retry(1)
             .catch(error => {
-                // get document fails                
+                // get document fails
                 return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
             }).flatMap(swaggerDoc => {
                 this.swaggerDocument = swaggerDoc;

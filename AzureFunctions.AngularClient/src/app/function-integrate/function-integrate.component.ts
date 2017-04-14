@@ -8,7 +8,7 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BindingManager} from '../shared/models/binding-manager';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 
 @Component({

@@ -8,7 +8,7 @@ import { Constants } from './../models/constants';
 import { Observable } from 'rxjs/Rx';
 import {Http, Headers, Response, Request} from '@angular/http';
 import { ArmService } from './arm.service';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './ai.service';
 import { ConfigService } from './config.service';
 import { UserService } from './user.service';
@@ -28,7 +28,7 @@ export class ArmTryService extends ArmService {
         userService: UserService,
         aiService: AiService,
         translateService: TranslateService) {
-        
+
         super(http, configService, userService, aiService, translateService);
     }
 
@@ -84,7 +84,7 @@ export class ArmTryService extends ArmService {
 
     send(method : string, url : string, body? : any, etag? : string, headers? : Headers) : Observable<Response>{
         let urlNoQuery = url.toLowerCase().split('?')[0];
-        
+
         if(this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))){
             return super.send(method, url, body, etag, headers);
         }

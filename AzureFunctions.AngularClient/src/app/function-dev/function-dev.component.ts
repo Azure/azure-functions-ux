@@ -16,7 +16,7 @@ import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {AiService} from '../shared/services/ai.service';

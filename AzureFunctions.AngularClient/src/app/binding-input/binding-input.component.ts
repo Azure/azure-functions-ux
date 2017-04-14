@@ -7,7 +7,7 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {FunctionApp} from '../shared/function-app';

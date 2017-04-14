@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChange, ViewChild} from '@angular/core';
 import {FunctionMonitorService} from '../shared/services/function-monitor.service';
 import {FunctionInvocations} from '../shared/models/function-monitor';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
 import {GlobalStateService} from '../shared/services/global-state.service';

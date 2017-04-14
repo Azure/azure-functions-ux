@@ -1,5 +1,5 @@
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
@@ -65,7 +65,7 @@ export class SiteEnabledFeaturesComponent {
                     this._authZService.hasReadOnlyLock(site.id),
                     (w, l) =>({ hasSiteWritePermissions : w, hasReadOnlyLock : l})
                 )
-                .map(r => { 
+                .map(r => {
                     return {
                         site : site,
                         hasSiteWritePermissions : r.hasSiteWritePermissions,

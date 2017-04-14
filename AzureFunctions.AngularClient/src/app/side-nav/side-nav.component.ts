@@ -23,7 +23,7 @@ import {UserService} from '../shared/services/user.service';
 import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
-import {TranslateService} from 'ng2-translate/ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 import {AiService} from '../shared/services/ai.service';
 import {DropDownComponent} from '../drop-down/drop-down.component';
 import {DropDownElement} from '../shared/models/drop-down-element';
@@ -45,7 +45,7 @@ export class SideNavComponent{
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public selectedSubscriptions : Subscription[] = [];
     public subscriptionsDisplayText = "";
-    
+
     public resourceId : string;
     public initialResourceId : string;
 
@@ -124,7 +124,7 @@ export class SideNavComponent{
                     let descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
                     if(descriptor.site){
                         this._searchTermStream.next(`"${descriptor.site}"`);
-                        this.hasValue = true;            
+                        this.hasValue = true;
                     }
                     else{
                         this._searchTermStream.next("");
@@ -162,7 +162,7 @@ export class SideNavComponent{
                 null,
                 [],
                 false);
-            
+
             appNode.select();
 
             this.rootNode = new TreeNode(this, null, null);

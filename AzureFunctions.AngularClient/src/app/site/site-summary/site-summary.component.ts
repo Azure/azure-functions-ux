@@ -1,5 +1,5 @@
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
 import { AvailabilityStates } from './../../shared/models/constants';
@@ -131,7 +131,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
                     this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion),
-                    (p, l, c, a) => ({ 
+                    (p, l, c, a) => ({
                         hasWritePermission : p,
                         hasReadOnlyLock : l,
                         config : c.json(),
@@ -157,7 +157,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._globalStateService.clearBusyState();
 
                 if(!this._globalStateService.showTryView){
-                    this._aiService.trackException(e, "site-summary");                
+                    this._aiService.trackException(e, "site-summary");
                 }
                 else{
                     this._setAvailabilityState(AvailabilityStates.available);
@@ -186,7 +186,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        this._viewInfoStream.next(viewInfo);        
+        this._viewInfoStream.next(viewInfo);
     }
 
     ngOnDestroy() {
@@ -285,7 +285,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
             },
             e =>{
-                this._globalStateService.clearBusyState();                
+                this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
@@ -314,7 +314,7 @@ export class SiteSummaryComponent implements OnDestroy {
             .first()
             .switchMap(r =>{
                 notificationId = r.id;
-                
+
                 // If appNode is still loading, then deleting the app before it's done could cause a race condition
                 return appNode.initialize();
             })
@@ -326,14 +326,14 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._portalService.stopNotification(
                     notificationId,
                     true,
-                    this._translateService.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));                
+                    this._translateService.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));
 
                 appNode.sideNav.search("");
                 this._globalStateService.clearBusyState();
                 (<AppNode>appNode).remove();
             },
             e =>{
-                this._globalStateService.clearBusyState();                
+                this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
@@ -372,7 +372,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
             },
             e =>{
-                this._globalStateService.clearBusyState();                
+                this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
@@ -490,7 +490,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 ? this._translateService.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                 : this._translateService.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-            this._globalStateService.clearBusyState();                
+            this._globalStateService.clearBusyState();
             this._portalService.stopNotification(
                 notificationId,
                 false,

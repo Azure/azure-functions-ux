@@ -1,5 +1,5 @@
 import { AiService } from './services/ai.service';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { ErrorEvent, ErrorType } from './models/error-event';
 import { ErrorIds } from './models/error-ids';
 import { PortalResources } from './models/portal-resources';

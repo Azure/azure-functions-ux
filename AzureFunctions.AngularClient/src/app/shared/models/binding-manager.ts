@@ -4,7 +4,7 @@ import {Template} from './template-picker';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionBinding} from './function-config';
 import {PortalResources} from './portal-resources';
-import {TranslateService} from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 export class BindingManager {
 
@@ -69,7 +69,7 @@ export class BindingManager {
                         value: b[key]
                     });
                 }
-            }                
+            }
 
             configUI.bindings.push(fb);
         });
@@ -88,11 +88,11 @@ export class BindingManager {
                 result[key] = config.originalConfig[key];
             }
         }
-        
+
         config.bindings.forEach((b) => {
             var bindingToAdd = {
             };
-            
+
             b.settings.forEach((s) => {
                 if (!s.noSave) {
                     if (s.value === false) {
@@ -185,7 +185,7 @@ export class BindingManager {
             });
 
             if (duplicate) {
-                throw translationService.instant(PortalResources.bindingsValidationNameDublicate, { functionName: b.name });                
+                throw translationService.instant(PortalResources.bindingsValidationNameDublicate, { functionName: b.name });
             }
 
             if (!b.name) {
@@ -198,7 +198,7 @@ export class BindingManager {
 
             if (!b.type) {
                 throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
-            }            
+            }
 
             if (!DirectionType[b.direction.toLowerCase()]) {
                 throw translationService.instant(PortalResources.bindingsValidationDirectionUnknown, { direction: b.direction });
