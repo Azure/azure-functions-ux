@@ -34,11 +34,12 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     private functionAppStream: Subject<FunctionApp>;
 
 
-    private keys: Array<FunctionKey>;
-    private addingNew: boolean;
     private newKeyName: string;
     private newKeyValue: string;
     private validKey: boolean;
+
+    public keys: Array<FunctionKey>;
+    public addingNew: boolean;
 
     constructor(
         private _broadcastService: BroadcastService,

@@ -46,8 +46,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public routingExtensionVersion: string;
   public latestRoutingExtensionVersion: string;
   public apiProxiesEnabled: boolean;
+  public showTryView: boolean;
+
   private valueChange: Subject<boolean>;
-  private showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
   private _viewInfo: TreeViewInfo;
@@ -276,7 +277,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .map(r => <ArmObj<Site>>(r.json()));
   }
 
-  private get GlobalDisabled() {
+  public get GlobalDisabled() {
     return this._globalStateService.GlobalDisabled;
   }
 }
