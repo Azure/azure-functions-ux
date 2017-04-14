@@ -43,14 +43,14 @@ export class SiteDashboardComponent {
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
         private _portalService: PortalService,
-        public translateService : TranslateService) {
+        private _translateService : TranslateService) {
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
             .switchMap(viewInfo =>{
 
                 if(this._globalStateService.showTryView){
-                    this._globalStateService.setDisabledMessage(this.translateService.instant(PortalResources.try_appDisabled));
+                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
                 }
 
                 if(!this._tabsLoaded){
@@ -72,9 +72,9 @@ export class SiteDashboardComponent {
             })
             .do(null, e =>{
                 let descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                let message = this.translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
+                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
                 if(e && e.status === 404){
-                    message = this.translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
+                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
                 this._aiService.trackException(e, "/errors/site-dashboard");
