@@ -1,7 +1,7 @@
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
-import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
+// import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
 import {FunctionConfig} from '../shared/models/function-config';
 import {Observable, Subject, Subscription} from 'rxjs/Rx';
