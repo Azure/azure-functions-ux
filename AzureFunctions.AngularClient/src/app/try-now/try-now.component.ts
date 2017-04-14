@@ -19,9 +19,11 @@ export class TryNowComponent implements OnInit {
     private uiResource: UIResource;
     private trialExpired: boolean;
     private endTime: Date;
-    private timerText: string;
     private freeTrialUri: string;
-    private discoverMoreUri: string;
+
+    public timerText: string;
+    public discoverMoreUri: string;
+
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,

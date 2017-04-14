@@ -14,7 +14,7 @@ export class SecretsBoxContainerComponent {
 
     constructor() { }
 
-    toggleShow() {
+    toggleShow(event) {
         this.show = !this.show;
         if (this.show) {
             this.input.changeType("text");

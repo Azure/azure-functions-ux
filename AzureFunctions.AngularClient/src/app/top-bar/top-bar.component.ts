@@ -57,7 +57,7 @@ export class TopBarComponent implements OnInit {
         // });
     }
 
-    private get showTryView() {
+    public get showTryView() {
       return this._globalStateService.showTryView;
     }
 

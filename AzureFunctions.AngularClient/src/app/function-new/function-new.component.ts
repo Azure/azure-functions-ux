@@ -32,9 +32,10 @@ import { DashboardType } from "../tree-view/models/dashboard-type";
 })
 export class FunctionNewComponent {
 
-    public functionApp : FunctionApp;
     private functionsNode : FunctionsNode;
-    private functionsInfo : FunctionInfo[];
+
+    public functionApp: FunctionApp;
+    public functionsInfo : FunctionInfo[];
 
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
