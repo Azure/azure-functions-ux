@@ -192,7 +192,6 @@ export function ConfigLoader(config: ConfigService) {
         ConfigService,
         {
             provide: APP_INITIALIZER,
-            // useFactory: (config: ConfigService) => () => config.loadConfig(),
             useFactory: ConfigLoader,
             deps: [ConfigService],
             multi: true
