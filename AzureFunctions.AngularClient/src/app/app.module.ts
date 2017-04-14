@@ -9,8 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { TranslateModule } from '@ngx-translate/core';
-//TODO: nvD3 appears to no longe rbe maintained and has bugs with Angular
-// import { nvD3 } from 'ng2-nvd3';
 import { FileUploadModule } from 'ng2-file-upload';
 
 import { ConfigService } from './shared/services/config.service';
@@ -106,8 +104,6 @@ export function ConfigLoader(config: ConfigService) {
 @NgModule({
     declarations: [
         AppComponent,
-        //TODO: nvD3 appears to no longe rbe maintained and has bugs with Angular
-        // nvD3,
         GettingStartedComponent,
         BusyStateComponent,
         TryNowBusyStateComponent,

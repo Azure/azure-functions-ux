@@ -23,14 +23,10 @@
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "sass/main.scss",
-        "assets/nvd3Charts.css",
-        "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/nvd3/build/nv.d3.min.css"
+        "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
         "../node_modules/marked/marked.min.js",
-        "../node_modules/d3/d3.min.js",
-        "../node_modules/nvd3/build/nv.d3.min.js",
         "../node_modules/moment/moment.js"
       ],
       "environmentSource": "environments/environment.ts",

@@ -31,7 +31,6 @@
     "monaco-editor": "^0.7.0",
     "ng2-cookies": "^1.0.3",
     "ng2-file-upload": "~1.2.1",
-    "ng2-nvd3": "^1.1.3",
     "@ngx-translate/core": "^6.0.1",
     "swagger-editor": "git+https://github.com/azure/swagger-editor.git#ff974a50cc7c756f0a96a66f1e92f1286324c549",
     "ts-helpers": "^1.1.1"
