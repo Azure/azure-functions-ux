@@ -8,7 +8,7 @@
     </div>
 
     <div class="edit">
-        
+
             <label class="control-label">
                 {{ 'apiProxy_proxyUrl' | translate }}
             </label>
@@ -99,7 +99,7 @@
 
     <div style="display: flex;">
         <div style="flex-grow:1;align-items:center;">
-            <button (click)="submitForm(complexForm.value, type)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+            <button (click)="submitForm(complexForm.value)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
         </div>
         <div class="link" style="flex-grow:0" (click)="deleteProxyClicked()">
