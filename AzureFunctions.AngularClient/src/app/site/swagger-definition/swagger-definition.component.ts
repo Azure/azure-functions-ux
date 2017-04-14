@@ -41,13 +41,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     public site: ArmObj<Site>;
     public functionApp: FunctionApp;
 
+    public swaggerStatusOptions: SelectOption<boolean>[];
+    public valueChange: Subject<boolean>;
+    public swaggerKey: string;
+    public swaggerURL: string;
+
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
-    public swaggerStatusOptions: SelectOption<boolean>[];
-    private valueChange: Subject<boolean>;
 
-    private swaggerKey: string;
-    private swaggerURL: string;
 
     private _viewInfoStream = new Subject<TreeViewInfo>();
     private _viewInfoSub: RxSubscription;
