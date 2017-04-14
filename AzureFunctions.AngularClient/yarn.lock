@@ -3050,9 +3050,9 @@ ng2-cookies@^1.0.3:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/ng2-cookies/-/ng2-cookies-1.0.11.tgz#486606c632873a6662ec60bbcf397844d70211b7"
 
-ng2-file-upload@1.1.4-2:
-  version "1.1.4-2"
-  resolved "https://registry.yarnpkg.com/ng2-file-upload/-/ng2-file-upload-1.1.4-2.tgz#61d8e74f726eeeb2514136347f220e1fd45059e3"
+ng2-file-upload@~1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ng2-file-upload/-/ng2-file-upload-1.2.1.tgz#5563c5dfd6f43fbfbe815c206e343464a0a6a197"
 
 ng2-nvd3@^1.1.3:
   version "1.1.3"

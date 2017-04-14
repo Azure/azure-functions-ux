@@ -9,8 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { nvD3 } from 'ng2-nvd3';
-import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+//TODO: nvD3 appears to no longe rbe maintained and has bugs with Angular
+// import { nvD3 } from 'ng2-nvd3';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
@@ -67,7 +68,6 @@ import { RunHttpComponent } from './run-http/run-http.component';
 import { TableFunctionMonitorComponent } from './table-function-monitor/table-function-monitor.component';
 import { TryLandingComponent } from './try-landing/try-landing.component';
 import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
-import { FunctionDesignerComponent } from './function-designer/function-designer.component';
 import { MonacoEditorDirective } from './shared/directives/monaco-editor.directive';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
 import { MainComponent } from './main/main.component';
@@ -106,9 +106,8 @@ export function ConfigLoader(config: ConfigService) {
 @NgModule({
     declarations: [
         AppComponent,
-        nvD3,
-        FileSelectDirective,
-        FileDropDirective,
+        //TODO: nvD3 appears to no longe rbe maintained and has bugs with Angular
+        // nvD3,
         GettingStartedComponent,
         BusyStateComponent,
         TryNowBusyStateComponent,
@@ -146,7 +145,6 @@ export function ConfigLoader(config: ConfigService) {
         TableFunctionMonitorComponent,
         TryLandingComponent,
         AggregateBlockPipe,
-        FunctionDesignerComponent,
         MonacoEditorDirective,
         TableFunctionMonitorPipe,
         MainComponent,
@@ -186,7 +184,8 @@ export function ConfigLoader(config: ConfigService) {
         BrowserModule,
         FormsModule,
         HttpModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        FileUploadModule
     ],
     providers: [
         ConfigService,
