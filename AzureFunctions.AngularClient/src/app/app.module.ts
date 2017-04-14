@@ -77,8 +77,6 @@ import { TabComponent } from './tab/tab.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SiteSummaryComponent } from './site/site-summary/site-summary.component';
 import { SiteEnabledFeaturesComponent } from './site/site-enabled-features/site-enabled-features.component';
-import { SiteNotificationsComponent } from './site/site-notifications/site-notifications.component';
-import { AccordionComponent } from './accordion/accordion.component';
 import { SiteManageComponent } from './site/site-manage/site-manage.component';
 import { FeatureGroupComponent } from './feature-group/feature-group.component';
 import { DeploymentSourceComponent } from './site/deployment-source/deployment-source.component';
@@ -152,8 +150,6 @@ export function ConfigLoader(config: ConfigService) {
         BreadcrumbsComponent,
         SiteSummaryComponent,
         SiteEnabledFeaturesComponent,
-        SiteNotificationsComponent,
-        AccordionComponent,
         SiteManageComponent,
         FeatureGroupComponent,
         DeploymentSourceComponent,
