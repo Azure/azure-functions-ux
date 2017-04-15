@@ -25,12 +25,11 @@
 }
 
 export interface BindingConfig {
-    $shcema: string,
+    $schema: string,
     contentVersion: string,
     variables: any,
     bindings: Binding[]
 }
-
 
 export interface Binding {
     type: BindingType;
@@ -89,7 +88,7 @@ export interface Validator {
 export interface EnumOption {
     value: string;
     display: string;
-} 
+}
 
 export enum DirectionType {
     trigger = <any>"trigger",
