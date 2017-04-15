@@ -29,6 +29,7 @@ echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
+echo YARN=%YARN%
 echo ANGUALR_CLI=%ANGUALR_CLI%
 
 setlocal enabledelayedexpansion
@@ -129,6 +130,7 @@ echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
+echo YARN=%YARN%
 echo ANGUALR_CLI=%ANGUALR_CLI%
 
 echo Handling backend WebApi project.
@@ -152,8 +154,10 @@ echo Handling frontend Angular2 project.
 :: 2. Bundle frontend angular2 app to the temporary path
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 
+	echo "In IF EXIST for Handling frontend Angular2 project"
+
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-	echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
+		echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
 		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
 		:: http://ss64.com/nt/robocopy-exit.html
 		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
@@ -244,6 +248,8 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		)
 	)
 )
+
+echo "After IF EXIST for Handling frontend Angular2 project"
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
