@@ -81,10 +81,20 @@ IF NOT DEFINED KUDU_SYNC_CMD (
   SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
 )
 
+IF NOT DEFINED YARN (
+  :: Install yarn
+  echo Installing yarn
+  call npm install -g yarn
+
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  SET YARN=true
+)
+
 IF NOT DEFINED ANGUALR_CLI (
   :: Install angular-cli
-  echo Installing angular-cli
-  call npm install -g angular-cli@1.0.0-beta.19-3
+  echo Installing @angular/cli
+  call npm install -g @angular/cli@1.0.0
 
   IF !ERRORLEVEL! NEQ 0 goto error
 
@@ -167,9 +177,9 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 
 	pushd "%ARTIFACTS%\AzureFunctions.AngularClient"
 	echo Restore npm packages
-	call :ExecuteCmd npm install
+	call :ExecuteCmd yarn install
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd npm install
+		call :ExecuteCmd yarn install
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
