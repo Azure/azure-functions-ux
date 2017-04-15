@@ -1,8 +1,12 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
 import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { Subject, Observable, Subscription as RxSubscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'apps-list',
@@ -37,7 +41,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
         this.apps = children;
         this._origRefToItems = children;
       });
-    
+
    }
 
   ngOnInit() {

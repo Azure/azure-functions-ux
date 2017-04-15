@@ -1,10 +1,16 @@
-import { FunctionContainer } from './../models/function-container';
-import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from './../models/portal-resources';
 import {Injectable, ApplicationRef} from '@angular/core';
 import {Http, Headers} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/observable/timer';
+import { TranslateService } from '@ngx-translate/core';
+
+import { FunctionContainer } from './../models/function-container';
+import { PortalResources } from './../models/portal-resources';
 import {UserService} from './user.service';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {FunctionsService} from './functions.service';
 import {BroadcastService} from '../services/broadcast.service';
 import {BroadcastEvent} from '../models/broadcast-event'
@@ -45,7 +51,9 @@ export class BackgroundTasksService {
 
         if (!this._globalStateService.showTryView) {
             this._preIFrameTasks = Observable.timer(1, 60000)
-                .concatMap(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map(r => r.text()))
+                .concatMap(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
+                .retry(5)
+                .map(r => r.text()))
                 .subscribe(t => this._userService.setToken(t));
         }
     }

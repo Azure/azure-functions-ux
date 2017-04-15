@@ -1,10 +1,17 @@
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';import 'rxjs/add/observable/zip';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
 import {FunctionConfig} from '../shared/models/function-config';
-import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../shared/models/function-secrets';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
@@ -16,7 +23,6 @@ import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {AiService} from '../shared/services/ai.service';

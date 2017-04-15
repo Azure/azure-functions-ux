@@ -1,9 +1,15 @@
+import {Injectable, EventEmitter} from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
+
 import { ArmArrayResult } from './../models/arm/arm-obj';
 import { Subscription } from './../models/subscription';
-import {Injectable, EventEmitter} from '@angular/core';
 import {ArmService} from './arm.service';
-import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from 'rxjs/Rx';
-import {Http, Headers, Response} from '@angular/http';
 import { ClearCache } from '../decorators/cache.decorator';
 
 export interface CacheItem{
@@ -46,7 +52,7 @@ export class CacheService {
         let url : string = this._getArmUrl(resourceId, apiVersion);
         return this._send(url, "PUT", true, null, content)
         .map(result =>{
-            
+
             // Clear the cache after a PUT request.
             delete this._cache[url.toLowerCase()];
             return result;
@@ -88,7 +94,7 @@ export class CacheService {
     //     }
     //     else{
     //         url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
-            
+
     //         for(let i = 0; i < subs.length; i++){
     //             url += `subscriptionId eq '${subs[i].subscriptionId}'`;
     //             if(i < subs.length - 1){

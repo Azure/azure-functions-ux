@@ -1,11 +1,17 @@
-import { Subscription as RxSubscription } from 'Rxjs/rx';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+
 import { FunctionInfo } from './../shared/models/function-info';
 import { AppNode } from './../tree-view/app-node';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { AiService } from './../shared/services/ai.service';
-import { Subject, Observable } from 'rxjs/Rx';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardType } from "../tree-view/models/dashboard-type";
 
 @Component({
@@ -23,7 +29,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
 
   constructor(
     private _aiService : AiService
-  ) { 
+  ) {
 
     let initialDashboardType : DashboardType;
 
@@ -59,7 +65,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
       if(!fcs){
         return;
       }
-      
+
       if(fcs.length > 0){
         this.dashboardType = DashboardType[DashboardType.createFunction];
       }

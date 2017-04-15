@@ -1,6 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {FunctionInfo} from '../models/function-info';
+import { Subscription } from 'rxjs/Subscription';
+
+import { FunctionInfo } from '../models/function-info';
 import {ApiProxy} from '../models/api-proxy';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {ErrorEvent} from '../models/error-event';

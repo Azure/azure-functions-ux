@@ -1,5 +1,5 @@
 import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
+
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 
 @Component({
@@ -11,8 +11,7 @@ import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 export class BreadcrumbsComponent {
     public path : string;
 
-    constructor() {
-    }
+    constructor() {}
 
     set viewInfoInput(viewInfo : TreeViewInfo){
         let pathNames = viewInfo.node.getTreePathNames();

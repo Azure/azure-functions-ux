@@ -1,3 +1,18 @@
+import {Injectable} from '@angular/core';
+import {Http, Headers, Response, ResponseType} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/put';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+import {TranslateService} from '@ngx-translate/core';
+
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
@@ -7,8 +22,6 @@ import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
-import {Http, Headers, Response, ResponseType} from '@angular/http';
-import {Injectable} from '@angular/core';
 import {FunctionInfo} from './models/function-info';
 import {VfsObject} from './models/vfs-object';
 import {ScmInfo} from './models/scm-info';
@@ -17,7 +30,6 @@ import {PassthroughInfo} from './models/passthrough-info';
 import {CreateFunctionInfo} from './models/create-function-info';
 import {FunctionTemplate} from './models/function-template';
 import {RunResponse} from './models/run-response';
-import {Observable} from 'rxjs/Rx';
 import {DesignerSchema} from './models/designer-schema';
 import {FunctionSecrets} from './models/function-secrets';
 import {Subscription} from './models/subscription';
@@ -30,7 +42,6 @@ import {RunFunctionResult} from './models/run-function-result';
 import {Constants} from './models/constants';
 import {Cache, ClearCache, ClearAllFunctionCache} from './decorators/cache.decorator';
 import {GlobalStateService} from './services/global-state.service';
-import {TranslateService} from '@ngx-translate/core';
 import {PortalResources} from './models/portal-resources';
 import {UIResource, AppService, ITryAppServiceTemplate} from './models/ui-resource';
 import {Cookie} from 'ng2-cookies/ng2-cookies';
@@ -152,21 +163,21 @@ export class FunctionApp {
 
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
-            .flatMap(info =>{
+            .mergeMap(info =>{
                 this.token = info.token;
                 return Observable.zip(
                     this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(this.site.id),
                     (p, l) => ({ hasWritePermissions : p, hasReadOnlyLock : l})
             )})
-            .flatMap(r =>{
+            .mergeMap(r =>{
                if(r.hasWritePermissions && !r.hasReadOnlyLock){
                     return this.getExtensionVersion();
                }
 
                return Observable.of(null);
             })
-            .flatMap(extensionVersion => {
+            .mergeMap(extensionVersion => {
                 if(extensionVersion){
                     return this._languageService.getResources(extensionVersion);
                 }
@@ -418,7 +429,7 @@ export class FunctionApp {
          }
 
          return this.getExtensionVersion()
-         .flatMap(extensionVersion =>{
+         .mergeMap(extensionVersion =>{
              return this._cacheService.get(
                  Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                  true,
@@ -803,7 +814,7 @@ export class FunctionApp {
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
     return this.getAuthSettings()
-        .flatMap(r =>{
+        .mergeMap(r =>{
             if (r.easyAuthEnabled) {
             return Observable.of({keys: [], links: []});
         }
@@ -832,7 +843,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostKeys(false));
+                    return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
                 } else {
                     throw error;
                 }
@@ -876,7 +887,7 @@ export class FunctionApp {
         }
 
         return this.getExtensionVersion()
-        .flatMap(extensionVersion =>{
+        .mergeMap(extensionVersion =>{
             return this._cacheService.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + extensionVersion, false, this.getPortalHeaders());
         })
         .retryWhen(this.retryAntares)
@@ -947,7 +958,7 @@ export class FunctionApp {
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .flatMap((authSettings : AuthSettings) =>{
+        .mergeMap((authSettings : AuthSettings) =>{
             return authSettings.easyAuthEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
@@ -958,7 +969,7 @@ export class FunctionApp {
                         this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                             usedKey: this.sanitize(this.masterKey)
                         });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionErrors(fi, false));
+                        return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionErrors(fi, false));
                     } else {
                         throw error;
                     }
@@ -970,7 +981,7 @@ export class FunctionApp {
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .flatMap(authSettings =>{
+        .mergeMap(authSettings =>{
             if (authSettings.easyAuthEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
@@ -988,7 +999,7 @@ export class FunctionApp {
                         this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                             usedKey: this.sanitize(this.masterKey)
                         });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getHostErrors(false));
+                        return this.getHostSecretsFromScm().mergeMap(r => this.getHostErrors(false));
                     } else {
                         throw error;
                     }
@@ -1015,7 +1026,7 @@ export class FunctionApp {
     getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-            .flatMap(authSettings => {
+            .mergeMap(authSettings => {
                 if (authSettings.easyAuthEnabled || !this.masterKey) {
                     return Observable.of('');
                 } else {
@@ -1026,7 +1037,7 @@ export class FunctionApp {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostId(false));
+                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostId(false));
                             } else {
                                 throw error;
                             }
@@ -1050,7 +1061,7 @@ export class FunctionApp {
         let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .catch(e => Observable.of({ json: () => [] }))
-            .flatMap(r => {
+            .mergeMap(r => {
                 let files: any[] = r.json();
                 if (files.length > 0) {
                     let headers = this.getScmSiteHeaders();
@@ -1109,7 +1120,7 @@ export class FunctionApp {
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-            .flatMap(authSettings => {
+            .mergeMap(authSettings => {
                 if (authSettings.easyAuthEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
@@ -1127,7 +1138,7 @@ export class FunctionApp {
                             this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                 usedKey: this.sanitize(this.masterKey)
                             });
-                            return this.getHostSecretsFromScm().flatMap(r => this.getFunctionKeys(functionInfo, false));
+                            return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionKeys(functionInfo, false));
                         } else {
                             throw error;
                         }
@@ -1177,7 +1188,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.createKey(keyName, keyValue, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(r => this.createKey(keyName, keyValue, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1214,7 +1225,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.deleteKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(r => this.deleteKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1250,7 +1261,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.renewKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(r => this.renewKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1477,7 +1488,7 @@ export class FunctionApp {
         return response
             .catch((e: Response) => {
                 return this.getAuthSettings()
-                .flatMap(authSettings =>{
+                .mergeMap(authSettings =>{
                     if (authSettings.easyAuthEnabled) {
                         return Observable.of({
                             status: 401,
@@ -1676,7 +1687,7 @@ export class FunctionApp {
                 : this.getHostSecretsFromScm().map(r => <string>r.json().masterKey);
 
         return masterKey
-            .flatMap(r => {
+            .mergeMap(r => {
                 let headers = this.getMainSiteHeaders();
                 return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
                     .map(r => <FunctionKeys>r.json())

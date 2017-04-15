@@ -1,6 +1,7 @@
-import { AiService } from './../shared/services/ai.service';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+
+import { AiService } from './../shared/services/ai.service';
 import {ArmService} from '../shared/services/arm.service';
 import {SiteDescriptor} from '../shared/resourceDescriptors';
 import {PopOverComponent} from '../pop-over/pop-over.component';
@@ -13,9 +14,7 @@ import {FeatureItem} from './feature-item';
     styleUrls: ['./feature-group.component.scss'],
     inputs : ['inputGroup', 'searchTermInput']
 })
-
 export class FeatureGroupComponent {
-
     public group : FeatureGroup;
     public searchTerm = "";
 
@@ -37,7 +36,7 @@ export class FeatureGroupComponent {
     }
 
     click(feature : FeatureItem){
-        
+
         this._aiService.trackEvent("/site/feature-click", {
             featureName : feature.title,
             isResultsFiltered : !!this.searchTerm ? "true" : "false"

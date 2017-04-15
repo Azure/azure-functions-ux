@@ -1,5 +1,9 @@
 import {Component, OnInit, EventEmitter, ViewChild, Input} from '@angular/core';
-import {FunctionsService} from '../shared/services/functions.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/switchMap';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionsService } from '../shared/services/functions.service';
 import {FunctionApp} from '../shared/function-app';
 import {PortalService} from '../shared/services/portal.service';
 import {UserService} from '../shared/services/user.service';
@@ -7,11 +11,9 @@ import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 import {FunctionDevComponent} from '../function-dev/function-dev.component';
 import {FunctionConfig} from '../shared/models/function-config';
-import {Observable, Subject} from 'rxjs/Rx';
-import {FunctionSecrets} from '../shared/models/function-secrets';
+import { FunctionSecrets } from '../shared/models/function-secrets';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionNode} from '../tree-view/function-node';

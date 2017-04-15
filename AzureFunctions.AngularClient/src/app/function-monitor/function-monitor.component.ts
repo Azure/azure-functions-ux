@@ -1,11 +1,12 @@
 import {Component, Input, OnChanges, SimpleChange} from '@angular/core';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionMonitorService} from '../shared/services/function-monitor.service';
 import {FunctionInvocations} from '../shared/models/function-monitor';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalService} from '../shared/services/portal.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 
 declare let moment: any;

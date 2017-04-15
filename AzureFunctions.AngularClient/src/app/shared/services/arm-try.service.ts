@@ -1,3 +1,10 @@
+import { Injectable } from '@angular/core';
+import {Http, Headers, Response, Request} from '@angular/http';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+
 import { SiteDescriptor } from './../resourceDescriptors';
 import { FunctionApp } from './../function-app';
 import { AuthzService } from './authz.service';
@@ -5,14 +12,10 @@ import { FunctionContainer } from './../models/function-container';
 import { Site } from './../models/arm/site';
 import { ArmObj } from './../models/arm/arm-obj';
 import { Constants } from './../models/constants';
-import { Observable } from 'rxjs/Rx';
-import {Http, Headers, Response, Request} from '@angular/http';
 import { ArmService } from './arm.service';
-import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './ai.service';
 import { ConfigService } from './config.service';
 import { UserService } from './user.service';
-import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ArmTryService extends ArmService {

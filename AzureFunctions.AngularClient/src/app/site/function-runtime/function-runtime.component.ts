@@ -1,13 +1,22 @@
-import { NotificationIds } from './../../shared/models/constants';
+import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
+import { NotificationIds } from './../../shared/models/constants';
 import { LanguageService } from './../../shared/services/language.service';
-import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
-import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { ArmService } from '../../shared/services/arm.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { FunctionContainer } from '../../shared/models/function-container';
@@ -16,11 +25,9 @@ import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { FunctionsService } from '../../shared/services/functions.service';
 import { Constants } from '../../shared/models/constants';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp } from './../../shared/function-app';
 
 @Component({
@@ -140,7 +147,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       var appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .flatMap(r => {
+        .mergeMap(r => {
           return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
         })
         .subscribe(r => {
@@ -187,7 +194,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._aiService.trackEvent('/actions/app_settings/update_version');
     this._globalStateService.setBusyState();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateContainerVersion(this.site, r.json());
       })
       .subscribe(r => {
@@ -203,7 +210,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._globalStateService.setBusyState();
 
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateProxiesVersion(this.site, r.json());
       })
       .subscribe(r => {

@@ -1,9 +1,14 @@
-import { Subject } from 'rxjs/Rx';
+import {Component, Input} from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import { AppNode } from './../tree-view/app-node';
 import { StorageItem, QuickstartSettings } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { AiService } from './../shared/services/ai.service';
-import {Component, Input} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
@@ -15,7 +20,6 @@ import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {BindingManager} from '../shared/models/binding-manager';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from "../shared/models/error-ids";
 import {FunctionsNode} from '../tree-view/functions-node';

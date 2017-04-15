@@ -1,6 +1,9 @@
-import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
 import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
 import {ErrorEvent} from '../models/error-event';
 import {BroadcastService} from './broadcast.service';
@@ -150,7 +153,7 @@ export class PortalService {
             description : description
         };
 
-        this.postMessage(Verbs.setNotification, JSON.stringify(payload));        
+        this.postMessage(Verbs.setNotification, JSON.stringify(payload));
     }
 
     logAction(subcomponent: string, action: string, data?: any): void{

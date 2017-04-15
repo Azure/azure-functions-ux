@@ -1,10 +1,19 @@
+import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import { FunctionKeys } from './../shared/models/function-key';
 import { AiService } from './../shared/services/ai.service';
 import { FunctionApp } from '../shared/function-app';
-import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
-import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { FunctionInfo } from '../shared/models/function-info';
 import {FunctionKey} from '../shared/models/function-key';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {BroadcastService} from '../shared/services/broadcast.service';

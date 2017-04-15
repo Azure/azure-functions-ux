@@ -1,5 +1,16 @@
-import { PortalResources } from './../../shared/models/portal-resources';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
+
+import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
@@ -7,8 +18,6 @@ import { AuthzService } from './../../shared/services/authz.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
 import {LocalStorageService as StorageService} from '../../shared/services/local-storage.service';
 import {Site} from '../../shared/models/arm/site';

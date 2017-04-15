@@ -1,3 +1,7 @@
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+
 import { FunctionApp } from './shared/function-app';
 import { BusyStateComponent } from './busy-state/busy-state.component';
 import { environment } from './../environments/environment.prod';
@@ -7,14 +11,12 @@ import { FunctionContainer } from './shared/models/function-container';
 import { GlobalStateService } from './shared/services/global-state.service';
 import { LanguageService } from './shared/services/language.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Constants } from './shared/models/constants';
 import { AiService } from './shared/services/ai.service';
 import {PortalService} from './shared/services/portal.service';
 import {ArmService} from './shared/services/arm.service';
 import {UserService} from './shared/services/user.service';
 import {FunctionsService} from './shared/services/functions.service';
-import {Observable} from 'rxjs/Rx';
 import {ErrorListComponent} from './error-list/error-list.component';
 import {MainComponent} from './main/main.component';
 // import {MonitoringService} from './shared/services/app-monitoring.service';
@@ -66,7 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         if(this._userService.inIFrame){
             this._userService.getStartupInfo()
-                .flatMap(startupInfo =>{
+                .mergeMap(startupInfo =>{
                     this._startupInfo = startupInfo;
                     return this._languageService.getResources(null);
                 })

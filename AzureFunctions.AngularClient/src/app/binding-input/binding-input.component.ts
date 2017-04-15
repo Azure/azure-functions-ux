@@ -1,5 +1,7 @@
 import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from '@angular/core';
-import {BindingInputBase} from '../shared/models/binding-input';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { BindingInputBase } from '../shared/models/binding-input';
 import {PortalService} from '../shared/services/portal.service';
 import {UserService} from '../shared/services/user.service';
 import {PickerInput} from '../shared/models/binding-input';
@@ -7,11 +9,9 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {FunctionApp} from '../shared/function-app';
-import {Subscription, Subject} from 'rxjs/Rx';
 
 @Component({
   selector: 'binding-input',

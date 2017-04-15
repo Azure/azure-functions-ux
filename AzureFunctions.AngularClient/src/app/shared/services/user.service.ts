@@ -1,7 +1,12 @@
-import { Constants } from './../models/constants';
-import {Http, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs/Rx';
+import {Http, Headers} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+
+import { Constants } from './../models/constants';
 import {User} from '../models/user';
 import {TenantInfo} from '../models/tenant-info';
 import {FunctionContainer} from '../models/function-container';
@@ -50,7 +55,6 @@ export class UserService {
         return this._http.get(Constants.serviceHost + 'api/token')
             .map(r => <User>r.json());
     }
-
 
     setToken(token: string) {
         if (token !== this.currentStartupInfo.token) {

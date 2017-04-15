@@ -1,11 +1,24 @@
+import { Response, Request } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/observable/zip';
+
 import { ArmTryService } from './../shared/services/arm-try.service';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ErrorIds } from './../shared/models/error-ids';
 import { AuthzService } from './../shared/services/authz.service';
 import { FunctionNode } from './function-node';
-import { async } from '@angular/core/testing';
 import { TopBarNotification } from './../top-bar/top-bar-models';
-import { Response, Request } from '@angular/http';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { SiteConfig } from './../shared/models/arm/site-config';
 import { Subscription } from './../shared/models/subscription';
@@ -19,7 +32,6 @@ import {SlotsNode} from './slots-node';
 import {FunctionsNode} from './functions-node';
 import {ProxiesNode} from './proxies-node';
 import {FunctionApp} from '../shared/function-app';
-import { Observable, Subscription as RxSubscription, ReplaySubject } from 'rxjs/Rx';
 import { Constants, NotificationIds } from '../shared/models/constants';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
@@ -109,7 +121,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
             (h, r, s) =>({ hasWritePermission : h, hasReadOnlyLock : r, siteResponse : s})
         )
-        .flatMap(r =>{
+        .mergeMap(r =>{
             this.isLoading = false;
 
             let site : ArmObj<Site> = r.siteResponse.json();
@@ -192,7 +204,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         // Make sure there isn't a load operation currently being performed
         let loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
         return loadObs
-        .flatMap(() =>{
+        .mergeMap(() =>{
             this.sideNav.aiService.trackEvent('/actions/refresh');
             this._functionApp.fireSyncTrigger();
             this.sideNav.cacheService.clearCache();

@@ -1,10 +1,14 @@
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+
 import { FunctionNode } from './../tree-view/function-node';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionsNode } from './../tree-view/functions-node';
-// import { AppNode } from './../tree-view/app-node';
-import { Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 interface FunctionItem{
   name : string,

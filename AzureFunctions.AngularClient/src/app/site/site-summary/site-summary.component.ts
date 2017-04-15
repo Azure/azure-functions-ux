@@ -1,5 +1,20 @@
-import { PortalResources } from './../../shared/models/portal-resources';
+import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
+import { Response } from '@angular/http';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
+
+import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
 import { AvailabilityStates } from './../../shared/models/constants';
@@ -7,15 +22,11 @@ import { Availability } from './../site-notifications/notifications';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { AiService } from './../../shared/services/ai.service';
 import { AppsNode } from './../../tree-view/apps-node';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Response } from '@angular/http';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { ArmService } from './../../shared/services/arm.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
-import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
-import {Observable, Subject, Subscription as RxSubscription} from 'rxjs/Rx';
 import {CacheService} from '../../shared/services/cache.service';
 import {AuthzService} from '../../shared/services/authz.service';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
@@ -89,7 +100,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
-            .flatMap(r =>{
+            .mergeMap(r =>{
 
                 let site : ArmObj<Site> = r.json();
                 this.site = site;
@@ -137,7 +148,7 @@ export class SiteSummaryComponent implements OnDestroy {
                         availability : a.json()
                     }))
             })
-            .flatMap(res =>{
+            .mergeMap(res =>{
 
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
                 this._setAvailabilityState(res.availability.properties.availabilityState);
