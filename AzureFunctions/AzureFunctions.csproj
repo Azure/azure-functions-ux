@@ -209,6 +209,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Default_bac.cshtml" />
+    <Content Include="schemas\function.json" />
+    <Content Include="schemas\host.json" />
+    <Content Include="schemas\project.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

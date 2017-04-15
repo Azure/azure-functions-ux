@@ -44,17 +44,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this._currentConent = this._originalContent;
         this.cancelConfig();
         this.isDirty = false;
-
-        try {
-            this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
-            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
-        } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                errorId: ErrorIds.errorParsingConfig,
-                errorType: ErrorType.UserError
-            });
-        }
     }
 
     contentChanged(content: string) {
@@ -78,7 +67,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
     saveConfig() {
         if (this.isDirty) {
             try {
-                this._bindingManager.validateConfig(JSON.parse(this._currentConent), this._translateService);
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();

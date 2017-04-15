@@ -201,6 +201,6 @@ export class ApiDetailsComponent implements OnInit {
             }
         });
 
-        this.isEnabled = this._globalStateService.IsRoutingEnabled;
+        //this.isEnabled = this._globalStateService.IsRoutingEnabled;
     }
 }

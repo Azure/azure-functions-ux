@@ -55,10 +55,18 @@ hr.tree-node-separator{
             margin-right: 2px;
         }
     }
+
+    &:hover{
+        background-color: $tree-node-hover-color;
+    }
 }
 
-.tree-node:hover{
-    background-color: $tree-node-hover-color;
+.app-node{
+    padding-right: 51px;
+}
+
+.proxy-node{
+    padding-right: 10px;
 }
 
 .tree-node-selected{

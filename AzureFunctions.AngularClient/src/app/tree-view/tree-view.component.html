@@ -5,7 +5,7 @@
 
     <div (mouseenter)="child.showMenu = true"
          (mouseleave)="child.showMenu = false"
-         class="tree-node"
+         [class]="child.nodeClass"
          [class.clickable]="!child.disabled"
          [class.tree-node-selected]="child.sideNav && child.sideNav.resourceId === child.resourceId"
          (click)="child.select()">
