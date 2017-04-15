@@ -151,6 +151,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 echo Handling frontend Angular2 project.
+echo IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 :: 2. Bundle frontend angular2 app to the temporary path
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 
