@@ -173,17 +173,18 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	:: Temporarily disabling minification for prod troubleshooting
+	call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 
-	pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
-		mv main.*.bundle.js main.bundle.js
-		mv scripts.*.bundle.js scripts.bundle.js
-		mv styles.*.bundle.js styles.bundle.js
-	popd
+	:: pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	::	mv main.*.bundle.js main.bundle.js
+	::	mv scripts.*.bundle.js scripts.bundle.js
+	::	mv styles.*.bundle.js styles.bundle.js
+	:: popd
 
 	echo Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
