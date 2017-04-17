@@ -1,3 +1,4 @@
+import { AppNode } from './../tree-view/app-node';
 import {Component, OnInit, EventEmitter, ViewChild, Input} from '@angular/core';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FunctionApp} from '../shared/function-app';
@@ -39,6 +40,9 @@ export class FunctionEditComponent {
 
     private _viewInfoStream : Subject<TreeViewInfo>;
 
+    private appNode: AppNode;
+    private functionApp: FunctionApp;
+
     constructor(
         private _userService: UserService,
         private _broadcastService: BroadcastService,
@@ -53,22 +57,18 @@ export class FunctionEditComponent {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .switchMap(viewInfo =>{
+            .subscribe(viewInfo =>{
                 this.viewInfo = viewInfo;
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
-
+                this.functionApp = this.selectedFunction.functionApp;
+                this.appNode = <AppNode> viewInfo.node.parent.parent;
                 let segments = viewInfo.resourceId.split("/");
                 if (segments.length === 11) {
                     this.tabId = "develop";
                 } else {
                     this.tabId = segments[segments.length - 1];
                 }
-
-                return this.selectedFunction.functionApp.checkIfDisabled();
-            })
-            .subscribe(disabled =>{
-                this.disabled = disabled;
-            })
+            });
     }
 
     set viewInfoInput(viewInfo : TreeViewInfo){

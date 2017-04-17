@@ -1,21 +1,15 @@
 <!--<tutorial></tutorial>-->
 <div *ngIf="tabId === 'develop'" class="function-edit-content-dev">
-    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert" style="margin-bottom: 0px">
-        {{ 'functionEdit_readOnly' | translate }}
-    </div>
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
     <function-dev [selectedFunction]="selectedFunction"></function-dev>
 </div>
 <div *ngIf="tabId === 'integrate'" class="function-edit-content">
-    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert" style="margin-bottom: 0px">
-        {{ 'functionEdit_readOnly' | translate }}
-    </div>
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
     <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
 <div *ngIf="tabId === 'manage'" class="function-edit-content">
-    <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert" style="margin-bottom: 0px">
-        {{ 'functionEdit_readOnly' | translate }}
-    </div>
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
     <function-manage [viewInfoInput]="viewInfo"></function-manage>
 </div>
 <div *ngIf="tabId === 'monitor'" class="function-edit-content">

@@ -301,8 +301,8 @@
   <data name="or" xml:space="preserve">
     <value>or</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Region</value>
@@ -1620,5 +1620,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
     <value>Use this URL to directly access your API definition and import into 3rd party tools </value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Change the edit mode of your function app</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Function app edit mode</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Read Only</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Read\Write</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>We are unable to update your function app's edit mode. Please try again later.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write, despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
 </root>
