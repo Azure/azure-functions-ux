@@ -36,10 +36,6 @@
       }
     }
   ],
-  "addons": [
-    "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)",
-    "../node_modules/bootstrap/dist/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
-  ],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
