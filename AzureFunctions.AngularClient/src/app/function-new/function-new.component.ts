@@ -60,6 +60,7 @@ export class FunctionNewComponent {
     private _action: Action;
 
     private _viewInfoStream = new Subject<TreeViewInfo>();
+    private appNode: AppNode;
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
@@ -75,6 +76,7 @@ export class FunctionNewComponent {
         .switchMap(viewInfo =>{
             this._globalStateService.setBusyState();
             this.functionsNode = <FunctionsNode>viewInfo.node;
+            this.appNode = <AppNode> viewInfo.node.parent;
             this.functionApp = this.functionsNode.functionApp;
             return this.functionApp.getFunctions()
         })
@@ -89,7 +91,7 @@ export class FunctionNewComponent {
 
             if (this._action && this.functionsInfo && !this.selectedTemplate) {
                 this.selectedTemplateId = this._action.templateId;
-            }            
+            }
         })
     }
 

@@ -46,6 +46,7 @@ import {CacheService} from './services/cache.service';
 import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
+import { FunctionAppEditMode } from "./models/function-app-edit-mode";
 
 declare var mixpanel: any;
 
@@ -1290,17 +1291,47 @@ export class FunctionApp {
         return this._http.get(uri, { headers: this.getMainSiteHeaders() })
             .map<any>(r => r.json());
     }
-    checkIfDisabled() {
+
+    checkIfSourceControlEnabled(): Observable<boolean> {
         return this._cacheService.getArm(`${this.site.id}/config/web`)
         .map(r => {
-            let config : ArmObj<SiteConfig> = r.json();
-            if (!config.properties["scmType"] || config.properties["scmType"] !== "None") {
-                return true;
-            } else {
-                return false;
-            }
+            let config: ArmObj<SiteConfig> = r.json();
+            return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
         })
         .catch(e => Observable.of(false));
+    }
+
+    getFunctionAppEditMode(): Observable<FunctionAppEditMode> {
+        // The we have 2 settings to check here. There is the SourceControl setting which comes from /config/web
+        // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
+        // editMode (true -> readWrite, false -> readOnly)
+        // Table
+        //  | SourceControl | AppSettingValue | EditMode                      |
+        //  | true          | readWrite       | ReadWriteSourceControlled     |
+        //  | true          | readOnly        | ReadOnlySourceControlled      |
+        //  | true          | undefined       | ReadOnlySourceControlled      |
+        //  | false         | readWrite       | ReadWrite                     |
+        //  | false         | readOnly        | ReadOnly                      |
+        //  | false         | undefined       | ReadWrite                     |
+        return Observable.zip(
+            this.checkIfSourceControlEnabled(),
+            this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
+            (a, b) => ({sourceControlEnabled: a, appSettingsResponse: b})
+        )
+        .map<FunctionAppEditMode>(result => {
+            let appSettings: ArmObj<any> = result.appSettingsResponse.json();
+            let sourceControlled = result.sourceControlEnabled;
+            let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
+            editModeSettingString = editModeSettingString.toLocaleLowerCase();
+
+            if (editModeSettingString === Constants.ReadWriteMode) {
+                return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
+            } else if (editModeSettingString === Constants.ReadOnlyMode) {
+                return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
+            } else {
+                return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadWrite;
+            }
+        });
     }
 
     public getAuthSettings(): Observable<AuthSettings>{
@@ -1568,7 +1599,7 @@ export class FunctionApp {
     }
 
     getGeneratedSwaggerData(key: string) {
-        let url: string = this.getMainSiteUrl() + "/admin/host/swagger/default?code=" + key;
+        let url: string = this.getMainSiteUrl() + '/admin/host/swagger/default?code=' + key;
         return this._http.get(url).map<any>(r => { return r.json() })
         .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
             (error: FunctionsResponse) => {
@@ -1587,7 +1618,7 @@ export class FunctionApp {
     }
 
     getSwaggerDocument(key: string) {
-        let url: string = this.getMainSiteUrl() + "/admin/host/swagger?code=" + key;
+        let url: string = this.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
         return this._http.get(url).map<any>(r => { return r.json() });
     }
 

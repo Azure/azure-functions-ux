@@ -1,11 +1,6 @@
 <div class="newfunc-container" >
 
-    <div *ngIf="functionApp?.checkIfDisabled() | async">
-        <br />
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            {{ 'readOnly' | translate }}
-        </div>
-    </div>
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
     <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">

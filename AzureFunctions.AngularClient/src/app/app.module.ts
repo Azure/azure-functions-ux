@@ -98,6 +98,7 @@ import { CreateFunctionWrapperComponent } from './create-function-wrapper/create
 import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-definition.component';
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
+import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
 
 
 @NgModule({
@@ -175,7 +176,8 @@ import { FnWriteAccessDirective } from './shared/directives/fn-write-access.dire
         CreateFunctionWrapperComponent,
         TblComponent,
         TblThComponent,
-        FnWriteAccessDirective
+        FnWriteAccessDirective,
+        EditModeWarningComponent
     ],
     imports: [
         FormsModule,

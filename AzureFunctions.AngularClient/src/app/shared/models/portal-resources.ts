@@ -63,7 +63,7 @@ export class PortalResources
     public static _name: string = "_name";
     public static open: string = "open";
     public static or: string = "or";
-    public static readOnly: string = "readOnly";
+    public static readOnlySourceControlled: string = "readOnlySourceControlled";
     public static region: string = "region";
     public static run: string = "run";
     public static save: string = "save";
@@ -502,5 +502,12 @@ export class PortalResources
     public static swaggerDefinition_keyHelp: string = "swaggerDefinition_keyHelp";
     public static swaggerDefinition_sourceHelp: string = "swaggerDefinition_sourceHelp";
     public static swaggerDefinition_urlHelp: string = "swaggerDefinition_urlHelp";
+    public static appFunctionSettings_changeEditMode: string = "appFunctionSettings_changeEditMode";
+    public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
+    public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
+    public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
+    public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
+    public static readOnly: string = "readOnly";
+    public static readWriteSourceControlled: string = "readWriteSourceControlled";
 }
 

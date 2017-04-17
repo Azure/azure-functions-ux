@@ -12,32 +12,35 @@ export class HttpMethods {
 }
 
 export class Constants {
-    public static serviceHost: string = (window.location.hostname === "localhost") ? "https://localhost:44300/" : "";
+    public static serviceHost: string = (window.location.hostname === "localhost") ? "https://localhost:44300/" : '';
 
     public static runtimeVersion: string;
     public static routingExtensionVersion: string;
-    public static nodeVersion = "6.5.0";
-    public static latest = "latest";
-    public static disabled = "disabled";
-    public static runtimeVersionAppSettingName = "FUNCTIONS_EXTENSION_VERSION";
-    public static nodeVersionAppSettingName = "WEBSITE_NODE_DEFAULT_VERSION";
-    public static azureJobsExtensionVersion = "AZUREJOBS_EXTENSION_VERSION";
-    public static routingExtensionVersionAppSettingName = "ROUTING_EXTENSION_VERSION";
+    public static nodeVersion = '6.5.0';
+    public static latest = 'latest';
+    public static disabled = 'disabled';
+    public static runtimeVersionAppSettingName = 'FUNCTIONS_EXTENSION_VERSION';
+    public static nodeVersionAppSettingName = 'WEBSITE_NODE_DEFAULT_VERSION';
+    public static azureJobsExtensionVersion = 'AZUREJOBS_EXTENSION_VERSION';
+    public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
+    public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
     public static httpMethods = new HttpMethods();
-    public static swaggerSecretName = "swaggerdocumentationkey";
-    public static portalHostName = "https://portal.azure.com";
-    public static webAppsHostName = "https://web1.appsvcux.ext.azure.com";
-    public static msPortalHostName = "https://ms.portal.azure.com";
+    public static swaggerSecretName = 'swaggerdocumentationkey';
+    public static portalHostName = 'https://portal.azure.com';
+    public static webAppsHostName = 'https://web1.appsvcux.ext.azure.com';
+    public static msPortalHostName = 'https://ms.portal.azure.com';
+    public static ReadWriteMode = 'readWrite'.toLocaleLowerCase();
+    public static ReadOnlyMode = 'readOnly'.toLocaleLowerCase();
 }
 
 export class SiteTabIds{
-    public static overview = "Overview";
-    public static monitor = "Monitor";
-    public static features = "Platform features";
-    public static functionRuntime = "Settings";
-    public static apiDefinition = "API Definition";
-    public static troubleshoot = "Troubleshoot";
-    public static deploymentSource = "Deployment Source";
+    public static overview = 'Overview';
+    public static monitor = 'Monitor';
+    public static features = 'Platform features';
+    public static functionRuntime = 'Settings';
+    public static apiDefinition = 'API Definition';
+    public static troubleshoot = 'Troubleshoot';
+    public static deploymentSource = 'Deployment Source';
 }
 
 export class Arm{
@@ -45,15 +48,15 @@ export class Arm{
 }
 
 export class AvailabilityStates{
-    public static unknown = "unknown";
-    public static unavailable = "unavailable";
-    public static available = "available";
+    public static unknown = 'unknown';
+    public static unavailable = 'unavailable';
+    public static available = 'available';
 
     // Not entirely sure what this means, but it seems to be synonymous with unavailable
-    public static userinitiated = "userinitiated";
+    public static userinitiated = 'userinitiated';
 }
 
 export class NotificationIds{
-    public static alwaysOn = "alwaysOn";
-    public static newRuntimeVersion = "newRuntimeVersion";
+    public static alwaysOn = 'alwaysOn';
+    public static newRuntimeVersion = 'newRuntimeVersion';
 }

@@ -36,13 +36,14 @@
             </div>
         </div>
     </div>
+
     <div *ngIf="!showTryView" class="setting-wrapper">
         <label>{{ 'appFunctionSettings_apiProxies' | translate }}</label>
         <div class="features-wrapper">
             <div>
                 <div>
                     <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
-                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="valueChange.next($event)"></radio-selector>
+                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)"></radio-selector>
                 </div>
             </div>
         </div>
@@ -55,8 +56,20 @@
                 <div *ngIf="needUpdateRoutingExtensionVersion">
                     <h2>
                         {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
-                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRouingExtensionVersion()">{{ 'update' | translate }}</button>
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRoutingExtensionVersion()">{{ 'update' | translate }}</button>
                     </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!showTryView" class="setting-wrapper">
+        <label>{{ 'appFunctionSettings_editMode' | translate }}</label>
+        <div class="features-wrapper">
+            <div>
+                <div>
+                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
+                    <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)"></radio-selector>
                 </div>
             </div>
         </div>
@@ -64,8 +77,8 @@
 
     <function-keys
         [autoSelect]="true"
-        [functionApp]="functionApp"        
+        [functionApp]="functionApp"
         [enableKeySelect]="false"></function-keys>
 
-    
+
 </div>
