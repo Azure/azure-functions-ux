@@ -65,8 +65,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.setBusyState();
                 this.resetState();
 
-                this.functionApp.getAuthSettings().subscribe((result: any) => {
-                    this.easeAuthEnabled = result;
+                this.functionApp.getAuthSettings().subscribe(result => {
+                    this.easeAuthEnabled = result.easyAuthEnabled;
                 });
 
                 return fi
