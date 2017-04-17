@@ -29,6 +29,7 @@ echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
+echo YARN=%YARN%
 echo ANGUALR_CLI=%ANGUALR_CLI%
 
 setlocal enabledelayedexpansion
@@ -81,10 +82,20 @@ IF NOT DEFINED KUDU_SYNC_CMD (
   SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
 )
 
+IF NOT DEFINED YARN (
+  :: Install yarn
+  echo Installing yarn
+  call npm install -g yarn
+
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  SET YARN=true
+)
+
 IF NOT DEFINED ANGUALR_CLI (
   :: Install angular-cli
-  echo Installing angular-cli
-  call npm install -g angular-cli@1.0.0-beta.19-3
+  echo Installing @angular/cli
+  call npm install -g @angular/cli@1.0.0
 
   IF !ERRORLEVEL! NEQ 0 goto error
 
@@ -119,6 +130,7 @@ echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
+echo YARN=%YARN%
 echo ANGUALR_CLI=%ANGUALR_CLI%
 
 echo Handling backend WebApi project.
@@ -139,11 +151,14 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 echo Handling frontend Angular2 project.
+echo IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 :: 2. Bundle frontend angular2 app to the temporary path
 IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 
+	echo "In IF EXIST for Handling frontend Angular2 project"
+
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-	echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
+		echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
 		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
 		:: http://ss64.com/nt/robocopy-exit.html
 		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
@@ -167,23 +182,24 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 
 	pushd "%ARTIFACTS%\AzureFunctions.AngularClient"
 	echo Restore npm packages
-	call :ExecuteCmd npm install
+	call :ExecuteCmd yarn install
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd npm install
+		call :ExecuteCmd yarn install
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	:: Temporarily disabling minification for prod troubleshooting
+	call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --prod --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 
-	pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
-		mv main.*.bundle.js main.bundle.js
-		mv scripts.*.bundle.js scripts.bundle.js
-		mv styles.*.bundle.js styles.bundle.js
-	popd
+	:: pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	::	mv main.*.bundle.js main.bundle.js
+	::	mv scripts.*.bundle.js scripts.bundle.js
+	::	mv styles.*.bundle.js styles.bundle.js
+	:: popd
 
 	echo Copy angular output to the temporary path
 	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
@@ -233,6 +249,8 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		)
 	)
 )
+
+echo "After IF EXIST for Handling frontend Angular2 project"
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
