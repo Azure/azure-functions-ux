@@ -96,7 +96,7 @@ import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.direct
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
 
 export function ConfigLoader(config: ConfigService) {
-  return config.loadConfig()
+  return () => config.loadConfig()
 }
 
 @NgModule({
