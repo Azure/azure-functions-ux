@@ -166,7 +166,7 @@
     <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template below or go to the</value>
+    <value>Choose a template below or</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
@@ -1505,7 +1505,7 @@
     <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
   </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>quickstart</value>
+    <value>go to the quickstart</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>There are no query parameters</value>
