@@ -21,7 +21,7 @@
     notificationHub = <any>"notificationHub",
     sendGrid = <any>"sendGrid",
     twilioSms = <any>"twilioSms",
-    aadtoken = <any>"aadtoken"
+    aadtoken = <any>"aadToken"
 }
 
 export interface BindingConfig {
