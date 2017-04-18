@@ -129,10 +129,10 @@
     <Content Include="src\app\function-monitor\function-monitor.component.html" />
     <Content Include="src\app\function-new\function-new.component.html" />
     <Content Include="src\app\functions-list\functions-list.component.scss" />
+    <Content Include="src\app\function-quickstart\function-quickstart.component.scss" />
     <None Include="src\app\getting-started\getting-started.component.scss" />
     <Content Include="src\app\functions-list\functions-list.component.html" />
     <Content Include="src\app\getting-started\getting-started.component.html" />
-    <Content Include="src\app\function-quickstart\function-quickstart.component.css" />
     <Content Include="src\app\function-quickstart\function-quickstart.component.html" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
