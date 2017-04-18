@@ -3328,7 +3328,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write, despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
+        ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
         /// </summary>
         internal static string readWriteSourceControlled {
             get {

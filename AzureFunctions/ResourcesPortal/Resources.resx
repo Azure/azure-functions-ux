@@ -1640,6 +1640,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write, despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
 </root>
