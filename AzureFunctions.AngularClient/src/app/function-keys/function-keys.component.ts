@@ -176,13 +176,15 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     saveNewKey() {
-        this.setBusyState();
-        this.functionApp
-            .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
-            .subscribe(key => {
-                this.clearBusyState();
-                this.functionStream.next(this.functionInfo);
-            }, e => this.clearBusyState());
+        if (this.validKey) {
+            this.setBusyState();
+            this.functionApp
+                .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
+                .subscribe(key => {
+                    this.clearBusyState();
+                    this.functionStream.next(this.functionInfo);
+                }, e => this.clearBusyState());
+        }
     }
 
     revokeKey(key: FunctionKey) {
