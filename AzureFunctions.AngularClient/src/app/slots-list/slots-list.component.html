@@ -1,0 +1,30 @@
+<div class="list-collection-container">
+  <img src="images/Functions.svg" />
+  <h3 class="text-main2-heading">Slots</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+
+  <tbl [items]="slots" #table="tbl">
+    <tr>
+      <th>
+        <tbl-th name="name">Name</tbl-th>
+      </th>
+      <th>
+        <tbl-th name="status">Status</tbl-th>
+      </th>
+      <th>
+        <tbl-th name="serverfarm">App service plan</tbl-th>
+      </th>
+    </tr>
+
+    <tr *ngFor="let item of table.items" (click)="clickRow(item)">
+      <td class="link">{{item.name}}</td>
+      <td class="link">{{item.status}}</td>
+      <td class="link">{{item.serverFarm}}</td>
+    </tr>
+
+    <tr *ngIf="table.items.length === 0 || isLoading">
+      <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
+      <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
+    </tr>
+
+  </tbl>
+</div>

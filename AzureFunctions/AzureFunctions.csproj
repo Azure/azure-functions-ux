@@ -289,9 +289,9 @@
   <ItemGroup>
     <Content Include="ResourcesPortal\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

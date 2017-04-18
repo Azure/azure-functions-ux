@@ -282,6 +282,7 @@ export class PortalResources
     public static apiProxies_warningOff: string = "apiProxies_warningOff";
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
+    public static slots_warningOff: string = "slots_warningOff";
     public static discrard: string = "discrard";
     public static sidebar_Functions: string = "sidebar_Functions";
     public static intro_signInWithFacebook: string = "intro_signInWithFacebook";
@@ -312,6 +313,7 @@ export class PortalResources
     public static stop: string = "stop";
     public static start: string = "start";
     public static restart: string = "restart";
+    public static swap: string = "swap";
     public static downloadProfile: string = "downloadProfile";
     public static resetPubCredentials: string = "resetPubCredentials";
     public static _delete: string = "_delete";
@@ -532,5 +534,14 @@ export class PortalResources
     public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
+    public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
+    public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
+    public static slotNew_nameLabel: string = "slotNew_nameLabel";
+    public static slotNew_heading: string = "slotNew_heading";
+    public static slotNew_desc: string = "slotNew_desc";
+    public static slotNew_startCreateNotifyTitle: string = "slotNew_startCreateNotifyTitle";
+    public static slotNew_startCreateSuccessNotifyTitle: string = "slotNew_startCreateSuccessNotifyTitle";
+    public static slotNew_startCreateFailureNotifyTitle: string = "slotNew_startCreateFailureNotifyTitle";
+    public static error_unableToLoadSlotsList: string = "error_unableToLoadSlotsList";
 }
 
