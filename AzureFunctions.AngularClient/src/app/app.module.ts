@@ -1,3 +1,5 @@
+import { AiTryService } from './shared/services/ai-try.service';
+import { IAppInsights } from './shared/models/app-insights';
 import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
 import { TblComponent } from './controls/tbl/tbl.component';
 import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
@@ -198,7 +200,7 @@ export function ConfigLoader(config: ConfigService) {
         //   ArmService,
         {
             provide: ArmService,
-            useClass: window.location.pathname.toLowerCase() === "/try" ? ArmTryService : ArmService
+            useClass: window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService
         },
         CacheService,
         AuthzService,
@@ -207,7 +209,10 @@ export function ConfigLoader(config: ConfigService) {
         UtilitiesService,
         BackgroundTasksService,
         GlobalStateService,
-        AiService,
+        {
+            provide: AiService,
+            useClass: window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService
+        },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler
