@@ -71,7 +71,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public bottomTab: string = FunctionDevComponent.bottomTab;
     public static rightTab: string;
     public static bottomTab: string;
-    public functionInvokeUrl: string = " ";
+    public functionInvokeUrl: string;
     public expandLogs: boolean = false;
     public functionApp : FunctionApp;
 
@@ -92,6 +92,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 private _translateService: TranslateService,
                 private _aiService: AiService,
                 private _el: ElementRef) {
+
+        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
