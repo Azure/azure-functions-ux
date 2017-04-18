@@ -4,7 +4,8 @@ export enum ResourceType{
     none,
     site,
     serverFarm,
-    hostingEnvironment
+    hostingEnvironment,
+    slot
 }
 
 export class Descriptor{
@@ -68,6 +69,7 @@ export class SiteDescriptor extends Descriptor{
 
         if(this.parts.length > 8 && this.parts[8].toLowerCase() === "slots"){
             this.slot = this.parts[9];
+            this.resourceType = ResourceType.slot;
         }
     }
 

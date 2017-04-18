@@ -39,7 +39,9 @@ export class ErrorIds {
     public static unableToDeleteSwaggerData = '/errors/unableToDeleteSwaggerData';
     public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
     public static failedToCreateApp = '/errors/unableToCreateApp';
+    public static failedToCreateSlot = '/errors/unableToCreateSlot';
     public static malformedAPIDefinition = '/errors/malformedAPIDefinition';
     public static passThroughApiError = '/errors/passThroughApiError';
     public static unableToUpdateFunctionAppEditMode = '/errors/unableToUpdateFunctionAppEditMode';
+    public static unableToPopulateSlotsList = '/errors/unableToPopulateSlotsList';
 }

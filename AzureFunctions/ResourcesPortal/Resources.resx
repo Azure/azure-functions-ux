@@ -958,6 +958,9 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy with name '{{name}}' already exists</value>
   </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
+  </data>
   <data name="discrard" xml:space="preserve">
     <value>Discard</value>
   </data>
@@ -1047,6 +1050,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Restart</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Swap</value>
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Download publish profile</value>
@@ -1716,5 +1722,47 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Learn more about azure functions</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Enable slots (preview). This is a one time opt-in feature that cannot be disabled later.</value>
+  </data>
+ <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data> 
+  <data name ="slotNew_heading" xml:space="preserve">
+  <value>New slot (preview) for azure functions</value>
+</data>
+<data name ="slotNew_desc" xml:space="preserve">
+  <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
+</data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Creating new slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Successfully created slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Successfully created slot {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Unable to upate the list of slots</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App service plan</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Slots (preview)</value>
   </data>
 </root>

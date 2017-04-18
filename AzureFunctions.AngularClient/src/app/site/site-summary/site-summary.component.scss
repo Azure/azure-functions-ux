@@ -19,6 +19,7 @@
         opacity: 0.4;
         filter: alpha(opacity=40); /* msie */
         cursor: text;
+        pointer-events: none;
     }
 
     >span{

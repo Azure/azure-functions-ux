@@ -63,7 +63,8 @@ export class FunctionEditComponent {
                 this.functionApp = this.selectedFunction.functionApp;
                 this.appNode = <AppNode> viewInfo.node.parent.parent;
                 let segments = viewInfo.resourceId.split("/");
-                if (segments.length === 11) {
+                // support for both site & slots
+                if (segments.length === 13 && segments[11] === "functions" || segments.length ===11 && segments[9] === "functions"){
                     this.tabId = "develop";
                 } else {
                     this.tabId = segments[segments.length - 1];

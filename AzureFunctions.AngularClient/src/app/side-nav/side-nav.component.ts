@@ -31,6 +31,7 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {DashboardType} from '../tree-view/models/dashboard-type';
 import {Subscription} from '../shared/models/subscription';
+import {SlotsService} from './../shared/services/slots.service';
 import {Http, Headers, Response, Request} from '@angular/http';
 
 @Component({
@@ -87,7 +88,8 @@ export class SideNavComponent{
         public localStorageService : LocalStorageService,
         public portalService : PortalService,
         public languageService : LanguageService,
-        public authZService : AuthzService){
+        public authZService : AuthzService,
+        public slotsService: SlotsService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
