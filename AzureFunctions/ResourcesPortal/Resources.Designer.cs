@@ -2986,7 +2986,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For F#, PowerShell, Python, and Batch,.
+        ///   Looks up a localized string similar to For PowerShell, Python, and Batch,.
         /// </summary>
         internal static string intro_ifYou {
             get {
