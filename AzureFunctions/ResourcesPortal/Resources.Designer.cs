@@ -2554,7 +2554,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a template below or go to the.
+        ///   Looks up a localized string similar to Choose a template below or.
         /// </summary>
         internal static string functionNew_chooseTemplate {
             get {
@@ -2563,7 +2563,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to quickstart.
+        ///   Looks up a localized string similar to go to the quickstart.
         /// </summary>
         internal static string functionNew_chooseTemplateQuickstart {
             get {
