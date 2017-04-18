@@ -6,6 +6,13 @@
         <h3>{{ 'intro_chooseScenario' | translate }}</h3>
         <div>
             <div class="trylanding-template"
+                 (click)="onFunctionClicked('HttpTrigger')"
+                 [class.trylanding-template-selected]="selectedFunction === 'HttpTrigger'">
+
+                <div><img src="images/webhook-api-template.svg" /></div>
+                <div>{{ 'intro_webHook' | translate }}</div>
+            </div>
+            <div class="trylanding-template"
                  (click)="onFunctionClicked('TimerTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'TimerTrigger'">
 
@@ -18,14 +25,6 @@
 
                 <div><img src="images/data-process-template.svg" /></div>
                 <div>{{ 'intro_dataProcessing' | translate}}</div>
-            </div>
-
-            <div class="trylanding-template"
-                 (click)="onFunctionClicked('HttpTrigger')"
-                 [class.trylanding-template-selected]="selectedFunction === 'HttpTrigger'">
-
-                <div><img src="images/webhook-api-template.svg" /></div>
-                <div>{{ 'intro_webHook' | translate }}</div>
             </div>
         </div>
         <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
