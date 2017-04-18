@@ -262,7 +262,7 @@
     <value>Keep using this quickstart</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>For F#, PowerShell, Python, and Batch,</value>
+    <value>For PowerShell, Python, and Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>Start from source control</value>
