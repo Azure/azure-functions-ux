@@ -10,16 +10,12 @@ pre {
 .wrapper > div {
     flex-grow: 1;
     border-bottom: 1px solid black;
-    padding: 20px;
+    padding: 20px 0px 20px 0px;
 }
 
 .configure-wrapper {
     display: flex;
     flex-direction: row;
-}
-
-.configure-wrapper > div {
-    padding: 10px;
 }
 
 .configure-wrapper > div:first-child {
@@ -43,7 +39,6 @@ pre {
 }
 
 #submit-button {
-    margin-left: 15px;
     display: inline;
     padding: 6px 25px 6px 25px;
     font-size: 12px;
