@@ -339,10 +339,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     private setInvokeUrlVisibility()
     {
-        var b = this.functionInfo.config.bindings.find((b) => {
-            return b.type === BindingType.httpTrigger.toString();
-        });
-        this.showFunctionInvokeUrl = b ? true : false;
+        if (this.functionInfo.config.bindings) {
+            var b = this.functionInfo.config.bindings.find((b) => {
+                return b.type === BindingType.httpTrigger.toString();
+            });
+            this.showFunctionInvokeUrl = b ? true : false;
+        }
     }
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
