@@ -31,48 +31,51 @@ export class BindingManager {
             originalConfig: config
         };
 
-        config.bindings.forEach((b) => {
-            var typeString: string = b.type;
-            var type: BindingType = BindingManager.getBindingType(typeString);
-            var behaviorString: string = b.direction;
-            var direction: DirectionType = DirectionType[behaviorString];
+        if (config.bindings) {
 
-            if (typeString) {
-                if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
-                    direction = DirectionType.trigger;
+            config.bindings.forEach((b) => {
+                var typeString: string = b.type;
+                var type: BindingType = BindingManager.getBindingType(typeString);
+                var behaviorString: string = b.direction;
+                var direction: DirectionType = DirectionType[behaviorString];
+
+                if (typeString) {
+                    if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
+                        direction = DirectionType.trigger;
+                    }
                 }
-            }
 
-            var bindingConfig = bindings.find((cb) => {
-                return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
-            });
-
-            var fb: UIFunctionBinding = {
-                id: this.guid(),
-                name: b.name,
-                type: type,
-                direction: direction,
-                enabledInTryMode: false,
-                settings: [],
-                displayName: bindingConfig ? bindingConfig.displayName : ""
-            };
-
-            // Copy binding level settings
-            for (var key in b) {
-                var findIndex = fb.settings.findIndex((setting) => {
-                    return setting.name === key;
+                var bindingConfig = bindings.find((cb) => {
+                    return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
                 });
 
-                if (findIndex === -1) {
-                    fb.settings.push({
-                        name: key,
-                        value: b[key]
-                    });
-                }
-            }                
+                var fb: UIFunctionBinding = {
+                    id: this.guid(),
+                    name: b.name,
+                    type: type,
+                    direction: direction,
+                    enabledInTryMode: false,
+                    settings: [],
+                    displayName: bindingConfig ? bindingConfig.displayName : ""
+                };
 
-            configUI.bindings.push(fb);
-        });
+                // Copy binding level settings
+                for (var key in b) {
+                    var findIndex = fb.settings.findIndex((setting) => {
+                        return setting.name === key;
+                    });
+
+                    if (findIndex === -1) {
+                        fb.settings.push({
+                            name: key,
+                            value: b[key]
+                        });
+                    }
+                }
+
+                configUI.bindings.push(fb);
+            });
+        }
 
         return configUI;
     }
@@ -88,26 +91,29 @@ export class BindingManager {
                 result[key] = config.originalConfig[key];
             }
         }
-        
-        config.bindings.forEach((b) => {
-            var bindingToAdd = {
-            };
-            
-            b.settings.forEach((s) => {
-                if (!s.noSave) {
-                    if (s.value === false) {
-                        bindingToAdd[s.name] = false;
-                    } else if (!s.value) {
-                        bindingToAdd[s.name] = "";
-                    } else {
-                        bindingToAdd[s.name] = s.value;
-                    }
-                }
-            });
-            bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
 
-            result.bindings.push(bindingToAdd);
-        });
+        if (config.bindings) {
+
+            config.bindings.forEach((b) => {
+                var bindingToAdd = {
+                };
+
+                b.settings.forEach((s) => {
+                    if (!s.noSave) {
+                        if (s.value === false) {
+                            bindingToAdd[s.name] = false;
+                        } else if (!s.value) {
+                            bindingToAdd[s.name] = "";
+                        } else {
+                            bindingToAdd[s.name] = s.value;
+                        }
+                    }
+                });
+                bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
+
+                result.bindings.push(bindingToAdd);
+            });
+        }
 
         return result;
     }
@@ -179,36 +185,39 @@ export class BindingManager {
 
     validateConfig(config: FunctionConfig, translationService: TranslateService) {
 
-        config.bindings.forEach((b) => {
-            var duplicate = config.bindings.find((binding) => {
-                return b !== binding &&  binding.name === b.name;
+        if (config.bindings) {
+
+            config.bindings.forEach((b) => {
+                var duplicate = config.bindings.find((binding) => {
+                    return b !== binding && binding.name === b.name;
+                });
+
+                if (duplicate) {
+                    throw translationService.instant(PortalResources.bindingsValidationNameDublicate, { functionName: b.name });
+                }
+
+                if (!b.name) {
+                    throw translationService.instant(PortalResources.bindingsValidationNameMissed);
+                }
+
+                if (!b.direction) {
+                    throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
+                }
+
+                if (!b.type) {
+                    throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
+                }
+
+                if (!DirectionType[b.direction.toLowerCase()]) {
+                    throw translationService.instant(PortalResources.bindingsValidationDirectionUnknown, { direction: b.direction });
+                }
+
+                if (!BindingType[b.type]) {
+                    throw translationService.instant(PortalResources.bindingsValidationTypeUnknown, { type: b.type });
+                }
+
             });
-
-            if (duplicate) {
-                throw translationService.instant(PortalResources.bindingsValidationNameDublicate, { functionName: b.name });                
-            }
-
-            if (!b.name) {
-                throw translationService.instant(PortalResources.bindingsValidationNameMissed);
-            }
-
-            if (!b.direction) {
-                throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
-            }
-
-            if (!b.type) {
-                throw translationService.instant(PortalResources.bindingsValidationDirectionMissed);
-            }            
-
-            if (!DirectionType[b.direction.toLowerCase()]) {
-                throw translationService.instant(PortalResources.bindingsValidationDirectionUnknown, { direction: b.direction });
-            }
-
-            if (!BindingType[b.type]) {
-                throw translationService.instant(PortalResources.bindingsValidationTypeUnknown, { type: b.type });
-            }
-
-        });
+        }
     }
 
     //http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
