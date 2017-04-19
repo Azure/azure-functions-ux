@@ -380,9 +380,13 @@
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\decorators\cache.decorator.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\fn-write-access.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\fn-write-access.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
+    <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\availability.ts" />
     <TypeScriptCompile Include="src\app\shared\models\auth-settings.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\arm-obj.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\auth-settings.ts" />
@@ -450,9 +454,11 @@
     <TypeScriptCompile Include="src\app\shared\models\user.ts" />
     <TypeScriptCompile Include="src\app\shared\models\vfs-object.ts" />
     <TypeScriptCompile Include="src\app\shared\models\webapi-exception.ts" />
+    <TypeScriptCompile Include="src\app\shared\no-cors-http-service.ts" />
     <TypeScriptCompile Include="src\app\shared\resourceDescriptors.ts" />
     <TypeScriptCompile Include="src\app\shared\services\ai.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\ai.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm-try.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\authz.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
