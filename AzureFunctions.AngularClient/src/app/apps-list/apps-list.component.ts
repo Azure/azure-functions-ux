@@ -15,9 +15,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public apps : AppNode[] = [];
   public appsNode : AppsNode;
 
-  public sortedColumn : string;
-  public sortAscending : boolean;
-
   private _viewInfoSubscription : RxSubscription;
   private _origRefToItems : AppNode[];
 
@@ -31,9 +28,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children =>{
-        this.sortedColumn = "";
-        this.sortAscending = true;
-
         this.apps = children;
         this._origRefToItems = children;
       });
