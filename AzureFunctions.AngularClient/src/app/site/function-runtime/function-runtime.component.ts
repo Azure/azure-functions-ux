@@ -276,7 +276,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     if (dailyMemoryTimeQuota > 0) {
       this._globalStateService.setBusyState();
-      this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe(() => {
+      this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
+        var site = r.json();
+        this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
         this.showDailyMemoryInfo = true;
         this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
         this._globalStateService.clearBusyState();
@@ -319,11 +321,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
     let body = JSON.stringify({
       Location: site.location,
       Properties: {
-        dailyMemoryTimeQuota: value
+          dailyMemoryTimeQuota: value,
+          enabled: true
       }
     });
 
-    return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, body)
+    return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, body);
   }
 
 
