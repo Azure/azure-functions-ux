@@ -50,6 +50,7 @@ export class FunctionNewComponent {
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
     templateWarning: string;
+    addLinkToAuth: boolean = false;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -118,7 +119,16 @@ export class FunctionNewComponent {
                 var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === "Experimental";
                 });
+
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
+                if (this.selectedTemplate.metadata.warning) {
+                    this.addLinkToAuth = (<any>this.selectedTemplate.metadata.warning).addLinkToAuth ? true : false;
+                    if (this.templateWarning) {
+                        this.templateWarning += "<br/>" + this.selectedTemplate.metadata.warning.text;
+                    } else {
+                        this.templateWarning += this.selectedTemplate.metadata.warning.text;
+                    }
+                }
 
                 this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                 this.functionApp.getBindingConfig().subscribe((bindings) => {
@@ -211,6 +221,15 @@ export class FunctionNewComponent {
 
     quickstart() {
         this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
+    }
+
+    onAuth() {
+        this._portalService.openBlade({
+            detailBlade: "AppAuth",
+            detailBladeInputs: { id: this.functionApp.site.id }
+        },
+            "binding"
+        );
     }
 
     private validate() {
