@@ -2,8 +2,7 @@
 import {PortalResources} from './portal-resources';
 import {FunctionApp} from '../function-app';
 
-export class ApiProxy
-{
+export class ApiProxy {
     name: string;
     matchCondition: MatchCondition = new MatchCondition();
     backendUri: string;
@@ -26,7 +25,7 @@ export class ApiProxy
         return result;
     }
 
-    public static toJson(proxies: ApiProxy[], ts: TranslateService): string  {
+    public static toJson(proxies: ApiProxy[], ts: TranslateService): string {
 
 
         var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies, ApiProxy.replacer)); // clone
@@ -45,7 +44,7 @@ export class ApiProxy
                 result[name] = {};   // matchCondition and backendUri should be always on top
                 result[name].matchCondition = p.matchCondition;
                 result[name].backendUri = p.backendUri;
-                for(var prop in p) { // custom properties
+                for (var prop in p) { // custom properties
                     if (prop !== "matchCondition" && prop !== "backendUri") {
                         result[name][prop] = p[prop];
                     }
