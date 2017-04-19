@@ -54,6 +54,7 @@ export class ApiProxy {
 
 
         return JSON.stringify({
+            "$schema": "http://json.schemastore.org/proxies",
             proxies: result
         }, null, 4);
     }
