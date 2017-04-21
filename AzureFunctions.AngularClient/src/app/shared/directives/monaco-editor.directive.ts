@@ -131,7 +131,7 @@ export class MonacoEditorDirective {
         let onGotAmdLoader = () => {
             // Load monaco
             if (window.location.hostname === 'localhost') {
-                (<any>window).require.config({ paths: { 'vs': '/ng2app/assets/monaco/min/vs' } });
+                (<any>window).require.config({ paths: { 'vs': '/ng/assets/monaco/min/vs' } });
             } else {
                 (<any>window).require.config({ paths: { 'vs': '/assets/monaco/min/vs' } });
             }
