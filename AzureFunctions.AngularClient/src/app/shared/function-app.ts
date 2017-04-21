@@ -1151,7 +1151,7 @@ export class FunctionApp {
             });
     }
 
-    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
+    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response | FunctionKey> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         let url = functionInfo
@@ -1317,7 +1317,7 @@ export class FunctionApp {
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
             (a, b) => ({sourceControlEnabled: a, appSettingsResponse: b})
         )
-        .map<FunctionAppEditMode>(result => {
+        .map(result => {
             let appSettings: ArmObj<any> = result.appSettingsResponse.json();
             let sourceControlled = result.sourceControlEnabled;
             let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
@@ -1601,7 +1601,7 @@ export class FunctionApp {
 
     getGeneratedSwaggerData(key: string) {
         let url: string = this.getMainSiteUrl() + '/admin/host/swagger/default?code=' + key;
-        return this._http.get(url).map<any>(r => { return r.json() })
+        return this._http.get(url).map(r => r.json())
         .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1620,7 +1620,7 @@ export class FunctionApp {
 
     getSwaggerDocument(key: string) {
         let url: string = this.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
-        return this._http.get(url).map<any>(r => { return r.json() });
+        return this._http.get(url).map(r => { return r.json() });
     }
 
     addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {

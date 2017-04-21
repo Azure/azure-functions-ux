@@ -21,7 +21,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from "../../shared/models/function-app-edit-mode";
 
@@ -184,7 +184,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
-      .switchMap<any>(state => {
+      .switchMap(state => {
         let originalState = this.functionAppEditMode;
         this._globalStateService.setBusyState();
         this.functionAppEditMode = state;
