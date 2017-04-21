@@ -24,46 +24,15 @@ echo dp0=%~dp0%
 echo ARTIFACTS=%ARTIFACTS%
 echo DEPLOYMENT_SOURCE=%DEPLOYMENT_SOURCE%
 echo DEPLOYMENT_TARGET=%DEPLOYMENT_TARGET%
-echo DEPLOYMENT_TARGET_ANGULAR=%DEPLOYMENT_TARGET_ANGULAR%
 echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
 echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
 echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
 echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
-echo YARN=%YARN%
 echo ANGUALR_CLI=%ANGUALR_CLI%
 
 setlocal enabledelayedexpansion
 
 SET ARTIFACTS=%~dp0%..\artifacts
-
-IF NOT DEFINED DEPLOYMENT_SOURCE (
-	SET DEPLOYMENT_SOURCE=%~dp0%.
-	echo SET DEPLOYMENT_SOURCE
-)
-
-IF NOT DEFINED DEPLOYMENT_TARGET (
-  SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
-)
-
-IF NOT DEFINED NEXT_MANIFEST_PATH (
-  SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
-
-  IF NOT DEFINED PREVIOUS_MANIFEST_PATH (
-    SET PREVIOUS_MANIFEST_PATH=%ARTIFACTS%\manifest
-  )
-)
-
-IF NOT DEFINED NEXT_CLIENT_MANIFEST_PATH (
-  SET NEXT_CLIENT_MANIFEST_PATH=%ARTIFACTS%\client-manifest
-
-  IF NOT EXIST "%NEXT_CLIENT_MANIFEST_PATH%" (MKDIR "%NEXT_CLIENT_MANIFEST_PATH%")
-
-  IF NOT DEFINED PREVIOUS_CLIENT_MANIFEST_PATH (
-    SET PREVIOUS_CLIENT_MANIFEST_PATH=%ARTIFACTS%\client-manifest
-  )
-
-  IF NOT EXIST "%PREVIOUS_CLIENT_MANIFEST_PATH%" (MKDIR "%PREVIOUS_CLIENT_MANIFEST_PATH%")
-)
 
 IF NOT EXIST "%HOME%\tools" (MKDIR "%HOME%\tools")
 
@@ -72,45 +41,9 @@ SET PATH=%PATH%;%HOME%\tools
 call npm config set prefix "%HOME%\tools"
 IF !ERRORLEVEL! NEQ 0 goto error
 
-IF NOT DEFINED KUDU_SYNC_CMD (
-  :: Install kudu sync
-  echo Installing Kudu Sync
-  call npm install kudusync -g --silent
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  :: Locally just running "kuduSync" would also work
-  SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
-)
-
-IF NOT DEFINED YARN (
-  :: Install yarn
-  echo Installing yarn
-  call npm install -g yarn
-
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET YARN=true
-)
-
-IF NOT DEFINED ANGUALR_CLI (
-  :: Install angular-cli
-  echo Installing @angular/cli
-  call npm install -g @angular/cli@1.0.0
-
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  SET ANGUALR_CLI=true
-)
-
-IF NOT DEFINED DEPLOYMENT_TEMP (
-  SET DEPLOYMENT_TEMP=%temp%\___deployTemp%random%
-  SET CLEAN_LOCAL_DEPLOYMENT_TEMP=true
-)
-
-IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
-  IF EXIST "%DEPLOYMENT_TEMP%" rd /s /q "%DEPLOYMENT_TEMP%"
-  mkdir "%DEPLOYMENT_TEMP%"
-)
+echo Installing yarn
+call npm install -g yarn
+IF !ERRORLEVEL! NEQ 0 goto error
 
 IF DEFINED MSBUILD_PATH goto MsbuildPathDefined
 SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
@@ -120,91 +53,35 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-echo Print variables
-echo dp0=%~dp0%
-echo ARTIFACTS=%ARTIFACTS%
-echo DEPLOYMENT_SOURCE=%DEPLOYMENT_SOURCE%
-echo DEPLOYMENT_TARGET=%DEPLOYMENT_TARGET%
-echo DEPLOYMENT_TARGET_ANGULAR=%DEPLOYMENT_TARGET_ANGULAR%
-echo NEXT_MANIFEST_PATH=%NEXT_MANIFEST_PATH%
-echo PREVIOUS_MANIFEST_PATH=%PREVIOUS_MANIFEST_PATH%
-echo DEPLOYMENT_TEMP=%DEPLOYMENT_TEMP%
-echo IN_PLACE_DEPLOYMENT=%IN_PLACE_DEPLOYMENT%
-echo YARN=%YARN%
-echo ANGUALR_CLI=%ANGUALR_CLI%
-
 echo Handling backend WebApi project.
 echo Restore NuGet packages
-IF /I "AzureFunctions.sln" NEQ "" (
-  call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureFunctions.sln"
-  IF !ERRORLEVEL! NEQ 0 goto error
-)
+call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureFunctions.sln"
+IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 1. Build backend WebApi to the temporary path
-IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  echo "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
-  IF !ERRORLEVEL! NEQ 0 goto error
-) ELSE (
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
-  IF !ERRORLEVEL! NEQ 0 goto error
-)
+echo "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+IF !ERRORLEVEL! NEQ 0 goto error
 
 echo Handling frontend Angular2 project.
-echo IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 :: 2. Bundle frontend angular2 app to the temporary path
-IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
-
-	echo "In IF EXIST for Handling frontend Angular2 project"
-
-	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-		echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
-		call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient" "%ARTIFACTS%\AzureFunctions.AngularClient" /E /IS
-		:: http://ss64.com/nt/robocopy-exit.html
-		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
-		IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
-		IF %ERRORLEVEL% EQU 14 echo FAIL + MISMATCHES + XTRA & goto error
-		IF %ERRORLEVEL% EQU 13 echo OKCOPY + FAIL + MISMATCHES & goto error
-		IF %ERRORLEVEL% EQU 12 echo FAIL + MISMATCHES& goto error
-		IF %ERRORLEVEL% EQU 11 echo OKCOPY + FAIL + XTRA & goto error
-		IF %ERRORLEVEL% EQU 10 echo FAIL + XTRA & goto error
-		IF %ERRORLEVEL% EQU 9 echo OKCOPY + FAIL & goto error
-		IF %ERRORLEVEL% EQU 8 echo FAIL & goto error
-		IF %ERRORLEVEL% EQU 7 echo OKCOPY + MISMATCHES + XTRA & goto error
-		IF %ERRORLEVEL% EQU 6 echo MISMATCHES + XTRA & goto error
-		IF %ERRORLEVEL% EQU 5 echo OKCOPY + MISMATCHES & goto error
-		IF %ERRORLEVEL% EQU 4 echo MISMATCHES & goto error
-		IF %ERRORLEVEL% EQU 3 echo OKCOPY + XTRA
-		IF %ERRORLEVEL% EQU 2 echo XTRA
-		IF %ERRORLEVEL% EQU 1 echo OKCOPY
-		IF %ERRORLEVEL% EQU 0 echo No Change
-	)
-
-	pushd "%ARTIFACTS%\AzureFunctions.AngularClient"
-	echo Restore npm packages
+	pushd "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient"
+	echo Restore yarn packages
 	call :ExecuteCmd yarn install
 	IF !ERRORLEVEL! NEQ 0 (
 		call :ExecuteCmd yarn install
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	:: Temporarily disabling minification for prod troubleshooting
-	call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+	call :ExecuteCmd node_modules\.bin\ng build --prod --environment=prod --output-path="%ARTIFACTS%\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd ng build --environment=prod --output-path="%ARTIFACTS%\AzureFunctions.AngularClient\dist"
+		call :ExecuteCmd node_modules\.bin\ng build --prod --environment=prod --output-path="%ARTIFACTS%\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 
-	:: pushd "%ARTIFACTS%\AzureFunctions.AngularClient\dist"
-	::	mv main.*.bundle.js main.bundle.js
-	::	mv scripts.*.bundle.js scripts.bundle.js
-	::	mv styles.*.bundle.js styles.bundle.js
-	:: popd
-
 	echo Copy angular output to the temporary path
-	IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-		echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
-		call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		echo ROBOCOPY "%ARTIFACTS%\dist" "%DEPLOYMENT_TEMP%" /E /IS
+		call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\dist" "%DEPLOYMENT_TEMP%" /E /IS
 		:: http://ss64.com/nt/robocopy-exit.html
 		IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
 		IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
@@ -224,10 +101,10 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 		IF %ERRORLEVEL% EQU 1 echo OKCOPY
 		IF %ERRORLEVEL% EQU 0 echo No Change
 
-		IF EXIST "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" (
+		IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor" (
 			echo Copy Swagger Editor to output
-			echo ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
-			call :ExecuteCmd ROBOCOPY "%ARTIFACTS%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
+			echo ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
+			call :ExecuteCmd ROBOCOPY "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor" "%DEPLOYMENT_TEMP%\node_modules\swagger-editor" /E /IS
 			:: http://ss64.com/nt/robocopy-exit.html
 			IF %ERRORLEVEL% EQU 16 echo ***FATAL ERROR*** & goto error
 			IF %ERRORLEVEL% EQU 15 echo OKCOPY + FAIL + MISMATCHES + XTRA & goto error
@@ -247,17 +124,9 @@ IF EXIST "%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\package.json" (
 			IF %ERRORLEVEL% EQU 1 echo OKCOPY
 			IF %ERRORLEVEL% EQU 0 echo No Change
 		)
-	)
-)
-
-echo "After IF EXIST for Handling frontend Angular2 project"
 
 :: 4. KuduSync
-IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
-  IF !ERRORLEVEL! NEQ 0 goto error
-)
-
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 4. Copy templates-update webjob
