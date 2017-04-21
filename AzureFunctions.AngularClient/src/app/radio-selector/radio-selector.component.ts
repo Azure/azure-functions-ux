@@ -10,7 +10,7 @@ export class RadioSelectorComponent<T> {
     @Input() disabled: boolean;
     @Input() public defaultValue: T;
     @Output() public value: Subject<T>;
-    private _options: SelectOption<T>[];
+    public _options: SelectOption<T>[];
 
     constructor() {
         this.value = new EventEmitter<T>();

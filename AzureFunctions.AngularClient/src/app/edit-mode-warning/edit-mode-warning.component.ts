@@ -13,9 +13,9 @@ export class EditModeWarningComponent implements OnInit {
   @Input() functionApp: FunctionApp;
   @Input() appNode: AppNode;
 
-  private readOnly = false;
-  private readOnlySourceControlled = false;
-  private readWriteSourceControlled = false;
+  public readOnly = false;
+  public readOnlySourceControlled = false;
+  public readWriteSourceControlled = false;
 
   ngOnInit() {
     this.functionApp
