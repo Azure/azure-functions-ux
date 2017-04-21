@@ -6,11 +6,11 @@
 
     var slotName = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME");
     var cdn = string.Empty;
-    if(slotName == "production")
+    if (slotName == "production")
     {
         cdn = "https://functions.azureedge.net";
     }
-    else if(slotName == "next")
+    else if (slotName == "next")
     {
         cdn = "https://functions-next.azureedge.net";
     }
@@ -39,11 +39,10 @@
         };
     </script>
     <link rel="stylesheet" type="text/css" href="/iframe-loading.css" />
-     @if (isAzure && !isOnPrem)
-    {
-        <link href="@cdn/styles.bundle.css?v=@version" rel="stylesheet"/></head>
-    } else {
-        <link href="/styles.bundle.css" rel="stylesheet"/></head>
+    @{ 
+        if (isAzure && !isOnPrem) {
+            <link href="@cdn/styles.bundle.css?v=@version" rel="stylesheet"/>
+        }
     }
 </head>
 <body>
@@ -65,6 +64,7 @@
         <script type="text/javascript" src="inline.bundle.js"></script>
         <script type="text/javascript" src="polyfills.bundle.js"></script>
         <script type="text/javascript" src="scripts.bundle.js"></script>
+        <script type="text/javascript" src="styles.bundle.js"></script>
         <script type="text/javascript" src="vendor.bundle.js"></script>
         <script type="text/javascript" src="main.bundle.js"></script>
     }

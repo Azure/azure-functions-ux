@@ -80,13 +80,13 @@ echo Handling frontend Angular2 project.
 	)
 
 	pushd "%ARTIFACTS%\dist"
- -		mv styles.*.bundle.css styles.bundle.css
+ 		mv styles.*.bundle.css styles.bundle.css
 		mv inline.*.bundle.js inline.bundle.js
  		mv polyfills.*.bundle.js polyfills.bundle.js
- -		mv scripts.*.bundle.js scripts.bundle.js
+ 		mv scripts.*.bundle.js scripts.bundle.js
  		mv vendor.*.bundle.js vendor.bundle.js
- -		mv main.*.bundle.js main.bundle.js
- -	 popd
+ 		mv main.*.bundle.js main.bundle.js
+ 	 popd
 
 	echo Copy angular output to the temporary path
 		echo ROBOCOPY "%ARTIFACTS%\dist" "%DEPLOYMENT_TEMP%" /E /IS
