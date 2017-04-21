@@ -1,0 +1,10 @@
+<input #textboxInput
+    type="text"
+    [formControl]="control"
+    [placeholder]="placeholder"
+    (blur)="onBlur($event)">
+
+<pop-over *ngIf="!!control.errors && Obj.keys(control.errors).length > 0"
+          [message]="control.errors[Obj.keys(control.errors)[0]]"
+          [isInputError]="true">
+</pop-over>

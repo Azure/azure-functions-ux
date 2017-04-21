@@ -1,0 +1,33 @@
+<div id="app-secrets-container">
+<h3 class="text-main2-heading">App settings</h3>
+
+<span *ngIf="!mainForm.valid">Not valid</span>
+
+<tbl [items]="mainForm?.controls['appSettings'].controls" #table="tbl" editable="true">
+  <tr class="header-row">
+    <th>Name</th>
+    <th>Value</th>
+  </tr>
+  
+  <tr *ngFor="let group of table.items">
+    <td>
+      <click-to-edit-textbox
+        [group]="group"
+        name="name"
+        placeholder="Enter a name"></click-to-edit-textbox>
+    </td>
+    <td>
+      <click-to-edit-textbox
+        [group]="group"
+        name="value"
+        placeholder="Enter a value"></click-to-edit-textbox>
+    </td>
+
+    <td>
+      <i class="fa fa-floppy-o" [class.disabled]="group.valid" aria-hidden="true"></i>
+      <i class="fa fa-times" [class.disabled]="!group.dirty"></i>
+    </td>
+  </tr>
+
+</tbl>
+</div>

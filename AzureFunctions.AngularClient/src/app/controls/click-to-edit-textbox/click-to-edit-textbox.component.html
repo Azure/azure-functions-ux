@@ -1,0 +1,11 @@
+<div (click)="onClick($event)">
+<div *ngIf="!showTextbox">
+    {{control.value}}
+</div>
+
+<textbox [class.hidden]="!showTextbox"
+  [control]="control"
+  [placeholder]="placeholder"
+  (blur)="onBlur($event)"></textbox>
+
+</div>

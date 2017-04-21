@@ -97,6 +97,9 @@ import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-de
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
 import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
+import { TextboxComponent } from './controls/textbox/textbox.component';
+import { SiteConfigComponent } from './site/site-config/site-config.component';
+import { ClickToEditTextboxComponent } from './controls/click-to-edit-textbox/click-to-edit-textbox.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig()
@@ -172,7 +175,10 @@ export function ConfigLoader(config: ConfigService) {
         TblComponent,
         TblThComponent,
         FnWriteAccessDirective,
-        EditModeWarningComponent
+        EditModeWarningComponent,
+        TextboxComponent,
+        SiteConfigComponent,
+        ClickToEditTextboxComponent,
     ],
     imports: [
         FormsModule,

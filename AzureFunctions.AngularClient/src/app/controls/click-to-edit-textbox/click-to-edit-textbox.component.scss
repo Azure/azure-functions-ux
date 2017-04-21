@@ -1,0 +1,9 @@
+@import '../../../sass/main';
+
+.hidden{
+    visibility: hidden;
+}
+
+.disabled{
+    color: $disabled-color;
+}

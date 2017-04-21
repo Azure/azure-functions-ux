@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" focusable="false" class="msportalfx-svg-placeholder" role="presentation" aria-hidden="true">
+   <g>
+      <path d="M 16 8.175 c 0 -3.916 -3.027 -7.152 -6.831 -7.497 v 2.246 c 2.582 0.315 4.619 2.526 4.619 5.213 c 0 1.669 -0.794 3.137 -2.022 4.063 L 9.135 9.726 V 16 h 6.673 l -2.406 -2.262 C 14.983 12.41 16 10.426 16 8.175 Z" />
+      <path d="M 2.212 7.864 c 0 -1.669 0.794 -3.137 2.023 -4.063 l 2.631 2.474 V 0 H 0.192 l 2.406 2.262 C 1.017 3.59 0 5.574 0 7.825 c 0 3.928 3.046 7.171 6.865 7.499 v -2.244 C 4.267 12.782 2.212 10.563 2.212 7.864 Z" />
+   </g>
+</svg>
