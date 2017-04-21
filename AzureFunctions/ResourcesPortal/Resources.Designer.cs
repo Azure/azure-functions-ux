@@ -1852,6 +1852,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Insights.
+        /// </summary>
+        internal static string featureEnabled_appInsights {
+            get {
+                return ResourceManager.GetString("featureEnabled_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CORS Rules ({0} defined).
         /// </summary>
         internal static string featureEnabled_cors {

@@ -502,6 +502,7 @@ export class PortalResources
     public static swaggerDefinition_keyHelp: string = "swaggerDefinition_keyHelp";
     public static swaggerDefinition_sourceHelp: string = "swaggerDefinition_sourceHelp";
     public static swaggerDefinition_urlHelp: string = "swaggerDefinition_urlHelp";
+    public static featureEnabled_appInsights: string = "featureEnabled_appInsights";
     public static appFunctionSettings_changeEditMode: string = "appFunctionSettings_changeEditMode";
     public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";

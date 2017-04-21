@@ -13,6 +13,12 @@ bld/
 [Oo]bj/
 AzureFunctions/ng
 
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.log
 
 # compiled output
 /dist
@@ -66,3 +72,6 @@ Thumbs.db
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
+
+#App data
+AzureFunctions/app_data

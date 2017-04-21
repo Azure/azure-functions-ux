@@ -1621,6 +1621,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
     <value>Use this URL to directly access your API definition and import into 3rd party tools </value>
   </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
     <value>Change the edit mode of your function app</value>
   </data>

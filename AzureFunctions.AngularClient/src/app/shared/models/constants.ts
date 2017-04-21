@@ -24,6 +24,7 @@ export class Constants {
     public static azureJobsExtensionVersion = 'AZUREJOBS_EXTENSION_VERSION';
     public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
     public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
+    public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
     public static portalHostName = 'https://portal.azure.com';

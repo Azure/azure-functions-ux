@@ -11,7 +11,8 @@ export enum Feature{
     SSLBinding,
     ApiDefinition,
     WebJobs,
-    SiteExtensions
+    SiteExtensions,
+    AppInsight
 }
 
 export interface EnabledFeatures extends StorageItem{

@@ -16,6 +16,7 @@ import {SiteConfig} from '../../shared/models/arm/site-config';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
 import {StorageItem} from '../../shared/models/localStorage/local-storage';
 import {Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem} from '../../shared/models/localStorage/enabled-features';
+import {Constants} from '../../shared/models/constants';
 
 interface EnabledFeatureMap{
     [key : number] : EnabledFeatureItem;
@@ -88,7 +89,8 @@ export class SiteEnabledFeaturesComponent {
                     this._getConfigFeatures(r.site),
                     this._getSiteFeatures(r.site),
                     this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
-                    this._getSiteExtensions(r.site));
+                    this._getSiteExtensions(r.site),
+                    this._getAppInsight());
             })
             .do(null, e =>{
                 if(!this._globalStateService.showTryView){
@@ -135,6 +137,25 @@ export class SiteEnabledFeaturesComponent {
         }
     }
 
+    private _getAppInsight(){
+        return Observable.zip(
+            this._cacheService.postArm(`${this._site.id}/config/appsettings/list`),
+            this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, "2015-05-01"),
+            (as, ai) => ({ appSettings: as, appInsights: ai })
+        ).map(r => {
+            var ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+            let items = [];
+            if (ikey) {                
+                r.appInsights.json().value.forEach((ai) => {
+                    if (ai.properties.InstrumentationKey === ikey) {
+                        items.push(this._getEnabledFeatureItem(Feature.AppInsight, ai.id));
+                    }
+                });                
+            }
+            return items;
+        });
+    }
+
     private _copyCachedFeaturesToF1(storageItem : EnabledFeatures){
         storageItem.enabledFeatures.forEach((cachedFeatureItem : EnabledFeature) =>{
             let featureItem = this._getEnabledFeatureItem(cachedFeatureItem.feature);
@@ -147,7 +168,21 @@ export class SiteEnabledFeaturesComponent {
 
     private _getEnabledFeatureItem(feature : Feature, ...args: any[]) : EnabledFeatureItem{
 
-        switch(feature){
+        switch (feature) {
+            case Feature.AppInsight:
+                return <EnabledFeatureItem>{
+                    title: this._translateService.instant(PortalResources.featureEnabled_appInsights),
+                    feature: feature,
+                    iconUrl: "images/appInsights.svg",
+                    bladeInfo: {
+                        detailBlade: "AspNetOverview",
+                        detailBladeInputs: {
+                            id: args[0]
+                        },
+                        extension: "AppInsightsExtension"
+                    }
+                }
+
             case Feature.Cors:
                 return <EnabledFeatureItem>{
                     title : this._translateService.instant(PortalResources.featureEnabled_cors).format(args),
@@ -281,7 +316,7 @@ export class SiteEnabledFeaturesComponent {
     }
 
     private _mergeFeaturesIntoF1(featureItems1 : EnabledFeatureItem[],
-                                 featureItems2 : EnabledFeatureItem[]){
+        featureItems2: EnabledFeatureItem[]){
 
         let removeFeatures : EnabledFeatureItem[] = [];
         featureItems1.forEach(f1 =>{
@@ -300,6 +335,7 @@ export class SiteEnabledFeaturesComponent {
             let featureItem = featureItems1.find(f1 => f1.feature === f2.feature);
             if(featureItem){
                 featureItem.title = f2.title;
+                featureItem.bladeInfo = f2.bladeInfo;
             }
             else{
                 featureItems1.push(f2);
