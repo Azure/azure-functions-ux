@@ -1,33 +1,52 @@
-<div id="app-secrets-container">
-<h3 class="text-main2-heading">App settings</h3>
+<command-bar *ngIf="!!mainForm">
+  <command
+    displayText="Save"
+    iconUrl="images/save.svg"
+    (click)="save()"
+    [disabled]="!mainForm.valid || mainForm.pristine"></command>
 
-<span *ngIf="!mainForm.valid">Not valid</span>
+  <command
+    displayText="Discard"
+    iconUrl="images/discard.svg"
+    (click)="discard()"
+    [disabled]="mainForm.pristine"></command>
 
-<tbl [items]="mainForm?.controls['appSettings'].controls" #table="tbl" editable="true">
+</command-bar>
+
+<div id="site-config-wrapper">
+<h3 class="text-level2-heading">App settings</h3>
+
+<tbl tblClass="tbl fixed stretch" [items]="mainForm?.controls['appSettings'].controls" #table="tbl" editable="true">
   <tr class="header-row">
-    <th>Name</th>
-    <th>Value</th>
+    <th class="nameCol"></th>
+    <th class="valueCol"></th>
+    <th class="actionCol"></th>
   </tr>
   
   <tr *ngFor="let group of table.items">
-    <td>
+    <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
       <click-to-edit-textbox
         [group]="group"
         name="name"
         placeholder="Enter a name"></click-to-edit-textbox>
     </td>
+    
     <td>
       <click-to-edit-textbox
         [group]="group"
         name="value"
+        hiddenText="true"
         placeholder="Enter a value"></click-to-edit-textbox>
     </td>
-
+    
     <td>
-      <i class="fa fa-floppy-o" [class.disabled]="group.valid" aria-hidden="true"></i>
-      <i class="fa fa-times" [class.disabled]="!group.dirty"></i>
+      <span class="fa fa-times delete" (click)="deleteAppSetting(group)"></span>
     </td>
   </tr>
-
 </tbl>
+
+<div class="link add-setting" (click)="addAppSetting()">
+  + Add new setting
+</div>
+
 </div>

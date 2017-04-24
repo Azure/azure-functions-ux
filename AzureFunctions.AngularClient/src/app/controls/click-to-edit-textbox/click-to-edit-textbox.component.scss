@@ -1,9 +1,22 @@
 @import '../../../sass/main';
 
-.hidden{
-    visibility: hidden;
-}
+.click-to-edit-wrapper{
+    .hidden{
+        visibility: hidden;
+    }
 
-.disabled{
-    color: $disabled-color;
+    .disabled{
+        color: $disabled-color;
+    }
+
+    .text{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 3px;
+        white-space: nowrap;
+    }
+
+    .hidden-text{
+        font-style: italic;
+    }
 }

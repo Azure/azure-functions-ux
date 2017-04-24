@@ -1,3 +1,4 @@
+import { CustomFormControl } from './../controls/click-to-edit-textbox/click-to-edit-textbox.component';
 import {FormControl} from '@angular/forms';
 
 interface IValidation {
@@ -6,14 +7,9 @@ interface IValidation {
 
 export class CustomValidators {
 
-    static required(control : FormControl) : IValidation{
-        return control.dirty && !control.value ? { "required" : "This field is required"} : null;
+    static required(control : CustomFormControl) : IValidation{
+        return (control.dirty || control._msRunValidation) && !control.value ? { "required" : "This field is required"} : null;
     }
-
-//   static emailFormat(control: Control): IValidation {
-//     let pattern:RegExp = /\S+@\S+\.\S+/;
-//     return pattern.test(control.value) ? null : {"emailFormat": true};
-//   }
   
 //   static duplicated(control: Control) {
 //     const q = new Promise<IValidation>((resolve, reject) => {

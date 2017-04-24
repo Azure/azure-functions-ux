@@ -100,6 +100,8 @@ import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.
 import { TextboxComponent } from './controls/textbox/textbox.component';
 import { SiteConfigComponent } from './site/site-config/site-config.component';
 import { ClickToEditTextboxComponent } from './controls/click-to-edit-textbox/click-to-edit-textbox.component';
+import { CommandBarComponent } from './controls/command-bar/command-bar.component';
+import { CommandComponent } from './controls/command-bar/command/command.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig()
@@ -179,6 +181,8 @@ export function ConfigLoader(config: ConfigService) {
         TextboxComponent,
         SiteConfigComponent,
         ClickToEditTextboxComponent,
+        CommandBarComponent,
+        CommandComponent,
     ],
     imports: [
         FormsModule,

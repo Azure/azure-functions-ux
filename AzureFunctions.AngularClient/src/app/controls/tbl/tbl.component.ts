@@ -9,11 +9,12 @@ export interface TblItem{
 
 @Component({
   selector: 'tbl',
-  template: `<table class="tbl"><ng-content></ng-content></table>`,
+  template: `<table [class]="tblClass"><ng-content></ng-content></table>`,
   exportAs: "tbl"
 })
 export class TblComponent implements OnInit, OnChanges {
   @Input() editable : boolean;
+  @Input() tblClass = "tbl";
 
   public sortedColName : string;
   public sortAscending : boolean;

@@ -1,3 +1,45 @@
-#app-secrets-container{
+@import '../../../sass/main';
+
+#site-config-wrapper{
     padding: 5px 20px;
+
+    h3{
+        @extend .text-level2-heading;
+        font-weight: normal;
+        margin-left: 10px;
+        margin-bottom: 0px;
+    }
+
+    td{
+        span{
+            font-size: 16px;
+
+            &:hover{
+                color: $error-color;
+            }
+
+        }
+
+        span.delete:hover{
+            color: $error-color;
+        }
+    }
+
+    .nameCol{
+        width: 30%;
+    }
+
+    .valueCol{
+        width: 65%;
+    }
+
+    .actionCol{
+        width: 25px;
+    }
+
+    .add-setting{
+        margin-top: 10px;
+        margin-left: 5px;
+        display: inline-block;
+    }
 }

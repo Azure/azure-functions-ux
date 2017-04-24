@@ -11,7 +11,9 @@ export class TextboxComponent implements OnInit {
 
   @Input() control : FormControl;
   @Input() placeholder : string;
+  
   @Output() blur = new Subject<any>();
+
   @ViewChild('textboxInput') textboxInput : any;
 
   public Obj = Object;
