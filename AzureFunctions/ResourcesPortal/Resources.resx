@@ -1623,6 +1623,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="featureEnabled_appInsights" xml:space="preserve">
     <value>Application Insights</value>
+  </data>
   <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
     <value>Change the edit mode of your function app</value>
   </data>

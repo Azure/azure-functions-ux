@@ -90,7 +90,7 @@ export class SiteEnabledFeaturesComponent {
                     this._getSiteFeatures(r.site),
                     this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
                     this._getSiteExtensions(r.site),
-                    this._getAppInsight());
+                    this._getAppInsight(r.hasSiteWritePermissions, r.hasReadOnlyLock));
             })
             .do(null, e =>{
                 if(!this._globalStateService.showTryView){
@@ -137,7 +137,12 @@ export class SiteEnabledFeaturesComponent {
         }
     }
 
-    private _getAppInsight(){
+    private _getAppInsight(hasSiteActionPermission: boolean, hasReadLock: boolean) {
+
+        if (!hasSiteActionPermission || hasReadLock) {
+            return Observable.of([]);
+        }
+
         return Observable.zip(
             this._cacheService.postArm(`${this._site.id}/config/appsettings/list`),
             this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, "2015-05-01"),
@@ -145,14 +150,14 @@ export class SiteEnabledFeaturesComponent {
         ).map(r => {
             var ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
             let items = [];
-            if (ikey) {                
+            if (ikey) {
                 r.appInsights.json().value.forEach((ai) => {
                     if (ai.properties.InstrumentationKey === ikey) {
                         items.push(this._getEnabledFeatureItem(Feature.AppInsight, ai.id));
                     }
-                });                
+                });
             }
-            return items;
+            return items.length === 1 ? items : [];
         });
     }
 
