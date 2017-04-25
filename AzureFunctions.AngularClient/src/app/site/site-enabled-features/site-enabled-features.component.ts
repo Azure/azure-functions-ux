@@ -90,7 +90,7 @@ export class SiteEnabledFeaturesComponent {
                     this._getSiteFeatures(r.site),
                     this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
                     this._getSiteExtensions(r.site),
-                    this._getAppInsight(r.hasSiteWritePermissions, r.hasReadOnlyLock));
+                    this._getAppInsights(r.hasSiteWritePermissions, r.hasReadOnlyLock));
             })
             .do(null, e =>{
                 if(!this._globalStateService.showTryView){
@@ -137,7 +137,7 @@ export class SiteEnabledFeaturesComponent {
         }
     }
 
-    private _getAppInsight(hasSiteActionPermission: boolean, hasReadLock: boolean) {
+    private _getAppInsights(hasSiteActionPermission: boolean, hasReadLock: boolean) {
 
         if (!hasSiteActionPermission || hasReadLock) {
             return Observable.of([]);
