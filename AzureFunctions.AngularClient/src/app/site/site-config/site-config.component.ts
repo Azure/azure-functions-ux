@@ -1,3 +1,4 @@
+import { AiService } from './../../shared/services/ai.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { EnumEx } from './../../shared/Utilities/enumEx';
@@ -42,6 +43,7 @@ export class SiteConfigComponent implements OnInit {
     private _cacheService : CacheService,
     private _fb : FormBuilder,
     private _translateService : TranslateService,
+    private _aiService : AiService,
     tabsComponent : TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
@@ -60,6 +62,11 @@ export class SiteConfigComponent implements OnInit {
           (a,c) =>({appSettingResponse : a, connectionStringResponse : c})
         ) 
       })
+      .do(null, error =>{
+        this._aiService.trackEvent("/errors/site-config", error);
+        this._busyState.clearBusyState();
+      })
+      .retry()
       .subscribe(r =>{
         this._busyState.clearBusyState();
         this._appSettingsArm = r.appSettingResponse.json();
