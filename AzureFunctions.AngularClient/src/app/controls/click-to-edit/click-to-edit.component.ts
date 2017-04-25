@@ -5,13 +5,21 @@ import { Component, OnInit, Input, ViewChild, OnDestroy, ContentChild, ElementRe
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 
+// Used to communicate between click-to-edit components
 export class CustomFormGroup extends FormGroup{
+  
+  // Tells other ClickToEdit components when we're in "edit" mode for the form group.
   public _msShowTextbox : Subject<boolean>;
+  
+  // Tells other ClickToEdit components which control currently has focus
   public _msFocusedControl : string;
+
+  // Overrides the ClickToEdit default behavior to start in edit mode for new items
   public _msStartInEditMode : boolean;
 }
 
 export class CustomFormControl extends FormControl{
+  // Forces the required validation control to run on next evaluation
   public _msRunValidation : boolean;
 }
 
