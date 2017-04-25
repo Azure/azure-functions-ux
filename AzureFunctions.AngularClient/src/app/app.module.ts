@@ -182,7 +182,7 @@ export function ConfigLoader(config: ConfigService) {
         SiteConfigComponent,
         ClickToEditComponent,
         CommandBarComponent,
-        CommandComponent,
+        CommandComponent
     ],
     imports: [
         FormsModule,

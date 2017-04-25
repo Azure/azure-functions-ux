@@ -14,13 +14,12 @@ import { TblItem } from './../../controls/tbl/tbl.component';
 import { CacheService } from './../../shared/services/cache.service';
 import { Subject, Observable, Subscription as RxSubscription } from 'rxjs/Rx';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'site-config',
   templateUrl: './site-config.component.html',
-  styleUrls: ['./site-config.component.scss'],
-  inputs: ['viewInfoInput']  
+  styleUrls: ['./site-config.component.scss']
 })
 export class SiteConfigComponent implements OnInit {
   public viewInfoStream : Subject<TreeViewInfo>;
@@ -147,7 +146,7 @@ export class SiteConfigComponent implements OnInit {
       return connectionStringDropDownTypes; 
   }
 
-  set viewInfoInput(viewInfo : TreeViewInfo){
+  @Input() set viewInfoInput(viewInfo : TreeViewInfo){
       this.viewInfoStream.next(viewInfo);
   }
 

@@ -4,17 +4,10 @@
 </div>
 
 <div *ngIf="!showTextbox && hiddenText" class="text hidden-text">
-    Hidden value.  Click to show.
+    {{ 'hiddenValueClickToShow' | translate }}
 </div>
 
 <div [class.hidden]="!showTextbox">
     <ng-content ></ng-content>
 </div>
-
-
-<!--<textbox [class.hidden]="!showTextbox"
-  [control]="control"
-  [placeholder]="placeholder"
-  (blur)="onBlur($event)"></textbox>-->
-
 </div>

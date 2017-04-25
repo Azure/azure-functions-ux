@@ -34,7 +34,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     public ready: boolean;
     public showTryLanding: boolean;
     public tryFunctionApp : FunctionApp;
-    private _standaloneInitialized = false;
 
     private _startupInfo : StartupInfo;
 

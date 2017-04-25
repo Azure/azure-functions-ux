@@ -51,7 +51,7 @@ export class UniqueValidator implements IValidator{
             
             return c !== control
                 && c.value.toString().toLowerCase() === control.value.toString().toLowerCase();
-        })
+        });
 
         return !!match ? { "notUnique" : this._error} : null;
     }
