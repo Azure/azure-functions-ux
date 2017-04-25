@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr [class.not-clickable]="!enableKeySelect" [class.hoverable]="enableKeySelect" *ngFor="let key of keys" (click)="enableKeySelect && selectKey(key)" [class.selected]="enableKeySelect && key.selected">
+            <tr class="not-clickable" *ngFor="let key of keys">
                 <td>{{key.name}}</td>
                 <td *ngIf="key.show">{{key.value}}</td>
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>

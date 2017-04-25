@@ -5,7 +5,7 @@ import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 @Component({
   selector: 'copy-pre',
   templateUrl: './copy-pre.component.html',
-  styleUrls: ['./copy-pre.component.css']
+  styleUrls: ['./copy-pre.component.scss']
 })
 export class CopyPreComponent {
     @Input() selectOnClick: boolean = true;

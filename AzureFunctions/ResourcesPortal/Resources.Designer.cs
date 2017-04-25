@@ -826,6 +826,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string copypre_copy {
+            get {
+                return ResourceManager.GetString("copypre_copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy to clipboard.
         /// </summary>
         internal static string copypre_copyClipboard {
@@ -3090,6 +3099,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string keys {
             get {
                 return ResourceManager.GetString("keys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Function URL.
+        /// </summary>
+        internal static string keysDialog_getFunctionUrl {
+            get {
+                return ResourceManager.GetString("keysDialog_getFunctionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        internal static string keysDialog_key {
+            get {
+                return ResourceManager.GetString("keysDialog_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        internal static string keysDialog_url {
+            get {
+                return ResourceManager.GetString("keysDialog_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL and admin key.
+        /// </summary>
+        internal static string keysDialog_urlAndAdminKey {
+            get {
+                return ResourceManager.GetString("keysDialog_urlAndAdminKey", resourceCulture);
             }
         }
         

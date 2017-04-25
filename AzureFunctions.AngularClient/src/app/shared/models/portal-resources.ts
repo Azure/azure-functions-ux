@@ -510,5 +510,6 @@ export class PortalResources
     public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
+    public static copypre_copy: string = "copypre_copy";
 }
 

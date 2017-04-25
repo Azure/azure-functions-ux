@@ -25,6 +25,7 @@ import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from "../shared/models/error-ids";
 import {HttpRunModel, Param} from '../shared/models/http-run';
+import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
 
 
 @Component({
@@ -73,7 +74,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public static bottomTab: string;
     public functionInvokeUrl: string;
     public expandLogs: boolean = false;
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
+    public functionKeys: FunctionKeys;    
+    public hostKeys: FunctionKeys;
+    public masterKey: string;
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -175,6 +179,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.authLevel;
                 }
+                this.updateKeys();
 
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
@@ -209,10 +214,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.selectedKeyStream = new Subject<string>();
         this.selectedKeyStream
             .subscribe(key => {
-                if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
-                    this.autoSelectAdminKey = true;
-                }
-
                 if (key) {
                     this.setFunctionInvokeUrl(key);
                     this.setFunctionKey(this.functionInfo);
@@ -616,6 +617,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.testDataEditor.disabled = disableTestData;
     }
 
+    onChangeKey(key: string) {
+        this.selectedKeyStream.next(key);
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
@@ -662,6 +667,32 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.checkErrors(this.functionInfo);
                 }
             }, error => this._globalStateService.clearBusyState());
+        }
+    }
+
+    private updateKeys() {
+        if (this.functionApp && this.functionInfo) {
+            Observable.zip(
+                this.functionApp.getFunctionKeys(this.functionInfo),
+                this.functionApp.getFunctionHostKeys(),
+                (k1, k2) => ({ functionKeys: k1, hostKeys: k2 }))
+                .subscribe((r: any) => {
+                    this.functionKeys = r.functionKeys || [];
+                    this.hostKeys = r.hostKeys || [];
+
+                    if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
+                        var masterKey = r.hostKeys.keys.find((k) => k.name === "_master");
+                        if (masterKey) {
+                            this.selectedKeyStream.next(masterKey.value);
+                        }
+                    } else {
+                        var allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
+                        if (allKeys.length > 0) {
+                            this.selectedKeyStream.next(allKeys[0].value);
+                        }
+                    }
+
+                });
         }
     }
 }

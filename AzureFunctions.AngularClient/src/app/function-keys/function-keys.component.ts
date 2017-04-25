@@ -20,13 +20,11 @@ import {UtilitiesService} from '../shared/services/utilities.service';
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;
-    @Input() functionApp : FunctionApp;
-    @Input() enableKeySelect: boolean;
+    @Input() functionApp : FunctionApp;    
     @Input() autoSelect: boolean;
     // TODO: This is a hack to trigger change on this component for admin keys.
     // Find a better way to do that.
-    @Input() inputChange: any;
-    @Output() selectedKey = new EventEmitter<string>();
+    @Input() inputChange: any;    
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public easeAuthEnabled: boolean = false;
 
@@ -96,15 +94,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     }
                 }
                 this.keys = keys.keys;
-                let selectedKey = this.keys.find(k => k.selected);
-                if (this.enableKeySelect && this.autoSelect && !selectedKey && this.keys.length > 0) {
-                    var key = this.keys.find(k => k.name === "_master") || this.keys[0];
-                    this.selectKey(key);
-                } else if (selectedKey) {
-                    this.selectKey(selectedKey);
-                } else {
-                    this.selectKey(null);
-                }
             });
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.ResetKeySelection, fi => {
             if ((fi && fi === this.functionInfo) || (!fi && !this.functionInfo)) {
@@ -137,17 +126,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     ngOnDestroy() {
         if (this.functionStream) {
             this.functionStream.unsubscribe();
-        }
-    }
-
-    selectKey(key: FunctionKey) {
-        this.keys.forEach(k => k.selected = false);
-        if (key) {
-            key.selected = true;
-            this.selectedKey.emit(key.value);
-            this._broadcastService.broadcast<FunctionInfo>(BroadcastEvent.ResetKeySelection, this.functionInfo);
-        } else {
-            this.selectedKey.emit(null);
         }
     }
 
