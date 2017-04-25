@@ -1,5 +1,5 @@
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { EnumEx } from './../../shared/Utilities/enumEx';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { ConnectionStrings, ConnectionStringType } from './../../shared/models/arm/connection-strings';
