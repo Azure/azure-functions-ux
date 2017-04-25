@@ -26,6 +26,7 @@ export class SiteConfigComponent implements OnInit {
 
   public mainForm : FormGroup;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
+  public Resources = PortalResources;
 
   private _viewInfoSubscription : RxSubscription;
   private _appSettingsArm : ArmObj<any>;

@@ -69,6 +69,8 @@ export class PortalResources
     public static save: string = "save";
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
+    public static enterName: string = "enterName";
+    public static enterValue: string = "enterValue";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";

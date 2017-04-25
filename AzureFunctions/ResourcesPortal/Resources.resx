@@ -319,6 +319,12 @@
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Add new connection string</value>
   </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Enter a value</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
   </data>

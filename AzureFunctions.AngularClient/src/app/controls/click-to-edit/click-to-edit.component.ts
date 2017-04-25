@@ -56,7 +56,7 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       this.textbox.blur.subscribe(event => this.onBlur(event));
     }
     else if(this.dropdown){
-      // this.dropdown.blur.subscribe(event => this.onBlur(event));
+      this.dropdown.blur.subscribe(event => this.onBlur(event));
     }
   }
 

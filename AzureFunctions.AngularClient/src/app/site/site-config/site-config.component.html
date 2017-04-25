@@ -27,7 +27,7 @@
     <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
       <click-to-edit [group]="group" name="name">
         
-        <textbox [control]="group.controls['name']" placeholder="Enter a name"></textbox>
+        <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
 
       </click-to-edit>
     </td>
@@ -35,7 +35,7 @@
     <td>
       <click-to-edit [group]="group" name="value">
 
-        <textbox [control]="group.controls['value']" placeholder="Enter a name"></textbox>        
+        <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>        
 
       </click-to-edit>
     </td>
@@ -63,13 +63,13 @@
   <tr *ngFor="let group of connectionStringsTable.items">
     <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
       <click-to-edit [group]="group" name="name">
-        <textbox [control]="group.controls['name']" placeholder="Enter a name"></textbox>
+        <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
       </click-to-edit>
     </td>
     
     <td>
       <click-to-edit [group]="group" name="value" hiddenText="true">
-        <textbox [control]="group.controls['value']" placeholder="Enter a name"></textbox>
+        <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
       </click-to-edit>
     </td>
 
