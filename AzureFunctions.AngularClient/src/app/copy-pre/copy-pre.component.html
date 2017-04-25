@@ -5,7 +5,7 @@
         <pre (click)="highlightText($event)">{{content}}</pre>
     </div>
     <div title="{{ 'copypre_copyClipboard' | translate }}" (click)="copyToClipboard($event)">
-        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">            
+        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
             <i class="text-hl fa fa-copy clickable">&nbsp;{{ 'copypre_copy' | translate }}</i>
         </pop-over>
     </div>
