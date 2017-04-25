@@ -13,7 +13,6 @@ export interface TblItem{
   exportAs: "tbl"
 })
 export class TblComponent implements OnInit, OnChanges {
-  @Input() editable : boolean;
   @Input() tblClass = "tbl";
 
   public sortedColName : string;

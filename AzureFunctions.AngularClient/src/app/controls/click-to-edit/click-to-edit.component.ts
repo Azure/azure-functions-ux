@@ -1,6 +1,7 @@
+import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, ContentChild, ElementRef } from '@angular/core';
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 
@@ -15,11 +16,11 @@ export class CustomFormControl extends FormControl{
 }
 
 @Component({
-  selector: 'click-to-edit-textbox',
-  templateUrl: './click-to-edit-textbox.component.html',
-  styleUrls: ['./click-to-edit-textbox.component.scss']
+  selector: 'click-to-edit',
+  templateUrl: './click-to-edit.component.html',
+  styleUrls: ['./click-to-edit.component.scss'],
 })
-export class ClickToEditTextboxComponent implements OnInit, OnDestroy {
+export class ClickToEditComponent implements OnInit, OnDestroy {
 
   public showTextbox = false;
   @Input() group : FormGroup;
@@ -27,12 +28,13 @@ export class ClickToEditTextboxComponent implements OnInit, OnDestroy {
   @Input() placeholder : string;
   @Input() hiddenText : boolean;
 
-  @ViewChild(TextboxComponent) textbox : TextboxComponent; 
+  @ContentChild(TextboxComponent) textbox : TextboxComponent;
+  @ContentChild(DropDownComponent) dropdown : DropDownComponent<any>;
 
   public control : CustomFormControl;
   private _sub : Subscription;
 
-  constructor() { }
+  constructor(private _eref: ElementRef) { }
 
   ngOnInit() {
     this.control = <CustomFormControl>this.group.controls[this.name];
@@ -49,6 +51,13 @@ export class ClickToEditTextboxComponent implements OnInit, OnDestroy {
     if((<CustomFormGroup>group)._msStartInEditMode){
       this.showTextbox = true;
     }
+
+    if(this.textbox){
+      this.textbox.blur.subscribe(event => this.onBlur(event));
+    }
+    else if(this.dropdown){
+      // this.dropdown.blur.subscribe(event => this.onBlur(event));
+    }
   }
 
   ngOnDestroy(){
@@ -60,7 +69,12 @@ export class ClickToEditTextboxComponent implements OnInit, OnDestroy {
 
   onClick(event : any){
     if(!this.showTextbox){
-      this.textbox.focus();
+      if(this.textbox){
+        this.textbox.focus();
+      }
+      else if(this.dropdown){
+        this.dropdown.focus();
+      }
     }
 
     this._updateShowTextbox(true);
@@ -84,7 +98,7 @@ export class ClickToEditTextboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _updateShowTextbox(show : boolean){
+  protected _updateShowTextbox(show : boolean){
     let group = <CustomFormGroup>this.group;
     
     if(show){

@@ -53,13 +53,8 @@ export class TblThComponent implements OnInit {
       let aCol : any;
       let bCol : any;
       
-      if(this.table.editable){
-        throw "Need to handle form controls";
-      }
-      else{
-        aCol = a.data[this.name];
-        bCol = b.data[this.name];
-      }
+      aCol = a[this.name];
+      bCol = b[this.name];
 
       aCol = typeof aCol === "string" ? aCol : aCol.toString();
       bCol = typeof bCol === "string" ? bCol : bCol.toString();

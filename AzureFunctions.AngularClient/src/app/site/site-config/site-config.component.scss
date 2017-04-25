@@ -8,6 +8,10 @@
         font-weight: normal;
         margin-left: 10px;
         margin-bottom: 0px;
+
+        &.connection-strings{
+            margin-top: 75px;
+        }
     }
 
     td{
@@ -33,6 +37,10 @@
         width: 65%;
     }
 
+    .typeCol{
+        width: 200px;
+    }
+
     .actionCol{
         width: 25px;
     }
@@ -43,3 +51,7 @@
         display: inline-block;
     }
 }
+
+// .drop-down-container{
+
+// }

@@ -61,4 +61,12 @@
         // input textboxes should be the same height in a table.
         height: 23px !important;          
     }
+
+    .drop-down-selected-value{
+        height: 22px;
+    }
+
+    .drop-down-selected-arrow{
+        top: -2px;
+    }
 }

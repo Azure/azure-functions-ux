@@ -19,7 +19,9 @@ export class CommandComponent implements OnInit {
   }
 
   onClick(event : any){
-    this.click.next(event);
+    if(!this.disabled){
+      this.click.next(event);
+    }
   }
 
 }
