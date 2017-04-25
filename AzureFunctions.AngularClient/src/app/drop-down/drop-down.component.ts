@@ -22,7 +22,7 @@ export class DropDownComponent<T> implements OnInit {
 
     public selectedElement: DropDownElement<T>;
     public empty: any;
-    private _options: DropDownElement<T>[];
+    public _options: DropDownElement<T>[];
 
     @ViewChild('selectInput') selectInput : any;
 
