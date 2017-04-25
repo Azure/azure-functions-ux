@@ -1440,28 +1440,19 @@ export class FunctionApp {
 
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
-            return this._translateService.instant(objectToLocalize.substring(1, objectToLocalize.length));
-        }
-
-        for (const property in objectToLocalize) {
-            if (property === 'files' || property === 'defaultValue') {
-                continue;
+            const key = objectToLocalize.substring(1, objectToLocalize.length);
+            objectToLocalize = this._translateService.instant(key);
+        } else if (Array.isArray(objectToLocalize)) {
+            for (let i = 0; i < objectToLocalize.length; i++) {
+                objectToLocalize[i] =  this.localize(objectToLocalize[i]);
             }
-
-            if (objectToLocalize.hasOwnProperty(property)) {
-                const value = objectToLocalize[property];
-                if ((typeof value === 'string') && (value.startsWith('$'))) {
-                    const key = value.substring(1, value.length);
-                    const locString = this._translateService.instant(key);
-                    if (locString !== key) {
-                        objectToLocalize[property] = locString;
-                    }
-                } else if (Array.isArray(value)) {
-                    for (let i = 0; i < value.length; i++) {
-                        value[i] =  this.localize(value[i]);
-                    }
-                } else if (typeof value === 'object') {
-                    objectToLocalize[property] = this.localize(value);
+        } else if (typeof objectToLocalize === 'object') {
+            for (const property in objectToLocalize) {
+                if (property === 'files' || property === 'defaultValue') {
+                    continue;
+                }
+                if (objectToLocalize.hasOwnProperty(property)) {
+                    objectToLocalize[property] = this.localize(objectToLocalize[property]);
                 }
             }
         }
