@@ -62,7 +62,7 @@ export class FunctionNewComponent {
     private _action: Action;
 
     private _viewInfoStream = new Subject<TreeViewInfo>();
-    private appNode: AppNode;
+    public appNode: AppNode;
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,

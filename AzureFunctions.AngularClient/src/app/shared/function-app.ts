@@ -1438,38 +1438,25 @@ export class FunctionApp {
         return headers;
     }
 
-    private localize(objectTolocalize: any) {
-        if ((typeof value === 'string') && (value.startsWith('$'))) {
-            objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
-        }
-
-        for (var property in objectTolocalize) {
-
-            if (property === 'files' || property === 'defaultValue') {
-                continue;
+    private localize(objectToLocalize: any): any {
+        if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
+            const key = objectToLocalize.substring(1, objectToLocalize.length);
+            objectToLocalize = this._translateService.instant(key);
+        } else if (Array.isArray(objectToLocalize)) {
+            for (let i = 0; i < objectToLocalize.length; i++) {
+                objectToLocalize[i] =  this.localize(objectToLocalize[i]);
             }
-
-            if (objectTolocalize.hasOwnProperty(property)) {
-                var value = objectTolocalize[property];
-                if ((typeof value === 'string') && (value.startsWith('$'))) {
-                    var key = value.substring(1, value.length);
-                    var locString = this._translateService.instant(key);
-                    if (locString !== key) {
-                        objectTolocalize[property] = locString;
-                    }
+        } else if (typeof objectToLocalize === 'object') {
+            for (const property in objectToLocalize) {
+                if (property === 'files' || property === 'defaultValue') {
+                    continue;
                 }
-
-                if (Array.isArray(value)) {
-                    for (var i = 0; i < value.length; i++) {
-                        this.localize(value[i]);
-                    }
-                }
-
-                if (typeof value === 'object') {
-                    this.localize(value);
+                if (objectToLocalize.hasOwnProperty(property)) {
+                    objectToLocalize[property] = this.localize(objectToLocalize[property]);
                 }
             }
         }
+        return objectToLocalize;
     }
 
     private retryAntares(error: Observable<any>): Observable<any> {

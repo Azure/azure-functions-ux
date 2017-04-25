@@ -49,7 +49,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public apiProxiesEnabled: boolean;
   private proxySettingValueStream: Subject<boolean>;
   private functionEditModeValueStream: Subject<boolean>;
-  private showTryView: boolean;
+  public showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
   private _viewInfo: TreeViewInfo;

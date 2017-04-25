@@ -189,7 +189,9 @@ export class FunctionIntegrateV2Component {
     onEditorChange(editorType: string) {
         if (this.switchIntegrate()) {
             this._broadcastService.clearDirtyState('function_integrate', true);
-            this.changeEditor.emit(editorType);
+            setTimeout(() => {
+                this.changeEditor.emit(editorType);
+            }, 10);
         }
     }
 
