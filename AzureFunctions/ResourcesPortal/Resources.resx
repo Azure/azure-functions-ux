@@ -1669,4 +1669,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Get Function URL</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="keysDialog_urlAndAdminKey" xml:space="preserve">
+    <value>URL and admin key</value>
+  </data>
 </root>

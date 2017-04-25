@@ -94,6 +94,7 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
+    <None Include="src\app\copy-pre\copy-pre.component.scss" />
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
     <Content Include="src\app\controls\command-bar\command\command.component.html" />
     <Content Include="src\app\controls\textbox\textbox.component.html" />
@@ -304,6 +305,7 @@
     <Content Include="src\sass\layout\_dashboard.scss" />
     <Content Include="src\sass\pages\_binding-designer.scss" />
     <Content Include="src\sass\pages\_deployment-source.scss" />
+    <Content Include="src\sass\controls\_dialogs.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />

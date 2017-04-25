@@ -1,20 +1,45 @@
-<div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
+<div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-                <span *ngIf="showFunctionInvokeUrlModal" class="text-level2-heading">{{'functionDev_functionUrl' | translate}}</span>
-                <span *ngIf="showFunctionKeyModal" class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
+                <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>                
             </div>
+            <div class="modal-body" style="display: flex;">
+                <div *ngIf="isHttpFunction && authLevel && authLevel.toLowerCase() ==='function' && hostKeys">
+                    <div class="text-label">{{'keysDialog_key' | translate}}</div>
+                    <select (change)="onChangeKey($event.target.value)">
+                        <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
+                        <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
+                    </select>
+                </div>
+                <div style="flex-grow:1">
+                    <div *ngIf="authLevel && authLevel.toLowerCase() !=='admin'" class="text-label">{{'keysDialog_url' | translate}}</div>
+                    <div *ngIf="authLevel && authLevel.toLowerCase() ==='admin'" class="text-label">{{'keysDialog_urlAndAdminKey' | translate}}</div>                    
+                    <div><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+            </div>
+
             <div class="modal-body">
-                <div *ngIf="showFunctionInvokeUrlModal"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
-                <div *ngIf="showFunctionKeyModal"><copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre></div>
+                <div><copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre></div>
             </div>
         </div>
     </div>
 </div>
 
 <div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" class="modal-backdrop fade in"></div>
+
 
 <div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
     <div *ngIf="scriptFile" class="dev-full">
@@ -78,14 +103,14 @@
                         <div #editorContainer class="dev-full">
 
                             <div monacoEditor id="code"
-                                 class="monaco dev-full"
-                                 style="margin-top: 7px"
-                                 (onSave)="saveScript()"
-                                 (onContentChanged)="contentChanged($event)"
-                                 [content]="content"
-                                 [fileName]="fileName"
-                                 [fnWriteAccess]="functionApp"
-                                 [functionAppInput]="functionApp">
+                                    class="monaco dev-full"
+                                    style="margin-top: 7px"
+                                    (onSave)="saveScript()"
+                                    (onContentChanged)="contentChanged($event)"
+                                    [content]="content"
+                                    [fileName]="fileName"
+                                    [fnWriteAccess]="functionApp"
+                                    [functionAppInput]="functionApp">
                             </div>
 
                         </div>
@@ -103,8 +128,8 @@
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
                             <log-streaming [functionInfo]="functionInfo"
-                                           (closeClicked)="clickRightTab('logs')"
-                                           (expandClicked)="expandLogsClicked($event)">
+                                            (closeClicked)="clickRightTab('logs')"
+                                            (expandClicked)="expandLogsClicked($event)">
                             </log-streaming>
                         </div>
                     </div>
@@ -112,7 +137,6 @@
                 </div>
 
                 <!--<busy-state name="run-busy"></busy-state>-->
-
                 <!-- Right bar-->
                 <div style="display: flex; flex-grow: 1;">
 
@@ -157,20 +181,20 @@
                             <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
 
                                 <run-http *ngIf="isHttpFunction"
-                                          [functionInvokeUrl]="functionInvokeUrl"
-                                          [functionInfo]="functionInfo"
-                                          (validChange)="onRunValid($event)"
-                                          (disableTestData)="onDisableTestData($event)">
+                                            [functionInvokeUrl]="functionInvokeUrl"
+                                            [functionInfo]="functionInfo"
+                                            (validChange)="onRunValid($event)"
+                                            (disableTestData)="onDisableTestData($event)">
                                 </run-http>
 
                                 <div>
                                     <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
                                     <div id="test_data" monacoEditor class="monaco"
-                                         (onSave)="saveTestData()"
-                                         (onContentChanged)="testContentChanged($event)"
-                                         [content]="testContent"
-                                         fileName="sample.dat"
-                                         [functionAppInput]="functionApp">
+                                            (onSave)="saveTestData()"
+                                            (onContentChanged)="testContentChanged($event)"
+                                            [content]="testContent"
+                                            fileName="sample.dat"
+                                            [functionAppInput]="functionApp">
                                     </div>
                                 </div>
 
@@ -201,13 +225,13 @@
 
                                 <!--<div *ngIf="isHttpFunction">
 
-                <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
+                                <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
 
-                <log-streaming [functionInfo]="functionInfo"
-                               [isHttpLogs]="true"
-                               (closeClicked)="clickRightTab('logs')">
-                </log-streaming>
-            </div>-->
+                                <log-streaming [functionInfo]="functionInfo"
+                                                [isHttpLogs]="true"
+                                                (closeClicked)="clickRightTab('logs')">
+                                </log-streaming>
+                            </div>-->
 
                             </div>
 
@@ -232,25 +256,21 @@
                         </div>
 
                         <div [hidden]="rightTab!=='keys'"
-                             *ngIf="functionInfo && functionApp?.isMultiKeySupported"
-                             class="dev-full dev-border"
-                             style="overflow: auto; padding: 10px;">
+                                *ngIf="functionInfo && functionApp?.isMultiKeySupported"
+                                class="dev-full dev-border"
+                                style="overflow: auto; padding: 10px;">
 
-                            <function-keys
-                                [autoSelect]="true"
-                                [functionApp]="functionApp"
-                                [functionInfo]="functionInfo"
-                                [enableKeySelect]="true"
-                                (selectedKey)="selectedKeyStream.next($event)"></function-keys>
+                            <function-keys [autoSelect]="true"
+                                            [functionApp]="functionApp"
+                                            [functionInfo]="functionInfo">
+
+                            </function-keys>
 
                             <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
 
-                            <function-keys
-                                [autoSelect]="autoSelectAdminKey"
-                                [functionApp]="functionApp"
-                                [enableKeySelect]="true"
-                                (selectedKey)="selectedKeyStream.next($event)"
-                                [inputChange]="functionInfo"></function-keys>
+                            <function-keys [autoSelect]="autoSelectAdminKey"
+                                            [functionApp]="functionApp"
+                                            [inputChange]="functionInfo"></function-keys>
                         </div>
                     </div>
 
