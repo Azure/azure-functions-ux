@@ -94,12 +94,13 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
-    <Content Include="src\app\copy-pre\copy-pre.component.css" />
+    <None Include="src\app\copy-pre\copy-pre.component.scss" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.html" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
+    <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.html" />
     <Content Include="src\app\error-list\error-list.component.css" />
     <Content Include="src\app\error-list\error-list.component.html" />
     <Content Include="src\app\accordion\accordion.component.scss" />
@@ -108,6 +109,7 @@
     <Content Include="src\app\feature-group\feature-group.component.scss" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.scss" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
+    <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
@@ -277,6 +279,7 @@
     <Content Include="src\sass\layout\_dashboard.scss" />
     <Content Include="src\sass\pages\_binding-designer.scss" />
     <Content Include="src\sass\pages\_deployment-source.scss" />
+    <Content Include="src\sass\controls\_dialogs.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
@@ -326,6 +329,8 @@
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.spec.ts" />
