@@ -52,6 +52,7 @@ export class SiteSummaryComponent implements OnDestroy {
     public availabilityIcon : string;
     public plan : string;
     public url : string;
+    public scmUrl: string;
     public publishingUserName : string;
     public scmType : string;
     public site : ArmObj<Site>;
@@ -101,6 +102,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.resourceGroup = descriptor.resourceGroup;
 
                 this.url = `https://${site.properties.defaultHostName}`;
+                this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
 
                 this.location = site.location;
                 this.state = site.properties.state;
@@ -252,6 +254,12 @@ export class SiteSummaryComponent implements OnDestroy {
                 });
             }
         });
+    }
+
+    downloadFunctionAppContent() {
+        if (this.hasWriteAccess) {
+            window.open(`${this.scmUrl}/api/zip/site/wwwroot?fileName=${this.site.name}.zip`, '_blank');
+        }
     }
 
     private _cleanupBlob(){

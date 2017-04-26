@@ -24,6 +24,10 @@
         <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
     </span>
 
+    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadFunctionAppContent()">
+        <img src="images/download.svg" />{{ 'downloadFunctionAppContent' | translate}}
+    </span>
+
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
         <img src="images/delete.svg" />Delete
     </span>

@@ -79,6 +79,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new connection string.
+        /// </summary>
+        internal static string addNewConnectionString {
+            get {
+                return ResourceManager.GetString("addNewConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Add new setting.
+        /// </summary>
+        internal static string addNewSetting {
+            get {
+                return ResourceManager.GetString("addNewSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host Keys (All functions).
         /// </summary>
         internal static string adminKeys_title {
@@ -898,6 +916,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Function App Content.
+        /// </summary>
+        internal static string downloadFunctionAppContent {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download publish profile.
         /// </summary>
         internal static string downloadProfile {
@@ -930,6 +957,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string enabledFeatures_header {
             get {
                 return ResourceManager.GetString("enabledFeatures_header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a name.
+        /// </summary>
+        internal static string enterName {
+            get {
+                return ResourceManager.GetString("enterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a value.
+        /// </summary>
+        internal static string enterValue {
+            get {
+                return ResourceManager.GetString("enterValue", resourceCulture);
             }
         }
         
@@ -2824,6 +2869,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden value.  Click to show..
+        /// </summary>
+        internal static string hiddenValueClickToShow {
+            get {
+                return ResourceManager.GetString("hiddenValueClickToShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add header.
         /// </summary>
         internal static string httpRun_addHeader {
@@ -4150,6 +4204,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration.
+        /// </summary>
+        internal static string tab_configuration {
+            get {
+                return ResourceManager.GetString("tab_configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Platform features.
         /// </summary>
         internal static string tab_features {
@@ -4677,6 +4740,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string update {
             get {
                 return ResourceManager.GetString("update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate values are not allowed.
+        /// </summary>
+        internal static string validation_duplicateError {
+            get {
+                return ResourceManager.GetString("validation_duplicateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        internal static string validation_requiredError {
+            get {
+                return ResourceManager.GetString("validation_requiredError", resourceCulture);
             }
         }
     }
