@@ -83,7 +83,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
-    private selectedKeyStream: Subject<string>;
     private autoSelectAdminKey: boolean;
     private functionKey: string;
     private _bindingManager = new BindingManager();
@@ -210,15 +209,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
-
-        this.selectedKeyStream = new Subject<string>();
-        this.selectedKeyStream
-            .subscribe(key => {
-                if (key) {
-                    this.setFunctionInvokeUrl(key);
-                    this.setFunctionKey(this.functionInfo);
-                }
-            });
     }
 
     expandLogsClicked(isExpand: boolean) {
@@ -618,7 +608,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onChangeKey(key: string) {
-        this.selectedKeyStream.next(key);
+        this.setFunctionInvokeUrl(key);
+        this.setFunctionKey(this.functionInfo);        
     }
 
     private getTestData(): string {
@@ -683,12 +674,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
                         var masterKey = r.hostKeys.keys.find((k) => k.name === "_master");
                         if (masterKey) {
-                            this.selectedKeyStream.next(masterKey.value);
+                            this.onChangeKey(masterKey.value);
                         }
                     } else {
                         var allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
                         if (allKeys.length > 0) {
-                            this.selectedKeyStream.next(allKeys[0].value);
+                            this.onChangeKey(allKeys[0].value);
                         }
                     }
 
