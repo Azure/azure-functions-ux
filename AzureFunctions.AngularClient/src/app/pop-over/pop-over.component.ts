@@ -4,14 +4,17 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 @Component({
   selector: 'pop-over',
   templateUrl: './pop-over.component.html',
-  styleUrls: ['./pop-over.component.css']
+  styleUrls: ['./pop-over.component.scss']
 })
 export class PopOverComponent {
-    @Input() public message: string;
+
+    @Input() message: string;
     @Input() hideAfter: number;
     @Input() isInputError: boolean;
+    @Input() popOverClass = "pop-over-container";
+    @Input() position: string;
+
     public show: boolean;
-    @Input() public position: string;
 
     constructor() { }
 

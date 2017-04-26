@@ -67,6 +67,10 @@ export class PortalResources
     public static region: string = "region";
     public static run: string = "run";
     public static save: string = "save";
+    public static addNewSetting: string = "addNewSetting";
+    public static addNewConnectionString: string = "addNewConnectionString";
+    public static enterName: string = "enterName";
+    public static enterValue: string = "enterValue";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";
@@ -410,6 +414,7 @@ export class PortalResources
     public static tab_overview: string = "tab_overview";
     public static tab_features: string = "tab_features";
     public static tab_settings: string = "tab_settings";
+    public static tab_configuration: string = "tab_configuration";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
     public static events: string = "events";
@@ -507,6 +512,8 @@ export class PortalResources
     public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
+    public static validation_duplicateError: string = "validation_duplicateError";
+    public static validation_requiredError: string = "validation_requiredError";
     public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";

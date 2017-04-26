@@ -313,6 +313,21 @@
   <data name="save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Add new setting</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Add new connection string</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Enter a value</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Hidden value.  Click to show.</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
   </data>
@@ -1342,6 +1357,9 @@
   <data name="tab_settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Managing your Function app is not available for this trial.</value>
   </data>
@@ -1635,6 +1653,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
     <value>Read\Write</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Duplicate values are not allowed</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>This field is required</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>We are unable to update your function app's edit mode. Please try again later.</value>

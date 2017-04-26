@@ -1,18 +1,24 @@
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Rx';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList } from '@angular/core';
 import { Component, OnInit, Directive, ComponentFactoryResolver } from '@angular/core';
 
+export interface TblItem{
+  data : any
+}
+
 @Component({
   selector: 'tbl',
-  template: `<table class="tbl"><ng-content></ng-content></table>`,
+  template: `<table [class]="tblClass"><ng-content></ng-content></table>`,
   exportAs: "tbl"
 })
 export class TblComponent implements OnInit, OnChanges {
+  @Input() tblClass = "tbl";
 
   public sortedColName : string;
   public sortAscending : boolean;
 
-  @Input() items: any[];
+  @Input() items: TblItem[];
   private _origItems : any[];
 
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) {

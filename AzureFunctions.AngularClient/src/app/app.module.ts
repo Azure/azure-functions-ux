@@ -1,3 +1,4 @@
+import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
 import { IAppInsights } from './shared/models/app-insights';
 import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
@@ -97,6 +98,10 @@ import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-de
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
 import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
+import { TextboxComponent } from './controls/textbox/textbox.component';
+import { SiteConfigComponent } from './site/site-config/site-config.component';
+import { CommandBarComponent } from './controls/command-bar/command-bar.component';
+import { CommandComponent } from './controls/command-bar/command/command.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig()
@@ -172,7 +177,12 @@ export function ConfigLoader(config: ConfigService) {
         TblComponent,
         TblThComponent,
         FnWriteAccessDirective,
-        EditModeWarningComponent
+        EditModeWarningComponent,
+        TextboxComponent,
+        SiteConfigComponent,
+        ClickToEditComponent,
+        CommandBarComponent,
+        CommandComponent
     ],
     imports: [
         FormsModule,
