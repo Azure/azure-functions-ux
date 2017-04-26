@@ -1372,7 +1372,7 @@ export class FunctionApp {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite() {
-        return this._http.get(this._scmUrl, this.getScmSiteHeaders())
+        return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
             .map(_ => null)
             .catch(e => Observable.of(null));
     }
