@@ -254,6 +254,7 @@ export class FunctionApp {
 
     getFunctions() {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
+            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, this.getScmSiteHeaders()))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
@@ -293,6 +294,7 @@ export class FunctionApp {
 
     getApiProxies() {
         return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
+            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, this.getScmSiteHeaders()))
             .retryWhen(e => e.scan((errorCount : number, err: Response) => {
                 if (err.status === 404 || errorCount >= 10) {
                     throw err;
@@ -658,7 +660,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
+        let warmupSite = this._http.get(this.mainSiteUrl, this.getScmSiteHeaders())
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of(null));
 
@@ -1367,10 +1369,10 @@ export class FunctionApp {
     }
 
     /**
-     * This method just pings the room of the SCM site. It doesn't care about the response in anyway or use it.
+     * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite() {
-        return this._cacheService.get(this._scmUrl, true, this.getScmSiteHeaders())
+        return this._http.get(this._scmUrl, this.getScmSiteHeaders())
             .map(_ => null)
             .catch(e => Observable.of(null));
     }
