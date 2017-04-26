@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
                 <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>                
             </div>
-            <div class="modal-body" style="display: flex;">
+            <div class="modal-body keys-dialog-body">
                 <div *ngIf="isHttpFunction && authLevel && authLevel.toLowerCase() ==='function' && hostKeys">
                     <div class="text-label">{{'keysDialog_key' | translate}}</div>
                     <select (change)="onChangeKey($event.target.value)">
@@ -13,9 +13,9 @@
                         <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
                     </select>
                 </div>
-                <div style="flex-grow:1">
+                <div class="keys-dialog-body-invokeUrl">
                     <div *ngIf="authLevel && authLevel.toLowerCase() !=='admin'" class="text-label">{{'keysDialog_url' | translate}}</div>
-                    <div *ngIf="authLevel && authLevel.toLowerCase() ==='admin'" class="text-label">{{'keysDialog_urlAndAdminKey' | translate}}</div>                    
+                    <div *ngIf="authLevel && authLevel.toLowerCase() ==='admin'" class="text-label">{{'keysDialog_urlAndAdminKey' | translate}}</div>
                     <div><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
                 </div>
             </div>
@@ -103,14 +103,14 @@
                         <div #editorContainer class="dev-full">
 
                             <div monacoEditor id="code"
-                                    class="monaco dev-full"
-                                    style="margin-top: 7px"
-                                    (onSave)="saveScript()"
-                                    (onContentChanged)="contentChanged($event)"
-                                    [content]="content"
-                                    [fileName]="fileName"
-                                    [fnWriteAccess]="functionApp"
-                                    [functionAppInput]="functionApp">
+                                class="monaco dev-full"
+                                style="margin-top: 7px"
+                                (onSave)="saveScript()"
+                                (onContentChanged)="contentChanged($event)"
+                                [content]="content"
+                                [fileName]="fileName"
+                                [fnWriteAccess]="functionApp"
+                                [functionAppInput]="functionApp">
                             </div>
 
                         </div>
@@ -128,8 +128,8 @@
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
                             <log-streaming [functionInfo]="functionInfo"
-                                            (closeClicked)="clickRightTab('logs')"
-                                            (expandClicked)="expandLogsClicked($event)">
+                                           (closeClicked)="clickRightTab('logs')"
+                                           (expandClicked)="expandLogsClicked($event)">
                             </log-streaming>
                         </div>
                     </div>
@@ -181,20 +181,20 @@
                             <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
 
                                 <run-http *ngIf="isHttpFunction"
-                                            [functionInvokeUrl]="functionInvokeUrl"
-                                            [functionInfo]="functionInfo"
-                                            (validChange)="onRunValid($event)"
-                                            (disableTestData)="onDisableTestData($event)">
+                                    [functionInvokeUrl]="functionInvokeUrl"
+                                    [functionInfo]="functionInfo"
+                                    (validChange)="onRunValid($event)"
+                                    (disableTestData)="onDisableTestData($event)">
                                 </run-http>
 
                                 <div>
                                     <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
                                     <div id="test_data" monacoEditor class="monaco"
-                                            (onSave)="saveTestData()"
-                                            (onContentChanged)="testContentChanged($event)"
-                                            [content]="testContent"
-                                            fileName="sample.dat"
-                                            [functionAppInput]="functionApp">
+                                        (onSave)="saveTestData()"
+                                        (onContentChanged)="testContentChanged($event)"
+                                        [content]="testContent"
+                                        fileName="sample.dat"
+                                        [functionAppInput]="functionApp">
                                     </div>
                                 </div>
 
@@ -256,21 +256,20 @@
                         </div>
 
                         <div [hidden]="rightTab!=='keys'"
-                                *ngIf="functionInfo && functionApp?.isMultiKeySupported"
-                                class="dev-full dev-border"
-                                style="overflow: auto; padding: 10px;">
+                            ngIf="functionInfo && functionApp?.isMultiKeySupported"
+                            class="dev-full dev-border"
+                            style="overflow: auto; padding: 10px;">
 
                             <function-keys [autoSelect]="true"
-                                            [functionApp]="functionApp"
-                                            [functionInfo]="functionInfo">
-
+                                [functionApp]="functionApp"
+                                [functionInfo]="functionInfo">
                             </function-keys>
 
                             <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
 
                             <function-keys [autoSelect]="autoSelectAdminKey"
-                                            [functionApp]="functionApp"
-                                            [inputChange]="functionInfo"></function-keys>
+                                [functionApp]="functionApp"
+                                [inputChange]="functionInfo"></function-keys>
                         </div>
                     </div>
 
