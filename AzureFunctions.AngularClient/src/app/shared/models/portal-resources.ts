@@ -71,6 +71,7 @@ export class PortalResources
     public static addNewConnectionString: string = "addNewConnectionString";
     public static enterName: string = "enterName";
     public static enterValue: string = "enterValue";
+    public static hiddenValueClickToShow: string = "hiddenValueClickToShow";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";
@@ -518,5 +519,10 @@ export class PortalResources
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
     public static copypre_copy: string = "copypre_copy";
+    public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
+    public static keysDialog_key: string = "keysDialog_key";
+    public static keysDialog_url: string = "keysDialog_url";
+    public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
+    public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
 }
 
