@@ -51,7 +51,7 @@ export class FunctionQuickstartComponent {
         private _aiService: AiService,
         private _localStorageService : LocalStorageService) {
 
-        this.selectedFunction = "TimerTrigger";
+        this.selectedFunction = "HttpTrigger";
         this.selectedLanguage = "CSharp";
 
         this._viewInfoStream

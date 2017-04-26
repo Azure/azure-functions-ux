@@ -27,7 +27,6 @@ import {FunctionManageNode} from '../tree-view/function-node';
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
-    public disabled: boolean;
     public isEasyAuthEnabled = false;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
@@ -46,14 +45,10 @@ export class FunctionManageComponent {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
-                return Observable.zip(
-                    this.functionApp.checkIfDisabled(),
-                    this.functionApp.getAuthSettings(),
-                    (d, e) => ({ disabled: d, easyAuthEnabled: e.easyAuthEnabled}))
+                return this.functionApp.getAuthSettings();
             })
-            .subscribe(res =>{
-                this.disabled = res.disabled;
-                this.isEasyAuthEnabled = res.easyAuthEnabled;
+            .subscribe(easyAuthEnabled => {
+                this.isEasyAuthEnabled = easyAuthEnabled.easyAuthEnabled;
             });
 
         this.functionStatusOptions = [

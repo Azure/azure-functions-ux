@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -6,8 +7,8 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
-import { TranslateService } from '@ngx-translate/core';
 
+import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
@@ -41,6 +42,7 @@ export class SiteDashboardComponent {
     public TabIds = SiteTabIds;
     public Resources = PortalResources;
     public activeComponent = "";
+    public isStandalone = false;
 
     private _tabsLoaded = false;
     private _traceOnTabSelection = false;
@@ -50,7 +52,10 @@ export class SiteDashboardComponent {
         private _globalStateService : GlobalStateService,
         private _aiService : AiService,
         private _portalService: PortalService,
-        private _translateService : TranslateService) {
+        private _translateService : TranslateService,
+        private _configService : ConfigService) {
+
+        this.isStandalone = _configService.isStandalone();
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream

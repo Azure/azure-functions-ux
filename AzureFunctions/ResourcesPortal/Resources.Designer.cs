@@ -205,6 +205,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change the edit mode of your function app.
+        /// </summary>
+        internal static string appFunctionSettings_changeEditMode {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_changeEditMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function app edit mode.
+        /// </summary>
+        internal static string appFunctionSettings_editMode {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_editMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to function app settings.
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings {
@@ -246,6 +264,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string appFunctionSettings_proxyRuntimeVersion2 {
             get {
                 return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read Only.
+        /// </summary>
+        internal static string appFunctionSettings_readOnlyMode {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_readOnlyMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read\Write.
+        /// </summary>
+        internal static string appFunctionSettings_readWriteMode {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_readWriteMode", resourceCulture);
             }
         }
         
@@ -790,6 +826,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string copypre_copy {
+            get {
+                return ResourceManager.GetString("copypre_copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy to clipboard.
         /// </summary>
         internal static string copypre_copyClipboard {
@@ -1173,6 +1218,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string error_unableToUpdateFunction {
             get {
                 return ResourceManager.GetString("error_unableToUpdateFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are unable to update your function app&apos;s edit mode. Please try again later..
+        /// </summary>
+        internal static string error_unableToUpdateFunctionAppEditMode {
+            get {
+                return ResourceManager.GetString("error_unableToUpdateFunctionAppEditMode", resourceCulture);
             }
         }
         
@@ -1803,6 +1857,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string featureDisabledReadOnlyLockOnApp {
             get {
                 return ResourceManager.GetString("featureDisabledReadOnlyLockOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Insights.
+        /// </summary>
+        internal static string featureEnabled_appInsights {
+            get {
+                return ResourceManager.GetString("featureEnabled_appInsights", resourceCulture);
             }
         }
         
@@ -2509,7 +2572,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a template below or go to the.
+        ///   Looks up a localized string similar to Choose a template below or.
         /// </summary>
         internal static string functionNew_chooseTemplate {
             get {
@@ -2518,7 +2581,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to quickstart.
+        ///   Looks up a localized string similar to go to the quickstart.
         /// </summary>
         internal static string functionNew_chooseTemplateQuickstart {
             get {
@@ -2941,7 +3004,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For F#, PowerShell, Python, and Batch,.
+        ///   Looks up a localized string similar to For PowerShell, Python, and Batch,.
         /// </summary>
         internal static string intro_ifYou {
             get {
@@ -3036,6 +3099,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string keys {
             get {
                 return ResourceManager.GetString("keys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Function URL.
+        /// </summary>
+        internal static string keysDialog_getFunctionUrl {
+            get {
+                return ResourceManager.GetString("keysDialog_getFunctionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        internal static string keysDialog_key {
+            get {
+                return ResourceManager.GetString("keysDialog_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        internal static string keysDialog_url {
+            get {
+                return ResourceManager.GetString("keysDialog_url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL and admin key.
+        /// </summary>
+        internal static string keysDialog_urlAndAdminKey {
+            get {
+                return ResourceManager.GetString("keysDialog_urlAndAdminKey", resourceCulture);
             }
         }
         
@@ -3265,11 +3364,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only..
+        ///   Looks up a localized string similar to Your app is currently in read only mode because you&apos;ve set the edit mode to read only. To change edit mode visit .
         /// </summary>
         internal static string readOnly {
             get {
                 return ResourceManager.GetString("readOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit .
+        /// </summary>
+        internal static string readOnlySourceControlled {
+            get {
+                return ResourceManager.GetString("readOnlySourceControlled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
+        /// </summary>
+        internal static string readWriteSourceControlled {
+            get {
+                return ResourceManager.GetString("readWriteSourceControlled", resourceCulture);
             }
         }
         

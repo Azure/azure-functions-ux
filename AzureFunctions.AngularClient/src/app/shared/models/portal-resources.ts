@@ -63,10 +63,14 @@ export class PortalResources
     public static _name: string = "_name";
     public static open: string = "open";
     public static or: string = "or";
-    public static readOnly: string = "readOnly";
+    public static readOnlySourceControlled: string = "readOnlySourceControlled";
     public static region: string = "region";
     public static run: string = "run";
     public static save: string = "save";
+    public static addNewSetting: string = "addNewSetting";
+    public static addNewConnectionString: string = "addNewConnectionString";
+    public static enterName: string = "enterName";
+    public static enterValue: string = "enterValue";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";
@@ -410,6 +414,7 @@ export class PortalResources
     public static tab_overview: string = "tab_overview";
     public static tab_features: string = "tab_features";
     public static tab_settings: string = "tab_settings";
+    public static tab_configuration: string = "tab_configuration";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
     public static events: string = "events";
@@ -502,5 +507,16 @@ export class PortalResources
     public static swaggerDefinition_keyHelp: string = "swaggerDefinition_keyHelp";
     public static swaggerDefinition_sourceHelp: string = "swaggerDefinition_sourceHelp";
     public static swaggerDefinition_urlHelp: string = "swaggerDefinition_urlHelp";
+    public static featureEnabled_appInsights: string = "featureEnabled_appInsights";
+    public static appFunctionSettings_changeEditMode: string = "appFunctionSettings_changeEditMode";
+    public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
+    public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
+    public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
+    public static validation_duplicateError: string = "validation_duplicateError";
+    public static validation_requiredError: string = "validation_requiredError";
+    public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
+    public static readOnly: string = "readOnly";
+    public static readWriteSourceControlled: string = "readWriteSourceControlled";
+    public static copypre_copy: string = "copypre_copy";
 }
 

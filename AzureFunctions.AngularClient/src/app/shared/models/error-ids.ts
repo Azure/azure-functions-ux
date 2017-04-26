@@ -41,4 +41,5 @@ export class ErrorIds {
     public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
     public static malformedAPIDefinition = '/errors/malformedAPIDefinition';
     public static passThroughApiError = '/errors/passThroughApiError';
+    public static unableToUpdateFunctionAppEditMode = '/errors/unableToUpdateFunctionAppEditMode';
 }

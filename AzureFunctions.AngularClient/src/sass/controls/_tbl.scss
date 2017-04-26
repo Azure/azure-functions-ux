@@ -1,3 +1,7 @@
+// .error{
+//     border-color: red;
+// }
+
 .tbl{
     border-collapse: inherit;
 
@@ -27,7 +31,42 @@
         border-bottom: $border;
     }
 
+    td{
+        &.dirty{
+            border-left: 3px solid $alt1-color;
+        }
+
+        &.pristine{
+            border-left: 3px solid $body-bg-color;
+        }
+    }
+
     .sortable{
         cursor: pointer;
+    }
+
+    &.fixed{
+        table-layout: fixed;
+    }
+
+    &.stretch{
+        width: 100%;
+    }
+
+    input[type=text]{
+        width: 100%;
+
+        // input textboxes have a default height that can't be overwritten
+        // with class-level selectors.  Should be okay in this scenario since
+        // input textboxes should be the same height in a table.
+        height: 23px !important;          
+    }
+
+    .drop-down-selected-value{
+        height: 22px;
+    }
+
+    .drop-down-selected-arrow{
+        top: -2px;
     }
 }

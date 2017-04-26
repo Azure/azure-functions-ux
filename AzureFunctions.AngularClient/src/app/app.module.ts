@@ -1,3 +1,6 @@
+import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
+import { AiTryService } from './shared/services/ai-try.service';
+import { IAppInsights } from './shared/models/app-insights';
 import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
 import { TblComponent } from './controls/tbl/tbl.component';
 import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
@@ -94,6 +97,11 @@ import { CreateFunctionWrapperComponent } from './create-function-wrapper/create
 import { SwaggerDefinitionComponent } from './site/swagger-definition/swagger-definition.component';
 import { SwaggerFrameDirective } from './site/swagger-frame/swagger-frame.directive';
 import { FnWriteAccessDirective } from './shared/directives/fn-write-access.directive';
+import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
+import { TextboxComponent } from './controls/textbox/textbox.component';
+import { SiteConfigComponent } from './site/site-config/site-config.component';
+import { CommandBarComponent } from './controls/command-bar/command-bar.component';
+import { CommandComponent } from './controls/command-bar/command/command.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig()
@@ -168,7 +176,13 @@ export function ConfigLoader(config: ConfigService) {
         CreateFunctionWrapperComponent,
         TblComponent,
         TblThComponent,
-        FnWriteAccessDirective
+        FnWriteAccessDirective,
+        EditModeWarningComponent,
+        TextboxComponent,
+        SiteConfigComponent,
+        ClickToEditComponent,
+        CommandBarComponent,
+        CommandComponent
     ],
     imports: [
         FormsModule,
@@ -196,7 +210,7 @@ export function ConfigLoader(config: ConfigService) {
         //   ArmService,
         {
             provide: ArmService,
-            useClass: window.location.pathname.toLowerCase() === "/try" ? ArmTryService : ArmService
+            useClass: window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService
         },
         CacheService,
         AuthzService,
@@ -205,7 +219,10 @@ export function ConfigLoader(config: ConfigService) {
         UtilitiesService,
         BackgroundTasksService,
         GlobalStateService,
-        AiService,
+        {
+            provide: AiService,
+            useClass: window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService
+        },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler

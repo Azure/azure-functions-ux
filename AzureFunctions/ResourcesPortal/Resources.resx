@@ -166,7 +166,7 @@
     <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template below or go to the</value>
+    <value>Choose a template below or</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
@@ -262,7 +262,7 @@
     <value>Keep using this quickstart</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>For F#, PowerShell, Python, and Batch,</value>
+    <value>For PowerShell, Python, and Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>Start from source control</value>
@@ -301,8 +301,8 @@
   <data name="or" xml:space="preserve">
     <value>or</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Read only - because you have started editing with source control, this view is read only.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Region</value>
@@ -312,6 +312,21 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Add new setting</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Add new connection string</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Enter a value</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Hidden value.  Click to show.</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Changes made to function {{name}} will be lost. Are you sure you want to continue?</value>
@@ -1342,6 +1357,9 @@
   <data name="tab_settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Managing your Function app is not available for this trial.</value>
   </data>
@@ -1505,7 +1523,7 @@
     <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
   </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>quickstart</value>
+    <value>go to the quickstart</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>There are no query parameters</value>
@@ -1620,5 +1638,50 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
     <value>Use this URL to directly access your API definition and import into 3rd party tools </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Change the edit mode of your function app</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Function app edit mode</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Read Only</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Read\Write</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Duplicate values are not allowed</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>We are unable to update your function app's edit mode. Please try again later.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Get Function URL</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="keysDialog_urlAndAdminKey" xml:space="preserve">
+    <value>URL and admin key</value>
   </data>
 </root>

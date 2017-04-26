@@ -37,10 +37,14 @@ export class ConfigService {
     }
 
     isOnPrem(): boolean {
-        return this.runtimeType == "OnPrem";
+        return this.runtimeType === "OnPrem";
     }
 
     isAzure(): boolean {
-        return this.runtimeType == "Azure";
+        return this.runtimeType === "Azure";
+    }
+
+    isStandalone() : boolean{
+        return this.runtimeType === "Standalone";
     }
 }

@@ -4,6 +4,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/switchMap';
 
 import { FunctionApp } from './../function-app';
+import { FunctionAppEditMode } from "../models/function-app-edit-mode";
 
 @Directive({
   selector: '[fnWriteAccess]',
@@ -21,9 +22,9 @@ export class FnWriteAccessDirective {
 
         this.functionAppStream
             .debounceTime(100)
-            .switchMap(fa => fa.checkIfDisabled())
-            .subscribe(isDisabled => {
-                if (isDisabled) {
+            .switchMap(fa => fa.getFunctionAppEditMode())
+            .subscribe(editMode => {
+                if (editMode === FunctionAppEditMode.ReadOnly || editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
                     this.elementRef.nativeElement.style.pointerEvents = 'none';
                     this.elementRef.nativeElement.disabled = true;
                     if (!this.elementRef.nativeElement.hasAttribute('monacoEditor')) {
@@ -32,6 +33,4 @@ export class FnWriteAccessDirective {
                 }
             });
     }
-
-
 }

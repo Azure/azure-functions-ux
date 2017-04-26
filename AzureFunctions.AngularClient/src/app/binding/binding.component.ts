@@ -644,6 +644,10 @@ export class BindingComponent{
     }
 
    private filterWarnings() {
+       if (this.newFunction) {
+           this.model.warnings = undefined;
+       }
+
        if (this.model.warnings) {
            this.model.warnings.forEach((w) => {
                var array = w.variablePath.split('.');

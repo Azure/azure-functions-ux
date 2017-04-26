@@ -1,5 +1,5 @@
-import { TblComponent } from './../tbl.component';
-import { Component, OnInit, Directive, HostListener, Input, ElementRef, AfterContentInit } from '@angular/core';
+import { TblComponent, TblItem } from './../tbl.component';
+import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'tbl-th',
@@ -11,7 +11,7 @@ import { Component, OnInit, Directive, HostListener, Input, ElementRef, AfterCon
           [class.fa-chevron-down]="(table.sortedColName === name && !table.sortAscending) || !table.sortedColName"></i>
     </div>`
 })
-export class TblThComponent implements OnInit, AfterContentInit {
+export class TblThComponent implements OnInit {
 
   @Input() name : string;
 
@@ -49,10 +49,13 @@ export class TblThComponent implements OnInit, AfterContentInit {
       table.sortAscending = true;
     }
 
-    table.items = table.items.sort((a : any, b : any) => {
-      let aCol : any = a[this.name];
-      let bCol : any = b[this.name];
+    table.items = table.items.sort((a : TblItem, b : TblItem) => {
+      let aCol : any;
+      let bCol : any;
       
+      aCol = a[this.name];
+      bCol = b[this.name];
+
       aCol = typeof aCol === "string" ? aCol : aCol.toString();
       bCol = typeof bCol === "string" ? bCol : bCol.toString();
 

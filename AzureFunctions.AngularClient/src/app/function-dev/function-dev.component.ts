@@ -31,6 +31,7 @@ import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from "../shared/models/error-ids";
 import {HttpRunModel, Param} from '../shared/models/http-run';
+import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
 
 
 @Component({
@@ -77,15 +78,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public bottomTab: string = FunctionDevComponent.bottomTab;
     public static rightTab: string;
     public static bottomTab: string;
-    public functionInvokeUrl: string = " ";
+    public functionInvokeUrl: string;
     public expandLogs: boolean = false;
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
+    public functionKeys: FunctionKeys;    
+    public hostKeys: FunctionKeys;
+    public masterKey: string;
 
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
-    private selectedKeyStream: Subject<string>;
     private autoSelectAdminKey: boolean;
     private functionKey: string;
     private _bindingManager = new BindingManager();
@@ -98,6 +101,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 private _translateService: TranslateService,
                 private _aiService: AiService,
                 private _el: ElementRef) {
+
+        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -179,6 +184,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.authLevel;
                 }
+                this.updateKeys();
 
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
@@ -209,19 +215,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
          });
-
-        this.selectedKeyStream = new Subject<string>();
-        this.selectedKeyStream
-            .subscribe(key => {
-                if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
-                    this.autoSelectAdminKey = true;
-                }
-
-                if (key) {
-                    this.setFunctionInvokeUrl(key);
-                    this.setFunctionKey(this.functionInfo);
-                }
-            });
     }
 
     expandLogsClicked(isExpand: boolean) {
@@ -343,10 +336,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     private setInvokeUrlVisibility()
     {
-        var b = this.functionInfo.config.bindings.find((b) => {
-            return b.type === BindingType.httpTrigger.toString();
-        });
-        this.showFunctionInvokeUrl = b ? true : false;
+        if (this.functionInfo.config.bindings) {
+            var b = this.functionInfo.config.bindings.find((b) => {
+                return b.type === BindingType.httpTrigger.toString();
+            });
+            this.showFunctionInvokeUrl = b ? true : false;
+        }
     }
 
     ngOnChanges(changes: {[key: string]: SimpleChange}) {
@@ -618,6 +613,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.testDataEditor.disabled = disableTestData;
     }
 
+    onChangeKey(key: string) {
+        this.setFunctionInvokeUrl(key);
+        this.setFunctionKey(this.functionInfo);        
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
@@ -664,6 +664,32 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.checkErrors(this.functionInfo);
                 }
             }, error => this._globalStateService.clearBusyState());
+        }
+    }
+
+    private updateKeys() {
+        if (this.functionApp && this.functionInfo) {
+            Observable.zip(
+                this.functionApp.getFunctionKeys(this.functionInfo),
+                this.functionApp.getFunctionHostKeys(),
+                (k1, k2) => ({ functionKeys: k1, hostKeys: k2 }))
+                .subscribe((r: any) => {
+                    this.functionKeys = r.functionKeys || [];
+                    this.hostKeys = r.hostKeys || [];
+
+                    if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
+                        var masterKey = r.hostKeys.keys.find((k) => k.name === "_master");
+                        if (masterKey) {
+                            this.onChangeKey(masterKey.value);
+                        }
+                    } else {
+                        var allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
+                        if (allKeys.length > 0) {
+                            this.onChangeKey(allKeys[0].value);
+                        }
+                    }
+
+                });
         }
     }
 }

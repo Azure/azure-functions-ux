@@ -6,11 +6,11 @@
 
     var slotName = Environment.GetEnvironmentVariable("FUNCTIONS_SLOT_NAME");
     var cdn = string.Empty;
-    if(slotName == "production")
+    if (slotName == "production")
     {
         cdn = "https://functions.azureedge.net";
     }
-    else if(slotName == "next")
+    else if (slotName == "next")
     {
         cdn = "https://functions-next.azureedge.net";
     }
@@ -39,6 +39,11 @@
         };
     </script>
     <link rel="stylesheet" type="text/css" href="/iframe-loading.css" />
+    @{ 
+        if (isAzure && !isOnPrem) {
+            <link href="@cdn/styles.bundle.css?v=@version" rel="stylesheet"/>
+        }
+    }
 </head>
 <body>
     <app-root>
@@ -51,16 +56,15 @@
     @if (isAzure && !isOnPrem)
     {
         <script type="text/javascript" src="@cdn/inline.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/styles.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/polyfills.bundle.js"></script>
+        <script type="text/javascript" src="@cdn/polyfills.bundle.js?v=@version"></script>
         <script type="text/javascript" src="@cdn/scripts.bundle.js?v=@version"></script>
         <script type="text/javascript" src="@cdn/vendor.bundle.js?v=@version"></script>
         <script type="text/javascript" src="@cdn/main.bundle.js?v=@version"></script>
     } else {
         <script type="text/javascript" src="inline.bundle.js"></script>
-        <script type="text/javascript" src="styles.bundle.js"></script>
         <script type="text/javascript" src="polyfills.bundle.js"></script>
         <script type="text/javascript" src="scripts.bundle.js"></script>
+        <script type="text/javascript" src="styles.bundle.js"></script>
         <script type="text/javascript" src="vendor.bundle.js"></script>
         <script type="text/javascript" src="main.bundle.js"></script>
     }

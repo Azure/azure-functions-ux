@@ -56,8 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         this.showTryLanding = window.location.pathname.endsWith('/try');
 
-        if (_userService.inIFrame ||
-            window.location.protocol === 'http:') {
+        if (_userService.inIFrame || window.location.protocol === 'http:') {
             this.gettingStarted = false;
             return;
         } else {
@@ -83,9 +82,24 @@ export class AppComponent implements OnInit, AfterViewInit {
                 .subscribe((startupInfo : any) => {
                     if(startupInfo && startupInfo.token){
                         this._startupInfo = <StartupInfo>startupInfo;
-                    }
 
-                    this.ready = true;
+                        if(this._configService.isStandalone()){
+                            if(!this.ready){
+                                this._armService
+                                .subscriptions
+                                .filter(subs => subs.length > 0)
+                                .take(1)
+                                .subscribe(subs =>{
+                                    this._startupInfo.subscriptions = subs;
+                                    this.ready = true;
+                                    this.initializeDashboard(null);
+                                })
+                            }
+                        }
+                        else{
+                            this.ready = true;
+                        }
+                    }
                 });
         }
     }
@@ -105,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._broadcastService.clearAllDirtyStates();
 
             if(this._startupInfo){
-                this._startupInfo.resourceId = functionContainer.id;
+                this._startupInfo.resourceId = functionContainer && functionContainer.id;
                 this._userService.updateStartupInfo(this._startupInfo);
             }
 

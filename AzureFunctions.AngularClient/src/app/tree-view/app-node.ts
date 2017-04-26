@@ -196,7 +196,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public handleRefresh() : Observable<any>{
-
         if(this.sideNav.selectedNode.shouldBlockNavChange()){
             return Observable.of(null);
         }

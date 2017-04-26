@@ -65,7 +65,7 @@ export class TryLandingComponent implements OnInit {
         //possibly related to https://github.com/angular/angular/issues/6782
         //and strangely the clearbusystate doesnt get called.
         //this.setBusyState();
-        this.selectedFunction = this._functionsService.selectedFunction || 'TimerTrigger';
+        this.selectedFunction = this._functionsService.selectedFunction || 'HttpTrigger';
         this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
         this._functionsService.getTemplates().subscribe((templates) => {
             if (this._globalStateService.TryAppServiceToken) {

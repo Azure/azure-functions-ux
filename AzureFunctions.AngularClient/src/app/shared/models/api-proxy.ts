@@ -2,8 +2,7 @@
 import {PortalResources} from './portal-resources';
 import {FunctionApp} from '../function-app';
 
-export class ApiProxy
-{
+export class ApiProxy {
     name: string;
     matchCondition: MatchCondition = new MatchCondition();
     backendUri: string;
@@ -26,35 +25,47 @@ export class ApiProxy
         return result;
     }
 
-    public static toJson(proxies: ApiProxy[], ts: TranslateService): string  {
+    public static toJson(proxies: ApiProxy[], ts: TranslateService): string {
 
 
-        var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies, ['name', 'matchCondition', 'backendUri', 'methods', 'route'] )); // clone
+        var cloneProxies: ApiProxy[] = JSON.parse(JSON.stringify(proxies, ApiProxy.replacer)); // clone
         var saveProxies: ApiProxy[] = []; // for ordering properties in stringify
         var result = {};
 
-        // name
         cloneProxies.forEach((p) => {
             if (p.name !== ts.instant(PortalResources.sidebar_newApiProxy)) {
                 var name = p.name;
                 delete p.name;
-                //result[name] = p;
 
                 if ((!p.matchCondition.methods) || (p.matchCondition.methods.length === 0)) {
                     delete p.matchCondition.methods;
                 }
 
-                result[name] = {};
+                result[name] = {};   // matchCondition and backendUri should be always on top
                 result[name].matchCondition = p.matchCondition;
                 result[name].backendUri = p.backendUri;
+                for (var prop in p) { // custom properties
+                    if (prop !== "matchCondition" && prop !== "backendUri") {
+                        result[name][prop] = p[prop];
+                    }
+                }
             }
         });
 
 
         return JSON.stringify({
+            "$schema": "http://json.schemastore.org/proxies",
             proxies: result
         }, null, 4);
     }
+
+    private static replacer(key, value) {
+        if (key === 'functionApp') {
+            return undefined;
+        }
+        return value;
+    }
+
 }
 
 export class MatchCondition {

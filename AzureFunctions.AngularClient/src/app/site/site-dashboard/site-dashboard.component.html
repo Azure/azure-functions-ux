@@ -8,18 +8,23 @@
         <site-summary *ngIf="selectedTabId === TabIds.overview" [viewInfoInput]="viewInfo" (openTabEvent)="openTab($event)"></site-summary>
     </tab>
 
-    <tab [title]="Resources.tab_settings | translate" [id]="TabIds.functionRuntime">
+    <tab *ngIf="!isStandalone" [title]="Resources.tab_settings | translate" [id]="TabIds.functionRuntime">
         <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
     </tab>
 
-    <tab [title]="Resources.tab_features | translate" [id]="TabIds.features">
+    <tab *ngIf="!isStandalone" [title]="Resources.tab_features | translate" [id]="TabIds.features">
         <site-manage *ngIf="selectedTabId === TabIds.features"
             [viewInfoInput]="viewInfo"
             (openTabEvent)="openTab($event)"></site-manage>
     </tab>
 
-    <tab [title]="Resources.tab_api_definition | translate" [id]="TabIds.apiDefinition">
+    <tab *ngIf="!isStandalone" [title]="Resources.tab_api_definition | translate" [id]="TabIds.apiDefinition">
         <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
     </tab>
+
+    <tab *ngIf="isStandalone" [title]="Resources.tab_configuration | translate" [id]="TabIds.config">
+        <site-config *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config>
+    </tab>
+    
 </tabs>
 </div>
