@@ -254,7 +254,7 @@ export class FunctionApp {
 
     getFunctions() {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
-            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, this.getScmSiteHeaders()))
+            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
@@ -294,7 +294,7 @@ export class FunctionApp {
 
     getApiProxies() {
         return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, this.getScmSiteHeaders()))
+            .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(e => e.scan((errorCount : number, err: Response) => {
                 if (err.status === 404 || errorCount >= 10) {
                     throw err;
