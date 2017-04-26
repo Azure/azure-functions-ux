@@ -506,7 +506,7 @@ export class BindingComponent{
     onAuth() {
         this._portalService.openBlade({
             detailBlade: "AppAuth",
-            detailBladeInputs: { id: this.functionApp.site.id }
+            detailBladeInputs: { resourceUri: this.functionApp.site.id }
         },
             "binding"
         );

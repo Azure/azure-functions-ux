@@ -17,7 +17,7 @@
 
     <div *ngIf="selectedTemplate">
         <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert">
-            {{templateWarning}}
+            <div [innerHTML]="templateWarning"></div>
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
         </div>
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
