@@ -256,7 +256,7 @@
                         </div>
 
                         <div [hidden]="rightTab!=='keys'"
-                            ngIf="functionInfo && functionApp?.isMultiKeySupported"
+                            *ngIf="functionInfo && functionApp?.isMultiKeySupported"
                             class="dev-full dev-border"
                             style="overflow: auto; padding: 10px;">
 
