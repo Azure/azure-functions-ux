@@ -31,7 +31,6 @@ export class ErrorIds {
     public static corsNotConfigured = '/errors/corsNotConfigured';
     public static errorCallingDiagnoseApi = '/errors/errorCallingDiagnoseApi';
     public static userDoesntHaveAccess = '/errors/userDoesntHaveAccess';
-    public static functionAppStopped = '/errors/functionAppStopped';
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
     public static failedToQueryArmResource = '/errors/failedToQueryArmResource';
