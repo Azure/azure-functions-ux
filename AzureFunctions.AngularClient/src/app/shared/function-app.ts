@@ -1,3 +1,4 @@
+import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
@@ -135,7 +136,8 @@ export class FunctionApp {
         private _cacheService: CacheService,
         private _languageService: LanguageService,
         private _authZService: AuthzService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _configService : ConfigService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
@@ -196,8 +198,9 @@ export class FunctionApp {
 
         }
 
-        this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+        this._scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
+        this.mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+
         this.siteName = this.site.name;
 
         let fc = <FunctionContainer>site;
@@ -212,6 +215,28 @@ export class FunctionApp {
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
+        }
+    }
+
+    public static getMainUrl(configService : ConfigService, site : ArmObj<Site>){
+        if(configService.isStandalone()){
+            let hostName = site.properties.hostNameSslStates.find(s => s.hostType === 0).name;
+            return `https://${hostName}/functionsmesh/${site.name}`;
+        }
+        else{
+            return `https://${site.properties.defaultHostName}`;
+        }        
+    }
+
+    // In standalone mode, there isn't a concept of a separate SCM site.  Instead, all calls that would
+    // normally go to the main or scm site are routed to a single server and are distinguished by either
+    // "/api" (scm site) or "/admin" (main site)
+    public static getScmUrl(configService : ConfigService, site : ArmObj<Site>){
+        if(configService.isStandalone()){
+            return FunctionApp.getMainUrl(configService, site);
+        }
+        else{
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;        
         }
     }
 

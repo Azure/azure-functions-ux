@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
 import { Subject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
@@ -55,7 +56,8 @@ export class TryLandingComponent implements OnInit {
         private _armService : ArmService,
         private _cacheService : CacheService,
         private _languageService : LanguageService,
-        private _authZService : AuthzService) {
+        private _authZService : AuthzService,
+        private _configService : ConfigService) {
         this.tryFunctionApp = new Subject<FunctionApp>();
     }
 
@@ -232,7 +234,8 @@ export class TryLandingComponent implements OnInit {
             this._cacheService,
             this._languageService,
             this._authZService,
-            this._aiService);
+            this._aiService,
+            this._configService);
 
         (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
 
