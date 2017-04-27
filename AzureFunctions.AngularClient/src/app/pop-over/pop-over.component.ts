@@ -19,7 +19,12 @@ export class PopOverComponent {
     constructor() { }
 
     onBlur(event: any) {
-        this.show = false;
+        // blur() will always be called after focus(). If there is a hideAfter, then focus() will
+        // take care of hiding the pop-over. Without this, blur will always hide the pop-over
+        // right away ignoring hideAfter.
+        if (!this.hideAfter) {
+            this.show = false;
+        }
         if (event.relatedTarget && this.validURL(event.relatedTarget)) {
             window.open(
                 event.relatedTarget.toString(),
@@ -34,7 +39,7 @@ export class PopOverComponent {
         if (this.hideAfter) {
             setTimeout(() => {
                 this.show = false;
-            }, this.hideAfter)
+            }, this.hideAfter);
         }
     }
 

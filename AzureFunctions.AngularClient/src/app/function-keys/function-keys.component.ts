@@ -20,11 +20,11 @@ import {UtilitiesService} from '../shared/services/utilities.service';
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;
-    @Input() functionApp : FunctionApp;    
+    @Input() functionApp : FunctionApp;
     @Input() autoSelect: boolean;
     // TODO: This is a hack to trigger change on this component for admin keys.
     // Find a better way to do that.
-    @Input() inputChange: any;    
+    @Input() inputChange: any;
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public easeAuthEnabled: boolean = false;
 
@@ -180,13 +180,15 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     renewKey(key: FunctionKey) {
-        this.setBusyState();
-        this.functionApp
-            .renewKey(key, this.functionInfo)
-            .subscribe(r => {
-                this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
-            }, e => this.clearBusyState());
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, {name: key.name}))) {
+            this.setBusyState();
+            this.functionApp
+                .renewKey(key, this.functionInfo)
+                .subscribe(r => {
+                    this.clearBusyState();
+                    this.functionStream.next(this.functionInfo)
+                }, e => this.clearBusyState());
+        }
     }
 
     copyKey(key: FunctionKey) {
