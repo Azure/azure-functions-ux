@@ -660,7 +660,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._http.get(this.mainSiteUrl, this.getScmSiteHeaders())
+        let warmupSite = this._http.get(`${this.mainSiteUrl}/admin/host/ping`)
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of(null));
 
