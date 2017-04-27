@@ -2473,6 +2473,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to renew {{name}} key?.
+        /// </summary>
+        internal static string functionKeys_renewConfirmation {
+            get {
+                return ResourceManager.GetString("functionKeys_renewConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Revoke.
         /// </summary>
         internal static string functionKeys_revoke {
