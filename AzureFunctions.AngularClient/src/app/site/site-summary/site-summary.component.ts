@@ -245,9 +245,11 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._blobUrl = windowUrl.createObjectURL(blob);
                 this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
-                setTimeout(() =>{
-                    if(event.srcElement.nextElementSibling.id === "hidden-publish-profile-link"){
-                        event.srcElement.nextElementSibling.click();
+                setTimeout(() => {
+                    // Firefox doesn't have srcElement on events. Target is the more correct name for the property.
+                    const srcElement = event.srcElement || event.target;
+                    if (srcElement.nextElementSibling.id === "hidden-publish-profile-link") {
+                        srcElement.nextElementSibling.click();
                     }
 
                     this.publishProfileLink = null;
