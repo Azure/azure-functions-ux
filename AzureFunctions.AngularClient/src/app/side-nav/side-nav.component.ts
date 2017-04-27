@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
@@ -73,6 +74,7 @@ export class SideNavComponent{
     }
 
     constructor(
+        public configService : ConfigService,
         public armService : ArmService,
         public cacheService : CacheService,
         public functionsService : FunctionsService,

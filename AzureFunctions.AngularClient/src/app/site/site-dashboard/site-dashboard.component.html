@@ -1,6 +1,6 @@
 <div id="site-dashboard-container">
 
-<img id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()"/>
+<img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()"/>
 
 <tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'onTabClosed($event)'>
 

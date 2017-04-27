@@ -1,3 +1,5 @@
+import { ConfigService } from './../../shared/services/config.service';
+import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from './../../shared/services/portal.service';
@@ -57,8 +59,8 @@ export class SiteSummaryComponent implements OnDestroy {
     public scmType : string;
     public site : ArmObj<Site>;
     public hasWriteAccess : boolean;
-
     public publishProfileLink : SafeUrl;
+    public isStandalone : boolean;
 
     @Output() openTabEvent = new Subject<string>();
 
@@ -76,7 +78,10 @@ export class SiteSummaryComponent implements OnDestroy {
         private _aiService : AiService,
         private _portalService : PortalService,
         private _domSanitizer : DomSanitizer,
-        private _translateService : TranslateService) {
+        private _translateService : TranslateService,
+        private _configService : ConfigService) {
+
+        this.isStandalone = _configService.isStandalone();
 
         this._subsSub = this._armService.subscriptions.subscribe(subscriptions =>{
             this._subs = subscriptions;
@@ -101,8 +106,8 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.resourceGroup = descriptor.resourceGroup;
 
-                this.url = `https://${site.properties.defaultHostName}`;
-                this.scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+                this.url = FunctionApp.getMainUrl(this._configService, this.site);
+                this.scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
 
                 this.location = site.location;
                 this.state = site.properties.state;
