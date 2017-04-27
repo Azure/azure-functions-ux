@@ -81,6 +81,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                     if(startupInfo && startupInfo.token){
                         this._startupInfo = <StartupInfo>startupInfo;
 
+                        // In standalone mode, we load the main component right away.
+                        // Because of this, we need to make sure that we have all of the
+                        // subscriptions loaded before we set ready = true.
                         if(this._configService.isStandalone()){
                             if(!this.ready){
                                 this._armService
@@ -94,9 +97,10 @@ export class AppComponent implements OnInit, AfterViewInit {
                                 })
                             }
                         }
-                        else{
-                            this.ready = true;
-                        }
+                    }
+                    
+                    if(!this._configService.isStandalone()){
+                        this.ready = true;
                     }
                 });
         }
