@@ -527,3 +527,4 @@ export class PortalResources
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
 }
+

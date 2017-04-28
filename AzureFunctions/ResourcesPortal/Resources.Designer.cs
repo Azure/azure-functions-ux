@@ -916,7 +916,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download Function App Content.
+        ///   Looks up a localized string similar to Download app content.
         /// </summary>
         internal static string downloadFunctionAppContent {
             get {
@@ -1924,7 +1924,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deployment source configured with {0}.
+        ///   Looks up a localized string similar to Deployment options configured with {0}.
         /// </summary>
         internal static string featureEnabled_deploymentSource {
             get {
@@ -3409,6 +3409,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string options {
+            get {
+                return ResourceManager.GetString("options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to or.
         /// </summary>
         internal static string or {
@@ -4058,7 +4067,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key. 
+        ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key.
         ///It does not secure the underlying API. See each Function to see their key security..
         /// </summary>
         internal static string swaggerDefinition_keyHelp {
@@ -4149,7 +4158,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation. 
+        ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation.
         ///Set to &quot;External URL&quot; to use an API definition that is hosted elsewhere..
         /// </summary>
         internal static string swaggerDefinition_sourceHelp {
