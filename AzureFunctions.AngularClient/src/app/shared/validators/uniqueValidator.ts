@@ -1,22 +1,7 @@
-import { CustomFormControl } from './../controls/click-to-edit/click-to-edit.component';
-import { FormControl, FormArray, FormGroup } from '@angular/forms';
+import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
+import { Validator } from "@angular/forms/src/forms";
+import { FormArray, FormGroup } from "@angular/forms/src/model";
 
-interface IValidation {
-  [key: string]: string;
-}
-
-interface IValidator{
-    validate(control : CustomFormControl) : IValidation;
-}
-
-export class RequiredValidator implements IValidator {
-
-    constructor(private _error : string){}
-
-    validate(control : CustomFormControl) : IValidation{
-        return (control.dirty || control._msRunValidation) && !control.value ? { "required" : this._error} : null;
-    }
-}
 
 /**
  * Used to check if a value is unique in an array of controls.  The layout
@@ -29,14 +14,14 @@ export class RequiredValidator implements IValidator {
  * into another FormGroup in the array to compare whether it contains a duplicate
  * value or not
  */
-export class UniqueValidator implements IValidator{
+export class UniqueValidator implements Validator {
     constructor(
         private _controlName : string,
         private _controlsArray : FormArray,
         private _error){
     }
     
-    validate(control : CustomFormControl) : IValidation{
+    validate(control : CustomFormControl){
         if(control.pristine){
             return null;
         }
