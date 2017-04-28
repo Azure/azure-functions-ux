@@ -26,6 +26,7 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
+
     public resourceId = "/apps";
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
@@ -38,6 +39,9 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         private _initialResourceId : string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, null);
+
+        this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
+        this.inSelectedTree = !!this.newDashboardType;
 
         this.iconClass = "root-node-collection-icon"
         this.iconUrl = "images/BulletList.svg";

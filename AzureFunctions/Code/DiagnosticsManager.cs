@@ -614,35 +614,6 @@ namespace AzureFunctions.Code
                     }
                 };
             }
-            else if (functionApp.Properties.State?.Equals("Running", StringComparison.OrdinalIgnoreCase) == false)
-            {
-                result = new DiagnosticsResult
-                {
-                    IsDiagnosingSuccessful = true,
-                    Code = GetSupportErrorCode(ActionIds.FunctionAppIsStopped, functionApp),
-                    SuccessResult = new DiagnoseSuccessResult
-                    {
-                        IsTerminating = true,
-                        Message = "Your function app stopped.",
-                        UserAction = "You have to start your function app for the portal UX to work properly.",
-                        ActionId = ActionIds.FunctionAppIsStopped
-                    }
-                };
-            }
-            else if (functionApp.Properties.ClientCertEnabled)
-            {
-                result = new DiagnosticsResult
-                {
-                    IsDiagnosingSuccessful = true,
-                    Code = GetSupportErrorCode(ActionIds.AppIsMisconfiguredInAzure, functionApp),
-                    SuccessResult = new DiagnoseSuccessResult
-                    {
-                        Message = "Your function app has client certificate authentication enabled. This causes the UI to not work for function runtime scenarios (running, checking for runtime errors, access keys, etc).",
-                        UserAction = "You should still be able to manage your functions. If you want the runtime to work, consider disabling client certificate on the app.",
-                        ActionId = ActionIds.AppIsMisconfiguredInAzure
-                    }
-                };
-            }
             else if (functionApp.Properties.HostNameSslStates == null ||
                 functionApp.Properties.HostNameSslStates.Count() < 2 ||
                 !functionApp.Properties.HostNameSslStates.Any(h => h.HostType == 1) ||

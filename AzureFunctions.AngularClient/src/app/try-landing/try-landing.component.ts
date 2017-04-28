@@ -1,8 +1,10 @@
 import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Subject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 
+import { ConfigService } from './../shared/services/config.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
 import { CacheService } from './../shared/services/cache.service';
 import { AuthzService } from './../shared/services/authz.service';
@@ -56,7 +58,8 @@ export class TryLandingComponent implements OnInit {
         private _armService : ArmService,
         private _cacheService : CacheService,
         private _languageService : LanguageService,
-        private _authZService : AuthzService) {
+        private _authZService : AuthzService,
+        private _configService : ConfigService) {
         this.tryFunctionApp = new Subject<FunctionApp>();
     }
 
@@ -233,7 +236,8 @@ export class TryLandingComponent implements OnInit {
             this._cacheService,
             this._languageService,
             this._authZService,
-            this._aiService);
+            this._aiService,
+            this._configService);
 
         (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
 

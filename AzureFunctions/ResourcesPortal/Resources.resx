@@ -1337,7 +1337,7 @@
     <value>CORS Rules ({0} defined)</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>Deployment source configured with {0}</value>
+    <value>Deployment options configured with {0}</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>SSL certificates</value>
@@ -1401,6 +1401,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>Source</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>We are not able to access your Azure settings for your function app.</value>
@@ -1629,11 +1632,11 @@
 Fill in the &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;operation objects&lt;/a&gt;, and other information about your API before use.</value>
   </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-    <value>This key secures your API Definition from access to anyone without the key. 
+    <value>This key secures your API Definition from access to anyone without the key.
 It does not secure the underlying API. See each Function to see their key security.</value>
   </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
-    <value>Set to "Function" to enable a hosted API definition and template definition generation. 
+    <value>Set to "Function" to enable a hosted API definition and template definition generation.
 Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
@@ -1683,5 +1686,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="keysDialog_urlAndAdminKey" xml:space="preserve">
     <value>URL and admin key</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Download app content</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Are you sure you want to renew {{name}} key?</value>
   </data>
 </root>

@@ -38,6 +38,11 @@ pre {
     color: $primary-color;
 }
 
+.disabled-link{
+    pointer-events: none;
+    cursor: text;
+}
+
 .row {
     display: table-row;
 }

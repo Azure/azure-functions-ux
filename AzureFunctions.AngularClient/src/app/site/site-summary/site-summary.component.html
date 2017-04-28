@@ -24,6 +24,10 @@
         <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
     </span>
 
+    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadFunctionAppContent()">
+        <img src="images/download.svg" />{{ 'downloadFunctionAppContent' | translate}}
+    </span>
+
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
         <img src="images/delete.svg" />Delete
     </span>
@@ -47,7 +51,7 @@
     <div class="essentials-col">
         <div>
             <label>{{'subscriptionName' | translate}}</label>
-            <div class="link" (click)="openSubscriptionBlade()">{{subscriptionName}}</div>
+            <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openSubscriptionBlade()">{{subscriptionName}}</div>
         </div>
 
         <div>
@@ -59,7 +63,7 @@
     <div class="essentials-col">
         <div>
             <label>{{'resourceGroup' | translate}}</label>
-            <div class="link" (click)="openResourceGroupBlade()">{{resourceGroup}}</div>
+            <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openResourceGroupBlade()">{{resourceGroup}}</div>
         </div>
 
         <div>
@@ -71,19 +75,19 @@
     <div class="essentials-col">
         <div>
             <label>URL</label>
-            <div class="link" (click)="openUrl()">{{url}}</div>
+            <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openUrl()">{{url}}</div>
         </div>
 
         <div>
             <label>{{'appServicePlanPricingTier' | translate}}</label>
-            <div class="link" (click)="openPlanBlade()">{{plan}}</div>
+            <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openPlanBlade()">{{plan}}</div>
         </div>
     </div>
 
 </div>
 
 <div id="site-summary-body">
-<div id="site-summary-features">
+<div *ngIf="!isStandalone" id="site-summary-features">
     <h3>{{ 'enabledFeatures_header' | translate }}</h3>
     <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
 </div>

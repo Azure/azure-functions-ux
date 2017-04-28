@@ -79,6 +79,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new connection string.
+        /// </summary>
+        internal static string addNewConnectionString {
+            get {
+                return ResourceManager.GetString("addNewConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Add new setting.
+        /// </summary>
+        internal static string addNewSetting {
+            get {
+                return ResourceManager.GetString("addNewSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host Keys (All functions).
         /// </summary>
         internal static string adminKeys_title {
@@ -898,6 +916,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download app content.
+        /// </summary>
+        internal static string downloadFunctionAppContent {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download publish profile.
         /// </summary>
         internal static string downloadProfile {
@@ -930,6 +957,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string enabledFeatures_header {
             get {
                 return ResourceManager.GetString("enabledFeatures_header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a name.
+        /// </summary>
+        internal static string enterName {
+            get {
+                return ResourceManager.GetString("enterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a value.
+        /// </summary>
+        internal static string enterValue {
+            get {
+                return ResourceManager.GetString("enterValue", resourceCulture);
             }
         }
         
@@ -1879,7 +1924,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deployment source configured with {0}.
+        ///   Looks up a localized string similar to Deployment options configured with {0}.
         /// </summary>
         internal static string featureEnabled_deploymentSource {
             get {
@@ -2428,6 +2473,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to renew {{name}} key?.
+        /// </summary>
+        internal static string functionKeys_renewConfirmation {
+            get {
+                return ResourceManager.GetString("functionKeys_renewConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Revoke.
         /// </summary>
         internal static string functionKeys_revoke {
@@ -2820,6 +2874,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string gettingStarted_yourSubscription {
             get {
                 return ResourceManager.GetString("gettingStarted_yourSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hidden value.  Click to show..
+        /// </summary>
+        internal static string hiddenValueClickToShow {
+            get {
+                return ResourceManager.GetString("hiddenValueClickToShow", resourceCulture);
             }
         }
         
@@ -3342,6 +3405,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string open {
             get {
                 return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string options {
+            get {
+                return ResourceManager.GetString("options", resourceCulture);
             }
         }
         
@@ -3995,7 +4067,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key. 
+        ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key.
         ///It does not secure the underlying API. See each Function to see their key security..
         /// </summary>
         internal static string swaggerDefinition_keyHelp {
@@ -4086,7 +4158,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation. 
+        ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation.
         ///Set to &quot;External URL&quot; to use an API definition that is hosted elsewhere..
         /// </summary>
         internal static string swaggerDefinition_sourceHelp {
@@ -4146,6 +4218,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tab_api_definition {
             get {
                 return ResourceManager.GetString("tab_api_definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration.
+        /// </summary>
+        internal static string tab_configuration {
+            get {
+                return ResourceManager.GetString("tab_configuration", resourceCulture);
             }
         }
         
@@ -4677,6 +4758,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string update {
             get {
                 return ResourceManager.GetString("update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate values are not allowed.
+        /// </summary>
+        internal static string validation_duplicateError {
+            get {
+                return ResourceManager.GetString("validation_duplicateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        internal static string validation_requiredError {
+            get {
+                return ResourceManager.GetString("validation_requiredError", resourceCulture);
             }
         }
     }

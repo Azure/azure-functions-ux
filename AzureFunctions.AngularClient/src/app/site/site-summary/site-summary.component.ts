@@ -14,6 +14,8 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
+import { ConfigService } from './../../shared/services/config.service';
+import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
@@ -63,12 +65,13 @@ export class SiteSummaryComponent implements OnDestroy {
     public availabilityIcon : string;
     public plan : string;
     public url : string;
+    public scmUrl: string;
     public publishingUserName : string;
     public scmType : string;
     public site : ArmObj<Site>;
     public hasWriteAccess : boolean;
-
     public publishProfileLink : SafeUrl;
+    public isStandalone : boolean;
 
     @Output() openTabEvent = new Subject<string>();
 
@@ -86,7 +89,10 @@ export class SiteSummaryComponent implements OnDestroy {
         private _aiService : AiService,
         private _portalService : PortalService,
         private _domSanitizer : DomSanitizer,
-        private _translateService : TranslateService) {
+        private _translateService : TranslateService,
+        private _configService : ConfigService) {
+
+        this.isStandalone = _configService.isStandalone();
 
         this._subsSub = this._armService.subscriptions.subscribe(subscriptions =>{
             this._subs = subscriptions;
@@ -111,7 +117,8 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.resourceGroup = descriptor.resourceGroup;
 
-                this.url = `https://${site.properties.defaultHostName}`;
+                this.url = FunctionApp.getMainUrl(this._configService, this.site);
+                this.scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
 
                 this.location = site.location;
                 this.state = site.properties.state;
@@ -254,15 +261,23 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._blobUrl = windowUrl.createObjectURL(blob);
                 this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
-                setTimeout(() =>{
-                    if(event.srcElement.nextElementSibling.id === "hidden-publish-profile-link"){
-                        event.srcElement.nextElementSibling.click();
+                setTimeout(() => {
+                    // Firefox doesn't have srcElement on events. Target is the more correct name for the property.
+                    const srcElement = event.srcElement || event.target;
+                    if (srcElement.nextElementSibling.id === "hidden-publish-profile-link") {
+                        srcElement.nextElementSibling.click();
                     }
 
                     this.publishProfileLink = null;
                 });
             }
         });
+    }
+
+    downloadFunctionAppContent() {
+        if (this.hasWriteAccess) {
+            window.open(`${this.scmUrl}/api/zip/site/wwwroot?fileName=${this.site.name}.zip`, '_blank');
+        }
     }
 
     private _cleanupBlob(){

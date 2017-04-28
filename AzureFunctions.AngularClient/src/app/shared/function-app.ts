@@ -12,6 +12,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import {TranslateService} from '@ngx-translate/core';
 
+import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
@@ -145,7 +146,8 @@ export class FunctionApp {
         private _cacheService: CacheService,
         private _languageService: LanguageService,
         private _authZService: AuthzService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _configService : ConfigService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
@@ -206,8 +208,9 @@ export class FunctionApp {
 
         }
 
-        this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+        this._scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
+        this.mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+
         this.siteName = this.site.name;
 
         let fc = <FunctionContainer>site;
@@ -222,6 +225,28 @@ export class FunctionApp {
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
+        }
+    }
+
+    public static getMainUrl(configService : ConfigService, site : ArmObj<Site>){
+        if(configService.isStandalone()){
+            let hostName = site.properties.hostNameSslStates.find(s => s.hostType === 0).name;
+            return `https://${hostName}/functionsmesh/${site.name}`;
+        }
+        else{
+            return `https://${site.properties.defaultHostName}`;
+        }        
+    }
+
+    // In standalone mode, there isn't a concept of a separate SCM site.  Instead, all calls that would
+    // normally go to the main or scm site are routed to a single server and are distinguished by either
+    // "/api" (scm site) or "/admin" (main site)
+    public static getScmUrl(configService : ConfigService, site : ArmObj<Site>){
+        if(configService.isStandalone()){
+            return FunctionApp.getMainUrl(configService, site);
+        }
+        else{
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;        
         }
     }
 
@@ -264,6 +289,7 @@ export class FunctionApp {
 
     getFunctions() {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
+            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
@@ -303,6 +329,7 @@ export class FunctionApp {
 
     getApiProxies() {
         return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
+            .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(e => e.scan((errorCount : number, err: Response) => {
                 if (err.status === 404 || errorCount >= 10) {
                     throw err;
@@ -668,7 +695,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
+        let warmupSite = this._http.get(`${this.mainSiteUrl}/admin/host/ping`)
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of(null));
 
@@ -1377,10 +1404,10 @@ export class FunctionApp {
     }
 
     /**
-     * This method just pings the room of the SCM site. It doesn't care about the response in anyway or use it.
+     * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite() {
-        return this._cacheService.get(this._scmUrl, true, this.getScmSiteHeaders())
+        return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
             .map(_ => null)
             .catch(e => Observable.of(null));
     }

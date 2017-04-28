@@ -22,7 +22,9 @@
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
                 <td>
                     <div id="operations-bar">
-                        <span *ngIf="key.show" class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
+                            <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        </pop-over>
                         <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</span>
                         <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}</span>
                     </div>
@@ -37,7 +39,7 @@
     </table>
     <div class="custom-button" (click)="showOrHideNewKeyUi()" [class.disabled]="easeAuthEnabled">
         <span *ngIf="!addingNew && !!functionInfo">
-            {{ 'functionKeys_addNewFunctionKey' | translate}}   
+            {{ 'functionKeys_addNewFunctionKey' | translate}}
         </span>
         <span *ngIf="!addingNew && !functionInfo">
             {{ 'functionKeys_addNewAdminKey' | translate}}

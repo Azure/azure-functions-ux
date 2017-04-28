@@ -181,17 +181,22 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this.sideNav.cacheService,
                 this.sideNav.languageService,
                 this.sideNav.authZService,
-                this.sideNav.aiService
+                this.sideNav.aiService,
+                this.sideNav.configService
             );
 
             this.functionAppStream.next(this._functionApp);
 
             let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
-            let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
             functionsNode.toggle(null);
-            proxiesNode.toggle(null);
 
-            this.children = [ functionsNode, proxiesNode ];
+            this.children = [ functionsNode ];
+
+            if(!this.sideNav.configService.isStandalone()){
+                let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
+                proxiesNode.toggle(null);
+                this.children.push(proxiesNode);
+            }
         }
     }
 

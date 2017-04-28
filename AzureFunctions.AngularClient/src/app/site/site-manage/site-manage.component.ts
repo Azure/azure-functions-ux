@@ -161,6 +161,7 @@ export class SiteManageComponent {
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
                     " " + this._translateService.instant(PortalResources.source) +
+                    " " + this._translateService.instant(PortalResources.options) + 
                     "  github bitbucket dropbox onedrive vsts vso",
                 this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
                 "images/deployment-source.svg",

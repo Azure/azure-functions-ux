@@ -156,6 +156,11 @@ export class MonacoEditorDirective {
                     });
                 }
 
+                // compiler options
+                monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                    target: monaco.languages.typescript.ScriptTarget.ES2015,
+                });
+
                 that._editor = monaco.editor.create(that.elementRef.nativeElement, {
                     value: that._content,
                     language: that._language,

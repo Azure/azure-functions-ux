@@ -71,6 +71,7 @@ export class PortalResources
     public static addNewConnectionString: string = "addNewConnectionString";
     public static enterName: string = "enterName";
     public static enterValue: string = "enterValue";
+    public static hiddenValueClickToShow: string = "hiddenValueClickToShow";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";
@@ -429,6 +430,7 @@ export class PortalResources
     public static debug: string = "debug";
     public static continuousDeployment: string = "continuousDeployment";
     public static source: string = "source";
+    public static options: string = "options";
     public static backend_error_CannotAccessFunctionApp: string = "backend_error_CannotAccessFunctionApp";
     public static backend_error_CannotAccessFunctionApp_action: string = "backend_error_CannotAccessFunctionApp_action";
     public static backend_error_InvalidStorageConnectionString: string = "backend_error_InvalidStorageConnectionString";
@@ -518,5 +520,11 @@ export class PortalResources
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
     public static copypre_copy: string = "copypre_copy";
+    public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
+    public static keysDialog_key: string = "keysDialog_key";
+    public static keysDialog_url: string = "keysDialog_url";
+    public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
+    public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
+    public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
 }
 
