@@ -1,5 +1,4 @@
 import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { Subject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';

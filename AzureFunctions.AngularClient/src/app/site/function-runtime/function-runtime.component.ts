@@ -14,7 +14,6 @@ import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { NotificationIds, Constants } from './../../shared/models/constants';
-import { NotificationIds } from './../../shared/models/constants';
 import { LanguageService } from './../../shared/services/language.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';

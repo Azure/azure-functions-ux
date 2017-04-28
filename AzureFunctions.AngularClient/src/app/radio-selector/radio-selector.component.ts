@@ -1,6 +1,8 @@
-import { Subject } from 'rxjs/Rx';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {SelectOption} from '../shared/models/select-option';
+import { Subject } from 'rxjs/Subject';
+
+import { SelectOption } from '../shared/models/select-option';
+
 @Component({
   selector: 'radio-selector',
   templateUrl: './radio-selector.component.html',
