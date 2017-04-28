@@ -127,13 +127,21 @@ export class PortalService {
     }
 
     startNotification(title : string, description : string){
-        let payload : NotificationInfo = {
-            state : "start",
-            title : title,
-            description : description
-        };
+        if(this.inIFrame()){
+            let payload : NotificationInfo = {
+                state : "start",
+                title : title,
+                description : description
+            };
 
-        this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+            this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+        }
+        else{
+            setTimeout(() =>{
+                this.notificationStartStream.next({ id : "id" });
+            });
+        }
+
         return this.notificationStartStream;
     }
 

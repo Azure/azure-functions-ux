@@ -1337,7 +1337,7 @@
     <value>CORS Rules ({0} defined)</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>Deployment source configured with {0}</value>
+    <value>Deployment options configured with {0}</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>SSL certificates</value>
@@ -1401,6 +1401,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>Source</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>We are not able to access your Azure settings for your function app.</value>

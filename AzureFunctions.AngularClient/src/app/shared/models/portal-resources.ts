@@ -430,6 +430,7 @@ export class PortalResources
     public static debug: string = "debug";
     public static continuousDeployment: string = "continuousDeployment";
     public static source: string = "source";
+    public static options: string = "options";
     public static backend_error_CannotAccessFunctionApp: string = "backend_error_CannotAccessFunctionApp";
     public static backend_error_CannotAccessFunctionApp_action: string = "backend_error_CannotAccessFunctionApp_action";
     public static backend_error_InvalidStorageConnectionString: string = "backend_error_InvalidStorageConnectionString";
