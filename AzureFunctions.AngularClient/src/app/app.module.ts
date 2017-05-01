@@ -1,3 +1,4 @@
+import { CreateAppComponent } from './site/create-app/create-app.component';
 import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
 import { IAppInsights } from './shared/models/app-insights';
@@ -182,7 +183,8 @@ export function ConfigLoader(config: ConfigService) {
         SiteConfigComponent,
         ClickToEditComponent,
         CommandBarComponent,
-        CommandComponent
+        CommandComponent,
+        CreateAppComponent
     ],
     imports: [
         FormsModule,

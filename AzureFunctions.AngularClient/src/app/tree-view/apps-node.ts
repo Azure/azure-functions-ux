@@ -22,6 +22,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
+    private _subscriptions : Subscription[];
 
     constructor(
         sideNav: SideNavComponent,
@@ -64,7 +65,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             }
 
             this.isLoading = true;
-
+            this._subscriptions = result.subscriptions;
             return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
         })
         .subscribe((result : { term : string, children : TreeNode[]}) =>{
@@ -193,8 +194,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         })
     }
 
-    public addChild(child : any){
-        throw Error("Not implemented yet");
+    public addChild(childSiteObj : ArmObj<Site>){
+      let newNode = new AppNode(this.sideNav, childSiteObj, this, this._subscriptions);
+      this._addChildAlphabetically(newNode);
+      newNode.select();
     }
 
     public removeChild(child : TreeNode, callRemoveOnChild? : boolean){

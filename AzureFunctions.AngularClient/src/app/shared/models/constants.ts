@@ -62,3 +62,12 @@ export class NotificationIds{
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
 }
+
+export class Validations{
+    public static websiteNameMinLength: number = 2;
+    public static websiteNameMaxLength: number = 60;
+}
+
+export class Regex{
+    public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
+}

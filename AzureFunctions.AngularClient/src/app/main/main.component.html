@@ -7,6 +7,7 @@
     <div id="dashboard" *ngIf="!!viewInfo">
 
         <apps-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'apps'"></apps-list>
+        <create-app [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'createApp'"></create-app>
         <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
         <functions-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functions'"></functions-list>
         <proxies-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxies'"></proxies-list>
