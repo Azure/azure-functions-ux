@@ -473,7 +473,14 @@ export class BindingComponent{
 
         this.setLabel();
         this.model.saveOriginInputs();
-        this.setStorageInformation(selectedStorage);
+        // if we create new storage account we need to update appSettings to get new storage information
+        var appSettingUri = `${this.functionApp.site.id}/config/appsettings/list`;
+        this._cacheService.clearCachePrefix(appSettingUri);
+        this._cacheService.postArm(appSettingUri, true).subscribe(r => {
+            this._appSettings = r.json().properties;
+            this.setStorageInformation(selectedStorage);
+        });
+        
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
