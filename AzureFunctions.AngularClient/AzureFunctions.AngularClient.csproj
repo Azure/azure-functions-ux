@@ -166,6 +166,7 @@
     <Content Include="src\app\site\deployment-source-setup\deployment-source-setup.component.html" />
     <Content Include="src\app\site\deployment-source\deployment-source.component.html" />
     <Content Include="src\app\site\function-runtime\function-runtime.component.html" />
+    <Content Include="src\app\site\create-app\create-app.component.html" />    
     <Content Include="src\app\site\site-config\site-config.component.html" />
     <Content Include="src\app\site\site-dashboard\site-dashboard.component.html" />
     <Content Include="src\app\site\site-enabled-features\site-enabled-features.component.html" />
@@ -178,6 +179,7 @@
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
+    <Content Include="src\app\site\create-app\create-app.component.scss" />    
     <Content Include="src\app\site\site-config\site-config.component.scss" />
     <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
@@ -425,6 +427,9 @@
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
     <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />    
+    <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />
+    <TypeScriptCompile Include="src\app\shared\validators\uniqueValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\availability.ts" />
     <TypeScriptCompile Include="src\app\shared\models\auth-settings.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\arm-obj.ts" />
@@ -536,6 +541,8 @@
     <TypeScriptCompile Include="src\app\site\deployment-source\deployment.ts" />
     <TypeScriptCompile Include="src\app\site\function-runtime\function-runtime.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\function-runtime\function-runtime.component.ts" />
+    <TypeScriptCompile Include="src\app\site\create-app\create-app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\create-app\create-app.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\site-config.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\site-config.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.spec.ts" />
