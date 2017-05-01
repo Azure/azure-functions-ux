@@ -3,7 +3,7 @@
         <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}</label>
         <div class="quotaInput" style="padding-bottom: 10px">
             <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
-            <button class="custom-button"
+            <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
                     (click)="setQuota()">
                 {{ 'functionAppSettings_setQuota' | translate }}
             </button>
