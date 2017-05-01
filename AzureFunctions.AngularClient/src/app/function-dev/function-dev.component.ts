@@ -132,7 +132,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._isEasyAuthEnabled = res.authSettings.easyAuthEnabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
-                this.runValid = true;
                 try {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
                     if (httpModel.body !== undefined) {
@@ -357,10 +356,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
     private setFunctionInvokeUrl(key?: string) {
-        setTimeout(() => {
-            this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
-        });
-
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
@@ -392,10 +387,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?') + code;
 
-                setTimeout(() => {
-                    this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
-                    this.runValid = true;
-                });
+                this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
+                this.runValid = true;
+
 
             });
         } else {
@@ -587,7 +581,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onRunValid(runValid: any) {
-        this.runValid = runValid;
+        this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
