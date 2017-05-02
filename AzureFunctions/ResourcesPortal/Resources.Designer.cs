@@ -880,6 +880,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating a Function App will automatically provision a new container capable of hosting and running your code.
+        /// </summary>
+        internal static string createApp_description {
+            get {
+                return ResourceManager.GetString("createApp_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create app.
+        /// </summary>
+        internal static string createApp_fail {
+            get {
+                return ResourceManager.GetString("createApp_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your trial has expired.
         /// </summary>
         internal static string dashboard_yourTrialExpiered {
@@ -930,6 +948,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string downloadProfile {
             get {
                 return ResourceManager.GetString("downloadProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure Functions are an event-based serverless compute experience to accelerate your development. Scale based on demand and pay only for the resources you consume..
+        /// </summary>
+        internal static string emptyBrowse {
+            get {
+                return ResourceManager.GetString("emptyBrowse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learn more about azure functions.
+        /// </summary>
+        internal static string emptyBrowse_learnMore {
+            get {
+                return ResourceManager.GetString("emptyBrowse_learnMore", resourceCulture);
             }
         }
         
@@ -4776,6 +4812,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string validation_requiredError {
             get {
                 return ResourceManager.GetString("validation_requiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is an invalid character.
+        /// </summary>
+        internal static string validation_siteNameInvalidChar {
+            get {
+                return ResourceManager.GetString("validation_siteNameInvalidChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name must be fewer than 60 characters.
+        /// </summary>
+        internal static string validation_siteNameMaxChars {
+            get {
+                return ResourceManager.GetString("validation_siteNameMaxChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name must be at least 2 characters.
+        /// </summary>
+        internal static string validation_siteNameMinChars {
+            get {
+                return ResourceManager.GetString("validation_siteNameMinChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The app name &apos;{0}&apos; is not available.
+        /// </summary>
+        internal static string validation_siteNameNotAvailable {
+            get {
+                return ResourceManager.GetString("validation_siteNameNotAvailable", resourceCulture);
             }
         }
     }
