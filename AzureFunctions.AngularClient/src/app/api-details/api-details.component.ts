@@ -33,6 +33,7 @@ export class ApiDetailsComponent implements OnInit {
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public apiProxyEdit: ApiProxy;
+    public appNode: AppNode;
     private selectedNode: ProxyNode;
     private proxiesNode: ProxiesNode;
 
@@ -49,7 +50,8 @@ export class ApiDetailsComponent implements OnInit {
                 this.apiProxies = proxies;
             });
 
-        var cacherService = (<AppNode>this.proxiesNode.parent).sideNav.cacheService;
+        this.appNode = (<AppNode>this.proxiesNode.parent);
+        var cacherService = this.appNode.sideNav.cacheService;        
         cacherService.postArm(`${this.functionApp.site.id}/config/appsettings/list`).subscribe((r => {
             let appSettings: ArmObj<any> = r.json();
             var routingVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
