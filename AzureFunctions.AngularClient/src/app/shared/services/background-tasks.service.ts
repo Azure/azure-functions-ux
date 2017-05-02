@@ -45,8 +45,9 @@ export class BackgroundTasksService {
 
         if (!this._globalStateService.showTryView) {
             this._preIFrameTasks = Observable.timer(1, 60000)
-                .concatMap(() => this._http.get(Constants.serviceHost + 'api/token?plaintext=true').retry(5).map(r => r.text()))
-                .subscribe(t => this._userService.setToken(t));
+                .concatMap(() => this._userService.getToken().retry(5))
+                .subscribe(token => {
+                });
         }
     }
 
