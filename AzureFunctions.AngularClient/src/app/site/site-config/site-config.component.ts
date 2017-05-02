@@ -14,10 +14,11 @@ import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
-import { RequiredValidator, UniqueValidator } from './../../shared/customValidators';
 import { TblItem } from './../../controls/tbl/tbl.component';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
 @Component({
   selector: 'site-config',
@@ -82,7 +83,7 @@ export class SiteConfigComponent implements OnInit {
       let appSettings = this._fb.array([]);
       let connectionStrings = this._fb.array([]);
 
-      this._requiredValidator = new RequiredValidator(this._translateService.instant(PortalResources.validation_requiredError));
+      this._requiredValidator = new RequiredValidator(this._translateService);
       this._uniqueAppSettingValidator = new UniqueValidator(
         "name",
         appSettings,

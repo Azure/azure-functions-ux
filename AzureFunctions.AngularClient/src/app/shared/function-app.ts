@@ -349,7 +349,10 @@ export class FunctionApp {
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
 
-        return this._http.put(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
+        var uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+        this._cacheService.clearCachePrefix(uri);
+
+        return this._http.put(uri, jsonString, { headers: headers });
     }
 
     /**

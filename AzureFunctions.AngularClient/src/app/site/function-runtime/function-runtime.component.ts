@@ -45,6 +45,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public extensionVersion: string;
   public latestExtensionVersion: string;
   public dailyMemoryTimeQuota: string;
+  public dailyMemoryTimeQuotaOriginal: string;
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
   public functionApp: FunctionApp;
@@ -121,6 +122,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
             } else {
                 this.showDailyMemoryInfo = true;
             }
+
+            this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
 
             this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
 
@@ -279,18 +282,22 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   setQuota() {
-    let dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+      if (this.dailyMemoryTimeQuotaOriginal !== this.dailyMemoryTimeQuota) {
 
-    if (dailyMemoryTimeQuota > 0) {
-      this._globalStateService.setBusyState();
-      this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
-        var site = r.json();
-        this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
-        this.showDailyMemoryInfo = true;
-        this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
-        this._globalStateService.clearBusyState();
-      });
-    }
+          let dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+
+          if (dailyMemoryTimeQuota > 0) {
+              this._globalStateService.setBusyState();
+              this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
+                  var site = r.json();
+                  this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
+                  this.showDailyMemoryInfo = true;
+                  this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
+                  this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
+                  this._globalStateService.clearBusyState();
+              });
+          }
+      }
   }
 
   removeQuota() {
@@ -299,6 +306,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       this.showDailyMemoryInfo = false;
       this.showDailyMemoryWarning = false;
       this.dailyMemoryTimeQuota = '';
+      this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
       this.site.properties.dailyMemoryTimeQuota = 0;
       this._globalStateService.clearBusyState();
     });

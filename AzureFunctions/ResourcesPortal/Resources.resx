@@ -231,6 +231,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Your subscription</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Failed to create app</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2. Choose a language</value>
   </data>
@@ -1662,6 +1668,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>The name must be at least 2 characters</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>The name must be fewer than 60 characters</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>'{0}' is an invalid character</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>The app name '{0}' is not available</value>
   </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>We are unable to update your function app's edit mode. Please try again later.</value>

@@ -40,6 +40,8 @@ export class PortalResources
     public static gettingStarted_youNeed: string = "gettingStarted_youNeed";
     public static gettingStarted_yourFunctionApps: string = "gettingStarted_yourFunctionApps";
     public static gettingStarted_yourSubscription: string = "gettingStarted_yourSubscription";
+    public static createApp_description: string = "createApp_description";
+    public static createApp_fail: string = "createApp_fail";
     public static intro_chooseLanguage: string = "intro_chooseLanguage";
     public static intro_chooseScenario: string = "intro_chooseScenario";
     public static intro_createThisFunction: string = "intro_createThisFunction";
@@ -516,6 +518,10 @@ export class PortalResources
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
     public static validation_duplicateError: string = "validation_duplicateError";
     public static validation_requiredError: string = "validation_requiredError";
+    public static validation_siteNameMinChars: string = "validation_siteNameMinChars";
+    public static validation_siteNameMaxChars: string = "validation_siteNameMaxChars";
+    public static validation_siteNameInvalidChar: string = "validation_siteNameInvalidChar";
+    public static validation_siteNameNotAvailable: string = "validation_siteNameNotAvailable";
     public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";

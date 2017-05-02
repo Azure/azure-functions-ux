@@ -8,7 +8,7 @@
 > git clone git@github.com:projectkudu/AzureFunctionsPortal.git
 > cd AzureFunctionsPortal
 > nuget restore
-> msbuild AzureFunctions.sln
+> msbuild AzureFunctions\AzureFunctions.csproj
 > npm install -g @angular/cli
 > npm install -g yarn
 > cd AzureFunctions.AngularClient

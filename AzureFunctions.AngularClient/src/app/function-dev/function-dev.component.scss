@@ -168,4 +168,5 @@
 
 .keys-dialog-body-invokeUrl {
     flex-grow:1;
+    width: 0px; /*IE 11 fix*/
 }
