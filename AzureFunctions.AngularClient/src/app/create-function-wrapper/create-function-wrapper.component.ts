@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { Subscription as RxSubscription } from 'Rxjs/rx';
 import { FunctionInfo } from './../shared/models/function-info';
 import { AppNode } from './../tree-view/app-node';
@@ -22,7 +23,8 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
   private _subscription : RxSubscription;
 
   constructor(
-    private _aiService : AiService
+    private _aiService : AiService,
+    private _configService : ConfigService
   ) { 
 
     let initialDashboardType : DashboardType;
@@ -60,7 +62,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
         return;
       }
       
-      if(fcs.length > 0){
+      if(fcs.length > 0 || this._configService.isStandalone()){
         this.dashboardType = DashboardType[DashboardType.createFunction];
       }
       else{
