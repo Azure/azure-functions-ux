@@ -1723,6 +1723,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Learn more about azure functions</value>
   </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>No function apps to display</value>
+  </data>
   <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
     <value>Slots (preview)</value>
   </data>
@@ -1745,7 +1748,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Successfully created slot {0} </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Successfully created slot {0} </value>
+    <value>Failed to create slot {0} </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Unable to upate the list of slots</value>
