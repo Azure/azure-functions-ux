@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/of';

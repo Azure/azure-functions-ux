@@ -1,28 +1,30 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { SlotsService } from "app/shared/services/slots.service";
-import { SlotsNode } from "app/tree-view/slots-node";
-import { Subject } from "rxjs/Subject";
-import { TreeViewInfo } from "app/tree-view/models/tree-view-info";
-import { GlobalStateService } from "app/shared/services/global-state.service";
-import { Observable } from "rxjs/Observable";
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl } from "@angular/forms";
-import { TranslateService } from "@ngx-translate/core";
-import { BroadcastService } from "app/shared/services/broadcast.service";
-import { AiService } from "app/shared/services/ai.service";
-import { CacheService } from "app/shared/services/cache.service";
-import { ArmObj } from "app/shared/models/arm/arm-obj";
-import { Site } from "app/shared/models/arm/site";
-import { PortalService } from "app/shared/services/portal.service";
-import { Constants } from "app/shared/models/constants";
-import { AppNode } from "app/tree-view/app-node";
-import { RequiredValidator } from "app/shared/validators/requiredValidator";
-import { PortalResources } from "app/shared/models/portal-resources";
-import { SlotNameValidator } from "app/shared/validators/slotNameValidator";
-import { AppsNode } from "app/tree-view/apps-node";
-import { BroadcastEvent } from "app/shared/models/broadcast-event";
-import { ErrorIds } from "app/shared/models/error-ids";
-import { ErrorType, ErrorEvent } from "app/shared/models/error-event";
-import { AuthzService } from "app/shared/services/authz.service";
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import 'rxjs/add/operator/flatMap';
+
+import { SlotsService } from '../shared/services/slots.service';
+import { SlotsNode } from '../tree-view/slots-node';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { AiService } from '../shared/services/ai.service';
+import { CacheService } from '../shared/services/cache.service';
+import { ArmObj } from '../shared/models/arm/arm-obj';
+import { Site } from '../shared/models/arm/site';
+import { PortalService } from '../shared/services/portal.service';
+import { Constants } from '../shared/models/constants';
+import { AppNode } from '../tree-view/app-node';
+import { RequiredValidator } from '../shared/validators/requiredValidator';
+import { PortalResources } from '../shared/models/portal-resources';
+import { SlotNameValidator } from '../shared/validators/slotNameValidator';
+import { AppsNode } from '../tree-view/apps-node';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { ErrorIds } from '../shared/models/error-ids';
+import { ErrorType, ErrorEvent } from '../shared/models/error-event';
+import { AuthzService } from '../shared/services/authz.service';
 
 interface DataModel {
     writePermission: boolean,
