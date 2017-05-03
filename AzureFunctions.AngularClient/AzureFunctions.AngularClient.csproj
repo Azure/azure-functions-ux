@@ -174,6 +174,8 @@
     <Content Include="src\app\site\site-notifications\site-notifications.component.html" />
     <Content Include="src\app\site\site-summary\site-summary.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.html" />
+    <Content Include="src\app\slot-new\slot-new.component.html" />
+    <Content Include="src\app\slots-list\slots-list.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
@@ -181,6 +183,8 @@
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
     <Content Include="src\app\site\create-app\create-app.component.scss" />
     <Content Include="src\app\site\site-config\site-config.component.scss" />
+    <Content Include="src\app\slots-list\slots-list.component.scss" />
+    <Content Include="src\app\slot-new\slot-new.component.scss" />
     <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
@@ -525,6 +529,7 @@
     <TypeScriptCompile Include="src\app\shared\services\local-storage.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\slots.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user.service.spec.ts" />
@@ -562,6 +567,10 @@
     <TypeScriptCompile Include="src\app\site\swagger-frame\ISwaggerEditor.ts" />
     <TypeScriptCompile Include="src\app\site\swagger-frame\swagger-frame.directive.ts" />
     <TypeScriptCompile Include="src\app\site\swagger-frame\swaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\slot-new\slot-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\slot-new\slot-new.component.ts" />
+    <TypeScriptCompile Include="src\app\slots-list\slots-list.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\slots-list\slots-list.component.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />

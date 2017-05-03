@@ -1,0 +1,37 @@
+@import '../../sass/main';
+
+.slot-form {
+    width: 740px;
+}
+
+.newSlot-container{
+    padding: 10px 20px;
+    background-color: $body-bg-color;
+}
+
+.text-subheading{
+    margin-top: 5px;
+}
+
+.name-label{
+    margin-top: 15px;
+    display: block;
+}
+
+.name-textbox{
+    width: 250px;
+    display: block;
+}
+
+button{
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+.text-main2-heading{
+    display: inline-block;
+}
+
+.text-subheading{
+    margin: 5px 0 10px 0;
+}
