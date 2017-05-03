@@ -124,19 +124,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
             (h, r, s) => ({ hasWritePermission: h, hasReadOnlyLock: r, siteResponse: s })
         )
-<<<<<<< HEAD
-        .mergeMap(r =>{
-            this.isLoading = false;
-
-            let site : ArmObj<Site> = r.siteResponse.json();
-
-            if(!this._functionApp){
-                this._setupFunctionApp(site);
-
-                if(site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock){
-                    return this._setupBackgroundTasks()
-                    .map(() =>{
-=======
             .flatMap(r => {
                 this.isLoading = false;
 
@@ -152,8 +139,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                             });
                     }
                     else {
-                        this.dispose()
->>>>>>> dev
+                        this.dispose();
                         this.supportsRefresh = true;
                         return Observable.of(null);
                     }
@@ -234,20 +220,11 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         // Make sure there isn't a load operation currently being performed
         let loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
         return loadObs
-<<<<<<< HEAD
-        .mergeMap(() =>{
-            this.sideNav.aiService.trackEvent('/actions/refresh');
-            this._functionApp.fireSyncTrigger();
-            this.sideNav.cacheService.clearCache();
-            this.dispose();
-=======
             .flatMap(() => {
                 this.sideNav.aiService.trackEvent('/actions/refresh');
                 this._functionApp.fireSyncTrigger();
                 this.sideNav.cacheService.clearCache();
                 this.dispose();
->>>>>>> dev
-
                 this._functionApp = null;
                 this.functionAppStream.next(null);
 

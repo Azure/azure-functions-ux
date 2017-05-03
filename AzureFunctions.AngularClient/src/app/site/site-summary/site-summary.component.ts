@@ -112,12 +112,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
-<<<<<<< HEAD
-            .mergeMap(r =>{
-=======
             .flatMap(r => {
->>>>>>> dev
-
                 let site: ArmObj<Site> = r.json();
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
@@ -174,12 +169,7 @@ export class SiteSummaryComponent implements OnDestroy {
                         slotsList: slots
                     }))
             })
-<<<<<<< HEAD
-            .mergeMap(res =>{
-=======
             .flatMap(res => {
->>>>>>> dev
-
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
                 if (!this._isSlot) {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission && res.slotsList.length > 0;
