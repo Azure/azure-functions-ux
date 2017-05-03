@@ -42,7 +42,7 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
                     <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)"></radio-selector>
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
                     <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)"></radio-selector>
                 </div>
             </div>
@@ -81,7 +81,7 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_slotsDesc' | translate}}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}</h2>
                     <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
                 </div>
             </div>

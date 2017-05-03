@@ -230,7 +230,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public remove() {
         if (this.isSlot) {
             (<SlotsNode>this.parent).removeChild(this, false);
-            this.sideNav.slotsService.getSlotsList(this.resourceId);
         } else {
             (<AppsNode>this.parent).removeChild(this, false);
             this.sideNav.cacheService.clearArmIdCachePrefix(this.resourceId);

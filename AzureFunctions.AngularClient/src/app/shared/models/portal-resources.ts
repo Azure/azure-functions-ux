@@ -543,5 +543,10 @@ export class PortalResources
     public static slotNew_startCreateSuccessNotifyTitle: string = "slotNew_startCreateSuccessNotifyTitle";
     public static slotNew_startCreateFailureNotifyTitle: string = "slotNew_startCreateFailureNotifyTitle";
     public static error_unableToLoadSlotsList: string = "error_unableToLoadSlotsList";
+    public static slotNew_noAccess: string = "slotNew_noAccess";
+    public static slotsList_nameHeader: string = "slotsList_nameHeader";
+    public static slotsList_statusHeader: string = "slotsList_statusHeader";
+    public static slotsList_serverfarmHeader: string = "slotsList_serverfarmHeader";
+    public static slotsList_title: string = "slotsList_title";
 }
 

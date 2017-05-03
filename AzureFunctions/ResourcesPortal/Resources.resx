@@ -1747,4 +1747,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_noAccess" xml:space="preserve">
     <value>No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either.</value>
   </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App service plan</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
 </root>
