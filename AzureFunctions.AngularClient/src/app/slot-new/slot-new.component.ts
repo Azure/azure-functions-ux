@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import 'rxjs/add/operator/flatMap';
+import 'rxjs/add/operator/mergeMap';
 
 import { SlotsService } from '../shared/services/slots.service';
 import { SlotsNode } from '../tree-view/slots-node';
@@ -93,7 +93,7 @@ export class SlotNewComponent implements OnInit {
                         slotsList: l
                     }))
             })
-            .flatMap(res => {
+            .mergeMap(res => {
                 this.hasCreatePermissions = res.writePermission && !res.readOnlyLock;
                 if (this.hasCreatePermissions) {
                     return this._cacheService.postArm(`${this._siteId}/config/appsettings/list`, true)

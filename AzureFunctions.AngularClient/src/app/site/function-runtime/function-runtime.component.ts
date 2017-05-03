@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
@@ -103,7 +102,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this._appNode.functionAppStream,
                   this._slotsService.getSlotsList(viewInfo.resourceId),
                 (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
-                .flatMap(result => {
+                .mergeMap(result => {
                   return result.functionApp
                           .getFunctionAppEditMode()
                           .map(editMode => ({
@@ -209,7 +208,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
         this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .flatMap(r => {
+          .mergeMap(r => {
             return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
           })
           .subscribe(r => {
@@ -230,7 +229,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionAppEditMode = state;
         let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .flatMap(r => {
+          .mergeMap(r => {
             let response: ArmObj<any> = r.json();
             response.properties[Constants.functionAppEditModeSettingName] = appSetting;
             return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
@@ -255,7 +254,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       this._globalStateService.setBusyState();
       let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .flatMap(r => {
+        .mergeMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
         })
         .do(null, e => {

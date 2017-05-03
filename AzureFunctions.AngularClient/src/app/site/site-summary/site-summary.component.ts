@@ -7,7 +7,6 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
@@ -113,7 +112,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
-            .flatMap(r => {
+            .mergeMap(r => {
                 let site: ArmObj<Site> = r.json();
                 this.site = site;
                 let descriptor = new SiteDescriptor(site.id);
@@ -170,7 +169,7 @@ export class SiteSummaryComponent implements OnDestroy {
                         slotsList: slots
                     }))
             })
-            .flatMap(res => {
+            .mergeMap(res => {
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
                 if (!this._isSlot) {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission && res.slotsList.length > 0;
