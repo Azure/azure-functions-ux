@@ -1,7 +1,9 @@
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
 import { TreeNode } from './tree-node';
 import { DashboardType } from './models/dashboard-type';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Observable } from 'rxjs/Rx';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { PortalResources } from '../shared/models/portal-resources';
