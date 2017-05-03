@@ -13,7 +13,7 @@ import { PortalResources } from './../models/portal-resources';
 import {UserService} from './user.service';
 import {FunctionsService} from './functions.service';
 import {BroadcastService} from '../services/broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
+import { BroadcastEvent } from '../models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../models/error-event';
 import {Constants} from '../models/constants';
 import { ErrorIds } from '../models/error-ids';
@@ -40,7 +40,7 @@ export class BackgroundTasksService {
             }
             if (this.isIE()) {
                 console.log('Detected IE, running zone.js workaround');
-                setInterval(() => this._applicationRef.tick(), 1000)
+                setInterval(() => this._applicationRef.tick(), 1000);
             }
     }
 
@@ -53,12 +53,12 @@ export class BackgroundTasksService {
             this._preIFrameTasks = Observable.timer(1, 60000)
                 .concatMap(() => this._userService.getToken().retry(5))
                 .subscribe(token => {
-                  //TODO: why is this empty ?
+                  // TODO: why is this empty ?
                 });
         }
     }
 
     private isIE(): boolean {
-        return navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;
+        return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
     }
 }

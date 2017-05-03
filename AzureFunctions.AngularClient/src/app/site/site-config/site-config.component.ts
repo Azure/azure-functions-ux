@@ -26,35 +26,35 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   styleUrls: ['./site-config.component.scss']
 })
 export class SiteConfigComponent implements OnInit {
-  public viewInfoStream : Subject<TreeViewInfo>;
+  public viewInfoStream: Subject<TreeViewInfo>;
 
-  public mainForm : FormGroup;
+  public mainForm: FormGroup;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
   public Resources = PortalResources;
 
-  private _viewInfoSubscription : RxSubscription;
-  private _appSettingsArm : ArmObj<any>;
-  private _connectionStringsArm : ArmObj<ConnectionStrings>;
-  private _busyState : BusyStateComponent;
-  private _resourceId : string;
+  private _viewInfoSubscription: RxSubscription;
+  private _appSettingsArm: ArmObj<any>;
+  private _connectionStringsArm: ArmObj<ConnectionStrings>;
+  private _busyState: BusyStateComponent;
+  private _resourceId: string;
 
-  private _requiredValidator : RequiredValidator;
-  private _uniqueAppSettingValidator : UniqueValidator;
-  private _uniqueCsValidator : UniqueValidator;
+  private _requiredValidator: RequiredValidator;
+  private _uniqueAppSettingValidator: UniqueValidator;
+  private _uniqueCsValidator: UniqueValidator;
 
   constructor(
-    private _cacheService : CacheService,
-    private _fb : FormBuilder,
-    private _translateService : TranslateService,
-    private _aiService : AiService,
-    tabsComponent : TabsComponent
+    private _cacheService: CacheService,
+    private _fb: FormBuilder,
+    private _translateService: TranslateService,
+    private _aiService: AiService,
+    tabsComponent: TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
 
       this.viewInfoStream = new Subject<TreeViewInfo>();
       this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
-      .switchMap(viewInfo =>{
+      .switchMap(viewInfo => {
         this._busyState.setBusyState();
         this._resourceId = viewInfo.resourceId;
 
@@ -62,15 +62,15 @@ export class SiteConfigComponent implements OnInit {
         return Observable.zip(
           this._cacheService.postArm(`${this._resourceId}/config/appSettings/list`, true),
           this._cacheService.postArm(`${this._resourceId}/config/connectionstrings/list`, true),
-          (a,c) =>({appSettingResponse : a, connectionStringResponse : c})
+          (a,c) => ({appSettingResponse: a, connectionStringResponse: c})
         )
       })
-      .do(null, error =>{
+      .do(null, error => {
         this._aiService.trackEvent("/errors/site-config", error);
         this._busyState.clearBusyState();
       })
       .retry()
-      .subscribe(r =>{
+      .subscribe(r => {
         this._busyState.clearBusyState();
         this._appSettingsArm = r.appSettingResponse.json();
         this._connectionStringsArm = r.connectionStringResponse.json();
@@ -79,7 +79,7 @@ export class SiteConfigComponent implements OnInit {
       });
   }
 
-  private _setupForm(appSettingsArm : ArmObj<any>, connectionStringsArm : ArmObj<ConnectionStrings>){
+  private _setupForm(appSettingsArm: ArmObj<any>, connectionStringsArm: ArmObj<ConnectionStrings>){
       let appSettings = this._fb.array([]);
       let connectionStrings = this._fb.array([]);
 
@@ -98,12 +98,12 @@ export class SiteConfigComponent implements OnInit {
         if(appSettingsArm.properties.hasOwnProperty(name)){
 
             appSettings.push(this._fb.group({
-                name : [
+                name: [
                   name,
                   Validators.compose([
                     this._requiredValidator.validate.bind(this._requiredValidator),
                     this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-                value : [appSettingsArm.properties[name]]
+                value: [appSettingsArm.properties[name]]
               }));
 
           }
@@ -116,13 +116,13 @@ export class SiteConfigComponent implements OnInit {
           let connectionStringDropDownTypes = this._getConnectionStringTypes(connectionString.type);
 
           let group = this._fb.group({
-            name : [
+            name: [
               name,
               Validators.compose([
                 this._requiredValidator.validate.bind(this._requiredValidator),
                 this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-            value : [connectionString.value],
-            type : [connectionStringDropDownTypes.find(t => t.default).value]
+            value: [connectionString.value],
+            type: [connectionStringDropDownTypes.find(t => t.default).value]
           });
 
           (<any>group).csTypes = connectionStringDropDownTypes;
@@ -131,26 +131,26 @@ export class SiteConfigComponent implements OnInit {
       }
 
       this.mainForm = this._fb.group({
-        appSettings : appSettings,
-        connectionStrings : connectionStrings
+        appSettings: appSettings,
+        connectionStrings: connectionStrings
       })
   }
 
-  private _getConnectionStringTypes(defaultType : ConnectionStringType){
-      let connectionStringDropDownTypes : DropDownElement<string>[] = []
+  private _getConnectionStringTypes(defaultType: ConnectionStringType){
+      let connectionStringDropDownTypes: DropDownElement<string>[] = []
 
-      EnumEx.getNamesAndValues(ConnectionStringType).forEach(pair =>{
+      EnumEx.getNamesAndValues(ConnectionStringType).forEach(pair => {
         connectionStringDropDownTypes.push({
-          displayLabel : pair.name,
-          value : pair.name,
-          default : pair.value === defaultType
+          displayLabel: pair.name,
+          value: pair.name,
+          default: pair.value === defaultType
         })
       })
 
       return connectionStringDropDownTypes;
   }
 
-  @Input() set viewInfoInput(viewInfo : TreeViewInfo){
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo){
       this.viewInfoStream.next(viewInfo);
   }
 
@@ -163,7 +163,7 @@ export class SiteConfigComponent implements OnInit {
 
   save(){
     let appSettingGroups = (<FormArray>this.mainForm.controls["appSettings"]).controls;
-    appSettingGroups.forEach(group =>{
+    appSettingGroups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for(let controlName in controls){
         let control = <CustomFormControl>controls[controlName];
@@ -173,7 +173,7 @@ export class SiteConfigComponent implements OnInit {
     });
 
     let connectionStringGroups = (<FormArray>this.mainForm.controls["connectionStrings"]).controls;
-    connectionStringGroups.forEach(group =>{
+    connectionStringGroups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for(let controlName in controls){
         let control = <CustomFormControl>controls[controlName];
@@ -183,7 +183,7 @@ export class SiteConfigComponent implements OnInit {
     });
 
     if(this.mainForm.valid){
-      let appSettingsArm : ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+      let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
       delete appSettingsArm.properties;
       appSettingsArm.properties = {};
 
@@ -191,15 +191,15 @@ export class SiteConfigComponent implements OnInit {
         appSettingsArm.properties[appSettingGroups[i].value.name] = appSettingGroups[i].value.value;
       }
 
-      let connectionStringsArm : ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+      let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
       delete connectionStringsArm.properties;
       connectionStringsArm.properties = {};
 
       for(let i = 0; i < connectionStringGroups.length; i++){
         let connectionStringControl = connectionStringGroups[i];
         let connectionString = {
-          value : connectionStringControl.value.value,
-          type : ConnectionStringType[connectionStringControl.value.type]
+          value: connectionStringControl.value.value,
+          type: ConnectionStringType[connectionStringControl.value.type]
         }
 
         connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
@@ -210,9 +210,9 @@ export class SiteConfigComponent implements OnInit {
       Observable.zip(
         this._cacheService.putArm(`${this._resourceId}/config/appSettings`, null, appSettingsArm),
         this._cacheService.putArm(`${this._resourceId}/config/connectionstrings`, null, connectionStringsArm),
-        (a, c) => ({appSettingsResponse : a, connectionStringsResponse : c})
+        (a, c) => ({appSettingsResponse: a, connectionStringsResponse: c})
       )
-      .subscribe(r =>{
+      .subscribe(r => {
         this._busyState.clearBusyState();
         this._appSettingsArm = r.appSettingsResponse.json();
         this._connectionStringsArm = r.connectionStringsResponse.json();
@@ -226,19 +226,19 @@ export class SiteConfigComponent implements OnInit {
     this._setupForm(this._appSettingsArm, this._connectionStringsArm);
   }
 
-  deleteAppSetting(group : FormGroup){
+  deleteAppSetting(group: FormGroup){
     let appSettings = <FormArray>this.mainForm.controls["appSettings"];
     this._deleteRow(group, appSettings);
   }
 
-  deleteConnectionString(group : FormGroup){
+  deleteConnectionString(group: FormGroup){
     let connectionStrings = <FormArray>this.mainForm.controls["connectionStrings"];
     this._deleteRow(group, connectionStrings);
   }
 
-  private _deleteRow(group : FormGroup, formArray : FormArray){
+  private _deleteRow(group: FormGroup, formArray: FormArray){
     let index = formArray.controls.indexOf(group);
-    if(index >= 0){
+    if (index >= 0){
       formArray.controls.splice(index, 1);
       group.markAsDirty();
     }
@@ -247,12 +247,12 @@ export class SiteConfigComponent implements OnInit {
   addAppSetting(){
     let appSettings = <FormArray>this.mainForm.controls["appSettings"];
     let group = this._fb.group({
-        name : [
+        name: [
           null,
           Validators.compose([
             this._requiredValidator.validate.bind(this._requiredValidator),
             this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-        value : [null]
+        value: [null]
       });
 
     (<CustomFormGroup>group)._msStartInEditMode = true;
@@ -266,13 +266,13 @@ export class SiteConfigComponent implements OnInit {
     let connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
 
     let group = this._fb.group({
-      name : [
+      name: [
         null,
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-      value : [null],
-      type : [connectionStringDropDownTypes.find(t => t.default).value]
+      value: [null],
+      type: [connectionStringDropDownTypes.find(t => t.default).value]
     });
 
     (<any>group).csTypes = connectionStringDropDownTypes;
