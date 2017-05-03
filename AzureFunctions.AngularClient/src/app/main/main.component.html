@@ -11,6 +11,7 @@
         <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
         <functions-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functions'"></functions-list>
         <proxies-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxies'"></proxies-list>
+        <slots-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'slots'"></slots-list>
 
         <function-edit
             [viewInfoInput]="viewInfo"
@@ -27,6 +28,6 @@
 
         <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
         <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>
-
+        <slot-new [viewInfoInput] ="viewInfo" *ngIf="dashboardType === 'createSlot'"></slot-new>
     </div>
 </div>

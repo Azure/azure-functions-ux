@@ -103,6 +103,9 @@ import { TextboxComponent } from './controls/textbox/textbox.component';
 import { SiteConfigComponent } from './site/site-config/site-config.component';
 import { CommandBarComponent } from './controls/command-bar/command-bar.component';
 import { CommandComponent } from './controls/command-bar/command/command.component';
+import { SlotsListComponent } from './slots-list/slots-list.component';
+import { SlotsService } from "./shared/services/slots.service";
+import { SlotNewComponent } from './slot-new/slot-new.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig()
@@ -171,6 +174,7 @@ export function ConfigLoader(config: ConfigService) {
         ApiNewComponent,
         FunctionsListComponent,
         ProxiesListComponent,
+        SlotsListComponent,
         SwaggerDefinitionComponent,
         SwaggerFrameDirective,
         DisabledDashboardComponent,
@@ -184,7 +188,9 @@ export function ConfigLoader(config: ConfigService) {
         ClickToEditComponent,
         CommandBarComponent,
         CommandComponent,
-        CreateAppComponent
+        CreateAppComponent,
+        SlotsListComponent,
+        SlotNewComponent
     ],
     imports: [
         FormsModule,
@@ -215,6 +221,7 @@ export function ConfigLoader(config: ConfigService) {
             useClass: window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService
         },
         CacheService,
+        SlotsService,
         AuthzService,
         LocalStorageService,
         TelemetryService,

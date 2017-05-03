@@ -7,6 +7,9 @@
         <span *ngIf="site?.properties.state === 'Stopped'">
             <img src="images/start.svg" />{{ 'start' | translate}}</span>
     </span>
+    <span class="clickable" [class.disabled-action]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null" (click) = "openSwapBlade()">
+            <img src="images/swap.svg" />{{ 'swap' | translate }}
+    </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
         <img src="images/restart.svg" />{{ 'restart' | translate }}
@@ -40,7 +43,7 @@
             <div><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
         </div>
 
-        <div [class.invisible]="site?.properties.sku === 'Dynamic'">
+        <div [class.invisible]="hideAvailability">
             <label>{{'availability' | translate}}</label>
             <div [class.site-faded-text]="availabilityState === 'unknown'">
                 <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}

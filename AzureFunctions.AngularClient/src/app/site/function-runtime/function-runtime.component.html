@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div *ngIf="!showTryView" class="setting-wrapper">
@@ -75,9 +76,21 @@
         </div>
     </div>
 
+    <div *ngIf="!showTryView && !slotsEnabled" class="setting-wrapper">
+        <label>{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
+        <div class="features-wrapper">
+            <div>
+                <div>
+                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_slotsDesc' | translate}}</h2>
+                    <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <function-keys
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
-
 
 </div>
