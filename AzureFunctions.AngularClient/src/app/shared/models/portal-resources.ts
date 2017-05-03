@@ -536,8 +536,10 @@ export class PortalResources
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
     public static emptyBrowse: string = "emptyBrowse";
     public static emptyBrowse_learnMore: string = "emptyBrowse_learnMore";
+    public static emptyBrowse_title: string = "emptyBrowse_title";
     public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
     public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
+    public static appFunctionSettings_slotsDescBold: string = "appFunctionSettings_slotsDescBold";
     public static slotNew_nameLabel: string = "slotNew_nameLabel";
     public static slotNew_heading: string = "slotNew_heading";
     public static slotNew_desc: string = "slotNew_desc";
