@@ -1711,4 +1711,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionKeys_renewConfirmation" xml:space="preserve">
     <value>Are you sure you want to renew {{name}} key?</value>
   </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions are an event-based serverless compute experience to accelerate your development. Scale based on demand and pay only for the resources you consume.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Learn more about azure functions</value>
+  </data>
 </root>

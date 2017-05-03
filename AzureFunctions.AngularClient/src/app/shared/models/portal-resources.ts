@@ -532,5 +532,7 @@ export class PortalResources
     public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
+    public static emptyBrowse: string = "emptyBrowse";
+    public static emptyBrowse_learnMore: string = "emptyBrowse_learnMore";
 }
 
