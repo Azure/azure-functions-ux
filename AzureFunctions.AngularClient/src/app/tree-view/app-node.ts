@@ -232,19 +232,20 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             (<SlotsNode>this.parent).removeChild(this, false);
         } else {
             (<AppsNode>this.parent).removeChild(this, false);
-            this.sideNav.cacheService.clearArmIdCachePrefix(this.resourceId);
         }
+        this.sideNav.cacheService.clearArmIdCachePrefix(this.resourceId);        
         this.dispose();
     }
 
     public dispose(newSelectedNode?: TreeNode) {
-
         // Ensures that we're only disposing if you're selecting a node that's not a child of the
         // the current app node.
         if (newSelectedNode) {
 
-            // Tests whether you've selected a child node
-            if (newSelectedNode.resourceId !== this.resourceId && newSelectedNode.resourceId.startsWith(this.resourceId + "/")) {
+            // Tests whether you've selected a child node or newselectedNode is not a slot node
+            if (newSelectedNode.resourceId !== this.resourceId
+                && newSelectedNode.resourceId.startsWith(this.resourceId + "/")
+                && !this.sideNav.slotsService.isSlot(newSelectedNode.resourceId)) {
                 return;
             }
             else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {

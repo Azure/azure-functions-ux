@@ -24,6 +24,14 @@ import { ErrorIds } from "app/shared/models/error-ids";
 import { ErrorType, ErrorEvent } from "app/shared/models/error-event";
 import { AuthzService } from "app/shared/services/authz.service";
 
+interface DataModel {
+    writePermission: boolean,
+    readOnlyLock: boolean,
+    siteInfo: any,
+    appSettings: any,
+    slotsList: ArmObj<Site>[]
+}
+
 @Component({
     selector: 'slot-new',
     templateUrl: './slot-new.component.html',
@@ -71,33 +79,38 @@ export class SlotNewComponent implements OnInit {
                         slotNameValidator.validate.bind(slotNameValidator)]
                 })
 
-                return Observable.zip(
+                return Observable.zip<DataModel>(
                     authZService.hasPermission(this._siteId, [AuthzService.writeScope]),
                     authZService.hasReadOnlyLock(this._siteId),
                     this._cacheService.getArm(this._siteId),
-                    this._cacheService.postArm(`${this._siteId}/config/appsettings/list`, true),
                     this._slotService.getSlotsList(this._siteId),
-                    (w, rl, s, a, l) => ({
+                    (w, rl, s, l) => ({
                         writePermission: w,
                         readOnlyLock: rl,
                         siteInfo: s,
-                        appSettings: a.json(),
                         slotsList: l
                     }))
+            })
+            .flatMap(res => {
+                this.hasCreatePermissions = res.writePermission && !res.readOnlyLock;
+                if (this.hasCreatePermissions) {
+                    return this._cacheService.postArm(`${this._siteId}/config/appsettings/list`, true)
+                        .map(r => {
+                            res.appSettings = r.json()
+                            return res
+                        })
+                }
+                return Observable.of(res)
             })
             .do(null, e => {
                 // log error & clear busy state
                 this._aiService.trackException(e, '/errors/slot-new');
                 this._globalStateService.clearBusyState();
-
             })
             .retry()
             .subscribe(res => {
-                this.hasCreatePermissions = res.writePermission && !res.readOnlyLock;
                 this._siteObj = <ArmObj<Site>>res.siteInfo.json();
                 this._slotsList = <ArmObj<Site>[]>res.slotsList;
-
-
                 this.slotOptinEnabled = res.slotsList.length > 0 ||
                     res.appSettings.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue
                 this._globalStateService.clearBusyState();
