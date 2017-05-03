@@ -10,7 +10,7 @@ import { ErrorIds } from './models/error-ids';
 import { PortalResources } from './models/portal-resources';
 import { BroadcastService } from './services/broadcast.service';
 import { FunctionsResponse } from './models/functions-response';
-import { BroadcastEvent } from "./models/broadcast-event";
+import { BroadcastEvent } from './models/broadcast-event';
 
 export class NoCorsHttpService {
     constructor(

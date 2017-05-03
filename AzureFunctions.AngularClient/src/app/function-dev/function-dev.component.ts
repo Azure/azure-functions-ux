@@ -29,7 +29,7 @@ import {AiService} from '../shared/services/ai.service';
 import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
 import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
-import { ErrorIds } from "../shared/models/error-ids";
+import { ErrorIds } from '../shared/models/error-ids';
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
 
@@ -81,7 +81,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionInvokeUrl: string;
     public expandLogs: boolean = false;
     public functionApp: FunctionApp;
-    public functionKeys: FunctionKeys;    
+    public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
@@ -609,7 +609,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     onChangeKey(key: string) {
         this.setFunctionInvokeUrl(key);
-        this.setFunctionKey(this.functionInfo);        
+        this.setFunctionKey(this.functionInfo);
     }
 
     private getTestData(): string {

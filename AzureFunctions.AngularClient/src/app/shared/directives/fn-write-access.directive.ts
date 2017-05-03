@@ -4,7 +4,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/switchMap';
 
 import { FunctionApp } from './../function-app';
-import { FunctionAppEditMode } from "../models/function-app-edit-mode";
+import { FunctionAppEditMode } from '../models/function-app-edit-mode';
 
 @Directive({
   selector: '[fnWriteAccess]',

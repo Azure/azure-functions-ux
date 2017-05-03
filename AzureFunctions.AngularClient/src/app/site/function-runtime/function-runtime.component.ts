@@ -30,7 +30,7 @@ import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
-import { FunctionAppEditMode } from "../../shared/models/function-app-edit-mode";
+import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 
 @Component({
   selector: 'function-runtime',

@@ -12,7 +12,7 @@ import { AppNode } from './../tree-view/app-node';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { DashboardType } from "../tree-view/models/dashboard-type";
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'create-function-wrapper',

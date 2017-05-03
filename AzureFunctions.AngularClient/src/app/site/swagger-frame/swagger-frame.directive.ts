@@ -1,6 +1,6 @@
 import { Directive, ElementRef, NgZone, Output, EventEmitter } from '@angular/core';
-import { ISwaggerEditor } from "./ISwaggerEditor";
-import { SwaggerEditor } from "./swaggerEditor";
+import { ISwaggerEditor } from './ISwaggerEditor';
+import { SwaggerEditor } from './swaggerEditor';
 
 @Directive({
     selector: 'swagger-frame'

@@ -21,11 +21,11 @@ import {BindingManager} from '../shared/models/binding-manager';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
-import { ErrorIds } from "../shared/models/error-ids";
+import { ErrorIds } from '../shared/models/error-ids';
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
-import { DashboardType } from "../tree-view/models/dashboard-type";
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'function-quickstart',

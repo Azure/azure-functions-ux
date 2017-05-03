@@ -23,7 +23,7 @@ import {DashboardType} from '../../tree-view/models/dashboard-type';
 import {Descriptor, SiteDescriptor} from '../../shared/resourceDescriptors';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
-import { PartSize } from "../../shared/models/portal";
+import { PartSize } from '../../shared/models/portal';
 
 @Component({
     selector: 'site-dashboard',

@@ -24,7 +24,7 @@ import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
-import { DashboardType } from "../tree-view/models/dashboard-type";
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'function-new',

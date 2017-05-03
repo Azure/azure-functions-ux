@@ -1,5 +1,6 @@
-import { NgZone } from "@angular/core";
-import { ISwaggerEditor } from "./ISwaggerEditor";
+import { NgZone } from '@angular/core';
+
+import { ISwaggerEditor } from './ISwaggerEditor';
 
 export class SwaggerEditor implements ISwaggerEditor {
     private editor: ISwaggerEditor;

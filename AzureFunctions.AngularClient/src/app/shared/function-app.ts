@@ -57,7 +57,7 @@ import {CacheService} from './services/cache.service';
 import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
-import { FunctionAppEditMode } from "./models/function-app-edit-mode";
+import { FunctionAppEditMode } from './models/function-app-edit-mode';
 
 declare var mixpanel: any;
 
@@ -235,7 +235,7 @@ export class FunctionApp {
         }
         else{
             return `https://${site.properties.defaultHostName}`;
-        }        
+        }
     }
 
     // In standalone mode, there isn't a concept of a separate SCM site.  Instead, all calls that would
@@ -246,7 +246,7 @@ export class FunctionApp {
             return FunctionApp.getMainUrl(configService, site);
         }
         else{
-            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;        
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
 
