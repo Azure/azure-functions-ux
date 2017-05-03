@@ -25,6 +25,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .switchMap(viewInfo =>{
         this.appsNode = (<AppsNode>viewInfo.node);
+        this.appsNode.isLoading = true;
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children =>{
