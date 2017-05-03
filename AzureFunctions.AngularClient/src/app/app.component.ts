@@ -101,7 +101,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                             }
                         }
                     }
-                    
+
                     if(!this._configService.isStandalone()){
                         this.ready = true;
                     }
