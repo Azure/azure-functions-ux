@@ -1,5 +1,6 @@
+import { ConfigService } from './config.service';
 import { Constants } from './../models/constants';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, Response} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs/Rx';
 import {User} from '../models/user';
@@ -13,20 +14,17 @@ import {StartupInfo} from '../models/portal';
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
-    // private functionContainerSubject: ReplaySubject<FunctionContainer>;
-    // private tokenSubject: ReplaySubject<string>;
     private startupInfoSubject : ReplaySubject<StartupInfo>;
     private currentStartupInfo : StartupInfo;
-    // private languageSubject: ReplaySubject<string>;
-    // private currentToken: string;
 
+    constructor(
+        private _http: Http,
+        private _aiService: AiService,
+        private _portalService : PortalService,
+        private _configService : ConfigService) {
 
-    constructor(private _http: Http, private _aiService: AiService, private _portalService : PortalService) {
-        // this.tokenSubject = new ReplaySubject<string>(1);
         this.startupInfoSubject = new ReplaySubject<StartupInfo>(1);
-        // this.languageSubject = new ReplaySubject<string>(1);
         this.inIFrame = window.parent !== window;
-        // this.functionContainerSubject = new ReplaySubject<FunctionContainer>(1);
 
         this.currentStartupInfo = {
             token : null,
@@ -44,6 +42,31 @@ export class UserService {
         return this._http.get(Constants.serviceHost + 'api/tenants')
             .catch(e => Observable.of({ json: () => [] }))
             .map(r => <TenantInfo[]>r.json());
+    }
+
+    getToken(){
+        return this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
+        .catch(e =>{
+
+            // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
+            // this call in place instead of preventing it from being called because:
+            // 1. It makes the code simpler to always call the API
+            // 2. It makes it easier to test because we can test Standalone mode with production ARM
+            return Observable.of(null);
+        })
+        .map(r =>{
+
+            let token : string;            
+            if(r){
+                token = r.text();
+            }
+            else{
+                token = "";
+            }
+
+            this.setToken(token);
+            return token;
+        })
     }
 
     getUser() {

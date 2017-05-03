@@ -78,7 +78,8 @@ export class AppComponent implements OnInit, AfterViewInit {
             this._userService.getStartupInfo()
                 .merge(this._languageService.getResources(null))
                 .subscribe((startupInfo : any) => {
-                    if(startupInfo && startupInfo.token){
+
+                    if(startupInfo && (startupInfo.token || this._configService.isStandalone())){
                         this._startupInfo = <StartupInfo>startupInfo;
 
                         // In standalone mode, we load the main component right away.
