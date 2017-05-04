@@ -80,16 +80,20 @@ export class BindingComponent{
 
         funcStream.merge(this._bindingStream)
             .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
-            if(res.appSettings){
-                this._appSettings = res.appSettings.properties;
-            }
-            else{
-                this._updateBinding(<any>res);
-            }
-            if (res.authSettings) {
-                this.authSettings = res.authSettings;
-                this.filterWarnings();
-            }
+                try{
+                    if (res.appSettings) {
+                        this._appSettings = res.appSettings.properties;
+                    }
+                    else {
+                        this._updateBinding(<any>res);
+                    }
+                    if (res.authSettings) {
+                        this.authSettings = res.authSettings;
+                        this.filterWarnings();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
         })
 
         renderer.link = function (href, title, text) {
@@ -478,7 +482,7 @@ export class BindingComponent{
             this._appSettings = r.json().properties;
             this.setStorageInformation(selectedStorage);
         });
-        
+
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -617,7 +621,7 @@ export class BindingComponent{
 
 
    private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
-       var value = this._appSettings[settingName];
+       var value = this._appSettings ? this._appSettings[settingName] : null;
        if (value) {
             var account = [];
             var accountName;
