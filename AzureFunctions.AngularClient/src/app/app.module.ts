@@ -103,6 +103,7 @@ import { TextboxComponent } from './controls/textbox/textbox.component';
 import { SiteConfigComponent } from './site/site-config/site-config.component';
 import { CommandBarComponent } from './controls/command-bar/command-bar.component';
 import { CommandComponent } from './controls/command-bar/command/command.component';
+import { EventHubComponent } from './pickers/event-hub/event-hub.component';
 import { SlotsListComponent } from './slots-list/slots-list.component';
 import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
@@ -208,7 +209,8 @@ export function AiServiceFactory() {
     CommandComponent,
     CreateAppComponent,
     SlotsListComponent,
-    SlotNewComponent
+    SlotNewComponent,
+	EventHubComponent
   ],
   imports: [
     FormsModule,

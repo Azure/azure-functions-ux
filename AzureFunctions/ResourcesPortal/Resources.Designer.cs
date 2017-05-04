@@ -1411,6 +1411,42 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event Hub.
+        /// </summary>
+        internal static string eventHubPicker_eventHub {
+            get {
+                return ResourceManager.GetString("eventHubPicker_eventHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Namespace.
+        /// </summary>
+        internal static string eventHubPicker_namespace {
+            get {
+                return ResourceManager.GetString("eventHubPicker_namespace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found..
+        /// </summary>
+        internal static string eventHubPicker_notFound {
+            get {
+                return ResourceManager.GetString("eventHubPicker_notFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy.
+        /// </summary>
+        internal static string eventHubPicker_policy {
+            get {
+                return ResourceManager.GetString("eventHubPicker_policy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Events.
         /// </summary>
         internal static string events {

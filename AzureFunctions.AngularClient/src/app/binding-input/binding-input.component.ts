@@ -12,6 +12,9 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {FunctionApp} from '../shared/function-app';
+import { CacheService } from './../shared/services/cache.service';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ArmService } from './../shared/services/arm.service';
 
 @Component({
   selector: 'binding-input',
@@ -25,6 +28,7 @@ export class BindingInputComponent {
     public enumInputs: DropDownElement<any>[];
     public description: string;
     public functionReturnValue: boolean;
+    public pickerName: string;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     @Input() public functionApp: FunctionApp;
@@ -34,7 +38,9 @@ export class BindingInputComponent {
         private _broadcastService: BroadcastService,
         private _userService: UserService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _cacheService: CacheService,
+        private _armService: ArmService) {
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -67,21 +73,19 @@ export class BindingInputComponent {
     }
 
     openCollectorBlade(input: PickerInput) {
-        let name = "";
         let bladeInput = null;
-
         switch (input.resource) {
             case ResourceType.Storage:
-                name = "StorageAccountPickerBlade";
+                this.pickerName = "StorageAccountPickerBlade";
                 break;
             case ResourceType.EventHub:
-                name = "CustomConnectionPickerBlade";
+                this.pickerName = "EventHub";
                 break;
             case ResourceType.DocumentDB:
-                name = "DocDbPickerBlade";
+                this.pickerName = "DocDbPickerBlade";
                 break;
             case ResourceType.ServiceBus:
-                name = "NotificationHubPickerBlade";
+                this.pickerName = "NotificationHubPickerBlade";
                 break;
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
@@ -103,24 +107,28 @@ export class BindingInputComponent {
 
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
-        this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
-        if (bladeInput) {
-            this._portalService.openCollectorBladeWithInputs(
-                this.functionApp.site.id,
-                bladeInput,
-                "binding-input",
-                (appSettingName: string) => {
-                    this.finishResourcePickup(appSettingName, picker);
-            });
-        } else {
-            this._portalService.openCollectorBlade(
-                this.functionApp.site.id,
-                name,
-                "binding-input",
-                (appSettingName: string) => {
-                    this.finishResourcePickup(appSettingName, picker);
-            });
+        if (this.pickerName != "EventHub") {
+
+            this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
+
+            if (bladeInput) {
+                this._portalService.openCollectorBladeWithInputs(
+                    this.functionApp.site.id,
+                    bladeInput,
+                    "binding-input",
+                    (appSettingName: string) => {
+                        this.finishResourcePickup(appSettingName, picker);
+                    });
+            } else {
+                this._portalService.openCollectorBlade(
+                    this.functionApp.site.id,
+                    this.pickerName,
+                    "binding-input",
+                    (appSettingName: string) => {
+                        this.finishResourcePickup(appSettingName, picker);
+                    });
+            }
         }
     }
 
@@ -145,6 +153,16 @@ export class BindingInputComponent {
             this.inputChanged('$return');
         }
         this.disabled = value;
+    }
+
+    closePicker() {
+        this.pickerName = "";
+    }
+
+    finishDialogPicker(appSettingName: any) {
+        var picker = <PickerInput>this.input;
+        this.pickerName = "";
+        this.finishResourcePickup(appSettingName, picker);
     }
 
     private setClass(value: any) {

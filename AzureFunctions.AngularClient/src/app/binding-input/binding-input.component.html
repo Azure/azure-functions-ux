@@ -1,3 +1,9 @@
+<app-event-hub *ngIf="pickerName === 'EventHub'" 
+                [functionApp]="functionApp"
+                (close)="closePicker($event)"
+                (select)="finishDialogPicker($event)">
+</app-event-hub>
+
 <!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">
     <label [attr.for]="input.id" class="control-label">
