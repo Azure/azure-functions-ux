@@ -17,31 +17,32 @@ import {ConfigService} from './config.service';
 
 // export interface IArmService{
 
-//     get(resourceId : string, apiVersion? : string);
+//     get(resourceId: string, apiVersion?: string);
 
-//     delete(resourceId : string, apiVersion? : string);
+//     delete(resourceId: string, apiVersion?: string);
 
-//     put(resourceId : string, body : any, apiVersion? : string);
+//     put(resourceId: string, body: any, apiVersion?: string);
 
-//     post(resourceId : string, body : any, apiVersion? : string);
+//     post(resourceId: string, body: any, apiVersion?: string);
 
-//     send(method : string, url : string, body? : any, etag? : string, headers? : Headers);
+//     send(method: string, url: string, body?: any, etag?: string, headers?: Headers);
 
 // }
 
 @Injectable()
 export class ArmService {
+  public static availabilityApiVersion = '2015-01-01';
+
     public subscriptions = new ReplaySubject<Subscription[]>(1);
     public armUrl = '';
 
     private token: string;
-    private sessionId : string;
-    public armApiVersion = '2014-04-01'
+    private sessionId: string;
+    public armApiVersion = '2014-04-01';
     public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';
-    public static availabilityApiVersion = '2015-01-01';
 
     private _initialized = false;
     private _invokeId = 100;
@@ -54,20 +55,19 @@ export class ArmService {
 
         this.armUrl = this._configService.getAzureResourceManagerEndpoint();
 
-        //Cant Get Angular to accept GlobalStateService as input param
+        // Cant Get Angular to accept GlobalStateService as input param
         if ( !window.location.pathname.endsWith('/try')) {
             _userService.getStartupInfo().flatMap(info => {
                 this.token = info.token;
                 this.sessionId = info.sessionId;
-                if(info.subscriptions && info.subscriptions.length > 0){
+                if (info.subscriptions && info.subscriptions.length > 0) {
                     return Observable.of(info.subscriptions);
-                }
-                else{
+                } else {
                     return this.getSubscriptions();
                 }
             })
             .subscribe(subs => {
-                if(!this._initialized){
+                if (!this._initialized) {
                     this.subscriptions.next(subs);
                 }
 
@@ -77,67 +77,67 @@ export class ArmService {
     }
 
     private getSubscriptions() {
-        var url = `${this.armUrl}/subscriptions?api-version=2014-04-01`;
+        const url = `${this.armUrl}/subscriptions?api-version=2014-04-01`;
         return this._http.get(url, { headers: this._getHeaders() })
         .map(r => <Subscription[]>(r.json().value));
     }
 
-    send(method : string, url : string, body? : any, etag? : string, headers? : Headers, invokeApi? : boolean){
+    send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean) {
 
         headers = headers ? headers : this._getHeaders(etag);
 
-        if(invokeApi){
+        if (invokeApi) {
             let pathAndQuery = url.slice(this.armUrl.length);
             pathAndQuery = encodeURI(pathAndQuery);
             headers.append('x-ms-path-query', pathAndQuery);
             url = `${this.armUrl}/api/invoke?_=${this._invokeId++}`;
         }
 
-        let request = new Request({
-            url : url,
-            method : method,
-            search : null,
-            headers :  headers,
-            body : body ? body : null
+        const request = new Request({
+            url: url,
+            method: method,
+            search: null,
+            headers:  headers,
+            body: body ? body : null
 
         });
 
         return this._http.request(request);
     }
 
-    get(resourceId : string, apiVersion? : string){
-        var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.get(url, {headers : this._getHeaders()});
+    get(resourceId: string, apiVersion?: string) {
+        const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.get(url, {headers: this._getHeaders()});
     }
 
-    delete(resourceId : string, apiVersion? : string){
-        var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.delete(url, {headers : this._getHeaders()});
+    delete(resourceId: string, apiVersion?: string) {
+        const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.delete(url, {headers: this._getHeaders()});
     }
 
-    put(resourceId : string, body : any, apiVersion? : string){
-        var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.put(url, JSON.stringify(body), {headers : this._getHeaders()});
+    put(resourceId: string, body: any, apiVersion?: string) {
+        const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.put(url, JSON.stringify(body), {headers: this._getHeaders()});
     }
 
-    post(resourceId : string, body : any, apiVersion? : string){
-        let content = !!body ? JSON.stringify(body) : null;
-        var url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.post(url, content, {headers : this._getHeaders()});
+    post(resourceId: string, body: any, apiVersion?: string) {
+        const content = !!body ? JSON.stringify(body) : null;
+        const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.post(url, content, {headers: this._getHeaders()});
     }
 
     private _getHeaders(etag?: string): Headers {
-        var headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         headers.append('Authorization', `Bearer ${this.token}`);
         headers.append('x-ms-client-request-id', Guid.newGuid());
 
-        if(this.sessionId){
+        if (this.sessionId) {
             headers.append('x-ms-client-session-id', this.sessionId);
         }
 
-        if(etag){
+        if (etag) {
             headers.append('If-None-Match', etag);
         }
 
