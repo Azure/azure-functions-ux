@@ -120,10 +120,10 @@
                     <!-- Logs -->
                     <div class="dev-flex-column">
 
-                        <div *ngIf="!bottomTab" class="bottom-bar-closed">
-                            <span class="tab-label-disabled" (click)="clickRightTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+                        <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
+                            <span class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</span>
                             <span style="flex-grow: 1;"></span>
-                            <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i></span>
+                            <span style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></span>
                         </div>
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
