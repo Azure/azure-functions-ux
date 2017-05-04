@@ -226,7 +226,7 @@ export class FunctionApp {
         }
         else{
             return `https://${site.properties.defaultHostName}`;
-        }        
+        }
     }
 
     // In standalone mode, there isn't a concept of a separate SCM site.  Instead, all calls that would
@@ -237,7 +237,7 @@ export class FunctionApp {
             return FunctionApp.getMainUrl(configService, site);
         }
         else{
-            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;        
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
 
@@ -689,7 +689,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._http.get(`${this.mainSiteUrl}/admin/host/ping`)
+        let warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of(null));
 
@@ -1017,9 +1017,9 @@ export class FunctionApp {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(e => e.scan<number>((errorCount, err) => {
+                .retryWhen(e => e.scan((errorCount: number, err: FunctionsResponse) => {
                     // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
-                    if (errorCount >= 10) {
+                    if (errorCount >= 10 || err.status === 401) {
                         throw err;
                     }
                     return errorCount + 1;
