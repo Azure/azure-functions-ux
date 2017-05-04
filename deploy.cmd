@@ -73,9 +73,9 @@ echo Handling frontend Angular2 project.
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 	echo Bundle angular2 app
-	call :ExecuteCmd node_modules\.bin\ng build --prod --environment=prod --output-path="%ARTIFACTS%\dist"
+	call :ExecuteCmd node_modules\.bin\ng build --environment=prod --output-path="%ARTIFACTS%\dist"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd node_modules\.bin\ng build --prod --environment=prod --output-path="%ARTIFACTS%\dist"
+		call :ExecuteCmd node_modules\.bin\ng build --environment=prod --output-path="%ARTIFACTS%\dist"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 
