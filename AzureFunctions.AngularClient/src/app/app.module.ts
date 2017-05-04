@@ -112,10 +112,11 @@ export function ConfigLoader(config: ConfigService) {
 }
 
 export function ArmServiceLoader() {
-  return window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService;
+  return () => window.location.pathname.toLowerCase() === '/try' ? ArmService : ArmService;
 }
+
 export function AiServiceLoader() {
-  return window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService;
+  return () =>  window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService;
 }
 
 @NgModule({
@@ -222,12 +223,7 @@ export function AiServiceLoader() {
     PortalService,
     BroadcastService,
     FunctionMonitorService,
-    //   ArmService,
-    {
-      provide: ArmService,
-      // useClass: window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService
-      useClass: ArmServiceLoader()
-    },
+    { provide: ArmService, useFactory: ArmServiceLoader },
     CacheService,
     SlotsService,
     AuthzService,
@@ -236,15 +232,8 @@ export function AiServiceLoader() {
     UtilitiesService,
     BackgroundTasksService,
     GlobalStateService,
-    {
-      provide: AiService,
-      // useClass: window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService
-      useClass: AiServiceLoader()
-    },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
-    },
+    { provide: AiService, useFactory: AiServiceLoader },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent]
 })
