@@ -1735,15 +1735,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
     <value>'Manage' tab</value>
   </data>
- <data name="slotNew_nameLabel" xml:space="preserve">
+  <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
-  </data> 
-  <data name ="slotNew_heading" xml:space="preserve">
-  <value>Create a new deployment slot</value>
-</data>
-<data name ="slotNew_desc" xml:space="preserve">
-  <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
-</data>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Create a new deployment slot</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
+  </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>Creating new slot {0} </value>
   </data>
@@ -1770,5 +1770,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>For a richer monitoring experience, including live metrics and custom queries, we recommend enabling &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
   </data>
 </root>

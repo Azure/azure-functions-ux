@@ -281,20 +281,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ResourcesPortal\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Trace\EventIdEnricher.cs" />
     <Compile Include="Trace\FunctionsTrace.cs" />
     <Compile Include="Trace\TracingEvent.cs" />
     <Compile Include="Trace\TracingEvents.cs" />
   </ItemGroup>
   <ItemGroup>
-   <Content Include="ResourcesPortal\Resources.resx">
+    <Content Include="ResourcesPortal\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>  
+  <ItemGroup>
     <Content Include="ResourcesPortal\cs-CZ\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
