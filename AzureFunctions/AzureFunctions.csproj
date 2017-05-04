@@ -287,6 +287,14 @@
     <Compile Include="Trace\TracingEvents.cs" />
   </ItemGroup>
   <ItemGroup>
+   <Content Include="ResourcesPortal\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>  
     <Content Include="ResourcesPortal\cs-CZ\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
