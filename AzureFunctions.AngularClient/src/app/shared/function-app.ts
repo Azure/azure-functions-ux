@@ -793,7 +793,7 @@ export class FunctionApp {
             // build authorization header
             let authHeader = new Headers();
             authHeader.append('Authorization', `Bearer ${token}`);
-            return this._http.post(`${this.mainSiteUrl}/admin/host/keys/_master`, '', { headers: authHeader })
+            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
                 .do((r: Response) => {
                     let key: { name: string, value: string } = r.json();
                     this.masterKey = key.value;
