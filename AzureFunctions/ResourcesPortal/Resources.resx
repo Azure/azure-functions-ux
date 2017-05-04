@@ -1730,13 +1730,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Enable slots (preview). This is a one time opt-in feature that cannot be disabled later.</value>
+    <value>Enable deployment slots (preview). This is a one-time opt-in at the level of the Function App that cannot be disabled. Enabling deployment slots resets secrets for the Function App. The updated secrets can be copied under the </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>'Manage' tab</value>
   </data>
  <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
   </data> 
   <data name ="slotNew_heading" xml:space="preserve">
-  <value>New slot (preview) for azure functions</value>
+  <value>Create a new deployment slot</value>
 </data>
 <data name ="slotNew_desc" xml:space="preserve">
   <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>

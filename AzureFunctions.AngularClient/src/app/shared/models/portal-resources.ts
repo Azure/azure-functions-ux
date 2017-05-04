@@ -539,6 +539,7 @@ export class PortalResources
     public static emptyBrowse_title: string = "emptyBrowse_title";
     public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
     public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
+    public static appFunctionSettings_slotsDescBold: string = "appFunctionSettings_slotsDescBold";
     public static slotNew_nameLabel: string = "slotNew_nameLabel";
     public static slotNew_heading: string = "slotNew_heading";
     public static slotNew_desc: string = "slotNew_desc";
