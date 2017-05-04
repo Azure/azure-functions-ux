@@ -44,6 +44,8 @@ export class SlotNewComponent implements OnInit {
     public hasCreatePermissions: boolean;
     public newSlotForm: FormGroup;
     public slotNamePlaceholder: string;
+    public hasReachedDynamicQuotaLimit: boolean;
+    public isLoading : boolean = true;
 
     private _slotsNode: SlotsNode;
     private _viewInfoStream = new Subject<TreeViewInfo>();
@@ -110,10 +112,13 @@ export class SlotNewComponent implements OnInit {
             .retry()
             .subscribe(res => {
                 this._siteObj = <ArmObj<Site>>res.siteInfo.json();
+                let sku = this._siteObj.properties.sku;
                 this._slotsList = <ArmObj<Site>[]>res.slotsList;
                 this.slotOptinEnabled = res.slotsList.length > 0 ||
-                    res.appSettings.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue
+                    res.appSettings.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue;
+                this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === "dynamic" && this._slotsList.length === 1;
                 this._globalStateService.clearBusyState();
+                this.isLoading = false;
             })
     }
 
