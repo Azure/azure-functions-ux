@@ -1,4 +1,7 @@
 <div>
+    <div *ngIf="!hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="'monitoring_appInsights' | translate">
+    </div>
+
     <div id="function-aggregates">
         <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
         <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
