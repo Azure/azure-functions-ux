@@ -43,8 +43,11 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
             new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
-            new FunctionMonitorNode(this.sideNav, this.functionInfo, this)
         ]
+
+        if(!this.sideNav.configService.isStandalone()){
+            this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
+        }
 
         return Observable.of(null);
     }

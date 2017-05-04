@@ -12,14 +12,16 @@
         <button type="button" [fnWriteAccess]="functionApp" id="submit-button" (click)="deleteFunction()">Delete</button>
     </div>
 
-    <function-keys
-        *ngIf="functionApp?.isMultiKeySupported"
-        [functionApp]="functionApp"
-        [functionInfo]="functionInfo"></function-keys>
+    <div *ngIf="!isStandalone">
+        <function-keys
+            *ngIf="functionApp?.isMultiKeySupported"
+            [functionApp]="functionApp"
+            [functionInfo]="functionInfo"></function-keys>
 
-    <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
+        <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
 
-    <function-keys
-        *ngIf="functionApp?.isMultiKeySupported"
-        [functionApp]="functionApp"></function-keys>
+        <function-keys
+            *ngIf="functionApp?.isMultiKeySupported"
+            [functionApp]="functionApp"></function-keys>
+    </div>
 </div>

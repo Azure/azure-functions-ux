@@ -58,7 +58,7 @@
                             <span>
                                 <button [fnWriteAccess]="functionApp" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
                             </span>
-                            <span>
+                            <span *ngIf="!isStandalone">
                                 <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -67,8 +67,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
-                            </span>
-                            <span>
+
                                 <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -77,6 +76,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
+
                             </span>
                             <span>
                                 <button *ngIf="running"
@@ -149,7 +149,7 @@
                             <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
                             <span class="tab-label-rotate-right" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
                             <span class="tab-label-rotate" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                            <span class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                            <span *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
                         </div>
                     </div>
 
@@ -159,7 +159,7 @@
                         <div *ngIf="rightTab">
                             <div class="rigth-container-bar">
                                 <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                                <span [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                                <span *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
                                 <span style="flex-grow: 1;"></span>
                                 <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
                             </div>

@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
@@ -79,6 +80,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
+    public isStandalone : boolean;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -94,9 +97,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService,
                 private _aiService: AiService,
-                private _el: ElementRef) {
+                private _el: ElementRef,
+                configService : ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
+        this.isStandalone = configService.isStandalone();
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
