@@ -13,9 +13,9 @@
     margin-top: 5px;
 }
 
-.name-label{
+.slot-form label{
     margin-top: 15px;
-    display: block;
+    padding-right: 5px;
 }
 
 .name-textbox{
@@ -24,7 +24,7 @@
 }
 
 button{
-    margin-left: 0px;
+    margin-left: 0px !important; // overriding the common button css
     margin-top: 15px;
 }
 

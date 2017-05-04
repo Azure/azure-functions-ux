@@ -304,11 +304,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable slots (preview). This is a one time opt-in feature that cannot be disabled later..
+        ///   Looks up a localized string similar to Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the .
         /// </summary>
         internal static string appFunctionSettings_slotsDesc {
             get {
                 return ResourceManager.GetString("appFunctionSettings_slotsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Manage&apos; node for each function..
+        /// </summary>
+        internal static string appFunctionSettings_slotsDescBold {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_slotsDescBold", resourceCulture);
             }
         }
         
@@ -988,6 +997,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No function apps to display.
+        /// </summary>
+        internal static string emptyBrowse_title {
+            get {
+                return ResourceManager.GetString("emptyBrowse_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enabled.
         /// </summary>
         internal static string enabled {
@@ -1209,6 +1227,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string error_unableToloadGeneratedAPIDefinition {
             get {
                 return ResourceManager.GetString("error_unableToloadGeneratedAPIDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to upate the list of slots.
+        /// </summary>
+        internal static string error_unableToLoadSlotsList {
+            get {
+                return ResourceManager.GetString("error_unableToLoadSlotsList", resourceCulture);
             }
         }
         
@@ -3940,11 +3967,83 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Slot Name.
+        ///   Looks up a localized string similar to Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots..
+        /// </summary>
+        internal static string slotNew_desc {
+            get {
+                return ResourceManager.GetString("slotNew_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans..
+        /// </summary>
+        internal static string slotNew_dynamicQuotaReached {
+            get {
+                return ResourceManager.GetString("slotNew_dynamicQuotaReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new deployment slot.
+        /// </summary>
+        internal static string slotNew_heading {
+            get {
+                return ResourceManager.GetString("slotNew_heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string slotNew_nameLabel {
             get {
                 return ResourceManager.GetString("slotNew_nameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This value will be appended to your main web app&apos;s URL and will serve as the public address of the slot.  For example if you have a web app named &apos;contoso&apos; and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’..
+        /// </summary>
+        internal static string slotNew_nameLabel_balloonText {
+            get {
+                return ResourceManager.GetString("slotNew_nameLabel_balloonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either..
+        /// </summary>
+        internal static string slotNew_noAccess {
+            get {
+                return ResourceManager.GetString("slotNew_noAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create slot {0} .
+        /// </summary>
+        internal static string slotNew_startCreateFailureNotifyTitle {
+            get {
+                return ResourceManager.GetString("slotNew_startCreateFailureNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating new slot {0} .
+        /// </summary>
+        internal static string slotNew_startCreateNotifyTitle {
+            get {
+                return ResourceManager.GetString("slotNew_startCreateNotifyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully created slot {0} .
+        /// </summary>
+        internal static string slotNew_startCreateSuccessNotifyTitle {
+            get {
+                return ResourceManager.GetString("slotNew_startCreateSuccessNotifyTitle", resourceCulture);
             }
         }
         
@@ -3954,6 +4053,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string slots_warningOff {
             get {
                 return ResourceManager.GetString("slots_warningOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string slotsList_nameHeader {
+            get {
+                return ResourceManager.GetString("slotsList_nameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App service plan.
+        /// </summary>
+        internal static string slotsList_serverfarmHeader {
+            get {
+                return ResourceManager.GetString("slotsList_serverfarmHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string slotsList_statusHeader {
+            get {
+                return ResourceManager.GetString("slotsList_statusHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slots (preview).
+        /// </summary>
+        internal static string slotsList_title {
+            get {
+                return ResourceManager.GetString("slotsList_title", resourceCulture);
             }
         }
         
