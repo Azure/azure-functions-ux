@@ -1700,7 +1700,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Copy</value>
   </data>
   <data name="keysDialog_getFunctionUrl" xml:space="preserve">
-    <value>Get Function URL</value>
+    <value>Get function URL</value>
   </data>
   <data name="keysDialog_key" xml:space="preserve">
     <value>Key</value>
