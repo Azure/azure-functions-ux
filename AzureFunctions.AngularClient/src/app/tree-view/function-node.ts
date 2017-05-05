@@ -1,3 +1,4 @@
+import { FunctionApp } from './../shared/function-app';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
@@ -156,11 +157,11 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
     public remove(){
         this._functionsNode.removeChild(this.functionInfo, false);
 
-        let defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
-        let scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
+        this.sideNav.cacheService.clearCachePrefix(
+            FunctionApp.getMainUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
 
-        this.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
-        this.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
+        this.sideNav.cacheService.clearCachePrefix(
+            FunctionApp.getScmUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
 
     }
 }

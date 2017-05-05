@@ -24,6 +24,7 @@ AzureFunctions/ng
 /dist
 /tmp
 /out-tsc
+/StandalonePackage
 
 # dependencies
 node_modules/
