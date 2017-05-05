@@ -785,6 +785,7 @@ export class FunctionApp {
 
     getHostSecretsFromScm() {
     return this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+        .retryWhen(this.retryAntares)
         .map((r: Response) => {
             return r.json();
         })
@@ -794,6 +795,13 @@ export class FunctionApp {
             let authHeader = new Headers();
             authHeader.append('Authorization', `Bearer ${token}`);
             return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                .retryWhen(error => error.scan((errorCount : number, err: FunctionsResponse) => {
+                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                        throw err;
+                    } else {
+                        return errorCount + 1;
+                    }
+                }, 0).delay(1000))
                 .do((r: Response) => {
                     let key: { name: string, value: string } = r.json();
                     this.masterKey = key.value;
