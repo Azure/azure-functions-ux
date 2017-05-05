@@ -1,5 +1,4 @@
 import { ConfigService } from './../shared/services/config.service';
-import { ArmTryService } from './../shared/services/arm-try.service';
 import { Subject } from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { CacheService } from './../shared/services/cache.service';
@@ -237,7 +236,7 @@ export class TryLandingComponent implements OnInit {
             this._aiService,
             this._configService);
 
-        (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
+        this._armService.tryFunctionApp = this._functionApp;
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
