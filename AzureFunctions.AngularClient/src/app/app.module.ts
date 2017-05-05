@@ -10,9 +10,9 @@ import { ArmTryService } from './shared/services/arm-try.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
 
 import { ConfigService } from './shared/services/config.service';
@@ -111,12 +111,22 @@ export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig();
 }
 
-export function ArmServiceLoader() {
-  return () => window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService;
+export function ArmServiceFactory(
+    http: Http,
+    configService: ConfigService,
+    userService: UserService,
+    aiService: AiService,
+    translateService: TranslateService) {
+  const service = window.location.pathname.toLowerCase() === '/try' ?
+    new ArmTryService(http, configService, userService, aiService, translateService) :
+    new ArmService(http, configService, userService, aiService, translateService);
+
+  return service;
 }
 
-export function AiServiceLoader() {
-  return () =>  window.location.pathname.toLowerCase() === '/try' ? AiTryService : AiService;
+export function AiServiceFactory() {
+  const service = window.location.pathname.toLowerCase() === '/try' ? new AiTryService() : new AiService();
+  return service;
 }
 
 @NgModule({
@@ -223,7 +233,15 @@ export function AiServiceLoader() {
     PortalService,
     BroadcastService,
     FunctionMonitorService,
-    { provide: ArmService, useFactory: ArmServiceLoader },
+    {
+      provide: ArmService, useFactory: ArmServiceFactory, deps: [
+        Http,
+        ConfigService,
+        UserService,
+        AiService,
+        TranslateService
+      ]
+    },
     CacheService,
     SlotsService,
     AuthzService,
@@ -232,7 +250,7 @@ export function AiServiceLoader() {
     UtilitiesService,
     BackgroundTasksService,
     GlobalStateService,
-    { provide: AiService, useFactory: AiServiceLoader },
+    { provide: AiService, useFactory: AiServiceFactory },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent]
