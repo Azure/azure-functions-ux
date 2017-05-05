@@ -47,7 +47,7 @@ export class FunctionMonitorService {
     }
 
 
-    getInvocationsDataForSelctedFunction(functionApp : FunctionApp, functionId: string) {
+    getInvocationsDataForSelectedFunction(functionApp : FunctionApp, functionId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
