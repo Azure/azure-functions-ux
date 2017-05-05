@@ -1,4 +1,7 @@
-﻿<!doctype html>
+@using System.Web.Http;
+@using AzureFunctions.Contracts;
+
+<!doctype html>
 <html>
 @{
     var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
@@ -19,6 +22,9 @@
     var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
     var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
 
+    var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
+    var clientConfig = settings.GetClientConfiguration();
+
 }
 <head>
     <meta charset="utf-8">
@@ -33,8 +39,9 @@
 
     <script type="text/javascript">
         window.appsvc = {
-            env : {
-                hostName: '@Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")'
+            env: {
+                hostName: '@Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")',
+                runtimeType: '@clientConfig.RuntimeType'
             }
         };
     </script>

@@ -12,7 +12,10 @@ export class HttpMethods {
 }
 
 export class Constants {
-    public static serviceHost: string = (window.location.hostname === "localhost") ? window.location.href : '';
+    public static serviceHost = 
+        window.location.hostname === "localhost" || (<any>window).appsvc.env.runtimeType === "Standalone"
+        ? `https://${window.location.hostname}:${window.location.port}/`
+        : '';
 
     public static runtimeVersion: string;
     public static routingExtensionVersion: string;
