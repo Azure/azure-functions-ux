@@ -3,6 +3,7 @@
 export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
+    public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
     public static functionCreateErrorDetails: string = "functionCreateErrorDetails";
