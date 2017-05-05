@@ -112,7 +112,7 @@ export function ConfigLoader(config: ConfigService) {
 }
 
 export function ArmServiceLoader() {
-  return () => window.location.pathname.toLowerCase() === '/try' ? ArmService : ArmService;
+  return () => window.location.pathname.toLowerCase() === '/try' ? ArmTryService : ArmService;
 }
 
 export function AiServiceLoader() {
