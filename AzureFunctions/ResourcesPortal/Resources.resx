@@ -235,7 +235,7 @@
     <value>Your subscription</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code</value>
+    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Failed to create app</value>

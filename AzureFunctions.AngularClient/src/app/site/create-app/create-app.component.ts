@@ -105,6 +105,8 @@ export class CreateAppComponent implements OnInit {
       let appsNode = <AppsNode>this._viewInfo.node;
       appsNode.addChild(siteObj);
     }, error =>{
+      this._globalStateService.clearBusyState();
+
       this._broadcastService.broadcast<ErrorEvent>(
         BroadcastEvent.Error, {
           message : this._translateService.instant(PortalResources.createApp_fail),
