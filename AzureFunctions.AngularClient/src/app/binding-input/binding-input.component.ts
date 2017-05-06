@@ -72,7 +72,7 @@ export class BindingInputComponent {
         return this._input;
     }
 
-    openCollectorBlade(input: PickerInput) {
+    openPicker(input: PickerInput) {
         let bladeInput = null;
         switch (input.resource) {
             case ResourceType.Storage:

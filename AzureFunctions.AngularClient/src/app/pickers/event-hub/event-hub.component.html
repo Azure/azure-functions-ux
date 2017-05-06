@@ -9,7 +9,7 @@
                 <div class="line">
                     <div class="select-container">                
                         <div class="text-label">{{'eventHubPicker_namespace' | translate}}</div>
-                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'eventHubPicker_notFound' | translate}}</div>
+                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
                             <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
@@ -17,7 +17,7 @@
                     </div>
                     <div *ngIf="selectedNamespace" class="select-container">
                         <div class="text-label">{{'eventHubPicker_eventHub' | translate}}</div>
-                        <div *ngIf="eventHubs?.value.length == 0" class="text-label">{{'eventHubPicker_notFound' | translate}}</div>
+                        <div *ngIf="eventHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!eventHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="eventHubs?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedEventHub">
                             <option *ngFor="let item of eventHubs.value" [value]="item.id">{{item.name}}</option>
@@ -25,7 +25,7 @@
                     </div>
                     <div *ngIf="selectedEventHub" class="select-container">
                         <div class="text-label">{{'eventHubPicker_policy' | translate}}</div>
-                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'eventHubPicker_notFound' | translate}}</div>
+                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="polices?.value?.length > 0" [(ngModel)]="selectedPolicy">
                             <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
@@ -33,7 +33,12 @@
                     </div>
                 </div>
                 <div class="button-conainer">
-                    <button *ngIf="!selectInProcess" (click)="onSelect()" [class.custom-button-disabled]="!selectedNamespace || !selectedEventHub || !selectedPolicy" class="custom-button">{{ 'select' | translate }}</button>
+                    <button *ngIf="!selectInProcess" 
+                            (click)="onSelect()" 
+                            [class.custom-button-disabled]="!selectedNamespace || !selectedEventHub || !selectedPolicy" 
+                            class="custom-button">
+                        {{ 'select' | translate }}
+                    </button>
                     <i  *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
                 </div>
             </div>

@@ -1429,15 +1429,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not found..
-        /// </summary>
-        internal static string eventHubPicker_notFound {
-            get {
-                return ResourceManager.GetString("eventHubPicker_notFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Policy.
         /// </summary>
         internal static string eventHubPicker_policy {
@@ -3486,6 +3477,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string notAvailable {
             get {
                 return ResourceManager.GetString("notAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found..
+        /// </summary>
+        internal static string notFound {
+            get {
+                return ResourceManager.GetString("notFound", resourceCulture);
             }
         }
         

@@ -1,8 +1,8 @@
-<app-event-hub *ngIf="pickerName === 'EventHub'" 
+<event-hub *ngIf="pickerName === 'EventHub'" 
                 [functionApp]="functionApp"
                 (close)="closePicker($event)"
                 (select)="finishDialogPicker($event)">
-</app-event-hub>
+</event-hub>
 
 <!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">
@@ -58,7 +58,7 @@
         <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
         </pop-over>
         <!--[leftOffset]=20 [topOffset]=10-->
-        <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openCollectorBlade(input)"> {{ 'bindingInput_new' | translate }}</i>
+        <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openPicker(input)"> {{ 'bindingInput_new' | translate }}</i>
         <span *ngIf="!input.inProcess && showTryView" class="button-go-disabled" [class.select]="input.errorText" [tooltip]="freeAccountTooltip"
               tooltipPlacement="bottom">{{ 'bindingInput_new' | translate }}</span>
         <tooltip-content #freeAccountTooltip>
