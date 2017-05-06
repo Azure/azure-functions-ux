@@ -699,7 +699,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._http.get(`${this.mainSiteUrl}/admin/host/ping`)
+        let warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
             .retryWhen(this.retryAntares)
             .catch(e => Observable.of(null));
 
@@ -795,6 +795,7 @@ export class FunctionApp {
 
     getHostSecretsFromScm() {
     return this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+        .retryWhen(this.retryAntares)
         .map((r: Response) => {
             return r.json();
         })
@@ -803,7 +804,14 @@ export class FunctionApp {
             // build authorization header
             let authHeader = new Headers();
             authHeader.append('Authorization', `Bearer ${token}`);
-            return this._http.post(`${this.mainSiteUrl}/admin/host/keys/_master`, '', { headers: authHeader })
+            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                .retryWhen(error => error.scan((errorCount : number, err: FunctionsResponse) => {
+                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                        throw err;
+                    } else {
+                        return errorCount + 1;
+                    }
+                }, 0).delay(1000))
                 .do((r: Response) => {
                     let key: { name: string, value: string } = r.json();
                     this.masterKey = key.value;
@@ -1027,9 +1035,9 @@ export class FunctionApp {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(e => e.scan<number>((errorCount, err) => {
+                .retryWhen(e => e.scan((errorCount: number, err: FunctionsResponse) => {
                     // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
-                    if (errorCount >= 10) {
+                    if (errorCount >= 10 || err.status === 401) {
                         throw err;
                     }
                     return errorCount + 1;

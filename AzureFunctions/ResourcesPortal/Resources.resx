@@ -1700,7 +1700,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Copy</value>
   </data>
   <data name="keysDialog_getFunctionUrl" xml:space="preserve">
-    <value>Get Function URL</value>
+    <value>Get function URL</value>
   </data>
   <data name="keysDialog_key" xml:space="preserve">
     <value>Key</value>
@@ -1723,21 +1723,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="emptyBrowse_learnMore" xml:space="preserve">
     <value>Learn more about azure functions</value>
   </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>No function apps to display</value>
+  </data>
   <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
     <value>Slots (preview)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Enable slots (preview). This is a one time opt-in feature that cannot be disabled later.</value>
+    <value>Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the </value>
   </data>
- <data name="slotNew_nameLabel" xml:space="preserve">
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>'Manage' node for each function.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
-  </data> 
-  <data name ="slotNew_heading" xml:space="preserve">
-  <value>New slot (preview) for azure functions</value>
-</data>
-<data name ="slotNew_desc" xml:space="preserve">
-  <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
-</data>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Create a new deployment slot</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
+  </data>
   <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
     <value>Creating new slot {0} </value>
   </data>
@@ -1745,7 +1751,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Successfully created slot {0} </value>
   </data>
   <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
-    <value>Successfully created slot {0} </value>
+    <value>Failed to create slot {0} </value>
   </data>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Unable to upate the list of slots</value>
@@ -1764,5 +1770,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>For a richer monitoring experience, including live metrics and custom queries, we recommend enabling &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
+  </data>
+  <data name ="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
   </data>
 </root>

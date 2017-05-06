@@ -14,6 +14,7 @@ import { ProxyNode } from './proxy-node';
 import { AppNode, SlotNode } from './app-node';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Subscription } from '../shared/models/subscription';
+import { CacheService } from "app/shared/services/cache.service";
 
 export class SlotsNode extends TreeNode {
     public dashboardType = DashboardType.slots;
@@ -47,6 +48,7 @@ export class SlotsNode extends TreeNode {
         let newNode = new SlotNode(this.sideNav, childSiteObj, this, this._subscriptions);
         this._addChildAlphabetically(newNode);
         newNode.select();
+        this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
     }
 
     public removeChild(child: TreeNode, callRemoveOnChild?: boolean) {
@@ -55,5 +57,6 @@ export class SlotsNode extends TreeNode {
         })
 
         this._removeHelper(removeIndex, callRemoveOnChild);
+         this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
     }
 }

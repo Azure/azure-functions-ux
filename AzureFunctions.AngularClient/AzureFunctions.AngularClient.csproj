@@ -239,6 +239,7 @@
     <Content Include="src\images\diagnostic-logs.svg" />
     <Content Include="src\images\download.svg" />
     <Content Include="src\images\dropbox_45.png" />
+    <Content Include="src\images\emptybrowse-functions.svg" />
     <Content Include="src\images\error.svg" />
     <Content Include="src\images\extensions.svg" />
     <Content Include="src\images\external_45.png" />

@@ -144,6 +144,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.latestExtensionVersion = Constants.runtimeVersion;
             this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
 
+             if (!this.extensionVersion) {
+               this.extensionVersion = Constants.latest;
+             }
+
             this.needUpdateExtensionVersion =
                 Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
 

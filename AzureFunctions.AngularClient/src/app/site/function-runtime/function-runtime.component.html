@@ -81,7 +81,9 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}
+                        <span class="bold-text">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+                    </h2>
                     <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
                 </div>
             </div>

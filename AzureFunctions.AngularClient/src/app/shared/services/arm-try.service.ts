@@ -24,7 +24,7 @@ export class ArmTryService extends ArmService {
 
     private _whiteListedPrefixUrls : string[] = [
             `${Constants.serviceHost}api`
-        ];;
+        ];
 
     constructor(http: Http,
         configService: ConfigService,

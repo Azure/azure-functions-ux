@@ -22,8 +22,8 @@
     </tr>
 
     <tr *ngIf="table.items.length === 0 || isLoading">
-      <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
-      <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
+      <td *ngIf="isLoading" colspan="3">{{'functionMonitor_loading' | translate}}</td>
+      <td *ngIf="!isLoading && table.items.length === 0" colspan="3">{{'noResults' | translate}}</td>
     </tr>
 
   </tbl>

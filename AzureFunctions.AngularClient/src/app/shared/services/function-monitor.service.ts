@@ -50,7 +50,7 @@ export class FunctionMonitorService {
         .map(r => <FunctionAggregates>(r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase())));
     }
 
-    getInvocationsDataForSelctedFunction(functionApp : FunctionApp, functionId: string) {
+    getInvocationsDataForSelectedFunction(functionApp : FunctionApp, functionId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
