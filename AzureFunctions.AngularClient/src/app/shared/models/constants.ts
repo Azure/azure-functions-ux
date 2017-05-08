@@ -74,3 +74,7 @@ export class Validations{
 export class Regex{
     public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
 }
+
+export class Links{
+    public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+}

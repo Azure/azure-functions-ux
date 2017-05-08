@@ -1,3 +1,4 @@
+import { Links } from './../../shared/models/constants';
 import { Subscription } from './../../shared/models/subscription';
 import { AppNode } from './../../tree-view/app-node';
 import { ErrorIds } from './../../shared/models/error-ids';
@@ -29,6 +30,7 @@ export class CreateAppComponent implements OnInit {
   public Resources = PortalResources;
   public group : FormGroup;
   public viewInfoStream : Subject<TreeViewInfo>;
+  public FwdLinks = Links;
 
   private _viewInfo : TreeViewInfo;
   private _subscriptionId : string;
@@ -42,7 +44,6 @@ export class CreateAppComponent implements OnInit {
     private _fb : FormBuilder,
     private _aiService : AiService,
     injector : Injector) {
-    
     this._armService.subscriptions
     .first()
     .subscribe(subs =>{

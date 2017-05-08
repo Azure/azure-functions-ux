@@ -4,7 +4,9 @@
 
   <div class="text-subheading">
     <span>{{ 'createApp_description' | translate}}</span>
-    <span class="link">Learn more <img src="images/open-external.svg" width="10px" height="10px"/></span>
+    <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore">
+      {{ 'topBar_learnMore' | translate }}
+      <img src="images/open-external.svg"/></a>
   </div>
 
   <label class="name-label">{{ '_name' | translate }}</label>
