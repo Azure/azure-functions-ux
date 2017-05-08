@@ -552,6 +552,7 @@ export class PortalResources
     public static slotsList_statusHeader: string = "slotsList_statusHeader";
     public static slotsList_serverfarmHeader: string = "slotsList_serverfarmHeader";
     public static slotsList_title: string = "slotsList_title";
+    public static monitoring_appInsights: string = "monitoring_appInsights";
     public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
 }
