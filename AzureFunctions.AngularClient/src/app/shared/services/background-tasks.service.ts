@@ -1,19 +1,25 @@
-import { FunctionContainer } from './../models/function-container';
-import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from './../models/portal-resources';
 import {Injectable, ApplicationRef} from '@angular/core';
 import {Http, Headers} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/observable/timer';
+import { TranslateService } from '@ngx-translate/core';
+
+import { FunctionContainer } from './../models/function-container';
+import { PortalResources } from './../models/portal-resources';
 import {UserService} from './user.service';
-import {Observable, Subscription as RxSubscription} from 'rxjs/Rx';
 import {FunctionsService} from './functions.service';
 import {BroadcastService} from '../services/broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
+import { BroadcastEvent } from '../models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../models/error-event';
 import {Constants} from '../models/constants';
+import { ErrorIds } from '../models/error-ids';
 import {GlobalStateService} from './global-state.service';
 import {ArmService} from './arm.service';
 import { AiService } from './ai.service';
-import { ErrorIds } from "../models/error-ids";
 
 @Injectable()
 export class BackgroundTasksService {
@@ -34,7 +40,7 @@ export class BackgroundTasksService {
             }
             if (this.isIE()) {
                 console.log('Detected IE, running zone.js workaround');
-                setInterval(() => this._applicationRef.tick(), 1000)
+                setInterval(() => this._applicationRef.tick(), 1000);
             }
     }
 
@@ -47,11 +53,12 @@ export class BackgroundTasksService {
             this._preIFrameTasks = Observable.timer(1, 60000)
                 .concatMap(() => this._userService.getToken().retry(5))
                 .subscribe(token => {
+                  // TODO: why is this empty ?
                 });
         }
     }
 
     private isIE(): boolean {
-        return navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;
+        return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
     }
 }

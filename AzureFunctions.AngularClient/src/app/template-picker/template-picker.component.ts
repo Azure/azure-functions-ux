@@ -1,5 +1,9 @@
 import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
-import {TemplatePickerType, Template} from '../shared/models/template-picker';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+
+import { TemplatePickerType, Template } from '../shared/models/template-picker';
 import {DirectionType, Binding} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
 import {FunctionApp} from '../shared/function-app';
@@ -7,9 +11,7 @@ import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/mode
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
-import {Subject} from 'rxjs/Rx';
 
 @Component({
     selector: 'template-picker',

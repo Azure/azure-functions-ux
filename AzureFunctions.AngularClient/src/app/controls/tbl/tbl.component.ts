@@ -1,5 +1,4 @@
 import { FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs/Rx';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList } from '@angular/core';
 import { Component, OnInit, Directive, ComponentFactoryResolver } from '@angular/core';
 

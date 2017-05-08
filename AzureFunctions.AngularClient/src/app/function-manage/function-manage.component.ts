@@ -1,13 +1,19 @@
 import {Component, Input} from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
-import {FunctionInfo} from '../shared/models/function-info';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
 import {FunctionConfig} from '../shared/models/function-config';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {SelectOption} from '../shared/models/select-option';
 import {PortalService} from '../shared/services/portal.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionApp} from '../shared/function-app';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';

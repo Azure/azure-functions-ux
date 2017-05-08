@@ -1,3 +1,13 @@
+import { Component, OnInit, EventEmitter, OnDestroy, Output, Input } from '@angular/core';
+import {Http} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/of';
+import {TranslateService} from '@ngx-translate/core';
+
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionApp } from './../shared/function-app';
@@ -8,12 +18,9 @@ import { Arm } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
-import { FormControl } from '@angular/forms';
 import { WebsiteId } from './../shared/models/portal';
 import { StorageItem, StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
-import { Component, OnInit, EventEmitter, OnDestroy, Output, Input } from '@angular/core';
-import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
 import {TreeNode} from '../tree-view/tree-node';
 import {AppsNode} from '../tree-view/apps-node';
 import {AppNode} from '../tree-view/app-node';
@@ -24,7 +31,6 @@ import {UserService} from '../shared/services/user.service';
 import {FunctionsService} from '../shared/services/functions.service';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
-import {TranslateService} from '@ngx-translate/core';
 import {AiService} from '../shared/services/ai.service';
 import {DropDownComponent} from '../drop-down/drop-down.component';
 import {DropDownElement} from '../shared/models/drop-down-element';
@@ -32,7 +38,6 @@ import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {DashboardType} from '../tree-view/models/dashboard-type';
 import {Subscription} from '../shared/models/subscription';
 import {SlotsService} from './../shared/services/slots.service';
-import {Http, Headers, Response, Request} from '@angular/http';
 
 @Component({
   selector: 'side-nav',
@@ -145,7 +150,7 @@ export class SideNavComponent{
         });
 
         this._tryFunctionAppStream
-        .flatMap(tryFunctionApp => {
+        .mergeMap(tryFunctionApp => {
             this.tryFunctionApp = tryFunctionApp;
             return tryFunctionApp.getFunctions();
         })

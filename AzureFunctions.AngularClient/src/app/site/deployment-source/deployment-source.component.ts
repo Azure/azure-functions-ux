@@ -1,5 +1,9 @@
 import {Component, OnDestroy} from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/switchMap';
+
 import {CacheService} from '../../shared/services/cache.service';
 import {ArmService} from '../../shared/services/arm.service';
 import {Site} from '../../shared/models/arm/site';
@@ -103,7 +107,7 @@ export class DeploymentSourceComponent implements OnDestroy {
     disconnect(){
         this._globalStateService.setBusyState();
         this._armService.delete(`${this.site.id}/sourceControls/web`)
-        .flatMap(result =>{
+        .mergeMap(result =>{
             return this._cacheService.getArm(`${this.site.id}/config/web`, true);
         })
         .subscribe(r =>{

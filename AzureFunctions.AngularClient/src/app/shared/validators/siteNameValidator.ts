@@ -1,12 +1,12 @@
+import { TranslateService } from '@ngx-translate/core';
+import { Validator, FormControl } from '@angular/forms';
+
 import { PortalResources } from './../models/portal-resources';
 import { Regex } from './../models/constants';
 import { Injector } from '@angular/core/src/core';
 import { ArmObj } from './../models/arm/arm-obj';
 import { CacheService } from './../services/cache.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Validator } from '@angular/forms/src/forms';
-import { FormControl } from "@angular/forms/src/model";
-import { Validations } from "app/shared/models/constants";
+import { Validations } from 'app/shared/models/constants';
 
 export class SiteNameValidator implements Validator{
     private _ts : TranslateService;

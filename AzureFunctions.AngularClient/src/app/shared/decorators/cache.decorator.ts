@@ -1,4 +1,9 @@
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
+
 import {FunctionInfo} from '../models/function-info';
 
 let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?: any}} = {};

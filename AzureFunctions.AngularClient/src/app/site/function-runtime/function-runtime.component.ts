@@ -1,30 +1,37 @@
+import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { NotificationIds, Constants } from './../../shared/models/constants';
-import { Response } from '@angular/http';
 import { LanguageService } from './../../shared/services/language.service';
-import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
-import { Component, Input, OnDestroy } from '@angular/core';
 import { ArmService } from '../../shared/services/arm.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { FunctionsService } from '../../shared/services/functions.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp } from './../../shared/function-app';
-import { FunctionAppEditMode } from "../../shared/models/function-app-edit-mode";
-import { SlotsService } from "app/shared/services/slots.service";
+import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
+import { SlotsService } from '../../shared/services/slots.service';
 
 @Component({
   selector: 'function-runtime',
@@ -95,7 +102,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this._appNode.functionAppStream,
                   this._slotsService.getSlotsList(viewInfo.resourceId),
                 (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
-                .flatMap(result => {
+                .mergeMap(result => {
                   return result.functionApp
                           .getFunctionAppEditMode()
                           .map(editMode => ({
@@ -205,7 +212,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
         this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .flatMap(r => {
+          .mergeMap(r => {
             return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
           })
           .subscribe(r => {
@@ -226,7 +233,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionAppEditMode = state;
         let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .flatMap(r => {
+          .mergeMap(r => {
             let response: ArmObj<any> = r.json();
             response.properties[Constants.functionAppEditModeSettingName] = appSetting;
             return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
@@ -251,7 +258,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       this._globalStateService.setBusyState();
       let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .flatMap(r => {
+        .mergeMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
         })
         .do(null, e => {
@@ -301,7 +308,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._aiService.trackEvent('/actions/app_settings/update_version');
     this._globalStateService.setBusyState();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateContainerVersion(this.site, r.json());
       })
       .subscribe(r => {
@@ -317,7 +324,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._globalStateService.setBusyState();
 
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateProxiesVersion(this.site, r.json());
       })
       .subscribe(r => {

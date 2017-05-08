@@ -1,17 +1,19 @@
 import {Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/throw';
+import { FileUploader } from 'ng2-file-upload';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+
 import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {FunctionsService} from '../shared/services/functions.service';
-import {FileUploader} from 'ng2-file-upload';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {Subscription as RxSubscription} from 'rxjs/Rx';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
-import {Observable} from 'rxjs/Rx';
 import {FunctionApp} from '../shared/function-app';
 
 

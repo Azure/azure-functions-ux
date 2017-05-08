@@ -1,3 +1,8 @@
+import { Component, OnInit, Input, Injector } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
+
 import { Subscription } from './../../shared/models/subscription';
 import { AppNode } from './../../tree-view/app-node';
 import { ErrorIds } from './../../shared/models/error-ids';
@@ -7,18 +12,14 @@ import { AiService } from './../../shared/services/ai.service';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
-import { TranslateService } from '@ngx-translate/core';
 import { SiteNameValidator } from './../../shared/validators/siteNameValidator';
 import { ArmService } from './../../shared/services/arm.service';
 import { AppsNode } from './../../tree-view/apps-node';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
-import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, Input, Injector } from '@angular/core';
-import { RequiredValidator } from "app/shared/validators/requiredValidator";
-import { Site } from "app/shared/models/arm/site";
-import { BroadcastEvent } from "app/shared/models/broadcast-event";
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { Site } from 'app/shared/models/arm/site';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 @Component({
   selector: 'create-app',
@@ -42,7 +43,7 @@ export class CreateAppComponent implements OnInit {
     private _fb : FormBuilder,
     private _aiService : AiService,
     injector : Injector) {
-    
+
     this._armService.subscriptions
     .first()
     .subscribe(subs =>{
@@ -69,7 +70,7 @@ export class CreateAppComponent implements OnInit {
       .subscribe(viewInfo =>{
         this._viewInfo = viewInfo;
     })
-    
+
   }
 
   @Input() set viewInfoInput(viewInfo : TreeViewInfo){
@@ -100,7 +101,7 @@ export class CreateAppComponent implements OnInit {
     this._cacheService.putArm(id, null, body)
     .subscribe(r =>{
       this._globalStateService.clearBusyState();
-      
+
       let siteObj = <ArmObj<Site>>r.json();
       let appsNode = <AppsNode>this._viewInfo.node;
       appsNode.addChild(siteObj);

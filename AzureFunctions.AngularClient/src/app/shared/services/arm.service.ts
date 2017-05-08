@@ -1,16 +1,21 @@
-import { Guid } from './../Utilities/Guid';
-import {Http, Headers, Response, Request} from '@angular/http';
 import {Injectable, EventEmitter} from '@angular/core';
+import {Http, Headers, Response, Request} from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/of';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { Guid } from './../Utilities/Guid';
 import {Subscription} from '../models/subscription';
 import {FunctionContainer} from '../models/function-container';
-import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from 'rxjs/Rx';
 import {StorageAccount} from '../models/storage-account';
 import {ResourceGroup} from '../models/resource-group';
 import {UserService} from './user.service';
 import {Constants} from '../models/constants';
 import {ClearCache} from '../decorators/cache.decorator';
 import {AiService} from './ai.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../models/portal-resources';
 import {ArmObj, ArmArrayResult} from '../models/arm/arm-obj';
 import {ConfigService} from './config.service';
@@ -57,7 +62,7 @@ export class ArmService {
 
         // Cant Get Angular to accept GlobalStateService as input param
         if ( !window.location.pathname.endsWith('/try')) {
-            _userService.getStartupInfo().flatMap(info => {
+            _userService.getStartupInfo().mergeMap(info => {
                 this.token = info.token;
                 this.sessionId = info.sessionId;
                 if (info.subscriptions && info.subscriptions.length > 0) {

@@ -1,5 +1,8 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/of';
+
 import { Disposable } from './tree-node';
-import { Subject, Observable } from 'rxjs/Rx';
 import {SideNavComponent} from '../side-nav/side-nav.component';
 import {DashboardType} from './models/dashboard-type';
 import {TreeViewInfo} from './models/tree-view-info';
@@ -100,7 +103,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             .do(null, e=>{
                 this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh/update-view");
             })
-            .subscribe(() =>{});            
+            .subscribe(() =>{});
 
             this.isLoading = false;
         });
@@ -115,7 +118,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public toggle(event){
-        
+
         if(!this.isExpanded){
             this.isLoading = true;
             this.isExpanded = true;
@@ -169,9 +172,9 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.sideNav.aiService.trackException(e, "/errors/tree-node/open-create/update-view");
         })
         .subscribe(() =>{});
-        
+
         if(event && event.stopPropagation){
-            event.stopPropagation();            
+            event.stopPropagation();
         }
     }
 
@@ -193,7 +196,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         if(removeIndex > -1){
             let child = this.children[removeIndex];
             this.children.splice(removeIndex, 1);
-            
+
             if(callRemoveOnChild){
                 child.remove();
             }
@@ -205,7 +208,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public getTreePathNames(){
         let path : string[] = [];
         let curNode : TreeNode = this;
-        
+
         while(curNode){
             path.splice(0, 0, curNode.title);
             curNode = curNode.parent;

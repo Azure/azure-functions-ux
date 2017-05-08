@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, Subscription as RxSubscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
+
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { SlotsNode } from "../tree-view/slots-node";
-import { SlotNode } from "../tree-view/app-node";
-import { BroadcastService } from "app/shared/services/broadcast.service";
-import { BroadcastEvent } from "app/shared/models/broadcast-event";
-import { PortalResources } from "app/shared/models/portal-resources";
-import { ErrorType, ErrorEvent } from "app/shared/models/error-event";
-import { ErrorIds } from "app/shared/models/error-ids";
-import { TranslateService } from "@ngx-translate/core";
+import { SlotsNode } from '../tree-view/slots-node';
+import { SlotNode } from '../tree-view/app-node';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { ErrorType, ErrorEvent } from '../shared/models/error-event';
+import { ErrorIds } from '../shared/models/error-ids';
 
 
 interface SlotItem {

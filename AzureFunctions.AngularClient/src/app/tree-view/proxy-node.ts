@@ -1,16 +1,17 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import { ProxiesNode } from './proxies-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import {FunctionContainer} from '../shared/models/function-container';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {FunctionInfo} from '../shared/models/function-info';
 import {ApiProxy} from '../shared/models/api-proxy';
 
 export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
@@ -76,7 +77,7 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
 
             canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
                 PortalResources.sideBar_changeMade,
-                { 
+                {
                     name: descriptor.functionName
                 }));
         }
@@ -88,7 +89,7 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
 //export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
 //    public dashboardType = DashboardType.function;
 //    public showExpandIcon = false;
-    
+
 //    constructor(
 //        sideNav : SideNavComponent,
 //        public functionInfo : FunctionInfo,
