@@ -4,6 +4,7 @@
     eventHub = <any>"eventHub",
     queue = <any>"queue",
     queueTrigger = <any>"queueTrigger",
+    sqlQueueTrigger = <any>"sqlQueueTrigger",
     blob = <any>"blob",
     blobTrigger = <any>"blobTrigger",
     apiHubFile = <any>"apiHubFile",
