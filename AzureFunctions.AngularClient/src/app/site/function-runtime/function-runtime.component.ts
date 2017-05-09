@@ -246,6 +246,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .subscribe(fi => {
         this._globalStateService.clearBusyState();
       });
+
     this.slotsValueChange = new Subject<boolean>();
     this.slotsValueChange.subscribe((value: boolean) => {
       this._globalStateService.setBusyState();
@@ -253,6 +254,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
         .flatMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
+        })
+        //Remove the below flatMap once we have Ruslan's runtime hotfix deployed
+        .flatMap(r => {
+          return this._cacheService.putArm(`${this.site.id}/config/slotConfigNames`,
+            this._armService.websiteApiVersion,
+            JSON.stringify({
+              properties: {
+                AppSettingNames: [""]
+              }
+            })
+          )
         })
         .do(null, e => {
           this._globalStateService.clearBusyState();
