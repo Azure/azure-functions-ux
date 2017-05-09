@@ -13,8 +13,8 @@ call :ExecuteCmd nuget restore ".\AzureFunctions.sln"
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 1. Build backend WebApi and copy to output folder
-echo "%MSBUILD_PATH%" ".\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%PACKAGEPATH%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir=".\.\\" %SCM_BUILD_ARGS%
-call :ExecuteCmd "%MSBUILD_PATH%" ".\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%PACKAGEPATH%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir=".\.\\" %SCM_BUILD_ARGS%
+echo "%MSBUILD_PATH%" ".\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%PACKAGEPATH%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Standalone;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir=".\.\\" %SCM_BUILD_ARGS%
+call :ExecuteCmd "%MSBUILD_PATH%" ".\AzureFunctions\AzureFunctions.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%PACKAGEPATH%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Standalone;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir=".\.\\" %SCM_BUILD_ARGS%
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 2. Bundle frontend angular2 app
