@@ -11,9 +11,9 @@
             <img src="images/swap.svg" />{{ 'swap' | translate }}
     </span>
     <!-- Hide restart command for Function App & slots  #1327 -->
-    <!--<span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
+    <span class="clickable" [class.disabled-action]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'" (click)="restart()">
         <img src="images/restart.svg" />{{ 'restart' | translate }}
-    </span>-->
+    </span>
 
     <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
         <img src="images/download.svg" />{{ 'downloadProfile' | translate}}
