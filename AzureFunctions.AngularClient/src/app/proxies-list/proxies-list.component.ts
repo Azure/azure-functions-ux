@@ -1,8 +1,13 @@
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+
 import { ProxyNode } from './../tree-view/proxy-node';
 import { ProxiesNode } from './../tree-view/proxies-node';
-import { Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 interface ProxyItem{
   name : string,

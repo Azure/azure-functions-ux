@@ -1,5 +1,5 @@
-import { Subject } from 'rxjs/Rx';
 import { Component, OnInit, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'command',

@@ -1,29 +1,37 @@
+import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { NotificationIds, Constants } from './../../shared/models/constants';
-import { Response } from '@angular/http';
 import { LanguageService } from './../../shared/services/language.service';
-import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
-import { Component, Input, OnDestroy } from '@angular/core';
 import { ArmService } from '../../shared/services/arm.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { FunctionsService } from '../../shared/services/functions.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp } from './../../shared/function-app';
-import { FunctionAppEditMode } from "../../shared/models/function-app-edit-mode";
+import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
+import { SlotsService } from '../../shared/services/slots.service';
 
 @Component({
   selector: 'function-runtime',
@@ -38,6 +46,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public extensionVersion: string;
   public latestExtensionVersion: string;
   public dailyMemoryTimeQuota: string;
+  public dailyMemoryTimeQuotaOriginal: string;
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
   public functionApp: FunctionApp;
@@ -59,6 +68,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public functionAppEditMode: boolean = true;
   public functionAppEditModeOptions: SelectOption<boolean>[];
 
+  private _isSlotApp: boolean = false;
+  public slotsStatusOptions: SelectOption<boolean>[];
+  public slotsAppSetting: string;
+  public slotsEnabled: boolean;
+  private slotsValueChange: Subject<boolean>;
+  private _numSlots: number = 0;
+
   constructor(
     private _armService: ArmService,
     private _cacheService: CacheService,
@@ -68,7 +84,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
     private _languageService: LanguageService,
-    private _translateService: TranslateService) {
+    private _translateService: TranslateService,
+    private _slotsService: SlotsService
+  ) {
 
     this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
@@ -82,15 +100,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this._cacheService.getArm(viewInfo.resourceId),
                 this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`, true),
                 this._appNode.functionAppStream,
-                (s: Response, a: Response, fa: FunctionApp) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa }))
-                .flatMap(result => {
+                  this._slotsService.getSlotsList(viewInfo.resourceId),
+                (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
+                .mergeMap(result => {
                   return result.functionApp
                           .getFunctionAppEditMode()
                           .map(editMode => ({
                               siteResponse: result.siteResponse,
                               appSettingsResponse: result.appSettingsResponse,
                               functionApp: result.functionApp,
-                              editMode: editMode
+                              editMode: editMode,
+                              slotsList: result.slotsList
                             })
                        );
                 });
@@ -105,6 +125,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
 
+            this._isSlotApp = this._slotsService.isSlot(this.site.id);
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
                 ? this.site.properties.dailyMemoryTimeQuota.toString()
                 : '0';
@@ -115,11 +136,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this.showDailyMemoryInfo = true;
             }
 
+            this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
+
             this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
 
             this.memorySize = this.site.properties.containerSize;
             this.latestExtensionVersion = Constants.runtimeVersion;
             this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
+
+             if (!this.extensionVersion) {
+               this.extensionVersion = Constants.latest;
+             }
 
             this.needUpdateExtensionVersion =
                 Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
@@ -141,6 +168,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._globalStateService.clearBusyState();
             let traceKey = this._viewInfo.data.siteTraceKey;
             this._aiService.stopTrace('/site/function-runtime-tab-ready', traceKey);
+
+            //settings for enabling slots, display if there are no slots && appSetting property for slot is set
+            this.slotsAppSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
+            if (this._isSlotApp) { //Slots Node
+              this.slotsEnabled = true;
+            } else {
+              this.slotsEnabled = r.slotsList.length > 0 || this.slotsAppSetting === Constants.slotsSecretStorageSettingsValue;
+            }
         });
 
     this.functionStatusOptions = [
@@ -161,6 +196,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
         value: false
       }
     ];
+    this.slotsStatusOptions = [
+      {
+        displayLabel: this._translateService.instant(PortalResources.off),
+        value: false
+      }, {
+        displayLabel: this._translateService.instant(PortalResources.on),
+        value: true
+      }];
 
     this.proxySettingValueStream = new Subject<boolean>();
     this.proxySettingValueStream
@@ -169,18 +212,18 @@ export class FunctionRuntimeComponent implements OnDestroy {
         let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
         this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-            .flatMap(r => {
-                return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
-            })
-            .subscribe(r => {
-                this.functionApp.fireSyncTrigger();
-                this.apiProxiesEnabled = value;
-                this.needUpdateRoutingExtensionVersion = false;
-                this.routingExtensionVersion = Constants.routingExtensionVersion;
-                this._globalStateService.clearBusyState();
-                this._cacheService.clearArmIdCachePrefix(this.site.id);
-            });
-    });
+          .mergeMap(r => {
+            return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
+          })
+          .subscribe(r => {
+            this.functionApp.fireSyncTrigger();
+            this.apiProxiesEnabled = value;
+            this.needUpdateRoutingExtensionVersion = false;
+            this.routingExtensionVersion = Constants.routingExtensionVersion;
+            this._globalStateService.clearBusyState();
+            this._cacheService.clearArmIdCachePrefix(this.site.id);
+          });
+      });
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
@@ -190,12 +233,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionAppEditMode = state;
         let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-            .flatMap(r => {
-              let response: ArmObj<any> = r.json();
-              response.properties[Constants.functionAppEditModeSettingName] = appSetting;
-              return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
-            })
-            .catch(e => { throw originalState; } );
+          .mergeMap(r => {
+            let response: ArmObj<any> = r.json();
+            response.properties[Constants.functionAppEditModeSettingName] = appSetting;
+            return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
+          })
+          .catch(e => { throw originalState; });
       })
       .do(null, originalState => {
         this.functionAppEditMode = originalState;
@@ -210,6 +253,26 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .subscribe(fi => {
         this._globalStateService.clearBusyState();
       });
+    this.slotsValueChange = new Subject<boolean>();
+    this.slotsValueChange.subscribe((value: boolean) => {
+      this._globalStateService.setBusyState();
+      let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+        .mergeMap(r => {
+          return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
+        })
+        .do(null, e => {
+          this._globalStateService.clearBusyState();
+          this._aiService.trackException(e, 'function-runtime')
+        })
+        .retry()
+        .subscribe(r => {
+          this.functionApp.fireSyncTrigger();
+          this.slotsEnabled = value;
+          this._globalStateService.clearBusyState();
+          this._cacheService.clearArmIdCachePrefix(this.site.id);
+        });
+    });
   }
 
   @Input('viewInfoInput') set viewInfoInput(viewInfo: TreeViewInfo) {
@@ -245,7 +308,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._aiService.trackEvent('/actions/app_settings/update_version');
     this._globalStateService.setBusyState();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateContainerVersion(this.site, r.json());
       })
       .subscribe(r => {
@@ -257,11 +320,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   updateRoutingExtensionVersion() {
-      this._aiService.trackEvent('/actions/app_settings/update_routing_version');
-      this._globalStateService.setBusyState();
+    this._aiService.trackEvent('/actions/app_settings/update_routing_version');
+    this._globalStateService.setBusyState();
 
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .flatMap(r => {
+      .mergeMap(r => {
         return this._updateProxiesVersion(this.site, r.json());
       })
       .subscribe(r => {
@@ -272,18 +335,22 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   setQuota() {
-    let dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+      if (this.dailyMemoryTimeQuotaOriginal !== this.dailyMemoryTimeQuota) {
 
-    if (dailyMemoryTimeQuota > 0) {
-      this._globalStateService.setBusyState();
-      this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
-        var site = r.json();
-        this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
-        this.showDailyMemoryInfo = true;
-        this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
-        this._globalStateService.clearBusyState();
-      });
-    }
+          let dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+
+          if (dailyMemoryTimeQuota > 0) {
+              this._globalStateService.setBusyState();
+              this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
+                  var site = r.json();
+                  this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
+                  this.showDailyMemoryInfo = true;
+                  this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
+                  this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
+                  this._globalStateService.clearBusyState();
+              });
+          }
+      }
   }
 
   removeQuota() {
@@ -292,6 +359,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       this.showDailyMemoryInfo = false;
       this.showDailyMemoryWarning = false;
       this.dailyMemoryTimeQuota = '';
+      this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
       this.site.properties.dailyMemoryTimeQuota = 0;
       this._globalStateService.clearBusyState();
     });
@@ -321,8 +389,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
     let body = JSON.stringify({
       Location: site.location,
       Properties: {
-          dailyMemoryTimeQuota: value,
-          enabled: true
+        dailyMemoryTimeQuota: value,
+        enabled: true
       }
     });
 

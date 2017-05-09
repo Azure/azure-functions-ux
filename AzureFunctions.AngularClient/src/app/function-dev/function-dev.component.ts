@@ -1,10 +1,17 @@
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';import 'rxjs/add/observable/zip';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
 import {FunctionConfig} from '../shared/models/function-config';
-import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../shared/models/function-secrets';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
@@ -16,14 +23,13 @@ import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {AiService} from '../shared/services/ai.service';
 import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
 import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
-import { ErrorIds } from "../shared/models/error-ids";
+import { ErrorIds } from '../shared/models/error-ids';
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
 
@@ -75,7 +81,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionInvokeUrl: string;
     public expandLogs: boolean = false;
     public functionApp: FunctionApp;
-    public functionKeys: FunctionKeys;    
+    public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
@@ -132,7 +138,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._isEasyAuthEnabled = res.authSettings.easyAuthEnabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
-                this.runValid = true;
                 try {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
                     if (httpModel.body !== undefined) {
@@ -357,10 +362,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
     private setFunctionInvokeUrl(key?: string) {
-        setTimeout(() => {
-            this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
-        });
-
         if (this.isHttpFunction) {
             var code = '';
             if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
@@ -392,10 +393,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?') + code;
 
-                setTimeout(() => {
-                    this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
-                    this.runValid = true;
-                });
+                this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
+                this.runValid = true;
+
 
             });
         } else {
@@ -587,7 +587,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onRunValid(runValid: any) {
-        this.runValid = runValid;
+        this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
@@ -609,7 +609,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     onChangeKey(key: string) {
         this.setFunctionInvokeUrl(key);
-        this.setFunctionKey(this.functionInfo);        
+        this.setFunctionKey(this.functionInfo);
     }
 
     private getTestData(): string {

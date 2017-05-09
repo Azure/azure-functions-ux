@@ -22,3 +22,20 @@
     margin-bottom: 12px;
 
 }
+
+.log-toolbar {
+    height: 50px; 
+    display: flex; 
+    align-items: flex-end;
+    padding-left: 15px; 
+    padding-right: 25px;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 100%;
+}

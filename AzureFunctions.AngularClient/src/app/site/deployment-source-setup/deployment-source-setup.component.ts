@@ -1,6 +1,9 @@
 import {Component, OnDestroy} from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
-import {PortalService} from '../../shared/services/portal.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/mergeMap';
+
+import { PortalService } from '../../shared/services/portal.service';
 import {ArmService} from '../../shared/services/arm.service';
 import {CacheService} from '../../shared/services/cache.service';
 import {Site} from '../../shared/models/arm/site';
@@ -9,12 +12,9 @@ import {SiteConfig} from '../../shared/models/arm/site-config';
 import {ProviderType, Provider, Organization, Repository, Branch, SourceControls} from '../deployment-source/deployment';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PopOverComponent} from '../../pop-over/pop-over.component';
-// import {Busy2Service, ComponentType} from '../../../services/busy2.service';
 import {GlobalStateService} from '../../shared/services/global-state.service';
-// import {EditableDropDownComponent} from '../../../controls/editable-drop-down.component';
 import {DropDownElement} from '../../shared/models/drop-down-element';
 import {DropDownComponent} from '../../drop-down/drop-down.component';
-// import {FormControl, Validators, FormGroup} from '@angular/forms';
 import {SetupOAuthRequest, SetupOAuthResponse} from '../deployment-source/deployment';
 
 @Component({
@@ -28,14 +28,14 @@ import {SetupOAuthRequest, SetupOAuthResponse} from '../deployment-source/deploy
 export class DeploymentSourceSetupComponent {
     public configOutput = new Subject<ArmObj<SiteConfig>>();
     public providers : Provider[] = [];
-    public organizations: DropDownElement<Organization>[] = [];    
-    public repositories: DropDownElement<Repository>[] = [];    
-    public branches: DropDownElement<string>[] = [];    
+    public organizations: DropDownElement<Organization>[] = [];
+    public repositories: DropDownElement<Repository>[] = [];
+    public branches: DropDownElement<string>[] = [];
     public isProviderLoading = false;
     public settingUp = false;
-    
+
     // TODO: Need to add validation support to dropdown control
-    public valid = false; 
+    public valid = false;
 
     // public ctrlGroup : FormGroup = null
 
@@ -72,11 +72,11 @@ export class DeploymentSourceSetupComponent {
         // this.organizationCtrl = new Control("", (control) => {
         //     return Validators.required(control)
         // });
-        
+
         // this.repositoryCtrl = new Control("", (control) =>{
         //     return Validators.required(control)
         // });
-        
+
         // this.branchCtrl = new Control("", (control) =>{
         //     return Validators.required(control)
         // });
@@ -193,7 +193,7 @@ export class DeploymentSourceSetupComponent {
         }
 
         this._armService.put(`${this._site.id}/sourceControls/web`, body)
-        .flatMap(response =>{
+        .mergeMap(response =>{
             return this._cacheService.getArm(`${this._site.id}/config/web`, true);
         })
         .subscribe(r =>{
@@ -232,7 +232,7 @@ export class DeploymentSourceSetupComponent {
 
         this.branches = [{
             displayLabel : this.model.branch,
-            value : this.model.branch                
+            value : this.model.branch
         }];
 
         this.valid = true;

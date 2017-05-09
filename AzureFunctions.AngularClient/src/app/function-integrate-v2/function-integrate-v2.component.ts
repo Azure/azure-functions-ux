@@ -12,7 +12,7 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
-import { ErrorIds } from "../shared/models/error-ids";
+import { ErrorIds } from '../shared/models/error-ids';
 
 @Component({
     selector: 'function-integrate-v2',

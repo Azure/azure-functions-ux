@@ -1,6 +1,10 @@
-import { Subject } from 'rxjs/Rx';
 import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
-import {NgClass} from '@angular/common';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import {BindingComponent} from '../binding/binding.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
@@ -14,14 +18,13 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {ErrorEvent} from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
-import { DashboardType } from "../tree-view/models/dashboard-type";
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'function-new',

@@ -2,7 +2,7 @@
 <img src="images/functions.svg" />
 <h3 class="text-main2-heading">{{ 'functionApps' | translate}}</h3><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
-<tbl [items]="apps" #table="tbl">
+<tbl [items]="apps" #table="tbl" id="apps-list">
   <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
@@ -17,9 +17,18 @@
     <td>{{item.location}}</td>    
   </tr>
 
-  <tr *ngIf="table.items.length === 0 || appsNode?.isLoading">    
+  <tr *ngIf="appsNode?.isLoading">
     <td *ngIf="appsNode?.isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!appsNode?.isLoading && table.items.length === 0" colspan="4">{{'noResults' | translate}}</td>
+    <td *ngIf="!appsNode?.isLoading" colspan="4"></td>
   </tr>
 </tbl>
+<div *ngIf="!appsNode?.isLoading && table.items.length === 0" class="empty-browse">
+  <img src="images/emptybrowse-functions.svg" />
+  <h4>{{'emptyBrowse_title' | translate}}</h4>
+  <span>{{'emptyBrowse' | translate}}</span>
+  <span>
+    <a class="link" target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848163">{{'emptyBrowse_learnMore' | translate}}</a>
+    <img src="images/learn-more.svg" />
+  </span>
+</div>
 </div>

@@ -1,6 +1,7 @@
-import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-down-element';
 import { Component, OnInit, ElementRef, Input } from '@angular/core';
-import { Subscription, Subject, ReplaySubject } from 'rxjs/Rx';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-down-element';
 
 @Component({
   selector: 'multi-drop-down',

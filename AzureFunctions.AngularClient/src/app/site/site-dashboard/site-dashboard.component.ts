@@ -1,12 +1,19 @@
+import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+
 import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TranslateService } from '@ngx-translate/core';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteTabIds } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
-import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
 import {TabsComponent} from '../../tabs/tabs.component';
 import {TabComponent} from '../../tab/tab.component';
 import {CacheService} from '../../shared/services/cache.service';
@@ -16,7 +23,7 @@ import {DashboardType} from '../../tree-view/models/dashboard-type';
 import {Descriptor, SiteDescriptor} from '../../shared/resourceDescriptors';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
-import { PartSize } from "../../shared/models/portal";
+import { PartSize } from '../../shared/models/portal';
 
 @Component({
     selector: 'site-dashboard',

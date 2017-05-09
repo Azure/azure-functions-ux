@@ -1,8 +1,9 @@
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+
 import { DisableInfo } from './feature-item';
 import { PortalResources } from './../shared/models/portal-resources';
-// import {SiteManageComponent} from '../../components/site/dashboard/site-manage.component';
-import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
-import {AuthzService} from '../shared/services/authz.service';
+import { AuthzService } from '../shared/services/authz.service';
 import {PortalService} from '../shared/services/portal.service';
 import {OpenBladeInfo} from '../shared/models/portal';
 
@@ -82,9 +83,9 @@ export class DisableableBladeFeature extends DisableableFeature{
         keywords : string,
         info : string,
         imageUrl : string,
-        protected _bladeInfo : OpenBladeInfo,        
+        protected _bladeInfo : OpenBladeInfo,
         protected _portalService : PortalService,
-        disableInfoStream? : Subject<DisableInfo>,        
+        disableInfoStream? : Subject<DisableInfo>,
         overrideDisableInfo? : DisableInfo){
         super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
     }
@@ -100,11 +101,11 @@ export class DisableableDyanmicBladeFeature extends DisableableBladeFeature{
         keywords : string,
         info : string,
         imageUrl : string,
-        bladeInfo : OpenBladeInfo,        
+        bladeInfo : OpenBladeInfo,
         portalService : PortalService,
-        disableInfoStream? : Subject<DisableInfo>,        
+        disableInfoStream? : Subject<DisableInfo>,
         overrideDisableInfoStream? : DisableInfo){
-        
+
         super(
             title,
             keywords,
@@ -112,7 +113,7 @@ export class DisableableDyanmicBladeFeature extends DisableableBladeFeature{
             imageUrl,
             bladeInfo,
             portalService,
-            disableInfoStream,            
+            disableInfoStream,
             overrideDisableInfoStream);
     }
 

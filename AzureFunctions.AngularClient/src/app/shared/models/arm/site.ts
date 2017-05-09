@@ -6,6 +6,7 @@ export interface Site{
         hostType: number;
     }];
     sku: string;
+    targetSwapSlot?:string;
     containerSize: number;
     serverFarmId: string;
     defaultHostName: string;

@@ -19,4 +19,6 @@ export enum DashboardType{
     createProxy,
     proxies,
     proxy,
+    slots,
+    createSlot
 }

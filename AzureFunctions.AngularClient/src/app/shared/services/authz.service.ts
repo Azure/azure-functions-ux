@@ -1,10 +1,12 @@
+import {Injectable, EventEmitter} from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 import { Lock } from './../models/arm/locks';
 import { ArmObj } from './../models/arm/arm-obj';
-import {Injectable, EventEmitter} from '@angular/core';
 import {ArmService} from './arm.service';
 import {CacheService} from './cache.service';
-import {Observable, Subscription as RxSubscription, Subject, ReplaySubject} from 'rxjs/Rx';
-import {Http, Headers, Response} from '@angular/http';
 import {Permissions, PermissionsAsRegExp} from '../models/arm/permission';
 
 @Injectable()
@@ -43,7 +45,7 @@ export class AuthzService {
         return this._cacheService.getArm(lockId, false, this._armService.armLocksApiVersion)
         .map(r =>{
             return <ArmObj<Lock>[]>r.json().value;
-        });        
+        });
     }
 
     private _getResourceType(resourceId : string){

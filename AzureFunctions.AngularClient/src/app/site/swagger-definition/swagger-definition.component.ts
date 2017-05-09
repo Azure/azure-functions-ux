@@ -1,8 +1,21 @@
+import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+
 import { TabsComponent } from './../../tabs/tabs.component';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
-import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy } from '@angular/core';
-import { Response } from '@angular/http';
 import { DropDownElement } from '../../shared/models/drop-down-element';
 import { SwaggerEditor } from '../swagger-frame/swaggerEditor';
 import { AiService } from '../../shared/services/ai.service';
@@ -10,10 +23,8 @@ import { GlobalStateService } from '../../shared/services/global-state.service';
 import { ArmService } from '../../shared/services/arm.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalService } from '../../shared/services/portal.service';
-import { Subject, Observable, Subscription as RxSubscription } from 'rxjs/Rx';
 import { FunctionKey, FunctionKeys } from '../../shared/models/function-key';
 import { Constants } from '../../shared/models/constants';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event';
@@ -88,7 +99,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this._busyState.clearBusyState();
             })
             .retry()
-            .flatMap(jsonObj => {
+            .mergeMap(jsonObj => {
                 this.swaggerEnabled = false;
                 if (jsonObj && jsonObj.swagger && typeof (jsonObj.swagger.enabled) === "boolean") {
                     this.swaggerEnabled = jsonObj.swagger.enabled;
@@ -158,14 +169,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
 
     private setSwaggerEndpointState(swaggerEnabled: boolean) {
         return this.functionApp.getHostJson()
-            .flatMap(jsonObj => {
+            .mergeMap(jsonObj => {
                 jsonObj.swagger = { enabled: swaggerEnabled };
                 var jsonString = JSON.stringify(jsonObj);
                 return this.functionApp.saveHostJson(jsonString);
             }).catch(error => {
                 this._busyState.clearBusyState();
                 return Observable.of(null);
-            }).flatMap(config => {
+            }).mergeMap(config => {
                 if (config == null) {
                     this.swaggerEnabled = !swaggerEnabled;
                     return Observable.of(false);
@@ -279,7 +290,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     public renewSwaggerSecret() {
         this._busyState.setBusyState()
         this.createSwaggerSecret()
-            .flatMap(key => {
+            .mergeMap(key => {
                 this.swaggerKey = key;
                 this.swaggerURL = this.getUpdatedSwaggerURL(key);
                 return this.addorUpdateApiDefinitionURL(this.swaggerURL);
@@ -294,7 +305,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private addorUpdateApiDefinitionURL(url: string) {
         return this._cacheService.getArm(`${this.functionApp.site.id}/config/web`, true)
             .map(r => r.json())
-            .flatMap(config => {
+            .mergeMap(config => {
                 let configChange: boolean = false;
 
                 if (!config.properties.apiDefinition ||
@@ -353,7 +364,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
 
     private restoreSwaggerArtifacts() {
         return this.getSwaggerSecret()
-            .flatMap(key => {
+            .mergeMap(key => {
                 if (!key) {
                     return this.createSwaggerSecret();
                 }
@@ -362,7 +373,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 // get or create key fails
                 this.swaggerEnabled = false;
                 return Observable.of("");
-            }).flatMap(key => {
+            }).mergeMap(key => {
                 if (!key) {
                     // will be passed to swagger doc
                     return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
@@ -375,7 +386,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .catch(error => {
                 // get document fails
                 return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
-            }).flatMap(swaggerDoc => {
+            }).mergeMap(swaggerDoc => {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);
                 if (this.swaggerKey) {

@@ -1,14 +1,20 @@
+import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import { AppNode } from './../tree-view/app-node';
 import { Constants } from './../shared/models/constants';
 import { CacheService } from './../shared/services/cache.service';
 import { AiService } from './../shared/services/ai.service';
-import { Subject, Observable } from 'rxjs/Rx';
-import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {ApiProxy} from '../shared/models/api-proxy';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
@@ -35,6 +41,7 @@ export class ApiNewComponent implements OnInit {
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public functionsInfo: FunctionInfo[];
+    public appNode: AppNode;
     private _proxiesNode: ProxiesNode;
     private _viewInfoStream = new Subject<TreeViewInfo>();
 
@@ -70,6 +77,7 @@ export class ApiNewComponent implements OnInit {
             this._globalStateService.setBusyState();
             this._proxiesNode = <ProxiesNode>viewInfo.node;
             this.functionApp = this._proxiesNode.functionApp;
+            this.appNode = (<AppNode>this._proxiesNode.parent);
 
             // Should be okay to query app settings without checkout RBAC/locks since this component
             // shouldn't load unless you have write access.
@@ -99,8 +107,7 @@ export class ApiNewComponent implements OnInit {
     }
 
     onFunctionAppSettingsClicked(event: any) {
-        let appNode = <AppNode>this._proxiesNode.parent;
-        appNode.openSettings();
+        this.appNode.openSettings();
     }
 
     static validateUrl(): ValidatorFn {

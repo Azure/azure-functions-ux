@@ -25,6 +25,9 @@ export class Constants {
     public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
     public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
     public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
+    public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
+    public static slotsSecretStorageSettingsValue = "Blob";
+
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
     public static portalHostName = 'https://portal.azure.com';
@@ -61,4 +64,13 @@ export class AvailabilityStates{
 export class NotificationIds{
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
+}
+
+export class Validations{
+    public static websiteNameMinLength: number = 2;
+    public static websiteNameMaxLength: number = 60;
+}
+
+export class Regex{
+    public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
 }

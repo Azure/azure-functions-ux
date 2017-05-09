@@ -231,6 +231,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Your subscription</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Failed to create app</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2. Choose a language</value>
   </data>
@@ -952,6 +958,9 @@
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy with name '{{name}}' already exists</value>
   </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
+  </data>
   <data name="discrard" xml:space="preserve">
     <value>Discard</value>
   </data>
@@ -1041,6 +1050,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Restart</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Swap</value>
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Download publish profile</value>
@@ -1663,6 +1675,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
   </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>The name must be at least 2 characters</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>The name must be fewer than 60 characters</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>'{0}' is an invalid character</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>The app name '{0}' is not available</value>
+  </data>
   <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
     <value>We are unable to update your function app's edit mode. Please try again later.</value>
   </data>
@@ -1676,7 +1700,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Copy</value>
   </data>
   <data name="keysDialog_getFunctionUrl" xml:space="preserve">
-    <value>Get Function URL</value>
+    <value>Get function URL</value>
   </data>
   <data name="keysDialog_key" xml:space="preserve">
     <value>Key</value>
@@ -1692,5 +1716,80 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="functionKeys_renewConfirmation" xml:space="preserve">
     <value>Are you sure you want to renew {{name}} key?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions are an event-based serverless compute experience to accelerate your development. Scale based on demand and pay only for the resources you consume.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Learn more about azure functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Event Hub</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Not found.</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>No function apps to display</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>'Manage' node for each function.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Create a new deployment slot</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Creating new slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Successfully created slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Failed to create slot {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Unable to upate the list of slots</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App service plan</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Slots (preview)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>For a richer monitoring experience, including live metrics and custom queries, we recommend enabling &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
+  </data>
+  <data name ="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
   </data>
 </root>

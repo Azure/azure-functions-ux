@@ -1,14 +1,16 @@
-import { AiService } from './services/ai.service';
+import { Http, RequestOptionsArgs, Response, Request, ResponseType, Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/mergeMap';
+
+import { AiService } from './services/ai.service';
 import { ErrorEvent, ErrorType } from './models/error-event';
 import { ErrorIds } from './models/error-ids';
 import { PortalResources } from './models/portal-resources';
 import { BroadcastService } from './services/broadcast.service';
 import { FunctionsResponse } from './models/functions-response';
-import { Observable } from 'rxjs/Rx';
-import { Http, RequestOptionsArgs, Response, Request, ResponseType, Headers } from '@angular/http';
-import { BroadcastEvent } from "./models/broadcast-event";
-
+import { BroadcastEvent } from './models/broadcast-event';
 
 export class NoCorsHttpService {
     constructor(
@@ -93,7 +95,7 @@ export class NoCorsHttpService {
                     }
                     throw error;
                 })
-                .flatMap(_ => {
+                .mergeMap(_ => {
                     let headers = {};
                     if (options && options.headers) {
                         options.headers.forEach((v, n) => {

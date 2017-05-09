@@ -1,13 +1,22 @@
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Arm } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
-import { Response } from '@angular/http';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Subscription as RxSubscription, Observable, ReplaySubject } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
@@ -22,6 +31,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
+    private _subscriptions : Subscription[];
 
     constructor(
         sideNav: SideNavComponent,
@@ -64,7 +74,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             }
 
             this.isLoading = true;
-
+            this._subscriptions = result.subscriptions;
             return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
         })
         .subscribe((result : { term : string, children : TreeNode[]}) =>{
@@ -193,8 +203,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         })
     }
 
-    public addChild(child : any){
-        throw Error("Not implemented yet");
+    public addChild(childSiteObj : ArmObj<Site>){
+      let newNode = new AppNode(this.sideNav, childSiteObj, this, this._subscriptions);
+      this._addChildAlphabetically(newNode);
+      newNode.select();
     }
 
     public removeChild(child : TreeNode, callRemoveOnChild? : boolean){

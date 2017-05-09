@@ -1,6 +1,6 @@
 <div class="newproxy-container">
 
-
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
     <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
 

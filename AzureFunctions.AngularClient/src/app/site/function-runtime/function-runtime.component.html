@@ -3,7 +3,7 @@
         <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}</label>
         <div class="quotaInput" style="padding-bottom: 10px">
             <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
-            <button class="custom-button"
+            <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
                     (click)="setQuota()">
                 {{ 'functionAppSettings_setQuota' | translate }}
             </button>
@@ -42,7 +42,7 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
                     <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)"></radio-selector>
                 </div>
             </div>
@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div *ngIf="!showTryView" class="setting-wrapper">
@@ -68,16 +69,30 @@
         <div class="features-wrapper">
             <div>
                 <div>
-                    <h2 style="padding-bottom:5px;">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
                     <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)"></radio-selector>
                 </div>
             </div>
         </div>
     </div>
 
+    <div *ngIf="!showTryView && !slotsEnabled" class="setting-wrapper">
+        <label>{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
+        <div class="features-wrapper">
+            <div>
+                <div>
+                    <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}
+                        <span class="bold-text">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+                    </h2>
+                    <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <function-keys
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
-
 
 </div>

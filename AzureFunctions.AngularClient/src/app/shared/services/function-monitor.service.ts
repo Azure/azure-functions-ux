@@ -1,11 +1,15 @@
 import {Http, Headers} from '@angular/http';
 import {Injectable} from '@angular/core';
-import {PortalService} from './portal.service';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+
+import { PortalService } from './portal.service';
 import {UserService} from './user.service';
 import {FunctionsService} from '../services/functions.service';
 import {GlobalStateService} from '../services/global-state.service';
 import {FunctionInvocations, FunctionInvocationDetails, FunctionAggregates, FunctionStats} from '../models/function-monitor';
-import {Observable} from 'rxjs/Rx';
 import {FunctionInfo} from '../models/function-info';
 import {FunctionApp} from '../function-app';
 
@@ -46,8 +50,7 @@ export class FunctionMonitorService {
         .map(r => <FunctionAggregates>(r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase())));
     }
 
-
-    getInvocationsDataForSelctedFunction(functionApp : FunctionApp, functionId: string) {
+    getInvocationsDataForSelectedFunction(functionApp : FunctionApp, functionId: string) {
         var url = functionApp.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
