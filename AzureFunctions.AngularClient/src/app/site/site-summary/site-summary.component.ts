@@ -64,6 +64,7 @@ export class SiteSummaryComponent implements OnDestroy {
     public isStandalone: boolean;
     public hasSwapAccess: boolean;
     public hideAvailability: boolean;
+    public disableRestart: boolean; // temporary fix for restart causing issues when slots enabled
 
     @Output() openTabEvent = new Subject<string>();
 
@@ -166,7 +167,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission;
                 }
-
+                this.disableRestart = this._isSlot || res.slotsList.length > 0;
                 this._setAvailabilityState(res.availability.properties.availabilityState);
 
                 if (this.hasWriteAccess) {
