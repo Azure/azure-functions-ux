@@ -1,6 +1,6 @@
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnDestroy, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit} from '@angular/core';
 import {FunctionInfo} from '../shared/models/function-info';
 import {PortalService} from '../shared/services/portal.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
@@ -18,6 +18,8 @@ import {PortalResources} from '../shared/models/portal-resources';
     inputs: ['selectedFunction']
 })
 export class FunctionIntegrateComponent implements OnDestroy {
+    @ViewChild('container') container: ElementRef;
+    @ViewChild('editorContainer') editorContainer: ElementRef;
     @Output() changeEditor = new EventEmitter<string>();
 
     public _selectedFunction: FunctionInfo;
@@ -34,6 +36,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this.isDirty = false;
+    }
+
+
+    ngOnInit() {
+        var functionContainaerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
+        this.editorContainer.nativeElement.style.height = (functionContainaerHeight - 75) + "px";
     }
 
     set selectedFunction(value: FunctionInfo) {
