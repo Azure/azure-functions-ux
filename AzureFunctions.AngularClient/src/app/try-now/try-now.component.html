@@ -5,15 +5,14 @@
         </div>
         <div>{{ 'tryNow_trialTimeRemaining' | translate }} <span id="timer-text">{{timerText}}</span></div>
         <div class="free-trial-wrapper">
-            <a [attr.href]="freeTrialUri" (click)="trackLinkClick('freeTrialTopClick')" target="_blank" class="signup-button ">
+            <a [tooltip]="freeAccountTooltip" [attr.href]="freeTrialUri" (click)="trackLinkClick('freeTrialTopClick')" target="_blank" class="signup-button ">
                 {{ 'tryNow_createFreeAzureAccount' | translate }}
+                <tooltip-content #freeAccountTooltip>
+                    <p>
+                        {{ 'tryNow_FreeAccountToolTip' | translate }}
+                    </p>
+                </tooltip-content>
             </a>
-            <i [tooltip]="freeAccountTooltip" class="fa fa-question-circle"></i>
-            <tooltip-content #freeAccountTooltip>
-                <p>
-                    {{ 'tryNow_FreeAccountToolTip' | translate }}
-                </p>
-            </tooltip-content>
         </div>
         <span class="discover-more-wrapper">
             <a [attr.href]="discoverMoreUri" (click)="trackLinkClick('discoverMoreClick')" target="_blank" class="discover-more-button">
@@ -22,4 +21,3 @@
         </span>
     </div>
 </div>
-
