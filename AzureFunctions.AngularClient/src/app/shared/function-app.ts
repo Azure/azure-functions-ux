@@ -805,7 +805,16 @@ export class FunctionApp {
             let authHeader = new Headers();
             authHeader.append('Authorization', `Bearer ${token}`);
             return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
-                .retryWhen(error => error.scan((errorCount : number, err: FunctionsResponse) => {
+                .catch((error: FunctionsResponse) => {
+                    if (error.status === 405) {
+                        // If the result from calling the API above is 405, that means they are running on an older runtime.
+                        // It should be safe to call kudu for the master key since they won't be using slots.
+                        return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
+                    } else {
+                        throw error;
+                    }
+                })
+                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
                     if (err.isHandled || err.status < 500 || errorCount >= 10) {
                         throw err;
                     } else {
@@ -813,9 +822,14 @@ export class FunctionApp {
                     }
                 }, 0).delay(1000))
                 .do((r: Response) => {
-                    let key: { name: string, value: string } = r.json();
-                    this.masterKey = key.value;
-                })
+                    // Since we fall back to kudu above, use a union of kudu and runtime types.
+                    const key: { name: string, value: string } & { masterKey: string } = r.json();
+                    if (key.masterKey) {
+                        this.masterKey = key.masterKey;
+                    } else {
+                        this.masterKey = key.value;
+                    }
+                });
         }).do(() =>{
             this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
         },
