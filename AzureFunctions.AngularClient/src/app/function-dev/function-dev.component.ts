@@ -140,7 +140,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.testContent = res.functionInfo.test_data;
                 try {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
-                    if (httpModel.body !== undefined) {
+                    // Check if it's valid model
+                    if (Array.isArray(httpModel.headers)) {
                         this.testContent = httpModel.body;
                     }
                 } catch (e) {
