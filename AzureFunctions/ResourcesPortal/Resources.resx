@@ -1789,7 +1789,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
   </data>
-  <data name ="slotNew_dynamicQuotaReached" xml:space="preserve">
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
     <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
+  </data>
+  <data name="functionManage_deleteApp" xml:space="preserve">
+    <value>Delete app</value>
   </data>
 </root>
