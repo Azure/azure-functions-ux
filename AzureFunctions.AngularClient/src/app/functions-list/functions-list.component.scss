@@ -1,0 +1,27 @@
+@import '../../sass/main';
+
+.enabled {
+    vertical-align: text-bottom;
+}
+
+.delete {
+    margin: 0px !important;
+    width: 16px !important;
+}
+
+.new-container {
+    padding-bottom: 10px;
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.new-container i {
+    font-size: 20px;
+    color: $primary-color;
+    cursor: pointer;
+}
+
+.search-box-container {
+    width: 250px;
+}

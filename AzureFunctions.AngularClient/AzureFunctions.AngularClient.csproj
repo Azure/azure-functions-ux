@@ -162,6 +162,7 @@
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.scss" />
     <None Include="src\app\run-http\run-http.component.scss" />
     <Content Include="src\app\run-http\run-http.component.html" />
+    <Content Include="src\app\search-box\search-box.component.html" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
     <Content Include="src\app\side-nav\side-nav.component.html" />
@@ -187,6 +188,7 @@
     <Content Include="src\app\site\site-config\site-config.component.scss" />
     <Content Include="src\app\slots-list\slots-list.component.scss" />
     <Content Include="src\app\slot-new\slot-new.component.scss" />
+    <Content Include="src\app\search-box\search-box.component.scss" />
     <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
@@ -426,6 +428,8 @@
     <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.spec.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.spec.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />

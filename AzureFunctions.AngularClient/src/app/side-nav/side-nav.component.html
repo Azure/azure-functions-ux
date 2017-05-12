@@ -2,18 +2,14 @@
 
     <div id="sidenav-menu" *ngIf="!tryFunctionApp">
 
-        <input type="text"
-            id="sidenav-search"
-            placeholder="{{ 'search' | translate }}"
-            [value]="searchTerm"
-            (keyup)="search($event)"
-            [class.sidenav-search-highlight]="hasValue" />
+        <search-box (onInputChange)="search($event)"
+                    (onClear)="clearSearch()"
+                    [value]="searchTerm"
+                    [placeholder]="'search' | translate"
+                    [warning]="true">
+        </search-box>        
 
-        <img id="sidenav-search-icon" src="images/search.svg" />
 
-        <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="clearSearch()">
-            <i class="fa fa-times"></i>
-        </span>
 
         <div id="sidenav-subs">
             <multi-drop-down

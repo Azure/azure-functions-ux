@@ -1,22 +1,36 @@
 <div class="list-collection-container">
-<img src="images/function_f.svg" />
-<h3 class="text-main2-heading">{{ 'functions' | translate }}</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+    <img src="images/function_f.svg" />
+    <h3 class="text-main2-heading">{{ 'functions' | translate }}</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
-<tbl [items]="functions" #table="tbl">
-  <tr>
-    <th><tbl-th name="name">{{ '_name' | translate }}</tbl-th></th>
-    <th><tbl-th name="disabled">{{ 'enabled' | translate }}</tbl-th></th>
-  </tr>
+    <div class="new-container" (click)="onNewFunctionClick()">
+        <i class="new fa fa-plus" title="{{ 'new_' | translate }}"></i>
+        <span class="link">&nbsp;{{ 'new_' | translate }}</span>
+    </div>
 
-  <tr *ngFor="let item of table.items" (click)="clickRow(item)">
-    <td class="link">{{item.name}}</td>
-    <td>{{!item.disabled}}</td>
-  </tr>
+    <div class="search-box-container">
+        <search-box (onInputChange)="searchChanged($event)"
+                    (onClear)="searchCleared()"
+                    [placeholder]="'functionsList_searchFunctions' | translate">
+        </search-box>
+    </div>
+    <tbl [items]="functions" #table="tbl">
+        <tr>
+            <th><tbl-th name="name">{{ '_name' | translate }}</tbl-th></th>
+            <th><tbl-th name="disabled">{{ 'enabled' | translate }}</tbl-th></th>
+        </tr>
 
-  <tr *ngIf="table.items.length === 0 || isLoading">
-    <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
-  </tr>
+        <tr *ngFor="let item of table.items">
+            <td class="link" (click)="clickRow(item)">{{item.name}}</td>
+            <td>
+                <input type="checkbox" [checked]="!item.disabled" (change)="enableChange(item)" />
+                <span *ngIf="item.disabled" class="enabled"> {{ 'disabled' | translate }}</span><span *ngIf="!item.disabled" class="enabled"> {{ 'enabled' | translate }}</span>
+            </td>
+            <img class="delete" src="images/delete.svg" (click)="clickDelete(item)" />
+        </tr>
 
-</tbl>
+        <tr *ngIf="table.items.length === 0 || isLoading">
+            <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
+            <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
+        </tr>
+    </tbl>
 </div>

@@ -1795,6 +1795,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
     <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
   </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Search functions</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>New</value>
+  </data>
   <data name="functionManage_deleteApp" xml:space="preserve">
     <value>Delete app</value>
   </data>

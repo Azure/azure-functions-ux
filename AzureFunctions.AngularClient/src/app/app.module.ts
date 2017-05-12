@@ -107,6 +107,7 @@ import { EventHubComponent } from './pickers/event-hub/event-hub.component';
 import { SlotsListComponent } from './slots-list/slots-list.component';
 import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
+import { SearchBoxComponent } from './search-box/search-box.component';
 
 export function ConfigLoader(config: ConfigService) {
   return () => config.loadConfig();
@@ -210,7 +211,8 @@ export function AiServiceFactory() {
     CreateAppComponent,
     SlotsListComponent,
     SlotNewComponent,
-	EventHubComponent
+	EventHubComponent,
+	SearchBoxComponent
   ],
   imports: [
     FormsModule,

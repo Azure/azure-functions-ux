@@ -2842,6 +2842,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search functions.
+        /// </summary>
+        internal static string functionsList_searchFunctions {
+            get {
+                return ResourceManager.GetString("functionsList_searchFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create + get started.
         /// </summary>
         internal static string gettingStarted_createGetStarted {
@@ -3414,6 +3423,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string monitoring_appInsights {
             get {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        internal static string new_ {
+            get {
+                return ResourceManager.GetString("new_", resourceCulture);
             }
         }
         
