@@ -24,10 +24,12 @@ export class RunHttpComponent {
     }
 
     set functionInfo(value: FunctionInfo) {
+        debugger;
         if (value.test_data) {
             try {
                 this.model = JSON.parse(value.test_data);
-                if (this.model.body === undefined) {
+                // Check if it's valid model
+                if (!Array.isArray(this.model.headers)) {
                     this.model = undefined;
                 }
             } catch (e) {
