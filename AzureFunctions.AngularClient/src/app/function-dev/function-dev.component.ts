@@ -468,7 +468,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
             this.functionApp.updateFunction(this.functionInfo)
-                .subscribe(r => Object.assign(this.functionInfo, r));
+                .subscribe(r => {
+                    Object.assign(this.functionInfo, r);
+                    if (this.updatedTestContent) {
+                        this.testContent = this.updatedTestContent;
+                    }
+                });
         }
     }
 
