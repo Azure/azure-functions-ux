@@ -24,6 +24,7 @@ export class RunHttpComponent {
     }
 
     set functionInfo(value: FunctionInfo) {
+        this.model = undefined;
         if (value.test_data) {
             try {
                 this.model = JSON.parse(value.test_data);
