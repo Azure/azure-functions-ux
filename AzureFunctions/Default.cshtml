@@ -18,7 +18,6 @@
         cdn = "https://functions-next.azureedge.net";
     }
 
-    var version = AzureFunctions.Common.Constants.CurrentCommitId;
     var aiIinstrumentationKey = Environment.GetEnvironmentVariable("aiInstrumentationKey");
     var mpIinstrumentationKey = Environment.GetEnvironmentVariable("mpInstrumentationKey");
 
@@ -46,9 +45,9 @@
         };
     </script>
     <link rel="stylesheet" type="text/css" href="/iframe-loading.css" />
-    @{ 
+    @{
         if (isAzure && !isOnPrem) {
-            <link href="@cdn/styles.bundle.css?v=@version" rel="stylesheet"/>
+            <link href="@cdn/{{STYLES}}" rel="stylesheet"/>
         }
     }
 </head>
@@ -62,11 +61,11 @@
     </app-root>
     @if (isAzure && !isOnPrem)
     {
-        <script type="text/javascript" src="@cdn/inline.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/polyfills.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/scripts.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/vendor.bundle.js?v=@version"></script>
-        <script type="text/javascript" src="@cdn/main.bundle.js?v=@version"></script>
+        <script type="text/javascript" src="@cdn/{{INLINE}}"></script>
+        <script type="text/javascript" src="@cdn/{{POLYFILLS}}"></script>
+        <script type="text/javascript" src="@cdn/{{SCRIPTS}}"></script>
+        <script type="text/javascript" src="@cdn/{{VENDOR}}"></script>
+        <script type="text/javascript" src="@cdn/{{MAIN}}"></script>
     } else {
         <script type="text/javascript" src="inline.bundle.js"></script>
         <script type="text/javascript" src="polyfills.bundle.js"></script>
