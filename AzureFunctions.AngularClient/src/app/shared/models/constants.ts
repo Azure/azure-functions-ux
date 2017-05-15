@@ -27,6 +27,7 @@ export class Constants {
     public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
     public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
     public static slotsSecretStorageSettingsValue = "Blob";
+    public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -64,6 +65,7 @@ export class AvailabilityStates{
 export class NotificationIds{
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
+    public static slotsHostId = "slotsBlobStorage"
 }
 
 export class Validations{

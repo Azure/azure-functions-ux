@@ -1,16 +1,16 @@
 <div class="wrapper">
     <div id="function-settings">
-        <div class="configure-wrapper">
-            <div>{{ 'functionEdit_functionState' | translate }}</div>
+        <div>
+            <div class="title">{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo">
                 <radio-selector [fnWriteAccess]="functionApp" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <span class="clickable delete-app" (click)="deleteFunction()">
+                    <img src="images/delete.svg" />{{ 'functionManage_deleteApp' | translate }}
+                </span>
             </div>
         </div>
     </div>
 
-    <div id="submit-delete">
-        <button type="button" [fnWriteAccess]="functionApp" id="submit-button" (click)="deleteFunction()">Delete</button>
-    </div>
 
     <function-keys
         *ngIf="functionApp?.isMultiKeySupported"

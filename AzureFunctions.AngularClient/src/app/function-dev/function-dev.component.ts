@@ -140,7 +140,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.testContent = res.functionInfo.test_data;
                 try {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
-                    if (httpModel.body !== undefined) {
+                    // Check if it's valid model
+                    if (Array.isArray(httpModel.headers)) {
                         this.testContent = httpModel.body;
                     }
                 } catch (e) {
@@ -467,7 +468,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
             this.functionApp.updateFunction(this.functionInfo)
-                .subscribe(r => Object.assign(this.functionInfo, r));
+                .subscribe(r => {
+                    Object.assign(this.functionInfo, r);
+                    if (this.updatedTestContent) {
+                        this.testContent = this.updatedTestContent;
+                    }
+                });
         }
     }
 

@@ -10,12 +10,8 @@
     <span class="clickable" [class.disabled-action]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null" (click) = "openSwapBlade()">
             <img src="images/swap.svg" />{{ 'swap' | translate }}
     </span>
-    <!-- Disable restart command for Function App & slots  #1327 -->
-    <!--<span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
-        <img src="images/restart.svg" />{{ 'restart' | translate }}
-    </span>-->    
-    <!-- Remove this when the bug blocking restart is fixed -->
-    <span class="clickable disabled-action">
+    <!-- Hide restart command for Function App & slots  #1327 -->
+    <span class="clickable" [class.disabled-action]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'" (click)="restart()">
         <img src="images/restart.svg" />{{ 'restart' | translate }}
     </span>
 
