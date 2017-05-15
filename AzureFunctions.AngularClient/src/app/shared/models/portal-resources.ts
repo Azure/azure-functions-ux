@@ -538,7 +538,7 @@ export class PortalResources
     public static emptyBrowse_learnMore: string = "emptyBrowse_learnMore";
     public static eventHubPicker_eventHub: string = "eventHubPicker_eventHub";
     public static eventHubPicker_namespace: string = "eventHubPicker_namespace";
-    public static eventHubPicker_notFound: string = "eventHubPicker_notFound";
+    public static notFound: string = "notFound";
     public static eventHubPicker_policy: string = "eventHubPicker_policy";
     public static emptyBrowse_title: string = "emptyBrowse_title";
     public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
