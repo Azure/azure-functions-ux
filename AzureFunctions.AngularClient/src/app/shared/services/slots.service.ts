@@ -9,6 +9,7 @@ import { CacheService } from './cache.service';
 import { ArmObj } from '../models/arm/arm-obj';
 import { Site } from '../models/arm/site';
 import { Constants } from '../../shared/models/constants';
+import { Guid } from './../Utilities/Guid';
 
 @Injectable()
 export class SlotsService {
@@ -28,7 +29,7 @@ export class SlotsService {
     createNewSlot(siteId: string, slotName: string, loc: string, serverfarmId: string) {
         // set the config settings similar to function App
         return this._cacheService.postArm(`${siteId}/config/appsettings/list`, true).flatMap(r => {
-            let tGuid = this.newTinyGuid().toLowerCase();
+            let tGuid = Guid.newTinyGuid().toLowerCase();
             let props = r.json().properties;
             var currentAppSettings = [];
 
@@ -74,15 +75,6 @@ export class SlotsService {
     public setStatusOfSlotOptIn(site: ArmObj<Site>, appSetting: ArmObj<any>, value?: string) {
         appSetting.properties[Constants.slotsSecretStorageSettingsName] = value;
         return this._cacheService.putArm(appSetting.id, this._armService.websiteApiVersion, appSetting);
-    }
-
-
-    // GUID used in overriding webcontent share property, similar to the functionApp create
-    private newTinyGuid(): string {
-        return "yxxx".replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
     }
 }
 
