@@ -3274,7 +3274,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get Function URL.
+        ///   Looks up a localized string similar to Get function URL.
         /// </summary>
         internal static string keysDialog_getFunctionUrl {
             get {
@@ -3396,6 +3396,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string logStreaming_tooManyLogs {
             get {
                 return ResourceManager.GetString("logStreaming_tooManyLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;Azure Application Insights.&lt;/a&gt;.
+        /// </summary>
+        internal static string monitoring_appInsights {
+            get {
+                return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
             }
         }
         
@@ -4686,6 +4695,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_releaseNotes {
             get {
                 return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value for id has been explicitly set in host.json, which may cause unexpected behavior when using deployment slots.
+        /// </summary>
+        internal static string topBar_slotsHostId {
+            get {
+                return ResourceManager.GetString("topBar_slotsHostId", resourceCulture);
             }
         }
         

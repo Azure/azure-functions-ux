@@ -65,6 +65,7 @@ export class AvailabilityStates{
 export class NotificationIds{
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
+    public static slotsHostId = "slotsBlobStorage"
 }
 
 export class Validations{

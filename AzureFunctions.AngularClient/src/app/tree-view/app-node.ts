@@ -320,19 +320,20 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                                 this._functionApp.getHostErrors().catch(e => Observable.of([])),
                                 this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                                 this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
+                                 this.sideNav.slotsService.getSlotsList(`${this.resourceId}`),
                                 this._functionApp.pingScmSite(),
-                                (e: string[], c: Response, a: Response) => ({ errors: e, configResponse: c, appSettingResponse: a }))
+                                (e: string[], c: Response, a: Response, s:  Site[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }))
                             return val;
                         })
                         .catch(e => Observable.of({}))
-                        .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response }) => {
+                        .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: Site[] }) => {
                             this._handlePollingTaskResult(result);
                         });
                 }
             })
     }
 
-    private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response }) {
+    private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: Site[] }) {
         if (result) {
 
             let notifications: TopBarNotification[] = [];
@@ -389,6 +390,23 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                         }
                     })
                 }
+                if (result.slotsResponse) {
+                    let slotsStorageSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
+                    if(!!slotsStorageSetting){
+                        slotsStorageSetting = slotsStorageSetting.toLowerCase()
+                    }
+                    let numSlots = result.slotsResponse.length;
+                    if(numSlots > 0 && slotsStorageSetting!== Constants.slotsSecretStorageSettingsValue.toLowerCase()){
+                        notifications.push({
+                        id: NotificationIds.slotsHostId,
+                        message: this.sideNav.translateService.instant(PortalResources.topBar_slotsHostId),
+                        iconClass: 'fa fa-exclamation-triangle warning',
+                        learnMoreLink: '',
+                        clickCallback: null
+                    });
+                    }
+                }
+
             }
 
             this.sideNav.globalStateService.setTopBarNotifications(notifications);
@@ -407,8 +425,6 @@ export class SlotNode extends AppNode {
         siteArmCacheObj: ArmObj<Site>,
         parentNode: TreeNode,
         subscriptions: Subscription[],
-        // slotName: string,
-        //  slotProperties: any,
         disabled?: boolean
     ) {
         super(sideBar,
@@ -418,7 +434,6 @@ export class SlotNode extends AppNode {
             disabled);
         let slotName = siteArmCacheObj.name
         this.title = slotName.substring(slotName.indexOf("/") + 1); // change to display name
-        //  this.dashboardType = DashboardType.app;
         this.slotProperties = siteArmCacheObj.properties;
         this.isSlot = true;
     }

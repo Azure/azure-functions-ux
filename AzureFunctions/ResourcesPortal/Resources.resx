@@ -805,6 +805,9 @@
   <data name="topBar_alwaysOn" xml:space="preserve">
     <value>'AlwaysOn' is not enabled. Your app may not function properly</value>
   </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>Value for id has been explicitly set in host.json, which may cause unexpected behavior when using deployment slots</value>
+  </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions release notes.</value>
   </data>
