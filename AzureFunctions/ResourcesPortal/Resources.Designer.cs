@@ -4708,6 +4708,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value for id has been explicitly set in host.json, which may cause unexpected behavior when using deployment slots.
+        /// </summary>
+        internal static string topBar_slotsHostId {
+            get {
+                return ResourceManager.GetString("topBar_slotsHostId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Usage.
         /// </summary>
         internal static string topBar_usage {

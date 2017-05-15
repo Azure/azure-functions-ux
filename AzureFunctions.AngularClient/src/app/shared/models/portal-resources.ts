@@ -231,6 +231,7 @@ export class PortalResources
     public static httpRun_httpMethod: string = "httpRun_httpMethod";
     public static httpRun_query: string = "httpRun_query";
     public static topBar_alwaysOn: string = "topBar_alwaysOn";
+    public static topBar_slotsHostId: string = "topBar_slotsHostId";
     public static topBar_releaseNotes: string = "topBar_releaseNotes";
     public static adminKeys_title: string = "adminKeys_title";
     public static functionKeys_addNewAdminKey: string = "functionKeys_addNewAdminKey";
