@@ -322,18 +322,18 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                                 this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
                                  this.sideNav.slotsService.getSlotsList(`${this.resourceId}`),
                                 this._functionApp.pingScmSite(),
-                                (e: string[], c: Response, a: Response, s:  Site[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }))
+                                (e: string[], c: Response, a: Response, s: ArmObj<Site>[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }))
                             return val;
                         })
                         .catch(e => Observable.of({}))
-                        .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: Site[] }) => {
+                        .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) => {
                             this._handlePollingTaskResult(result);
                         });
                 }
             })
     }
 
-    private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: Site[] }) {
+    private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) {
         if (result) {
 
             let notifications: TopBarNotification[] = [];
