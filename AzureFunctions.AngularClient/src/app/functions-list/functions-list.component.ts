@@ -56,9 +56,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
       .subscribe(() =>{
         this.isLoading = false;
         this.functions = (<FunctionNode[]>this._functionsNode.children)
-        .map(c =>{
-            return this.createFunctionItem(c);
-        });
+        .map(this.createFunctionItem);
       })
   }
 
@@ -78,12 +76,19 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
   }
 
   enableChange(item: FunctionItem) {
-      item.disabled = !item.disabled;
       item.node.functionInfo.config.disabled = !item.node.functionInfo.config.disabled;
       this._globalStateService.setBusyState();
-      return this.functionApp.updateFunction(item.node.functionInfo).subscribe(r => {
-          this._globalStateService.clearBusyState();
-      });
+      return this.functionApp.updateFunction(item.node.functionInfo)
+          .do(null, e => {
+              item.node.functionInfo.config.disabled = !item.node.functionInfo.config.disabled;
+              this._globalStateService.clearBusyState();
+              console.error(e);
+          })
+          .retry()
+          .subscribe(r => {
+              item.disabled = !item.disabled;
+              this._globalStateService.clearBusyState();
+          });
   }
 
   clickDelete(item: FunctionItem) {
@@ -93,6 +98,11 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
           this._globalStateService.setBusyState();
           this._portalService.logAction("edit-component", "delete");
           this.functionApp.deleteFunction(functionInfo)
+              .do(null, e => {
+                  this._globalStateService.clearBusyState();
+                  console.error(e);
+              })
+              .retry()
               .subscribe(r => {
                   var indexToDelete = this.functions.indexOf(item);
                   if (indexToDelete > -1) {
@@ -112,19 +122,15 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
           }
       }
 
-    searchChanged(event: any) {
+    searchChanged(value: string) {
           this.functions = (<FunctionNode[]>this._functionsNode.children).filter(c => {
-              return c.functionInfo.name.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1;
-          }).map(c => {
-              return this.createFunctionItem(c);
-          });
+              return c.functionInfo.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+          }).map(this.createFunctionItem);
     }
 
     searchCleared() {
         this.functions = (<FunctionNode[]>this._functionsNode.children)
-            .map((c) => {
-                return this.createFunctionItem(c);
-            });
+            .map(this.createFunctionItem);
     }
 
     onNewFunctionClick() {
