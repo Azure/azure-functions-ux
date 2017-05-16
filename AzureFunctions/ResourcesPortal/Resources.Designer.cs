@@ -259,7 +259,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runtime version: latest ({{latestExtensionVersion}}).
+        ///   Looks up a localized string similar to Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}}).
         /// </summary>
         internal static string appFunctionSettings_functionAppSettings2 {
             get {

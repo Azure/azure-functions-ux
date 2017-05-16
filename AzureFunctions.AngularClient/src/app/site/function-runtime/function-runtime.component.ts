@@ -50,6 +50,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
   public functionApp: FunctionApp;
+  public exactExtensionVersion: string;
 
   public functionStatusOptions: SelectOption<boolean>[];
   public needUpdateRoutingExtensionVersion: boolean;
@@ -103,13 +104,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
                   this._slotsService.getSlotsList(viewInfo.resourceId),
                 (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
                 .mergeMap(result => {
-                  return result.functionApp
-                          .getFunctionAppEditMode()
-                          .map(editMode => ({
+                    return Observable.zip(result.functionApp.getFunctionAppEditMode(), result.functionApp.getFunctionHostStatus(),
+                        (editMode: FunctionAppEditMode, hostStatus: any) => ({ editMode: editMode, hostStatus: hostStatus }))
+                          .map(r => ({
                               siteResponse: result.siteResponse,
                               appSettingsResponse: result.appSettingsResponse,
                               functionApp: result.functionApp,
-                              editMode: editMode,
+                              editMode: r.editMode,
+                              hostStatus: r.hostStatus,
                               slotsList: result.slotsList
                             })
                        );
@@ -124,7 +126,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
             this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
-
+            this.exactExtensionVersion = r.hostStatus.version;
             this._isSlotApp = this._slotsService.isSlot(this.site.id);
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
                 ? this.site.properties.dailyMemoryTimeQuota.toString()

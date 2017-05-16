@@ -1086,7 +1086,7 @@ export class FunctionApp {
     }
 
     @Cache()
-    getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
+    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<any> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
@@ -1094,13 +1094,13 @@ export class FunctionApp {
                     return Observable.of('');
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                        .map(r => <string>(r.json().id))
+                        .map(r => (r.json() ))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostId(false));
+                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostStatus(false));
                             } else {
                                 throw error;
                             }

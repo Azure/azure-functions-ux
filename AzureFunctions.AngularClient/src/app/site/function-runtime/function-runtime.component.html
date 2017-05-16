@@ -25,7 +25,7 @@
         <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <div>
                 <div *ngIf="!needUpdateExtensionVersion">
-                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion} }}</h2>
+                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}</h2>
                 </div>
                 <div *ngIf="needUpdateExtensionVersion">
                     <h2>

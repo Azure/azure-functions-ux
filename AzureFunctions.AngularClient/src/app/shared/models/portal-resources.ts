@@ -559,5 +559,6 @@ export class PortalResources
     public static monitoring_appInsights: string = "monitoring_appInsights";
     public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
+    public static functionManage_deleteApp: string = "functionManage_deleteApp";
 }
 
