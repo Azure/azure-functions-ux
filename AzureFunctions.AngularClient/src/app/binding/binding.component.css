@@ -80,8 +80,10 @@ button.go {
 }
 .button-go-disabled {
     cursor: not-allowed;
-    background-color: lightgray;
-    color: white;
+    background-color: rgba(127, 127, 127, 0.5);
+    opacity: 0.4;
+    z-index: 100;
+    color: black;
 }
 .storage-creds-texbox {
     float: left; 
