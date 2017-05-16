@@ -437,6 +437,7 @@
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
     <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\host-status.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\uniqueValidator.ts" />

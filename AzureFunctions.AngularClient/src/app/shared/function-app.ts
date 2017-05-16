@@ -58,6 +58,7 @@ import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
+import {HostStatus} from './models/host-status';
 
 declare var mixpanel: any;
 
@@ -1086,7 +1087,7 @@ export class FunctionApp {
     }
 
     @Cache()
-    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<any> {
+    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {

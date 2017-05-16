@@ -32,6 +32,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SlotsService } from '../../shared/services/slots.service';
+import { HostStatus } from './../../shared/models/host-status';
 
 @Component({
   selector: 'function-runtime',
@@ -105,7 +106,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
                 .mergeMap(result => {
                     return Observable.zip(result.functionApp.getFunctionAppEditMode(), result.functionApp.getFunctionHostStatus(),
-                        (editMode: FunctionAppEditMode, hostStatus: any) => ({ editMode: editMode, hostStatus: hostStatus }))
+                        (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
                           .map(r => ({
                               siteResponse: result.siteResponse,
                               appSettingsResponse: result.appSettingsResponse,
