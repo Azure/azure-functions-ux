@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -6,20 +6,21 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss']
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent {
     @Input() placeholder: string;
     @Input() value: string = "";
     @Input() warning: boolean = false;
-    @Output() onInputChange = new Subject<any>();
+    @Output() onInputChange = new Subject<string>();
     @Output() onClear = new Subject<void>();
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
   onKeyUp(event: any) {
-      this.onInputChange.next(event);
+      if (event.keyCode === 27) { // ESC
+          this.onClearClick(event);
+      } else {
+          this.onInputChange.next(this.value);
+      }      
   }
 
   onClearClick(event: any) {
