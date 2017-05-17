@@ -89,7 +89,7 @@
     <Content Include="src\app\binding-designer\binding-designer.component.html" />
     <Content Include="src\app\binding-input\binding-input.component.css" />
     <Content Include="src\app\binding-input\binding-input.component.html" />
-    <Content Include="src\app\binding\binding.component.css" />
+    <None Include="src\app\binding\binding.component.scss" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
@@ -180,7 +180,7 @@
     <Content Include="src\app\slots-list\slots-list.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
-    <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
+    <None Include="src\app\table-function-monitor\table-function-monitor.component.scss" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
     <Content Include="src\app\site\create-app\create-app.component.scss" />

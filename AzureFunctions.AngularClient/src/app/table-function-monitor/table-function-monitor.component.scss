@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .color-alt-table > tbody > tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
@@ -91,9 +93,8 @@ textarea{
 }
 .pulse-button-disabled {
     cursor: not-allowed;
-    background-color: rgba(127, 127, 127, 0.5);
+    background-color: $background-color-disabled;
     opacity: 0.4;
-    z-index: 100;
     color: black;
 }
 
