@@ -1,16 +1,20 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+
 import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import {FunctionContainer} from '../shared/models/function-container';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {PortalResources} from '../shared/models/portal-resources';
-//import {FunctionInfo} from '../shared/models/function-info';
 import {ApiProxy} from '../shared/models/api-proxy';
 import {ProxyNode} from './proxy-node';
 import {FunctionApp} from '../shared/function-app';
@@ -73,14 +77,14 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
     }
 
     public removeChild(functionInfo : ApiProxy, callRemoveOnChild? : boolean){
-        
+
         let removeIndex = this.children.findIndex((childNode : ProxyNode) =>{
             return childNode.proxy.name === functionInfo.name;
         })
 
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
-    
+
     public dispose(newSelectedNode? : TreeNode){
         this.parent.dispose(newSelectedNode);
     }
@@ -115,7 +119,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
                 this.children = fcNodes;
 
                 return null;
-            });        
+            });
         }
         else{
             return Observable.of(null);

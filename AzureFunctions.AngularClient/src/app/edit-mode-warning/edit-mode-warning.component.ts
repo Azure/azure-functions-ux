@@ -1,7 +1,7 @@
 import { AppNode } from './../tree-view/app-node';
 import { FunctionApp } from './../shared/function-app';
 import { Component, OnInit, Input } from '@angular/core';
-import { FunctionAppEditMode } from "../shared/models/function-app-edit-mode";
+import { FunctionAppEditMode } from '../shared/models/function-app-edit-mode';
 
 @Component({
   selector: 'app-edit-mode-warning',

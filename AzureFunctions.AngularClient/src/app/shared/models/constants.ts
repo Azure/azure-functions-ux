@@ -28,6 +28,10 @@ export class Constants {
     public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
     public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
     public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
+    public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
+    public static slotsSecretStorageSettingsValue = "Blob";
+    public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
+
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
     public static portalHostName = 'https://portal.azure.com';
@@ -64,6 +68,7 @@ export class AvailabilityStates{
 export class NotificationIds{
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
+    public static slotsHostId = "slotsBlobStorage"
 }
 
 export class Validations{

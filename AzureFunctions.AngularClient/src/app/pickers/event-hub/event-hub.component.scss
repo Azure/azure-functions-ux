@@ -1,0 +1,26 @@
+.line {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-container {
+    width: 200px;
+    padding-right: 15px;
+}
+
+select {
+    width:100%;
+}
+
+.custom-button {
+    margin-left: 0px;
+    margin-top: 15px;   
+}
+
+.button-conainer {
+    height: 40px;
+}
+
+.button-spin {
+    margin-top: 20px;
+}

@@ -1,5 +1,4 @@
 @import '../../sass/main';
-
 .wrapper {
     background-color: #539CF6;
     height: $top-bar-height;
@@ -14,7 +13,7 @@
     padding-left: 15px;
 }
 
-.tryinfo-box > div {
+.tryinfo-box>div {
     float: left;
     position: relative;
     top: 50%;
@@ -34,9 +33,11 @@ a {
 #timer-text {
     font-weight: 900;
 }
+
 .discover-more-button {
-    padding-left: 30px;   
+    padding-left: 30px;
 }
+
 .discover-more-wrapper {
     float: right;
     padding-right: 2%;
@@ -44,9 +45,58 @@ a {
     top: 50%;
     transform: translateY(-50%);
 }
+
 .free-trial-wrapper {
-    padding-left: 13%;
+    z-index: 10;
+    height: 100%;
 }
+
 .azure-logo-wrapper {
     width: 235px
+}
+
+.signup-button {
+    background-color: #89c402;
+    color: #1a1a1a!important;
+    position: relative;
+    padding-right: 45px;
+    -webkit-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+    border: 1px solid transparent;
+    display: block;
+    fill: #fff;
+    font-size: 24px;
+    font-weight: 300;
+    padding: 0px 36px 4px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+
+.signup-button:hover {
+    background-color: #a5ce00;
+}
+
+.signup-button:after {
+    background-image: none;
+    border-color: currentColor;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+    content: '';
+    display: inline-block;
+    height: 18px;
+    margin-top: -2px;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    width: 18px;
+    -ms-transform: rotate(45deg) translate(0, -50%);
+    -o-transform: rotate(45deg) translate(0, -50%);
+    -webkit-transform: rotate(45deg) translate(0, -50%);
+    transform: rotate(45deg) translate(0, -50%);
+}
+
+.signup-button :disabled {
+    cursor: not-allowed;
+    background-color: #ECEFF1;
 }

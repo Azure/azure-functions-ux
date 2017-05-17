@@ -1,8 +1,10 @@
 import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+
 import { GlobalStateService } from '../services/global-state.service';
 import {FunctionApp} from '../function-app';
-import { Subject } from 'rxjs/Rx';
 
 declare var monaco;
 declare var require;

@@ -232,6 +232,7 @@ export class PortalResources
     public static httpRun_httpMethod: string = "httpRun_httpMethod";
     public static httpRun_query: string = "httpRun_query";
     public static topBar_alwaysOn: string = "topBar_alwaysOn";
+    public static topBar_slotsHostId: string = "topBar_slotsHostId";
     public static topBar_releaseNotes: string = "topBar_releaseNotes";
     public static adminKeys_title: string = "adminKeys_title";
     public static functionKeys_addNewAdminKey: string = "functionKeys_addNewAdminKey";
@@ -283,6 +284,7 @@ export class PortalResources
     public static apiProxies_warningOff: string = "apiProxies_warningOff";
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
+    public static slots_warningOff: string = "slots_warningOff";
     public static discrard: string = "discrard";
     public static sidebar_Functions: string = "sidebar_Functions";
     public static intro_signInWithFacebook: string = "intro_signInWithFacebook";
@@ -313,6 +315,7 @@ export class PortalResources
     public static stop: string = "stop";
     public static start: string = "start";
     public static restart: string = "restart";
+    public static swap: string = "swap";
     public static downloadProfile: string = "downloadProfile";
     public static resetPubCredentials: string = "resetPubCredentials";
     public static _delete: string = "_delete";
@@ -535,5 +538,29 @@ export class PortalResources
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
     public static emptyBrowse: string = "emptyBrowse";
     public static emptyBrowse_learnMore: string = "emptyBrowse_learnMore";
+    public static eventHubPicker_eventHub: string = "eventHubPicker_eventHub";
+    public static eventHubPicker_namespace: string = "eventHubPicker_namespace";
+    public static notFound: string = "notFound";
+    public static eventHubPicker_policy: string = "eventHubPicker_policy";
+    public static emptyBrowse_title: string = "emptyBrowse_title";
+    public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
+    public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
+    public static appFunctionSettings_slotsDescBold: string = "appFunctionSettings_slotsDescBold";
+    public static slotNew_nameLabel: string = "slotNew_nameLabel";
+    public static slotNew_heading: string = "slotNew_heading";
+    public static slotNew_desc: string = "slotNew_desc";
+    public static slotNew_startCreateNotifyTitle: string = "slotNew_startCreateNotifyTitle";
+    public static slotNew_startCreateSuccessNotifyTitle: string = "slotNew_startCreateSuccessNotifyTitle";
+    public static slotNew_startCreateFailureNotifyTitle: string = "slotNew_startCreateFailureNotifyTitle";
+    public static error_unableToLoadSlotsList: string = "error_unableToLoadSlotsList";
+    public static slotNew_noAccess: string = "slotNew_noAccess";
+    public static slotsList_nameHeader: string = "slotsList_nameHeader";
+    public static slotsList_statusHeader: string = "slotsList_statusHeader";
+    public static slotsList_serverfarmHeader: string = "slotsList_serverfarmHeader";
+    public static slotsList_title: string = "slotsList_title";
+    public static monitoring_appInsights: string = "monitoring_appInsights";
+    public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
+    public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
+    public static functionManage_deleteApp: string = "functionManage_deleteApp";
 }
 

@@ -1,10 +1,11 @@
 import { FunctionApp } from './../shared/function-app';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import {FunctionsNode} from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -76,7 +77,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
             canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
                 PortalResources.sideBar_changeMade,
-                { 
+                {
                     name: descriptor.functionName
                 }));
         }
@@ -87,7 +88,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
 export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
     public showExpandIcon = false;
-    
+
     constructor(
         sideNav : SideNavComponent,
         public functionInfo : FunctionInfo,
@@ -137,7 +138,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
 }
 
 export class FunctionManageNode extends FunctionEditBaseNode implements Removable{
-    public dashboardType = DashboardType.functionManage    
+    public dashboardType = DashboardType.functionManage
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_manage);;
 
     constructor(

@@ -1,7 +1,7 @@
 <div class="dev-flex-column dev-full">
-    <div *ngIf="!isHttpLogs" style="height: 50px; display: flex; align-items: flex-end;padding-left: 15px; padding-right: 25px;">
+    <div *ngIf="!isHttpLogs" class="log-toolbar">
         <span class="text-level2-heading tab-label-selected">{{ 'logStreaming_logs' | translate }}</span>
-        <span style="flex-grow: 1;"></span>
+        <span class="log-empty-space" (click)="close()"></span>
         <span class="action" *ngIf="stopped" (click)="startLogs()">
             <i class="fa fa-play"></i>
             <span>{{ 'logStreaming_start' | translate }}</span>

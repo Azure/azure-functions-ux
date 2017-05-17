@@ -1,6 +1,6 @@
-import { Subject } from 'rxjs/Rx';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, Input, ElementRef, Output, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'textbox',
@@ -11,7 +11,7 @@ export class TextboxComponent implements OnInit {
 
   @Input() control : FormControl;
   @Input() placeholder : string;
-  
+
   @Output() blur = new Subject<any>();
 
   @ViewChild('textboxInput') textboxInput : any;

@@ -1,5 +1,9 @@
-import { TopBarNotification } from './../../top-bar/top-bar-models';
 import {Injectable} from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { TopBarNotification } from './../../top-bar/top-bar-models';
 import {FunctionContainer} from '../models/function-container';
 import {ResourceType} from '../models/binding';
 import {UserService} from './user.service';
@@ -8,7 +12,6 @@ import {Constants} from '../models/constants';
 import {BusyStateComponent} from '../../busy-state/busy-state.component';
 import {AiService} from './ai.service';
 import {FunctionsService} from './functions.service';
-import { Observable, BehaviorSubject, Subject, ReplaySubject } from 'rxjs/Rx';
 
 @Injectable()
 export class GlobalStateService {

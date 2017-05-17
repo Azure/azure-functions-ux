@@ -1,7 +1,10 @@
-import { FunctionApp } from './../function-app';
-import { Subject } from 'rxjs/Rx';
 import { Directive, Input, ElementRef } from '@angular/core';
-import { FunctionAppEditMode } from "../models/function-app-edit-mode";
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/switchMap';
+
+import { FunctionApp } from './../function-app';
+import { FunctionAppEditMode } from '../models/function-app-edit-mode';
 
 @Directive({
   selector: '[fnWriteAccess]',

@@ -15,7 +15,7 @@
                     <i [class]="notification.iconClass"></i>
                     {{notification.message}}
                 </span>
-                <a class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
+                <a  *ngIf="notification.learnMoreLink!==''" class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
             </span>
         </div>
 

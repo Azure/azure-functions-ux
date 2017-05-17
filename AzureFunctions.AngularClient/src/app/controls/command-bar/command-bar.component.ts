@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, Input, Output } from '@angular/core';
 
 @Component({

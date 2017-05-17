@@ -1,11 +1,18 @@
 import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';import 'rxjs/add/observable/zip';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
 import {FunctionConfig} from '../shared/models/function-config';
-import {Observable, Subject, Subscription} from 'rxjs/Rx';
 import {FunctionSecrets} from '../shared/models/function-secrets';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
@@ -17,14 +24,13 @@ import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {AiService} from '../shared/services/ai.service';
 import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
 import {BindingManager} from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
-import { ErrorIds } from "../shared/models/error-ids";
+import { ErrorIds } from '../shared/models/error-ids';
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
 
@@ -76,7 +82,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionInvokeUrl: string;
     public expandLogs: boolean = false;
     public functionApp: FunctionApp;
-    public functionKeys: FunctionKeys;    
+    public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
@@ -139,7 +145,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.testContent = res.functionInfo.test_data;
                 try {
                     var httpModel = JSON.parse(res.functionInfo.test_data);
-                    if (httpModel.body !== undefined) {
+                    // Check if it's valid model
+                    if (Array.isArray(httpModel.headers)) {
                         this.testContent = httpModel.body;
                     }
                 } catch (e) {
@@ -466,7 +473,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
             this.functionApp.updateFunction(this.functionInfo)
-                .subscribe(r => Object.assign(this.functionInfo, r));
+                .subscribe(r => {
+                    Object.assign(this.functionInfo, r);
+                    if (this.updatedTestContent) {
+                        this.testContent = this.updatedTestContent;
+                    }
+                });
         }
     }
 
@@ -608,7 +620,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     onChangeKey(key: string) {
         this.setFunctionInvokeUrl(key);
-        this.setFunctionKey(this.functionInfo);        
+        this.setFunctionKey(this.functionInfo);
     }
 
     private getTestData(): string {

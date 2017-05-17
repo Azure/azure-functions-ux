@@ -30,14 +30,6 @@
         font-weight: bold;
     }
 
-.switch-label-off {
-    padding-left: 2px;
-}
-
-.switch-label-on {
-    padding-right: 2px;
-}
-
 .switch-input {
     display: none;
 }
@@ -45,17 +37,9 @@
         font-weight: bold;
         color: white;
     }
-    .switch-input:checked + .switch-label-on ~ .switch-selection {
-        left: 100px;
-    }
 
-.switch-selection {
+.selected {
     display: block;
-    position: absolute;
     z-index: 1;
-    top: 2px;
-    left: 2px;
-    width: 98px;
-    height: 21px;
     background: $primary-color;
 }

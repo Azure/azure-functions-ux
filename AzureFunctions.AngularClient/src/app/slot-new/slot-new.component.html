@@ -1,0 +1,25 @@
+<div class="newSlot-container">
+  <h2 class="text-main2-heading">{{ 'slotNew_heading' | translate }}</h2>
+
+  <div class="text-subheading">{{ 'slotNew_desc' | translate}}</div>
+  <div *ngIf="!isLoading && !hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'slotNew_noAccess' | translate }}</div>
+  <div *ngIf="!isLoading && !slotOptinEnabled" class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'slots_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+  </div>
+  <div *ngIf="!isLoading && hasReachedDynamicQuotaLimit" class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'slotNew_dynamicQuotaReached' | translate }}
+  </div>
+
+  <div class="slot-form" *ngIf="slotOptinEnabled && hasCreatePermissions && !hasReachedDynamicQuotaLimit">
+    <div>
+      <label> {{ 'slotNew_nameLabel' | translate}} </label>
+      <pop-over [message]="'slotNew_nameLabel_balloonText' | translate">
+        <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
+    <button [class.custom-button]="newSlotForm.valid && newSlotForm.dirty" [class.custom-button-disabled]="!newSlotForm.valid || !newSlotForm.dirty"
+      [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
+  </div>
+</div>

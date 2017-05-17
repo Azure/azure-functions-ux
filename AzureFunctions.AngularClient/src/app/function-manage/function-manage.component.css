@@ -13,19 +13,20 @@ pre {
     padding: 20px 0px 20px 0px;
 }
 
-.configure-wrapper {
+
+.title {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.delete-app {
+    padding-left: 50px;
     display: flex;
-    flex-direction: row;
 }
 
-.configure-wrapper > div:first-child {
-    flex-grow: 1;
-    min-width: 20%;
-}
-
-.configure-wrapper > div:last-child {
-    flex-grow: 4;
-    min-width: 80%
+.delete-app > img {
+    width: 16px;
+    height: 16px;
 }
 
 #function-settings {

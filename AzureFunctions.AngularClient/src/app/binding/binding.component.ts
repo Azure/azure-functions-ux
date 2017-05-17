@@ -1,14 +1,20 @@
 import {Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../shared/models/binding-input';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
-import {Observable} from 'rxjs/Rx';
 import {BindingManager} from '../shared/models/binding-manager';
 import {BindingInputList} from '../shared/models/binding-input-list';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
-import {Subscription, Subject, ReplaySubject} from 'rxjs/Rx';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Validator} from '../shared/models/binding';
 import {FunctionApp} from '../shared/function-app';
@@ -78,18 +84,23 @@ export class BindingComponent{
                     (a, e) => ({appSettings : a.json(), authSettings: e}));
             });
 
-        funcStream.merge(this._bindingStream)
+        funcStream
+            .merge(this._bindingStream)
             .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
-            if(res.appSettings){
-                this._appSettings = res.appSettings.properties;
-            }
-            else{
-                this._updateBinding(<any>res);
-            }
-            if (res.authSettings) {
-                this.authSettings = res.authSettings;
-                this.filterWarnings();
-            }
+                try{
+                    if (res.appSettings) {
+                        this._appSettings = res.appSettings.properties;
+                    }
+                    else {
+                        this._updateBinding(<any>res);
+                    }
+                    if (res.authSettings) {
+                        this.authSettings = res.authSettings;
+                        this.filterWarnings();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
         })
 
         renderer.link = function (href, title, text) {
@@ -478,7 +489,7 @@ export class BindingComponent{
             this._appSettings = r.json().properties;
             this.setStorageInformation(selectedStorage);
         });
-        
+
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -617,7 +628,7 @@ export class BindingComponent{
 
 
    private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
-       var value = this._appSettings[settingName];
+       var value = this._appSettings ? this._appSettings[settingName] : null;
        if (value) {
             var account = [];
             var accountName;

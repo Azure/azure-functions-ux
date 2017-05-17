@@ -2,15 +2,15 @@ import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, ViewChild, OnDestroy, ContentChild, ElementRef } from '@angular/core';
-import { Subject } from "rxjs/Subject";
-import { Subscription } from "rxjs/Subscription";
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 // Used to communicate between click-to-edit components
 export class CustomFormGroup extends FormGroup{
-  
+
   // Tells other ClickToEdit components when we're in "edit" mode for the form group.
   public _msShowTextbox : Subject<boolean>;
-  
+
   // Tells other ClickToEdit components which control currently has focus
   public _msFocusedControl : string;
 
@@ -108,14 +108,14 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
 
   protected _updateShowTextbox(show : boolean){
     let group = <CustomFormGroup>this.group;
-    
+
     if(show){
       group._msFocusedControl = this.name;
     }
     else if(group._msFocusedControl === this.name){
       group._msFocusedControl = "";
     }
-    
+
     if(!group._msFocusedControl || group._msFocusedControl === this.name){
       group._msShowTextbox.next(show);
     }

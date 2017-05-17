@@ -1,3 +1,9 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+
 import { FunctionQuickstartComponent } from './../function-quickstart/function-quickstart.component';
 import { QuickstartSettings } from './../shared/models/localStorage/local-storage';
 import { AuthzService } from './../shared/services/authz.service';
@@ -5,7 +11,6 @@ import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
-import { Subject, Observable } from 'rxjs/Rx';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -67,14 +72,14 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     public addChild(functionInfo : FunctionInfo){
         functionInfo.functionApp = this.functionApp;
         this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
-        
+
         let newNode = new FunctionNode(this.sideNav, this, functionInfo, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }
 
     public removeChild(functionInfo : FunctionInfo, callRemoveOnChild? : boolean){
-        
+
         let removeIndex = this.children.findIndex((childNode : FunctionNode) =>{
             return childNode.functionInfo.name === functionInfo.name;
         })
@@ -121,7 +126,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
                 this.children = fcNodes;
 
                 return null;
-            });        
+            });
         }
         else{
             return Observable.of(null);
