@@ -84,7 +84,6 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
               this._globalStateService.clearBusyState();
               console.error(e);
           })
-          .retry()
           .subscribe(r => {
               item.disabled = !item.disabled;
               this._globalStateService.clearBusyState();
@@ -102,7 +101,6 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
                   this._globalStateService.clearBusyState();
                   console.error(e);
               })
-              .retry()
               .subscribe(r => {
                   var indexToDelete = this.functions.indexOf(item);
                   if (indexToDelete > -1) {
