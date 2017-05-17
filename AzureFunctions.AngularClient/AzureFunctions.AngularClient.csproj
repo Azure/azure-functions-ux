@@ -316,7 +316,6 @@
     <Content Include="src\sass\pages\_binding-designer.scss" />
     <Content Include="src\sass\pages\_deployment-source.scss" />
     <Content Include="src\sass\controls\_dialogs.scss" />
-    <Content Include="src\app\try-now\try-now.component.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
