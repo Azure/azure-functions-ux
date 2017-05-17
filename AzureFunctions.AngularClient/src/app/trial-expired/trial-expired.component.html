@@ -4,8 +4,8 @@
         <h1>{{ 'trialExpired_enjoyedHostingFunctions' | translate }}</h1>
         <h3>{{ 'trialExpired_signupForAzure' | translate }}</h3>
         <div style="height:50px;"></div>
-        <div>
-            <a [attr.href]="freeTrialUri" (click)="trackLinkClick('expiredFreeTrialClick')" target="_blank" class="trial-expired-signup-button">
+        <div class="free-trial-wrapper">
+            <a [attr.href]="freeTrialUri" (click)="trackLinkClick('expiredFreeTrialClick')" target="_blank" class="signup-button ">
                 {{ 'tryNow_createFreeAzureAccount' | translate }}
             </a>
         </div>

@@ -6,28 +6,29 @@
 
     <div id="dashboard" *ngIf="!!viewInfo">
 
-        <apps-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'apps'"></apps-list>
-        <create-app [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'createApp'"></create-app>
-        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
-        <functions-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functions'"></functions-list>
-        <proxies-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxies'"></proxies-list>
-        <slots-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'slots'"></slots-list>
+        <apps-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'apps'"></apps-list>
+        <create-app [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createApp'"></create-app>
+        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'app'"></site-dashboard>
+        <functions-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'functions'"></functions-list>
+        <proxies-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'proxies'"></proxies-list>
+        <slots-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'slots'"></slots-list>
 
         <function-edit
             [viewInfoInput]="viewInfo"
-            *ngIf="dashboardType === 'function'
+            *ngIf="trialExpired === false && (dashboardType === 'function'
                     || dashboardType === 'functionIntegrate'
                     || dashboardType === 'functionManage'
-                    || dashboardType === 'functionMonitor'"></function-edit>
+                    || dashboardType === 'functionMonitor')"></function-edit>
 
         <create-function-wrapper
             [viewInfoInput]="viewInfo"
-            *ngIf="dashboardType === 'createFunctionAutoDetect'
+            *ngIf="trialExpired === false && (dashboardType === 'createFunctionAutoDetect'
                     || dashboardType === 'createFunction'
-                    || dashboardType === 'createFunctionQuickstart'"></create-function-wrapper>
+                    || dashboardType === 'createFunctionQuickstart')"></create-function-wrapper>
 
-        <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
-        <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>
-        <slot-new [viewInfoInput] ="viewInfo" *ngIf="dashboardType === 'createSlot'"></slot-new>
+        <api-new [viewInfoInput]="viewInfo"  *ngIf="trialExpired === false && dashboardType === 'createProxy'"></api-new>
+        <api-details [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'proxy'"></api-details>
+        <slot-new [viewInfoInput] ="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createSlot'"></slot-new>
+        <trial-expired *ngIf="trialExpired === true "></trial-expired>
     </div>
 </div>

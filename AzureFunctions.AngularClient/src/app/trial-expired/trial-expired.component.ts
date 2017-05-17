@@ -6,7 +6,7 @@ import {AiService} from '../shared/services/ai.service';
 @Component({
   selector: 'trial-expired',
   templateUrl: './trial-expired.component.html',
-  styleUrls: ['./trial-expired.component.css']
+  styleUrls: ['./trial-expired.component.scss']
 })
 export class TrialExpiredComponent implements OnInit {
 
