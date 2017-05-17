@@ -72,6 +72,10 @@ echo Handling frontend Angular2 project.
 		call :ExecuteCmd yarn install
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
+	
+	call :ExecuteCmd npm rebuild node-sass
+	IF !ERRORLEVEL! NEQ 0 goto error
+	
 	echo Bundle angular2 app
 	call :ExecuteCmd node_modules\.bin\ng build --prod --environment=prod --output-path="%ARTIFACTS%\dist"
 	IF !ERRORLEVEL! NEQ 0 (
