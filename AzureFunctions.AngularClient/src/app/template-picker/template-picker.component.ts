@@ -234,6 +234,12 @@ export class TemplatePickerComponent {
         if (this._language !== language) {
             this._language = language;
             this.categories = [];
+
+            // if language is set to "all" we need to show "Core" templates
+            if (this._language === this._translateService.instant("temp_category_all")) {
+                this.category = this._translateService.instant("temp_category_core");
+            }
+
             if (this._language && this.category) {
                 this.type = this._type;
             }
