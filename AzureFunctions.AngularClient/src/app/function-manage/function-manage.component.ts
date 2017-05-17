@@ -88,9 +88,11 @@ export class FunctionManageComponent {
         if (result) {
             this._globalStateService.setBusyState();
             this._portalService.logAction("edit-component", "delete");
+            // Clone node for removing as it can be change during http call
+            var clone = Object.create(this._functionNode);
             this.functionApp.deleteFunction(this.functionInfo)
                 .subscribe(r => {
-                    this._functionNode.remove();
+                    clone.remove();
                     // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
                     this._globalStateService.clearBusyState();
                 });
