@@ -16,18 +16,16 @@
     <div *ngIf="!param.isFixed" class="pair">
         <input type="text" class="name"
                [(ngModel)]="param.name"
-               (ngModelChange)="change($event)"
+               (ngModelChange)="paramChanged($event)"
                placeholder="name">
 
-        <pop-over *ngIf="!param.name" [isInputError]="true" class="error-fix">
+        <pop-over *ngIf="!param.valid" [isInputError]="true" class="error-fix">
         </pop-over>
 
         <input type="text" class="value"
                [(ngModel)]="param.value"
-               (ngModelChange)="change($event)"
                placeholder="value">
-        <!--<pop-over *ngIf="!param.value" [isInputError]="true">
-        </pop-over>-->
+
 
         <span class="text-hl">
             <i class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
@@ -50,18 +48,16 @@
 <div *ngFor="let header of model.headers; let i = index;" class="pair">
     <input type="text" class="name"
            [(ngModel)]="header.name"
-           (ngModelChange)="change($event)"
+           (ngModelChange)="paramChanged($event)"
            placeholder="name">
 
-    <pop-over *ngIf="!header.name" [isInputError]="true" class="error-fix">
+    <pop-over *ngIf="!header.valid" [isInputError]="true" class="error-fix">
     </pop-over>
 
     <input type="text" class="value"
            [(ngModel)]="header.value"
-           (ngModelChange)="change($event)"
            placeholder="value">
-    <!--<pop-over *ngIf="!header.value" [isInputError]="true">
-    </pop-over>-->
+
 
     <span class="text-hl">
         <i class="fa fa-remove clickable delete" (click)="removeHeader(i)"></i>
