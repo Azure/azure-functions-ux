@@ -69,7 +69,7 @@ namespace AzureFunctions
             var context = new HttpContextWrapper(HttpContext.Current);
             var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
             var clientConfig = settings.GetClientConfiguration();
-            var runtimeType = (RuntimeType)Enum.Parse(typeof(RuntimeType), clientConfig.RuntimeType);
+            var runtimeType = (RuntimeType)Enum.Parse(typeof(RuntimeType), clientConfig.RuntimeType, true);
 
             if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
             {
