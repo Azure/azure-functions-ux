@@ -20,10 +20,15 @@
         </tr>
 
         <tr *ngFor="let item of table.items">
-            <td class="link" (click)="clickRow(item)">{{item.name}}</td>
+            <td class="link" (click)="clickRow(item)">{{item.title}}</td>
             <td>
-                <input type="checkbox" [checked]="!item.disabled" (change)="enableChange(item)" />
-                <span *ngIf="item.disabled" class="enabled"> {{ 'disabled' | translate }}</span><span *ngIf="!item.disabled" class="enabled"> {{ 'enabled' | translate }}</span>
+                <input type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />
+                <span *ngIf="item.functionInfo.config.disabled" class="enabled">
+                    {{ 'disabled' | translate }}
+                </span>
+                <span *ngIf="!item.functionInfo.config.disabled" class="enabled">
+                    {{ 'enabled' | translate }}
+                </span>
             </td>
             <img class="delete" src="images/delete.svg" (click)="clickDelete(item)" />
         </tr>

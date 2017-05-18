@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FunctionApp } from './../shared/function-app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -15,8 +16,9 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
-    public title = "";
     public dashboardType = DashboardType.function;
+    private _enabledTitle: string;
+    private _disabledTitle: string;
 
     constructor(
         sideNav : SideNavComponent,
@@ -27,10 +29,19 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         super(sideNav,
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
             parentNode);
-
-        this.title = functionInfo.name;
         this.iconClass = "tree-node-svg-icon";
         this.iconUrl = "images/function_f.svg";
+        const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
+        this._enabledTitle = this.functionInfo.name;
+        this._disabledTitle = `(${disabledStr}) ${this.functionInfo.name}`;
+    }
+
+    // This will be called on every change detection run. So I'm making sure to always
+    // return the same exact object every time.
+    public get title(): string {
+        return this.functionInfo.config.disabled
+            ? this._disabledTitle
+            : this._enabledTitle;
     }
 
     public handleSelection() : Observable<any>{

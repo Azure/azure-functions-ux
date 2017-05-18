@@ -17,27 +17,20 @@ import { PortalService } from '../shared/services/portal.service';
 import { FunctionManageNode } from '../tree-view/function-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 
-interface FunctionItem{
-  name : string,
-  disabled : boolean,
-  node : FunctionNode
-}
-
 @Component({
   selector: 'functions-list',
   templateUrl: './functions-list.component.html',
-  styleUrls: ['./functions-list.component.scss'],
-  inputs: ['viewInfoInput']
+  styleUrls: ['./functions-list.component.scss']
 })
 export class FunctionsListComponent implements OnInit, OnDestroy {
-  public viewInfoStream : Subject<TreeViewInfo>;
-  public functions : FunctionItem[] = [];
+  public viewInfoStream: Subject<TreeViewInfo>;
+  public functions: FunctionNode[] = [];
   public isLoading: boolean;
   public functionApp: FunctionApp;
 
-  private _viewInfoSubscription : RxSubscription;
+  private _viewInfoSubscription: RxSubscription;
 
-  private _functionsNode : FunctionsNode;
+  private _functionsNode: FunctionsNode;
 
   constructor(private _globalStateService: GlobalStateService,
       private _portalService: PortalService,
@@ -53,46 +46,44 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         this.functionApp = this._functionsNode.functionApp;
         return this._functionsNode.loadChildren();
       })
-      .subscribe(() =>{
+      .subscribe(() => {
         this.isLoading = false;
-        this.functions = (<FunctionNode[]>this._functionsNode.children)
-        .map(this.createFunctionItem);
-      })
+        this.functions = (<FunctionNode[]>this._functionsNode.children);
+      });
   }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     this._viewInfoSubscription.unsubscribe();
   }
 
-  set viewInfoInput(viewInfo : TreeViewInfo){
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo){
     this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item: FunctionItem){
-      item.node.select();
+  clickRow(item: FunctionNode){
+      item.select();
   }
 
-  enableChange(item: FunctionItem) {
-      item.node.functionInfo.config.disabled = !item.node.functionInfo.config.disabled;
+  enableChange(item: FunctionNode) {
+      item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
       this._globalStateService.setBusyState();
-      return this.functionApp.updateFunction(item.node.functionInfo)
+      return this.functionApp.updateFunction(item.functionInfo)
           .do(null, e => {
-              item.node.functionInfo.config.disabled = !item.node.functionInfo.config.disabled;
+              item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
               this._globalStateService.clearBusyState();
               console.error(e);
           })
           .subscribe(r => {
-              item.disabled = !item.disabled;
               this._globalStateService.clearBusyState();
           });
   }
 
-  clickDelete(item: FunctionItem) {
-      var functionInfo = item.node.functionInfo;
-      var result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: functionInfo.name }));
+  clickDelete(item: FunctionNode) {
+      const functionInfo = item.functionInfo;
+      const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: functionInfo.name }));
       if (result) {
           this._globalStateService.setBusyState();
           this._portalService.logAction("edit-component", "delete");
@@ -107,13 +98,13 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
                       this.functions.splice(indexToDelete, 1);
                   }
 
-                  this._functionsNode.removeChild(item.node.functionInfo, false);
+                  this._functionsNode.removeChild(item.functionInfo, false);
 
                   let defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
                   let scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
 
-                  item.node.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
-                  item.node.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
+                  item.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
+                  item.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
 
                   this._globalStateService.clearBusyState();
               });
@@ -123,23 +114,14 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
     searchChanged(value: string) {
           this.functions = (<FunctionNode[]>this._functionsNode.children).filter(c => {
               return c.functionInfo.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
-          }).map(this.createFunctionItem);
+          });
     }
 
     searchCleared() {
-        this.functions = (<FunctionNode[]>this._functionsNode.children)
-            .map(this.createFunctionItem);
+        this.functions = (<FunctionNode[]>this._functionsNode.children);
     }
 
     onNewFunctionClick() {
         this._functionsNode.openCreateDashboard(DashboardType.createFunction);
-    }
-
-    private createFunctionItem(c: FunctionNode) : FunctionItem {
-        return <FunctionItem>{
-            name: c.title,
-            disabled: c.functionInfo.config.disabled,
-            node: c
-        }
     }
 }
