@@ -15,7 +15,7 @@
                 (onContentChanged)="contentChanged($event)"
                 [content]="configContent"
                 fileName="function.json"
-                [fnWriteAccess]="functionApp"
+                [disabled]="disabled | async"
                 [functionAppInput]="functionApp">
         </div>
     </div>

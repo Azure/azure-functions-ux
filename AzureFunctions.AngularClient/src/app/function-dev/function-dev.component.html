@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-                <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>                
+                <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
             </div>
             <div class="modal-body keys-dialog-body">
                 <div *ngIf="isHttpFunction && authLevel && authLevel.toLowerCase() ==='function' && hostKeys">
@@ -109,7 +109,7 @@
                                 (onContentChanged)="contentChanged($event)"
                                 [content]="content"
                                 [fileName]="fileName"
-                                [fnWriteAccess]="functionApp"
+                                [disabled]="disabled | async"
                                 [functionAppInput]="functionApp">
                             </div>
 

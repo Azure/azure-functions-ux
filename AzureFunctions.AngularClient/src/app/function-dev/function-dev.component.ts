@@ -33,6 +33,7 @@ import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
+import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
 
 
 @Component({
@@ -88,6 +89,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     public isStandalone : boolean;
 
+    public disabled: Observable<boolean>;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -130,6 +133,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
+                this.disabled = this.functionApp.getFunctionAppEditMode().map(e => e === FunctionAppEditMode.ReadOnly || e === FunctionAppEditMode.ReadOnlySourceControlled);
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
 
