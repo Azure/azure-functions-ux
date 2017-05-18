@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { TopBarNotification } from './top-bar-models';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
@@ -25,6 +26,7 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
+    public isStandalone : boolean;
     // public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
 
@@ -38,10 +40,12 @@ export class TopBarComponent implements OnInit {
         private _portalService: PortalService,
         private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _configService : ConfigService
     ) {
         // this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
+        this.isStandalone = this._configService.isStandalone();
 
         this._globalStateService.topBarNotificationsStream
         .subscribe(topBarNotifications =>{

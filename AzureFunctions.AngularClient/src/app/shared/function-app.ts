@@ -232,8 +232,7 @@ export class FunctionApp {
 
     public static getMainUrl(configService : ConfigService, site : ArmObj<Site>){
         if(configService.isStandalone()){
-            let hostName = site.properties.hostNameSslStates.find(s => s.hostType === 0).name;
-            return `https://${hostName}/functionsmesh/${site.name}`;
+            return `https://${site.properties.defaultHostName}/functions/${site.name}`;
         }
         else{
             return `https://${site.properties.defaultHostName}`;

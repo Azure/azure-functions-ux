@@ -118,7 +118,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 this.oldLength = 0;
             }
 
-            var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
+            let scmUrl = this.functionInfo.functionApp.getScmUrl();
 
             this.xhReq = new XMLHttpRequest();
             let url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;

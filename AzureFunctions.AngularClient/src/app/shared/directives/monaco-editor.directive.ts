@@ -1,3 +1,4 @@
+import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -25,7 +26,8 @@ export class MonacoEditorDirective {
     private _functionApp : FunctionApp;
 
     constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService
+        private _globalStateService: GlobalStateService,
+        private _configService : ConfigService
         ) {
 
         this.onContentChanged = new EventEmitter<string>();
@@ -132,7 +134,7 @@ export class MonacoEditorDirective {
 
         let onGotAmdLoader = () => {
             // Load monaco
-            if (window.location.hostname === 'localhost') {
+            if (window.location.hostname === 'localhost' || this._configService.isStandalone()) {
                 (<any>window).require.config({ paths: { 'vs': '/ng/assets/monaco/min/vs' } });
             } else {
                 (<any>window).require.config({ paths: { 'vs': '/assets/monaco/min/vs' } });

@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import {Component, Input} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -30,6 +31,8 @@ export class FunctionManageComponent {
     public isEasyAuthEnabled = false;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
+    public isStandalone : boolean;
+
     private _viewInfoStream : Subject<TreeViewInfo>;
     private _functionNode : FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
@@ -37,7 +40,10 @@ export class FunctionManageComponent {
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService) {
+                private _translateService: TranslateService,
+                configService : ConfigService) {
+
+        this.isStandalone = configService.isStandalone();
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
