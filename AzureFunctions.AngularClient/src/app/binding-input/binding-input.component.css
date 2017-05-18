@@ -96,3 +96,9 @@ button.go {
 .methods-list input {
     margin-left:0px
 }
+
+.hide-arrow {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}

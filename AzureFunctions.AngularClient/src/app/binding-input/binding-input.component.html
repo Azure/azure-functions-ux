@@ -49,12 +49,10 @@
         <select id="{{input.id}}"
                 (ngModelChange)="inputChanged($event)"
                 [(ngModel)]="input.value"
-                [ngClass]="{'input-error':!!input.errorText}">
+                [class.input-error]="!!input.errorText"
+                [class.hide-arrow]="!!input.errorText">
             <option *ngFor="let item of input.items" [value]="item">{{item}}</option>
         </select>
-
-
-
         <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
         </pop-over>
         <!--[leftOffset]=20 [topOffset]=10-->
