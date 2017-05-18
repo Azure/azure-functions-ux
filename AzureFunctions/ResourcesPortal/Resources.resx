@@ -1540,9 +1540,6 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>ACTIONS</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
     <value>go to the quickstart</value>
   </data>
@@ -1806,5 +1803,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="functionManage_deleteApp" xml:space="preserve">
     <value>Delete app</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
   </data>
 </root>

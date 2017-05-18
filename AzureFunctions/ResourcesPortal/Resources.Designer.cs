@@ -448,6 +448,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azure Functions Runtime.
+        /// </summary>
+        internal static string azureFunctionsRuntime {
+            get {
+                return ResourceManager.GetString("azureFunctionsRuntime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We are not able to access your Azure settings for your function app..
         /// </summary>
         internal static string backend_error_CannotAccessFunctionApp {
@@ -907,7 +916,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating a Function App will automatically provision a new container capable of hosting and running your code.
+        ///   Looks up a localized string similar to Creating a Function App will automatically provision a new container capable of hosting and running your code..
         /// </summary>
         internal static string createApp_description {
             get {
@@ -2527,15 +2536,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Keys feature is not available because Authentication/Authorization is enabled for this Function App..
-        /// </summary>
-        internal static string functionKeys_easyAuthWarning {
-            get {
-                return ResourceManager.GetString("functionKeys_easyAuthWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to (Required).
         /// </summary>
         internal static string functionKeys_enterKeyName {
@@ -2829,6 +2829,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionService_authIsEnabled {
             get {
                 return ResourceManager.GetString("functionService_authIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A client certificate is required to call run this function. To run it from the portal you have to disable client certificate..
+        /// </summary>
+        internal static string functionService_clientCertEnabled {
+            get {
+                return ResourceManager.GetString("functionService_clientCertEnabled", resourceCulture);
             }
         }
         

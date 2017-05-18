@@ -28,7 +28,6 @@ import {FunctionManageNode} from '../tree-view/function-node';
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
-    public isEasyAuthEnabled = false;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
     public isStandalone : boolean;
@@ -41,20 +40,17 @@ export class FunctionManageComponent {
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService,
-                configService : ConfigService) {
+                configService: ConfigService) {
 
         this.isStandalone = configService.isStandalone();
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .switchMap(viewInfo =>{
+            .retry()
+            .subscribe(viewInfo => {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
-                return this.functionApp.getAuthSettings();
-            })
-            .subscribe(easyAuthEnabled => {
-                this.isEasyAuthEnabled = easyAuthEnabled.easyAuthEnabled;
             });
 
         this.functionStatusOptions = [
@@ -69,7 +65,7 @@ export class FunctionManageComponent {
             this.functionStateValueChange = new Subject<boolean>();
             this.functionStateValueChange
                 .switchMap(state => {
-                     let originalState = this.functionInfo.config.disabled;
+                     const originalState = this.functionInfo.config.disabled;
                      this._globalStateService.setBusyState();
                      this.functionInfo.config.disabled = state;
                      return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });

@@ -99,7 +99,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private functionKey: string;
     private _bindingManager = new BindingManager();
 
-    private _isEasyAuthEnabled = false;
+    private _isClientCertEnabled = false;
 
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
@@ -144,7 +144,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e}))
             })
             .subscribe(res => {
-                this._isEasyAuthEnabled = res.authSettings.easyAuthEnabled;
+                this._isClientCertEnabled = res.authSettings.clientCertEnabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
                 try {
@@ -213,7 +213,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (!this.functionApp.isMultiKeySupported) {
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
-                } else if(this._isEasyAuthEnabled){
+                } else if (this._isClientCertEnabled) {
                     this.setFunctionInvokeUrl();
                 }
 
@@ -380,7 +380,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 code = `?code=${key}`;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = `?code=${this.secrets.key}`;
-            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isEasyAuthEnabled) {
+            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isClientCertEnabled) {
                 code = `?code=${this.functionApp.HostSecrets}`;
             }
 

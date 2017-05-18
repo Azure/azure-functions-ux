@@ -877,41 +877,41 @@ export class FunctionApp {
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
     return this.getAuthSettings()
-        .mergeMap(r =>{
-            if (r.easyAuthEnabled) {
-            return Observable.of({keys: [], links: []});
-        }
-        return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(e => e.scan((errorCount : number, err: Response) => {
-                if (err.status < 500 && err.status !== 0) {
-                    throw err;
-                }
-                if (errorCount >= 10) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(400))
-            .map(r => {
-                let keys: FunctionKeys = r.json();
-                if (keys && Array.isArray(keys.keys)) {
-                    keys.keys.unshift({
-                        name: '_master',
-                        value: this.masterKey
-                    });
-                }
-                return keys;
-            })
-            .catch((error: Response) => {
-                if (handleUnauthorized && error.status === 401) {
-                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                        usedKey: this.sanitize(this.masterKey)
-                    });
-                    return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
-                } else {
-                    throw error;
-                }
-            })
-            .do(_ => {
+        .mergeMap(r => {
+            if (r.clientCertEnabled) {
+                return Observable.of({ keys: [], links: [] });
+            }
+            return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    if (err.status < 500 && err.status !== 0) {
+                        throw err;
+                    }
+                    if (errorCount >= 10) {
+                        throw err;
+                    }
+                    return errorCount + 1;
+                }, 0).delay(400))
+                .map(r => {
+                    let keys: FunctionKeys = r.json();
+                    if (keys && Array.isArray(keys.keys)) {
+                        keys.keys.unshift({
+                            name: '_master',
+                            value: this.masterKey
+                        });
+                    }
+                    return keys;
+                })
+                .catch((error: Response) => {
+                    if (handleUnauthorized && error.status === 401) {
+                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                            usedKey: this.sanitize(this.masterKey)
+                        });
+                        return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
+                    } else {
+                        throw error;
+                    }
+                })
+                .do(_ => {
                     this.isMultiKeySupported = true;
                     this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
                 },
@@ -920,7 +920,7 @@ export class FunctionApp {
                         if (error.status === 404) {
                             this.isMultiKeySupported = false;
                             this.legacyGetHostSecrets();
-                            return Observable.of({keys: [], links: []});
+                            return Observable.of({ keys: [], links: [] });
                         }
 
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -935,7 +935,7 @@ export class FunctionApp {
                         });
                     }
                 });
-            });
+        });
     }
 
     getBindingConfig(): Observable<BindingConfig> {
@@ -1021,8 +1021,8 @@ export class FunctionApp {
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .mergeMap((authSettings : AuthSettings) =>{
-            return authSettings.easyAuthEnabled
+        .mergeMap((authSettings: AuthSettings) => {
+            return authSettings.clientCertEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
@@ -1044,8 +1044,8 @@ export class FunctionApp {
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .mergeMap(authSettings =>{
-            if (authSettings.easyAuthEnabled || !this.masterKey) {
+        .mergeMap(authSettings => {
+            if (authSettings.clientCertEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -1090,7 +1090,7 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
-                if (authSettings.easyAuthEnabled || !this.masterKey) {
+                if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of('');
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -1184,7 +1184,7 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
-                if (authSettings.easyAuthEnabled) {
+                if (authSettings.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
                 return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
@@ -1407,22 +1407,24 @@ export class FunctionApp {
     }
 
     public getAuthSettings(): Observable<AuthSettings>{
-        if(this.tryFunctionsScmCreds){
+        if (this.tryFunctionsScmCreds) {
             return Observable.of({
                 easyAuthEnabled: false,
                 AADConfigured: false,
-                AADNotConfigured: false
+                AADNotConfigured: false,
+                clientCertEnabled: false
             });
         }
 
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
             .map(r => {
-            let auth : ArmObj<any> = r.json();
+            let auth: ArmObj<any> = r.json();
             return {
                 easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
                 AADConfigured: auth.properties['clientId'] ? true : false,
-                AADNotConfigured: auth.properties['clientId'] ? false : true
-            }
+                AADNotConfigured: auth.properties['clientId'] ? false : true,
+                clientCertEnabled: this.site.properties.clientCertEnabled
+            };
         });
     }
 
@@ -1574,6 +1576,12 @@ export class FunctionApp {
                             status: 401,
                             statusText: this.statusCodeToText(401),
                             text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                        });
+                    } else if (authSettings.clientCertEnabled) {
+                        return Observable.of({
+                            status: 401,
+                            statusText: this.statusCodeToText(401),
+                            text: () => this._translateService.instant(PortalResources.functionService_clientCertEnabled)
                         });
                     } else if (e.status === 200 && e.type === ResponseType.Error) {
                         return Observable.of({
