@@ -32,10 +32,24 @@ namespace Deploy.Helpers
                 .Select(e => new MailboxAddress(e)));
             message.Subject = subject;
 
-            message.Body = new TextPart("plain")
+            var body = new TextPart("plain")
             {
-                Text = StaticLogger.Log
+                Text = "Deployment log is attached"
             };
+
+            var attachment = new MimePart("text/plain")
+            {
+                ContentObject = new ContentObject(StaticLogger.Log.ToStream(), ContentEncoding.Default),
+                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                ContentTransferEncoding = ContentEncoding.Default,
+                FileName = "deployment.log"
+            };
+
+            var multipart = new Multipart("mixed");
+            multipart.Add(body);
+            multipart.Add(attachment);
+
+            message.Body = multipart;
 
             using (var client = new SmtpClient())
             {
