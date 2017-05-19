@@ -101,7 +101,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
 
-    private initLogs(clear?: boolean) {
+    private initLogs(createEmpty: boolean = true, log?: string) {
         const maxCharactersInLog = 500000;
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 1000;
@@ -116,6 +116,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 this.log = '';
                 this.xhReq.abort();
                 this.oldLength = 0;
+                if (createEmpty && log) {
+                    this.log = oldLogs = log;
+                    this.oldLength = oldLogs.length;
+                    this.skipLength = 0;
+                }
             }
 
             let scmUrl = this.functionInfo.functionApp.getScmUrl();
@@ -131,7 +136,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             }
             this.xhReq.setRequestHeader('FunctionsPortal', '1');
             this.xhReq.send(null);
-            if (!clear) {
+            if (!createEmpty) {
                 this.functionInfo.functionApp.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
             }
 
@@ -143,7 +148,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                         this.log = this.xhReq.responseText.substring(this.xhReq.responseText.length - maxCharactersInLog);
                     } else {
                         this.log = oldLogs
-                        ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
+                            ? oldLogs + this.xhReq.responseText.substring(this.xhReq.responseText.indexOf('\n') + 1)
                             : this.xhReq.responseText;
                         if (this.skipLength > 0) {
                             this.log = this.log.substring(this.skipLength);
@@ -168,7 +173,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 } else if (diff == 0) {
                     this.timerInterval = defaultInterval;
                 }
-                this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+                if (this.xhReq.readyState === XMLHttpRequest.DONE) {
+                    this.initLogs(true, this.log);
+                } else {
+                    this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+                }
             };
             callBack();
 
