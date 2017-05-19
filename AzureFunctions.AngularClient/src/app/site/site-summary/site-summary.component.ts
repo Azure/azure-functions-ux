@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -82,7 +83,6 @@ export class SiteSummaryComponent implements OnDestroy {
 
     private _viewInfoStream: Subject<TreeViewInfo>;
     private _viewInfo: TreeViewInfo;
-    private _subsSub: RxSubscription;
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
@@ -97,12 +97,15 @@ export class SiteSummaryComponent implements OnDestroy {
         private _domSanitizer: DomSanitizer,
         private _translateService: TranslateService,
         private _configService: ConfigService,
-        private _slotService: SlotsService) {
+        private _slotService: SlotsService,
+        userService: UserService) {
 
         this.isStandalone = _configService.isStandalone();
 
-        this._subsSub = this._armService.subscriptions.subscribe(subscriptions => {
-            this._subs = subscriptions;
+        userService.getStartupInfo()
+        .first()
+        .subscribe(info => {
+            this._subs = info.subscriptions;
         });
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
@@ -119,7 +122,12 @@ export class SiteSummaryComponent implements OnDestroy {
                 let descriptor = new SiteDescriptor(site.id);
 
                 this.subscriptionId = descriptor.subscription;
-                this.subscriptionName = this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName;
+                
+                if(this.showTryView){
+                    this.subscriptionName = 'Trial Subscription';
+                } else {
+                    this.subscriptionName = this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName;
+                }
 
                 this.resourceGroup = descriptor.resourceGroup;
 
@@ -231,7 +239,6 @@ export class SiteSummaryComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this._subsSub.unsubscribe();
         this._cleanupBlob();
     }
 

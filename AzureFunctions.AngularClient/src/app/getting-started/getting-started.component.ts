@@ -66,7 +66,7 @@ export class GettingStartedComponent implements OnInit {
         private _http: Http
     ) {
         this.isValidContainerName = true;
-        //http://stackoverflow.com/a/8084248/3234163
+        // http://stackoverflow.com/a/8084248/3234163
         var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
         this.functionContainerName = `functions${this.makeId()}`;
         this.functionContainers = [];
@@ -83,24 +83,19 @@ export class GettingStartedComponent implements OnInit {
 
     ngOnInit() {
         this._globalStateService.setBusyState();
-        this._userService.getStartupInfo().subscribe(() =>
-            this._userService.getTenants().subscribe(tenants => {
 
-                    this._armService.subscriptions.subscribe(subs => {
-                        this.subscriptions = subs
-                            .map(e => ({ displayLabel: e.displayName, value: e }))
-                            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-                        // this._globalStateService.clearBusyState();
-                    });
+        Observable.zip(
+            this._userService.getStartupInfo(),
+            this._userService.getUser(),
+            (i, u) => ({ info: i, user: u}))
+        .subscribe(r => {
+            this.subscriptions = r.info.subscriptions
+                .map(e => ({ displayLabel: e.displayName, value: e }))
+                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
 
-            })
-        );
-
-        this._userService.getUser()
-            .subscribe(u => {
-                this.user = u;
-                this._globalStateService.clearBusyState();
-            });
+            this.user = r.user;
+            this._globalStateService.clearBusyState();
+        });
     }
 
     createFunctionsContainer() {

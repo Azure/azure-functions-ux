@@ -109,10 +109,6 @@ import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 
-export function ConfigLoader(config: ConfigService) {
-  return () => config.loadConfig();
-}
-
 export function ArmServiceFactory(
     http: Http,
     configService: ConfigService,
@@ -225,12 +221,6 @@ export function AiServiceFactory() {
   ],
   providers: [
     ConfigService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: ConfigLoader,
-      deps: [ConfigService],
-      multi: true
-    },
     FunctionsService,
     UserService,
     LanguageService,

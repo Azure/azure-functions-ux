@@ -39,13 +39,6 @@ export class ArmTryService extends ArmService {
         this._tryFunctionApp = tryFunctionApp;
         this._whiteListedPrefixUrls.push(`${tryFunctionApp.getScmUrl()}/api`);
         this._whiteListedPrefixUrls.push(`${tryFunctionApp.getMainSiteUrl()}`);
-
-        let descriptor = new SiteDescriptor(tryFunctionApp.site.id);
-        this.subscriptions.next([{
-            subscriptionId : descriptor.subscription,
-            displayName : "Trial Subscription",
-            state: "Enabled"
-        }])
     }
 
     public get tryFunctionApp(){
