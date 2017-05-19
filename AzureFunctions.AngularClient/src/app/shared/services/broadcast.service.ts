@@ -131,8 +131,6 @@ export class BroadcastService {
             case BroadcastEvent.TrialExpired:
                 return this.trialExpired;
 
-            case BroadcastEvent.FunctionNew:
-                return this.functionNewEvent;
 
             case BroadcastEvent.ResetKeySelection:
                 return this.resetKeySelection;
