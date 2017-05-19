@@ -20,7 +20,7 @@ export interface StartupInfo{
     sessionId: string;
     acceptLanguage : string,
     effectiveLocale : string,
-    resourceId : string
+    resourceId : string,
 }
 
 export interface Action {

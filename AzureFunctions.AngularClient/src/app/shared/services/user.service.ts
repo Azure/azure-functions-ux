@@ -1,46 +1,74 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, Response} from '@angular/http';
+import { LanguageServiceHelper } from './language.service-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from './../models/subscription';
+import { ArmServiceHelper } from './arm.service-helper';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-
 import { ConfigService } from './config.service';
-import { Constants } from './../models/constants';
-import {User} from '../models/user';
-import {TenantInfo} from '../models/tenant-info';
-import {FunctionContainer} from '../models/function-container';
-import {IAppInsights} from '../models/app-insights';
-import {AiService} from './ai.service';
-import {PortalService} from './portal.service';
-import {StartupInfo} from '../models/portal';
+import { Constants} from './../models/constants';
+import { User } from '../models/user';
+import { TenantInfo } from '../models/tenant-info';
+import { FunctionContainer } from '../models/function-container';
+import { IAppInsights } from '../models/app-insights';
+import { AiService } from './ai.service';
+import { PortalService } from './portal.service';
+import { StartupInfo } from '../models/portal';
 
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
-    private startupInfoSubject : ReplaySubject<StartupInfo>;
-    private currentStartupInfo : StartupInfo;
+    private _startupInfoStream: ReplaySubject<StartupInfo>;
+    private _startupInfo: StartupInfo;
+    private _inTry: boolean;
 
     constructor(
         private _http: Http,
         private _aiService: AiService,
-        private _portalService : PortalService,
-        private _configService : ConfigService) {
+        private _portalService: PortalService,
+        private _configService: ConfigService,
+        private _translateService: TranslateService) {
 
-        this.startupInfoSubject = new ReplaySubject<StartupInfo>(1);
+        this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = window.parent !== window;
+        this._inTry = window.location.pathname.endsWith('/try');
 
-        this.currentStartupInfo = {
-            token : null,
-            subscriptions : null,
-            sessionId : null,
-            acceptLanguage : null,
-            effectiveLocale : null,
-            resourceId : null
+        this._startupInfo = {
+            token: null,
+            subscriptions: null,
+            sessionId: null,
+            acceptLanguage: null,
+            effectiveLocale: null,
+            resourceId: null
         };
 
-        this._portalService.getStartupInfo().subscribe(info => this.startupInfoSubject.next(info));
+        if (this.inIFrame) {
+            this._portalService.getStartupInfo()
+                .mergeMap(info => {
+                    return Observable.zip(
+                        Observable.of(info),
+                        this._getLocalizedResources(info, null),
+                        (i, r) => ({ info: i, resources: r }));
+                })
+                .subscribe(r => {
+                    const info = r.info;
+                    this.updateStartupInfo(info);
+                });
+        } else if (this._inTry) {
+            Observable.zip(
+                this._getSubscriptions(null),
+                this._getLocalizedResources(this._startupInfo, null),
+                (s, r) => ({ subscriptions : s, resources : r})
+            )
+            .subscribe(r =>{
+                this._startupInfo.subscriptions = r.subscriptions;
+                this.updateStartupInfo(this._startupInfo);
+            });
+        }
     }
 
     getTenants() {
@@ -49,29 +77,27 @@ export class UserService {
             .map(r => <TenantInfo[]>r.json());
     }
 
-    getToken(){
+    getAndUpdateToken() {
         return this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
-        .catch(e =>{
+            .catch(e => {
 
-            // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
-            // this call in place instead of preventing it from being called because:
-            // 1. It makes the code simpler to always call the API
-            // 2. It makes it easier to test because we can test Standalone mode with production ARM
-            return Observable.of(null);
-        })
-        .map(r =>{
+                // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
+                // this call in place instead of preventing it from being called because:
+                // 1. It makes the code simpler to always call the API
+                // 2. It makes it easier to test because we can test Standalone mode with production ARM
+                return Observable.of(null);
+            })
+            .map(r => {
 
-            let token : string;            
-            if(r){
-                token = r.text();
-            }
-            else{
-                token = "";
-            }
+                let token: string;
+                if (r) {
+                    token = r.text();
+                } else {
+                    token = '';
+                }
 
-            this.setToken(token);
-            return token;
-        })
+                this._setToken(token);
+            });
     }
 
     getUser() {
@@ -79,23 +105,30 @@ export class UserService {
             .map(r => <User>r.json());
     }
 
-    setToken(token: string) {
-        if (token !== this.currentStartupInfo.token) {
+    private _setToken(token: string) {
+        if (token !== this._startupInfo.token) {
 
-            this.currentStartupInfo = {
-                token : token,
-                subscriptions : this.currentStartupInfo.subscriptions,
-                sessionId : this.currentStartupInfo.sessionId,
-                acceptLanguage : this.currentStartupInfo.acceptLanguage,
-                effectiveLocale : this.currentStartupInfo.effectiveLocale,
-                resourceId : this.currentStartupInfo.resourceId
-            }
+            Observable.zip(
+                this._getSubscriptions(token),
+                this._getLocalizedResources(this._startupInfo, null),
+                (s, r) => ({ subs: s, resources: r }))
+                .subscribe(r => {
+                    const info = {
+                        token: token,
+                        subscriptions: r.subs,
+                        sessionId: this._startupInfo.sessionId,
+                        acceptLanguage: this._startupInfo.acceptLanguage,
+                        effectiveLocale: this._startupInfo.effectiveLocale,
+                        resourceId: this._startupInfo.resourceId,
+                        stringResources: r.resources
+                    };
 
-            this.startupInfoSubject.next(this.currentStartupInfo);
+                    this.updateStartupInfo(info);
+                });
 
             try {
                 var encodedUser = token.split('.')[1];
-                var user: {unique_name: string, email: string} = JSON.parse(atob(encodedUser));
+                var user: { unique_name: string, email: string } = JSON.parse(atob(encodedUser));
                 var userName = (user.unique_name || user.email).replace(/[,;=| ]+/g, "_");
                 this._aiService.setAuthenticatedUserContext(userName);
             } catch (error) {
@@ -104,12 +137,13 @@ export class UserService {
         }
     }
 
-    getStartupInfo(){
-        return this.startupInfoSubject;
+    getStartupInfo() {
+        return this._startupInfoStream;
     }
 
-    updateStartupInfo(startupInfo : StartupInfo){
-        this.startupInfoSubject.next(startupInfo);
+    updateStartupInfo(startupInfo: StartupInfo) {
+        this._startupInfo = startupInfo;
+        this._startupInfoStream.next(startupInfo);
     }
 
     setTryUserName(userName: string) {
@@ -121,19 +155,35 @@ export class UserService {
             }
         }
     }
-    // setLanguage(lang: string) {
-    //     this.languageSubject.next(lang);
-    // }
 
-    // getLanguage(){
-    //     return this.languageSubject;
-    // }
+    private _getSubscriptions(token: string) {
+        if (this._inTry) {
+            return Observable.of([{
+                subscriptionId: 'TrialSubscription',
+                displayName: 'Trial Subscription',
+                state: 'Enabled'
+            }]);
+        }
 
-    // getFunctionContainer() {
-    //     return this.functionContainerSubject;
-    // }
+        const url = `${ArmServiceHelper.armEndpoint}/subscriptions?api-version=2014-04-01`;
+        const headers = ArmServiceHelper.getHeaders(token);
 
-    // setFunctionContainer(fc: FunctionContainer) {
-    //     this.functionContainerSubject.next(fc);
-    // }
+        return this._http.get(url, { headers: headers })
+            .map(r => <Subscription[]>(r.json().value));
+    }
+
+    private _getLocalizedResources(startupInfo: StartupInfo, runtime: string): Observable<any> {
+
+        const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
+
+        return this._http.get(
+            `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
+            { headers: LanguageServiceHelper.getApiControllerHeaders() })
+
+            .retryWhen(LanguageServiceHelper.retry)
+            .map(r => {
+                const resources = r.json();
+                LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
+            });
+    }
 }

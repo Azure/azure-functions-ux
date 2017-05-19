@@ -124,12 +124,6 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetClientConfiguration()
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, this._settings.GetClientConfiguration());
-        }
-
         [Authorize]
         [HttpPost]
         public HttpResponseMessage ReportClientError([FromBody] ClientError clientError)

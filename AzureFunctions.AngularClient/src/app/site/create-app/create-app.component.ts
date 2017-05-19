@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user.service';
 import { Links } from './../../shared/models/constants';
 import { Component, OnInit, Input, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -28,97 +29,98 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 })
 export class CreateAppComponent implements OnInit {
   public Resources = PortalResources;
-  public group : FormGroup;
-  public viewInfoStream : Subject<TreeViewInfo>;
+  public group: FormGroup;
+  public viewInfoStream: Subject<TreeViewInfo>;
   public FwdLinks = Links;
 
-  private _viewInfo : TreeViewInfo;
-  private _subscriptionId : string;
+  private _viewInfo: TreeViewInfo;
+  private _subscriptionId: string;
 
   constructor(
-    private _broadcastService : BroadcastService,
-    private _cacheService : CacheService,
-    private _globalStateService : GlobalStateService,
-    private _translateService : TranslateService,
-    private _armService : ArmService,
-    private _fb : FormBuilder,
-    private _aiService : AiService,
-    injector : Injector) {
+    private _broadcastService: BroadcastService,
+    private _cacheService: CacheService,
+    private _globalStateService: GlobalStateService,
+    private _translateService: TranslateService,
+    private _armService: ArmService,
+    private _fb: FormBuilder,
+    private _aiService: AiService,
+    userService: UserService,
+    injector: Injector) {
 
-    this._armService.subscriptions
-    .first()
-    .subscribe(subs =>{
-      let sub = subs.find(s => s.state === "Enabled");
-      if(!sub){
-        return;
-      }
+    userService.getStartupInfo()
+      .first()
+      .subscribe(info => {
+        const sub = info.subscriptions.find(s => s.state === 'Enabled');
+        if (!sub) {
+          return;
+        }
 
-      this._subscriptionId = sub.subscriptionId;
+        this._subscriptionId = sub.subscriptionId;
 
-      let required = new RequiredValidator(this._translateService);
-      let siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
+        let required = new RequiredValidator(this._translateService);
+        let siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
 
-      this.group = _fb.group({
-        name : [
-          null,
-          required.validate.bind(required),
-          siteNameValidator.validate.bind(siteNameValidator)]
-      })
-    })
+        this.group = _fb.group({
+          name: [
+            null,
+            required.validate.bind(required),
+            siteNameValidator.validate.bind(siteNameValidator)]
+        });
+      });
 
     this.viewInfoStream = new Subject<TreeViewInfo>();
-      this.viewInfoStream
-      .subscribe(viewInfo =>{
+    this.viewInfoStream
+      .subscribe(viewInfo => {
         this._viewInfo = viewInfo;
-    })
+      })
 
   }
 
-  @Input() set viewInfoInput(viewInfo : TreeViewInfo){
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
     this.viewInfoStream.next(viewInfo);
   }
 
   ngOnInit() {
   }
 
-  create(){
+  create() {
     let name = this.group.controls['name'].value;
 
     let id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 
     let body = {
-        properties: {
-            siteConfig: {
-                appSettings: []
-            },
-            sku: 'Dynamic',
-            clientAffinityEnabled: false
+      properties: {
+        siteConfig: {
+          appSettings: []
         },
-        location: "local",
-        kind: 'functionapp'
+        sku: 'Dynamic',
+        clientAffinityEnabled: false
+      },
+      location: "local",
+      kind: 'functionapp'
     };
 
     this._globalStateService.setBusyState();
     this._cacheService.putArm(id, null, body)
-    .subscribe(r =>{
-      this._globalStateService.clearBusyState();
+      .subscribe(r => {
+        this._globalStateService.clearBusyState();
 
-      let siteObj = <ArmObj<Site>>r.json();
-      let appsNode = <AppsNode>this._viewInfo.node;
-      appsNode.addChild(siteObj);
-    }, error =>{
-      this._globalStateService.clearBusyState();
+        let siteObj = <ArmObj<Site>>r.json();
+        let appsNode = <AppsNode>this._viewInfo.node;
+        appsNode.addChild(siteObj);
+      }, error => {
+        this._globalStateService.clearBusyState();
 
-      this._broadcastService.broadcast<ErrorEvent>(
-        BroadcastEvent.Error, {
-          message : this._translateService.instant(PortalResources.createApp_fail),
-          details : this._translateService.instant(PortalResources.createApp_fail),
-          errorId : ErrorIds.failedToCreateApp,
-          errorType : ErrorType.Fatal
-        });
+        this._broadcastService.broadcast<ErrorEvent>(
+          BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.createApp_fail),
+            details: this._translateService.instant(PortalResources.createApp_fail),
+            errorId: ErrorIds.failedToCreateApp,
+            errorType: ErrorType.Fatal
+          });
 
-        this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error : error, id : id });
-    });
+        this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: error, id: id });
+      });
 
   }
 

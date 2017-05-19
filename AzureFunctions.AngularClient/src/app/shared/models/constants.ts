@@ -13,7 +13,7 @@ export class HttpMethods {
 
 export class Constants {
     public static serviceHost = 
-        window.location.hostname === "localhost" || (<any>window).appsvc.env.runtimeType === "Standalone"
+        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
         ? `https://${window.location.hostname}:${window.location.port}/`
         : '';
 

@@ -521,6 +521,7 @@
     <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\authz.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
@@ -536,6 +537,7 @@
     <TypeScriptCompile Include="src\app\shared\services\global-state.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\language.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\local-storage.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />

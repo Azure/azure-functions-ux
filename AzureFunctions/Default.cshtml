@@ -1,4 +1,4 @@
-@using System.Web.Http;
+﻿@using System.Web.Http;
 @using AzureFunctions.Contracts;
 
 <!doctype html>
@@ -40,7 +40,8 @@
         window.appsvc = {
             env: {
                 hostName: '@Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")',
-                runtimeType: '@clientConfig.RuntimeType'
+                runtimeType: '@clientConfig.RuntimeType',
+                azureResourceManagerEndpoint: '@clientConfig.AzureResourceManagerEndpoint'
             }
         };
     </script>

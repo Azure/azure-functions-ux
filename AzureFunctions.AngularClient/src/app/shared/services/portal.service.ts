@@ -51,7 +51,7 @@ export class PortalService {
 
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
-        let appsvc = (<any>window).appsvc;
+        let appsvc = window.appsvc;
         let getStartupInfoObj : GetStartupInfo = {
             iframeHostName : appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
         };
