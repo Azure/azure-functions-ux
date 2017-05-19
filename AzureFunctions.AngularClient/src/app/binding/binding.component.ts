@@ -187,11 +187,7 @@ export class BindingComponent{
             this.model.warnings = [];
             if (!this.newFunction && bindingSchema) {
                 if (bindingSchema.actions) {
-                    bindingSchema.actions.forEach((a) => {
-                        if (a.templateId) {
-                            this.model.actions.push(a);
-                        }
-                    });
+                    this.model.actions = bindingSchema.actions;
                 }
                 this.model.warnings = bindingSchema.warnings;
                 this.filterWarnings();

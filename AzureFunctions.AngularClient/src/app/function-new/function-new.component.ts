@@ -31,7 +31,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
   templateUrl: './function-new.component.html',
   styleUrls: ['./function-new.component.scss'],
   outputs: ['functionAdded'],
-  inputs: ['action', 'viewInfoInput']
+  inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
 
@@ -83,6 +83,10 @@ export class FunctionNewComponent {
             this.functionsNode = <FunctionsNode>viewInfo.node;
             this.appNode = <AppNode> viewInfo.node.parent;
             this.functionApp = this.functionsNode.functionApp;
+            if (this.functionsNode.action) {
+                this._action = Object.create(this.functionsNode.action);
+                delete this.functionsNode.action;
+            }
             return this.functionApp.getFunctions()
         })
         .do(null, e =>{
@@ -102,14 +106,6 @@ export class FunctionNewComponent {
 
     set viewInfoInput(viewInfoInput : TreeViewInfo){
         this._viewInfoStream.next(viewInfoInput);
-    }
-
-    set action(action: Action) {
-        this._action = action;
-        if (this._action && this.functionsInfo && !this.selectedTemplate) {
-            //this.onTemplatePickUpComplete(this._action.templateId);
-            this.selectedTemplateId = this._action.templateId;
-        }
     }
 
     onTemplatePickUpComplete(templateName: string) {
