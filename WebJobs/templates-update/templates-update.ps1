@@ -23,6 +23,7 @@ function ExecuteTemplatesBuild($buildRoot, $outPath) {
         Move-Item "$buildRoot\Templates" $outPath
     }
     Move-Item "$buildRoot\Resources" "$outPath\Resources\" 
+    Move-Item "$buildRoot\Bindings" "$outPath\Bindings\"
 }
 
 try {
