@@ -564,5 +564,6 @@ export class PortalResources
     public static new_: string = "new_";
     public static functionManage_deleteApp: string = "functionManage_deleteApp";
     public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
+    public static readOnlySlots: string = "readOnlySlots";
 }
 

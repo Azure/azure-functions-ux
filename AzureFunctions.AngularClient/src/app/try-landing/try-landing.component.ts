@@ -1,3 +1,4 @@
+import { SlotsService } from 'app/shared/services/slots.service';
 import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
@@ -58,7 +59,8 @@ export class TryLandingComponent implements OnInit {
         private _cacheService : CacheService,
         private _languageService : LanguageService,
         private _authZService : AuthzService,
-        private _configService : ConfigService) {
+        private _configService : ConfigService,
+        private _slotsService: SlotsService) {
         this.tryFunctionApp = new Subject<FunctionApp>();
     }
 
@@ -236,7 +238,8 @@ export class TryLandingComponent implements OnInit {
             this._languageService,
             this._authZService,
             this._aiService,
-            this._configService);
+            this._configService,
+            this._slotsService);
 
         (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
 

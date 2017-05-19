@@ -1,3 +1,4 @@
+import { SlotsService } from 'app/shared/services/slots.service';
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
@@ -149,7 +150,8 @@ export class FunctionApp {
         private _languageService: LanguageService,
         private _authZService: AuthzService,
         private _aiService: AiService,
-        private _configService : ConfigService) {
+        private _configService : ConfigService,
+        private _slotsService: SlotsService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
@@ -1378,21 +1380,34 @@ export class FunctionApp {
         // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
         // editMode (true -> readWrite, false -> readOnly)
         // Table
-        //  | SourceControl | AppSettingValue | EditMode                      |
-        //  | true          | readWrite       | ReadWriteSourceControlled     |
-        //  | true          | readOnly        | ReadOnlySourceControlled      |
-        //  | true          | undefined       | ReadOnlySourceControlled      |
-        //  | false         | readWrite       | ReadWrite                     |
-        //  | false         | readOnly        | ReadOnly                      |
-        //  | false         | undefined       | ReadWrite                     |
+        // |Slots | SourceControl | AppSettingValue | EditMode                      |
+        // |------|---------------|-----------------|-------------------------------|
+        // | No   | true          | readWrite       | ReadWriteSourceControlled     |
+        // | No   | true          | readOnly        | ReadOnlySourceControlled      |
+        // | No   | true          | undefined       | ReadOnlySourceControlled      |
+        // | No   | false         | readWrite       | ReadWrite                     |
+        // | No   | false         | readOnly        | ReadOnly                      |
+        // | No   | false         | undefined       | ReadWrite                     |
+
+        // | Yes  | true          | readWrite       | ReadWriteSourceControlled     |
+        // | Yes  | true          | readOnly        | ReadOnlySourceControlled      |
+        // | Yes  | true          | undefined       | ReadOnlySourceControlled      |
+        // | Yes  | false         | readWrite       | ReadWrite                     |
+        // | Yes  | false         | readOnly        | ReadOnly                      |
+        // | Yes  | false         | undefined       | ReadOnlySlots                 |
+        // |______|_______________|_________________|_______________________________|
         return Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
-            (a, b) => ({sourceControlEnabled: a, appSettingsResponse: b})
+            SlotsService.isSlot(this.site.id)
+                ? Observable.of(true)
+                : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
+            (a, b, s) => ({sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s})
         )
         .map(result => {
-            let appSettings: ArmObj<any> = result.appSettingsResponse.json();
-            let sourceControlled = result.sourceControlEnabled;
+            const appSettings: ArmObj<any> = result.appSettingsResponse.json();
+            const sourceControlled = result.sourceControlEnabled;
+
             let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
             editModeSettingString = editModeSettingString.toLocaleLowerCase();
 
@@ -1400,8 +1415,10 @@ export class FunctionApp {
                 return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
             } else if (editModeSettingString === Constants.ReadOnlyMode) {
                 return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
+            } else if (sourceControlled) {
+                return FunctionAppEditMode.ReadOnlySourceControlled;
             } else {
-                return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadWrite;
+                return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
             }
         });
     }

@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
@@ -49,7 +50,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     set selectedFunction(value: FunctionInfo) {
         this.functionApp = value.functionApp;
-        this.disabled = this.functionApp.getFunctionAppEditMode().map(e => e === FunctionAppEditMode.ReadOnly || e === FunctionAppEditMode.ReadOnlySourceControlled);
+        this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
         this._selectedFunction = value;
         this._originalContent = JSON.stringify(value.config, undefined, 2);
         this._currentConent = this._originalContent;

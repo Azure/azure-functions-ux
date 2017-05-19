@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -133,7 +134,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
-                this.disabled = this.functionApp.getFunctionAppEditMode().map(e => e === FunctionAppEditMode.ReadOnly || e === FunctionAppEditMode.ReadOnlySourceControlled);
+                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
 

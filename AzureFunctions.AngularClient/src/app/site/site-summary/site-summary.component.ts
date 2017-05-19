@@ -122,7 +122,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 let descriptor = new SiteDescriptor(site.id);
 
                 this.subscriptionId = descriptor.subscription;
-                
+
                 if(this.showTryView){
                     this.subscriptionName = 'Trial Subscription';
                 } else {
@@ -148,7 +148,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 let serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace("Dynamic", "Consumption")})`;
-                this._isSlot = this._slotService.isSlot(site.id);
+                this._isSlot = SlotsService.isSlot(site.id);
 
                 let configId = `${site.id}/config/web`;
 

@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
 import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -126,7 +127,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
             this.exactExtensionVersion = r.hostStatus.version;
-            this._isSlotApp = this._slotsService.isSlot(this.site.id);
+            this._isSlotApp = SlotsService.isSlot(this.site.id);
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
                 ? this.site.properties.dailyMemoryTimeQuota.toString()
                 : '0';
@@ -161,7 +162,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.needUpdateRoutingExtensionVersion
                 = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
 
-            if (r.editMode === FunctionAppEditMode.ReadOnly || r.editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
+            if (EditModeHelper.isReadOnly(r.editMode)) {
                 this.functionAppEditMode = false;
             } else {
                 this.functionAppEditMode = true;

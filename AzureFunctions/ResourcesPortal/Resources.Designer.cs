@@ -3607,6 +3607,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit.
+        /// </summary>
+        internal static string readOnlySlots {
+            get {
+                return ResourceManager.GetString("readOnlySlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit .
         /// </summary>
         internal static string readOnlySourceControlled {

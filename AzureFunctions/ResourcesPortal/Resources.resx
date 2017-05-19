@@ -1807,4 +1807,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionService_clientCertEnabled" xml:space="preserve">
     <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
   </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit</value>
+  </data>
 </root>

@@ -1,3 +1,4 @@
+import { SlotsService } from './../shared/services/slots.service';
 import { Response, Request } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -185,7 +186,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this.sideNav.languageService,
                 this.sideNav.authZService,
                 this.sideNav.aiService,
-                this.sideNav.configService
+                this.sideNav.configService,
+                this.sideNav.slotsService
             );
 
             this.functionAppStream.next(this._functionApp);
@@ -256,7 +258,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             // Tests whether you've selected a child node or newselectedNode is not a slot node
             if (newSelectedNode.resourceId !== this.resourceId
                 && newSelectedNode.resourceId.startsWith(this.resourceId + "/")
-                && !this.sideNav.slotsService.isSlot(newSelectedNode.resourceId)) {
+                && !SlotsService.isSlot(newSelectedNode.resourceId)) {
                 return;
             }
             else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
