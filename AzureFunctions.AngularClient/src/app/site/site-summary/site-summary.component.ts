@@ -78,6 +78,7 @@ export class SiteSummaryComponent implements OnDestroy {
     public hasSwapAccess: boolean;
     public hideAvailability: boolean;
     public disableRestart: boolean; // temporary fix for restart causing issues when slots enabled
+    public Resources = PortalResources;
 
     @Output() openTabEvent = new Subject<string>();
 
@@ -95,7 +96,7 @@ export class SiteSummaryComponent implements OnDestroy {
         private _aiService: AiService,
         private _portalService: PortalService,
         private _domSanitizer: DomSanitizer,
-        private _translateService: TranslateService,
+        public ts: TranslateService,
         private _configService: ConfigService,
         private _slotService: SlotsService,
         userService: UserService) {
@@ -139,10 +140,10 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.stateIcon = this.state === "Running" ? "images/success.svg" : "images/stopped.svg";
 
                 this.availabilityState = null;
-                this.availabilityMesg = this._translateService.instant(PortalResources.functionMonitor_loading);
+                this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
 
-                this.publishingUserName = this._translateService.instant(PortalResources.functionMonitor_loading);
+                this.publishingUserName = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.scmType = null;
                 this.publishProfileLink = null;
 
@@ -221,7 +222,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.publishingUserName = res.publishCreds.properties.publishingUserName;
                 }
                 else {
-                    this.publishingUserName = this._translateService.instant(PortalResources.noAccess);
+                    this.publishingUserName = this.ts.instant(PortalResources.noAccess);
                 }
             });
     }
@@ -252,7 +253,7 @@ export class SiteSummaryComponent implements OnDestroy {
         }
 
         if (this.site.properties.state === "Running") {
-            let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_stopConfirmation).format(this.site.name));
+            let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_stopConfirmation).format(this.site.name));
             if (confirmResult) {
                 this._stopOrStartSite(true);
             }
@@ -289,12 +290,9 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
                     setTimeout(() => {
-                        // Firefox doesn't have srcElement on events. Target is the more correct name for the property.
-                        const srcElement = event.srcElement || event.target;
-                        if (srcElement.nextElementSibling.id === "hidden-publish-profile-link") {
-                            srcElement.nextElementSibling.click();
-                        }
-
+                        
+                        const hiddenLink = document.getElementById("hidden-publish-profile-link");
+                        hiddenLink.click();
                         this.publishProfileLink = null;
                     });
                 }
@@ -320,14 +318,14 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_resetProfileConfirmation));
+        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_resetProfileConfirmation));
         if (confirmResult) {
 
             let notificationId = null;
             this._globalStateService.setBusyState();
             this._portalService.startNotification(
-                this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
-                this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
+                this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
+                this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
                 .first()
                 .switchMap(r => {
                     notificationId = r.id;
@@ -338,14 +336,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._portalService.stopNotification(
                         notificationId,
                         true,
-                        this._translateService.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
+                        this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
                 e => {
                     this._globalStateService.clearBusyState();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
-                        this._translateService.instant(PortalResources.siteSummary_resetProfileNotifyFail));
+                        this.ts.instant(PortalResources.siteSummary_resetProfileNotifyFail));
 
                     this._aiService.trackException(e, '/errors/site-summary/reset-profile');
                 });
@@ -357,7 +355,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
+        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
         if (confirmResult) {
             let site = this.site;
             let appNode = <AppNode>this._viewInfo.node;
@@ -365,8 +363,8 @@ export class SiteSummaryComponent implements OnDestroy {
 
             this._globalStateService.setBusyState();
             this._portalService.startNotification(
-                this._translateService.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name),
-                this._translateService.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name))
+                this.ts.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name),
+                this.ts.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name))
                 .first()
                 .switchMap(r => {
                     notificationId = r.id;
@@ -382,7 +380,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._portalService.stopNotification(
                         notificationId,
                         true,
-                        this._translateService.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));
+                        this.ts.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));
                     if (!this._isSlot) {
                         appNode.sideNav.search("");
                     }
@@ -395,7 +393,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._portalService.stopNotification(
                         notificationId,
                         false,
-                        this._translateService.instant(PortalResources.siteSummary_deleteNotifyFail).format(site.name));
+                        this.ts.instant(PortalResources.siteSummary_deleteNotifyFail).format(site.name));
 
                     this._aiService.trackException(e, '/errors/site-summary/delete-app');
                 });
@@ -410,13 +408,13 @@ export class SiteSummaryComponent implements OnDestroy {
         let site = this.site;
         let notificationId = null;
 
-        let confirmResult = confirm(this._translateService.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
+        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if (confirmResult) {
             this._globalStateService.setBusyState();
 
             this._portalService.startNotification(
-                this._translateService.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
-                this._translateService.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name))
+                this.ts.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
+                this.ts.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name))
                 .first()
                 .switchMap(r => {
                     notificationId = r.id;
@@ -427,14 +425,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._portalService.stopNotification(
                         notificationId,
                         true,
-                        this._translateService.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
+                        this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
                 e => {
                     this._globalStateService.clearBusyState();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
-                        this._translateService.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
+                        this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
 
                     this._aiService.trackException(e, '/errors/site-summary/restart-app');
                 });
@@ -484,19 +482,19 @@ export class SiteSummaryComponent implements OnDestroy {
         switch (this.availabilityState) {
             case AvailabilityStates.unknown:
                 this.availabilityIcon = "";
-                this.availabilityMesg = this._translateService.instant(PortalResources.notApplicable);
+                this.availabilityMesg = this.ts.instant(PortalResources.notApplicable);
                 break;
             case AvailabilityStates.unavailable:
                 this.availabilityIcon = "images/error.svg";
-                this.availabilityMesg = this._translateService.instant(PortalResources.notAvailable);
+                this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
             case AvailabilityStates.available:
                 this.availabilityIcon = "images/success.svg";
-                this.availabilityMesg = this._translateService.instant(PortalResources.available);
+                this.availabilityMesg = this.ts.instant(PortalResources.available);
                 break;
             case AvailabilityStates.userinitiated:
                 this.availabilityIcon = "images/info.svg";
-                this.availabilityMesg = this._translateService.instant(PortalResources.notAvailable);
+                this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
         }
     }
@@ -509,8 +507,8 @@ export class SiteSummaryComponent implements OnDestroy {
 
         let action = stop ? "stop" : "start";
         let notifyTitle = stop
-            ? this._translateService.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
-            : this._translateService.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
+            ? this.ts.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
+            : this.ts.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
         this._globalStateService.setBusyState();
 
@@ -532,15 +530,15 @@ export class SiteSummaryComponent implements OnDestroy {
                 }
 
                 let notifySuccess = stop
-                    ? this._translateService.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
-                    : this._translateService.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
+                    ? this.ts.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
+                    : this.ts.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
 
                 appNode.refresh();
             },
             e => {
                 let notifyFail = stop
-                    ? this._translateService.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
-                    : this._translateService.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
+                    ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
+                    : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
                 this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(

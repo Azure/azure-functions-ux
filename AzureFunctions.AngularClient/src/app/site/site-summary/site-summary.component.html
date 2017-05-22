@@ -1,40 +1,52 @@
-<div class="site-summary-actions">
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="toggleState()">
-        <!--<span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">-->
-        <!--TODO: papa -isBusy doesn't exist on this service'-->
-        <span *ngIf="site?.properties.state === 'Running'">
-            <img src="images/stop.svg" />{{'stop' | translate}}</span>
-        <span *ngIf="site?.properties.state === 'Stopped'">
-            <img src="images/start.svg" />{{ 'start' | translate}}</span>
-    </span>
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null" (click) = "openSwapBlade()">
-            <img src="images/swap.svg" />{{ 'swap' | translate }}
-    </span>
-    <!-- Hide restart command for Function App & slots  #1327 -->
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'" (click)="restart()">
-        <img src="images/restart.svg" />{{ 'restart' | translate }}
-    </span>
+<command-bar>
+    <command
+        [displayText]="site?.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
+        [iconUrl]="site?.properties.state === 'Running' ? 'images/stop.svg' : 'images/start.svg'"
+        (click)="toggleState()"
+        [disabled]="!hasWriteAccess"></command>
+    
+    <command
+        displayText="{{ 'swap' | translate }}"
+        iconUrl="images/swap.svg"
+        (click)="restart()"
+        [disabled]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
-        <img src="images/download.svg" />{{ 'downloadProfile' | translate}}
-    </span>
+    <command
+        displayText="{{ 'restart' | translate }}"
+        iconUrl="images/restart.svg"
+        (click)="restart()"
+        [disabled]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'"></command>
 
-    <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
-        [href]="publishProfileLink"
-        [download]="site?.name + '.PublishSettings'"></a>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="resetPublishCredentials()">
-        <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
-    </span>
+    <command
+        displayText="{{ 'downloadProfile' | translate}}"
+        iconUrl="images/download.svg"
+        (click)="downloadPublishProfile($event)"
+        [disabled]="!hasWriteAccess"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadFunctionAppContent()">
-        <img src="images/download.svg" />{{ 'downloadFunctionAppContent' | translate}}
-    </span>
+    <command
+        displayText="{{'resetPubCredentials' | translate}}"
+        iconUrl="images/reset.svg"
+        (click)="resetPublishCredentials()"
+        [disabled]="!hasWriteAccess"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
-        <img src="images/delete.svg" />Delete
-    </span>
-</div>
+    <command
+        displayText="{{ 'downloadFunctionAppContent' | translate}}"
+        iconUrl="images/download.svg"
+        (click)="downloadFunctionAppContent()"
+        [disabled]="!hasWriteAccess"></command>
+
+    <command
+        displayText="{{ '_delete' | translate }}"
+        iconUrl="images/delete.svg"
+        (click)="delete()"
+        [disabled]="!hasWriteAccess"></command>
+
+</command-bar>
+
+<a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
+    [href]="publishProfileLink"
+    [download]="site?.name + '.PublishSettings'"></a>
 
 <div id="essentials-container">
     <div class="essentials-col">

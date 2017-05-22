@@ -22,6 +22,8 @@ export class CommandComponent implements OnInit {
     if(!this.disabled){
       this.click.next(event);
     }
+
+    event.stopPropagation();    
   }
 
 }
