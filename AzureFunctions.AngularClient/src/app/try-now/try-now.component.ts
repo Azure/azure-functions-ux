@@ -17,7 +17,6 @@ declare var mixpanel: any;
 })
 export class TryNowComponent implements OnInit {
     private uiResource: UIResource;
-    private trialExpired: boolean;
     private endTime: Date;
 
     public freeTrialUri: string;
@@ -29,7 +28,6 @@ export class TryNowComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
-        this.trialExpired = false;
         //TODO: Add cookie referer details like in try
         this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`;
         this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/`;
@@ -38,6 +36,7 @@ export class TryNowComponent implements OnInit {
             window.setTimeout(() => {
                 var mm;
                 var now = new Date();
+
                 var msLeft = this.endTime.getTime() - now.getTime();
                 if (this.endTime >= now) {
                     //http://stackoverflow.com/questions/1787939/check-time-difference-in-javascript
@@ -50,7 +49,7 @@ export class TryNowComponent implements OnInit {
                     window.setTimeout(callBack, 1000);
                 } else {
                     this.timerText = this._translateService.instant(PortalResources.tryNow_trialExpired);
-                    this.trialExpired = true;
+                    this._globalStateService.TrialExpired = true;
                     this._broadcastService.broadcast(BroadcastEvent.TrialExpired);
                 }
             });
@@ -77,7 +76,7 @@ export class TryNowComponent implements OnInit {
     trackLinkClick(buttonName: string) {
         if (buttonName) {
             try {
-                this._aiService.trackLinkClick(buttonName, this.trialExpired.toString());
+                this._aiService.trackLinkClick(buttonName, this._globalStateService.TrialExpired.toString());
             } catch (error) {
                 this._aiService.trackException(error, 'trackLinkClick');
             }

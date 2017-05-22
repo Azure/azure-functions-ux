@@ -10,7 +10,7 @@ import {BusyStateComponent} from '../busy-state/busy-state.component';
 @Component({
     selector: 'table-function-monitor',
     templateUrl: './table-function-monitor.component.html',
-    styleUrls: ['./table-function-monitor.component.css'],
+    styleUrls: ['./table-function-monitor.component.scss'],
 })
 
 export class TableFunctionMonitorComponent implements OnChanges {

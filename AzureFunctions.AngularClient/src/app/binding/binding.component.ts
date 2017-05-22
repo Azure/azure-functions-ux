@@ -28,7 +28,7 @@ declare var marked: any;
 @Component({
     selector: 'binding',
     templateUrl: './binding.component.html',
-    styleUrls: ['./binding.component.css'],
+    styleUrls: ['./binding.component.scss'],
     inputs: ['functionAppInput', 'binding', 'clickSave']
 })
 

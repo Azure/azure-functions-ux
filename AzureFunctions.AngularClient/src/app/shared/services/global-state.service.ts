@@ -31,7 +31,7 @@ export class GlobalStateService {
     private _tryAppServicetoken: string;
     private _scmCreds: string;
     private _globalDisabled: boolean = false;
-
+    private _trialExpired: boolean = false;
 
     constructor(private _userService: UserService,
       private _armService: ArmService,
@@ -122,4 +122,11 @@ export class GlobalStateService {
    set GlobalDisabled(value: boolean) {
        this._globalDisabled = value;
    }
+
+    set TrialExpired(value: boolean) {
+        this._trialExpired = value;
+   }
+    get TrialExpired(): boolean {
+        return this._trialExpired;
+    }
 }

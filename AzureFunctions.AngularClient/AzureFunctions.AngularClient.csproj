@@ -89,7 +89,7 @@
     <Content Include="src\app\binding-designer\binding-designer.component.html" />
     <Content Include="src\app\binding-input\binding-input.component.css" />
     <Content Include="src\app\binding-input\binding-input.component.html" />
-    <Content Include="src\app\binding\binding.component.css" />
+    <None Include="src\app\binding\binding.component.scss" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
@@ -181,7 +181,7 @@
     <Content Include="src\app\slots-list\slots-list.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
-    <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
+    <None Include="src\app\table-function-monitor\table-function-monitor.component.scss" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
     <Content Include="src\app\site\create-app\create-app.component.scss" />
@@ -199,13 +199,13 @@
     <Content Include="src\app\top-bar\top-bar.component.html" />
     <Content Include="src\app\top-right-menu\top-right-menu.component.html" />
     <Content Include="src\app\tree-view\tree-view.component.html" />
-    <Content Include="src\app\trial-expired\trial-expired.component.css" />
+    <None Include="src\app\trial-expired\trial-expired.component.scss" />
     <Content Include="src\app\trial-expired\trial-expired.component.html" />
     <None Include="src\app\try-landing\try-landing.component.scss" />
     <Content Include="src\app\try-landing\try-landing.component.html" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.css" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.html" />
-    <Content Include="src\app\try-now\try-now.component.css" />
+    <Content Include="src\app\try-now\try-now.component.scss" />
     <Content Include="src\app\try-now\try-now.component.html" />
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />

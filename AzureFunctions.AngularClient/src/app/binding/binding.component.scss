@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .panel{
     border: none;
 }
@@ -79,8 +81,9 @@ button.go {
 }
 .button-go-disabled {
     cursor: not-allowed;
-    background-color: lightgray;
-    color: white;
+    background-color: $background-color-disabled;
+    opacity: 0.4;
+    color: black;
 }
 .storage-creds-texbox {
     float: left; 

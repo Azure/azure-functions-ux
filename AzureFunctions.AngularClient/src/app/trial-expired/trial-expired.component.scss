@@ -1,6 +1,8 @@
-.trial-expired-container {
+@import '../../sass/main';
+    .trial-expired-container {
     font-family: "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
     text-align: center;
+    margin-top: 60px;
 }
 
 .trial-expired-template {
@@ -101,14 +103,52 @@
     background-color: #539CF6;
 }
 
-.trial-expired-signup-button {
-    margin-right: 14px;
-    display: inline;
-    padding: 10px 10px 10px 10px;
-    font-size: 22px;
-    cursor: pointer;
+.free-trial-wrapper {
+    display: inline-block;
+}
+
+.signup-button {
+    background-color: #89c402;
+    color: #1a1a1a!important;
+    position: relative;
+    padding-right: 45px;
+    -webkit-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+    border: 1px solid transparent;
+    display: block;
+    fill: #fff;
+    font-size: 24px;
+    font-weight: 300;
+    padding: 0px 36px 4px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+
+.signup-button:hover {
+    background-color: #a5ce00;
+}
+
+.signup-button:after {
     background-image: none;
-    border: 2px solid transparent;
-    color: #fff;
-    background-color: #539CF6;
+    border-color: currentColor;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+    content: '';
+    display: inline-block;
+    height: 18px;
+    margin-top: -2px;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    width: 18px;
+    -ms-transform: rotate(45deg) translate(0, -50%);
+    -o-transform: rotate(45deg) translate(0, -50%);
+    -webkit-transform: rotate(45deg) translate(0, -50%);
+    transform: rotate(45deg) translate(0, -50%);
+}
+
+.signup-button :disabled {
+    cursor: not-allowed;
+    background-color: #ECEFF1;
 }

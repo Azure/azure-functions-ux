@@ -43,4 +43,9 @@ export class MainComponent implements AfterViewInit {
         this._globalStateService.clearBusyState();
         this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
     }
+
+    public get trialExpired() {
+        return this._globalStateService.TrialExpired;
+    }
+
 }
