@@ -51,10 +51,8 @@ export class BackgroundTasksService {
 
         if (!this._globalStateService.showTryView) {
             this._preIFrameTasks = Observable.timer(1, 60000)
-                .concatMap(() => this._userService.getToken().retry(5))
-                .subscribe(token => {
-                  // TODO: why is this empty ?
-                });
+                .concatMap(() => this._userService.getAndUpdateToken().retry(5))
+                .subscribe(() => {});
         }
     }
 

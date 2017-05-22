@@ -1,6 +1,6 @@
+import { FunctionApp } from './../shared/function-app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
@@ -45,8 +45,11 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
             new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
-            new FunctionMonitorNode(this.sideNav, this.functionInfo, this)
         ]
+
+        if(!this.sideNav.configService.isStandalone()){
+            this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
+        }
 
         return Observable.of(null);
     }
@@ -155,11 +158,11 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
     public remove(){
         this._functionsNode.removeChild(this.functionInfo, false);
 
-        let defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
-        let scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
+        this.sideNav.cacheService.clearCachePrefix(
+            FunctionApp.getMainUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
 
-        this.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
-        this.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
+        this.sideNav.cacheService.clearCachePrefix(
+            FunctionApp.getScmUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
 
     }
 }

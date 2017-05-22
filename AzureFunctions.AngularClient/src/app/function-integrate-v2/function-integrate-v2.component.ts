@@ -13,6 +13,9 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from '../shared/models/error-ids';
+import { FunctionsNode} from '../tree-view/functions-node';
+import { DashboardType } from '../tree-view/models/dashboard-type';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 
 @Component({
     selector: 'function-integrate-v2',
@@ -23,6 +26,7 @@ import { ErrorIds } from '../shared/models/error-ids';
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
     @Output() changeEditor = new EventEmitter<string>();
+    @Input() public viewInfo: TreeViewInfo;
 
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
@@ -55,19 +59,7 @@ export class FunctionIntegrateV2Component {
         fi.functionApp.getBindingConfig().subscribe((bindings) => {
             fi.functionApp.getTemplates().subscribe((templates) => {
 
-                bindings.bindings.forEach((b) => {
-                    if (b.actions) {
-                        var filteredActions = [];
-                        b.actions.forEach((a) => {
-                            var lang = FunctionInfoHelper.getLanguage(this.functionInfo);
-                            var templateId = a.template + "-" + lang;
-                            var actionTemplate = templates.find((t) => {
-                                return t.id === templateId;
-                            });
-                            a.templateId = (actionTemplate) ? templateId : null;
-                        });
-                    }
-                });
+
 
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
                 if (this.model.config.bindings.length > 0) {
@@ -148,7 +140,21 @@ export class FunctionIntegrateV2Component {
         if (!this.checkDirty()) {
             return;
         }
-        this._broadcastService.broadcast(BroadcastEvent.FunctionNew, action);
+        this.functionApp.getTemplates().subscribe((templates: any) => {
+            
+            var templateId = action.template + "-" + FunctionInfoHelper.getLanguage(this.functionInfo);
+            var template = templates.find(t => t.id === templateId);
+            // C# is default language. Set C# if can not found original language
+            if (!template) {
+                templateId = action.template + "-CSharp";
+                template = templates.find(t => t.id === templateId);
+            }
+            if (template) {
+                action.templateId = templateId;
+                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.createFunction, action);
+            }
+        });
+        
     }
 
     onUpdateBinding(binding: UIFunctionBinding) {

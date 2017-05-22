@@ -1,3 +1,6 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
+import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
+import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
 import {Component, OnDestroy, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit} from '@angular/core';
@@ -29,6 +32,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     private _currentConent: string;
     private _bindingManager: BindingManager = new BindingManager();
     public functionApp : FunctionApp;
+    public disabled: Observable<boolean>;
 
     constructor(
         private _portalService: PortalService,
@@ -46,9 +50,9 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
     set selectedFunction(value: FunctionInfo) {
         this.functionApp = value.functionApp;
-
+        this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
         this._selectedFunction = value;
-        this._originalContent = JSON.stringify(value.config, undefined, 2);;
+        this._originalContent = JSON.stringify(value.config, undefined, 2);
         this._currentConent = this._originalContent;
         this.cancelConfig();
         this.isDirty = false;

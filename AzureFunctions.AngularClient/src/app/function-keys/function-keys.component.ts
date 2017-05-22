@@ -35,12 +35,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     // Find a better way to do that.
     @Input() inputChange: any;
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    public easeAuthEnabled: boolean = false;
-
     private functionStream: Subject<FunctionInfo>;
     private functionAppStream: Subject<FunctionApp>;
-
-
     private newKeyName: string;
     private newKeyValue: string;
     private validKey: boolean;
@@ -74,10 +70,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.setBusyState();
                 this.resetState();
 
-                this.functionApp.getAuthSettings().subscribe(result => {
-                    this.easeAuthEnabled = result.easyAuthEnabled;
-                });
-
                 return fi
                     ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
                     : this.functionApp.getFunctionHostKeys().catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
@@ -89,11 +81,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             })
             .retry()
             .subscribe(keys => {
-
-                if (this.easeAuthEnabled) {
-                    keys = { keys: [], links: [] };
-                }
-
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {
@@ -139,10 +126,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     showOrHideNewKeyUi() {
-        if (this.easeAuthEnabled) {
-            return;
-        }
-
         if (this.addingNew) {
             this.resetState();
         } else {

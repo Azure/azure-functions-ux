@@ -20,11 +20,13 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionInfo} from '../shared/models/function-info';
 import {FunctionNode} from './function-node';
 import {FunctionApp} from '../shared/function-app';
+import { Action } from '../shared/models/binding';
 
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunctionAutoDetect;
+    public action: Action;
 
     constructor(
         sideNav : SideNavComponent,
@@ -87,8 +89,9 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this._removeHelper(removeIndex, callRemoveOnChild);
     }
 
-    public openCreateDashboard(dashboardType : DashboardType){
+    public openCreateDashboard(dashboardType : DashboardType, action? : Action){
         this.newDashboardType = dashboardType;
+        this.action = action;
         this.openCreateNew();
     }
 

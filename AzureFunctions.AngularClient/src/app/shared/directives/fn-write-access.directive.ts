@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../Utilities/edit-mode.helper';
 import { Directive, Input, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
@@ -23,13 +24,12 @@ export class FnWriteAccessDirective {
         this.functionAppStream
             .debounceTime(100)
             .switchMap(fa => fa.getFunctionAppEditMode())
-            .subscribe(editMode => {
-                if (editMode === FunctionAppEditMode.ReadOnly || editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
+            .map(EditModeHelper.isReadOnly)
+            .subscribe(isReadOnly => {
+                if (isReadOnly) {
                     this.elementRef.nativeElement.style.pointerEvents = 'none';
                     this.elementRef.nativeElement.disabled = true;
-                    if (!this.elementRef.nativeElement.hasAttribute('monacoEditor')) {
-                        this.elementRef.nativeElement.style.opacity = '0.2';
-                    }
+                    this.elementRef.nativeElement.style.opacity = '0.2';
                 }
             });
     }

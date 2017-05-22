@@ -12,7 +12,10 @@ export class HttpMethods {
 }
 
 export class Constants {
-    public static serviceHost: string = (window.location.hostname === "localhost") ? "https://localhost:44300/" : '';
+    public static serviceHost = 
+        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
+        ? `https://${window.location.hostname}:${window.location.port}/`
+        : '';
 
     public static runtimeVersion: string;
     public static routingExtensionVersion: string;
@@ -75,4 +78,8 @@ export class Validations{
 
 export class Regex{
     public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
+}
+
+export class Links{
+    public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
 }

@@ -10,7 +10,6 @@ import { StartupInfo } from './shared/models/portal';
 import { BroadcastService } from './shared/services/broadcast.service';
 import { FunctionContainer } from './shared/models/function-container';
 import { GlobalStateService } from './shared/services/global-state.service';
-import { LanguageService } from './shared/services/language.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Constants } from './shared/models/constants';
 import { AiService } from './shared/services/ai.service';
@@ -49,7 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _userService: UserService,
         private _functionsService: FunctionsService,
         private _backgroundTasksService: BackgroundTasksService,
-        private _languageService: LanguageService,
         private _globalStateService: GlobalStateService,
         private _broadcastService: BroadcastService,
     ) {
@@ -66,48 +64,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        if(this._userService.inIFrame){
-            this._userService.getStartupInfo()
-                .mergeMap(startupInfo =>{
-                    this._startupInfo = startupInfo;
-                    return this._languageService.getResources(null);
-                })
-                .subscribe(info => {
-                    this.ready = true;
-                });
-        }
-        else{
+        this._userService.getStartupInfo()
+        .first()
+        .subscribe(info => {
+            this._startupInfo = info;
+            this.ready = true;
 
-            this._userService.getStartupInfo()
-                .merge(this._languageService.getResources(null))
-                .subscribe((startupInfo : any) => {
+            if (!this._userService.inIFrame) {
+                this.ready = true;
 
-                    if(startupInfo && (startupInfo.token || this._configService.isStandalone())){
-                        this._startupInfo = <StartupInfo>startupInfo;
-
-                        // In standalone mode, we load the main component right away.
-                        // Because of this, we need to make sure that we have all of the
-                        // subscriptions loaded before we set ready = true.
-                        if(this._configService.isStandalone()){
-                            if(!this.ready){
-                                this._armService
-                                .subscriptions
-                                .filter(subs => subs.length > 0)
-                                .take(1)
-                                .subscribe(subs =>{
-                                    this._startupInfo.subscriptions = subs;
-                                    this.ready = true;
-                                    this.initializeDashboard(null);
-                                })
-                            }
-                        }
-                    }
-
-                    if(!this._configService.isStandalone()){
-                        this.ready = true;
-                    }
-                });
-        }
+                if (this._configService.isStandalone()) {
+                    this.initializeDashboard(null);
+                }
+            }
+        });
     }
 
     ngAfterViewInit() {

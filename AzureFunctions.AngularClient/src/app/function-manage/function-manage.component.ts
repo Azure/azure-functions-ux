@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import {Component, Input} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -27,9 +28,10 @@ import {FunctionManageNode} from '../tree-view/function-node';
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
-    public isEasyAuthEnabled = false;
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
+    public isStandalone : boolean;
+
     private _viewInfoStream : Subject<TreeViewInfo>;
     private _functionNode : FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
@@ -37,18 +39,18 @@ export class FunctionManageComponent {
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService) {
+                private _translateService: TranslateService,
+                configService: ConfigService) {
+
+        this.isStandalone = configService.isStandalone();
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .switchMap(viewInfo =>{
+            .retry()
+            .subscribe(viewInfo => {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
-                return this.functionApp.getAuthSettings();
-            })
-            .subscribe(easyAuthEnabled => {
-                this.isEasyAuthEnabled = easyAuthEnabled.easyAuthEnabled;
             });
 
         this.functionStatusOptions = [
@@ -63,7 +65,7 @@ export class FunctionManageComponent {
             this.functionStateValueChange = new Subject<boolean>();
             this.functionStateValueChange
                 .switchMap(state => {
-                     let originalState = this.functionInfo.config.disabled;
+                     const originalState = this.functionInfo.config.disabled;
                      this._globalStateService.setBusyState();
                      this.functionInfo.config.disabled = state;
                      return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
@@ -88,9 +90,11 @@ export class FunctionManageComponent {
         if (result) {
             this._globalStateService.setBusyState();
             this._portalService.logAction("edit-component", "delete");
+            // Clone node for removing as it can be change during http call
+            var clone = Object.create(this._functionNode);
             this.functionApp.deleteFunction(this.functionInfo)
                 .subscribe(r => {
-                    this._functionNode.remove();
+                    clone.remove();
                     // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
                     this._globalStateService.clearBusyState();
                 });

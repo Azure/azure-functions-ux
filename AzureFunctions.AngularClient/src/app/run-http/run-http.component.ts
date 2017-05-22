@@ -67,6 +67,7 @@ export class RunHttpComponent {
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
+        this.paramChanged();
     }
 
     set functionInvokeUrl(value: string) {
@@ -83,18 +84,17 @@ export class RunHttpComponent {
                     this.model.queryStringParams.splice(0,0, p);
                 }
             });
-            this.change();
         }
     }
 
     removeQueryStringParam(index: number) {
         this.model.queryStringParams.splice(index, 1);
-        this.change();
+        this.paramChanged();
     }
 
     removeHeader(index: number) {
         this.model.headers.splice(index, 1);
-        this.change();
+        this.paramChanged();
     }
 
     addQueryStringParam() {
@@ -103,7 +103,7 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();
+        this.paramChanged();
     }
 
     addHeader() {
@@ -112,19 +112,19 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();
+        this.paramChanged();
     }
 
-    change(event?: any) {
-        var emptyQuery = this.model.queryStringParams.find((p) => {
-            return !p.name;
-        });
+    paramChanged(event?: any) {
+        // iterate all params and set valid property depends of params name
 
-        var emptyHeader = this.model.headers.find((h) => {
-            return !h.name;
-        });
+        var regex = new RegExp("^$|[^A-Za-z0-9]");
+        this.valid = true;
+        this.model.queryStringParams.concat(this.model.headers).forEach((item => {
+            item.valid = !regex.test(item.name);
+            this.valid = item.valid && this.valid;
+        }));
 
-        this.valid = !(emptyQuery || emptyHeader);
         this.validChange.emit(this.valid);
     }
 

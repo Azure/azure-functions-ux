@@ -1,3 +1,4 @@
+import { SlotsService } from 'app/shared/services/slots.service';
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
@@ -58,6 +59,7 @@ import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
+import {HostStatus} from './models/host-status';
 
 declare var mixpanel: any;
 
@@ -148,7 +150,8 @@ export class FunctionApp {
         private _languageService: LanguageService,
         private _authZService: AuthzService,
         private _aiService: AiService,
-        private _configService : ConfigService) {
+        private _configService : ConfigService,
+        private _slotsService: SlotsService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
@@ -231,8 +234,7 @@ export class FunctionApp {
 
     public static getMainUrl(configService : ConfigService, site : ArmObj<Site>){
         if(configService.isStandalone()){
-            let hostName = site.properties.hostNameSslStates.find(s => s.hostType === 0).name;
-            return `https://${hostName}/functionsmesh/${site.name}`;
+            return `https://${site.properties.defaultHostName}/functions/${site.name}`;
         }
         else{
             return `https://${site.properties.defaultHostName}`;
@@ -794,74 +796,79 @@ export class FunctionApp {
     }
 
     getHostSecretsFromScm() {
-    return this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
-        .retryWhen(this.retryAntares)
-        .map((r: Response) => {
-            return r.json();
-        })
-        .mergeMap((token: string) => {
-            // Call the main site to get the masterKey
-            // build authorization header
-            let authHeader = new Headers();
-            authHeader.append('Authorization', `Bearer ${token}`);
-            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
-                .catch((error: FunctionsResponse) => {
-                    if (error.status === 405) {
-                        // If the result from calling the API above is 405, that means they are running on an older runtime.
-                        // It should be safe to call kudu for the master key since they won't be using slots.
-                        return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
-                    } else {
-                        throw error;
-                    }
-                })
-                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
-                        throw err;
-                    } else {
-                        return errorCount + 1;
-                    }
-                }, 0).delay(1000))
-                .do((r: Response) => {
-                    // Since we fall back to kudu above, use a union of kudu and runtime types.
-                    const key: { name: string, value: string } & { masterKey: string } = r.json();
-                    if (key.masterKey) {
-                        this.masterKey = key.masterKey;
-                    } else {
-                        this.masterKey = key.value;
-                    }
-                });
-        }).do(() =>{
-            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
-        },
-        (error: FunctionsResponse) => {
-            if (!error.isHandled) {
-                try {
-                    let exception: WebApiException = error.json();
-                    if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
-                            errorId: ErrorIds.unableToDecryptKeys,
-                            errorType: ErrorType.RuntimeError
-                        });
-                        this.trackEvent(ErrorIds.unableToDecryptKeys, {
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                        return;
-                    }
-                } catch (e) {
-                    // no-op
-                }
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                    errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
-                    errorType: ErrorType.RuntimeError
-                });
-                this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
-                    status: error.status.toString(),
-                    content: error.text(),
-                });
-            }
+        return this.getAuthSettings()
+            .mergeMap(r => {
+                return r.clientCertEnabled
+                ? Observable.of()
+                : this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+                    .retryWhen(this.retryAntares)
+                    .map((r: Response) => {
+                        return r.json();
+                    })
+                    .mergeMap((token: string) => {
+                        // Call the main site to get the masterKey
+                        // build authorization header
+                        let authHeader = new Headers();
+                        authHeader.append('Authorization', `Bearer ${token}`);
+                        return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                            .catch((error: FunctionsResponse) => {
+                                if (error.status === 405) {
+                                    // If the result from calling the API above is 405, that means they are running on an older runtime.
+                                    // It should be safe to call kudu for the master key since they won't be using slots.
+                                    return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
+                                } else {
+                                    throw error;
+                                }
+                            })
+                            .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                                    throw err;
+                                } else {
+                                    return errorCount + 1;
+                                }
+                            }, 0).delay(1000))
+                            .do((r: Response) => {
+                                // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                if (key.masterKey) {
+                                    this.masterKey = key.masterKey;
+                                } else {
+                                    this.masterKey = key.value;
+                                }
+                            });
+                    }).do(() => {
+                        this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
+                    },
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            try {
+                                let exception: WebApiException = error.json();
+                                if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
+                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                        message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
+                                        errorId: ErrorIds.unableToDecryptKeys,
+                                        errorType: ErrorType.RuntimeError
+                                    });
+                                    this.trackEvent(ErrorIds.unableToDecryptKeys, {
+                                        content: error.text(),
+                                        status: error.status.toString()
+                                    });
+                                    return;
+                                }
+                            } catch (e) {
+                                // no-op
+                            }
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
+                                errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
+                                errorType: ErrorType.RuntimeError
+                            });
+                            this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
         });
     }
 
@@ -877,41 +884,41 @@ export class FunctionApp {
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
     handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
     return this.getAuthSettings()
-        .mergeMap(r =>{
-            if (r.easyAuthEnabled) {
-            return Observable.of({keys: [], links: []});
-        }
-        return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
-            .retryWhen(e => e.scan((errorCount : number, err: Response) => {
-                if (err.status < 500 && err.status !== 0) {
-                    throw err;
-                }
-                if (errorCount >= 10) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(400))
-            .map(r => {
-                let keys: FunctionKeys = r.json();
-                if (keys && Array.isArray(keys.keys)) {
-                    keys.keys.unshift({
-                        name: '_master',
-                        value: this.masterKey
-                    });
-                }
-                return keys;
-            })
-            .catch((error: Response) => {
-                if (handleUnauthorized && error.status === 401) {
-                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                        usedKey: this.sanitize(this.masterKey)
-                    });
-                    return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
-                } else {
-                    throw error;
-                }
-            })
-            .do(_ => {
+        .mergeMap(r => {
+            if (r.clientCertEnabled) {
+                return Observable.of({ keys: [], links: [] });
+            }
+            return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    if (err.status < 500 && err.status !== 0) {
+                        throw err;
+                    }
+                    if (errorCount >= 10) {
+                        throw err;
+                    }
+                    return errorCount + 1;
+                }, 0).delay(400))
+                .map(r => {
+                    let keys: FunctionKeys = r.json();
+                    if (keys && Array.isArray(keys.keys)) {
+                        keys.keys.unshift({
+                            name: '_master',
+                            value: this.masterKey
+                        });
+                    }
+                    return keys;
+                })
+                .catch((error: Response) => {
+                    if (handleUnauthorized && error.status === 401) {
+                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                            usedKey: this.sanitize(this.masterKey)
+                        });
+                        return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
+                    } else {
+                        throw error;
+                    }
+                })
+                .do(_ => {
                     this.isMultiKeySupported = true;
                     this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
                 },
@@ -920,7 +927,7 @@ export class FunctionApp {
                         if (error.status === 404) {
                             this.isMultiKeySupported = false;
                             this.legacyGetHostSecrets();
-                            return Observable.of({keys: [], links: []});
+                            return Observable.of({ keys: [], links: [] });
                         }
 
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -935,7 +942,7 @@ export class FunctionApp {
                         });
                     }
                 });
-            });
+        });
     }
 
     getBindingConfig(): Observable<BindingConfig> {
@@ -1021,8 +1028,8 @@ export class FunctionApp {
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .mergeMap((authSettings : AuthSettings) =>{
-            return authSettings.easyAuthEnabled
+        .mergeMap((authSettings: AuthSettings) => {
+            return authSettings.clientCertEnabled
             ? Observable.of([])
             : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
@@ -1044,8 +1051,8 @@ export class FunctionApp {
     getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
-        .mergeMap(authSettings =>{
-            if (authSettings.easyAuthEnabled || !this.masterKey) {
+        .mergeMap(authSettings => {
+            if (authSettings.clientCertEnabled || !this.masterKey) {
             return Observable.of([]);
         } else {
             return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
@@ -1086,21 +1093,21 @@ export class FunctionApp {
     }
 
     @Cache()
-    getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
+    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
-                if (authSettings.easyAuthEnabled || !this.masterKey) {
+                if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of('');
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                        .map(r => <string>(r.json().id))
+                        .map(r => (r.json() ))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostId(false));
+                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostStatus(false));
                             } else {
                                 throw error;
                             }
@@ -1184,7 +1191,7 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
-                if (authSettings.easyAuthEnabled) {
+                if (authSettings.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
                 return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
@@ -1378,21 +1385,34 @@ export class FunctionApp {
         // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
         // editMode (true -> readWrite, false -> readOnly)
         // Table
-        //  | SourceControl | AppSettingValue | EditMode                      |
-        //  | true          | readWrite       | ReadWriteSourceControlled     |
-        //  | true          | readOnly        | ReadOnlySourceControlled      |
-        //  | true          | undefined       | ReadOnlySourceControlled      |
-        //  | false         | readWrite       | ReadWrite                     |
-        //  | false         | readOnly        | ReadOnly                      |
-        //  | false         | undefined       | ReadWrite                     |
+        // |Slots | SourceControl | AppSettingValue | EditMode                      |
+        // |------|---------------|-----------------|-------------------------------|
+        // | No   | true          | readWrite       | ReadWriteSourceControlled     |
+        // | No   | true          | readOnly        | ReadOnlySourceControlled      |
+        // | No   | true          | undefined       | ReadOnlySourceControlled      |
+        // | No   | false         | readWrite       | ReadWrite                     |
+        // | No   | false         | readOnly        | ReadOnly                      |
+        // | No   | false         | undefined       | ReadWrite                     |
+
+        // | Yes  | true          | readWrite       | ReadWriteSourceControlled     |
+        // | Yes  | true          | readOnly        | ReadOnlySourceControlled      |
+        // | Yes  | true          | undefined       | ReadOnlySourceControlled      |
+        // | Yes  | false         | readWrite       | ReadWrite                     |
+        // | Yes  | false         | readOnly        | ReadOnly                      |
+        // | Yes  | false         | undefined       | ReadOnlySlots                 |
+        // |______|_______________|_________________|_______________________________|
         return Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
-            (a, b) => ({sourceControlEnabled: a, appSettingsResponse: b})
+            SlotsService.isSlot(this.site.id)
+                ? Observable.of(true)
+                : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
+            (a, b, s) => ({sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s})
         )
         .map(result => {
-            let appSettings: ArmObj<any> = result.appSettingsResponse.json();
-            let sourceControlled = result.sourceControlEnabled;
+            const appSettings: ArmObj<any> = result.appSettingsResponse.json();
+            const sourceControlled = result.sourceControlEnabled;
+
             let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
             editModeSettingString = editModeSettingString.toLocaleLowerCase();
 
@@ -1400,29 +1420,33 @@ export class FunctionApp {
                 return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
             } else if (editModeSettingString === Constants.ReadOnlyMode) {
                 return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
+            } else if (sourceControlled) {
+                return FunctionAppEditMode.ReadOnlySourceControlled;
             } else {
-                return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadWrite;
+                return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
             }
         });
     }
 
     public getAuthSettings(): Observable<AuthSettings>{
-        if(this.tryFunctionsScmCreds){
+        if (this.tryFunctionsScmCreds) {
             return Observable.of({
                 easyAuthEnabled: false,
                 AADConfigured: false,
-                AADNotConfigured: false
+                AADNotConfigured: false,
+                clientCertEnabled: false
             });
         }
 
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
             .map(r => {
-            let auth : ArmObj<any> = r.json();
+            let auth: ArmObj<any> = r.json();
             return {
                 easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
                 AADConfigured: auth.properties['clientId'] ? true : false,
-                AADNotConfigured: auth.properties['clientId'] ? false : true
-            }
+                AADNotConfigured: auth.properties['clientId'] ? false : true,
+                clientCertEnabled: this.site.properties.clientCertEnabled
+            };
         });
     }
 
@@ -1574,6 +1598,12 @@ export class FunctionApp {
                             status: 401,
                             statusText: this.statusCodeToText(401),
                             text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                        });
+                    } else if (authSettings.clientCertEnabled) {
+                        return Observable.of({
+                            status: 401,
+                            statusText: this.statusCodeToText(401),
+                            text: () => this._translateService.instant(PortalResources.functionService_clientCertEnabled)
                         });
                     } else if (e.status === 200 && e.type === ResponseType.Error) {
                         return Observable.of({

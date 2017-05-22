@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -6,7 +7,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
-
 import { FunctionInfo } from './../shared/models/function-info';
 import { AppNode } from './../tree-view/app-node';
 import { FunctionsNode } from './../tree-view/functions-node';
@@ -28,8 +28,9 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
   private _subscription : RxSubscription;
 
   constructor(
-    private _aiService : AiService
-  ) {
+    private _aiService : AiService,
+    private _configService : ConfigService
+  ) { 
 
     let initialDashboardType : DashboardType;
 
@@ -65,8 +66,8 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
       if(!fcs){
         return;
       }
-
-      if(fcs.length > 0){
+      
+      if(fcs.length > 0 || this._configService.isStandalone()){
         this.dashboardType = DashboardType[DashboardType.createFunction];
       }
       else{

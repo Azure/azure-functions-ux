@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions Runtime</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -232,7 +235,7 @@
     <value>Your subscription</value>
   </data>
   <data name="createApp_description" xml:space="preserve">
-    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code</value>
+    <value>Creating a Function App will automatically provision a new container capable of hosting and running your code.</value>
   </data>
   <data name="createApp_fail" xml:space="preserve">
     <value>Failed to create app</value>
@@ -938,7 +941,7 @@
     <value>Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Runtime version: latest ({{latestExtensionVersion}})</value>
+    <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (preview)</value>
@@ -1537,9 +1540,6 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>ACTIONS</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>The Keys feature is not available because Authentication/Authorization is enabled for this Function App.</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
     <value>go to the quickstart</value>
   </data>
@@ -1795,7 +1795,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
     <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
   </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Search functions</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>New</value>
+  </data>
   <data name="functionManage_deleteApp" xml:space="preserve">
     <value>Delete app</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>A client certificate is required to call run this function. To run it from the portal you have to disable client certificate.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit</value>
   </data>
 </root>

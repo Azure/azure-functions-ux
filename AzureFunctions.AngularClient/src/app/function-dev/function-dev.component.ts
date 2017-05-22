@@ -1,3 +1,5 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
+import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -32,6 +34,7 @@ import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
+import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
 
 
 @Component({
@@ -85,6 +88,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
+    public isStandalone : boolean;
+
+    public disabled: Observable<boolean>;
+
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -93,16 +100,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private functionKey: string;
     private _bindingManager = new BindingManager();
 
-    private _isEasyAuthEnabled = false;
+    private _isClientCertEnabled = false;
 
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
                 private _translateService: TranslateService,
                 private _aiService: AiService,
-                private _el: ElementRef) {
+                private _el: ElementRef,
+                configService : ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
+        this.isStandalone = configService.isStandalone();
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -125,6 +134,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
+                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
 
@@ -135,7 +145,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e}))
             })
             .subscribe(res => {
-                this._isEasyAuthEnabled = res.authSettings.easyAuthEnabled;
+                this._isClientCertEnabled = res.authSettings.clientCertEnabled;
                 this.content = "";
                 this.testContent = res.functionInfo.test_data;
                 try {
@@ -204,7 +214,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (!this.functionApp.isMultiKeySupported) {
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
-                } else if(this._isEasyAuthEnabled){
+                } else if (this._isClientCertEnabled) {
                     this.setFunctionInvokeUrl();
                 }
 
@@ -371,7 +381,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 code = `?code=${key}`;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = `?code=${this.secrets.key}`;
-            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isEasyAuthEnabled) {
+            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isClientCertEnabled) {
                 code = `?code=${this.functionApp.HostSecrets}`;
             }
 

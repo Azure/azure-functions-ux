@@ -19,7 +19,7 @@ export class SlotsService {
     ) { }
 
     getSlotsList(siteId: string) {
-        if (this.isSlot(siteId)) {
+        if (SlotsService.isSlot(siteId)) {
             return Observable.of([]);
         }
         return this._cacheService.getArm(`/${siteId}/slots`).map(r => <ArmObj<Site>[]>r.json().value);
@@ -64,12 +64,25 @@ export class SlotsService {
 
     }
 
-    public isSlot(siteId: string) {
-        let siteSegements = siteId.split("/");
-        if (siteSegements.length === 11 && siteSegements[9].toLowerCase() === "slots") {
-            return true;
-        }
-        return false;
+    public static isSlot(siteId: string) {
+        // slots id looks like
+        // /subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.Web/sites/<siteName>/slots/<slotName>
+        // split('/')
+        //  [
+        //      0: "",
+        //      1: "subscriptions",
+        //      2: "<subscriptionId>",
+        //      3: "resourceGroups",
+        //      4: "<resourceGroupName>",
+        //      5: "providers",
+        //      6: "Microsoft.Web",
+        //      7: "sites",
+        //      8: "<siteName>",
+        //      9: "slots:,
+        //      10: "<slotName>"
+        //  ]
+        let siteSegments = siteId.split("/");
+        return siteSegments.length === 11 && siteSegments[9].toLowerCase() === "slots";
     }
 
     public setStatusOfSlotOptIn(site: ArmObj<Site>, appSetting: ArmObj<any>, value?: string) {

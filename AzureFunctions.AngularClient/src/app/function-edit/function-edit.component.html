@@ -5,7 +5,7 @@
 </div>
 <div *ngIf="tabId === 'integrate'" class="function-edit-content">
     <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
-    <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate-v2>
+    <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [viewInfo]="viewInfo" [selectedFunction]="selectedFunction"></function-integrate-v2>
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
 <div *ngIf="tabId === 'manage'" class="function-edit-content">

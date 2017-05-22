@@ -107,10 +107,7 @@ import { EventHubComponent } from './pickers/event-hub/event-hub.component';
 import { SlotsListComponent } from './slots-list/slots-list.component';
 import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
-
-export function ConfigLoader(config: ConfigService) {
-  return () => config.loadConfig();
-}
+import { SearchBoxComponent } from './search-box/search-box.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -210,7 +207,8 @@ export function AiServiceFactory() {
     CreateAppComponent,
     SlotsListComponent,
     SlotNewComponent,
-	EventHubComponent
+	EventHubComponent,
+	SearchBoxComponent
   ],
   imports: [
     FormsModule,
@@ -223,12 +221,6 @@ export function AiServiceFactory() {
   ],
   providers: [
     ConfigService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: ConfigLoader,
-      deps: [ConfigService],
-      multi: true
-    },
     FunctionsService,
     UserService,
     LanguageService,

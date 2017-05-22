@@ -1,0 +1,11 @@
+<div class="search-box">
+    <img class="left" src="images/search.svg" />
+    <input type="text"
+           [class.has-value]="!!value && warning"
+           [(ngModel)]="value"
+           placeholder="{{placeholder}}"
+           (keyup)="onKeyUp($event)" />
+    <span class="right">
+        <i *ngIf="value" class="fa fa-times" (click)="onClearClick($event)"></i>
+    </span>
+</div>

@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
 import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -14,7 +15,6 @@ import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { NotificationIds, Constants } from './../../shared/models/constants';
-import { LanguageService } from './../../shared/services/language.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
@@ -32,6 +32,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SlotsService } from '../../shared/services/slots.service';
+import { HostStatus } from './../../shared/models/host-status';
 
 @Component({
   selector: 'function-runtime',
@@ -50,6 +51,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public showDailyMemoryWarning: boolean = false;
   public showDailyMemoryInfo: boolean = false;
   public functionApp: FunctionApp;
+  public exactExtensionVersion: string;
 
   public functionStatusOptions: SelectOption<boolean>[];
   public needUpdateRoutingExtensionVersion: boolean;
@@ -83,7 +85,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _functionsService: FunctionsService,
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
-    private _languageService: LanguageService,
     private _translateService: TranslateService,
     private _slotsService: SlotsService
   ) {
@@ -103,13 +104,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
                   this._slotsService.getSlotsList(viewInfo.resourceId),
                 (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
                 .mergeMap(result => {
-                  return result.functionApp
-                          .getFunctionAppEditMode()
-                          .map(editMode => ({
+                    return Observable.zip(result.functionApp.getFunctionAppEditMode(), result.functionApp.getFunctionHostStatus(),
+                        (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
+                          .map(r => ({
                               siteResponse: result.siteResponse,
                               appSettingsResponse: result.appSettingsResponse,
                               functionApp: result.functionApp,
-                              editMode: editMode,
+                              editMode: r.editMode,
+                              hostStatus: r.hostStatus,
                               slotsList: result.slotsList
                             })
                        );
@@ -124,8 +126,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
             this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
-
-            this._isSlotApp = this._slotsService.isSlot(this.site.id);
+            this.exactExtensionVersion = r.hostStatus.version;
+            this._isSlotApp = SlotsService.isSlot(this.site.id);
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
                 ? this.site.properties.dailyMemoryTimeQuota.toString()
                 : '0';
@@ -160,7 +162,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this.needUpdateRoutingExtensionVersion
                 = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
 
-            if (r.editMode === FunctionAppEditMode.ReadOnly || r.editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
+            if (EditModeHelper.isReadOnly(r.editMode)) {
                 this.functionAppEditMode = false;
             } else {
                 this.functionAppEditMode = true;

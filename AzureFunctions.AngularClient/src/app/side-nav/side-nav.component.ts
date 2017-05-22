@@ -7,7 +7,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
 import {TranslateService} from '@ngx-translate/core';
-
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionApp } from './../shared/function-app';
@@ -350,17 +349,18 @@ export class SideNavComponent{
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
-        this.armService.subscriptions.subscribe(subs =>{
+        this.userService.getStartupInfo()
+        .first()
+        .subscribe(info => {
             let count = 0;
 
             this.subscriptionOptions =
-            subs.map(e =>{
-                let subSelected :boolean;
+            info.subscriptions.map(e => {
+                let subSelected: boolean;
 
                 if(descriptor){
                     subSelected = descriptor.subscription === e.subscriptionId;
-                }
-                else{
+                } else {
                     // Multi-dropdown defaults to all of none is selected.  So setting it here
                     // helps us figure out whether we need to limit the # of initial subscriptions
                     subSelected =
@@ -379,6 +379,6 @@ export class SideNavComponent{
                 };
             })
             .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-        })
+        });
     }
 }

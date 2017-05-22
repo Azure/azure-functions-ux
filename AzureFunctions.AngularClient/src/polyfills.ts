@@ -92,3 +92,19 @@ if (!String.prototype.format) {
     });
   };
 }
+
+interface Environment{
+  hostName : string;
+  runtimeType : string;
+  azureResourceManagerEndpoint : string;
+}
+
+interface AppSvc{
+  env : Environment;
+}
+
+declare global{
+  interface Window{
+    appsvc : AppSvc;
+  }
+}

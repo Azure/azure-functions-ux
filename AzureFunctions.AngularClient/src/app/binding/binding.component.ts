@@ -57,6 +57,15 @@ export class BindingComponent{
     public isDirty: boolean = false;
     public isDocShown: boolean = false;
     public functionApp: FunctionApp;
+    // While there are no uses for this in the code, it's used in
+    // a template for the bindings that comes from the templates repo.
+    // "warnings": [
+    //         {
+    //           "text": "$ADDToken_warningCongigured",
+    //           "type": "Info",
+    //           "variablePath": "authSettings.AADConfigured",
+    //           "addLinkToAuth": true
+    //        }]
     public authSettings: AuthSettings;
 
     private _functionAppStream = new Subject<any>();
@@ -101,7 +110,7 @@ export class BindingComponent{
                 } catch (e) {
                     console.error(e);
                 }
-        })
+        });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
@@ -178,11 +187,7 @@ export class BindingComponent{
             this.model.warnings = [];
             if (!this.newFunction && bindingSchema) {
                 if (bindingSchema.actions) {
-                    bindingSchema.actions.forEach((a) => {
-                        if (a.templateId) {
-                            this.model.actions.push(a);
-                        }
-                    });
+                    this.model.actions = bindingSchema.actions;
                 }
                 this.model.warnings = bindingSchema.warnings;
                 this.filterWarnings();

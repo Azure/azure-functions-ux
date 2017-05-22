@@ -162,6 +162,7 @@
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.scss" />
     <None Include="src\app\run-http\run-http.component.scss" />
     <Content Include="src\app\run-http\run-http.component.html" />
+    <Content Include="src\app\search-box\search-box.component.html" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
     <Content Include="src\app\side-nav\side-nav.component.html" />
@@ -187,6 +188,7 @@
     <Content Include="src\app\site\site-config\site-config.component.scss" />
     <Content Include="src\app\slots-list\slots-list.component.scss" />
     <Content Include="src\app\slot-new\slot-new.component.scss" />
+    <Content Include="src\app\search-box\search-box.component.scss" />
     <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
@@ -426,6 +428,8 @@
     <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.spec.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.spec.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />
@@ -437,6 +441,7 @@
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
     <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\host-status.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\uniqueValidator.ts" />
@@ -516,6 +521,7 @@
     <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\authz.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
@@ -531,6 +537,7 @@
     <TypeScriptCompile Include="src\app\shared\services\global-state.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\language.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\local-storage.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />

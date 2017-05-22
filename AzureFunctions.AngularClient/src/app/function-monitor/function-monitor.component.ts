@@ -78,8 +78,8 @@ export class FunctionMonitorComponent implements OnDestroy {
                     let host = fi.functionApp.site.name;
                     var hostId = !!host ? host : "";
 
-                    return fi.functionApp.getFunctionHostId()
-                        .flatMap(hostId => this._functionMonitorService.getDataForSelectedFunction(fi, hostId))
+                    return fi.functionApp.getFunctionHostStatus()
+                        .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(fi, host.id))
                         .flatMap(data => {
                             this.functionId = !!data ? data.functionId : "";
                             this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);

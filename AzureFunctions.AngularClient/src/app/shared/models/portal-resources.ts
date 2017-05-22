@@ -3,6 +3,7 @@
 export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
+    public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
     public static functionCreateErrorDetails: string = "functionCreateErrorDetails";
@@ -475,7 +476,6 @@ export class PortalResources
     public static error_unableToRetrieveFunctionKeys: string = "error_unableToRetrieveFunctionKeys";
     public static error_appOffline: string = "error_appOffline";
     public static functionKeys_actions: string = "functionKeys_actions";
-    public static functionKeys_easyAuthWarning: string = "functionKeys_easyAuthWarning";
     public static functionNew_chooseTemplateQuickstart: string = "functionNew_chooseTemplateQuickstart";
     public static httpRun_noQuery: string = "httpRun_noQuery";
     public static swaggerDefinition_collapse: string = "swaggerDefinition_collapse";
@@ -560,6 +560,10 @@ export class PortalResources
     public static monitoring_appInsights: string = "monitoring_appInsights";
     public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
+    public static functionsList_searchFunctions: string = "functionsList_searchFunctions";
+    public static new_: string = "new_";
     public static functionManage_deleteApp: string = "functionManage_deleteApp";
+    public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
+    public static readOnlySlots: string = "readOnlySlots";
 }
 
