@@ -514,6 +514,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         if (this.runHttp) {
             if (!this.runHttp.valid) {
+                this._globalStateService.clearBusyState();
+                this.runValid = false;
                 return;
             }
 
