@@ -13,6 +13,11 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {PortalResources} from '../shared/models/portal-resources';
 
+interface CategoryOrder {
+    name: string;
+    index: number;
+}
+
 @Component({
     selector: 'template-picker',
     templateUrl: './template-picker.component.html',
@@ -35,7 +40,7 @@ export class TemplatePickerComponent {
     private _language: string = "";
     private _type: TemplatePickerType;
     private _initialized = false;
-    private _orderedCategoties = [];
+    private _orderedCategoties: CategoryOrder[]= [];
     private _functionAppStream = new Subject<FunctionApp>();
     private _functionApp : FunctionApp;
 
@@ -63,12 +68,31 @@ export class TemplatePickerComponent {
         this._language = this._translateService.instant("temp_category_all");
 
         this._orderedCategoties = [
-            this._translateService.instant("temp_category_core"),
-            this._translateService.instant("temp_category_api"),
-            this._translateService.instant("temp_category_dataProcessing"),
-            this._translateService.instant("temp_category_samples"),
-            this._translateService.instant("temp_category_experimental"),
-            this._translateService.instant("temp_category_all")
+            {
+                name: this._translateService.instant("temp_category_core"),
+                index: 0
+            },
+            {
+                name: this._translateService.instant("temp_category_api"),
+                index: 1,
+            },
+            {
+                name: this._translateService.instant("temp_category_dataProcessing"),
+                index: 2,
+                
+            },
+            {
+                name: this._translateService.instant("temp_category_samples"),
+                index: 3,
+            },
+            {
+                name: this._translateService.instant("temp_category_experimental"),
+                index: 4,
+            },
+            {
+                name: this._translateService.instant("temp_category_all"),
+                index: 1000,
+            }
         ];
     }
 
@@ -186,19 +210,10 @@ export class TemplatePickerComponent {
                             }
                         });
 
-                        var counter = 0;
-                        var that = this;
-                        this._orderedCategoties.forEach((c) => {
-                            var temp = this.categories;
-                            var index = this.categories.findIndex((item) => {
-                                return c === item.displayLabel;
-                            });
-                            if (index > 0) {
-                                var save = this.categories[index];
-                                this.categories.splice(index, 1);
-                                this.categories.splice(counter, 0, save);
-                                counter++;
-                            }
+                        this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            var ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
+                            var cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
+                            return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
                         });
 
                         this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
