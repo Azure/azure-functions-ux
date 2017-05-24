@@ -2815,6 +2815,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage application settings.
+        /// </summary>
+        internal static string functionRuntime_manageAppSettings {
+            get {
+                return ResourceManager.GetString("functionRuntime_manageAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Functions.
         /// </summary>
         internal static string functions {

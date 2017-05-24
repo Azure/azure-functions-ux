@@ -1810,4 +1810,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlySlots" xml:space="preserve">
     <value>Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit</value>
   </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Manage application settings</value>
+  </data>
 </root>
