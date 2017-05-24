@@ -379,6 +379,15 @@ export class FunctionRuntimeComponent implements OnDestroy {
     });
   }
 
+  openAppSettings() {
+      this._portalService.openBlade({
+          detailBlade: "WebsiteConfigSiteSettings",
+          detailBladeInputs: {
+              resourceUri: this.site.id,
+          }
+      }, "settings");
+  }
+
   private _updateContainerVersion(site: ArmObj<Site>, appSettings: ArmObj<any>) {
     if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
       delete appSettings[Constants.azureJobsExtensionVersion];

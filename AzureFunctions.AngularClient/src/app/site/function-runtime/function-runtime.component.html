@@ -20,6 +20,15 @@
         </div>
     </div>
 
+    <div class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
+        <label>{{ 'feature_applicationSettingsName' | translate }}</label>
+        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
+            <span>
+                <span class="link" (click)="openAppSettings()">{{ 'functionRuntime_manageAppSettings' | translate }}</span>
+            </span>
+        </div>
+    </div>
+
     <div *ngIf="!GlobalDisabled" class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
         <label>{{ 'runtimeVersion' | translate }}</label>
         <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
