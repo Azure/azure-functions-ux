@@ -8,16 +8,6 @@
 
     tr{
         border-bottom: 1px solid $border-color;
-        cursor: pointer;
-
-        &:hover{
-            background-color: lighten($border-color, 5%);
-        }
-
-        &.header-row:hover{
-            background-color: $body-bg-color;
-
-        }
     }
 
     th{
@@ -27,8 +17,12 @@
         text-transform: uppercase;
     }
 
+    th.icon{
+        min-width: 32px;
+    }
+
     th, td{
-        padding: 7px 5px;
+        height: 32px;
         border-bottom: $border;
     }
 
@@ -39,6 +33,21 @@
 
         &.pristine{
             border-left: 3px solid $body-bg-color;
+        }
+    }
+
+    td.icon{
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $command-color-hover;
+        }
+
+        img{
+            margin: 0px !important;
+            height: 15px !important;
         }
     }
 

@@ -4,10 +4,6 @@
     vertical-align: text-bottom;
 }
 
-.delete {
-    margin: 0px !important;
-    width: 16px !important;
-}
 
 .new-container {
     padding-bottom: 10px;
@@ -24,4 +20,12 @@
 
 .search-box-container {
     width: 250px;
+    margin-bottom: 15px;
+}
+
+/*Overwrite bootstrap*/ 
+label {
+    margin-bottom: 0px !important;
+    font-weight: normal !important;
+    cursor: pointer;
 }

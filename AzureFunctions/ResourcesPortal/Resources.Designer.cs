@@ -3454,7 +3454,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Function.
+        ///   Looks up a localized string similar to New function.
         /// </summary>
         internal static string newFunction {
             get {

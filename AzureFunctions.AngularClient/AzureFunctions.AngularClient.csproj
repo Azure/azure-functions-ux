@@ -210,6 +210,9 @@
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\images\add.svg" />
+    <Content Include="src\images\discard.svg" />
+    <Content Include="src\images\plus.svg" />
     <Content Include="src\images\appInsights.svg" />
     <Content Include="src\images\access-control.svg" />
     <Content Include="src\images\activity-log.svg" />
@@ -277,6 +280,7 @@
     <Content Include="src\images\reset.svg" />
     <Content Include="src\images\resource-explorer.svg" />
     <Content Include="src\images\restart.svg" />
+    <Content Include="src\images\save.svg" />
     <Content Include="src\images\search.svg" />
     <Content Include="src\images\ssl.svg" />
     <Content Include="src\images\stack.svg" />
@@ -312,12 +316,13 @@
     <Content Include="src\sass\common\_mixins.scss" />
     <Content Include="src\sass\controls\_feature-group.scss" />
     <Content Include="src\sass\controls\_input.scss" />
-    <Content Include="src\sass\controls\_table.scss" />
     <Content Include="src\sass\controls\_tabs.scss" />
-    <Content Include="src\sass\layout\_dashboard.scss" />
     <Content Include="src\sass\pages\_binding-designer.scss" />
     <Content Include="src\sass\pages\_deployment-source.scss" />
     <Content Include="src\sass\controls\_dialogs.scss" />
+    <Content Include="src\sass\controls\_command-bar.scss" />
+    <Content Include="src\sass\controls\_tbl.scss" />
+    <Content Include="src\sass\pages\_list-collection.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
@@ -655,6 +660,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\assets\monaco\" />
+    <Folder Include="src\sass\layout\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
