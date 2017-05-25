@@ -52,9 +52,9 @@ export class TblThComponent implements OnInit {
     table.items = table.items.sort((a : TblItem, b : TblItem) => {
       let aCol : any;
       let bCol : any;
-      
-      aCol = a[this.name];
-      bCol = b[this.name];
+
+      aCol = Object.byString(a, this.name);
+      bCol = Object.byString(b, this.name);
 
       aCol = typeof aCol === "string" ? aCol : aCol.toString();
       bCol = typeof bCol === "string" ? bCol : bCol.toString();
