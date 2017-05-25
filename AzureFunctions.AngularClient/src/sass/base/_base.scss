@@ -38,6 +38,10 @@ pre {
     color: $primary-color;
 }
 
+.hover-underline:hover{
+    text-decoration: underline;
+}
+
 .disabled-link{
     pointer-events: none;
     cursor: text;

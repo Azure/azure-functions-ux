@@ -11,7 +11,8 @@ import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
 interface ProxyItem{
   name : string,
-  url : string
+  url: string,
+  node: ProxyNode
 }
 
 @Component({
@@ -45,7 +46,8 @@ export class ProxiesListComponent implements OnInit {
         .map(p =>{
           return <ProxyItem>{
             name : p.title,
-            url : p.proxy.backendUri
+            url: p.proxy.backendUri,
+            node: p
           }
         });
       })
@@ -62,8 +64,8 @@ export class ProxiesListComponent implements OnInit {
     this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item : ProxiesNode){
-    item.select();
+  clickRow(item: ProxyItem){
+    item.node.select();
   }
 
 }
