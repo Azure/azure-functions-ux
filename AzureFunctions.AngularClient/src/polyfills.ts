@@ -67,17 +67,47 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl';  // Run `npm install --save intl`.
 
-interface StringPolyfills {
-    /**
-     * Formats a string based on its key value pair object.
-     *
-     * @param args The list of arguments format arguments. For example: "String with params {0} and {1}".format("val1", "val2");.
-     * @return Formatted string.
-     */
-    format(...restArgs: any[]): string;
+interface Environment{
+  hostName : string;
+  runtimeType : string;
+  azureResourceManagerEndpoint : string;
 }
 
-interface String extends StringPolyfills {
+interface AppSvc{
+  env : Environment;
+}
+
+declare global {
+  interface ObjectConstructor {
+    /*
+    * https://stackoverflow.com/a/6491621/3234163
+    * This takes in an object `o` and string `s` and finds property with key `s` in object `o`
+    * `s` can be a nested object representation. For example if `o` is:
+    *  {
+    *    "person": {
+    *      "address": {
+    *        "street": "Main"
+    *      }
+    *    }
+    *  }
+    * you can get "Main" by calling byString(o, 'person.address.street')
+    */
+    byString(obj: any, key: string): any;
+  }
+
+  interface String {
+    /**
+   * Formats a string based on its key value pair object.
+   *
+   * @param args The list of arguments format arguments. For example: "String with params {0} and {1}".format("val1", "val2");.
+   * @return Formatted string.
+   */
+    format(...restArgs: any[]): string;
+  }
+
+  interface Window{
+    appsvc : AppSvc;
+  }
 }
 
 // http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
@@ -93,18 +123,23 @@ if (!String.prototype.format) {
   };
 }
 
-interface Environment{
-  hostName : string;
-  runtimeType : string;
-  azureResourceManagerEndpoint : string;
-}
-
-interface AppSvc{
-  env : Environment;
-}
-
-declare global{
-  interface Window{
-    appsvc : AppSvc;
+if (!Object.byString) {
+  Object.byString = function(o, s) {
+    try {
+      s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+      s = s.replace(/^\./, '');           // strip a leading dot
+      var a = s.split('.');
+      for (var i = 0, n = a.length; i < n; ++i) {
+          var k = a[i];
+          if (k in o) {
+              o = o[k];
+          } else {
+              return;
+          }
+      }
+      return o;
+    } catch (e) {
+      return null;
+    }
   }
 }
