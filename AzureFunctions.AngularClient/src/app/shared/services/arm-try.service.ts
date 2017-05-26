@@ -114,6 +114,8 @@ export class ArmTryService extends ArmService {
                     properties: r
                 })
             })
+        } else if (urlNoQuery.endsWith("/slots")) {
+            return Observable.of(this._getFakeResponse({ value: [] }));
         }
 
         this._aiService.trackEvent("/try/arm-send-failure", {
