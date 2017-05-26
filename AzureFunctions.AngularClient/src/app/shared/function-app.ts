@@ -1545,7 +1545,7 @@ export class FunctionApp {
             }
         } else if (typeof objectToLocalize === 'object') {
             for (const property in objectToLocalize) {
-                if (property === 'files' || property === 'defaultValue') {
+                if (property === 'files' || property === 'defaultValue' || property === 'function') {
                     continue;
                 }
                 if (objectToLocalize.hasOwnProperty(property)) {
