@@ -4,17 +4,17 @@ import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@
 @Component({
   selector: 'tbl-th',
   template: `
-    <div *ngIf="isSortable" class="sortable" (click)="sort()">
+    <div class="sortable" (click)="sort()">
       <ng-content class="sortable"></ng-content>
-      <i class="fa" style="font-size: 11px"
+      <i class="fa chevron"
           [class.fa-chevron-up]="table.sortedColName === name && table.sortAscending"
           [class.fa-chevron-down]="(table.sortedColName === name && !table.sortAscending) || !table.sortedColName"></i>
-    </div>`
+    </div>`,
+  styleUrls: ['./tbl-th.component.scss']
 })
 export class TblThComponent implements OnInit {
 
   @Input() name: string;
-  @Input() isSortable: boolean = true;
 
   constructor(
     public table : TblComponent,
