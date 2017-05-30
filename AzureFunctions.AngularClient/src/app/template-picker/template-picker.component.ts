@@ -200,7 +200,7 @@ export class TemplatePickerComponent {
                                     );
 
                                     this.templates.push({
-                                        name: template.id,
+                                        name: `${template.metadata.name} - ${template.metadata.language}`,
                                         value: template.id,
                                         keys: keys,
                                         description: template.metadata.description,
