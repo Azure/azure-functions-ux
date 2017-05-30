@@ -34,6 +34,9 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children =>{
         this.apps = children;
+        if(children.length > 0){
+          this.appsNode.isLoading = false;
+        }
         this._origRefToItems = children;
       });
 

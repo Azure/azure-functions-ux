@@ -47,9 +47,9 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this.iconClass = "root-node-collection-icon"
         this.iconUrl = "images/BulletList.svg";
         this.showExpandIcon = false;
-
         this.childrenStream.subscribe(children =>{
             this.children = children;
+            this.isLoading = true;
         })
 
         this.childrenStream.next([]);
@@ -68,12 +68,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         })
         .switchMap(result =>{
             this.childrenStream.next([]);
-
+            
             if(!result.subscriptions || result.subscriptions.length === 0){
                 return Observable.of(null);
             }
-
-            this.isLoading = true;
             this._subscriptions = result.subscriptions;
             return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
         })
