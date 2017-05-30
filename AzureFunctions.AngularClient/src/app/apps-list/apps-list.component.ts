@@ -29,11 +29,16 @@ export class AppsListComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .switchMap(viewInfo =>{
         this.appsNode = (<AppsNode>viewInfo.node);
+        /* this is need to avoid flickering b/w no list view & table on load
+        see https://github.com/Azure/azure-functions-ux/issues/1286 */
         this.appsNode.isLoading = true;
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children =>{
         this.apps = children;
+
+        /* fix for https://github.com/Azure/azure-functions-ux/issues/1374 
+         if the FunctionApps node has a sibling, the below logic will need to be updated */
         if(children.length > 0){
           this.appsNode.isLoading = false;
         }
