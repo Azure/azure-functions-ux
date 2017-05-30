@@ -6,6 +6,10 @@
     width: inherit;
     border-collapse: inherit;
 
+    .link:hover{
+        text-decoration: underline;
+    }
+
     tr{
         border-bottom: 1px solid $border-color;
     }

@@ -9,7 +9,7 @@
   </tr>
 
   <tr *ngFor="let item of table.items">
-    <td><span class="link hover-underline" (click)="clickRow(item)">{{item.name}}</span></td>
+    <td><span class="link" (click)="clickRow(item)">{{item.name}}</span></td>
     <td>{{item.url}}</td>
   </tr>
 

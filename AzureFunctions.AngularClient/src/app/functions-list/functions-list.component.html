@@ -22,7 +22,7 @@
         </tr>
 
         <tr *ngFor="let item of table.items">
-            <td><span class="link hover-underline" (click)="clickRow(item)">{{item.title}}</span></td>
+            <td><span class="link" (click)="clickRow(item)">{{item.title}}</span></td>
             <td>
                 <label>
                     <input type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />

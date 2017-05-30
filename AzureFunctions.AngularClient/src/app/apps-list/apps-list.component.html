@@ -11,7 +11,7 @@
   </tr>
 
   <tr *ngFor="let item of table.items">
-    <td class="link hover-underline" (click)="clickRow(item)">{{item.title}}</td>
+    <td class="link" (click)="clickRow(item)">{{item.title}}</td>
     <td>{{item.subscription}}</td>
     <td>{{item.resourceGroup}}</td>
     <td>{{item.location}}</td>    
