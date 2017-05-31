@@ -1813,4 +1813,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Manage application settings</value>
   </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>proxies.json schema validation error</value>
+  </data>
 </root>

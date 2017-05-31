@@ -1123,6 +1123,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to proxies.json schema validation error.
+        /// </summary>
+        internal static string error_schemaValidationProxies {
+            get {
+                return ResourceManager.GetString("error_schemaValidationProxies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If the problem persists, contact support with the following code {{code}}.
         /// </summary>
         internal static string error_shareCodeWithSupport {

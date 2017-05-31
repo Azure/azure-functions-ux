@@ -565,5 +565,7 @@ export class PortalResources
     public static functionManage_deleteApp: string = "functionManage_deleteApp";
     public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
     public static readOnlySlots: string = "readOnlySlots";
+    public static functionRuntime_manageAppSettings: string = "functionRuntime_manageAppSettings";
+    public static error_schemaValidationProxies: string = "error_schemaValidationProxies";
 }
 
