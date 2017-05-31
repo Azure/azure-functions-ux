@@ -60,6 +60,7 @@ import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import {HostStatus} from './models/host-status';
+import * as jsonschema from 'jsonschema';
 
 declare var mixpanel: any;
 
@@ -331,9 +332,10 @@ export class FunctionApp {
     }
 
     getApiProxies() {
+
         return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
             .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
-            .retryWhen(e => e.scan((errorCount : number, err: Response) => {
+            .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                 if (err.status === 404 || errorCount >= 10) {
                     throw err;
                 }
@@ -343,6 +345,21 @@ export class FunctionApp {
                 json: () => { return {}; }
             }))
             .map(r => {
+                if (r.json()) {
+                    // Validate proxies.json by schema in parallel
+                    this._cacheService.get(Constants.serviceHost + '/schemas/proxies.json', false, this.getScmSiteHeaders()).subscribe(schema => {
+                        var validateResult = jsonschema.validate(r.json(), schema.json()).toString();
+                        
+                        if (validateResult) {
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${validateResult}`,
+                                errorId: ErrorIds.deserializingKudusFunctionList,
+                                errorType: ErrorType.Fatal
+                            });
+                        }
+                    });
+                }
+
                 return ApiProxy.fromJson(r.json());
             });
     }
