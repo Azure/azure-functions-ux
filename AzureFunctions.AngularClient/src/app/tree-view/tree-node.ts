@@ -1,3 +1,4 @@
+import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';

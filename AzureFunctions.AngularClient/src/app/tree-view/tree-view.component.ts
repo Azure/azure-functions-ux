@@ -12,7 +12,7 @@ import {TreeNode} from './tree-node';
 
 export class TreeViewComponent{
     node : TreeNode;
-    margin : string;
+    paddingLeft : string;
     level : number;
 
     public showTryView = false;
@@ -22,12 +22,12 @@ export class TreeViewComponent{
     }
 
     set levelInput(level : number){
-        if(level >= 1){
-            let margin = level * 11;
-            this.margin = margin + "px";
+        if(level > 2){
+            let padding = level * 10 - 10;
+            this.paddingLeft = padding + "px";
         }
         else{
-            this.margin = "5px";
+            this.paddingLeft = "10px";
         }
 
         this.level = level;

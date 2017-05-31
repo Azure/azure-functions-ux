@@ -23,6 +23,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
     public title = "Proxies (preview)";
     public dashboardType = DashboardType.proxies;
     public newDashboardType = DashboardType.createProxy;
+    public nodeClass = "tree-node collection-node";
 
     constructor(
         sideNav : SideNavComponent,
