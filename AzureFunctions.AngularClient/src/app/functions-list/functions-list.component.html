@@ -25,7 +25,7 @@
             <td><span class="link" (click)="clickRow(item)">{{item.title}}</span></td>
             <td>
                 <label>
-                    <input type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />
+                    <input [fnWriteAccess]="functionApp" type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />
                     <span *ngIf="item.functionInfo.config.disabled" class="enabled">
                         {{ 'disabled' | translate }}
                     </span>
