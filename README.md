@@ -2,10 +2,23 @@
 
 ## Getting started
 
-1. Building
+1. Install Prerequisites
+    * Visual Studio
+    * Nuget Package Manager and Nuget Client
+    * Git
+    * Node.js
+    * npm
+    * IIS
+    * URL Rewrite
+
+2. Clone and Build
+
+> :: if using git bash
+> git clone git@github.com:projectkudu/AzureFunctionsPortal.git
+> :: if using cmd
+> git clone https://github.com/projectkudu/AzureFunctionsPortal
 
  ``` bash
-> git clone git@github.com:projectkudu/AzureFunctionsPortal.git
 > cd AzureFunctionsPortal
 > nuget restore
 > msbuild AzureFunctions\AzureFunctions.csproj
@@ -16,7 +29,7 @@
 > ng build --watch
  ```
 
-2. Needed environment variables
+3. Needed environment variables
 You'll need to create an AAD web application and set `https://localhost:44300` as a reply URI, then configure the following environment variable.
 
  ```
@@ -25,17 +38,17 @@ AADClientSecret = <string>
 aiInstrumentationKey = <GUID> (optional to track AppInsights events)
  ```
 
-3. Create a new IIS site from `inetmgr` with `https` binding on `44300` that points to `..\\AzureFunctionsPortal\\AzureFunctions` for root path.
+4. Create a new IIS site from `inetmgr` with `https` binding on `44300` that points to `..\\AzureFunctionsPortal\\AzureFunctions` for root path.
 
-4. Create `app_data\\templates` folder under `..\\AzureFunctionsPortal\\AzureFunctions` and clone `git@github.com:Azure/azure-webjobs-sdk-templates.git` to `default` folder in there. Ensure the casing is correct for the new folders.
+5. Create `app_data\\templates` folder under `..\\AzureFunctionsPortal\\AzureFunctions` and clone `git@github.com:Azure/azure-webjobs-sdk-templates.git` to `default` folder in there. Ensure the casing is correct for the new folders.
 
-5. You may need to run `%windir%\system32\inetsrv\appcmd unlock config -section:system.webServer/serverRuntime` from an elevated cmd window.
+6. You may need to run `%windir%\system32\inetsrv\appcmd unlock config -section:system.webServer/serverRuntime` from an elevated cmd window.
 
-6. Run `iisreset` from an elevated cmd.
+7. Run `iisreset` from an elevated cmd.
 
-7. Visit `https://localhost:44300` (note that logins only work with accounts in your AAD tenant used above)
+8. Visit `https://localhost:44300` (note that logins only work with accounts in your AAD tenant used above)
 
-8. **Optional**: You can run `ng build --watch` in `..\\AzureFunctionsPortal\\AzureFunctions.AngularClient` to launch ng builder in watch mode.
+9. **Optional**: You can run `ng build --watch` in `..\\AzureFunctionsPortal\\AzureFunctions.AngularClient` to launch ng builder in watch mode.
 
 
 ## Code and branches
