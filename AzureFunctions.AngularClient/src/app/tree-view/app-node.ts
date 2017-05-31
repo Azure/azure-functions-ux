@@ -421,7 +421,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     the initialization fails
 */
 export class SlotNode extends AppNode {
-    public showExpandIcon = false;
     constructor(
         sideBar: SideNavComponent,
         siteArmCacheObj: ArmObj<Site>,

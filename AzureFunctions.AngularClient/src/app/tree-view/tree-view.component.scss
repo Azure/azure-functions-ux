@@ -1,103 +1,50 @@
 @import '../../sass/main';
 
-.fa-caret-right{
-    margin-left: 2px;
-}
-
-.tree{
-    margin: 0px;
-    list-style-type: none;
-    padding-left: 0px;
-    line-height: 25px;
-
-    li{
-        list-style-type: none;
-    }
-}
-
-hr.tree-node-separator{
-    width: 90%;
-    margin: 0px 10px;
-    border-top: $border;
-    border-top-color: darken($border-color, 10%);
-}
-
-.selected-first-level-node{
-    background-color: $body-bg-color;
-    border-top: $border;
-    border-bottom: $border;
-    margin-right: 1px;
-}
-
-.try-root-node{
-    @extend .selected-first-level-node;
-    padding-top: 5px;
-}
-
-// Styles for regular nodes
 .tree-node{
     height: 34px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-top: 8px;
+    cursor: pointer;
     position: relative;
-    padding-top: 4px;
-
-    .tree-node-content{
-        top: 2px;
-
-        .fa.fa-caret-right, .fa.fa-caret-down{
-            font-size: 18px;
-            vertical-align: middle;
-        }
-
-        .fa.fa-caret-right{
-            margin-right: 2px;
-        }
-    }
 
     &:hover{
         background-color: $tree-node-hover-color;
     }
-}
 
-.app-node{
-    padding-right: 51px;
-}
+    &.selected{
+        background-color: $tree-node-selection-color;
+    }
 
-.proxy-node{
-    padding-right: 10px;
-}
+    .fa.fa-caret-right, .fa.fa-caret-down{
+        font-size: 18px;
+        vertical-align: middle;
+    }
 
-.tree-node-selected{
-    background-color: $tree-node-selection-color !important;
-}
+    .fa.fa-caret-down{
+        margin-left: 2px;
+    }
 
-.tree-node-advanced-enabled{
-    color : $primary-color;
-}
+    .fa.fa-caret-right{
+        margin-right: 2px;
+        margin-left: 4px;
+    }
 
-.tree-node-children{
-    max-height: calc(100% - 104px);
-    width: $sidenav-width;
-    overflow-y: auto;
-    position: absolute;
-    margin-top: 1px;
-}
+    &.app-node{
+        padding-right: 51px;
+    }
 
-.tree-node-disabled{
-    color : darken($border-color, 30%);
-}
-
-.tree-node-title{
-    margin-left: 2px;
+    &.collection-node{
+        padding-right: 22px;
+    }
 }
 
 .tree-node-menu{
-    margin-right: 10px;
     font-size: 20px;
     color: $primary-color;
     position: absolute;
+    top: 4px;
     right: 5px;
 
     i{
@@ -107,6 +54,20 @@ hr.tree-node-separator{
             color: $primary-color-hover;
         }
     }
+}
+
+.top-level-children{
+    max-height: calc(100% - 109px);
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+}
+
+hr.tree-node-separator{
+    width: 90%;
+    margin: 0px 10px;
+    border-top: $border;
+    border-top-color: darken($border-color, 10%);
 }
 
 .tree-node-function-edit-icon{
@@ -144,9 +105,4 @@ hr.tree-node-separator{
         margin-top: -1px;
         margin-left: 2px;
     }
-}
-
-.root-node-collection-icon{
-    @extend .tree-node-collection-icon;
-    margin-left: 5px;
 }

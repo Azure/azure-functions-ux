@@ -1,3 +1,4 @@
+import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
@@ -54,6 +55,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public supportsScope = false;
     public disabled = false;
     public inSelectedTree = false;
+
+    public treeView : TreeViewComponent;
 
     constructor(
         public sideNav : SideNavComponent,

@@ -26,6 +26,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunctionAutoDetect;
+    public nodeClass = "tree-node collection-node";
     public action: Action;
 
     constructor(

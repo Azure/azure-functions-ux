@@ -20,6 +20,7 @@ export class SlotsNode extends TreeNode {
     public dashboardType = DashboardType.slots;
     public newDashboardType = DashboardType.createSlot;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
+    public nodeClass = "tree-node collection-node";
 
     constructor(
         sideNav: SideNavComponent,
@@ -58,5 +59,9 @@ export class SlotsNode extends TreeNode {
 
         this._removeHelper(removeIndex, callRemoveOnChild);
          this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
+    }
+
+    public dispose(newSelectedNode? : TreeNode){
+        this.parent.dispose(newSelectedNode);
     }
 }

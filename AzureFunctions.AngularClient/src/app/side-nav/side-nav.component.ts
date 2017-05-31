@@ -116,6 +116,7 @@ export class SideNavComponent{
 
                 this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appsNode];
+                this.rootNode.isExpanded = true;
 
                 // Need to allow the appsNode to wire up its subscriptions
                 setTimeout(() =>{
@@ -175,6 +176,7 @@ export class SideNavComponent{
 
             this.rootNode = new TreeNode(this, null, null);
             this.rootNode.children = [appNode];
+            this.rootNode.isExpanded = true;
         })
     }
 

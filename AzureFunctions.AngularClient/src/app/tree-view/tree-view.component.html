@@ -1,68 +1,61 @@
-<ul class="tree">
-  <li *ngFor="let child of node.children"
-    [class.selected-first-level-node]="level === 1 && child.inSelectedTree && !showTryView"
-    [class.try-root-node]="level === 0 && showTryView">
+<div *ngIf="level > 0"
+     class="tree-node"
+     [style.padding-left]="paddingLeft"
+     [class]="node.nodeClass"
+     [class.clickable]="!node.disabled"
+     [class.selected]="node.sideNav && node.sideNav.resourceId === node.resourceId"
+     [class.try-root-node]="level === 0 && showTryView"
+     (mouseenter)="node.showMenu = true"
+     (mouseleave)="node.showMenu = false"
+     (click)="node.select()">
 
-    <div (mouseenter)="child.showMenu = true"
-         (mouseleave)="child.showMenu = false"
-         [class]="child.nodeClass"
-         [class.clickable]="!child.disabled"
-         [class.tree-node-selected]="child.sideNav && child.sideNav.resourceId === child.resourceId"
-         (click)="child.select()">
+  <!-- Expand node icon -->
+  <i *ngIf="node.showExpandIcon"
+    class="fa"
+    [class.fa-caret-right]="!node.isExpanded"
+    [class.fa-caret-down]="node.isExpanded"
+    (click)="node.toggle($event)"></i>
 
-        <span class="tree-node-content" [style.margin-left]="margin">
+  <!-- Custom icon per node -->
+  <i *ngIf="node.iconClass" [class]="node.iconClass">
+    <img *ngIf="node.iconUrl" [src]="node.iconUrl" />
+  </i>
 
-            <!-- Expand node icon -->
-            <i *ngIf="child.showExpandIcon"
-              class="fa"
-              [class.fa-caret-right]="!child.isExpanded"
-              [class.fa-caret-down]="child.isExpanded"
-              (click)="child.toggle($event)"></i>
+  {{node.title}}
 
-            <!-- Custom icon per node -->
-            <i *ngIf="child.iconClass" [class]="child.iconClass">
-              <img *ngIf="child.iconUrl" [src]="child.iconUrl" />
-            </i>
+  <i *ngIf="node.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
 
-            <span [class.tree-node-disabled]="child.disabled" class="tree-node-title">
-                  {{ child.title }}
-            </span>
+  <!-- Optional menu icons that show up on right side of each node -->
+  <span class="tree-node-menu">
 
-            <!-- Loading icon right.  Only shows if expanded or root -->
-            <i *ngIf="child.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+    <span *ngIf="node.showMenu || node.inSelectedTree">
+      
+      <i *ngIf="node.disabled"
+        class="fa fa-info-circle"
+        title="You either do not have access to this app or there are orphaned slots associated with it"></i>
 
-            <!-- Optional menu icons that show up on right side of each node -->
-            <span class="tree-node-menu">
+      <i *ngIf="!!node.newDashboardType"
+          (click)="node.openCreateNew($event)"
+          class="fa fa-plus"
+          title="New"></i>
 
-              <span *ngIf="child.showMenu || child.inSelectedTree">
-                <i *ngIf="child.disabled"
-                  class="fa fa-info-circle"
-                  title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+      <i *ngIf="node.supportsRefresh"
+        (click)="node.refresh($event)"
+        class="fa fa-refresh tree-node-refresh-icon"
+        title="Refresh"></i>
 
-                <i *ngIf="!!child.newDashboardType"
-                    (click)="child.openCreateNew($event)"
-                    class="fa fa-plus"
-                    title="New"></i>
+      <i *ngIf="node.supportsScope && !showTryView"
+        class="fa fa-angle-double-right tree-node-scope-icon"
+        (click)="node.scopeToNode()"
+        title="Scope to this app"></i>
+    </span>
+  </span>
+</div>
 
-                <i *ngIf="child.supportsRefresh"
-                  (click)="child.refresh($event)"
-                  class="fa fa-refresh tree-node-refresh-icon"
-                  title="Refresh"></i>
+<hr *ngIf="level === 1 && !showTryView" class="tree-node-separator" />
 
-                <i *ngIf="child.supportsScope && !showTryView"
-                  class="fa fa-angle-double-right tree-node-scope-icon"
-                  (click)="child.scopeToNode()"
-                  title="Scope to this app"></i>
-              </span>
-            </span>
-        </span>
-    </div>
-
-    <hr *ngIf="level === 0 && !showTryView" class="tree-node-separator" />
-
-    <!-- Child nodes in the tree if the current node expands -->
-    <div *ngIf="child.isExpanded" [class.tree-node-children]="level === 0">
-      <tree-view [node]="child" [levelInput]="level + 1"></tree-view>
-    </div>
-  </li>
-</ul>
+<div *ngIf="node.isExpanded" [class.top-level-children]="level === 1">
+  <tree-view *ngFor="let child of node.children"
+              [node]="child"
+              [levelInput]="level + 1"></tree-view>
+</div>

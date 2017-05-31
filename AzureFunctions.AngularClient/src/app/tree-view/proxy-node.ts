@@ -18,7 +18,6 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
     public title = "Proxy";
     public dashboardType = DashboardType.proxy;
     public showExpandIcon = false;
-    public nodeClass = "tree-node proxy-node";
 
     constructor(
         sideNav : SideNavComponent,
