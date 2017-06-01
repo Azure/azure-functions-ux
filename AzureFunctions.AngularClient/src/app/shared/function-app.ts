@@ -333,36 +333,35 @@ export class FunctionApp {
 
     getApiProxies() {
 
-        return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-            .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
-            .retryWhen(e => e.scan((errorCount: number, err: Response) => {
-                if (err.status === 404 || errorCount >= 10) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(200))
-            .catch(_ => Observable.of({
-                json: () => { return {}; }
-            }))
-            .flatMap(r => {
-                return this._cacheService.get(Constants.serviceHost + '/schemas/proxies.json', false, this.getScmSiteHeaders()).map(schema => {
-                    if (r.json().proxies) {
-                        var validateResult = jsonschema.validate(r.json(), schema.json()).toString();
-
-
-
-                        if (validateResult) {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${validateResult}`,
-                                errorId: ErrorIds.deserializingKudusFunctionList,
-                                errorType: ErrorType.Fatal
-                            });
-                            return ApiProxy.fromJson({});
-                        }
+        return Observable.zip(
+            this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
+                .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    if (err.status === 404 || errorCount >= 10) {
+                        throw err;
                     }
-                    return ApiProxy.fromJson(r.json());
-                });
-            });
+                    return errorCount + 1;
+                }, 0).delay(200))
+                .catch(_ => Observable.of({
+                    json: () => { return {}; }
+                })),
+            this._cacheService.get(Constants.serviceHost + '/schemas/proxies.json', false, this.getScmSiteHeaders()),
+            (p, s) => ({proxies: p.json(), schema: s.json()})
+        ).map(r => {
+            if (r.proxies.proxies) {
+                var validateResult = jsonschema.validate(r.proxies, r.schema).toString();
+
+                if (validateResult) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${validateResult}`,
+                        errorId: ErrorIds.proxySchemaValidationFails,
+                        errorType: ErrorType.Fatal
+                    });
+                    return ApiProxy.fromJson({});
+                }
+            }
+            return ApiProxy.fromJson(r.proxies);
+        });
     }
 
     saveApiProxy(jsonString: string) {
