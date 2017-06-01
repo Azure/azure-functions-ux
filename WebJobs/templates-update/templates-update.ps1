@@ -2,36 +2,40 @@ if ($Env:FUNCTIONS_SLOT_NAME -eq "Production") {
     exit(0)
 }
 
-function ExecuteTemplatesBuild($buildRoot, $outPath) {      
-    $scriptPath = $buildRoot + "\build.ps1"
-    New-Item $outPath -Type Directory
-    if (Test-Path -Path $scriptPath -PathType Leaf) {                
+function ExecuteTemplatesBuild($buildRoot, $outPath) {        
+    $templatesFolder = Join-Path $buildRoot -ChildPath "Functions.Templates"                
+    $projectFile = Join-Path $buildRoot -ChildPath  "Functions.Templates\Functions.Templates.csproj"
+    $toolsScript = Join-Path $buildRoot -ChildPath "\getTools.ps1"    
+
+    # Execute build if the project file is present, otherwise leave things as is
+    if ((Test-Path -Path $templatesFolder) -and (Test-Path -Path $projectFile -PathType Leaf)) {             
         try {
-            Invoke-Expression "$scriptPath -target Portal"   
+            Invoke-Expression $toolsScript
+            Set-Location $templatesFolder
+            Start-Process msbuild -ArgumentList $projectFile -NoNewWindow -Wait
         }
         catch {
-            Write-Output "Error executing build Script"
+            Write-Output "Error executing build"
             Write-Output  $_.Exception|format-list -force
             Exit
-        }                    
-        # Move over the contents from build output to App_data
-        $portalOutputFolder = $buildRoot + "\bin\portal\release\Azure.Functions.Templates.Portal\contents"                
-        Move-Item $portalOutputFolder "$outPath\Templates"  
+        }
+
+        # Copy over the contents from build output to App_data
+        $portalOutputFolder = Join-Path $buildRoot -ChildPath "Functions.Templates\bin\Portal\release\Azure.Functions.Templates.Portal\*"
+        Remove-Item $outPath -Recurse -Force
+        New-Item $outPath -Type Directory
+        Copy-Item $portalOutputFolder $outPath -Recurse -Force 
     }
-    else {        
-        # move the relevant items as is if there is not build        
-        Move-Item "$buildRoot\Templates" $outPath
+    else {
+        Write-Output "No build file present at $projectFile"
     }
-    Move-Item "$buildRoot\Resources" "$outPath\Resources\" 
-    Move-Item "$buildRoot\Bindings" "$outPath\Bindings\"
-    Move-Item "$buildRoot\Documentation" "$outPath\Documentation\"
 }
 
 try {
     $ProgressPreference = "SilentlyContinue"
     $siteTemplates = "$Env:Home\site\wwwroot\App_Data\Templates"
-    $apiUrl = "https://api.github.com/repos/azure/azure-webjobs-sdk-templates/tags"
-    $repoUrl = "https://github.com/azure/azure-webjobs-sdk-templates/"
+    $apiUrl = "https://api.github.com/repos/Azure/azure-webjobs-sdk-templates/tags"
+    $repoUrl = "https://github.com/Azure/azure-webjobs-sdk-templates/"
     $response = Invoke-RestMethod -Uri $apiUrl -Method GET
 
     if ($Env:FUNCTIONS_SLOT_NAME -eq "next") {
@@ -57,8 +61,9 @@ try {
     # if the branch is already cloned, make sure the latest code is fetched
     Set-Location $defaultTemplatesBinDirectory
     Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait
+    
     $hardResetBranchParameters = "reset --hard origin/$branch"
-    Start-Process git -ArgumentList $hardResetBranchParameters -NoNewWindow -Wait
+    Start-Process git -ArgumentList $hardResetBranchParameters -NoNewWindow -Wait        
 
     # Check if the branch has build files to run
     $siteDefaultTemplates = "$siteTemplates\default"
