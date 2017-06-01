@@ -24,6 +24,7 @@ export class ErrorIds {
     public static unableToDeleteFunctionKey = '/errors/unableToDeleteFunctionKey';
     public static unableToRenewFunctionKey = '/errors/unableToRenewFunctionKey';
     public static proxyWithSameNameAlreadyExists = '/errors/proxyWithSameNameAlreadyExists';
+    public static proxySchemaValidationFails = '/errors/proxySchemaValidationFails';
     public static errorParsingConfig = '/errors/errorParsingConfig';
     public static generalFunctionErrorFromHost = '/errors/generalFunctionErrorFromHost';
     public static generalHostErrorFromHost = '/errors/generalHostErrorFromHost';

@@ -344,23 +344,24 @@ export class FunctionApp {
             .catch(_ => Observable.of({
                 json: () => { return {}; }
             }))
-            .map(r => {
-                if (r.json()) {
-                    // Validate proxies.json by schema in parallel
-                    this._cacheService.get(Constants.serviceHost + '/schemas/proxies.json', false, this.getScmSiteHeaders()).subscribe(schema => {
+            .flatMap(r => {
+                return this._cacheService.get(Constants.serviceHost + '/schemas/proxies.json', false, this.getScmSiteHeaders()).map(schema => {
+                    if (r.json().proxies) {
                         var validateResult = jsonschema.validate(r.json(), schema.json()).toString();
-                        
+
+
+
                         if (validateResult) {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                 message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${validateResult}`,
                                 errorId: ErrorIds.deserializingKudusFunctionList,
                                 errorType: ErrorType.Fatal
                             });
+                            return ApiProxy.fromJson({});
                         }
-                    });
-                }
-
-                return ApiProxy.fromJson(r.json());
+                    }
+                    return ApiProxy.fromJson(r.json());
+                });
             });
     }
 
