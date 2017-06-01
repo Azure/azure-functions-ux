@@ -8,7 +8,7 @@
     <command
         displayText="{{ 'swap' | translate }}"
         iconUrl="images/swap.svg"
-        (click)="restart()"
+        (click)="openSwapBlade()"
         [disabled]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null"></command>
 
     <command
@@ -16,7 +16,6 @@
         iconUrl="images/restart.svg"
         (click)="restart()"
         [disabled]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'"></command>
-
 
     <command
         displayText="{{ 'downloadProfile' | translate}}"
