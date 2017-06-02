@@ -1440,9 +1440,9 @@ namespace AzureFunctions.ResourcesPortal {
         /// <summary>
         ///   Looks up a localized string similar to Connection.
         /// </summary>
-        internal static string eventHubPicker_conncetion {
+        internal static string eventHubPicker_connection {
             get {
-                return ResourceManager.GetString("eventHubPicker_conncetion", resourceCulture);
+                return ResourceManager.GetString("eventHubPicker_connection", resourceCulture);
             }
         }
         

@@ -3,13 +3,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
-                <span class="text-label">{{eventHubPicker_appSettingValue | translate}}</span>
+                <span class="text-label">{{'eventHubPicker_connection' | translate}}</span>
             </div>
             <div class="modal-body" style="display: flex;flex-direction:column;">
                 <div style="margin-bottom: 10px;">
                     <radio-selector [options]="options" [defaultValue]="optionTypes.eventHub" (value)="optionsChange.next($event)"></radio-selector>
                 </div>
-
 
                 <div *ngIf="option === optionTypes.eventHub" class="line">
                     <div class="select-container">
@@ -46,7 +45,7 @@
                             <option *ngFor="let item of IOTHubs.value" [value]="item">{{item.name}}</option>
                         </select>
                     </div>
-                    <div *ngIf="selectedNamespace" class="select-container">
+                    <div *ngIf="selectedIOTPolicy" class="select-container">
                         <div class="text-label">{{'eventHubPicker_policy' | translate}}</div>
                         <div *ngIf="IOTPolices?.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!IOTPolices" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
