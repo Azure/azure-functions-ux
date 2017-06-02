@@ -1115,7 +1115,7 @@ export class FunctionApp {
         return this.getAuthSettings()
             .mergeMap(authSettings => {
                 if (authSettings.clientCertEnabled || !this.masterKey) {
-                    return Observable.of('');
+                    return Observable.of(null);
                 } else {
                     return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
                         .map(r => (r.json() ))
@@ -1129,7 +1129,7 @@ export class FunctionApp {
                                 throw error;
                             }
                         })
-                        .catch(e => Observable.of(''));
+                        .catch(e => Observable.of(null));
                 }
             });
     }

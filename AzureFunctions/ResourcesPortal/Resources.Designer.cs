@@ -1429,11 +1429,56 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App setting name.
+        /// </summary>
+        internal static string eventHubPicker_appSettingName {
+            get {
+                return ResourceManager.GetString("eventHubPicker_appSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App setting value.
+        /// </summary>
+        internal static string eventHubPicker_appSettingValue {
+            get {
+                return ResourceManager.GetString("eventHubPicker_appSettingValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection.
+        /// </summary>
+        internal static string eventHubPicker_connection {
+            get {
+                return ResourceManager.GetString("eventHubPicker_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom connection string.
+        /// </summary>
+        internal static string eventHubPicker_customConnectionString {
+            get {
+                return ResourceManager.GetString("eventHubPicker_customConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event Hub.
         /// </summary>
         internal static string eventHubPicker_eventHub {
             get {
                 return ResourceManager.GetString("eventHubPicker_eventHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IOT hub.
+        /// </summary>
+        internal static string eventHubPicker_IOTHub {
+            get {
+                return ResourceManager.GetString("eventHubPicker_IOTHub", resourceCulture);
             }
         }
         
