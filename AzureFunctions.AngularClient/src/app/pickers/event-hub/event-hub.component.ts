@@ -42,6 +42,8 @@ export class EventHubComponent {
     public selectedIOTPolicy: string;
     public appSettingName: string;
     public appSettingValue: string;
+    public optionsChange: Subject<string>;
+    public optionTypes: OptionTypes = new OptionTypes();
 
     public selectInProcess: boolean = false;
     public options: SelectOption<string>[];
@@ -52,8 +54,6 @@ export class EventHubComponent {
 
     private _functionApp: FunctionApp;
     private _descriptor: SiteDescriptor;
-    private optionsChange: Subject<string>;
-    private optionTypes: OptionTypes = new OptionTypes();
 
     constructor(
         private _cacheService: CacheService,
