@@ -9,6 +9,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Response } from '@angular/http';
 import { SelectOption } from '../../shared/models/select-option';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources} from '../../shared/models/portal-resources';
 
 class OptionTypes {    
     eventHub: string = "EventHub";
@@ -16,11 +18,17 @@ class OptionTypes {
     custom: string = "Custom";
 }
 
-class IOTKey {
+interface IOTKey {
     keyName: string;
     primaryKey: string;
     rights: string;
     secondaryKey: string;
+}
+
+interface IOTEndpoint {
+    name: string;
+    value: string;
+    title: string;
 }
 
 @Component({
@@ -34,12 +42,12 @@ export class EventHubComponent {
     public eventHubs: ArmArrayResult;
     public polices: ArmArrayResult;
     public IOTHubs: ArmArrayResult;
-    public IOTPolices: IOTKey[];
+    public IOTEndpoints: IOTEndpoint[];
     public selectedNamespace: string;
     public selectedEventHub: string;
     public selectedPolicy: string;
     public selectedIOTHub: string;
-    public selectedIOTPolicy: string;
+    public selectedIOTEndpoint: string;
     public appSettingName: string;
     public appSettingValue: string;
     public optionsChange: Subject<string>;
@@ -58,18 +66,19 @@ export class EventHubComponent {
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _globalStateService: GlobalStateService, ) {
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService) {
 
         this.options = [
             {
-                displayLabel: "EventHub",
-                value: this.optionTypes.eventHub
+                displayLabel: this._translateService.instant(PortalResources.eventHubPicker_eventHub),
+                value: this.optionTypes.eventHub,
             }, {
-                displayLabel: "IOT hub",
+                displayLabel: this._translateService.instant(PortalResources.eventHubPicker_IOTHub),
                 value: this.optionTypes.IOTHub
             },
             {
-                displayLabel: "Custom",
+                displayLabel: this._translateService.instant(PortalResources.eventHubPicker_custom),
                 value: this.optionTypes.custom
             }
         ];
@@ -136,18 +145,37 @@ export class EventHubComponent {
     }
 
     onIOTHubChange(value: string) {
-        this.IOTPolices = null;
-        this.selectedIOTPolicy = null;
-        this._cacheService.postArm(value + "/listkeys", true, '2017-01-19').subscribe(r => {
-            var result = r.json();
-            if (result.value) {
-                this.IOTPolices = result.value;
-                if (this.IOTPolices.length > 0) {
-                    this.selectedIOTPolicy = this.IOTPolices[0].keyName;
+        this.IOTEndpoints = null;
+        this.selectedIOTEndpoint = null;
+        Observable.zip(
+            this._cacheService.postArm(value + "/listkeys", true, '2017-01-19'),
+            this._cacheService.getArm(value, true, '2017-01-19'),
+            (keys, hub) => ({ keys: keys.json(), hub: hub.json() })).subscribe(r => {
+
+                if (r.keys.value) {
+
+                    // find service policy
+                    var serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
+                    if (serviceKey) {
+                        this.IOTEndpoints = [
+                            {
+                                name: this._translateService.instant(PortalResources.eventHubPicker_IOTEvents),
+                                title: 'events',
+                                value: this.getIOTConnstionString(r.hub.properties.eventHubEndpoints.events.endpoint,
+                                    r.hub.properties.eventHubEndpoints.events.path, serviceKey.primaryKey)
+                            },
+                            {
+                                name: this._translateService.instant(PortalResources.eventHubPicker_IOTMonitoring),
+                                title: 'monitoring',
+                                value: this.getIOTConnstionString(r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.endpoint,
+                                    r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.path, serviceKey.primaryKey)
+                            }
+                        ];
+                        this.selectedIOTEndpoint = this.IOTEndpoints[0].value;
+                    }
                 }
-            }
-            this.setSelect();
-        });
+                this.setSelect();
+            });
     }
 
     onClose() {
@@ -192,13 +220,13 @@ export class EventHubComponent {
         } else {
             var appSettingName: string;
             var appSettingValue: string;
-            if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTPolicy) {
+            if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTEndpoint) {
 
                 var IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
-                var policy = this.IOTPolices.find(item => (item.keyName === this.selectedIOTPolicy));
+                var IOTEndpoint = this.IOTEndpoints.find(item => (item.value === this.selectedIOTEndpoint));
 
-                appSettingName = `${IOTHub.name}_${policy.keyName}_IOTHUB`;
-                appSettingValue = `HostName=${IOTHub.name}.azure-devices.net;SharedAccessKeyName=${policy.keyName};SharedAccessKey=${policy.primaryKey}`;
+                appSettingName = `${IOTHub.name}_${IOTEndpoint.title}_IOTHUB`;
+                appSettingValue = IOTEndpoint.value;
             } else if (this.option === this.optionTypes.custom && this.appSettingName && this.appSettingValue) {
                 appSettingName = this.appSettingName;
                 appSettingValue = this.appSettingValue;
@@ -240,10 +268,14 @@ export class EventHubComponent {
                 }
             case this.optionTypes.IOTHub:
                 {
-                    this.canSelect = (this.selectedIOTHub && this.selectedIOTPolicy) ? true : false;
+                    this.canSelect = (this.selectedIOTHub && this.selectedIOTEndpoint) ? true : false;
                     break;
                 }
         }
+    }
+
+    private getIOTConnstionString(endpoint: string, path:string, key: string) {
+        return `Endpoint=${endpoint};SharedAccessKeyName=iothubowner;SharedAccessKey=${key};EntityPath=${path}`;
     }
 
 }
