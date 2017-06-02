@@ -157,6 +157,8 @@ export class BindingInputComponent {
 
     closePicker() {
         this.pickerName = "";
+        var picker = <PickerInput>this.input;
+        picker.inProcess = false;
     }
 
     finishDialogPicker(appSettingName: any) {

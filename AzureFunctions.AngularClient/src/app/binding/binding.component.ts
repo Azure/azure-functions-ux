@@ -608,10 +608,6 @@ export class BindingComponent{
                    if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
                        result.push(key);
                    }
-                   // Also add IOT hub connection strings
-                   if (ResourceType.EventHub && value.indexOf("azure-devices.net") > -1) {
-                       result.push(key);
-                   }
                }
                break;
            case ResourceType.ApiHub:

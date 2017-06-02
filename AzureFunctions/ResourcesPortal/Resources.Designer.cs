@@ -1447,11 +1447,11 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Custom connection string.
+        ///   Looks up a localized string similar to Custom.
         /// </summary>
-        internal static string eventHubPicker_customConnectionString {
+        internal static string eventHubPicker_custom {
             get {
-                return ResourceManager.GetString("eventHubPicker_customConnectionString", resourceCulture);
+                return ResourceManager.GetString("eventHubPicker_custom", resourceCulture);
             }
         }
         
@@ -1465,11 +1465,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IOT hub.
+        ///   Looks up a localized string similar to Endpoint.
+        /// </summary>
+        internal static string eventHubPicker_IOTEndpoint {
+            get {
+                return ResourceManager.GetString("eventHubPicker_IOTEndpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events (built-in endpoint).
+        /// </summary>
+        internal static string eventHubPicker_IOTEvents {
+            get {
+                return ResourceManager.GetString("eventHubPicker_IOTEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IoT hub.
         /// </summary>
         internal static string eventHubPicker_IOTHub {
             get {
                 return ResourceManager.GetString("eventHubPicker_IOTHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operations monitoring.
+        /// </summary>
+        internal static string eventHubPicker_IOTMonitoring {
+            get {
+                return ResourceManager.GetString("eventHubPicker_IOTMonitoring", resourceCulture);
             }
         }
         
