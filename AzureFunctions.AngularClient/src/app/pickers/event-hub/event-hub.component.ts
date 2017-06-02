@@ -38,8 +38,8 @@ export class EventHubComponent {
     public selectedNamespace: string;
     public selectedEventHub: string;
     public selectedPolicy: string;
-    public selectedIOTHub: ArmObj<any>;
-    public selectedIOTPolicy: IOTKey;
+    public selectedIOTHub: string;
+    public selectedIOTPolicy: string;
     public appSettingName: string;
     public appSettingValue: string;
 
@@ -102,7 +102,7 @@ export class EventHubComponent {
         this._cacheService.getArm(devicesId, true, '2017-01-19').subscribe(r => {
             this.IOTHubs = r.json();
             if (this.IOTHubs.value.length > 0) {
-                this.selectedIOTHub = this.IOTHubs.value[0];
+                this.selectedIOTHub = this.IOTHubs.value[0].id;
                 this.onIOTHubChange(this.selectedIOTHub);
             }
         });
@@ -135,15 +135,15 @@ export class EventHubComponent {
         });
     }
 
-    onIOTHubChange(value: ArmObj<any>) {
+    onIOTHubChange(value: string) {
         this.IOTPolices = null;
         this.selectedIOTPolicy = null;
-        this._cacheService.postArm(value.id + "/listkeys", true, '2017-01-19').subscribe(r => {
+        this._cacheService.postArm(value + "/listkeys", true, '2017-01-19').subscribe(r => {
             var result = r.json();
             if (result.value) {
                 this.IOTPolices = result.value;
                 if (this.IOTPolices.length > 0) {
-                    this.selectedIOTPolicy = this.IOTPolices[0];
+                    this.selectedIOTPolicy = this.IOTPolices[0].keyName;
                 }
             }
             this.setSelect();
@@ -193,8 +193,12 @@ export class EventHubComponent {
             var appSettingName: string;
             var appSettingValue: string;
             if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTPolicy) {
-                appSettingName = `${this.selectedIOTHub.name}_${this.selectedIOTPolicy.keyName}_IOTHUB`;
-                appSettingValue = `HostName=${this.selectedIOTHub.name}.azure-devices.net;SharedAccessKeyName=${this.selectedIOTPolicy.keyName};SharedAccessKey=${this.selectedIOTPolicy.primaryKey}`;
+
+                var IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
+                var policy = this.IOTPolices.find(item => (item.keyName === this.selectedIOTPolicy));
+
+                appSettingName = `${IOTHub.name}_${policy.keyName}_IOTHUB`;
+                appSettingValue = `HostName=${IOTHub.name}.azure-devices.net;SharedAccessKeyName=${policy.keyName};SharedAccessKey=${policy.primaryKey}`;
             } else if (this.option === this.optionTypes.custom && this.appSettingName && this.appSettingValue) {
                 appSettingName = this.appSettingName;
                 appSettingValue = this.appSettingValue;
