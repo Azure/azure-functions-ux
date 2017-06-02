@@ -194,7 +194,7 @@ export class EventHubComponent {
             var appSettingValue: string;
             if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTPolicy) {
                 appSettingName = `${this.selectedIOTHub.name}_${this.selectedIOTPolicy.keyName}_IOTHUB`;
-                appSettingValue = `HostName=${this.selectedIOTHub.name}.azure-devices.net;SharedAccessKeyName=${this.selectedIOTPolicy.primaryKey}`;
+                appSettingValue = `HostName=${this.selectedIOTHub.name}.azure-devices.net;SharedAccessKeyName=${this.selectedIOTPolicy.keyName};SharedAccessKey=${this.selectedIOTPolicy.primaryKey}`;
             } else if (this.option === this.optionTypes.custom && this.appSettingName && this.appSettingValue) {
                 appSettingName = this.appSettingName;
                 appSettingValue = this.appSettingValue;
