@@ -565,5 +565,11 @@ export class PortalResources
     public static functionManage_deleteApp: string = "functionManage_deleteApp";
     public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
     public static readOnlySlots: string = "readOnlySlots";
+    public static functionRuntime_manageAppSettings: string = "functionRuntime_manageAppSettings";
+    public static eventHubPicker_IOTHub: string = "eventHubPicker_IOTHub";
+    public static eventHubPicker_appSettingName: string = "eventHubPicker_appSettingName";
+    public static eventHubPicker_appSettingValue: string = "eventHubPicker_appSettingValue";
+    public static eventHubPicker_conncetion: string = "eventHubPicker_conncetion";
+    public static eventHubPicker_customConnectionString: string = "eventHubPicker_customConnectionString";
 }
 

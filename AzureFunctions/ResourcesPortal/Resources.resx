@@ -1813,4 +1813,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionRuntime_manageAppSettings" xml:space="preserve">
     <value>Manage application settings</value>
   </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IOT hub</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>App setting name</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>App setting value</value>
+  </data>
+  <data name="eventHubPicker_conncetion" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="eventHubPicker_customConnectionString" xml:space="preserve">
+    <value>Custom connection string</value>
+  </data>
 </root>
