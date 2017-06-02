@@ -133,12 +133,7 @@ export class MonacoEditorDirective {
         this._globalStateService.setBusyState();
 
         let onGotAmdLoader = () => {
-            // Load monaco
-            if (window.location.hostname === 'localhost' || this._configService.isStandalone()) {
-                (<any>window).require.config({ paths: { 'vs': '/ng/assets/monaco/min/vs' } });
-            } else {
-                (<any>window).require.config({ paths: { 'vs': '/assets/monaco/min/vs' } });
-            }
+            (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });
             (<any>window).require(['vs/editor/editor.main'], () => {
                 let that = this;
                 if (that._editor) {
