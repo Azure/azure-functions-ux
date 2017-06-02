@@ -1822,7 +1822,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="eventHubPicker_appSettingValue" xml:space="preserve">
     <value>App setting value</value>
   </data>
-  <data name="eventHubPicker_conncetion" xml:space="preserve">
+  <data name="eventHubPicker_connection" xml:space="preserve">
     <value>Connection</value>
   </data>
   <data name="eventHubPicker_customConnectionString" xml:space="preserve">
