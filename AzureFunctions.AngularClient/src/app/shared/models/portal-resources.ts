@@ -540,7 +540,7 @@ export class PortalResources
     public static eventHubPicker_eventHub: string = "eventHubPicker_eventHub";
     public static eventHubPicker_namespace: string = "eventHubPicker_namespace";
     public static notFound: string = "notFound";
-    public static eventHubPicker_policy: string = "eventHubPicker_policy";
+    public static eventHubPicker_IOTEndpoint: string = "eventHubPicker_IOTEndpoint";
     public static emptyBrowse_title: string = "emptyBrowse_title";
     public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
     public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
@@ -569,6 +569,10 @@ export class PortalResources
     public static eventHubPicker_IOTHub: string = "eventHubPicker_IOTHub";
     public static eventHubPicker_appSettingName: string = "eventHubPicker_appSettingName";
     public static eventHubPicker_appSettingValue: string = "eventHubPicker_appSettingValue";
+
+    public static eventHubPicker_custom: string = "eventHubPicker_custom";
+    public static eventHubPicker_IOTEvents: string = "eventHubPicker_IOTEvents";
+    public static eventHubPicker_IOTMonitoring: string = "eventHubPicker_IOTMonitoring";
     public static eventHubPicker_conncetion: string = "eventHubPicker_conncetion";
     public static eventHubPicker_customConnectionString: string = "eventHubPicker_customConnectionString";
     public static error_schemaValidationProxies: string = "error_schemaValidationProxies";
