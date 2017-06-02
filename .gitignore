@@ -12,6 +12,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 AzureFunctions/ng
+AzureFunctions/ng-full
+AzureFunctions/ng-min
 
 # User-specific files
 *.suo

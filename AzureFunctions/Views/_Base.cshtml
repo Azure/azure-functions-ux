@@ -1,0 +1,52 @@
+﻿@using System.Web.Http;
+@using AzureFunctions.Contracts;
+@using AzureFunctions.Common;
+
+@{
+    var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
+    var clientConfig = settings.GetClientConfiguration();
+
+    var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
+    bool isOnPrem = System.Configuration.ConfigurationManager.AppSettings["RuntimeType"] == "OnPrem";
+    var view = View.Azure;
+
+    if (!isAzure)
+    {
+        view = View.Local;
+    }
+    else if (isAzure && isOnPrem)
+    {
+        view = View.OnPrem;
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AzureFunctions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        window.appsvc = {
+            env: {
+                hostName: '@Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")',
+                runtimeType: '@clientConfig.RuntimeType',
+                azureResourceManagerEndpoint: '@clientConfig.AzureResourceManagerEndpoint'
+            }
+        };
+    </script>
+    <link rel="stylesheet" type="text/css" href="/iframe-loading.css" />
+    @ViewHelpers.RenderHead(this, view)
+</head>
+<body>
+    <app-root>
+        <div class="fxs-progress">
+            <div class="fxs-progress-dots">
+                <div></div><div></div><div></div>
+            </div>
+        </div>
+    </app-root>
+    @ViewHelpers.RenderBody(this, view)
+    <script src="assets/monaco/min/vs/loader.js"></script>
+</body>
+</html>

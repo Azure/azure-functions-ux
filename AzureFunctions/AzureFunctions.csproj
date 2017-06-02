@@ -65,6 +65,9 @@
       <HintPath>..\packages\Destructurama.JsonNet.1.0.3\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -216,7 +219,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Default_bac.cshtml" />
+    <Content Include="Views\_Base.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -226,6 +229,9 @@
     <None Include="Web.Standalone.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="Views\_Azure.cshtml" />
+    <Content Include="Views\_OnPrem.cshtml" />
+    <Content Include="Views\_Local.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -258,6 +264,9 @@
     <Compile Include="Common\ActionIds.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ErrorIds.cs" />
+    <Compile Include="Common\IDictionaryExtensions.cs" />
+    <Compile Include="Common\View.cs" />
+    <Compile Include="Common\ViewHelpers.cs" />
     <Compile Include="Contracts\IPassThroughRequestManager.cs" />
     <Compile Include="Models\ArmFunctionApp.cs" />
     <Compile Include="Models\ArmResource.cs" />
@@ -393,7 +402,7 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug call "$(ProjectDir)..\AzureFunctions.ResxConverter\bin\Debug\AzureFunctions.ResxConverter.exe" "$(ProjectDir)ResourcesPortal\Resources.resx" "$(ProjectDir)..\AzureFunctions.AngularClient\src\app\shared\models\portal-resources.ts"</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

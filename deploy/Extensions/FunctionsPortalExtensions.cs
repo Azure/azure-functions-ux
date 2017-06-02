@@ -48,21 +48,15 @@ namespace Deploy.Extensions
         {
             return deployment.AddStep(() =>
             {
-                var cshtmlFile = Path.Combine(_wwwroot, "Default.cshtml");
+                var cshtmlFile = Path.Combine(_wwwroot, "Views", "_Azure.cshtml");
                 var cshtml = File.ReadAllText(cshtmlFile);
                 foreach ((var pattern, var template) in _optimizedAngularArtifacts)
                 {
-                    var file = Directory.GetFiles(_wwwroot, pattern, SearchOption.TopDirectoryOnly).Single();
+                    var file = Directory.GetFiles(Path.Combine(_wwwroot, "ng-min"), pattern, SearchOption.TopDirectoryOnly).Single();
                     cshtml = cshtml.Replace(template, Path.GetFileName(file));
                 }
                 File.WriteAllText(cshtmlFile, cshtml);
             }, name: nameof(UpdateCshtml));
-        }
-
-        public static IDeployment CopySwaggerFiles(this IDeployment deployment)
-        {
-            return deployment
-                .CopyDirectory(@"%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor", @"%DEPLOYMENT_TEMP%\node_modules\swagger-editor");
         }
 
         public static IDeployment SetupTemplatesWebJob(this IDeployment deployment)
