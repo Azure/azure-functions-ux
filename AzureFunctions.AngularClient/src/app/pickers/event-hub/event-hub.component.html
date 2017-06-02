@@ -42,7 +42,7 @@
                         <div *ngIf="IOTHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!IOTHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="IOTHubs?.value?.length >0" (change)="onIOTHubChange($event.target.value)" [(ngModel)]="selectedIOTHub">
-                            <option *ngFor="let item of IOTHubs.value" [value]="item">{{item.name}}</option>
+                            <option *ngFor="let item of IOTHubs.value" [value]="item.id">{{item.name}}</option>
                         </select>
                     </div>
                     <div *ngIf="selectedIOTPolicy" class="select-container">
@@ -50,7 +50,7 @@
                         <div *ngIf="IOTPolices?.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!IOTPolices" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
                         <select *ngIf="IOTPolices?.length > 0" [(ngModel)]="selectedIOTPolicy">
-                            <option *ngFor="let item of IOTPolices" [value]="item">{{item.keyName}}</option>
+                            <option *ngFor="let item of IOTPolices" [value]="item.keyName">{{item.keyName}}</option>
                         </select>
                     </div>
 
