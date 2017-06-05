@@ -569,12 +569,11 @@ export class PortalResources
     public static eventHubPicker_IOTHub: string = "eventHubPicker_IOTHub";
     public static eventHubPicker_appSettingName: string = "eventHubPicker_appSettingName";
     public static eventHubPicker_appSettingValue: string = "eventHubPicker_appSettingValue";
-
+    public static eventHubPicker_connection: string = "eventHubPicker_connection";
     public static eventHubPicker_custom: string = "eventHubPicker_custom";
     public static eventHubPicker_IOTEvents: string = "eventHubPicker_IOTEvents";
     public static eventHubPicker_IOTMonitoring: string = "eventHubPicker_IOTMonitoring";
-    public static eventHubPicker_conncetion: string = "eventHubPicker_conncetion";
-    public static eventHubPicker_customConnectionString: string = "eventHubPicker_customConnectionString";
+    public static eventHubPicker_policy: string = "eventHubPicker_policy";
     public static error_schemaValidationProxies: string = "error_schemaValidationProxies";
 }
 

@@ -62,3 +62,8 @@ pre {
 #submit-button:hover {
     background-color: #d9000f;
 }
+
+.function-state {
+    display: flex;
+    align-items: center;
+}
