@@ -860,7 +860,7 @@
     <value>Set quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>The Function App will be stopped when reaching daily usage until the next 24 hours time frame.</value>
+    <value>When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Are you sure you want to revoke {{name}} key?</value>

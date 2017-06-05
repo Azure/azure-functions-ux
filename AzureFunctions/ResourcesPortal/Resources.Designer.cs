@@ -2302,7 +2302,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Function App will be stopped when reaching daily usage until the next 24 hours time frame..
+        ///   Looks up a localized string similar to When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC..
         /// </summary>
         internal static string functionAppSettings_quotaInfo {
             get {
