@@ -1,6 +1,10 @@
 <div id="function-runtime-container">
     <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
-        <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}</label>
+        <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}
+            <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </pop-over>
+        </label>
         <div class="quotaInput" style="padding-bottom: 10px">
             <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
             <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
