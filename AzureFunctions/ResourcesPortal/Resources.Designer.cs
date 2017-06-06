@@ -2302,6 +2302,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC..
+        /// </summary>
+        internal static string functionAppSettings_dailyUsageQuotaHelp {
+            get {
+                return ResourceManager.GetString("functionAppSettings_dailyUsageQuotaHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC..
         /// </summary>
         internal static string functionAppSettings_quotaInfo {
