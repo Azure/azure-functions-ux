@@ -2718,9 +2718,9 @@ namespace AzureFunctions.ResourcesPortal {
         /// <summary>
         ///   Looks up a localized string similar to Delete function.
         /// </summary>
-        internal static string functionManage_deleteApp {
+        internal static string functionManage_deleteFunction {
             get {
-                return ResourceManager.GetString("functionManage_deleteApp", resourceCulture);
+                return ResourceManager.GetString("functionManage_deleteFunction", resourceCulture);
             }
         }
         

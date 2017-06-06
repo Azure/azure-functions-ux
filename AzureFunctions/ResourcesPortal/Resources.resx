@@ -1801,7 +1801,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="new_" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="functionManage_deleteApp" xml:space="preserve">
+  <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>Delete function</value>
   </data>
   <data name="functionService_clientCertEnabled" xml:space="preserve">

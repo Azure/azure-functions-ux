@@ -562,7 +562,7 @@ export class PortalResources
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
     public static functionsList_searchFunctions: string = "functionsList_searchFunctions";
     public static new_: string = "new_";
-    public static functionManage_deleteApp: string = "functionManage_deleteApp";
+    public static functionManage_deleteFunction: string = "functionManage_deleteFunction";
     public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
     public static readOnlySlots: string = "readOnlySlots";
     public static functionRuntime_manageAppSettings: string = "functionRuntime_manageAppSettings";
