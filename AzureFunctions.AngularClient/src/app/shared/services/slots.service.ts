@@ -27,42 +27,15 @@ export class SlotsService {
 
     //Create Slot
     createNewSlot(siteId: string, slotName: string, loc: string, serverfarmId: string) {
-        // set the config settings similar to function App
-        return this._cacheService.postArm(`${siteId}/config/appsettings/list`, true).flatMap(r => {
-            let tGuid = Guid.newTinyGuid().toLowerCase();
-            let props = r.json().properties;
-            var currentAppSettings = [];
-
-            for (var key in props) { // copy all the settings except for the content share we override this with a guid
-                if (props.hasOwnProperty(key) && key.toLowerCase() !== Constants.contentShareConfigSettingsName.toLowerCase()) {
-                    currentAppSettings.push({
-                        name: key,
-                        value: props[key]
-                    });
-                }
-            }
-            // the name limit is 63 https://blogs.msdn.microsoft.com/jmstall/2014/06/12/azure-storage-naming-rules/ guid is 3 characters long
-            // Fix for issue: #1318 - Old content around if I delete and recreate a slot with same name
-            let containerPrefix = slotName.length < 59 ? slotName : slotName.substr(0, 59);
-            currentAppSettings.push({
-                name: Constants.contentShareConfigSettingsName,
-                value: `${slotName}${tGuid}`
-            });
-
             // create payload
             let payload = JSON.stringify({
                 location: loc,
                 properties: {
-                    serverFarmId: serverfarmId,
-                    siteConfig: {
-                        appSettings: currentAppSettings
-                    }
+                    serverFarmId: serverfarmId
                 }
             });
             return this._cacheService.putArm(`${siteId}/slots/${slotName}`, this._armService.websiteApiVersion, payload);
-        })
-
-    }
+        }
 
     public static isSlot(siteId: string) {
         // slots id looks like
