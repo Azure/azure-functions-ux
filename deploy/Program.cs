@@ -15,6 +15,7 @@ namespace Deploy
             const string ng = @"node_modules\.bin\ng";
             var yarn = Path.Combine(toolsDirectory, "yarn");
             var msBuild = @"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe".DoubleQuote();
+            var assets = Path.Combine(deploymentSource, @"AzureFunctions.AngularClient\src\assets");
 
             DeploySdk
                 .StandardDeployment
@@ -36,7 +37,8 @@ namespace Deploy
                 .UpdateCshtml()
                 .SetupTemplatesWebJob()
                 .UpdateBuildTxt()
-                .CopyFile($@"{deploymentSource}\AzureFunctions.AngularClient\src\assets\googlecdaac16e0f037ee3.html", $@"{deploymentTarget}\googlecdaac16e0f037ee3.html")
+                .CopyFile($@"{assets}\googlecdaac16e0f037ee3.html", $@"{deploymentTarget}\googlecdaac16e0f037ee3.html")
+                .CopyDirectory($@"{assets}\schemas", $@"{deploymentTarget}\schemas")
                 .OnFail(EmailHelpers.EmailFailedRun)
                 .OnSuccess(EmailHelpers.EmailSuccessfulRun)
                 .Run();
