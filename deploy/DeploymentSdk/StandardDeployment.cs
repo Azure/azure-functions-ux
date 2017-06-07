@@ -28,9 +28,21 @@ namespace Deploy.DeploymentSdk
             return this;
         }
 
-        public IDeployment Copy(string source, string destination)
+        public IDeployment CopyDirectory(string source, string destination)
         {
-            script.Add((new CopyStep(source, destination), true));
+            script.Add((new CopyDirectoryStep(source, destination), true));
+            return this;
+        }
+
+        public IDeployment CopyFile(string source, string destination, bool overwrite = true)
+        {
+            script.Add((new CopyFileStep(source, destination, overwrite), true));
+            return this;
+        }
+
+        public IDeployment Mirror(string source, string destination)
+        {
+            script.Add((new MirrorStep(source, destination), true));
             return this;
         }
 
@@ -52,9 +64,9 @@ namespace Deploy.DeploymentSdk
             return this;
         }
 
-        public IDeployment Publish()
+        public IDeployment KuduSync()
         {
-            script.Add((new PublishStep(), true));
+            script.Add((new KuduSyncStep(), true));
             return this;
         }
 

@@ -2,12 +2,12 @@ using System;
 
 namespace Deploy.DeploymentSdk
 {
-    public class CopyStep : CmdStep
+    public class CopyDirectoryStep : CmdStep
     {
         private string source;
         private string destination;
 
-        public CopyStep(string source, string destination, int tries = 1)
+        public CopyDirectoryStep(string source, string destination, int tries = 1)
             : base("ROBOCOPY", $"\"{source}\" \"{destination}\" /E /IS", tries)
         {
             this.source = source;
