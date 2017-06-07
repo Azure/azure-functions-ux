@@ -40,15 +40,21 @@ aiInstrumentationKey = <GUID> (optional to track AppInsights events)
 
 4. Create a new IIS site from `inetmgr` with `https` binding on `44300` that points to `..\\AzureFunctionsPortal\\AzureFunctions` for root path.
 
-5. Create `app_data\\templates` folder under `..\\AzureFunctionsPortal\\AzureFunctions` and clone `git@github.com:Azure/azure-webjobs-sdk-templates.git` to `default` folder in there. Ensure the casing is correct for the new folders.
+5. Clone the templates repo to a temporary location from [https://github.com/Azure/azure-webjobs-sdk-templates](https://github.com/Azure/azure-webjobs-sdk-templates)
 
-6. You may need to run `%windir%\system32\inetsrv\appcmd unlock config -section:system.webServer/serverRuntime` from an elevated cmd window.
+6. Generate the templates for portal through the steps mentioned at [https://github.com/Azure/azure-webjobs-sdk-templates/#generate-templates-for-portal](https://github.com/Azure/azure-webjobs-sdk-templates/#generate-templates-for-portal)
 
-7. Run `iisreset` from an elevated cmd.
+7. Create `app_data\\templates\\default` folder under `..\\AzureFunctionsPortal\\AzureFunctions`
+ 
+8. Copy the template build output to the default folder
 
-8. Visit `https://localhost:44300` (note that logins only work with accounts in your AAD tenant used above)
+9. You may need to run `%windir%\system32\inetsrv\appcmd unlock config -section:system.webServer/serverRuntime` from an elevated cmd window.
 
-9. **Optional**: You can run `ng build --watch` in `..\\AzureFunctionsPortal\\AzureFunctions.AngularClient` to launch ng builder in watch mode.
+10 Run `iisreset` from an elevated cmd.
+
+11. Visit `https://localhost:44300` (note that logins only work with accounts in your AAD tenant used above)
+
+12. **Optional**: You can run `ng build --watch` in `..\\AzureFunctionsPortal\\AzureFunctions.AngularClient` to launch ng builder in watch mode.
 
 
 ## Code and branches
