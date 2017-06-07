@@ -62,7 +62,7 @@ namespace Deploy.Extensions
         public static IDeployment CopySwaggerFiles(this IDeployment deployment)
         {
             return deployment
-                .Copy(@"%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor", @"%DEPLOYMENT_TEMP%\node_modules\swagger-editor");
+                .CopyDirectory(@"%DEPLOYMENT_SOURCE%\AzureFunctions.AngularClient\node_modules\swagger-editor", @"%DEPLOYMENT_TEMP%\node_modules\swagger-editor");
         }
 
         public static IDeployment SetupTemplatesWebJob(this IDeployment deployment)
