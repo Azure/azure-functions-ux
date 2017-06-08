@@ -34,9 +34,10 @@ namespace Deploy.Extensions
         {
             return deployment.AddStep(() =>
             {
+                var minPath = Path.Combine(_wwwroot, "ng-min");
                 foreach (var pattern in _optimizedAngularArtifacts.Select(t => t.pattern).Concat(_notOptimizedAngularArtifacts))
                 {
-                    foreach (var file in Directory.GetFiles(_wwwroot, pattern, SearchOption.TopDirectoryOnly))
+                    foreach (var file in Directory.GetFiles(minPath, pattern, SearchOption.TopDirectoryOnly))
                     {
                         File.Delete(file);
                     }
