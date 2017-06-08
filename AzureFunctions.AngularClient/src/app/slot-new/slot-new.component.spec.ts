@@ -1,3 +1,4 @@
+import { AppModule } from './../app.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SlotNewComponent } from './slot-new.component';
@@ -7,9 +8,7 @@ describe('SlotNewComponent', () => {
   let fixture: ComponentFixture<SlotNewComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SlotNewComponent ]
-    })
+    TestBed.configureTestingModule(AppModule.moduleDefinition)
     .compileComponents();
   }));
 

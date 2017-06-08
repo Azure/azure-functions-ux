@@ -11,12 +11,12 @@
 
   <label class="name-label">{{ '_name' | translate }}</label>
   <textbox class="name-textbox"
-    [control]="group.controls['name']"
+    [control]="group?.controls['name']"
     [placeholder]="Resources.enterName | translate"></textbox>
 
   <button
-    [class.custom-button]="group.valid && group.dirty"
-    [class.custom-button-disabled]="!group.valid || !group.dirty"
-    [disabled]="!group.valid || !group.dirty"    
+    [class.custom-button]="group?.valid && group?.dirty"
+    [class.custom-button-disabled]="!group?.valid || !group?.dirty"
+    [disabled]="!group?.valid || !group?.dirty"
     (click)="create()">{{ 'create' | translate }}</button>
 </div>

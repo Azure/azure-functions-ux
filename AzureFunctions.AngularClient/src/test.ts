@@ -6,6 +6,10 @@ import 'zone.js/dist/sync-test';
 import 'zone.js/dist/jasmine-patch';
 import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
+import './polyfills/window';
+import './polyfills/string';
+import './polyfills/object';
+
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
@@ -16,6 +20,14 @@ import {
 declare var __karma__: any;
 declare var require: any;
 
+window.appsvc = {
+    env: {
+        hostName: '',
+        runtimeType: '',
+        azureResourceManagerEndpoint: ''
+    }
+};
+
 // Prevent Karma from running prematurely.
 __karma__.loaded = function () {};
 
@@ -25,6 +37,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
+// const context = require.context('./', true, /\.spec\.ts$/);
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

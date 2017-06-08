@@ -1,4 +1,4 @@
-<event-hub *ngIf="pickerName === 'EventHub'" 
+<event-hub *ngIf="pickerName === 'EventHub'"
                 [functionApp]="functionApp"
                 (close)="closePicker($event)"
                 (select)="finishDialogPicker($event)">
@@ -6,14 +6,14 @@
 
 <!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">
-    <label [attr.for]="input.id" class="control-label">
-        {{input.label}}
-        <pop-over [message]="input.help">
+    <label [attr.for]="input?.id" class="control-label">
+        {{input?.label}}
+        <pop-over [message]="input?.help">
             <span class="glyphicon glyphicon-info-sign"></span>
         </pop-over>
     </label>
 
-    <div *ngIf="input.type === 'string' || input.type === 'int'" [ngClass]="input.class">
+    <div *ngIf="input?.type === 'string' || input?.type === 'int'" [ngClass]="input?.class">
         <input [fnWriteAccess]="functionApp"
                *ngIf="input.type === 'string'" id="{{input.id}}"
                (ngModelChange)="inputChanged($event)"
@@ -45,7 +45,7 @@
 
         </div>
 
-    <div *ngIf="input.type === 'picker'" [ngClass]="input.class" class="picker-container">
+    <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class" class="picker-container">
         <select id="{{input.id}}"
                 (ngModelChange)="inputChanged($event)"
                 [(ngModel)]="input.value"
@@ -66,23 +66,23 @@
         </tooltip-content>
     </div>
 
-    <div *ngIf="input.type === 'boolean'" class="checkbox">
+    <div *ngIf="input?.type === 'boolean'" class="checkbox">
         <!-- TODO: move this to css -->
         <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="functionApp">
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
-    <div *ngIf="input.type === 'label'">
+    <div *ngIf="input?.type === 'label'">
         <input [fnWriteAccess]="functionApp" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
-    <div *ngIf="input.type === 'enum'" id="enum-list">
+    <div *ngIf="input?.type === 'enum'" id="enum-list">
         <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp"></drop-down>
         <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
     </div>
 
-    <div *ngIf="input.type === 'checkBoxList'" class="methods-list">
+    <div *ngIf="input?.type === 'checkBoxList'" class="methods-list">
         <div *ngFor="let item of input.enum">
             <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="functionApp"> {{ item.display }}
         </div>

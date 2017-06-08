@@ -1,25 +1,24 @@
+import { AppModule } from './../../app.module';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ClickToEditTextboxComponent } from './click-to-edit-textbox.component';
+import { ClickToEditComponent } from './click-to-edit.component';
 
-describe('ClickToEditTextboxComponent', () => {
-  let component: ClickToEditTextboxComponent;
-  let fixture: ComponentFixture<ClickToEditTextboxComponent>;
+describe('ClickToEditComponent', () => {
+  let component: ClickToEditComponent;
+  let fixture: ComponentFixture<ClickToEditComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ClickToEditTextboxComponent ]
-    })
+    TestBed.configureTestingModule(AppModule.moduleDefinition)
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClickToEditTextboxComponent);
+    fixture = TestBed.createComponent(ClickToEditComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

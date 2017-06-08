@@ -29,7 +29,7 @@
   <span class="tree-node-menu">
 
     <span *ngIf="node.showMenu || node.inSelectedTree">
-      
+
       <i *ngIf="node.disabled"
         class="fa fa-info-circle"
         title="You either do not have access to this app or there are orphaned slots associated with it"></i>
@@ -54,7 +54,7 @@
 
 <hr *ngIf="level === 1 && !showTryView" class="tree-node-separator" />
 
-<div *ngIf="node.isExpanded" [class.top-level-children]="level === 1">
+<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1">
   <tree-view *ngFor="let child of node.children"
               [node]="child"
               [levelInput]="level + 1"></tree-view>

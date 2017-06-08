@@ -1,3 +1,4 @@
+import { PortalService } from './portal.service';
 import { StartupInfo } from './../models/portal';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -10,8 +11,7 @@ export class LanguageServiceHelper{
         let lang = 'en';
         runtime = runtime ? runtime : 'default';
 
-        // If in IFrame
-        if (window.parent !== window) {
+        if (PortalService.inIFrame()) {
 
             // Effective language has language and formatting information eg: "en.en-us"
             lang = startupInfo.effectiveLocale.split('.')[0];

@@ -19,6 +19,7 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlySlots = false;
 
   ngOnInit() {
+    this.functionApp &&
     this.functionApp
       .getFunctionAppEditMode()
       .subscribe(editMode => {
