@@ -332,7 +332,6 @@ export class FunctionApp {
     }
 
     getApiProxies() {
-
         return Observable.zip(
             this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
                 .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
@@ -345,7 +344,7 @@ export class FunctionApp {
                 .catch(_ => Observable.of({
                     json: () => { return {}; }
                 })),
-            this._cacheService.get(Constants.serviceHost + 'schemas/proxies.json', false, this.getScmSiteHeaders()),
+            this._cacheService.get(Constants.serviceHost + 'schemas/proxies.json', false, this.getPortalHeaders()),
             (p, s) => ({proxies: p.json(), schema: s.json()})
         ).map(r => {
             if (r.proxies.proxies) {
