@@ -522,6 +522,15 @@ export class BindingComponent{
 
     showDoc(value: boolean) {
         this.isDocShown = value;
+
+        if (this.isDocShown) {
+            this._portalService.logAction(
+                'binding-component',
+                'openDocumentation', {
+                    binding: this.bindingValue.type,
+                    direction: this.bindingValue.direction
+                });
+        }
     }
 
     onAuth() {
