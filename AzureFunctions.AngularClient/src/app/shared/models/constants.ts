@@ -83,3 +83,12 @@ export class Regex{
 export class Links{
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
 }
+
+export class Order {
+    public static categoryOrder: string[] = 
+    [
+        'HttpTrigger-',
+        'TimerTrigger-',
+        'QueueTrigger-'
+    ]
+}

@@ -12,6 +12,7 @@ import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {PortalResources} from '../shared/models/portal-resources';
+import {Order} from '../shared/models/constants';
 
 interface CategoryOrder {
     name: string;
@@ -218,6 +219,23 @@ export class TemplatePickerComponent {
 
                         this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
                             return a.displayLabel > b.displayLabel ? 1 : -1;
+                        });
+
+                        this.templates.sort((a: Template, b: Template) => {
+                            var ia = Order.categoryOrder.findIndex(item => (a.value.startsWith(item)));
+                            var ib = Order.categoryOrder.findIndex(item => (b.value.startsWith(item)));
+                            if (ia === -1) {
+                                ia = Number.MAX_VALUE;
+                            }
+                            if (ib === -1) {
+                                ib = Number.MAX_VALUE;
+                            }
+                            if (ia === ib) {
+                                // If templates are not in ordered list apply alphabetical order
+                                return a.name > b.name ? 1 : -1;
+                            } else {
+                                return ia > ib ? 1 : -1;
+                            }
                         });
                 }
             });
