@@ -1,3 +1,4 @@
+import { Url } from './../Utilities/url';
 import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -47,8 +48,7 @@ export class PortalService {
 
     initializeIframe(): void {
 
-        this.shellSrc = window.location.search.match(/=(.+)/)[1];
-
+        this.shellSrc = Url.getParameterByName(window.location.href, "trustedAuthority");
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
         let appsvc = window.appsvc;

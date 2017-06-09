@@ -262,35 +262,6 @@ export class FunctionApp {
             .retryWhen(this.retryAntares);
     }
 
-    getParameterByName(url, name) {
-        if (url === null) {
-            url = window.location.href;
-        }
-
-        name = name.replace(/[\[\]]/g, '\\$&');
-        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-        let results = regex.exec(url);
-
-        if (!results) {
-            return null;
-        }
-
-        if (!results[2]) {
-            return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-
-    //setScmParams(fc: FunctionContainer) {
-    //     this._scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-    //     this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
-    //     this.siteName = fc.name;
-    //     if (fc.tryScmCred != null) {
-    //         this._globalStateService.ScmCreds = fc.tryScmCred;
-    //     }
-    // }
-
     getFunctions() {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .catch(e => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
