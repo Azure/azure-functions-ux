@@ -126,7 +126,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
             this.functionApp = r.functionApp;
             this.site = r.siteResponse.json();
-            this.exactExtensionVersion = r.hostStatus.version;
+            this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
             this._isSlotApp = SlotsService.isSlot(this.site.id);
             this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
                 ? this.site.properties.dailyMemoryTimeQuota.toString()
