@@ -281,17 +281,17 @@ export class EventHubComponent {
         switch (this.option) {
             case this.optionTypes.custom:
                 {
-                    this.canSelect = (this.appSettingName && this.appSettingValue) ? true : false;
+                    this.canSelect = !!(this.appSettingName && this.appSettingValue);
                     break;
                 }
             case this.optionTypes.eventHub:
                 {
-                    this.canSelect = (this.selectedPolicy) ? true : false;
+                    this.canSelect = !!(this.selectedPolicy);
                     break;
                 }
             case this.optionTypes.IOTHub:
                 {
-                    this.canSelect = (this.selectedIOTHub && this.selectedIOTEndpoint) ? true : false;
+                    this.canSelect = !!(this.selectedIOTHub && this.selectedIOTEndpoint);
                     break;
                 }
         }

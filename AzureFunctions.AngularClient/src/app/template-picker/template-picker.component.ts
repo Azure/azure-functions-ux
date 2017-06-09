@@ -222,8 +222,8 @@ export class TemplatePickerComponent {
                         });
 
                         this.templates.sort((a: Template, b: Template) => {
-                            var ia = Order.categoryOrder.findIndex(item => (a.value.startsWith(item)));
-                            var ib = Order.categoryOrder.findIndex(item => (b.value.startsWith(item)));
+                            var ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+                            var ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
                             if (ia === -1) {
                                 ia = Number.MAX_VALUE;
                             }
