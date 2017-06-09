@@ -7,6 +7,7 @@ import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { AiService } from '../shared/services/ai.service';
 
 import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
@@ -80,7 +81,8 @@ export class BindingComponent{
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _cacheService : CacheService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _aiService: AiService) {
         var renderer = new marked.Renderer();
 
         let funcStream = this._functionAppStream
@@ -432,12 +434,11 @@ export class BindingComponent{
     }
 
     saveClicked() {
-        this._portalService.logAction(
-            "binding-component",
-            "save-binding", {
-                type: this.bindingValue.type,
-                direction: this.bindingValue.direction
-            });
+        var data = this.getDataToLog();
+
+
+        this._portalService.logAction('binding', 'save', data);
+        this._aiService.trackEvent('/binding/save', data);
 
         this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
@@ -524,12 +525,9 @@ export class BindingComponent{
         this.isDocShown = value;
 
         if (this.isDocShown) {
-            this._portalService.logAction(
-                'binding-component',
-                'openDocumentation', {
-                    binding: this.bindingValue.type,
-                    direction: this.bindingValue.direction
-                });
+            var data = this.getDataToLog();
+            this._portalService.logAction('binding', 'openDocumentation', data);
+            this._aiService.trackEvent('binding/openDocumentation', data);
         }
     }
 
@@ -684,5 +682,12 @@ export class BindingComponent{
                }
            });
        }
+   }
+
+   private getDataToLog() {
+       return {
+           name: this.bindingValue.type.toString(),
+           direction: this.bindingValue.direction.toString()
+       };
    }
 }

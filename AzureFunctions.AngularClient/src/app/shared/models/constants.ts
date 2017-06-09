@@ -85,10 +85,34 @@ export class Links{
 }
 
 export class Order {
-    public static categoryOrder: string[] = 
+    public static templateOrder: string[] = 
     [
         'HttpTrigger-',
         'TimerTrigger-',
-        'QueueTrigger-'
+        'QueueTrigger-',
+        'BlobTrigger-',
+        'EventHubTrigger-',
+        'ServiceBusQueueTrigger-',
+        'ServiceBusTopicTrigger-',
+        'GenericWebHook-',
+        'GitHubCommenter-',
+        'GitHubWebHook-',
+        'HttpGET(CRUD)-',
+        'HttpPOST(CRUD)-',
+        'HttpPUT(CRUD)-',
+        'HttpTriggerWithParameters-',
+        'ScheduledMail-',
+        'SendGrid-',
+        'FaceLocator-',
+        'ImageResizer-',
+        'SasToken-',
+        'ManualTrigger-',
+        'CDS-',
+        'AppInsightsHttpAvailability-',
+        'AppInsightsRealtimePowerBI-',
+        'AppInsightsScheduledAnalytics-',
+        'AppInsightsScheduledDigest-',
+        'ExternalFileTrigger-',
+        'ExternalTable-'
     ]
 }
