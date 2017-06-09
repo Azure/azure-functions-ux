@@ -75,8 +75,6 @@ export class FunctionMonitorComponent implements OnDestroy {
                     let firstOfMonth = moment().startOf('month');
                     this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM Do")}`;
                     this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM Do")}`;
-                    let host = fi.functionApp.site.name;
-                    var hostId = !!host ? host : "";
 
                     return fi.functionApp.getFunctionHostStatus()
                         .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(fi, host.id))

@@ -1108,7 +1108,6 @@ export class FunctionApp {
         });
     }
 
-    @Cache()
     getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
