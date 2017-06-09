@@ -15,7 +15,7 @@
         displayText="{{ 'restart' | translate }}"
         iconUrl="images/restart.svg"
         (click)="restart()"
-        [disabled]="!hasWriteAccess || disableRestart || site?.properties.state !== 'Running'"></command>
+        [disabled]="!hasWriteAccess || site?.properties.state !== 'Running'"></command>
 
     <command
         displayText="{{ 'downloadProfile' | translate}}"

@@ -264,17 +264,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
         .mergeMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
         })
-        //Remove the below flatMap once we have Ruslan's runtime hotfix deployed
-        .flatMap(r => {
-          return this._cacheService.putArm(`${this.site.id}/config/slotConfigNames`,
-            this._armService.websiteApiVersion,
-            JSON.stringify({
-              properties: {
-                AppSettingNames: [""]
-              }
-            })
-          )
-        })
         .do(null, e => {
           this._globalStateService.clearBusyState();
           this._aiService.trackException(e, 'function-runtime')

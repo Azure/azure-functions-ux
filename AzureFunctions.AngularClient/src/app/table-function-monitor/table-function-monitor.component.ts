@@ -62,7 +62,6 @@ export class TableFunctionMonitorComponent implements OnChanges {
         this.setBusyState();
         this._functionMonitorService.getInvocationsDataForSelectedFunction(this.selectedFunction.functionApp, this.selectedFuncId)
         .subscribe(result => {
-
             this.data = result;
             this.clearBusyState();
         });
