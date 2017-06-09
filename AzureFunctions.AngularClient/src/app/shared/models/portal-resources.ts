@@ -576,5 +576,7 @@ export class PortalResources
     public static eventHubPicker_policy: string = "eventHubPicker_policy";
     public static error_schemaValidationProxies: string = "error_schemaValidationProxies";
     public static functionAppSettings_dailyUsageQuotaHelp: string = "functionAppSettings_dailyUsageQuotaHelp";
+    public static eventHubPicker_eventHubPolicy: string = "eventHubPicker_eventHubPolicy";
+    public static eventHubPicker_namespacePolicy: string = "eventHubPicker_namespacePolicy";
 }
 

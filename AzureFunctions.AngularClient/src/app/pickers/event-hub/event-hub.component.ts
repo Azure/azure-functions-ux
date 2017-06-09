@@ -40,6 +40,7 @@ interface IOTEndpoint {
 export class EventHubComponent {
     public namespaces: ArmArrayResult;
     public eventHubs: ArmArrayResult;
+    public namespacePolices: ArmArrayResult;
     public polices: ArmArrayResult;
     public IOTHubs: ArmArrayResult;
     public IOTEndpoints: IOTEndpoint[];
@@ -122,14 +123,28 @@ export class EventHubComponent {
         this.eventHubs = null;
         this.selectedEventHub = null;
         this.selectedPolicy = null;
-        this._cacheService.getArm(value + "/eventHubs", true).subscribe(r => {
-            this.eventHubs = r.json();
-            if (this.eventHubs.value.length > 0) {
-                this.selectedEventHub = this.eventHubs.value[0].id;
-                this.onEventHubChange(this.selectedEventHub);
-            }
-            this.setSelect();
-        });
+        Observable.zip(
+            this._cacheService.getArm(value + "/eventHubs", true),
+            this._cacheService.getArm(value + "/AuthorizationRules", true),
+            (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })).subscribe(r => {
+                this.eventHubs = r.hubs;
+                if (this.eventHubs.value.length > 0) {
+                    this.selectedEventHub = this.eventHubs.value[0].id;
+                    this.onEventHubChange(this.selectedEventHub);
+                }
+                this.namespacePolices = r.namespacePolices;
+                if (this.namespacePolices.value.length > 0) {
+                    this.namespacePolices.value.forEach((item) => {
+                        item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);;
+                    });
+
+                    this.selectedPolicy = r.namespacePolices.value[0].id;
+                    this.polices = this.namespacePolices;
+
+                }
+                this.setSelect();
+
+            });
     }
 
     onEventHubChange(value: string) {
@@ -137,6 +152,15 @@ export class EventHubComponent {
         this.polices = null;
         this._cacheService.getArm(value + "/AuthorizationRules", true).subscribe(r => {
             this.polices = r.json();
+
+            this.polices.value.forEach((item) => {
+                item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+            });
+
+            if (this.namespacePolices.value.length > 0) {
+                this.polices.value = this.polices.value.concat(this.namespacePolices.value);
+            }
+
             if (this.polices.value.length > 0) {
                 this.selectedPolicy = this.polices.value[0].id;
             }
@@ -186,21 +210,21 @@ export class EventHubComponent {
 
     onSelect() {
         if (this.option === this.optionTypes.eventHub) {
-            if (this.selectedNamespace && this.selectedEventHub && this.selectedPolicy) {
+            if (this.selectedPolicy) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 var appSettingName: string;
                 return Observable.zip(
-                    this._cacheService.getArm(this.selectedPolicy, true, "2014-09-01"),
+                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, "2015-08-01"),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
-                    (p, a) => ({ policy: p, appSettings: a }))
+                    (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
                         let namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
                         let eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
+                        let keys = r.keys.json();
 
-                        appSettingName = `${namespace.name}_${eventHub.name}_EVENTHUB`;
-                        let policy: ArmObj<any> = r.policy.json();
-                        let appSettingValue = `Endpoint=sb://${namespace.name}.servicebus.windows.net/;SharedAccessKeyName=${policy.properties.keyName};SharedAccessKey=${policy.properties.primaryKey};EntityPath=${eventHub.name}`
+                        appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB`;
+                        let appSettingValue = keys.primaryConnectionString;
 
                         var appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
@@ -262,8 +286,7 @@ export class EventHubComponent {
                 }
             case this.optionTypes.eventHub:
                 {
-                    this.canSelect = (this.selectedNamespace && this.selectedEventHub && this.selectedPolicy)
-                        ? true : false;
+                    this.canSelect = (this.selectedPolicy) ? true : false;
                     break;
                 }
             case this.optionTypes.IOTHub:

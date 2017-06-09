@@ -1474,6 +1474,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (hub policy).
+        /// </summary>
+        internal static string eventHubPicker_eventHubPolicy {
+            get {
+                return ResourceManager.GetString("eventHubPicker_eventHubPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Endpoint.
         /// </summary>
         internal static string eventHubPicker_IOTEndpoint {
@@ -1515,6 +1524,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string eventHubPicker_namespace {
             get {
                 return ResourceManager.GetString("eventHubPicker_namespace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (namespace policy).
+        /// </summary>
+        internal static string eventHubPicker_namespacePolicy {
+            get {
+                return ResourceManager.GetString("eventHubPicker_namespacePolicy", resourceCulture);
             }
         }
         
