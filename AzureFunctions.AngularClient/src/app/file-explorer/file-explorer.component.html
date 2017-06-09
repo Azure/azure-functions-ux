@@ -11,7 +11,7 @@
             {{ 'fileExplorer_upload' | translate }}
         </span>
 
-        <span [fnWriteAccess]="functionApp" [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" class="tab-label" (click)="deleteCurrentFile()">
+        <span [fnWriteAccess]="functionApp" [class.disabled]="selectedFile?.href.toLocaleLowerCase() === functionInfo?.config_href.toLocaleLowerCase()" class="tab-label" (click)="deleteCurrentFile()">
             <i class="fa fa-trash"></i>
             {{ 'fileExplorer_delete' | translate }}
         </span>
@@ -28,7 +28,7 @@
         </div>
         <div class="clickable file shifted" *ngFor="let file of files"
              (click)="selectVfsObject(file)"
-             [class.selected]="file.href.toLocaleLowerCase() === selectedFile.href.toLocaleLowerCase()"
+             [class.selected]="file.href.toLocaleLowerCase() === selectedFile?.href.toLocaleLowerCase()"
              [class.disabled]="file.isBinary"
              [title]="getFileTitle(file)">
             <i class="fa fa-file-o"></i>

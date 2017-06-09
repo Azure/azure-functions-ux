@@ -34,7 +34,7 @@ export class UserService {
         private _translateService: TranslateService) {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
-        this.inIFrame = window.parent !== window;
+        this.inIFrame = PortalService.inIFrame();
         this._inTry = window.location.pathname.endsWith('/try');
 
         this._startupInfo = {

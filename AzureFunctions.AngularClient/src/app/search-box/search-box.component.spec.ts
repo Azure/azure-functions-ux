@@ -1,3 +1,4 @@
+import { AppModule } from './../app.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchBoxComponent } from './search-box.component';
@@ -7,9 +8,7 @@ describe('SearchBoxComponent', () => {
   let fixture: ComponentFixture<SearchBoxComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SearchBoxComponent ]
-    })
+    TestBed.configureTestingModule(AppModule.moduleDefinition)
     .compileComponents();
   }));
 

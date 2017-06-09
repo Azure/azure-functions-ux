@@ -10,9 +10,7 @@ import { MultiDropDownComponent } from './multi-drop-down.component';
 //    let fixture: ComponentFixture<MultiDropDownComponent>;
 
 //  beforeEach(async(() => {
-//    TestBed.configureTestingModule({
-//        declarations: [MultiDropDownComponent ]
-//    })
+//    TestBed.configureTestingModule(AppModule.)
 //    .compileComponents();
 //  }));
 

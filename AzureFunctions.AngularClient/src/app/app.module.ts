@@ -127,7 +127,9 @@ export function AiServiceFactory() {
   return service;
 }
 
-@NgModule({
+@NgModule(AppModule.moduleDefinition)
+export class AppModule {
+  static moduleDefinition = {
   declarations: [
     AppComponent,
     GettingStartedComponent,
@@ -248,5 +250,5 @@ export function AiServiceFactory() {
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
   ],
   bootstrap: [AppComponent]
-})
-export class AppModule { }
+};
+ }

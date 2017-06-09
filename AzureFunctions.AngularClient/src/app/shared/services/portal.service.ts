@@ -31,7 +31,7 @@ export class PortalService {
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
-        if (this.inIFrame()){
+        if (PortalService.inIFrame()){
             this.initializeIframe();
         }
     }
@@ -130,7 +130,7 @@ export class PortalService {
     }
 
     startNotification(title : string, description : string){
-        if(this.inIFrame()){
+        if(PortalService.inIFrame()){
             let payload : NotificationInfo = {
                 state : "start",
                 title : title,
@@ -228,7 +228,7 @@ export class PortalService {
     }
 
     private postMessage(verb: string, data: string){
-        if(this.inIFrame()){
+        if(PortalService.inIFrame()){
             window.parent.postMessage(<Data>{
                 signature : this.portalSignature,
                 kind: verb,
@@ -237,7 +237,7 @@ export class PortalService {
         }
     }
 
-    private inIFrame() : boolean{
-        return window.parent !== window;
+    public static inIFrame() : boolean{
+        return window.parent !== window && window.location.pathname !== "/context.html";
     }
 }

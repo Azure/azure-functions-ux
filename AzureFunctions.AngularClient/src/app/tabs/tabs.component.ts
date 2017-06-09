@@ -41,8 +41,10 @@ export class TabsComponent implements AfterContentInit {
 
     selectTabHelper(tab: TabComponent) {
 
-        this.tabs.toArray().forEach(tab => tab.active = false);
-        tab.active = true;
-        this.tabSelected.emit(tab);
+        this.tabs.toArray().forEach(t => t.active = false);
+        if (tab) {
+            tab.active = true;
+            this.tabSelected.emit(tab);
+        }
     }
 }
