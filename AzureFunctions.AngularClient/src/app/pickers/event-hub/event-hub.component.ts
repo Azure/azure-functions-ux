@@ -59,7 +59,7 @@ export class EventHubComponent {
     public option: string;
     public canSelect: boolean = false;
     @Output() close = new Subject<void>();
-    @Output() select = new Subject<string>();
+    @Output() selectItem = new Subject<string>();
 
     private _functionApp: FunctionApp;
     private _descriptor: SiteDescriptor;
@@ -238,7 +238,7 @@ export class EventHubComponent {
                     })
                     .subscribe(r => {
                         this._globalStateService.clearBusyState();
-                        this.select.next(appSettingName);
+                        this.selectItem.next(appSettingName);
                     });
             }
         } else {
@@ -271,7 +271,7 @@ export class EventHubComponent {
                 })
                 .subscribe(r => {
                     this._globalStateService.clearBusyState();
-                    this.select.next(appSettingName);
+                    this.selectItem.next(appSettingName);
                 });
             }
         }
