@@ -5,6 +5,7 @@
      [class.clickable]="!node.disabled"
      [class.selected]="node.sideNav && node.sideNav.resourceId === node.resourceId"
      [class.try-root-node]="level === 0 && showTryView"
+     [class.focused]="node.isFocused"
      (mouseenter)="node.showMenu = true"
      (mouseleave)="node.showMenu = false"
      (click)="node.select()">

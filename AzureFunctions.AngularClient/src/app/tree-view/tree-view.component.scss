@@ -9,12 +9,21 @@
     cursor: pointer;
     position: relative;
 
+    // Necessary for getting the bottom/top borders showing when the
+    // first/last node in the tree when the node has keyboard focus
+    margin-top: 1px;
+    margin-bottom: 1px;
+
     &:hover{
         background-color: $tree-node-hover-color;
     }
 
     &.selected{
         background-color: $tree-node-selection-color;
+    }
+
+    &.focused{
+        outline: $border-focus;
     }
 
     .fa.fa-caret-right, .fa.fa-caret-down{
