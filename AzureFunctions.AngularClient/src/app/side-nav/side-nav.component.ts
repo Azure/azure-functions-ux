@@ -1,6 +1,6 @@
 import { SearchBoxComponent } from './../search-box/search-box.component';
 import { TreeNodeIterator } from './../tree-view/tree-node-iterator';
-import { Component, OnInit, EventEmitter, OnDestroy, Output, Input, ViewChild, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy, Output, Input, ViewChild, AfterViewInit } from '@angular/core';
 import {Http} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -46,7 +46,7 @@ import {SlotsService} from './../shared/services/slots.service';
   styleUrls: ['./side-nav.component.scss'],
   inputs: ['tryFunctionAppInput']
 })
-export class SideNavComponent implements OnInit, AfterViewInit {
+export class SideNavComponent implements AfterViewInit {
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox : SearchBoxComponent;
@@ -98,8 +98,7 @@ export class SideNavComponent implements OnInit, AfterViewInit {
         public portalService : PortalService,
         public languageService : LanguageService,
         public authZService : AuthzService,
-        public slotsService: SlotsService,
-        private _renderer: Renderer2){
+        public slotsService: SlotsService){
 
         this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
 
@@ -190,12 +189,6 @@ export class SideNavComponent implements OnInit, AfterViewInit {
         })
     }
 
-    ngOnInit() {
-        this._renderer.listen(this.treeViewContainer.nativeElement, 'focus', this._onFocus.bind(this));
-        this._renderer.listen(this.treeViewContainer.nativeElement, 'blur', this._onBlur.bind(this));
-        this._renderer.listen(this.treeViewContainer.nativeElement, 'keydown', this._onKeyDown.bind(this));
-    }
-
     ngAfterViewInit(){
         // Search box is not available for Try Functions
         if(this.searchBox){
@@ -203,7 +196,7 @@ export class SideNavComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private _onFocus(event : FocusEvent){
+    onFocus(event : FocusEvent){
         if(!this._focusedNode){
             this._focusedNode = this.rootNode.children[0];
             this._iterator = new TreeNodeIterator(this._focusedNode);
@@ -212,7 +205,7 @@ export class SideNavComponent implements OnInit, AfterViewInit {
         this._focusedNode.isFocused = true;
     }
 
-    private _onBlur(event : FocusEvent){
+    onBlur(event : FocusEvent){
         if(this._focusedNode){
 
             // Keep the focused node around in case user navigates back to it
@@ -220,7 +213,7 @@ export class SideNavComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private _onKeyDown(event : KeyboardEvent){
+    onKeyDown(event : KeyboardEvent){
         if(event.keyCode === KeyCodes.arrowDown){
             this._moveDown();
         }

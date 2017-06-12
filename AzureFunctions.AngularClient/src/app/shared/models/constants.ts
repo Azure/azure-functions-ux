@@ -118,9 +118,9 @@ export class Order {
 }
 
 export class KeyCodes{
-    public static enter = 13;
-    public static arrowLeft = 37;
-    public static arrowUp = 38;
-    public static arrowRight = 39;
-    public static arrowDown = 40;
+    public static readonly enter = 13;
+    public static readonly arrowLeft = 37;
+    public static readonly arrowUp = 38;
+    public static readonly arrowRight = 39;
+    public static readonly arrowDown = 40;
 }

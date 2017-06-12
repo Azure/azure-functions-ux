@@ -19,7 +19,12 @@
     </div>
 
     <!--<div *ngIf="selectedSubscriptions.length > 0">-->
-    <div tabindex="0" #treeViewContainer id="tree-view-container">
+    <div tabindex="0"
+         #treeViewContainer
+         id="tree-view-container"
+         (focus)="onFocus($event)"
+         (blur)="onBlur($event)"
+         (keydown)="onKeyDown($event)">
         <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
     </div>
 
