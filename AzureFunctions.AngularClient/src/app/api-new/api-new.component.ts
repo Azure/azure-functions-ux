@@ -210,7 +210,6 @@ export class ApiNewComponent implements OnInit {
                     this._globalStateService.clearBusyState();
                     this._proxiesNode.addChild(newApiProxy);
                     this._aiService.trackEvent('/actions/proxy/create');
-                    //this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
                 });
             });
 

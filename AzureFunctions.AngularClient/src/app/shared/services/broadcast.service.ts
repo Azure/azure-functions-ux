@@ -138,18 +138,6 @@ export class BroadcastService {
             case BroadcastEvent.RefreshPortal:
                 return this.refreshPortal;
 
-            case BroadcastEvent.ApiProxyAdded:
-                return this.apiProxyAddedEvent;
-
-            case BroadcastEvent.ApiProxyDeleted:
-                return this.apiProxyDeletedEvent;
-
-            case BroadcastEvent.ApiProxySelected:
-                return this.apiProxySelectedEvent;
-
-            case BroadcastEvent.ApiProxyUpdated:
-                return this.apiProxyUpdatedEvent;
-
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
         }
