@@ -43,7 +43,9 @@ export class ApiProxy {
 
                 result[name] = {};   // matchCondition and backendUri should be always on top
                 result[name].matchCondition = p.matchCondition;
-                result[name].backendUri = p.backendUri;
+                if (p.backendUri) {
+                    result[name].backendUri = p.backendUri;
+                }
                 for (var prop in p) { // custom properties
                     if (prop !== "matchCondition" && prop !== "backendUri") {
                         result[name][prop] = p[prop];
