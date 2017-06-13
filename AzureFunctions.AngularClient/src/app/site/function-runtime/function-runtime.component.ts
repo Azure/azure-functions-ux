@@ -388,6 +388,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   private _updateProxiesVersion(site: ArmObj<Site>, appSettings: ArmObj<any>, value?: string) {
+
+    if (value !== Constants.disabled) {
+        this._aiService.trackEvent('/actions/proxy/enabled');
+    }
+
     if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
       delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }

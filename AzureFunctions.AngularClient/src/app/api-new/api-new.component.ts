@@ -88,7 +88,7 @@ export class ApiNewComponent implements OnInit {
                 (f, p, a) =>({ fcs : f, proxies : p, appSettings : a.json()}))
         })
         .do(null, e =>{
-            this._aiService.trackException(e, '/errors/api-new');
+            this._aiService.trackException(e, '/errors/proxy-create');
             console.error(e);
         })
         .retry()
@@ -209,6 +209,7 @@ export class ApiNewComponent implements OnInit {
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
                     this._proxiesNode.addChild(newApiProxy);
+                    this._aiService.trackEvent('/actions/proxy/create');
                     //this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
                 });
             });
