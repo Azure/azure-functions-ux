@@ -126,7 +126,6 @@ export class ApiDetailsComponent implements OnInit {
             this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this._aiService.trackEvent('/actions/proxy/delete');
-                //this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this.apiProxyEdit);
                 this.proxiesNode.removeChild(this.apiProxyEdit);
             });
         });
@@ -172,7 +171,6 @@ export class ApiDetailsComponent implements OnInit {
 
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.ApiProxyUpdated, this.apiProxyEdit);
                     this.onReset();
                 });
             });
