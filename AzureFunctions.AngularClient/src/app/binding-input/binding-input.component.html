@@ -20,7 +20,8 @@
                [(ngModel)]="input.value"
                type="text"
                placeholder="{{input.placeholder}}"
-               [ngClass]="{'input-error':!!input.errorText}">
+               [ngClass]="{'input-error':!!input.errorText}"
+               [disabled]="!!functionReturnValue">
 
         <input [fnWriteAccess]="functionApp"
                *ngIf="input.type === 'int'" id="{{input.id}}"
