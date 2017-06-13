@@ -4,7 +4,8 @@
            [class.has-value]="!!value && warning"
            [(ngModel)]="value"
            placeholder="{{placeholder}}"
-           (keyup)="onKeyUp($event)" />
+           (keyup)="onKeyUp($event)"
+           #searchTextBox/>
     <span class="right">
         <i *ngIf="value" class="fa fa-times" (click)="onClearClick($event)"></i>
     </span>

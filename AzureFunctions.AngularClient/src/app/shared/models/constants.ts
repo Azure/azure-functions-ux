@@ -116,3 +116,11 @@ export class Order {
         'ExternalTable-'
     ]
 }
+
+export class KeyCodes{
+    public static readonly enter = 13;
+    public static readonly arrowLeft = 37;
+    public static readonly arrowUp = 38;
+    public static readonly arrowRight = 39;
+    public static readonly arrowDown = 40;
+}

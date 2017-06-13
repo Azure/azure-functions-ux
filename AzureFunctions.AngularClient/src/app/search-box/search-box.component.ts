@@ -1,4 +1,4 @@
-import { Component, Output, Input } from '@angular/core';
+import { Component, Output, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -13,7 +13,10 @@ export class SearchBoxComponent {
     @Output() onInputChange = new Subject<string>();
     @Output() onClear = new Subject<void>();
 
-  constructor() { }
+    @ViewChild('searchTextBox') searchTextBox;
+
+
+  constructor() {}
 
   onKeyUp(event: any) {
       if (event.keyCode === 27) { // ESC
@@ -26,6 +29,10 @@ export class SearchBoxComponent {
   onClearClick(event: any) {
       this.value = "";
       this.onClear.next(null);
+  }
+
+  focus(){
+    this.searchTextBox.nativeElement.focus();
   }
 
 }

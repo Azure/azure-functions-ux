@@ -1,4 +1,6 @@
-import { Component, OnInit, EventEmitter, OnDestroy, Output, Input } from '@angular/core';
+import { SearchBoxComponent } from './../search-box/search-box.component';
+import { TreeNodeIterator } from './../tree-view/tree-node-iterator';
+import { Component, OnInit, EventEmitter, OnDestroy, Output, Input, ViewChild, AfterViewInit } from '@angular/core';
 import {Http} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -13,7 +15,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm } from './../shared/models/constants';
+import { Arm, KeyCodes } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
@@ -44,8 +46,10 @@ import {SlotsService} from './../shared/services/slots.service';
   styleUrls: ['./side-nav.component.scss'],
   inputs: ['tryFunctionAppInput']
 })
-export class SideNavComponent{
+export class SideNavComponent implements AfterViewInit {
     @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
+    @ViewChild('treeViewContainer') treeViewContainer;
+    @ViewChild(SearchBoxComponent) searchBox : SearchBoxComponent;
 
     public rootNode : TreeNode;
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
@@ -57,10 +61,13 @@ export class SideNavComponent{
 
     public searchTerm = "";
     public hasValue = false;
+    public tryFunctionApp : FunctionApp;
 
     public selectedNode : TreeNode;
     public selectedDashboardType : DashboardType;
-    public firstLevelOrDescendentIsSelected : boolean;
+
+    private _focusedNode : TreeNode;    // For keyboard navigation
+    private _iterator : TreeNodeIterator;
 
     private _savedSubsKey = "/subscriptions/selectedIds";
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
@@ -69,8 +76,6 @@ export class SideNavComponent{
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-    // public tryFunctions = false;
-    public tryFunctionApp : FunctionApp;
 
     set tryFunctionAppInput(functionApp : FunctionApp){
         if(functionApp){
@@ -108,15 +113,19 @@ export class SideNavComponent{
                 // this.resourceId = !!this.resourceId ? this.resourceId : info.resourceId;
                 this.initialResourceId = info.resourceId;
 
+                this.rootNode = new TreeNode(this, null, null);
+
                 let appsNode = new AppsNode(
                     this,
+                    this.rootNode,
                     this._subscriptionsStream,
                     this._searchTermStream,
                     this.resourceId);
 
-                this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appsNode];
                 this.rootNode.isExpanded = true;
+
+                appsNode.parent = this.rootNode;
 
                 // Need to allow the appsNode to wire up its subscriptions
                 setTimeout(() =>{
@@ -168,7 +177,7 @@ export class SideNavComponent{
             let appNode = new AppNode(
                 this,
                 this.tryFunctionApp.site,
-                null,
+                this.rootNode,
                 [],
                 false);
 
@@ -178,6 +187,87 @@ export class SideNavComponent{
             this.rootNode.children = [appNode];
             this.rootNode.isExpanded = true;
         })
+    }
+
+    ngAfterViewInit(){
+        // Search box is not available for Try Functions
+        if(this.searchBox){
+            this.searchBox.focus();
+        }
+    }
+
+    onFocus(event : FocusEvent){
+        if(!this._focusedNode){
+            this._focusedNode = this.rootNode.children[0];
+            this._iterator = new TreeNodeIterator(this._focusedNode);
+        }
+
+        this._focusedNode.isFocused = true;
+    }
+
+    onBlur(event : FocusEvent){
+        if(this._focusedNode){
+
+            // Keep the focused node around in case user navigates back to it
+            this._focusedNode.isFocused = false;
+        }
+    }
+
+    onKeyDown(event : KeyboardEvent){
+        if(event.keyCode === KeyCodes.arrowDown){
+            this._moveDown();
+        }
+        else if(event.keyCode === KeyCodes.arrowUp){
+            this._moveUp();
+        }
+        else if(event.keyCode === KeyCodes.enter){
+            this._focusedNode.select();
+        }
+        else if(event.keyCode === KeyCodes.arrowRight){
+            if(this._focusedNode.showExpandIcon && !this._focusedNode.isExpanded){
+                this._focusedNode.toggle(event);
+            }
+            else{
+                this._moveDown();
+            }
+        }
+        else if(event.keyCode === KeyCodes.arrowLeft){
+            if(this._focusedNode.showExpandIcon && this._focusedNode.isExpanded){
+                this._focusedNode.toggle(event);
+            }
+            else{
+                this._moveUp();
+            }
+        }
+    }
+
+    private _moveDown(){
+        let nextNode = this._iterator.next();
+        if(nextNode){
+            this._focusedNode.isFocused = false;
+            this._focusedNode = nextNode;
+        }
+
+        this._focusedNode.isFocused = true;
+    }
+
+    private _moveUp(){
+        let prevNode = this._iterator.previous();
+        if(prevNode){
+            this._focusedNode.isFocused = false;
+            this._focusedNode = prevNode;
+        }
+
+        this._focusedNode.isFocused = true;
+    }
+
+    private _changeFocus(node : TreeNode){
+        if(this._focusedNode){
+            this._focusedNode.isFocused = false;
+            node.isFocused = true;
+            this._iterator = new TreeNodeIterator(node);
+            this._focusedNode = node;
+        }
     }
 
     updateView(newSelectedNode : TreeNode, newDashboardType : DashboardType, force? : boolean) : Observable<boolean>{
@@ -213,6 +303,8 @@ export class SideNavComponent{
         this.treeViewInfoEvent.emit(viewInfo);
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
+
+        this._changeFocus(newSelectedNode);
         return newSelectedNode.handleSelection();
     }
 

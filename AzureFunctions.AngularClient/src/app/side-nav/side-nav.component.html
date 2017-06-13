@@ -7,9 +7,7 @@
                     [value]="searchTerm"
                     [placeholder]="'search' | translate"
                     [warning]="true">
-        </search-box>        
-
-
+        </search-box>
 
         <div id="sidenav-subs">
             <multi-drop-down
@@ -21,7 +19,12 @@
     </div>
 
     <!--<div *ngIf="selectedSubscriptions.length > 0">-->
-    <div>
+    <div tabindex="0"
+         #treeViewContainer
+         id="tree-view-container"
+         (focus)="onFocus($event)"
+         (blur)="onBlur($event)"
+         (keydown)="onKeyDown($event)">
         <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
     </div>
 

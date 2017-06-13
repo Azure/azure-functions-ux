@@ -35,11 +35,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
     constructor(
         sideNav: SideNavComponent,
+        rootNode: TreeNode,
         private _subscriptionsStream : Subject<Subscription[]>,
         private _searchTermStream : Subject<string>,
         private _initialResourceId : string) {  // Should only be used for when the iframe is open on a specific app
 
-        super(sideNav, null, null);
+        super(sideNav, null, rootNode);
 
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
         this.inSelectedTree = !!this.newDashboardType;

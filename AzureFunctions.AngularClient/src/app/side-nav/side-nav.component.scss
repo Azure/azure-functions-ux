@@ -25,12 +25,16 @@
     }
 }
 
-
-
 #sidenav-subs{
     margin-top: 5px;
 }
 
 :host /deep/ multi-drop-down .multi-drop-down-container{
     width: $sidenav-width;
+}
+
+#tree-view-container{
+    &:focus{
+        outline: none;
+    }
 }
