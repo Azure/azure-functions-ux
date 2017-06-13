@@ -152,10 +152,11 @@
     <Content Include="src\app\main\main.component.html" />
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.html" />
     <Content Include="src\app\pickers\event-hub\event-hub.component.html" />
+    <Content Include="src\app\pickers\service-bus\service-bus.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
     <Content Include="src\app\proxies-list\proxies-list.component.scss" />
-    <Content Include="src\app\pickers\event-hub\event-hub.component.scss" />
+    <Content Include="src\app\pickers\picker.scss" />
     <None Include="src\app\radio-selector\radio-selector.component.scss" />
     <Content Include="src\app\proxies-list\proxies-list.component.html" />
     <Content Include="src\app\radio-selector\radio-selector.component.html" />
@@ -426,6 +427,8 @@
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
     <TypeScriptCompile Include="src\app\proxies-list\proxies-list.component.spec.ts" />

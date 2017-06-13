@@ -3859,6 +3859,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service Bus.
+        /// </summary>
+        internal static string serviceBusPicker_serviceBus {
+            get {
+                return ResourceManager.GetString("serviceBusPicker_serviceBus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
         internal static string sideBar_changeMade {

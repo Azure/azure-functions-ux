@@ -1849,4 +1849,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
     <value>(namespace policy)</value>
   </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
 </root>
