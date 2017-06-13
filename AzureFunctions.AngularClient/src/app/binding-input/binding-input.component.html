@@ -4,6 +4,12 @@
                 (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
+<service-bus *ngIf="pickerName === 'ServiceBus'"
+           [functionApp]="functionApp"
+           (close)="closePicker($event)"
+           (selectItem)="finishDialogPicker($event)">
+</service-bus>
+
 <!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">
     <label [attr.for]="input?.id" class="control-label">

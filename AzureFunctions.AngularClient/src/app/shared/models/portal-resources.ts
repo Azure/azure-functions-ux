@@ -578,5 +578,6 @@ export class PortalResources
     public static functionAppSettings_dailyUsageQuotaHelp: string = "functionAppSettings_dailyUsageQuotaHelp";
     public static eventHubPicker_eventHubPolicy: string = "eventHubPicker_eventHubPolicy";
     public static eventHubPicker_namespacePolicy: string = "eventHubPicker_namespacePolicy";
+    public static serviceBusPicker_serviceBus: string = "serviceBusPicker_serviceBus";
 }
 

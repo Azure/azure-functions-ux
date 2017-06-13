@@ -81,6 +81,9 @@ export class BindingInputComponent {
             case ResourceType.EventHub:
                 this.pickerName = "EventHub";
                 break;
+            case ResourceType.ServiceBus:
+                this.pickerName = "ServiceBus";
+                break;
             case ResourceType.DocumentDB:
                 this.pickerName = "DocDbPickerBlade";
                 break;

@@ -34,7 +34,7 @@ interface IOTEndpoint {
 @Component({
     selector: 'event-hub',
     templateUrl: './event-hub.component.html',
-    styleUrls: ['./event-hub.component.scss']
+    styleUrls: ['./../picker.scss']
 })
 
 export class EventHubComponent {
