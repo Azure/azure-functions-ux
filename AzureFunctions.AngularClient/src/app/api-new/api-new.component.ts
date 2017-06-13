@@ -57,7 +57,7 @@ export class ApiNewComponent implements OnInit {
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
-            backendUri: [null, Validators.compose([Validators.required, ApiNewComponent.validateUrl()])],
+            backendUri: [null, Validators.compose([ApiNewComponent.validateUrl()])],
             method_GET: false,
             method_POST: false,
             method_DELETE: false,
