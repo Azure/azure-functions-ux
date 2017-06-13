@@ -16,6 +16,7 @@ import {ProxyNode} from '../tree-view/proxy-node';
 import {FunctionApp} from '../shared/function-app';
 import {Constants} from '../shared/models/constants';
 import { ArmObj } from '../shared/models/arm/arm-obj';
+import {AiService} from '../shared/services/ai.service';
 
 @Component({
     selector: 'api-details',
@@ -63,7 +64,8 @@ export class ApiDetailsComponent implements OnInit {
     constructor(private _fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _aiService: AiService) {
 
         this.initComplexFrom();
     }
@@ -123,6 +125,7 @@ export class ApiDetailsComponent implements OnInit {
 
             this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                 this._globalStateService.clearBusyState();
+                this._aiService.trackEvent('/actions/proxy/delete');
                 //this._broadcastService.broadcast(BroadcastEvent.ApiProxyDeleted, this.apiProxyEdit);
                 this.proxiesNode.removeChild(this.apiProxyEdit);
             });
