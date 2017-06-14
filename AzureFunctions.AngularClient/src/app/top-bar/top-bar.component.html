@@ -7,7 +7,7 @@
             <div *ngIf="isStandalone" class="vertical-align-center logo-standalone">{{ 'azureFunctionsRuntime' | translate }}</div>
         </div>
 
-        <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone">
+        <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone" [class.info-no-iframe]="!inIFrame">
             <span *ngFor="let notification of topBarNotifications; let isFirst = first"
                   [class.top-bar-notification-extra]="!isFirst">
 
