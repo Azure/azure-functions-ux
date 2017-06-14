@@ -2,10 +2,11 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FunctionInfo } from '../models/function-info';
-import { ApiProxy } from '../models/api-proxy';
-import { TutorialEvent, TutorialStep } from '../models/tutorial';
-import { ErrorEvent } from '../models/error-event';
-import { BroadcastEvent } from '../models/broadcast-event';
+import {ApiProxy} from '../models/api-proxy';
+import {TutorialEvent, TutorialStep} from '../models/tutorial';
+import {ErrorEvent} from '../models/error-event';
+import {BroadcastEvent} from '../models/broadcast-event';
+import {FileSelectionRequest} from '../models/file-selection-request';
 
 @Injectable()
 export class BroadcastService {
@@ -26,6 +27,7 @@ export class BroadcastService {
     private apiProxySelectedEvent: EventEmitter<ApiProxy>;
     private apiProxyUpdatedEvent: EventEmitter<ApiProxy>;
     private clearErrorEvent: EventEmitter<string>;
+    private fileSelectionRequest: EventEmitter<FileSelectionRequest>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -47,6 +49,7 @@ export class BroadcastService {
         this.apiProxySelectedEvent = new EventEmitter<ApiProxy>();
         this.apiProxyUpdatedEvent = new EventEmitter<ApiProxy>();
         this.clearErrorEvent = new EventEmitter<string>();
+        this.fileSelectionRequest = new EventEmitter<FileSelectionRequest>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -140,6 +143,10 @@ export class BroadcastService {
 
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
+            
+            case BroadcastEvent.FileSelectionRequest:
+                return this.fileSelectionRequest;
         }
     }
 }
+ 

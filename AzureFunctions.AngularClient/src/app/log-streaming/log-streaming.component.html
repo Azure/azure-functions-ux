@@ -1,6 +1,5 @@
 <div class="dev-flex-column dev-full">
     <div *ngIf="!isHttpLogs" class="log-toolbar">
-        <span class="text-level2-heading tab-label-selected">{{ 'logStreaming_logs' | translate }}</span>
         <span class="log-empty-space" (click)="close()"></span>
         <span class="action" *ngIf="stopped" (click)="startLogs()">
             <i class="fa fa-play"></i>
@@ -31,9 +30,6 @@
             <i class="fa fa-compress"></i>
             {{ 'logStreaming_compress' | translate }}
         </span>
-        <span style="padding-right: 10px;" class="text-level2-heading tab-label" (click)="close()">
-            <i class="fa fa-chevron-down"></i>
-        </span>
     </div>
     <pre id="log-stream" class="log-stream" tabindex="1" 
          (keydown)="handleKeyPress($event)" 
@@ -41,7 +37,7 @@
          [class.http-logs]="isHttpLogs"
          [class.bottom-logs]="!isHttpLogs">{{log}}</pre>         
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
-        {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
+        <!--{{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}-->
     </div>
 
 </div>

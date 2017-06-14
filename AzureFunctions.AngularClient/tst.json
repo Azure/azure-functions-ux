@@ -1,0 +1,19 @@
+{
+    "bindings": [
+        {
+            "name": "image",
+            "type": "blobTrigger",
+            "direction": "in",
+            "path": "test",
+            "connection": "AzureWebJobsDashboard"
+        },
+        {
+            "type": "blob",
+            "name": "outputBlob",
+            "path": "%output-container%/{filename}.jpg",
+            "connection": "AzureWebJobsDashboard",
+            "direction": "out"
+        }
+    ],
+    "disabled": false
+}

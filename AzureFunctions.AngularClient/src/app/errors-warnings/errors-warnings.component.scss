@@ -1,0 +1,91 @@
+@import '../../sass/main';
+
+.bottom-logs {
+    margin: 0px 25px 10px 25px;
+}
+
+.http-logs {
+    margin: 0px;
+}
+
+.action {
+    @extend .text-hl;
+    margin-left: 10px;
+    margin-bottom: 12px;
+
+}
+
+.log-toolbar {
+    height: 50px; 
+    display: flex; 
+    align-items: flex-end;
+    padding-left: 15px; 
+    padding-right: 25px;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.errorwarnings>table{
+    background: whitesmoke;
+    width: 100%;
+    border: lightgray;
+    border-width: 1px;
+    border-style: solid;
+    height: 100%;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+.errorwarnings>table>thead{
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block;
+}
+.errorwarnings>table>tbody{
+    font-family: "Segoe UI"; 
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    display: block;
+    overflow-y: overlay;
+    height: 230px;
+}
+
+.errorwarnings>table>tbody>tr:hover {
+    background: lightgray
+}
+
+.errorwarnings tr 
+{
+    height: 25px;
+}
+
+.errorwarnings td, .errorwarnings th
+{
+    padding: 0px 10px;
+}
+
+.severitycolumn {
+    font-size: 18px;
+    width: 50px;
+    text-align: center;
+    display: table-cell
+}
+
+.severityerror {
+    color: red
+}
+
+.severitywarning {
+    color:orange
+}
+
+.severityinfo {
+    color: steelblue
+}

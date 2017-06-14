@@ -1,4 +1,4 @@
-<div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
+﻿<div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -120,17 +120,38 @@
                     <!-- Logs -->
                     <div class="dev-flex-column">
 
-                        <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
-                            <span class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</span>
+                        <div *ngIf="!bottomTab" class="bottom-bar-closed">
+                            <span class="tab-label-disabled" (click)="clickBottomTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+                            <span class="tab-label-disabled" (click)="clickBottomTab('errors')">Errors and warnings</span>
                             <span style="flex-grow: 1;"></span>
-                            <span style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></span>
+                            <span style="padding-right: 10px;" class="tab-label" (click)="clickBottomTab(bottomTab || 'logs')"><i class="fa fa-chevron-up"></i></span>
                         </div>
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
-                            <log-streaming [functionInfo]="functionInfo"
-                                           (closeClicked)="clickRightTab('logs')"
+                           <div *ngIf="bottomTab">
+                              <div class="bottom-container-bar">
+                                <span [class.tab-label-selected]="bottomTab==='logs'" [class.tab-label]="bottomTab!=='logs'" (click)="clickBottomTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+                                <span [class.tab-label-selected]="bottomTab==='errors'" [class.tab-label]="bottomTab!=='errors'" (click)="clickBottomTab('errors')">Errors and warnings</span>
+                                <span style="flex-grow: 1;"></span>
+                                <span style="padding-right: 10px;" class="tab-label" (click)="clickBottomTab(bottomTab)"><i class="fa fa-chevron-down"></i></span>
+                              </div>
+                           </div>
+
+                           <div *ngIf="bottomTab==='logs' && functionInfo" style="height:100%">
+                               <log-streaming [functionInfo]="functionInfo"
+                                           (closeClicked)="clickBottomTab('logs')"
                                            (expandClicked)="expandLogsClicked($event)">
-                            </log-streaming>
+                                </log-streaming>
+                           </div>
+                           <div *ngIf="bottomTab==='errors' && functionInfo" style="width:100%;padding-right:30px">
+                                <errors-warnings [functionInfo]="functionInfo"
+                                            [monacoEditor]="codeEditor"
+                                            [fileExplorer]="fileExplorer"
+                                            (closeClicked)="clickBottomTab('errors')"
+                                            (expandClicked)="expandLogsClicked($event)"
+                                            (diagnosticDblClicked)="clickRightTab('files')">
+                                </errors-warnings>
+                           </div>
                         </div>
                     </div>
 
