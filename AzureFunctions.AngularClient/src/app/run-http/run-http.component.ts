@@ -85,6 +85,7 @@ export class RunHttpComponent {
                 }
             });
         }
+        this.paramChanged();
     }
 
     removeQueryStringParam(index: number) {
