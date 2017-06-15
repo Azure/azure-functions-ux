@@ -530,10 +530,10 @@ export class SiteSummaryComponent implements OnDestroy {
                 let notifySuccess = stop
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
-                    
+    
                 this._portalService.stopNotification(
                     notificationId,
-                    false,
+                    true,
                     notifySuccess);
 
                 appNode.refresh();
