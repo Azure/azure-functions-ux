@@ -12,7 +12,6 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 export class DropDownComponent<T> implements OnInit {
 
     @Input() group : FormGroup;
-    @Input() control : FormControl;
     @Input() name : string;
     @Input() placeholder: string;
     @Input() disabled: boolean;
@@ -23,6 +22,7 @@ export class DropDownComponent<T> implements OnInit {
     public selectedElement: DropDownElement<T>;
     public empty: any;
     public _options: DropDownElement<T>[];
+    public _control: FormControl;
 
     @ViewChild('selectInput') selectInput : any;
 
@@ -31,9 +31,6 @@ export class DropDownComponent<T> implements OnInit {
     }
 
     ngOnInit(){
-        if(this.group && this.name){
-            this.control = <FormControl>this.group.controls[this.name];
-        }
     }
 
     @Input() set options(value: DropDownElement<T>[]) {
@@ -65,6 +62,16 @@ export class DropDownComponent<T> implements OnInit {
         } else if (this._options.length === 0) {
             delete this.selectedElement;
         }
+    }
+
+    @Input() set control(value: FormControl){
+        this._control = value;
+    }
+
+    get control(){
+        return this.group && this.name ?
+            <FormControl>this.group.controls[this.name] :
+            this._control;
     }
 
     @Input() set resetOnChange(value) {
