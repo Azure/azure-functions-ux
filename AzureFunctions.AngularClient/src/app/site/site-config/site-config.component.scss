@@ -52,6 +52,20 @@
     }
 }
 
+.settings-group-wrapper{
+    .setting-wrapper{
+        p{
+            &.pristine{
+                color: orange;
+            }
+
+            &.dirty{
+                color: purple;
+            }
+        }
+    }
+}
+
 // .drop-down-container{
 
 // }

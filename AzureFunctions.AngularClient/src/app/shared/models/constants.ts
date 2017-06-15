@@ -124,3 +124,56 @@ export class KeyCodes{
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
 }
+
+
+
+
+export class Version {
+    public static Off: any = "";
+}
+
+export class NodeVersion {
+    public static Off: any = "";
+}
+
+export class RubyVersion {
+    public static Off: any = "";
+}
+
+export class PhpVersion {
+    public static Off: string = "";
+}
+
+export class JavaVersion {
+    public static Off: string = "";
+}
+
+export class AvailableStackNames {
+    public static NetStack: string = "aspnet";
+    public static DotNetCore: string = "dotnetcore";
+    public static NodeStack: string = "node";
+    public static PhpStack: string = "php";
+    public static CustomContainer: string = "custom";
+    public static PythonStack: string = "python";
+    public static JavaStack: string = "java";
+    public static RubyStack: string = "ruby";
+    public static JavaContainer: string = "javaContainers";
+}
+
+export class AvailableStackLabels {
+    public static NodeJs: string = "Node.js";
+    public static Php: string = "PHP";
+    public static DotNetCore: string = ".Net Core";
+    public static Ruby: string = "Ruby";
+}
+
+export class StackConfigKeys {
+    public static NetStack: string = "netFrameworkVersion";
+    //public static DotNetCore: string = "";
+    public static NodeStack: string = "nodeVersion";
+    public static PhpStack: string = "phpVersion";
+    public static CustomContainer: string = "custom";
+    public static PythonStack: string = "pythonVersion";
+    public static JavaStack: string = "javaVersion";
+    public static JavaContainer: string = "javaContainerVersion";
+}

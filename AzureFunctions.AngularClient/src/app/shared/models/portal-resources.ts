@@ -361,6 +361,9 @@ export class PortalResources
     public static feature_consoleInfo: string = "feature_consoleInfo";
     public static feature_extensionsName: string = "feature_extensionsName";
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
+    public static feature_generalSettingsName: string = "feature_generalSettingsName";
+    public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
+    public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static feature_propertiesName: string = "feature_propertiesName";

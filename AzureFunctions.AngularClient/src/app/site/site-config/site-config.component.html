@@ -14,6 +14,62 @@
 </command-bar>
 
 <div *ngIf="!!mainForm" id="site-config-wrapper">
+
+<div class="settings-group-wrapper">
+  <h3 class="text-level2-heading first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
+  <div class="setting-wrapper">
+    <p 
+      [class.pristine]="mainForm.controls['generalSettings'].controls['netFrameWorkVersion'].pristine"
+      [class.dirty]="mainForm.controls['generalSettings'].controls['netFrameWorkVersion'].dirty">
+      {{ mainForm.controls['generalSettings'].controls['netFrameWorkVersion'].friendlyName }}
+    </p>
+    <drop-down
+      [group]="mainForm.controls['generalSettings'].controls['netFrameWorkVersion']"
+      name="value"
+      [options]="mainForm.controls['generalSettings'].controls['netFrameWorkVersion'].options">
+    </drop-down>
+  </div>
+
+  <div class="setting-wrapper">
+    <p 
+      [class.pristine]="mainForm.controls['generalSettings'].controls['phpVersion'].pristine"
+      [class.dirty]="mainForm.controls['generalSettings'].controls['phpVersion'].dirty">
+      {{ mainForm.controls['generalSettings'].controls['phpVersion'].friendlyName }}
+    </p>
+    <drop-down
+      [group]="mainForm.controls['generalSettings'].controls['phpVersion']"
+      name="value"
+      [options]="mainForm.controls['generalSettings'].controls['phpVersion'].options">
+    </drop-down>
+  </div>
+
+  <div class="setting-wrapper">
+    <p 
+      [class.pristine]="mainForm.controls['generalSettings'].controls['javaVersion'].pristine"
+      [class.dirty]="mainForm.controls['generalSettings'].controls['javaVersion'].dirty">
+      {{ mainForm.controls['generalSettings'].controls['javaVersion'].friendlyName }}
+    </p>
+    <drop-down
+      [group]="mainForm.controls['generalSettings'].controls['javaVersion']"
+      name="value"
+      [options]="mainForm.controls['generalSettings'].controls['javaVersion'].options">
+    </drop-down>
+  </div>
+
+  <div class="setting-wrapper">
+    <p 
+      [class.pristine]="mainForm.controls['generalSettings'].controls['pythonVersion'].pristine"
+      [class.dirty]="mainForm.controls['generalSettings'].controls['pythonVersion'].dirty">
+      {{ mainForm.controls['generalSettings'].controls['pythonVersion'].friendlyName }}
+    </p>
+    <drop-down
+      [group]="mainForm.controls['generalSettings'].controls['pythonVersion']"
+      name="value"
+      [options]="mainForm.controls['generalSettings'].controls['pythonVersion'].options">
+    </drop-down>
+  </div>
+</div>
+
 <h3 class="text-level2-heading">{{ 'feature_applicationSettingsName' | translate }}</h3>
 
 <tbl tblClass="tbl fixed stretch" [items]="mainForm.controls['appSettings'].controls" #appSettingsTable>

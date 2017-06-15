@@ -24,8 +24,8 @@ class OptionTypes {
 })
 
 export class ServiceBusComponent {
-    public namespaces: ArmArrayResult;
-    public polices: ArmArrayResult;
+    public namespaces: ArmArrayResult<any>;
+    public polices: ArmArrayResult<any>;
     public selectedNamespace: string;
     public selectedPolicy: string;
     public appSettingName: string;

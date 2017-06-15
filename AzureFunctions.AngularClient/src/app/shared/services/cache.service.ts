@@ -109,7 +109,7 @@ export class CacheService {
     //         url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
     //     }
 
-    //     return this.get(url).map<ArmArrayResult>(r => r.json());
+    //     return this.get(url).map<ArmArrayResult<any>>(r => r.json());
     // }
 
     private _cleanUp(){

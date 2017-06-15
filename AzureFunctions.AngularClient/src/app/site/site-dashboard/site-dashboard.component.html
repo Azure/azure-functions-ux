@@ -22,7 +22,7 @@
         <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
     </tab>
 
-    <tab *ngIf="isStandalone" [title]="Resources.tab_configuration | translate" [id]="TabIds.config">
+    <tab [title]="Resources.tab_configuration | translate" [id]="TabIds.config">
         <site-config *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config>
     </tab>
     

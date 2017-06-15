@@ -1654,6 +1654,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General app settings
+        /// </summary>
+        internal static string feature_generalSettingsName {
+            get {
+                return ResourceManager.GetString("feature_generalSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AutoSwap settings
+        /// </summary>
+        internal static string feature_autoSwapSettingsName {
+            get {
+                return ResourceManager.GetString("feature_autoSwapSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debugging settings
+        /// </summary>
+        internal static string feature_debuggingSettingsName {
+            get {
+                return ResourceManager.GetString("feature_debuggingSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more..
         /// </summary>
         internal static string feature_applicationSettingsInfo {
