@@ -10,15 +10,28 @@
            (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
+<popover-content #pickerPopover
+                 placement="auto right"
+                 [animation]="true"
+                 [closeOnClickOutside]="true"
+                 >
+    <div>
+        <span *ngIf="appSettingValue" class="text-label" style="word-wrap: break-word;">{{appSettingValue}}</span>
+        <i *ngIf="!appSettingValue" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+    </div>
+</popover-content>
+
 <!-- http://stackoverflow.com/questions/18499041/bootstrap-3-0-how-to-have-text-and-input-on-same-line -->
 <div class="form-group">
-    <label [attr.for]="input?.id" class="control-label">
-        {{input?.label}}
-        <pop-over [message]="input?.help">
-            <span class="glyphicon glyphicon-info-sign"></span>
-        </pop-over>
-    </label>
-
+    <div class="input-header">
+        <label [attr.for]="input?.id" class="control-label">
+            {{input?.label}}
+            <pop-over [message]="input?.help">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </pop-over>
+        </label>
+        <span *ngIf="input?.type === 'picker'" [popover]="pickerPopover" class="link show-appsetting">Show</span>
+    </div>
     <div *ngIf="input?.type === 'string' || input?.type === 'int'" [ngClass]="input?.class">
         <input [fnWriteAccess]="functionApp"
                *ngIf="input.type === 'string'" id="{{input.id}}"

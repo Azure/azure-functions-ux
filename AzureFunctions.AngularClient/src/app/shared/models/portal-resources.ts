@@ -579,5 +579,6 @@ export class PortalResources
     public static eventHubPicker_eventHubPolicy: string = "eventHubPicker_eventHubPolicy";
     public static eventHubPicker_namespacePolicy: string = "eventHubPicker_namespacePolicy";
     public static serviceBusPicker_serviceBus: string = "serviceBusPicker_serviceBus";
+    public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
 }
 

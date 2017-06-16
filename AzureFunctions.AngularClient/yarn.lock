@@ -3101,6 +3101,10 @@ ng2-file-upload@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ng2-file-upload/-/ng2-file-upload-1.2.1.tgz#5563c5dfd6f43fbfbe815c206e343464a0a6a197"
 
+ng2-popover@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/ng2-popover/-/ng2-popover-0.0.14.tgz#6cad6a6555fd2b81759f3d85b4cb8c3e3731f296"
+
 no-case@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"

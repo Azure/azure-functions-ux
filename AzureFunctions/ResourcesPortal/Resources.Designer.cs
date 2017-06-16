@@ -745,6 +745,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App setting is not found..
+        /// </summary>
+        internal static string bindingInput_appSettingNotFound {
+            get {
+                return ResourceManager.GetString("bindingInput_appSettingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
         internal static string bindingInput_new {
