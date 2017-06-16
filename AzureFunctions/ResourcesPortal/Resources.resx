@@ -1852,4 +1852,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="serviceBusPicker_serviceBus" xml:space="preserve">
     <value>Service Bus</value>
   </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>App setting is not found.</value>
+  </data>
 </root>

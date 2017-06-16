@@ -325,6 +325,7 @@
     <Content Include="src\sass\controls\_command-bar.scss" />
     <Content Include="src\sass\controls\_tbl.scss" />
     <Content Include="src\sass\pages\_list-collection.scss" />
+    <Content Include="src\sass\controls\_popover.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />

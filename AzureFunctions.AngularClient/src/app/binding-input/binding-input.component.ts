@@ -29,6 +29,7 @@ export class BindingInputComponent {
     public description: string;
     public functionReturnValue: boolean;
     public pickerName: string;
+    public appSettingValue: string;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     @Input() public functionApp: FunctionApp;
@@ -50,6 +51,17 @@ export class BindingInputComponent {
             if (!input.value && picker.items) {
                 input.value = picker.items[0];
             }
+            this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
+                .do(null, e => {
+                    this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+                })
+                .subscribe(r => {
+                    this.appSettingValue = r.json().properties[this._input.value];
+                    if (!this.appSettingValue) {
+                        this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+                    }
+                });
+
         }
 
         this._input = input;

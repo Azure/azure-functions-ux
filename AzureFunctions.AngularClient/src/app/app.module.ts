@@ -14,6 +14,7 @@ import { HttpModule, Http } from '@angular/http';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
+import {PopoverModule} from "ng2-popover";
 
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
@@ -221,7 +222,8 @@ export class AppModule {
     FormsModule,
     HttpModule,
     TranslateModule.forRoot(),
-    FileUploadModule
+    FileUploadModule,
+    PopoverModule
   ],
   providers: [
     ConfigService,
