@@ -167,14 +167,26 @@ export class SiteSummaryComponent implements OnDestroy {
                     authZService.hasPermission(site.id, [AuthzService.actionScope]),
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
-                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion),
+                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) =>{
+                    // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                      if (e.status === 409) {
+                            return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
+                                .mergeMap(() => {
+                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                                })
+                                .catch((e: any) => {
+                                    return Observable.of(null)
+                                })
+                        }
+                        return Observable.of(null);
+                    }),
                     this._slotService.getSlotsList(site.id),
                     (p, s, l, c, a, slots) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         config: c.json(),
-                        availability: a.json(),
+                        availability: !!a ? a.json() : null,
                         slotsList: slots
                     }))
             })
@@ -185,7 +197,8 @@ export class SiteSummaryComponent implements OnDestroy {
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission;
                 }
-                this._setAvailabilityState(res.availability.properties.availabilityState);
+                
+                this._setAvailabilityState(!!res.availability ? res.availability.properties.availabilityState : AvailabilityStates.unknown);
 
                 if (this.hasWriteAccess) {
                     return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
@@ -494,6 +507,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.availabilityIcon = "images/info.svg";
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
+
         }
     }
 
