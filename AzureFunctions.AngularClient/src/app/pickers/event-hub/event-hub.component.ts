@@ -210,7 +210,7 @@ export class EventHubComponent {
 
     onSelect() {
         if (this.option === this.optionTypes.eventHub) {
-            if (this.selectedPolicy) {
+            if (this.selectedEventHub && this.selectedPolicy) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 var appSettingName: string;
@@ -220,14 +220,20 @@ export class EventHubComponent {
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
                         let namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
-                        let eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
                         let keys = r.keys.json();
 
                         appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB`;
                         let appSettingValue = keys.primaryConnectionString;
+                        if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
+                            // Namespace connection string
+                            let eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
+                            appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
+
+                        }
 
                         var appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
+
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
 
                     })
@@ -286,7 +292,7 @@ export class EventHubComponent {
                 }
             case this.optionTypes.eventHub:
                 {
-                    this.canSelect = !!(this.selectedPolicy);
+                    this.canSelect = !!(this.selectedPolicy && this.selectedEventHub);
                     break;
                 }
             case this.optionTypes.IOTHub:

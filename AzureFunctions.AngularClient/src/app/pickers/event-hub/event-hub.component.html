@@ -27,7 +27,7 @@
                             <option *ngFor="let item of eventHubs.value" [value]="item.id">{{item.name}}</option>
                         </select>
                     </div>
-                    <div *ngIf="selectedNamespace" class="select-container">
+                    <div *ngIf="selectedEventHub" class="select-container">
                         <label>{{'eventHubPicker_policy' | translate}}</label>
                         <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
                         <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
