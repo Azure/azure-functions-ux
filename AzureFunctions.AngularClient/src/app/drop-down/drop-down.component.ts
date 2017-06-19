@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit, EventEmitter, ViewChild, Input, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, ViewChild, Input, Output } from '@angular/core';
 import {DropDownElement} from '../shared/models/drop-down-element';
 
 
@@ -9,7 +9,7 @@ import {DropDownElement} from '../shared/models/drop-down-element';
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.css']
 })
-export class DropDownComponent<T> implements OnInit {
+export class DropDownComponent<T> implements OnInit, OnChanges {
 
     @Input() group : FormGroup;
     @Input() control : FormControl;
@@ -30,9 +30,19 @@ export class DropDownComponent<T> implements OnInit {
         this.value = new EventEmitter<T>();
     }
 
-    ngOnInit(){
+    setControl(){
         if(this.group && this.name){
             this.control = <FormControl>this.group.controls[this.name];
+        }
+    }
+
+    ngOnInit(){
+        this.setControl();
+    }
+
+    ngOnChanges(changes: SimpleChanges){
+        if (changes['group'] || changes['name']) {
+            this.setControl();
         }
     }
 
