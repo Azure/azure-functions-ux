@@ -30,6 +30,7 @@ export class BindingInputComponent {
     public functionReturnValue: boolean;
     public pickerName: string;
     public appSettingValue: string;
+    private _appSettings: ArmObj<any>;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     @Input() public functionApp: FunctionApp;
@@ -56,10 +57,8 @@ export class BindingInputComponent {
                     this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
                 })
                 .subscribe(r => {
-                    this.appSettingValue = r.json().properties[this._input.value];
-                    if (!this.appSettingValue) {
-                        this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
-                    }
+                    this._appSettings = r.json();
+                    this.updateAppSettingValue();
                 });
 
         }
@@ -123,7 +122,7 @@ export class BindingInputComponent {
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName != "EventHub") {
+        if (this.pickerName != "EventHub" && this.pickerName != "ServiceBus") {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -149,7 +148,9 @@ export class BindingInputComponent {
 
     inputChanged(value: any) {
         this.setBottomDescription(this._input.id, value);
-
+        if (this._input.type === SettingType.picker) {
+            this.updateAppSettingValue();
+        }
         if (this._input.changeValue) {
             this._input.changeValue(value);
         }
@@ -235,6 +236,13 @@ export class BindingInputComponent {
         }
         picker.inProcess = false;
         this._globalStateService.clearBusyState();
+    }
+
+    private updateAppSettingValue() {
+        this.appSettingValue = this._appSettings.properties[this._input.value];
+        if (!this.appSettingValue) {
+            this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+        }        
     }
 
     setBottomDescription(id: string, value: any) {
