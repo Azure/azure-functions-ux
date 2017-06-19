@@ -772,6 +772,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to show value.
+        /// </summary>
+        internal static string bindingInput_show {
+            get {
+                return ResourceManager.GetString("bindingInput_show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;direction&apos; is missed..
         /// </summary>
         internal static string bindingsValidationDirectionMissed {
