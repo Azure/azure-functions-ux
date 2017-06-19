@@ -30,7 +30,7 @@
                 <span class="glyphicon glyphicon-info-sign"></span>
             </pop-over>
         </label>
-        <span *ngIf="input?.type === 'picker'" [popover]="pickerPopover" class="link show-appsetting">Show</span>
+        <span *ngIf="input?.type === 'picker'" [popover]="pickerPopover" class="link show-appsetting">{{ 'bindingInput_show' | translate }}</span>
     </div>
     <div *ngIf="input?.type === 'string' || input?.type === 'int'" [ngClass]="input?.class">
         <input [fnWriteAccess]="functionApp"
