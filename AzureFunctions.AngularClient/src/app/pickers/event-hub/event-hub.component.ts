@@ -224,8 +224,9 @@ export class EventHubComponent {
 
                         appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB`;
                         let appSettingValue = keys.primaryConnectionString;
+                        // Runtime requires entitypath for all event hub connections strings, 
+                        // so if it's namespace policy add entitypath as selected eventhub
                         if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
-                            // Namespace connection string
                             let eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
                             appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
 
