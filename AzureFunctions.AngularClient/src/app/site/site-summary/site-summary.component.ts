@@ -168,9 +168,17 @@ export class SiteSummaryComponent implements OnDestroy {
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
                     this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) =>{
-                        // this call fails with 409 is Microsoft.ResourceHealth is not registered
-                        // if e.status === 409, should we register RP?
-                     return  Observable.of(null);
+                    // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                      if (e.status === 409) {
+                            return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
+                                .mergeMap(() => {
+                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                                })
+                                .catch((e: any) => {
+                                    return Observable.of(null)
+                                })
+                        }
+                        return Observable.of(null);
                     }),
                     this._slotService.getSlotsList(site.id),
                     (p, s, l, c, a, slots) => ({
