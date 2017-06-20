@@ -130,7 +130,8 @@ export class FunctionQuickstartComponent {
                         message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
                         details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
                         errorId: ErrorIds.unableToCreateFunction,
-                        errorType: ErrorType.UserError
+                        errorType: ErrorType.UserError,
+                        resourceId: this.functionApp.site.id
                     });
                     this._aiService.trackEvent(ErrorIds.unableToCreateFunction, {
                         exception: e

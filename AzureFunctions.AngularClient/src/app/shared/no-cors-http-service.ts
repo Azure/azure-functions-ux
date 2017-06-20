@@ -89,7 +89,8 @@ export class NoCorsHttpService {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_appOffline),
                             errorId: ErrorIds.applicationOffline,
-                            errorType: ErrorType.Fatal
+                            errorType: ErrorType.Fatal,
+                            resourceId: url
                         });
                         error.isHandled = true;
                     }

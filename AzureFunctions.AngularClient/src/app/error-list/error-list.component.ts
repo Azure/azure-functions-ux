@@ -1,3 +1,4 @@
+import { GlobalStateService } from './../shared/services/global-state.service';
 import {Component} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
@@ -24,7 +25,7 @@ export class ErrorListComponent {
         public _portalService: PortalService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _functionsService: FunctionsService) {
+        private _globalStateService: GlobalStateService) {
         this.errorList = [];
 
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (error) => {
@@ -51,7 +52,7 @@ export class ErrorListComponent {
                             message: error.message,
                             errorId: error.errorId,
                             displayedGeneric: false.toString(),
-                            appName: this._functionsService.getFunctionAppArmId()
+                            appName: error.resourceId
                         });
                     }
                 }
@@ -59,13 +60,13 @@ export class ErrorListComponent {
                 if (error) {
                     this._aiService.trackEvent('/errors/portal/unknown', {
                         error: error.details,
-                        appName: this._functionsService.getFunctionAppArmId(),
+                        appName: error.resourceId,
                         displayedGeneric: true.toString()
                     });
                 } else {
                     this._aiService.trackEvent('/errors/portal/unknown', {
                         error: 'no error info',
-                        appName: this._functionsService.getFunctionAppArmId(),
+                        appName: error.resourceId,
                         displayedGeneric: true.toString()
                     });
                 }
@@ -80,7 +81,6 @@ export class ErrorListComponent {
                 this.errorList = this.errorList.filter(e => e.errorIds.length !== 0);
                 this._aiService.trackEvent('/errors/auto-cleared', {
                     errorId: errorId,
-                    appName: this._functionsService.getFunctionAppArmId()
                 });
             }
         });

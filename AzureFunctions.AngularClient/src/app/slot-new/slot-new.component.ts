@@ -169,7 +169,8 @@ export class SlotNewComponent implements OnInit {
                         message: this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(newSlotName),
                         details: this._translateService.instant(PortalResources.slotNew_startCreateFailureNotifyTitle).format(newSlotName),
                         errorId: ErrorIds.failedToCreateSlot,
-                        errorType: ErrorType.Fatal
+                        errorType: ErrorType.Fatal,
+                        resourceId: this._siteObj.id
                     });
                 this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: err, id: this._siteObj.id });
             })

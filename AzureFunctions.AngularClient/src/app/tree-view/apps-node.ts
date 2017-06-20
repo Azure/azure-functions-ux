@@ -68,7 +68,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         })
         .switchMap(result =>{
             this.childrenStream.next([]);
-            
+
             if(!result.subscriptions || result.subscriptions.length === 0){
                 return Observable.of(null);
             }
@@ -147,7 +147,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 message: err.message,
                 details: err.code,
                 errorId: ErrorIds.failedToQueryArmResource,
-                errorType: ErrorType.ApiError
+                errorType: ErrorType.ApiError,
+                resourceId: 'none'
             });
             return Observable.of(null);
         })

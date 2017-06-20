@@ -94,7 +94,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
-                    errorType: ErrorType.UserError
+                    errorType: ErrorType.UserError,
+                    resourceId: this.functionApp.site.id
                 });
             }
         }

@@ -62,9 +62,10 @@ export class SlotsListComponent implements OnInit {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),
                     errorType: ErrorType.RuntimeError,
-                    errorId: ErrorIds.unableToPopulateSlotsList
+                    errorId: ErrorIds.unableToPopulateSlotsList,
+                    resourceId: 'none'
                 });
-            }))
+            }));
     }
 
     ngOnInit() {
