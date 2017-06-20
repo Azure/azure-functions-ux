@@ -241,6 +241,7 @@ export class SiteConfigComponent implements OnInit {
     if (index >= 0) {
       formArray.controls.splice(index, 1);
       group.markAsDirty();
+      formArray.updateValueAndValidity();
     }
   }
 
