@@ -315,7 +315,7 @@ export class FunctionApp {
                 .catch(_ => Observable.of({
                     json: () => { return {}; }
                 })),
-            this._cacheService.get(Constants.serviceHost + 'schemas/proxies.json', false, this.getPortalHeaders()),
+            this._cacheService.get('assets/schemas/proxies.json', false, this.getPortalHeaders()),
             (p, s) => ({proxies: p.json(), schema: s.json()})
         ).map(r => {
             if (r.proxies.proxies) {

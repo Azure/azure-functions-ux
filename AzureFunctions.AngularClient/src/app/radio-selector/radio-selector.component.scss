@@ -2,16 +2,8 @@
 
 .switch {
     position: relative;
-    float: left;
+    display: inline-block;
     height: 25px;
-    background: #ccc;
-}
-
-.small-switch {
-    position: relative;
-    float: left;
-    height: 25px;
-    width: 100px;
     background: #ccc;
 }
 
@@ -19,16 +11,14 @@
     position: relative;
     z-index: 2;
     float: left;
-    width: 100px;
     line-height: 25px;
     font-size: 11px;
     color: #f2f2f2;
     text-align: center;
     cursor: pointer;
+    padding-left: 40px;
+    padding-right: 40px;
 }
-    .switch-label:active {
-        font-weight: bold;
-    }
 
 .switch-input {
     display: none;

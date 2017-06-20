@@ -581,5 +581,10 @@ export class PortalResources
     public static serviceBusPicker_serviceBus: string = "serviceBusPicker_serviceBus";
     public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
     public static bindingInput_show: string = "bindingInput_show";
+    public static download: string = "download";
+    public static downloadFunctionAppContent_includeAppSettings: string = "downloadFunctionAppContent_includeAppSettings";
+    public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
+    public static downloadFunctionAppContent_siteContent: string = "downloadFunctionAppContent_siteContent";
+    public static downloadFunctionAppContent_vsProject: string = "downloadFunctionAppContent_vsProject";
 }
 

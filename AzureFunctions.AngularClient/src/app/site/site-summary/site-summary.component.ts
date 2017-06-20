@@ -78,6 +78,7 @@ export class SiteSummaryComponent implements OnDestroy {
     public hasSwapAccess: boolean;
     public hideAvailability: boolean;
     public Resources = PortalResources;
+    public showDownloadFunctionAppModal = false;
 
     @Output() openTabEvent = new Subject<string>();
 
@@ -197,7 +198,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 } else {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission;
                 }
-                
+
                 this._setAvailabilityState(!!res.availability ? res.availability.properties.availabilityState : AvailabilityStates.unknown);
 
                 if (this.hasWriteAccess) {
@@ -301,7 +302,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
                     setTimeout(() => {
-                        
+
                         const hiddenLink = document.getElementById("hidden-publish-profile-link");
                         hiddenLink.click();
                         this.publishProfileLink = null;
@@ -310,10 +311,12 @@ export class SiteSummaryComponent implements OnDestroy {
             });
     }
 
-    downloadFunctionAppContent() {
-        if (this.hasWriteAccess) {
-            window.open(`${this.scmUrl}/api/zip/site/wwwroot?fileName=${this.site.name}.zip`, '_blank');
-        }
+    openDownloadFunctionAppModal() {
+        this.showDownloadFunctionAppModal = true;
+    }
+
+    hideDownloadFunctionAppModal() {
+        this.showDownloadFunctionAppModal = false;
     }
 
     private _cleanupBlob() {
@@ -544,7 +547,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 let notifySuccess = stop
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
-    
+
                 this._portalService.stopNotification(
                     notificationId,
                     true,
