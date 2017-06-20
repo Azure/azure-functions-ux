@@ -1,3 +1,4 @@
+import { AppNode } from './../tree-view/app-node';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -27,6 +28,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
   public functions: FunctionNode[] = [];
   public isLoading: boolean;
   public functionApp: FunctionApp;
+  public appNode: AppNode;
 
   private _viewInfoSubscription: RxSubscription;
 
@@ -43,6 +45,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
       .switchMap(viewInfo =>{
         this.isLoading = true;
         this._functionsNode = (<FunctionsNode>viewInfo.node);
+        this.appNode = (<AppNode>viewInfo.node.parent)
         this.functionApp = this._functionsNode.functionApp;
         return this._functionsNode.loadChildren();
       })

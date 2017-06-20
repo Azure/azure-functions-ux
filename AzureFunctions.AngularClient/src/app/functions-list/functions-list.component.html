@@ -4,6 +4,8 @@
              (click)="onNewFunctionClick()"></command>
 </command-bar>
 
+<app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+
 <div class="list-collection-container">
     <img src="images/function_f.svg" />
     <span class="text-level1-heading">{{ 'functions' | translate }}</span><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
@@ -18,7 +20,7 @@
         <tr>
             <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
             <th><tbl-th name="functionInfo.config.disabled">{{ 'enabled' | translate }}</tbl-th></th>
-			<th class="icon"></th>
+            <th class="icon"></th>
         </tr>
 
         <tr *ngFor="let item of table.items">
