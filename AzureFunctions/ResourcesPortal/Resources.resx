@@ -1817,10 +1817,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>IoT hub</value>
   </data>
   <data name="eventHubPicker_appSettingName" xml:space="preserve">
-    <value>App setting name</value>
+    <value>Key</value>
   </data>
   <data name="eventHubPicker_appSettingValue" xml:space="preserve">
-    <value>App setting value</value>
+    <value>Value</value>
   </data>
   <data name="eventHubPicker_connection" xml:space="preserve">
     <value>Connection</value>
@@ -1857,5 +1857,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="bindingInput_show" xml:space="preserve">
     <value>show value</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Add app setting</value>
   </data>
 </root>

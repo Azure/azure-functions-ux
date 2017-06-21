@@ -103,7 +103,8 @@ export enum ResourceType {
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
     DocumentDB = <any>"DocumentDB",
-    ApiHub = <any>"ApiHub"
+    ApiHub = <any>"ApiHub",
+    AppSetting = <any>"AppSetting"
 }
 
 export class SettingType{

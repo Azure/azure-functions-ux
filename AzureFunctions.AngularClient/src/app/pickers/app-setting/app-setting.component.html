@@ -1,0 +1,38 @@
+<div class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+                <label>{{'appSettingPicker_add' | translate}}</label>
+            </div>
+            <div class="modal-body" style="display: flex;flex-direction:column;">
+                <div>
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingName' | translate}}</label>
+                        <div>
+                            <input type="text" [(ngModel)]="appSettingName" />
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
+                        <div>
+                            <input type="text" [(ngModel)]="appSettingValue" />
+                        </div>
+                    </div>
+                </div>
+                <div class="button-conainer">
+                    <button *ngIf="!selectInProcess"
+                            (click)="onSelect()"
+                            [class.custom-button-disabled]="!this.appSettingName || !this.appSettingValue"
+                            class="custom-button">
+
+                        {{ 'create' | translate }}
+                    </button>
+                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade in"></div>

@@ -58,11 +58,15 @@
                 <div *ngIf="option === optionTypes.custom">
                     <div class="input-container">
                         <label>{{'eventHubPicker_appSettingName' | translate}}</label>
-                        <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+                        </div>
                     </div>
                     <div class="input-container">
                         <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
-                        <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+                        <div>
+                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+                        </div>
                     </div>
                 </div>
 

@@ -403,6 +403,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add app setting.
+        /// </summary>
+        internal static string appSettingPicker_add {
+            get {
+                return ResourceManager.GetString("appSettingPicker_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication.
         /// </summary>
         internal static string authentication {
@@ -1447,7 +1456,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App setting name.
+        ///   Looks up a localized string similar to Key.
         /// </summary>
         internal static string eventHubPicker_appSettingName {
             get {
@@ -1456,7 +1465,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App setting value.
+        ///   Looks up a localized string similar to Value.
         /// </summary>
         internal static string eventHubPicker_appSettingValue {
             get {
