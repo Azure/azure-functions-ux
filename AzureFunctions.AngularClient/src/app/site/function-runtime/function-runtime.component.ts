@@ -248,7 +248,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
           errorType: ErrorType.ApiError,
-          errorId: ErrorIds.unableToUpdateFunctionAppEditMode
+          errorId: ErrorIds.unableToUpdateFunctionAppEditMode,
+          resourceId: this.functionApp.site.id
         });
       })
       .retry()

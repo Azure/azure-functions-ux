@@ -175,7 +175,8 @@ export class TryLandingComponent implements OnInit {
                                         message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                                         details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
                                         errorId: ErrorIds.tryAppServiceError,
-                                        errorType: ErrorType.Warning
+                                        errorType: ErrorType.Warning,
+                                        resourceId: 'try-app'
                                     });
                                     this.clearBusyState();
                                     throw error;
@@ -187,7 +188,8 @@ export class TryLandingComponent implements OnInit {
                             message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                             details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
                             errorId: ErrorIds.tryAppServiceError,
-                            errorType: ErrorType.Warning
+                            errorType: ErrorType.Warning,
+                            resourceId: 'try-app'
                         });
                         throw e;
                     }
@@ -263,7 +265,8 @@ export class TryLandingComponent implements OnInit {
                     message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                     details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
                     errorId: ErrorIds.tryAppServiceError,
-                    errorType: ErrorType.Warning
+                    errorType: ErrorType.Warning,
+                    resourceId: 'try-app'
                 });
             });
     }

@@ -103,6 +103,7 @@
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.html" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.html" />
+    <Content Include="src\app\download-function-app-content\download-function-app-content.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
     <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.html" />
@@ -118,6 +119,7 @@
     <Content Include="src\app\controls\command-bar\command\command.component.scss" />
     <Content Include="src\app\controls\textbox\textbox.component.scss" />
     <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
+    <Content Include="src\app\download-function-app-content\download-function-app-content.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
@@ -382,6 +384,8 @@
     <TypeScriptCompile Include="src\app\create-function-wrapper\create-function-wrapper.component.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.ts" />
+    <TypeScriptCompile Include="src\app\download-function-app-content\download-function-app-content.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\download-function-app-content\download-function-app-content.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.ts" />
     <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.spec.ts" />

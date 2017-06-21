@@ -116,7 +116,8 @@ export class CreateAppComponent implements OnInit {
             message: this._translateService.instant(PortalResources.createApp_fail),
             details: this._translateService.instant(PortalResources.createApp_fail),
             errorId: ErrorIds.failedToCreateApp,
-            errorType: ErrorType.Fatal
+            errorType: ErrorType.Fatal,
+            resourceId: id
           });
 
         this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: error, id: id });

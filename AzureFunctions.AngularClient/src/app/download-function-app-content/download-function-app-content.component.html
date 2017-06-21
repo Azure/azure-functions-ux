@@ -1,0 +1,32 @@
+<div class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="text-level2-heading">{{'downloadFunctionAppContent' | translate}}</span>
+              <button type="button" class="close" (click)="closeModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <radio-selector [defaultValue]="currentDownloadOption"
+                                    [options]="downloadOptions"
+                                    (value)="currentDownloadOption = $event">
+                    </radio-selector>
+                </div>
+                <div id="app-settings-checkbox">
+                    <input type="checkbox" [(ngModel)]="includeAppSettings" />
+                    <label>{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
+                    <pop-over [position]="'bottom'" [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
+                        <span class="glyphicon glyphicon-info-sign button-title"></span>
+                    </pop-over>
+                </div>
+                <div id="download-button-container">
+                    <button class="custom-button" (click)="downloadFunctionAppContent()">
+                        {{ 'download' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade in"></div>

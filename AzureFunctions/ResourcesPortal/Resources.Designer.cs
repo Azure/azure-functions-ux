@@ -997,11 +997,56 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        internal static string download {
+            get {
+                return ResourceManager.GetString("download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download app content.
         /// </summary>
         internal static string downloadFunctionAppContent {
             get {
                 return ResourceManager.GetString("downloadFunctionAppContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include app settings in the download.
+        /// </summary>
+        internal static string downloadFunctionAppContent_includeAppSettings {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent_includeAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will include a file called local.settings.json which will contain your app settings values. This file will not be encrypted on download, but can be encrypted using the Azure Functions Core Tools command line..
+        /// </summary>
+        internal static string downloadFunctionAppContent_includeAppSettingsHelp {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent_includeAppSettingsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site content.
+        /// </summary>
+        internal static string downloadFunctionAppContent_siteContent {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent_siteContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content and Visual Studio project.
+        /// </summary>
+        internal static string downloadFunctionAppContent_vsProject {
+            get {
+                return ResourceManager.GetString("downloadFunctionAppContent_vsProject", resourceCulture);
             }
         }
         

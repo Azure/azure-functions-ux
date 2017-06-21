@@ -350,7 +350,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                             message: this.sideNav.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                             details: this.sideNav.translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                             errorId: ErrorIds.generalHostErrorFromHost,
-                            errorType: ErrorType.RuntimeError
+                            errorType: ErrorType.RuntimeError,
+                            resourceId: this._functionApp.site.id
                         });
                         this.sideNav.aiService.trackEvent('/errors/host', { error: e, app: this.resourceId });
                     });

@@ -1,3 +1,4 @@
+import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
 import { CreateAppComponent } from './site/create-app/create-app.component';
 import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
@@ -215,7 +216,8 @@ export class AppModule {
     EventHubComponent,
     ServiceBusComponent,
     SearchBoxComponent,
-    AppSettingComponent
+    AppSettingComponent,
+    DownloadFunctionAppContentComponent
   ],
   imports: [
     FormsModule,

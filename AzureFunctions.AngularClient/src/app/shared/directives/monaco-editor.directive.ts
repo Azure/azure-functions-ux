@@ -193,7 +193,7 @@ export class MonacoEditorDirective {
     }
 
     setMonacoSchema(schemaName: string, functionApp: FunctionApp) {
-        functionApp.getJson('/schemas/' + schemaName)
+        functionApp.getJson('assets/schemas/' + schemaName)
             .subscribe((schema) => {
                 schema.additionalProperties = false;
                 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({

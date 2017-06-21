@@ -141,7 +141,7 @@ export class FunctionIntegrateV2Component {
             return;
         }
         this.functionApp.getTemplates().subscribe((templates: any) => {
-            
+
             var templateId = action.template + "-" + FunctionInfoHelper.getLanguage(this.functionInfo);
             var template = templates.find(t => t.id === templateId);
             // C# is default language. Set C# if can not found original language
@@ -154,7 +154,7 @@ export class FunctionIntegrateV2Component {
                 (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.createFunction, action);
             }
         });
-        
+
     }
 
     onUpdateBinding(binding: UIFunctionBinding) {
@@ -168,7 +168,8 @@ export class FunctionIntegrateV2Component {
             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                 message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                 errorId: ErrorIds.errorParsingConfig,
-                errorType: ErrorType.UserError
+                errorType: ErrorType.UserError,
+                resourceId: this.functionApp.site.id
             });
             this.onRemoveBinding(binding);
         }

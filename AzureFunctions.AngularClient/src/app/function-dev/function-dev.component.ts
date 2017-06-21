@@ -429,7 +429,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
-                    errorType: ErrorType.UserError
+                    errorType: ErrorType.UserError,
+                    resourceId: this.functionApp.site.id
                 });
                 return;
             }
@@ -550,7 +551,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                 message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
                                 details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
                                 errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
-                                errorType: ErrorType.FunctionError
+                                errorType: ErrorType.FunctionError,
+                                resourceId: this.functionApp.site.id
                             });
                             this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
                         });
@@ -565,7 +567,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                             message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                                             details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                                             errorId: ErrorIds.generalHostErrorFromHost,
-                                            errorType: ErrorType.RuntimeError
+                                            errorType: ErrorType.RuntimeError,
+                                            resourceId: this.functionApp.site.id
                                         });
                                         this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                                     });

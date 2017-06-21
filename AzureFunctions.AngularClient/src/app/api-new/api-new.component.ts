@@ -189,7 +189,8 @@ export class ApiNewComponent implements OnInit {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                          message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }),
                          errorId: ErrorIds.proxyWithSameNameAlreadyExists,
-                         errorType: ErrorType.UserError
+                         errorType: ErrorType.UserError,
+                         resourceId: this.functionApp.site.id
                     });
                     throw `Proxy with name '${newApiProxy.name}' already exists`;
                 } else {

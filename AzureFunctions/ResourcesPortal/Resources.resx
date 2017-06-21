@@ -1861,4 +1861,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appSettingPicker_add" xml:space="preserve">
     <value>Add app setting</value>
   </data>
+  <data name="download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Include app settings in the download</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>This will include a file called local.settings.json which will contain your app settings values. This file will not be encrypted on download, but can be encrypted using the Azure Functions Core Tools command line.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Site content</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Content and Visual Studio project</value>
+  </data>
 </root>

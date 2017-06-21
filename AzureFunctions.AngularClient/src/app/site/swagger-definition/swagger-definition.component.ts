@@ -239,7 +239,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.swaggerDefinition_prompt),
                     errorId: ErrorIds.malformedAPIDefinition,
-                    errorType: ErrorType.UserError
+                    errorType: ErrorType.UserError,
+                    resourceId: this.functionApp.site.id
                 });
                 this._busyState.clearBusyState();
                 return;
