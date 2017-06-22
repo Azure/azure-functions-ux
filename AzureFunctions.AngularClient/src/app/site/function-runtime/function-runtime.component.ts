@@ -253,6 +253,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
         });
       })
       .retry()
+      // This is needed to update the editMode value for other subscribers
+      // getFunctionAppEditMode returns a subject and updates it on demand.
+      .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
       .subscribe(fi => {
         this._globalStateService.clearBusyState();
       });

@@ -1,9 +1,9 @@
 <div class="wrapper">
-    <div id="function-settings">
+    <div id="function-settings" [fnWriteAccess]="functionApp">
         <div>
             <div class="title">{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo" class="function-state">
-                <radio-selector [fnWriteAccess]="functionApp" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
                 <span class="clickable delete-app" (click)="deleteFunction()">
                     <img src="images/delete.svg" />{{ 'functionManage_deleteFunction' | translate }}
                 </span>

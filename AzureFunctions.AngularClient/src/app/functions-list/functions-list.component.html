@@ -1,7 +1,8 @@
 <command-bar>
     <command displayText="{{ 'newFunction' | translate }}"
              iconUrl="images/add.svg"
-             (click)="onNewFunctionClick()"></command>
+             (click)="onNewFunctionClick()"
+             [fnWriteAccess]="functionApp"></command>
 </command-bar>
 
 <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>

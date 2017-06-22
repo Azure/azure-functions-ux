@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { SlotsService } from 'app/shared/services/slots.service';
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
@@ -1389,6 +1390,7 @@ export class FunctionApp {
         .catch(e => Observable.of(false));
     }
 
+    private _editModeSubject: Subject<FunctionAppEditMode>;
     getFunctionAppEditMode(): Observable<FunctionAppEditMode> {
         // The we have 2 settings to check here. There is the SourceControl setting which comes from /config/web
         // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
@@ -1410,7 +1412,11 @@ export class FunctionApp {
         // | Yes  | false         | readOnly        | ReadOnly                      |
         // | Yes  | false         | undefined       | ReadOnlySlots                 |
         // |______|_______________|_________________|_______________________________|
-        return Observable.zip(
+        if (!this._editModeSubject) {
+            this._editModeSubject = new Subject<FunctionAppEditMode>();
+        }
+
+        Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
             SlotsService.isSlot(this.site.id)
@@ -1434,7 +1440,11 @@ export class FunctionApp {
             } else {
                 return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
             }
-        });
+        })
+        .catch(e => Observable.of(FunctionAppEditMode.ReadWrite))
+        .subscribe(r => this._editModeSubject.next(r));
+
+        return this._editModeSubject;
     }
 
     public getAuthSettings(): Observable<AuthSettings>{
