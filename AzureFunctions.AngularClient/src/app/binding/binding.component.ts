@@ -634,6 +634,9 @@ export class BindingComponent{
                    }
                }
                break;
+           case ResourceType.AppSetting:
+               for (var key in this._appSettings) result.push(key);
+               break;
        }
        return result;
    }

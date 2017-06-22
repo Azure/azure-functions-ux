@@ -1,5 +1,6 @@
-import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from '@angular/core';
+import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild} from '@angular/core';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import {PopoverContent} from "ng2-popover";
 
 import { BindingInputBase } from '../shared/models/binding-input';
 import {PortalService} from '../shared/services/portal.service';
@@ -24,13 +25,13 @@ import { ArmService } from './../shared/services/arm.service';
 export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
+    @ViewChild('pickerPopover') pickerPopover: PopoverContent;
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     public description: string;
     public functionReturnValue: boolean;
     public pickerName: string;
     public appSettingValue: string;
-    private _appSettings: ArmObj<any>;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     @Input() public functionApp: FunctionApp;
@@ -52,15 +53,6 @@ export class BindingInputComponent {
             if (!input.value && picker.items) {
                 input.value = picker.items[0];
             }
-            this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
-                .do(null, e => {
-                    this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
-                })
-                .subscribe(r => {
-                    this._appSettings = r.json();
-                    this.updateAppSettingValue();
-                });
-
         }
 
         this._input = input;
@@ -95,6 +87,9 @@ export class BindingInputComponent {
             case ResourceType.ServiceBus:
                 this.pickerName = "ServiceBus";
                 break;
+            case ResourceType.AppSetting:
+                this.pickerName = "AppSetting";
+                break;
             case ResourceType.DocumentDB:
                 this.pickerName = "DocDbPickerBlade";
                 break;
@@ -122,7 +117,7 @@ export class BindingInputComponent {
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName != "EventHub" && this.pickerName != "ServiceBus") {
+        if (this.pickerName != "EventHub" && this.pickerName != "ServiceBus" && this.pickerName != "AppSetting") {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -148,14 +143,33 @@ export class BindingInputComponent {
 
     inputChanged(value: any) {
         this.setBottomDescription(this._input.id, value);
-        if (this._input.type === SettingType.picker) {
-            this.updateAppSettingValue();
-        }
         if (this._input.changeValue) {
             this._input.changeValue(value);
         }
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
+    }
+
+    onAppSettingValueShown() {
+        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
+            .do(null, e => {
+                this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+            })
+            .subscribe(r => {
+                this.appSettingValue = r.json().properties[this._input.value];
+                if (!this.appSettingValue) {
+                    this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+                }
+                // Use timeout as content is changed
+                setTimeout(() => {
+                    this.pickerPopover.show();
+                }, 0);
+            });
+    }
+
+    onAppSettingValueHidden()
+    {
+        this.appSettingValue = null;
     }
 
     onDropDownInputChanged(value: any) {
@@ -236,13 +250,6 @@ export class BindingInputComponent {
         }
         picker.inProcess = false;
         this._globalStateService.clearBusyState();
-    }
-
-    private updateAppSettingValue() {
-        this.appSettingValue = this._appSettings.properties[this._input.value];
-        if (!this.appSettingValue) {
-            this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
-        }        
     }
 
     setBottomDescription(id: string, value: any) {

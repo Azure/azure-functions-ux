@@ -153,6 +153,7 @@
     <Content Include="src\app\log-streaming\log-streaming.component.html" />
     <Content Include="src\app\main\main.component.html" />
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.html" />
+    <Content Include="src\app\pickers\app-setting\app-setting.component.html" />
     <Content Include="src\app\pickers\event-hub\event-hub.component.html" />
     <Content Include="src\app\pickers\service-bus\service-bus.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
@@ -430,6 +431,8 @@
     <TypeScriptCompile Include="src\app\main\main.component.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\app-setting\app-setting.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\app-setting\app-setting.component.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.ts" />
     <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.spec.ts" />
