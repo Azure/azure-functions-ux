@@ -48,7 +48,8 @@ export class PortalService {
 
     initializeIframe(): void {
 
-        this.shellSrc = Url.getParameterByName(window.location.href, "trustedAuthority");
+        let shellUrl = decodeURI(window.location.href);
+        this.shellSrc = Url.getParameterByName(shellUrl, "trustedAuthority");
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
         let appsvc = window.appsvc;
