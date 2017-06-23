@@ -274,7 +274,9 @@ export class FunctionNewComponent {
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "success", first: "false" });
-                // this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+
+                // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
                 this._globalStateService.clearBusyState();
             },
