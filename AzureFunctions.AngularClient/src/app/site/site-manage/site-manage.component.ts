@@ -279,7 +279,7 @@ export class SiteManageComponent {
                 this._translateService.instant(PortalResources.feature_allSettingsInfo),
                 "images/webapp.svg",
                 {
-                    detailBlade : "WebsiteBlade",
+                    detailBlade : "AppsOverviewBlade",
                     detailBladeInputs : {
                         id : site.id
                     }
