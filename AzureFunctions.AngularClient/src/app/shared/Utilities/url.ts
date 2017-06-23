@@ -5,7 +5,7 @@ export class Url{
         }
 
         name = name.replace(/[\[\]]/g, '\\$&');
-        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)', 'i');
         let results = regex.exec(url);
 
         if (!results) {
