@@ -209,6 +209,9 @@ export class ApiNewComponent implements OnInit {
 
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
+                    
+                    // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                    this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
                     this._proxiesNode.addChild(newApiProxy);
                     this._aiService.trackEvent('/actions/proxy/create');
                 });

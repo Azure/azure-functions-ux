@@ -157,7 +157,11 @@ export class SlotNewComponent implements OnInit {
                     true,
                     this._translateService.instant(PortalResources.slotNew_startCreateSuccessNotifyTitle).format(newSlotName));
                 let slotsNode = <SlotsNode>this._viewInfo.node;
+
+                // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                slotsNode = <SlotsNode>this._viewInfo.node.parent.children.find(node => node.title === slotsNode.title);
                 slotsNode.addChild(<ArmObj<Site>>r.json());
+                slotsNode.isExpanded = true;
             }, err => {
                 this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
