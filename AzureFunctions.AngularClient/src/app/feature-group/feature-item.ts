@@ -157,13 +157,14 @@ export class TabFeature extends FeatureItem{
         title : string,
         keywords : string,
         info : string,
-        public componentName : string,
+        imageUrl : string,
+        public tabId : string,
         public tabSub : Subject<string>){
 
-        super(title, keywords, info);
+        super(title, keywords, info, imageUrl);
     }
 
     click(){
-        this.tabSub.next(this.componentName.toLowerCase());
+        this.tabSub.next(this.tabId);
     }
 }

@@ -1,3 +1,4 @@
+import { SiteTabIds } from './../../shared/models/constants';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -13,7 +14,7 @@ import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
 import { Message } from './../../shared/models/portal';
-import { DisableableBladeFeature, DisableableFeature, DisableInfo } from './../../feature-group/feature-item';
+import { DisableableBladeFeature, DisableableFeature, DisableInfo, TabFeature, FeatureItem, BladeFeature, OpenBrowserWindowFeature} from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import {ArmService} from '../../shared/services/arm.service';
 import {AuthzService} from '../../shared/services/authz.service';
@@ -23,7 +24,6 @@ import {ArmObj} from '../../shared/models/arm/arm-obj';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PopOverComponent} from '../../pop-over/pop-over.component';
 import {FeatureGroupComponent} from '../../feature-group/feature-group.component';
-import {FeatureItem, TabFeature, BladeFeature, OpenBrowserWindowFeature} from '../../feature-group/feature-item';
 import {WebsiteId} from '../../shared/models/portal';
 
 @Component({
@@ -228,6 +228,15 @@ export class SiteManageComponent {
         ]
 
         let generalFeatures = [
+            new TabFeature(
+                "Function runtime settings",
+                "Function runtime settings",
+                "Manage settings that affect the Functions runtime",
+                "images/functions.svg",
+                SiteTabIds.functionRuntime,
+                this.openTabEvent
+            ),
+
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_applicationSettingsName),
                 this._translateService.instant(PortalResources.feature_applicationSettingsName) +
@@ -434,16 +443,25 @@ export class SiteManageComponent {
                 },
                 this._portalService),
 
-            new BladeFeature(
+            new TabFeature(
                 this._translateService.instant(PortalResources.feature_apiDefinitionName),
                 this._translateService.instant(PortalResources.feature_apiDefinitionName) + " swagger",
                 this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
-                "images/api-definition.svg",
-                {
-                    detailBlade : "ApiDefinition",
-                    detailBladeInputs : { resourceUri : site.id }
-                },
-                this._portalService),
+                "images/api-definition.svg",                
+                SiteTabIds.apiDefinition,
+                this.openTabEvent
+            ),
+
+            // new BladeFeature(
+            //     this._translateService.instant(PortalResources.feature_apiDefinitionName),
+            //     this._translateService.instant(PortalResources.feature_apiDefinitionName) + " swagger",
+            //     this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
+            //     "images/api-definition.svg",
+            //     {
+            //         detailBlade : "ApiDefinition",
+            //         detailBladeInputs : { resourceUri : site.id }
+            //     },
+            //     this._portalService),
         ]
 
         let appServicePlanFeatures = [

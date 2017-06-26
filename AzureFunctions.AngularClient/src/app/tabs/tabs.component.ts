@@ -6,7 +6,6 @@ import { PortalService } from '../shared/services/portal.service';
 
 @Component({
     selector: 'tabs',
-    styleUrls: ['./tabs.component.scss'],
     templateUrl: './tabs.component.html'
 })
 export class TabsComponent implements AfterContentInit {
@@ -36,7 +35,13 @@ export class TabsComponent implements AfterContentInit {
 
     closeTab(tab: TabComponent) {
         this.tabClosed.emit(tab);
-        this.selectTabHelper(this.tabs.toArray()[0]);
+        let tabs = this.tabs.toArray();
+        if(tabs.length > 2){
+            this.selectTabHelper(tabs[tabs.length - 2]);
+        }
+        else if(tabs.length > 1){
+            this.selectTabHelper(tabs[0]);
+        }
     }
 
     selectTabHelper(tab: TabComponent) {

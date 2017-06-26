@@ -84,6 +84,10 @@ export class Links{
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
 }
 
+export class LocalStorageKeys{
+    public static readonly siteTabs = "/site/tabs"
+}
+
 export class Order {
     public static templateOrder: string[] = 
     [
