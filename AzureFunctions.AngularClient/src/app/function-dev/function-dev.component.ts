@@ -612,7 +612,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
+        var allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+        if (allKeys) {
+            this.onChangeKey(allKeys[0].value);
+        }
         this.showFunctionInvokeUrlModal = value;
+        
     }
 
     setShowFunctionKeyModal(value: boolean) {
