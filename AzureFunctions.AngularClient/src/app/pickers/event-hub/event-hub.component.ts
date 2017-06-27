@@ -38,11 +38,11 @@ interface IOTEndpoint {
 })
 
 export class EventHubComponent {
-    public namespaces: ArmArrayResult;
-    public eventHubs: ArmArrayResult;
-    public namespacePolices: ArmArrayResult;
-    public polices: ArmArrayResult;
-    public IOTHubs: ArmArrayResult;
+    public namespaces: ArmArrayResult<any>;
+    public eventHubs: ArmArrayResult<any>;
+    public namespacePolices: ArmArrayResult<any>;
+    public polices: ArmArrayResult<any>;
+    public IOTHubs: ArmArrayResult<any>;
     public IOTEndpoints: IOTEndpoint[];
     public selectedNamespace: string;
     public selectedEventHub: string;
