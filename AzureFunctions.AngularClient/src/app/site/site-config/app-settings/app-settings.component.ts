@@ -5,6 +5,13 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+
+
+
+
+
+
+
 import { SaveResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
@@ -54,6 +61,12 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
+
+
+
+
+
+
 
   constructor(
     private _cacheService: CacheService,

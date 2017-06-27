@@ -1,0 +1,57 @@
+@import '../../../../sass/main';
+
+h3{
+    @extend .text-level2-heading;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-bottom: 0px;
+    margin-top: 55px;
+
+    &.first-config-heading{
+        margin-top: 10px;
+    }
+}
+
+.shield{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    background: rgba(255, 255, 255, 0.60);
+}
+
+
+.placeholder{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    //margin-left: 5px;
+    //margin-right: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    border: 1px solid black;
+    background: rgba(0, 0, 0, 0.60);
+    color: white;
+    text-align: center;
+}
+
+.settings-group-wrapper{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+
+    .setting-wrapper{
+        p{
+            &.pristine{
+                color: orange;
+            }
+
+            &.dirty{
+                color: purple;
+            }
+        }
+    }
+}
