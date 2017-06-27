@@ -109,6 +109,8 @@ import { SlotsListComponent } from './slots-list/slots-list.component';
 import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
+import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
+import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -212,7 +214,9 @@ export class AppModule {
     SlotNewComponent,
     EventHubComponent,
     ServiceBusComponent,
-	SearchBoxComponent
+    SearchBoxComponent,
+    AppSettingsComponent,
+    ConnectionStringsComponent
   ],
   imports: [
     FormsModule,
