@@ -156,7 +156,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 return Observable.of(r);
             }
 
-            let result : ArmArrayResult = r.json();
+            let result : ArmArrayResult<any> = r.json();
             let nodes = result.value
             .filter(armObj =>{
                 return armObj.kind && armObj.kind.toLowerCase() === "functionapp";
