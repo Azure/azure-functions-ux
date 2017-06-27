@@ -3517,15 +3517,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to URL and admin key.
-        /// </summary>
-        internal static string keysDialog_urlAndAdminKey {
-            get {
-                return ResourceManager.GetString("keysDialog_urlAndAdminKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         internal static string location {

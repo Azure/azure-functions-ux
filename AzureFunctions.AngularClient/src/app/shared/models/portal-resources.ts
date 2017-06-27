@@ -532,7 +532,6 @@ export class PortalResources
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
     public static keysDialog_url: string = "keysDialog_url";
-    public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
     public static emptyBrowse: string = "emptyBrowse";
@@ -581,6 +580,7 @@ export class PortalResources
     public static serviceBusPicker_serviceBus: string = "serviceBusPicker_serviceBus";
     public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
     public static bindingInput_show: string = "bindingInput_show";
+    public static appSettingPicker_add: string = "appSettingPicker_add";
     public static download: string = "download";
     public static downloadFunctionAppContent_includeAppSettings: string = "downloadFunctionAppContent_includeAppSettings";
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
