@@ -5,6 +5,13 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+
+
+
+
+
+
+
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
@@ -29,7 +36,6 @@ export class AppSettingsComponent implements OnInit, OnChanges {
   public resourceIdStream: Subject<string>;
   private _resourceIdSubscription: RxSubscription;
 
-  private _appSettingsArm: ArmObj<any>;
   private _busyState: BusyStateComponent;
   private _busyStateSubscription: RxSubscription;
   private _busyStateKey: string;
@@ -38,6 +44,15 @@ export class AppSettingsComponent implements OnInit, OnChanges {
 
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
+
+  private _appSettingsArm: ArmObj<any>;
+
+
+
+
+
+
+
 
   constructor(
     private _cacheService: CacheService,
@@ -50,7 +65,6 @@ export class AppSettingsComponent implements OnInit, OnChanges {
       this._busyStateSubscription = this._busyState.clear.subscribe(event => this._busyStateKey = undefined);
 
       this.resourceIdStream = new Subject<string>();
-
       this._resourceIdSubscription = this.resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
@@ -58,6 +72,10 @@ export class AppSettingsComponent implements OnInit, OnChanges {
         this.setScopedBusyState();
         // Not bothering to check RBAC since this component will only be used in Standalone mode
         return this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true);
+
+
+
+
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/app-settings", error);
@@ -68,6 +86,8 @@ export class AppSettingsComponent implements OnInit, OnChanges {
       .retry()
       .subscribe(r => {
         this._appSettingsArm = r.json();
+
+
         this._setupForm(this._appSettingsArm);
         this.clearScopedBusyState();
       });

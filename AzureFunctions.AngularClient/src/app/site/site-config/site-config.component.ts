@@ -7,6 +7,7 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 
@@ -24,6 +25,7 @@ export class SiteConfigComponent implements OnInit {
   private _viewInfoSubscription: RxSubscription;
   private _busyState: BusyStateComponent;
 
+  @ViewChild(GeneralSettingsComponent) generalSettings : GeneralSettingsComponent;
   @ViewChild(AppSettingsComponent) appSettings : AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings : ConnectionStringsComponent;
 
@@ -57,19 +59,21 @@ export class SiteConfigComponent implements OnInit {
   }
 
   save(){
+    this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
 
     this._busyState.setBusyState();
     Observable.zip(
+      this.generalSettings.save(),
       this.appSettings.save(),
       this.connectionStrings.save(),
-      (a, c) => ({appSettingsSaved: a, connectionStringsSaved: c})
+      (g, a, c) => ({generalSettingsSaved: g, appSettingsSaved: a, connectionStringsSaved: c})
     )
     .subscribe(r => {
       this._busyState.clearBusyState();
       this.mainForm = this._fb.group({});
-      if(!r.appSettingsSaved || !r.connectionStringsSaved){
+      if(!r.generalSettingsSaved || !r.appSettingsSaved || !r.connectionStringsSaved){
         this.mainForm.markAsDirty();
       }
       (<any>this.mainForm).timeStamp = new Date(); //for debugging

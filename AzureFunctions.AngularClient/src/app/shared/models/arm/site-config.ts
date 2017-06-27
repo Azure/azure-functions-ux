@@ -6,5 +6,14 @@ export interface SiteConfig{
     },
     apiDefinition : {
         url : string
-    }
+    },
+    netFrameworkVersion : string;
+    phpVersion : string;
+    javaVersion : string;
+    javaContainer: string;
+    javaContainerVersion : string;
+    pythonVersion : string;
+    use32BitWorkerProcess : boolean;
+    webSocketsEnabled : boolean;
+    managedPipelineMode : number;
 }

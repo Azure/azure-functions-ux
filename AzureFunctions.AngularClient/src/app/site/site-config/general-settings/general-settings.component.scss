@@ -1,0 +1,27 @@
+@import '../../../../sass/main';
+
+h3{
+    @extend .text-level2-heading;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-bottom: 0px;
+
+    &.connection-strings{
+        margin-top: 75px;
+    }
+}
+
+
+.settings-group-wrapper{
+    .setting-wrapper{
+        p{
+            &.pristine{
+                color: orange;
+            }
+
+            &.dirty{
+                color: purple;
+            }
+        }
+    }
+}
