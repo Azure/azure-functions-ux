@@ -18,6 +18,11 @@ export class BusyStateComponent implements OnInit {
     private busyStateMap: { [key: string]: number } = {};
     private reservedKey: string = "-";
 
+    //only for debugging
+    get busyStateKeys() : string {
+        return Object.keys(this.busyStateMap).join();
+    }
+
     ngOnInit() {
         this.isGlobal = this.name === 'global';
     }
