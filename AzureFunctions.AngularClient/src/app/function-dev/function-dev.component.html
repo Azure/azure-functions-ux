@@ -6,7 +6,7 @@
                 <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
             </div>
             <div class="modal-body keys-dialog-body">
-                <div *ngIf="isHttpFunction && authLevel && authLevel.toLowerCase() ==='function' && hostKeys">
+                <div *ngIf="isHttpFunction && hostKeys">
                     <div class="text-label">{{'keysDialog_key' | translate}}</div>
                     <select (change)="onChangeKey($event.target.value)">
                         <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
@@ -14,8 +14,7 @@
                     </select>
                 </div>
                 <div class="keys-dialog-body-invokeUrl">
-                    <div *ngIf="authLevel && authLevel.toLowerCase() !=='admin'" class="text-label">{{'keysDialog_url' | translate}}</div>
-                    <div *ngIf="authLevel && authLevel.toLowerCase() ==='admin'" class="text-label">{{'keysDialog_urlAndAdminKey' | translate}}</div>
+                    <div class="text-label">{{'keysDialog_url' | translate}}</div>
                     <div><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
                 </div>
             </div>

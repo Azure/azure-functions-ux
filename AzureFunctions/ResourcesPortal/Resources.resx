@@ -1711,9 +1711,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="keysDialog_url" xml:space="preserve">
     <value>URL</value>
   </data>
-  <data name="keysDialog_urlAndAdminKey" xml:space="preserve">
-    <value>URL and admin key</value>
-  </data>
   <data name="downloadFunctionAppContent" xml:space="preserve">
     <value>Download app content</value>
   </data>
