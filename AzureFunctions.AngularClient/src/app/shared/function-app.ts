@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+﻿import { Subject } from 'rxjs/Subject';
 import { SlotsService } from 'app/shared/services/slots.service';
 import {Injectable} from '@angular/core';
 import {Http, Headers, Response, ResponseType} from '@angular/http';
@@ -1836,7 +1836,7 @@ export class FunctionApp {
     getSystemKey() {
         let masterKey = this.masterKey
                 ? Observable.of(this.masterKey)
-                : this.getHostSecretsFromScm().map(r => <string>r.json().masterKey);
+                : this.getHostSecretsFromScm().map(r => <string> r.json().masterKey);
 
         return masterKey
             .mergeMap(r => {

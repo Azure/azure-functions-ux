@@ -1,4 +1,4 @@
-<div *ngIf="hasInputsToShow">
+﻿<div *ngIf="hasInputsToShow">
 
     <ng-container *ngFor="let w of model.warnings">
         <div *ngIf="w.visible" [class.alert-info]="w.type === 'Info'" [class.alert-warning]="w.type === 'Warning'" class="alert alert-dismissible" role="alert">
@@ -42,7 +42,8 @@
             </div>
 
             <div>
-                <button *ngIf="canSave && isDirty" (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
+                <button *ngIf="canSave && isDirty && !GraphWebhookTrigger" (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
+                <button *ngIf="canSave && isDirty && GraphWebhookTrigger" (click)="saveWebHook()" class="custom-button" [disabled]="!areInputsValid"> {{ 'Subscribe' | translate }}</button>
                 <button *ngIf="canCancel && isDirty" (click)="cancelClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
             </div>
 

@@ -22,7 +22,12 @@
     notificationHub = <any>"notificationHub",
     sendGrid = <any>"sendGrid",
     twilioSms = <any>"twilioSms",
-    aadtoken = <any>"aadToken"
+    aadtoken = <any>"aadToken",
+    excel = <any>"excel",
+    outlook = <any>"outlook",
+    onedrive = <any>"onedrive",
+    GraphWebhook = <any>"GraphWebhook",
+    GraphWebhookTrigger = <any>"GraphWebhookTrigger"
 }
 
 export interface BindingConfig {
@@ -57,6 +62,7 @@ export interface Setting {
     validators?: Validator[];
     placeholder?: string;
     metadata?: any;
+    isHidden?: boolean;
 }
 
 export interface Rule {
@@ -72,6 +78,12 @@ export interface RuleValue {
     display: string;
     hiddenSettings: string[];
     shownSettings: string[];
+    shownCheckboxOptions: CheckboxListOptions;
+}
+
+export interface CheckboxListOptions {
+    name: string;
+    values: EnumOption[];
 }
 
 export interface Warning {
@@ -104,7 +116,8 @@ export enum ResourceType {
     ServiceBus = <any>"ServiceBus",
     DocumentDB = <any>"DocumentDB",
     ApiHub = <any>"ApiHub",
-    AppSetting = <any>"AppSetting"
+    AppSetting = <any>"AppSetting",
+    MSGraph = <any>"MSGraph"
 }
 
 export class SettingType{
@@ -115,6 +128,7 @@ export class SettingType{
     public static int = "int";
     public static picker = "picker";
     public static checkBoxList = "checkBoxList";
+    public static token = "token";
 }
 
 export interface UIFunctionConfig {
@@ -153,4 +167,52 @@ export interface Action {
 
     settingValues: string[];
     templateId: string;
+}
+
+export enum ODataTypeMapping {
+    Message = <any>"#Microsoft.Graph.Message",
+    Contact = <any>"#Microsoft.Graph.Contact",
+    Drive = <any>"#Microsoft.Graph.Drive",
+    Event = <any>"#Microsoft.Graph.Event"
+}
+
+export class Moniker {
+    public Resource: string;
+    public IdToken: string;
+    public PrincipalId: string;
+
+    constructor(resource: string, idToken: string, principalId: string) {
+        this.Resource = resource;
+        this.IdToken = idToken;
+        this.PrincipalId = principalId;
+    }
+}
+
+export class GraphSubscription {
+    public changeType: string;
+    public notificationUrl: string;
+    public resource: string;
+    public expirationDateTime: string;
+    public clientState: string;
+    public id: string;
+
+    constructor(changeType: string, notificationUrl: string, resource: string, expirationDatetime: string, clientState?: string) {
+        this.changeType = changeType;
+        this.notificationUrl = notificationUrl;
+        this.resource = resource;
+        this.expirationDateTime = expirationDatetime;
+        this.clientState = clientState;
+    }
+}
+
+export class GraphSubscriptionEntry {
+    public SubscriptionId: string;
+    public ClientState: string;
+    public Moniker: string;
+
+    constructor(SubscriptionId: string, ClientState: string, Moniker: string, ) {
+        this.SubscriptionId = SubscriptionId;
+        this.ClientState = ClientState;
+        this.Moniker = Moniker;
+    }
 }

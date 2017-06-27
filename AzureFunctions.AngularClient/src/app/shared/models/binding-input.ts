@@ -18,6 +18,10 @@ export class BindingInputBase<T>
     validators: Validator[] = [];
     changeValue: (newValue?: any) => void;
     placeholder: string;
+    explicitSave: boolean = false;
+
+    counterpartToDisable: string;
+    isDisabled: boolean = false;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -100,6 +104,12 @@ export class CheckBoxListInput extends BindingInputBase<any>{
         });
     }
 
+    clear() {
+        this.enum.forEach((v) => {
+            this.value[v.value] = false;
+        });
+    }
+
     getArrayValue(): string[] {
         var result = [];
         for (var property in this.value) {
@@ -128,4 +138,17 @@ export class CheckBoxListInput extends BindingInputBase<any>{
         this.type = SettingType.checkBoxList;
     }
 
+}
+
+export class TokenInput extends BindingInputBase<string>{
+    resource: ResourceType;
+    inProcess: boolean = false;
+    items: string[];
+
+    constructor() {
+        super();
+        this.type = SettingType.token;
+        this.noErrorClass = '';
+        this.errorClass = 'has-error';
+    }
 }

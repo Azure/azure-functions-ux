@@ -1,7 +1,7 @@
-import { AppModule } from './../../app.module';
+﻿import { AppModule } from './../../app.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventHubComponent } from './service-baus.component';
+import { ServiceBusComponent } from './service-bus.component';
 
 describe('ServiceBusComponent', () => {
   let component: ServiceBusComponent;

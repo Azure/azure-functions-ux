@@ -1,4 +1,4 @@
-<event-hub *ngIf="pickerName === 'EventHub'"
+﻿<event-hub *ngIf="pickerName === 'EventHub'"
                 [functionApp]="functionApp"
                 (close)="closePicker($event)"
                 (selectItem)="finishDialogPicker($event)">
@@ -52,7 +52,7 @@
                type="text"
                placeholder="{{input.placeholder}}"
                [ngClass]="{'input-error':!!input.errorText}"
-               [disabled]="!!functionReturnValue">
+               [disabled]="input.isDisabled || !!functionReturnValue">
 
         <input [fnWriteAccess]="functionApp"
                *ngIf="input.type === 'int'" id="{{input.id}}"
@@ -120,4 +120,21 @@
         </div>
     </div>
 
+  <div *ngIf="input?.type === 'token'" class="picker-container">
+    <!-- Show drop-down menu of potential app settings -->
+    <input [fnWriteAccess]="functionApp"
+           type="text"
+           [(ngModel)]="input.value"
+           [attr.list]=input.id
+           (ngModelChange)="inputChanged($event)"
+           [disabled]=input.isDisabled />
+
+    <datalist id="{{input.id}}">
+      <option *ngFor="let item of input.items" [value]="item">
+    </datalist>
+
+    <!-- Show link to retrieve principal id -->
+    <i *ngIf="!input.inProcess && !showTryVi" class="link" [class.select]="input.errorText" (click)="openLogin(input)"> {{ 'bindingInput_retrieve' | translate }}</i>
+
+  </div>
 </div>

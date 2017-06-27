@@ -1,4 +1,4 @@
-export class HttpMethods {
+﻿export class HttpMethods {
     public GET = "get";
     public POST = "post";
     public DELETE = "delete";
@@ -39,6 +39,15 @@ export class Constants {
     public static msPortalHostName = 'https://ms.portal.azure.com';
     public static ReadWriteMode = 'readWrite'.toLocaleLowerCase();
     public static ReadOnlyMode = 'readOnly'.toLocaleLowerCase();
+
+    public static OIDKey = 'http://schemas.microsoft.com/identity/claims/objectidentifier';
+    public static BYOBTokenMapSettingName = 'BYOB_TokenMap';
+    public static defaultBYOBLocation = 'D:\home\data\byob_graphmap';
+    public static MSGraphResource = 'https://graph.microsoft.com';
+    public static latestMSGraphVersion = '1.0';
+    public static WebhookHandlerFunctionName = "RefreshO365Subscriptions";
+    public static WebhookHandlerFunctionId = "TimerTrigger-CSharpWebhookHandler";
+    public static WebhookFunctionName = "O365Webhook";
 }
 
 export class SiteTabIds{

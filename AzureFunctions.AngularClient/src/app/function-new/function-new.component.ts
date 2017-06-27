@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
+﻿import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -25,6 +25,12 @@ import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
+import { Constants } from "app/shared/models/constants";
+import { CacheService } from './../shared/services/cache.service';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ArmService } from './../shared/services/arm.service';
+
+declare var require: any
 
 @Component({
   selector: 'function-new',
@@ -73,7 +79,9 @@ export class FunctionNewComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _cacheService: CacheService,
+        private _armService: ArmService) {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
@@ -279,9 +287,130 @@ export class FunctionNewComponent {
                 this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
                 this._globalStateService.clearBusyState();
+
+                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
+                    this.createO365WebhookSupportFunction();
+                }
             },
             e => {
                 this._globalStateService.clearBusyState();
             });
+    }
+
+    private createO365WebhookSupportFunction() {
+        // First, check if an O365 support function already exists
+        this.functionApp.getFunctions().subscribe(list => {
+            var existing = list.find(fx => {
+                return fx.name.startsWith(Constants.WebhookHandlerFunctionName);
+            });
+            if (existing) {
+                return;
+            }
+            // Set up the necessary data (files, metadata, etc.) for a "new" function
+            this.functionName = Constants.WebhookHandlerFunctionName;
+            this.functionApp.getTemplates().subscribe((templates) => {
+                setTimeout(() => {
+                    this.selectedTemplate = templates.find((t) => t.id === Constants.WebhookHandlerFunctionId);
+                    this.functionApp.getBindingConfig().subscribe((bindings) => {
+                        this._globalStateService.clearBusyState();
+                        this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
+
+                        this.model.config = this.bc.functionConfigToUI({
+                            disabled: false,
+                            bindings: this.selectedTemplate.function.bindings
+                        }, bindings.bindings);
+
+                        // Retrieve Principal Id necessary to refresh user's subscriptions
+                        this.model.config.bindings.forEach((b) => {
+                            b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
+                            if (b.type == BindingType.GraphWebhook) {
+                                var principalId = b.settings.find(setting => {
+                                    return setting.name == "PrincipalId";
+                                });
+                                if (principalId) {
+                                    var WindowsAzure = require('azure-mobile-apps/azure-mobile-apps-client');
+                                    var mainURL = this.functionApp.getMainSiteUrl();
+                                    var client = new WindowsAzure.MobileServiceClient(mainURL);
+
+                                    var that = this;
+
+                                    var loginPromise = client.login('aad');
+                                    loginPromise.then(function () {
+                                        var appSettingName = "";
+                                        // Retrieve OID from /.auth/me 
+                                        var authMe = mainURL.concat("/.auth/me");
+                                        var invokePromise = client.invokeApi(authMe);
+                                        invokePromise.then(function (results) {
+                                            var response;
+                                            // Response prepended and appended with [, ]
+                                            if (results.responseText[0] == '[') {
+                                                response = results.responseText.substring(1, results.responseText.length - 1);
+                                            }
+                                            var json = JSON.parse(response);
+                                            var user_claims = json.user_claims;
+                                            var oid;
+                                            for (var i = 0; i < user_claims.length; i++) {
+                                                if (user_claims[i].typ == Constants.OIDKey) {
+                                                    oid = user_claims[i].val;
+                                                }
+                                            }
+
+                                            // App setting name in form: Identity.<alias>
+                                            appSettingName = "Identity.".concat(json.user_id.substring(0, json.user_id.indexOf("@")));
+
+                                            that.createApplicationSetting(appSettingName, oid);  // create new app setting for identity
+
+                                            principalId.value = "%".concat(appSettingName, "%");
+
+                                            // Finish setting up data for function creation
+                                            that.hasConfigUI = ((that.selectedTemplate.metadata.userPrompt) && (that.selectedTemplate.metadata.userPrompt.length > 0));
+
+                                            that.model.setBindings();
+                                            that.validate();
+
+                                            if (that._action) {
+
+                                                var binding = that.model.config.bindings.find((b) => {
+                                                    return b.type.toString() === that._action.binding;
+                                                });
+
+                                                if (binding) {
+                                                    that._action.settings.forEach((s, index) => {
+                                                        var setting = binding.settings.find(bs => {
+                                                            return bs.name === s;
+                                                        });
+                                                        if (setting) {
+                                                            setting.value = that._action.settingValues[index];
+                                                        }
+                                                    });
+                                                }
+                                            }
+
+                                            // Actually create function
+                                            that.onCreate();
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
+    private createApplicationSetting(appSettingName: string, appSettingValue: string) {
+        if (appSettingName && appSettingValue) {
+            this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
+                var appSettings: ArmObj<any> = r.json();
+                appSettings.properties[appSettingName] = appSettingValue;
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            })
+                .do(null, e => {
+                    console.log(e);
+                })
+                .subscribe(r => { });
+        }
     }
 }
