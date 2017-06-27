@@ -200,6 +200,8 @@ export class SiteDashboardComponent {
                 this.dynamicTabIds[0] = featureId;
             } else if (featureId === SiteTabIds.apiDefinition) {
                 this.dynamicTabIds[1] = featureId;
+            } else if (featureId === SiteTabIds.applicationSettings) {
+                this.dynamicTabIds[2] = featureId;
             }
 
             const tabSettings = <TabSettings>{

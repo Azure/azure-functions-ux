@@ -210,15 +210,10 @@ export class SiteEnabledFeaturesComponent {
 
             case Feature.AppSettings:
                 return <EnabledFeatureItem>{
-                    title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                    title: this._translateService.instant(tabsFeature ? PortalResources.feature_applicationSettingsName : PortalResources.tab_settings),
                     feature: feature,
-                    bladeInfo: {
-                        detailBlade: "WebsiteConfigSiteSettings",
-                        detailBladeInputs: {
-                            resourceUri: this._descriptor.resourceId,
-                        }
-                    },
-                    iconUrl: "images/application-settings.svg"
+                    iconUrl: "images/application-settings.svg",
+                    featureId: SiteTabIds.applicationSettings
                 }
 
             case Feature.AppInsight:

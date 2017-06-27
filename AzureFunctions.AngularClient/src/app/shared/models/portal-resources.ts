@@ -371,6 +371,14 @@ export class PortalResources
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
+    public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
+    public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
+    public static configLoadFailure: string = "configLoadFailure";
+    public static loading: string = "loading";
+    public static configUpdating: string = "configUpdating";
+    public static configUpdateSuccess: string = "configUpdateSuccess";
+    public static configUpdateFailure: string = "configUpdateFailure";
+    public static configUpdateFailureInvalidInput: string = "configUpdateFailureInvalidInput";
     public static feature_propertiesName: string = "feature_propertiesName";
     public static feature_propertiesInfo: string = "feature_propertiesInfo";
     public static feature_backupsName: string = "feature_backupsName";
@@ -432,6 +440,7 @@ export class PortalResources
     public static tab_settings: string = "tab_settings";
     public static tab_functionSettings: string = "tab_functionSettings";
     public static tab_configuration: string = "tab_configuration";
+    public static tab_applicationSettings: string = "tab_applicationSettings";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
     public static events: string = "events";

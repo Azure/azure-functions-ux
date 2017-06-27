@@ -1799,6 +1799,78 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must have write permissions on the current app in order to edit these settings.
+        /// </summary>
+        internal static string configRequiresWritePermissionOnApp {
+            get {
+                return ResourceManager.GetString("configRequiresWritePermissionOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This resource has a read-only lock that prevents us from getting the data. Please remove the lock and try again.
+        /// </summary>
+        internal static string configDisabledReadOnlyLockOnApp {
+            get {
+                return ResourceManager.GetString("configDisabledReadOnlyLockOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load settings.
+        /// </summary>
+        internal static string configLoadFailure {
+            get {
+                return ResourceManager.GetString("configLoadFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading...
+        /// </summary>
+        internal static string loading {
+            get {
+                return ResourceManager.GetString("loading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Updating web app settings
+        /// </summary>
+        internal static string configUpdating {
+            get {
+                return ResourceManager.GetString("configUpdating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully updated web app settings
+        /// </summary>
+        internal static string configUpdateSuccess {
+            get {
+                return ResourceManager.GetString("configUpdateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update web app settings: 
+        /// </summary>
+        internal static string configUpdateFailure {
+            get {
+                return ResourceManager.GetString("configUpdateFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {{configGroupName}} Save Error: Invlid input provided.
+        /// </summary>
+        internal static string configUpdateFailureInvalidInput {
+            get {
+                return ResourceManager.GetString("configUpdateFailureInvalidInput", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
         internal static string feature_appServiceEditorInfo {
@@ -4831,6 +4903,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tab_configuration {
             get {
                 return ResourceManager.GetString("tab_configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application settings.
+        /// </summary>
+        internal static string tab_applicationSettings {
+            get {
+                return ResourceManager.GetString("tab_applicationSettings", resourceCulture);
             }
         }
         

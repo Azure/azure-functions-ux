@@ -252,21 +252,6 @@ export class SiteManageComponent implements OnDestroy {
         const generalFeatures: FeatureItem[] = [
 
             new BladeFeature(
-                this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                this._translateService.instant(PortalResources.feature_applicationSettingsName) +
-                ' ' + this._translateService.instant(PortalResources.connectionStrings) +
-                ' java php .net',
-                this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                'images/application-settings.svg',
-                {
-                    detailBlade: 'WebsiteConfigSiteSettings',
-                    detailBladeInputs: {
-                        resourceUri: site.id,
-                    }
-                },
-                this._portalService),
-
-            new BladeFeature(
                 this._translateService.instant(PortalResources.feature_propertiesName),
                 this._translateService.instant(PortalResources.feature_propertiesName),
                 this._translateService.instant(PortalResources.feature_propertiesInfo),
@@ -318,6 +303,16 @@ export class SiteManageComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.feature_functionSettingsInfo),
                     'images/functions.svg',
                     SiteTabIds.functionRuntime,
+                    this._siteDashboard)
+            );
+
+            generalFeatures.splice(0, 0,
+                new TabFeature(
+                    this._translateService.instant(PortalResources.tab_applicationSettings),
+                    this._translateService.instant(PortalResources.tab_applicationSettings),
+                    this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
+                    'images/application-settings.svg',
+                    SiteTabIds.applicationSettings,
                     this._siteDashboard)
             );
         }
