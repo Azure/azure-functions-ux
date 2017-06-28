@@ -20,5 +20,13 @@ namespace AzureFunctions.Authentication
                 return Environment.GetEnvironmentVariable("AADClientSecret") ?? ConfigurationManager.AppSettings["SecuritySettings.AADClientSecret"];
             }
         }
+
+        public static string OpenIdConfigurationUrl
+        {
+            get
+            {
+                return Environment.GetEnvironmentVariable("OpenIdConfigurationUrl") ?? ConfigurationManager.AppSettings["SecuritySettings.OpenIdConfigurationUrl"];
+            }
+        }
     }
 }

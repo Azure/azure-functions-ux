@@ -92,6 +92,12 @@ namespace AzureFunctions.Authentication
         // valid for at least 10 mins
         public bool IsValid()
         {
+            // expires_on can be null for ADFS tokens. In such a case, assume that the token is not expired
+            if (expires_on == null)
+            {
+                return true;
+            }
+
             var secs = Int32.Parse(expires_on);
             return EpochTime.AddSeconds(secs) > DateTime.UtcNow.AddMinutes(10);
         }
