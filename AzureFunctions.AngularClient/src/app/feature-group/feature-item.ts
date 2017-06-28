@@ -1,3 +1,4 @@
+import { SiteDashboardComponent } from './../site/site-dashboard/site-dashboard.component';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 
@@ -158,13 +159,13 @@ export class TabFeature extends FeatureItem{
         keywords : string,
         info : string,
         imageUrl : string,
-        public tabId : string,
-        public tabSub : Subject<string>){
+        public featureId : string,
+        private _siteDashboard : SiteDashboardComponent){
 
         super(title, keywords, info, imageUrl);
     }
 
     click(){
-        this.tabSub.next(this.tabId);
+        this._siteDashboard.openFeature(this.featureId);
     }
 }

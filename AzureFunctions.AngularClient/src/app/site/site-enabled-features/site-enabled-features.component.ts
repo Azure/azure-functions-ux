@@ -1,3 +1,6 @@
+import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
+import { SiteTabIds } from './../../shared/models/constants';
+import { Url } from './../../shared/Utilities/url';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -36,7 +39,6 @@ interface EnabledFeatureMap{
     templateUrl: './site-enabled-features.component.html',
     styleUrls: ['./site-enabled-features.component.scss'],
     inputs: ['siteInput'],
-    outputs: ['componentName']
 })
 
 // First load list of enabled features from localStorage
@@ -46,7 +48,6 @@ export class SiteEnabledFeaturesComponent {
 
     public featureItems : EnabledFeatureItem[] = [];
     public isLoading : boolean;
-    public componentName = new Subject<string>();
 
     private _site : ArmObj<Site>;
     private _siteSubject = new Subject<ArmObj<Site>>();
@@ -59,7 +60,8 @@ export class SiteEnabledFeaturesComponent {
         private _authZService : AuthzService,
         private _aiService : AiService,
         private _translateService : TranslateService,
-        private _globalStateService : GlobalStateService) {
+        private _globalStateService : GlobalStateService,
+        private _siteDashboard : SiteDashboardComponent) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -93,6 +95,9 @@ export class SiteEnabledFeaturesComponent {
                     this.isLoading = false;
                     this._copyCachedFeaturesToF1(storageItem);
                 }
+                else{
+                    this._addDefaultItems(this.featureItems);
+                }
 
                 return Observable.zip(
                     this._getConfigFeatures(r.site),
@@ -114,6 +119,10 @@ export class SiteEnabledFeaturesComponent {
                 this.isLoading = false;
 
                 let latestFeatureItems : EnabledFeatureItem[] = [];
+
+                // Need to add default items to latest otherwise they'll be removed from featureItems during merge.
+                this._addDefaultItems(latestFeatureItems);
+
                 results.forEach(result =>{
                     if(result && result.length > 0){
                         result.forEach(featureItem =>{
@@ -126,7 +135,7 @@ export class SiteEnabledFeaturesComponent {
 
                 this._mergeFeaturesIntoF1(this.featureItems, latestFeatureItems);
                 this._saveFeatures(this.featureItems);
-            })
+            });
     }
 
     set siteInput(site : ArmObj<Site>){
@@ -138,8 +147,8 @@ export class SiteEnabledFeaturesComponent {
     }
 
     openFeature(feature : EnabledFeatureItem){
-        if(feature.componentName){
-            this.componentName.next(feature.componentName);
+        if(feature.featureId){
+            this._siteDashboard.openFeature(feature.featureId);
         }
         else if(feature.bladeInfo){
             this._portalService.openBlade(feature.bladeInfo, "site-enabled-features");
@@ -180,9 +189,37 @@ export class SiteEnabledFeaturesComponent {
         })
     }
 
+    private _addDefaultItems(features : EnabledFeature[]){
+        let functionSettings = this._getEnabledFeatureItem(Feature.FunctionSettings);
+        let appSettings = this._getEnabledFeatureItem(Feature.AppSettings);
+        features.splice(0, 0, functionSettings, appSettings);
+    }
+
     private _getEnabledFeatureItem(feature : Feature, ...args: any[]) : EnabledFeatureItem{
+        let tabsFeature = Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
 
         switch (feature) {
+            case Feature.FunctionSettings:
+                return <EnabledFeatureItem>{
+                    title: this._translateService.instant(tabsFeature ? PortalResources.tab_functionSettings : PortalResources.tab_settings),
+                    feature: feature,
+                    iconUrl: "images/Functions.svg",
+                    featureId: SiteTabIds.functionRuntime
+                }
+            
+            case Feature.AppSettings:
+                return <EnabledFeatureItem>{
+                    title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                    feature: feature,
+                    bladeInfo: {
+                        detailBlade : "WebsiteConfigSiteSettings",
+                        detailBladeInputs : {
+                            resourceUri : this._descriptor.resourceId,
+                        }
+                    },
+                    iconUrl: "images/application-settings.svg"
+                }
+
             case Feature.AppInsight:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_appInsights),
@@ -269,12 +306,7 @@ export class SiteEnabledFeaturesComponent {
                     title : this._translateService.instant(PortalResources.feature_apiDefinitionName),
                     feature : feature,
                     iconUrl : "images/api-definition.svg",
-                    bladeInfo : {
-                        detailBlade : "ApiDefinition",
-                        detailBladeInputs : {
-                            resourceUri : this._site.id,
-                        }
-                    }
+                    featureId: SiteTabIds.apiDefinition
                 }
 
             case Feature.WebJobs:
@@ -329,7 +361,8 @@ export class SiteEnabledFeaturesComponent {
         this._storageService.setItem(item.id, item);
     }
 
-    private _mergeFeaturesIntoF1(featureItems1 : EnabledFeatureItem[],
+    private _mergeFeaturesIntoF1(
+        featureItems1 : EnabledFeatureItem[],
         featureItems2: EnabledFeatureItem[]){
 
         let removeFeatures : EnabledFeatureItem[] = [];

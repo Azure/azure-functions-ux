@@ -28,6 +28,14 @@ export class TabsComponent implements AfterContentInit {
         }
     }
 
+    selectTabId(tabId : string){
+        let tabs = this.tabs.toArray();
+        let tab = tabs.find(t => t.id === tabId);
+        if(tab){
+            this.selectTab(tab);
+        }
+    }
+
     selectTab(tab: TabComponent) {
         this._aiService.trackEvent("/sites/open-tab", { name : tab.id });
         this.selectTabHelper(tab);
@@ -35,13 +43,6 @@ export class TabsComponent implements AfterContentInit {
 
     closeTab(tab: TabComponent) {
         this.tabClosed.emit(tab);
-        let tabs = this.tabs.toArray();
-        if(tabs.length > 2){
-            this.selectTabHelper(tabs[tabs.length - 2]);
-        }
-        else if(tabs.length > 1){
-            this.selectTabHelper(tabs[0]);
-        }
     }
 
     selectTabHelper(tab: TabComponent) {

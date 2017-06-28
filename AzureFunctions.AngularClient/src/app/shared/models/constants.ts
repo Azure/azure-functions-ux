@@ -42,14 +42,13 @@ export class Constants {
 }
 
 export class SiteTabIds{
-    public static overview = "Overview";
-    public static monitor = "Monitor";
-    public static features = "Platform features";
-    public static functionRuntime = "Settings";
-    public static apiDefinition = "API Definition";
-    public static troubleshoot = "Troubleshoot";
-    public static deploymentSource = "Deployment Source";
-    public static config = "Config";
+    public static overview = "overview";
+    public static monitor = "monitor";
+    public static features = "platformFeatures";
+    public static functionRuntime = "functionRuntimeSettings";
+    public static apiDefinition = "apiDefinition";
+    public static config = "config";
+    public static applicationSettings = "appSettings";
 }
 
 export class Arm{

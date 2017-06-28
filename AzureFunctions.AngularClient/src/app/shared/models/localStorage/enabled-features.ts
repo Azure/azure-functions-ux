@@ -12,7 +12,9 @@ export enum Feature{
     ApiDefinition,
     WebJobs,
     SiteExtensions,
-    AppInsight
+    AppInsight,
+    FunctionSettings,
+    AppSettings
 }
 
 export interface EnabledFeatures extends StorageItem{
@@ -25,7 +27,7 @@ export interface EnabledFeature{
 }
 
 export interface EnabledFeatureItem extends EnabledFeature{
-    componentName? : string;
+    featureId? : string;
     bladeInfo? : OpenBladeInfo;
     iconUrl : string;
 }
