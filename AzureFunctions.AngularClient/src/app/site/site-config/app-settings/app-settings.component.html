@@ -38,4 +38,8 @@
   <div class="link add-setting" (click)="addAppSetting()">
     {{ 'addNewSetting' | translate }}
   </div>
+  <p>{{mainForm.timeStamp}}</p>
+  <p>{{this.groupArray.parent.timeStamp}}</p>
+  <p>busyStateKeys: {{_busyState.name}}</p>
+  <p>busyStateKeys: {{_busyState.busyStateKeys}}</p>
 </ng-container>

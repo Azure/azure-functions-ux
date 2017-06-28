@@ -15,10 +15,15 @@
 
 <div *ngIf="!!mainForm" id="site-config-wrapper">
 
+<p>{{mainForm.timeStamp}}</p>
+<p>busyStateKeys: {{_busyState.name}}</p>
+<p>busyStateKeys: {{_busyState.busyStateKeys}}</p>
+
 <general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
 
 <app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
 
 <connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+
 
 </div>
