@@ -15,7 +15,7 @@ import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds, LocalStorageKeys } from './../../shared/models/constants';
+import { SiteTabIds, LocalStorageKeys, EnableTabFeature } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import {TabsComponent} from '../../tabs/tabs.component';
 import {TabComponent} from '../../tab/tab.component';
@@ -40,14 +40,14 @@ export class SiteDashboardComponent {
     @ViewChild(TabsComponent) tabs : TabsComponent;
 
     public selectedTabId: string = SiteTabIds.overview;
-    public dynamicTabId: string = null;
+    public dynamicTabId: string | null = null;
     public site : ArmObj<Site>;
     public viewInfoStream : Subject<TreeViewInfo>;
     public viewInfo : TreeViewInfo;
     public TabIds = SiteTabIds;
     public Resources = PortalResources;
     public isStandalone = false;
-    public tabsFeature: string;
+    public tabsFeature: EnableTabFeature;
     public openFeatureId = new ReplaySubject<string>(1);
     private _prevFeatureId : string;
 
@@ -64,7 +64,7 @@ export class SiteDashboardComponent {
         private _storageService : LocalStorageService) {
 
         this.isStandalone = _configService.isStandalone();
-        this.tabsFeature = Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
+        this.tabsFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream

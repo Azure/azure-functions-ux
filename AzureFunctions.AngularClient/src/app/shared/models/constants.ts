@@ -41,14 +41,16 @@ export class Constants {
     public static ReadOnlyMode = 'readOnly'.toLocaleLowerCase();
 }
 
+export type EnableTabFeature = 'tabs' | 'inplace' | null;
+
 export class SiteTabIds{
-    public static overview = "overview";
-    public static monitor = "monitor";
-    public static features = "platformFeatures";
-    public static functionRuntime = "functionRuntimeSettings";
-    public static apiDefinition = "apiDefinition";
-    public static config = "config";
-    public static applicationSettings = "appSettings";
+    public static readonly overview = "overview";
+    public static readonly monitor = "monitor";
+    public static readonly features = "platformFeatures";
+    public static readonly functionRuntime = "functionRuntimeSettings";
+    public static readonly apiDefinition = "apiDefinition";
+    public static readonly config = "config";
+    public static readonly  applicationSettings = "appSettings";
 }
 
 export class Arm{

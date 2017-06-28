@@ -46,7 +46,7 @@ export class SiteManageComponent {
     public viewInfo : TreeViewInfo;
 
     // Used to open features within the same tab instead of in a new tab
-    public selectedFeatureId : string = null;
+    public selectedFeatureId : string | null = null;
 
     private _viewInfoStream = new Subject<TreeViewInfo>();
     private _descriptor : SiteDescriptor;
