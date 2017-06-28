@@ -50,13 +50,8 @@ export class CacheService {
 
     putArm(resourceId : string, apiVersion? : string, content? : any){
         let url : string = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, "PUT", true, null, content)
-        .map(result =>{
-
-            // Clear the cache after a PUT request.
-            delete this._cache[url.toLowerCase()];
-            return result;
-        });
+        delete this._cache[url.toLowerCase()];        
+        return this._armService.send("PUT", url, content);
     }
 
     get(url : string, force? : boolean, headers? : Headers, invokeApi? : boolean){
