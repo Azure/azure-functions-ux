@@ -35,3 +35,15 @@
 .site-manage-feature-group{
     margin: 25px 0px 30px 0px;
 }
+
+#back-bar{
+    background-color: $back-bar-color;
+    height: 40px;
+    font-size: 18px;
+    padding: 7px;
+
+    i{
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+}

@@ -12,3 +12,7 @@ export interface StoredSubscriptions extends StorageItem{
 export interface QuickstartSettings extends StorageItem{
     disabled : boolean;
 }
+
+export interface TabSettings extends StorageItem{
+    dynamicTabId : string;
+} 

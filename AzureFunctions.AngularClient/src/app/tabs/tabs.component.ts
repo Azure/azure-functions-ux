@@ -6,7 +6,6 @@ import { PortalService } from '../shared/services/portal.service';
 
 @Component({
     selector: 'tabs',
-    styleUrls: ['./tabs.component.scss'],
     templateUrl: './tabs.component.html'
 })
 export class TabsComponent implements AfterContentInit {
@@ -29,6 +28,14 @@ export class TabsComponent implements AfterContentInit {
         }
     }
 
+    selectTabId(tabId : string){
+        let tabs = this.tabs.toArray();
+        let tab = tabs.find(t => t.id === tabId);
+        if(tab){
+            this.selectTab(tab);
+        }
+    }
+
     selectTab(tab: TabComponent) {
         this._aiService.trackEvent("/sites/open-tab", { name : tab.id });
         this.selectTabHelper(tab);
@@ -36,7 +43,6 @@ export class TabsComponent implements AfterContentInit {
 
     closeTab(tab: TabComponent) {
         this.tabClosed.emit(tab);
-        this.selectTabHelper(this.tabs.toArray()[0]);
     }
 
     selectTabHelper(tab: TabComponent) {

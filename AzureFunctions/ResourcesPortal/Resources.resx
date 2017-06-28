@@ -1219,6 +1219,9 @@
   <data name="feature_allSettingsInfo" xml:space="preserve">
     <value>View all App Service settings.</value>
   </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>General Settings</value>
   </data>
@@ -1374,6 +1377,9 @@
   </data>
   <data name="tab_settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>
