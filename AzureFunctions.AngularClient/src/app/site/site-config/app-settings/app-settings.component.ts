@@ -187,15 +187,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   deleteAppSetting(group: FormGroup){
     let appSettings = this.groupArray;
-    this._deleteRow(group, appSettings);
-  }
-
-  private _deleteRow(group: FormGroup, formArray: FormArray){
-    let index = formArray.controls.indexOf(group);
+    let index = appSettings.controls.indexOf(group);
     if (index >= 0){
-      formArray.controls.splice(index, 1);
+      appSettings.controls.splice(index, 1);
       group.markAsDirty();
-      formArray.updateValueAndValidity();
+      appSettings.updateValueAndValidity();
     }
   }
 

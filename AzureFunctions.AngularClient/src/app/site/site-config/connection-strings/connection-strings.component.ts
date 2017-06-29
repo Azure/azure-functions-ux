@@ -205,15 +205,11 @@ constructor(
 
   deleteConnectionString(group: FormGroup){
     let connectionStrings = this.groupArray;
-    this._deleteRow(group, connectionStrings);
-  }
-
-  private _deleteRow(group: FormGroup, formArray: FormArray){
-    let index = formArray.controls.indexOf(group);
+    let index = connectionStrings.controls.indexOf(group);
     if (index >= 0){
-      formArray.controls.splice(index, 1);
+      connectionStrings.controls.splice(index, 1);
       group.markAsDirty();
-      formArray.updateValueAndValidity();
+      connectionStrings.updateValueAndValidity();
     }
   }
 
