@@ -66,7 +66,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
 
   private _availableStacksArm: ArmArrayResult<AvailableStack>;
-  private _javaMajorToMinorMap: Map<string, MinorVersion[]>;
+  //private _javaMajorToMinorMap: Map<string, MinorVersion[]>;
+
+  private _netFrameworkVersionOptions: DropDownElement<string>[];
+  private _phpVersionOptions: DropDownElement<string>[];
+  private _pythonVersionOptions: DropDownElement<string>[];
+  private _javaVersionOptions: DropDownElement<string>[];
+  private _javaMinorVersionOptions: DropDownElement<string>[];
+  private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
+  private _javaWebContainerOptions: DropDownElement<string>[];
 
   @Input() mainForm: FormGroup;
 
@@ -171,22 +179,72 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     if(!!webConfigArm && !!availableStacksArm){
       if(!this._saveError || !this.group){
-        //this._generateStacksOptions(availableStacksArm, webConfigArm);
-        let netFrameWorkVersion = this._createWebConfigSettingGroup("netFrameworkVersion");
-        (<any>netFrameWorkVersion).creationTime = new Date();
-        let phpVersion = this._createWebConfigSettingGroup("phpVersion");
-        (<any>phpVersion).creationTime = new Date();
-        let javaVersion = this._createWebConfigSettingGroup("javaVersion");
-        (<any>javaVersion).creationTime = new Date();
-        let pythonVersion = this._createWebConfigSettingGroup("pythonVersion");
-        (<any>pythonVersion).creationTime = new Date();
+        this._generateOrUpdateStacksOptions(availableStacksArm, webConfigArm);
+
+        //netFramworkVersion
+        let netFramworkVersionOption = this._netFrameworkVersionOptions.find(t => t.default);
+        let netFramworkVersionValue = !!netFramworkVersionOption ? netFramworkVersionOption.value : null;
+        let netFrameWorkVersion = this._fb.group({
+          value: netFramworkVersionValue
+        });
+        (<any>netFrameWorkVersion).options = this._netFrameworkVersionOptions;
+        (<any>netFrameWorkVersion).friendlyName = ".NET Framework version";
+        
+        //phpVersion
+        let phpVersionOption = this._phpVersionOptions.find(t => t.default);
+        let phpVersionValue = !!phpVersionOption ? phpVersionOption.value : null;
+        let phpVersion = this._fb.group({
+          value: phpVersionValue
+        });
+        (<any>phpVersion).options = this._phpVersionOptions;
+        (<any>phpVersion).friendlyName = "PHP version";
+        
+        //pythonVersion
+        let pythonVersionOption = this._pythonVersionOptions.find(t => t.default);
+        let pythonVersionValue = !!pythonVersionOption ? pythonVersionOption.value : null;
+        let pythonVersion = this._fb.group({
+          value: pythonVersionValue
+        });
+        (<any>pythonVersion).options = this._pythonVersionOptions;
+        (<any>pythonVersion).friendlyName = "Python version";
+
+        //javaVersion
+        let javaVersionOption = this._javaVersionOptions.find(t => t.default);
+        let javaVersionValue = !!javaVersionOption ? javaVersionOption.value : null;
+        let javaVersion = this._fb.group({
+          value: javaVersionValue
+        });
+        (<any>javaVersion).options = this._javaVersionOptions;
+        (<any>javaVersion).friendlyName = "Java version";
+
+        //javaMinorVersion
+        this._javaMinorVersionOptions = !!javaVersionValue ? this._javaMinorVersionOptionsMap[javaVersionValue] : null;
+        let javaMinorVersionOption = this._javaMinorVersionOptions.find(t => t.default);
+        let javaMinorVersionValue = !!javaMinorVersionOption ? javaMinorVersionOption.value : null;
+        let javaMinorVersion = this._fb.group({
+          value: javaMinorVersionValue
+        });
+        (<any>javaMinorVersion).options = this._javaMinorVersionOptions;
+        (<any>javaMinorVersion).friendlyName = "Java minor version";
+
+        //javaWebContainer
+        let javaWebContainerOption = this._javaWebContainerOptions.find(t => t.default);
+        let javaWebContainerValue = !!javaWebContainerOption ? javaWebContainerOption.value : null;
+        let javaWebContainer = this._fb.group({
+          value: javaWebContainerValue
+        });
+        (<any>javaWebContainer).options = this._javaWebContainerOptions;
+        (<any>javaWebContainer).friendlyName = "Web container";
+
 
 
         this.group = this._fb.group({
           netFrameWorkVersion: netFrameWorkVersion,
           phpVersion: phpVersion,
+          pythonVersion: pythonVersion,
           javaVersion: javaVersion,
-          pythonVersion: pythonVersion
+          javaMinorVersion: javaMinorVersion,
+          javaWebContainer: javaWebContainer
         });
       }
       // else{
@@ -211,26 +269,25 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   }
 
-/*
-  private _generateStacksOptions(availableStacksArm: ArmArrayResult<AvailableStack>, webConfigArm: ArmObj<SiteConfig>){
+  private _generateOrUpdateStacksOptions(availableStacksArm: ArmArrayResult<AvailableStack>, webConfigArm: ArmObj<SiteConfig>){
     this._availableStacksArm = availableStacksArm;
     this._availableStacksArm.value.forEach(availableStackArm => {
       switch(availableStackArm.name)
       {
         case AvailableStackNames.NetStack:
-          this._generateNetStackOptions(availableStackArm.properties, webConfigArm.properties.netFrameworkVersion);
+          this._generateOrUpdateNetStackOptions(availableStackArm.properties, webConfigArm.properties.netFrameworkVersion);
           break;
         case AvailableStackNames.PhpStack:
-          this._generatePhpStackOptions(availableStackArm.properties, webConfigArm.properties.phpVersion);
+          this._generateOrUpdatePhpStackOptions(availableStackArm.properties, webConfigArm.properties.phpVersion);
           break;
         case AvailableStackNames.PythonStack:
-          this._generatePythonStackOptions(availableStackArm.properties, webConfigArm.properties.pythonVersion);
+          this._generateOrUpdatePythonStackOptions(availableStackArm.properties, webConfigArm.properties.pythonVersion);
           break;
         case AvailableStackNames.JavaStack:
-          this._generateJavaStackOptions(availableStackArm.properties, webConfigArm.properties.javaVersion);
+          this._generateOrUpdateJavaStackOptions(availableStackArm.properties, webConfigArm.properties.javaVersion);
           break;
         case AvailableStackNames.JavaContainer:
-          //this._generateNetStackOptions(availableStackArm.properties, webConfigArm.properties.netFrameworkVersion);
+          this._generateOrUpdateJavaContainerOptions(availableStackArm.properties, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
           break;
         default:
           break;
@@ -238,14 +295,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     })
   }
 
-  private _netFrameworkVersionOptions: DropDownElement<string>[];
-  private _phpVersionOptions: DropDownElement<string>[];
-  private _pythonVersionOptions: DropDownElement<string>[];
-  private _javaVersionOptions: DropDownElement<string>[];
-  private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
-  private _javaWebContainerOptions: DropDownElement<string>[];
-
-  private _generateNetStackOptions(availableStack: AvailableStack, netFrameworkVersion: string){
+  private _generateOrUpdateNetStackOptions(availableStack: AvailableStack, netFrameworkVersion: string){
+    if(!!this._netFrameworkVersionOptions){
+      this._netFrameworkVersionOptions.forEach(element => {
+        element.default = element.value === netFrameworkVersion;
+      })
+    }
+    else {
       this._netFrameworkVersionOptions = [];
 
       availableStack.majorVersions.forEach(majorVersion => {
@@ -255,71 +311,114 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           default: majorVersion.runtimeVersion === netFrameworkVersion
         });
       })
+    }
   }
 
-  private _generatePhpStackOptions(availableStack: AvailableStack, phpVersion: string){
-    this._phpVersionOptions = [];
+  private _generateOrUpdatePhpStackOptions(availableStack: AvailableStack, phpVersion: string){
+    if(!!this._phpVersionOptions){
+      this._phpVersionOptions.forEach(element => {
+        element.default = (!element.value && !phpVersion) || element.value === phpVersion;
+      })
+    }
+    else {
+      this._phpVersionOptions = [];
 
-    this._phpVersionOptions.push({
-      displayLabel: "Off",
-      value: "",
-      default: !phpVersion
-    });
-
-    availableStack.majorVersions.forEach(majorVersion => {
       this._phpVersionOptions.push({
-        displayLabel: majorVersion.displayVersion,
-        value: majorVersion.runtimeVersion,
-        default: majorVersion.runtimeVersion === phpVersion
+        displayLabel: "Off",
+        value: "",
+        default: !phpVersion
       });
-    })
+
+      availableStack.majorVersions.forEach(majorVersion => {
+        this._phpVersionOptions.push({
+          displayLabel: majorVersion.displayVersion,
+          value: majorVersion.runtimeVersion,
+          default: majorVersion.runtimeVersion === phpVersion
+        });
+      })
+    }
   }
 
-  private _generatePythonStackOptions(availableStack: AvailableStack, pythonVersion: string){
-    this._pythonVersionOptions = [];
+  private _generateOrUpdatePythonStackOptions(availableStack: AvailableStack, pythonVersion: string){
+    if(!!this._pythonVersionOptions){
+      this._pythonVersionOptions.forEach(element => {
+        element.default = (!element.value && !pythonVersion) || element.value === pythonVersion;
+      })
+    }
+    else {
+      this._pythonVersionOptions = [];
 
-    this._pythonVersionOptions.push({
-      displayLabel: "Off",
-      value: "",
-      default: !pythonVersion
-    });
-
-    availableStack.majorVersions.forEach(majorVersion => {
       this._pythonVersionOptions.push({
-        displayLabel: majorVersion.displayVersion,
-        value: majorVersion.runtimeVersion,
-        default: majorVersion.runtimeVersion === pythonVersion
+        displayLabel: "Off",
+        value: "",
+        default: !pythonVersion
       });
-    })
+
+      availableStack.majorVersions.forEach(majorVersion => {
+        this._pythonVersionOptions.push({
+          displayLabel: majorVersion.displayVersion,
+          value: majorVersion.runtimeVersion,
+          default: majorVersion.runtimeVersion === pythonVersion
+        });
+      })
+    }
   }
 
-  private _generateJavaStackOptions(availableStack: AvailableStack, javaVersion: string){
+  private _generateOrUpdateJavaStackOptions(availableStack: AvailableStack, javaVersion: string){
     let javaMajorVersion: string = javaVersion;
+    let match = false;
 
-    this._javaVersionOptions = [];
-    this._javaMinorVersionOptionsMap =  {};
-
-    this._javaVersionOptions.push({
-      displayLabel: "Off",
-      value: "",
-      default: !javaMajorVersion
-    });
-
-    availableStack.majorVersions.forEach(majorVersion => {
-      let match = this._generateJavaMinorStackOptions(majorVersion, javaVersion);
-      javaMajorVersion = match ? majorVersion.runtimeVersion : javaMajorVersion;
+    if(!!this._javaVersionOptions && !!this._javaMinorVersionOptionsMap){
+      for(let majorVersion in this._javaMinorVersionOptionsMap){
+        match = this._updateJavaMinorStackOptions(majorVersion, javaVersion);
+        javaMajorVersion = match ? majorVersion : javaMajorVersion;
+      }
+      this._javaVersionOptions.forEach(element => {
+        element.default = (!element.value && !javaMajorVersion) || element.value === javaMajorVersion;
+      })
+    }
+    else {
+      this._javaVersionOptions = [];
+      this._javaMinorVersionOptionsMap =  {};
 
       this._javaVersionOptions.push({
-        displayLabel: "Java " + majorVersion.displayVersion.substr(2),
-        value: majorVersion.runtimeVersion,
-        default: majorVersion.runtimeVersion === javaMajorVersion
+        displayLabel: "Off",
+        value: "",
+        default: !javaMajorVersion
       });
-    })
+
+      availableStack.majorVersions.forEach(majorVersion => {
+        match = this._generateJavaMinorStackOptions(majorVersion, javaVersion);
+        javaMajorVersion = match ? majorVersion.runtimeVersion : javaMajorVersion;
+
+        this._javaVersionOptions.push({
+          displayLabel: "Java " + majorVersion.displayVersion.substr(2),
+          value: majorVersion.runtimeVersion,
+          default: majorVersion.runtimeVersion === javaMajorVersion
+        });
+      })
+    }
+  }
+
+  private _updateJavaMinorStackOptions(majorVersion: string, javaVersion: string): boolean{
+    let match = majorVersion === javaVersion;
+    if(!javaVersion || match){
+      this._javaMinorVersionOptionsMap[majorVersion].forEach(element => {
+        element.default = !element.value;
+      })
+    }
+    else{
+      this._javaMinorVersionOptionsMap[majorVersion].forEach(element => {
+        element.default = element.value === javaVersion;
+        match = match || element.default;
+      })
+    }
+    return match;
   }
 
   private _generateJavaMinorStackOptions(majorVersion: MajorVersion, javaVersion: string): boolean{
-    let javaMinorVersionOptions: DropDownElement<string>[] = [];
     let match = false;
+    let javaMinorVersionOptions: DropDownElement<string>[] = [];
 
     majorVersion.minorVersions.forEach(minorVersion => {
       let isDefault = false;
@@ -346,85 +445,49 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     return match;
   }
 
-  private _generateJavaContainerOptions(availableStack: AvailableStack, javaContainer: string, javaContainerVersion: string){
-    let javaContainerMajorVersion: string = javaContainerVersion;
+  private _generateOrUpdateJavaContainerOptions(availableStack: AvailableStack, javaContainer: string, javaContainerVersion: string){
+    if(!!this._javaWebContainerOptions){
+      this._javaWebContainerOptions.forEach(element => {
+        let parsedValue = JSON.parse(element.value);
+        element.default = parsedValue.container.toUpperCase() === javaContainer && (parsedValue.majorVersion === javaContainerVersion || parsedValue.minorVersion === javaContainerVersion);
+      })
+    }
+    else {
+      let javaContainerMajorVersion: string = javaContainerVersion;
 
-    this._javaWebContainerOptions = [];
+      this._javaWebContainerOptions = [];
 
-    availableStack.frameworks.forEach(framework => {
+      availableStack.frameworks.forEach(framework => {
 
-      framework.majorVersions.forEach(majorVersion => {
-        let match = false;
-        
-        majorVersion.minorVersions.forEach(minorVersion => {
-          let isDefault = false;
-          if(framework.name === javaContainer && minorVersion.runtimeVersion === javaContainerVersion){
-            isDefault = true;
-            match = true;
-            javaContainerMajorVersion = majorVersion.runtimeVersion;
-          }
+        framework.majorVersions.forEach(majorVersion => {
+          let match = false;
+          
+          majorVersion.minorVersions.forEach(minorVersion => {
+            let isDefault = false;
+            if(framework.name.toUpperCase() === javaContainer && minorVersion.runtimeVersion === javaContainerVersion){
+              isDefault = true;
+              match = true;
+              javaContainerMajorVersion = majorVersion.runtimeVersion;
+            }
+
+            this._javaWebContainerOptions.push({
+              displayLabel: framework.display + " " + minorVersion.displayVersion,
+              value: JSON.stringify({container: framework.name, majorVersion: majorVersion.runtimeVersion, minorVersion: minorVersion.runtimeVersion}),
+              default: isDefault
+            });
+
+          })
 
           this._javaWebContainerOptions.push({
-            displayLabel: framework.display + " " + minorVersion.displayVersion,
-            value: JSON.stringify({container: framework.name, majorVersion: majorVersion.runtimeVersion, minorVersion: minorVersion.runtimeVersion}),
-            default: isDefault
+              displayLabel: "Newest " + framework.display + " " + majorVersion.displayVersion,
+              value: JSON.stringify({container: framework.name, majorVersion: majorVersion.runtimeVersion, minorVersion: ""}),
+              default: !match
           });
 
         })
 
-        this._javaWebContainerOptions.push({
-            displayLabel: "Newest",
-            value: JSON.stringify({container: framework.name, majorVersion: majorVersion.runtimeVersion, minorVersion: ""}),
-            default: !match
-        });
-
       })
-
-    })
-  }
-*/
-
-  private _createWebConfigSettingGroup(settingName : string)
-  {
-      let stackMetadata = StacksHelper.GetStackMetadata(settingName, null);
-      let configValue = this._webConfigArm.properties[settingName];
-      let dropDownOptions = this._getStackMajorVersions(stackMetadata.AvailableStackName, configValue);
-      let value = [dropDownOptions.find(t => t.default).value]
-      let group = this._fb.group({
-        //name: [settingName],
-        value: [dropDownOptions.find(t => t.default).value]
-      });
-      //group.controls["value"].disable();
-      (<any>group).options = dropDownOptions;
-      (<any>group).friendlyName = stackMetadata.FriendlyName;
-      return group;
-  }
-
-  private _getStackMajorVersions(stackName: AvailableStackNames, defaultVersion: string){
-      let dropDownElements: DropDownElement<string>[] = []
-
-      dropDownElements.push({
-          displayLabel: "Off",
-          value: "",
-          default: !defaultVersion
-      })
-
-      this._getAvailableStack(stackName).majorVersions.forEach(majorVersion => {
-        dropDownElements.push({
-          displayLabel: majorVersion.displayVersion,
-          value: majorVersion.runtimeVersion,
-          default: majorVersion.runtimeVersion === defaultVersion
-        })
-      })
-
-      return dropDownElements;
-  }
-
-  private _getAvailableStack(stackName: AvailableStackNames): AvailableStack{
-    if (!this._availableStacksArm || !this._availableStacksArm.value || this._availableStacksArm.value.length === 0) {
-      return null;
     }
-    return this._availableStacksArm.value.find(stackArm => stackArm.properties.name === stackName).properties;
   }
 
   validate(){
