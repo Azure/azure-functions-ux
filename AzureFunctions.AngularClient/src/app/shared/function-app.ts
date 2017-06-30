@@ -60,7 +60,9 @@ import {ArmObj} from './models/arm/arm-obj';
 import {Site} from './models/arm/site';
 import {AuthSettings} from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
-import {HostStatus} from './models/host-status';
+import { HostStatus } from './models/host-status';
+import { EventHubComponent } from '../pickers/event-hub/event-hub.component';
+
 import * as jsonschema from 'jsonschema';
 
 declare var mixpanel: any;
@@ -1836,7 +1838,7 @@ export class FunctionApp {
     getSystemKey() {
         let masterKey = this.masterKey
                 ? Observable.of(this.masterKey)
-                : this.getHostSecretsFromScm().map(r => <string> r.json().masterKey);
+                : this.getHostSecretsFromScm().map((r: Response) => <string> r.json().masterKey);
 
         return masterKey
             .mergeMap(r => {
@@ -1859,5 +1861,31 @@ export class FunctionApp {
                         }
                     });
             });
+    }
+
+    // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
+    createApplicationSetting(appSettingName: string, appSettingValue: string, evtHub?: EventHubComponent) {
+        if (appSettingName && appSettingValue) {
+            this._globalStateService.setBusyState();
+            return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
+                r => {
+                var appSettings: ArmObj<any> = r.json();
+                appSettings.properties[appSettingName] = appSettingValue;
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+                })
+                .do(null, e => {
+                    this._globalStateService.clearBusyState();
+                    if (evtHub) {
+                        evtHub.selectInProcess = false;
+                    }
+                    this._aiService.trackException(e, 'functionApp - createApplicationSetting()');
+                })
+                .subscribe(r => {
+                    this._globalStateService.clearBusyState();
+                    if (evtHub) {
+                        evtHub.selectItem.next(appSettingName);
+                    }
+                });
+        }
     }
 }

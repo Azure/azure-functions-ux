@@ -155,6 +155,7 @@
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.html" />
     <Content Include="src\app\pickers\app-setting\app-setting.component.html" />
     <Content Include="src\app\pickers\event-hub\event-hub.component.html" />
+    <Content Include="src\app\pickers\microsoft-graph\microsoft-graph.component.html" />
     <Content Include="src\app\pickers\service-bus\service-bus.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
@@ -435,6 +436,8 @@
     <TypeScriptCompile Include="src\app\pickers\app-setting\app-setting.component.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\microsoft-graph\microsoft-graph.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\microsoft-graph\microsoft-graph.component.ts" />
     <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
@@ -458,6 +461,7 @@
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
     <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\mobile-apps-client.ts" />
     <TypeScriptCompile Include="src\app\shared\models\host-status.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />

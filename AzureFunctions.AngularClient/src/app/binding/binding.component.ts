@@ -25,6 +25,7 @@ import { CacheService } from '../shared/services/cache.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
 import { Constants } from "app/shared/models/constants";
+import { MobileAppsClient } from "../shared/models/mobile-apps-client";
 
 declare var jQuery: any;
 declare var marked: any;
@@ -136,7 +137,6 @@ export class BindingComponent {
         });
 
         this._elementRef = elementRef;
-
         this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
 
             setTimeout(() => {
@@ -176,8 +176,12 @@ export class BindingComponent {
         this._bindingStream.next(value);
     }
 
-    handleExclusivityRule(rule: Rule, isHidden: boolean) {
-        var ddValue = rule.values[0].value;
+    private _handleExclusivityRule(rule: Rule, isHidden: boolean) {
+        if (rule.values.length == 0) {
+            return;            
+        }
+
+        let ddValue = rule.values[0].value;
 
         rule.values.forEach((value) => {
             var findResult = this.bindingValue.settings.find((s) => {
@@ -196,7 +200,6 @@ export class BindingComponent {
         ddInput.value = ddValue;
         ddInput.enum = rule.values;
         ddInput.changeValue = () => {
-            var rules = <Rule[]><any>ddInput.enum;
             rule.values.forEach((v) => {
                 if (ddInput.value == v.value) {
                     v.shownSettings.forEach((s) => {
@@ -241,9 +244,14 @@ export class BindingComponent {
         return ddInput;
     }
 
-    handleChangeOptionsDisplayedRule(rule: Rule, isHidden: boolean) {
+    private _handleChangeOptionsDisplayedRule(rule: Rule, isHidden: boolean) {
         // Allow the value of a select input determine which options of a check box list are displayed
-        var ddValue = rule.values[0].value;
+        if (rule.values.length == 0) {
+            return;
+        }
+
+        let ddValue = rule.values[0].value;
+
 
         rule.values.forEach((value) => {
             var findResult = this.bindingValue.settings.find((s) => {
@@ -487,11 +495,11 @@ export class BindingComponent {
                         }
 
                         if (rule.type === "exclusivity") {
-                            var ddInput = this.handleExclusivityRule(rule, isHidden);
+                            var ddInput = this._handleExclusivityRule(rule, isHidden);
                             this.model.inputs.splice(0, 0, ddInput);
                         }
                         else if (rule.type === "exclusivitySave") {
-                            var ddInput = this.handleExclusivityRule(rule, isHidden);
+                            var ddInput = this._handleExclusivityRule(rule, isHidden);
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
                             this.model.inputs.splice(0, 0, ddInput);
@@ -516,7 +524,7 @@ export class BindingComponent {
                             }
                         }
                         else if (rule.type === "changeOptionsDisplayed") {
-                            var ddInput = this.handleChangeOptionsDisplayedRule(rule, isHidden);
+                            var ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
 
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
@@ -678,73 +686,59 @@ export class BindingComponent {
 
         var token = null;
 
-        var WindowsAzure = require('azure-mobile-apps/azure-mobile-apps-client');
-        var mainURL = this.functionApp.getMainSiteUrl();
-        var client = new WindowsAzure.MobileServiceClient(mainURL);
-
         // 2. Retrieve graph token through function app
-        var that = this;
         var options = {
             parameters: {
                 resource: Constants.MSGraphResource
             }
         };
-        // 2.1 Login to AAD for Graph resource
-        var loginPromise = client.loginWithOptions('aad', options);
-        loginPromise.then(function (response) {
-            // 2.2 retrieve access token
-            var authMe = mainURL.concat("/.auth/me");
-            var invokePromise = client.invokeApi(authMe);
-            invokePromise.then(function (results) {
-                var response;
-                // Response prepended and appended with [ ]
-                if (results.responseText[0] == '[') {
-                    response = results.responseText.substring(1, results.responseText.length - 1);
-                }
 
-                var json = JSON.parse(response);
-                token = json.access_token;
-                var user_claims = json.user_claims;
-                var oid;
-                for (var i = 0; i < user_claims.length; i++) {
-                    if (user_claims[i].typ == Constants.OIDKey) {
-                        oid = user_claims[i].val;
-                    }
-                }
+        // Mobile Service Client returns promises that only support the 'then' continuation (for now):
+        // https://azure.github.io/azure-mobile-apps-js-client/global.html#Promise
 
-                // 2.3 use graph token to subscribe to MS graph resource
-                that.subscribeToGraphResource(subscription, token).subscribe(subscription => {
+        let dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl(), this._aiService);
+        dataRetriever.retrieveOID(options).then(values => {
+            // 2.1 use graph token to subscribe to MS graph resource
+            this.subscribeToGraphResource(subscription, values.token).subscribe(
+                subscription => {
                     // 3. Save new file containing the mapping: subscription ID <--> principal ID
-                    var moniker = new Moniker(Constants.MSGraphResource, null, oid);
+                    var moniker = new Moniker(Constants.MSGraphResource, null, values.OID);
                     var entry = new GraphSubscriptionEntry(subscription, clientState, JSON.stringify(moniker));
-                    that.getBYOBStorageLocation().subscribe(storageLocation => {
-                        // Get storage location; app setting overrides default
-                        if (typeof storageLocation == 'undefined') {
-                            storageLocation = Constants.defaultBYOBLocation.replace(/\\/g, '/').split("D:/home")[1];
-                        } else {
-                            storageLocation = storageLocation.replace(/\\/g, '/').split("D:/home")[1];
-                        }
-                        var scm = that.functionApp.getScmUrl().concat("/api/vfs", storageLocation, '/', subscription);
-                        that.functionApp.saveFile(scm, JSON.stringify(entry)).subscribe();  
-                    });  
-                });                        
-            });
+                    this.getBYOBStorageLocation().subscribe(
+                        storageLocation => {
+                            // Get storage location; app setting overrides default
+                            if (!storageLocation) {
+                                storageLocation = Constants.defaultBYOBLocation;
+                            } else {
+                                storageLocation = storageLocation.replace(/\\/g, '/').split("D:/home")[1];
+                            }
+                            var scm = this.functionApp.getScmUrl().concat("/api/vfs", storageLocation, '/', subscription);
+                            this.functionApp.saveFile(scm, JSON.stringify(entry)).subscribe();
+                        },
+                        err => {
+                            this._aiService.trackException(err, 'binding - saveWebhook() - getBYOBStorageLocation()');
+                        });
+                },
+                err => {
+                    this._aiService.trackException(err, 'binding - saveWebhook() - subscribeToGraphResource()');
+                });
         });
 
         // 4. Directly map the resource to the corresponding OData Type 
         // used to transform webhook notifications into useful objects
         var resourceKeys = Object.keys(ODataTypeMapping);
         resourceKeys.forEach(key => {
-            if (subscriptionResource.value.search(new RegExp(key, "i")) != -1) {
+            if (subscriptionResource.value.search(new RegExp(key, "i")) !== -1) {
                 var typeInput = this.model.inputs.find((input) => {
                     return input.id === "Type";
                 });
-                
+
                 typeInput.value = ODataTypeMapping[key];
             }
-        })
+        });
+
         // 5. Save inputs to .json like normal
-        this.saveClicked()
+        this.saveClicked();
     }
 
     private getBYOBStorageLocation() {

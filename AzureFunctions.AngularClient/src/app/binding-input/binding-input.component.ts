@@ -17,8 +17,8 @@ import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ArmService } from './../shared/services/arm.service';
 import { Subject } from 'rxjs/Subject';
 import { Constants } from "app/shared/models/constants";
-
-declare var require: any
+import { MobileAppsClient } from "../shared/models/mobile-apps-client";
+import { AiService } from '../shared/services/ai.service';
 
 @Component({
     selector: 'binding-input',
@@ -47,7 +47,8 @@ export class BindingInputComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
-        private _armService: ArmService) {
+        private _armService: ArmService,
+        private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -77,48 +78,6 @@ export class BindingInputComponent {
 
     get input(): BindingInputBase<any> {
         return this._input;
-    }
-
-    openLogin(input: PickerInput) {
-        var WindowsAzure = require('azure-mobile-apps/azure-mobile-apps-client');
-        var mainURL = this.functionApp.getMainSiteUrl();
-        var client = new WindowsAzure.MobileServiceClient(mainURL);
-
-        var that = this;
-        // First, ask user for credentials
-        var options = {
-            parameters: {
-                prompt: 'login'
-            }
-        };
-        var loginPromise = client.loginWithOptions('aad', options);
-        loginPromise.then(function () {
-            var appSettingName = "";
-            // Retrieve OID from /.auth/me 
-            var authMe = mainURL.concat("/.auth/me");
-            var invokePromise = client.invokeApi(authMe);
-            invokePromise.then(function (results) {
-                var response;
-                // Response prepended and appended with [, ]
-                if (results.responseText[0] == '[') {
-                    response = results.responseText.substring(1, results.responseText.length - 1);
-                }
-                var json = JSON.parse(response);
-                var user_claims = json.user_claims;
-                var oid;
-                for (var i = 0; i < user_claims.length; i++) {
-                    if (user_claims[i].typ == Constants.OIDKey) {
-                        oid = user_claims[i].val;
-                    }
-                }
-
-                // App setting name in form: Identity.<alias>
-                appSettingName = "Identity.".concat(json.user_id.substring(0, json.user_id.indexOf("@")));
-                input.value = oid;
-                that.createApplicationSetting(appSettingName, oid);  // create new app setting for identity
-                that.finishResourcePickup(appSettingName, input); // set selected drop-down item to app setting just created
-            });
-        });
     }
 
     openPicker(input: PickerInput) {
@@ -200,7 +159,7 @@ export class BindingInputComponent {
             var inputs = parent.document.getElementsByTagName("input");
             for (var i = 0; i < inputs.length; i++) {
                 var input = inputs.item(i);
-                if (input.id == this._input.counterpartToDisable || (input.list != null && input.list.id == this._input.counterpartToDisable)) {
+                if (input.id == this._input.counterpartToDisable || (input.list && input.list.id == this._input.counterpartToDisable)) {
                     input.disabled = value != "";
                 }
             }
@@ -310,28 +269,6 @@ export class BindingInputComponent {
         }
         picker.inProcess = false;
         this._globalStateService.clearBusyState();
-    }
-
-    // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
-    private createApplicationSetting(appSettingName: string, appSettingValue: string) {
-        if (appSettingName && appSettingValue) {
-            var selectInProcess = true;
-            this._globalStateService.setBusyState();
-            this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-                var appSettings: ArmObj<any> = r.json();
-                appSettings.properties[appSettingName] = appSettingValue;
-                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-            })
-                .do(null, e => {
-                    this._globalStateService.clearBusyState();
-                    selectInProcess = false;
-                    console.log(e);
-                })
-                .subscribe(r => {
-                    this._globalStateService.clearBusyState();
-                    this.select.next(appSettingName);
-                });
-        }
     }
 
     setBottomDescription(id: string, value: any) {

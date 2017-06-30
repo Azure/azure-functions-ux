@@ -42,7 +42,7 @@ export class Constants {
 
     public static OIDKey = 'http://schemas.microsoft.com/identity/claims/objectidentifier';
     public static BYOBTokenMapSettingName = 'BYOB_TokenMap';
-    public static defaultBYOBLocation = 'D:\home\data\byob_graphmap';
+    public static defaultBYOBLocation = '/data/byob_graphmap';
     public static MSGraphResource = 'https://graph.microsoft.com';
     public static latestMSGraphVersion = '1.0';
     public static WebhookHandlerFunctionName = "RefreshO365Subscriptions";
