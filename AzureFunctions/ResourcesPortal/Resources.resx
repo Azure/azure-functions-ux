@@ -1574,7 +1574,7 @@
     <value>Check out our getting started tutorial</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Function</value>
+    <value>Function (preview)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API definition key</value>
@@ -1613,7 +1613,7 @@
     <value>Use your API definition</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API definition (preview)</value>
+    <value>API definition</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
