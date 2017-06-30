@@ -1879,4 +1879,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>Content and Visual Studio project</value>
   </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Delete proxy
+</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>New proxy</value>
+  </data>
 </root>

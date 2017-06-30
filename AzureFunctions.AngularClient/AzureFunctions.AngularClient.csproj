@@ -656,7 +656,6 @@
     <Content Include=".ember-cli" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\app\api-details\api-details.component.css" />
     <None Include="src\app\api-new\api-new.component.scss" />
     <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
