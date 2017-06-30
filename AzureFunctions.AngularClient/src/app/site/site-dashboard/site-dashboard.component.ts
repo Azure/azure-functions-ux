@@ -119,9 +119,9 @@ export class SiteDashboardComponent {
                     if(this.tabs && this.tabs.tabs){
 
                         let savedTabInfo = <TabSettings> this._storageService.getItem(LocalStorageKeys.siteTabs);
-                        if(appNode.openFunctionSettingsTab){
+                        if (appNode.openFunctionSettingsTab){
                             let tabs = this.tabs.tabs.toArray();
-                            let functionTab = tabs.find(t => t.title === SiteTabIds.functionRuntime);
+                            let functionTab = tabs.find(t => t.id === SiteTabIds.functionRuntime);
                             if(functionTab){
                                 this.tabs.selectTab(functionTab);
                             }
