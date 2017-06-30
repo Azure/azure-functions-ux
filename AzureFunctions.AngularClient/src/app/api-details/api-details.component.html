@@ -1,5 +1,17 @@
 <div class="newproxy-container">
 
+    <div class="header">
+        <div>
+            <span class="text-level1-heading">{{apiProxyEdit.name}}&nbsp;</span>
+            <span class="link" (click)="deleteProxyClicked()">
+                <i class="fa fa-remove"></i> {{ 'apiProxy_delete' | translate }}
+            </span>
+        </div>
+        <div class="link" (click)="openAdvancedEditor()">
+            <i class="fa fa-edit"></i> {{ 'functionIntegrate_advancedEditor' | translate }}
+        </div>
+    </div>
+
     <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
 <form [formGroup]="complexForm">
@@ -98,14 +110,9 @@
 
     </div>
 
-    <div style="display: flex;">
-        <div style="flex-grow:1;align-items:center;">
-            <button (click)="submitForm(complexForm.value)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
-            <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
-        </div>
-        <div class="link" style="flex-grow:0" (click)="deleteProxyClicked()">
-            <i class="fa fa-remove"></i> Delete proxy
-        </div>
+    <div>
+        <button (click)="submitForm(complexForm.value)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+        <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
     </div>
 
 </form>
