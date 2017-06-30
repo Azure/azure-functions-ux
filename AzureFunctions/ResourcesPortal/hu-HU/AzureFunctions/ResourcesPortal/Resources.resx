@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions-futtatókörnyezet</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
@@ -166,7 +169,7 @@
     <value>Fájlok megjelenítése</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Válasszon sablont, vagy ugrás a következőre</value>
+    <value>Válasszon ki egy sablont az alábbiak közül, vagy</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Ez egy kísérleti sablon, amely még nem rendelkezik teljes körű támogatással. Ha problémákat tapasztal, jelentse a hibát a &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-adattárunkban&lt;/a&gt;.</value>
@@ -231,6 +234,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Saját előfizetés</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Függvényalkalmazások létrehozásakor automatikusan kiépül egy kódtárolásra és -futtatásra alkalmas új tároló.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Nem sikerült létrehozni az alkalmazást.</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2. Nyelv kiválasztása</value>
   </data>
@@ -262,7 +271,7 @@
     <value>A gyors üzembe helyezés használatának folytatása</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>F#, PowerShell, Python vagy Batch esetén</value>
+    <value>PowerShell, Python vagy Batch esetén</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>Kiindulás a verziókövetésből</value>
@@ -301,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>vagy</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Írásvédett – mivel verziókövetéssel kezdte el a szerkesztést, ez a nézet írásvédett.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Az alkalmazás jelenleg írásvédett módban van, mivel engedélyezve van a verziókövetés integrációja. A szerkesztési módot itt változtathatja meg: </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Régió</value>
@@ -312,6 +321,21 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>Mentés</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Új beállítás hozzáadása</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Új kapcsolati karakterlánc hozzáadása</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Írjon be egy nevet.</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Adjon meg egy értéket.</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Rejtett érték.  A megjelenítéshez kattintson ide.</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>A függvény ({{name}}) módosításai el fognak veszni. Biztosan folytatja a műveletet?</value>
@@ -784,6 +808,9 @@
   <data name="topBar_alwaysOn" xml:space="preserve">
     <value>A Mindig bekapcsolva beállítás nincs engedélyezve. Előfordulhat, hogy az alkalmazás nem működik megfelelően</value>
   </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>Az azonosító értéke explicit módon be van állítva a host.json fájlban, ami üzembe helyezési pontok használata esetén nem várt működést okozhat</value>
+  </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions – Kibocsátási megjegyzések</value>
   </data>
@@ -833,7 +860,7 @@
     <value>Kvóta beállítása</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>A függvényalkalmazás leáll, ha a következő 24 órában eléri a napi használati korlátot.</value>
+    <value>A napi használati kvóta túllépésekor a rendszer a következő nap 0:00-ig (UTC) leállítja a függvényalkalmazást.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Biztos, hogy visszavonja a(z) {{name}} kulcsot?</value>
@@ -914,7 +941,7 @@
     <value>Futtatókörneyzet verziója: {{extensionVersion}}. Újabb verzió érhető el ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Futtatókörneyzet verziója: legújabb ({{latestExtensionVersion}})</value>
+    <value>Futtatókörneyzet verziója: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxyk (előzetes verzió)</value>
@@ -936,6 +963,9 @@
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>{{name}} nevű proxy már létezik</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Az Azure Functions-tárolóhelyek (előzetes verzió) jelenleg le vannak tiltva. Az engedélyezéshez látogasson el a következő helyre:</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>Elvetés</value>
@@ -1027,6 +1057,9 @@
   <data name="restart" xml:space="preserve">
     <value>Újraindítás</value>
   </data>
+  <data name="swap" xml:space="preserve">
+    <value>Felcserélés</value>
+  </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Közzétételi profil letöltése</value>
   </data>
@@ -1070,28 +1103,28 @@
     <value>Biztosan leállítja a(z) {0} helyet?</value>
   </data>
   <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
-    <value>Stopping app '{0}'</value>
+    <value>A(z) {0} alkalmazás leállítása</value>
   </data>
   <data name="siteSummary_startNotifyTitle" xml:space="preserve">
-    <value>Starting app '{0}'</value>
+    <value>A(z) {0} alkalmazás indítása</value>
   </data>
   <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
-    <value>Successfully stopped app '{0}'</value>
+    <value>A(z) {0} alkalmazás leállítása sikerült</value>
   </data>
   <data name="siteSummary_startNotifySuccess" xml:space="preserve">
-    <value>Successfully started app '{0}'</value>
+    <value>A(z) {0} alkalmazás elindítása sikerült</value>
   </data>
   <data name="siteSummary_stopNotifyFail" xml:space="preserve">
-    <value>Failed to stop app '{0}'</value>
+    <value>Nem sikerült leállítani a(z) {0} alkalmazást</value>
   </data>
   <data name="siteSummary_startNotifyFail" xml:space="preserve">
-    <value>Failed to start app '{0}'</value>
+    <value>Nem sikerült elindítani a(z) {0} alkalmazást</value>
   </data>
   <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
     <value>Biztosan alaphelyzetbe állítja a közzétételi profilját? A korábban letöltött profilok érvénytelenné válnak.</value>
   </data>
   <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
-    <value>Resetting publishing profile</value>
+    <value>Közzétételi profil alaphelyzetbe állítása</value>
   </data>
   <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
     <value>Sikeresen megtörtént a közzétételi profil alaphelyzetbe állítása</value>
@@ -1103,25 +1136,25 @@
     <value>Biztosan törli a(z) {0} helyet?</value>
   </data>
   <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
-    <value>Deleting app '{0}'</value>
+    <value>A(z) {0} alkalmazás törlése</value>
   </data>
   <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
-    <value>Successfully deleted app '{0}'</value>
+    <value>A(z) {0} alkalmazás törlése sikerült</value>
   </data>
   <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
-    <value>Failed to delete app '{0}'</value>
+    <value>Nem sikerült törölni a(z) {0} alkalmazást</value>
   </data>
   <data name="siteSummary_restartConfirmation" xml:space="preserve">
     <value>Biztosan újraindítja a(z) {0} helyet?</value>
   </data>
   <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
-    <value>Restarting app '{0}'</value>
+    <value>A(z) {0} alkalmazás újraindítása</value>
   </data>
   <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
-    <value>Successfully restarted app '{0}'</value>
+    <value>A(z) {0} alkalmazás újraindítása sikerült</value>
   </data>
   <data name="siteSummary_restartNotifyFail" xml:space="preserve">
-    <value>Failed to restart app '{0}'</value>
+    <value>Nem sikerült újraindítani a(z) {0} alkalmazást</value>
   </data>
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>A használatalapú csomag alkalmazásai nem támogatják ezt a funkciót</value>
@@ -1142,7 +1175,7 @@
     <value>Telepítési beállítások</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>Beállíthatja és kezelheti az alkalmazás üzembe helyezési beállításait, többek között a folyamatos üzembe helyezést a VSTS, a GitHub és a BitBucket szolgáltatásból, illetve az üzembe helyezések elindítását a OneDrive, a DropBox, külső Git és további szolgáltatásokból.</value>
+    <value>Beállíthatja és kezelheti az alkalmazás üzembe helyezési beállításait, többek között a folyamatos üzembe helyezést a VSTS, a GitHub és a BitBucket szolgáltatásból, valamint az üzembe helyezések elindítását a OneDrive, a DropBox, külső Git és egyéb szolgáltatásokból.</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>Telepítési hitelesítő adatok</value>
@@ -1185,6 +1218,9 @@
   </data>
   <data name="feature_allSettingsInfo" xml:space="preserve">
     <value>Megtekintheti az összes App Service-beállítást.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Általános beállítások</value>
@@ -1322,7 +1358,7 @@
     <value>CORS-szabályok ({0} definiált)</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>A(z) {0} elemmel konfigurált telepítési forrás</value>
+    <value>A(z) {0} konfigurált telepítési beállításai</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>SSL-tanúsítványok</value>
@@ -1341,6 +1377,12 @@
   </data>
   <data name="tab_settings" xml:space="preserve">
     <value>Beállítások</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Konfiguráció</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>A függvényalkalmazás kezelése nem érhető el a próbaverzióban.</value>
@@ -1383,6 +1425,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>Forrás</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Beállítások</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>A függvényalkalmazás Azure-beállításai nem érhetők el.</value>
@@ -1501,97 +1546,337 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>MŰVELETEK</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>A Kulcsok funkció nem érhető el, mert a hitelesítés/engedélyezés be van kapcsolva a függvényalkalmazásban.</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>gyors üzembe helyezés</value>
+    <value>lépjen a gyors üzembe helyezéshez</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>Nincsenek lekérdezési paraméterek</value>
   </data>
   <data name="swaggerDefinition_collapse" xml:space="preserve">
-    <value>Collapse</value>
+    <value>Összecsukás</value>
   </data>
   <data name="swaggerDefinition_delete" xml:space="preserve">
-    <value>Are you sure you want to delete your API definition?</value>
+    <value>Biztos, hogy törli az API-definíciót?</value>
   </data>
   <data name="swaggerDefinition_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentáció</value>
   </data>
   <data name="swaggerDefinition_expand" xml:space="preserve">
-    <value>Expand</value>
+    <value>Kibontás</value>
   </data>
   <data name="swaggerDefinition_external" xml:space="preserve">
-    <value>External URL</value>
+    <value>Külső URL-cím</value>
   </data>
   <data name="swaggerDefinition_feature_overview" xml:space="preserve">
-    <value>Read the feature overview</value>
+    <value>A funkció áttekintése</value>
   </data>
   <data name="swaggerDefinition_getting_started" xml:space="preserve">
-    <value>Check out our getting started tutorial</value>
+    <value>Tekintse meg az első lépéseket megkönnyítő oktatóanyagunkat</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Function</value>
+    <value>Függvény</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
-    <value>API definition key</value>
+    <value>API-definíciós kulcs</value>
   </data>
   <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
-    <value>Load API definition</value>
+    <value>API-definíció betöltése</value>
   </data>
   <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
-    <value>Generate API definition template</value>
+    <value>API-definíció-sablon létrehozása</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>Exportálás a Power Appsbe és a Flow-ba</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
-    <value>Cannot save malformed API definition.</value>
+    <value>Nem sikerült menteni az API-definíciót, mert helytelenül formázott.</value>
   </data>
   <data name="swaggerDefinition_renew" xml:space="preserve">
-    <value>Renew</value>
+    <value>Megújítás</value>
   </data>
   <data name="swaggerDefinition_setExternal" xml:space="preserve">
-    <value>Set external definition URL</value>
+    <value>Külső definíció URL-címének beállítása</value>
   </data>
   <data name="swaggerDefinition_source" xml:space="preserve">
-    <value>API definition source</value>
+    <value>API-definíció forrása</value>
   </data>
   <data name="swaggerDefinition_subtitle" xml:space="preserve">
-    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+    <value>A HTTP-triggerfüggvényeket egy OpenAPI 2.0-s Swagger-definíció segítségével számos szolgáltatásban felhasználhatja</value>
   </data>
   <data name="swaggerDefinition_title" xml:space="preserve">
-    <value>Function API definition (Swagger)</value>
+    <value>Függvény API-definíciója (Swagger)</value>
   </data>
   <data name="swaggerDefinition_url" xml:space="preserve">
-    <value>API definition URL</value>
+    <value>API-definíció URL-címe</value>
   </data>
   <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
-    <value>Use your API definition</value>
+    <value>Az API-definíció használata</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API definition (preview)</value>
+    <value>API-definíció (előzetes verzió)</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
-    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+    <value>Nem sikerült létrehozni vagy frissíteni a Swagger-végpont swaggerdocumentationkey kulcsát. Tekintse meg a futtatókörnyezet naplóiban található hibaüzeneteket, vagy később próbálkozzon újra.</value>
   </data>
   <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
-    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+    <value>Nem sikerült törölni az API-definíciót. Tekintse meg a futtatókörnyezet naplóiban található hibaüzeneteket, vagy próbálkozzon újra később.</value>
   </data>
   <data name="error_unableToGetSystemKey" xml:space="preserve">
-    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+    <value>Nem sikerült beolvasni a(z) {{keyName}} kulcsot. Tekintse meg a futtatókörnyezet naplóiban található hibaüzeneteket, vagy próbálkozzon újra később.</value>
   </data>
   <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
-    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>Nem sikerült betölteni a létrehozott API-definíciót. Tekintse meg a futtatókörnyezet naplóiban található hibaüzeneteket, vagy próbálkozzon újra később.</value>
   </data>
   <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
-    <value>We are unable to update the runtime config. Please try again later.</value>
+    <value>Nem sikerült beolvasni a futtatókörnyezet konfigurációját. Próbálkozzon újra később.</value>
   </data>
   <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
-    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>Nem sikerült frissíteni az API-definíciót. Tekintse meg a futtatókörnyezet naplóiban található hibaüzeneteket, vagy próbálkozzon újra később.</value>
   </data>
   <data name="swaggerDefinition_revert" xml:space="preserve">
-    <value>Revert to last save</value>
+    <value>Utolsó mentett állapot visszaállítása</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>App Service-hitelesítés és -engedélyezés konfigurálása</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Első lépésként kattintson az „API-definíció-sablon létrehozása” elemre</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Biztosan felülírja a szerkesztőben lévő API-definíciót?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Az API-definíció segítségével elérheti függvényeit a &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerAppsből&lt;/a&gt; és a &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flowból&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Hozzon létre egy ritka definíciót a HTTP-triggert alkalmazó függvények metaadataiból.
+A definíció használata előtt adja meg a &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;műveletobjektumokat&lt;/a&gt; és az API-val kapcsolatos egyéb adatokat.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Ez a kulcs megakadályozza a jogosulatlan hozzáférést az API-definícióhoz.
+A kulcs a mögöttes API-t nem védi. Az egyes függvények kulcsbiztonsági beállításai eltérőek lehetnek.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Helyileg tárolt API- és sablondefiníció létrehozásához a „Függvény” értéket állítsa be.
+Máshol tárolt API-definíció használatához a „Külső URL-cím” értéket adja meg.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Ennek az URL-címnek a segítségével közvetlenül elérheti az API-definíciót, és más gyártóktól származó eszközökbe importálhatja.</value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>A függvényalkalmazás szerkesztési módjának megváltoztatása</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Függvényalkalmazás szerkesztési módja</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Csak olvasható</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Olvasás\írás</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Az ismétlődő értékek használata nem engedélyezett</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Ezt a mezőt kötelező kitölteni</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>A név nem lehet rövidebb 2 karakternél</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>A név nem lehet hosszabb 59 karakternél</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>A(z) {0} érvénytelen karakter.</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>Az alkalmazás neve ({0}) érvénytelen.</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Nem tudtuk megváltoztatni a függvényalkalmazás szerkesztési módját. Próbálja újra később.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Az alkalmazás jelenleg írásvédett módban van, mivel írásvédettre állította a szerkesztési módot. A szerkesztési módot itt változtathatja meg: </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Az alkalmazás jelenleg olvasási\írási módban van, mivel olvasási\írásira állította a szerkesztési módot annak ellenére, hogy engedélyezve van a verziókövetés. Az Ön által végrehajtott módosítások bármelyikét felülírhatja a következő üzemelő példány. A szerkesztési módot itt változtathatja meg: </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Függvény URL-címének beolvasása</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Kulcs</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL-cím</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Alkalmazás tartalmának letöltése</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Biztosan megújítja a(z) {{name}} kulcsot?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Az Azure Functions egy eseményalapú, kiszolgáló nélküli számítási felület, melynek célja, hogy felgyorsítsa a fejlesztést. Igény szerint végezhet méretezést, és csak a felhasznált erőforrásokért kell fizetnie.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>További információ az Azure-függvényekről</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Eseményközpont</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Névtér</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Nem található.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Végpont</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Nincsenek megjeleníthető függvényalkalmazások</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Tárolóhelyek (előzetes verzió)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Üzembe helyezési pontok (előzetes verzió) engedélyezése. Ez egy olyan egyszeri jóváhagyás a függvényalkalmazás szintjén, amely nem tiltható le, és alaphelyzetbe állítja a meglévő titkos kulcsokat. A frissítés után lehetőség van a titkos kulcsok másolására az </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>egyes függvények Kezelés csomópontjáról.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Új üzembe helyezési pont létrehozása</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Az üzembe helyezési pontok lehetővé teszik, hogy függvényalkalmazások különböző verzióit helyezze üzembe különböző URL-címekkel. Tesztelhet egy adott verziót, majd felcserélheti a tartalmat és a konfigurációt a tárolóhelyek között.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Új tárolóhely ({0}) létrehozása </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>A(z) {0} tárolóhely létrehozása sikerült </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Nem sikerült létrehozni a(z) {0} tárolóhelyet </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Nem sikerült frissíteni a tárolóhelyek listáját</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>Nem rendelkezik hozzáféréssel tárolóhelyek létrehozásához. Győződjön meg arról, hogy a megfelelő RBAC-hozzáféréssel rendelkezik a függvényalkalmazáshoz, és hogy olvasási zárolások sincsenek engedélyezve.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Állapot</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App Service-csomag</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Tárolóhelyek (előzetes verzió)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>A jobb figyelési élményért – beleértve az élő metrikákat és az egyéni lekérdezéseket – ajánlott &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;az Azure-beli Application Insights szolgáltatást&lt;/a&gt; használni.</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Ez az érték hozzáíródik az elsődleges webes alkalmazás URL-címéhez, és a tárolóhely nyilvános címe lesz. Ha a webes alkalmazás neve például contoso, a tárhelyé pedig marketing, akkor az új tárhely URL-címe http://contoso-staging.azurewebsites.net lesz.</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>A használatalapú csomag csak egyetlen üzembe helyezési pont használatát teszi lehetővé. Ha egynél több üzembe helyezési pontra van szüksége, használja a dedikált App Service-csomagokat.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Függvények keresése</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Új</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Függvény törlése</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>A függvény meghívásához és futtatásához szükséges ügyféltanúsítvány. A portálon való futtatáshoz le kell tiltania az ügyféltanúsítványt.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Az alkalmazás jelenleg írásvédett módban van, mert tárolóhely(ek) van(nak) konfigurálva. A szerkesztési mód módosításához nyissa meg a következőt:</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások kezelése</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT-központ</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Kulcs</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Érték</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Kapcsolat</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Egyéni</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Események (beépített végpont)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Műveletek figyelése</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Házirend</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>hiba történt a proxies.json sémájának érvényesítése során</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>Használatalapú csomagok esetében korlátozhatja a platform használatát egy gigabájt/másodpercben megadott napi használati kvóta beállításával. A napi használati kvóta elérése után a rendszer a következő nap 0:00-ig (UTC) leállítja a függvényalkalmazást.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(központszabályzat)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(névtérszabályzat)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>Az alkalmazásbeállítás nem található.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>érték megjelenítése</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Alkalmazásbeállítás hozzáadása</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Letöltés</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások belefoglalása a letöltésbe</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>A beállítás belefoglal egy local.settings.json nevű fájlt, mely tartalmazza az alkalmazásbeállítások értékeit. A fájl a letöltéskor nem lesz titkosítva, de az Azure Functions Core Tools parancssorral titkosítható.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Webhely tartalma</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Tartalom és Visual Studio-projekt</value>
   </data>
 </root>
