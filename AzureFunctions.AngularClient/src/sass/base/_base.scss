@@ -42,6 +42,10 @@ pre {
     text-decoration: underline;
 }
 
+.focused{
+    outline: $border-focus;
+}
+
 .disabled-link{
     pointer-events: none;
     cursor: text;

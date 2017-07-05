@@ -213,12 +213,12 @@ export class SideNavComponent implements AfterViewInit {
         }
     }
 
-    onKeyDown(event : KeyboardEvent){
+    onKeyPress(event : KeyboardEvent){
         if(event.keyCode === KeyCodes.arrowDown){
-            this._moveDown();
+            this._moveFocusedItemDown();
         }
         else if(event.keyCode === KeyCodes.arrowUp){
-            this._moveUp();
+            this._moveFocusedItemUp();
         }
         else if(event.keyCode === KeyCodes.enter){
             this._focusedNode.select();
@@ -228,7 +228,7 @@ export class SideNavComponent implements AfterViewInit {
                 this._focusedNode.toggle(event);
             }
             else{
-                this._moveDown();
+                this._moveFocusedItemDown();
             }
         }
         else if(event.keyCode === KeyCodes.arrowLeft){
@@ -236,12 +236,17 @@ export class SideNavComponent implements AfterViewInit {
                 this._focusedNode.toggle(event);
             }
             else{
-                this._moveUp();
+                this._moveFocusedItemUp();
             }
+        }
+
+        if(event.keyCode !== KeyCodes.tab){
+            // Prevents the entire page from scrolling on up/down key press
+            event.preventDefault();
         }
     }
 
-    private _moveDown(){
+    private _moveFocusedItemDown(){
         let nextNode = this._iterator.next();
         if(nextNode){
             this._focusedNode.isFocused = false;
@@ -251,7 +256,7 @@ export class SideNavComponent implements AfterViewInit {
         this._focusedNode.isFocused = true;
     }
 
-    private _moveUp(){
+    private _moveFocusedItemUp(){
         let prevNode = this._iterator.previous();
         if(prevNode){
             this._focusedNode.isFocused = false;
