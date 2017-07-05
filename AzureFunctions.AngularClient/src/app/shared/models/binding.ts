@@ -24,10 +24,12 @@
     twilioSms = <any>"twilioSms",
     aadtoken = <any>"aadToken",
     excel = <any>"excel",
+    token = <any>"token",
     outlook = <any>"outlook",
     onedrive = <any>"onedrive",
     GraphWebhook = <any>"GraphWebhook",
-    GraphWebhookTrigger = <any>"GraphWebhookTrigger"
+    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
+    GraphWebhookCreator = <any>"GraphWebhookCreator"
 }
 
 export interface BindingConfig {

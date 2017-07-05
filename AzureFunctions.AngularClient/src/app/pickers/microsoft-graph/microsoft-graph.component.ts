@@ -68,7 +68,7 @@ export class MicrosoftGraphComponent {
         };
 
         let dataRetriever = new MobileAppsClient(this._functionApp.getMainSiteUrl(), this._aiService);
-        dataRetriever.retrieveOID(null, input).then(values => {
+        dataRetriever.retrieveOID(options, input).then(values => {
             this._functionApp.createApplicationSetting(values.appSettingName, values.OID)
             this.finishResourcePickup(values.appSettingName, input); // set selected drop-down item to app setting just created
         });
