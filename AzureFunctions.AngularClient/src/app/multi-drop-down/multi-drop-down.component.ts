@@ -1,7 +1,8 @@
+import { PortalResources } from './../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 import { KeyCodes } from './../shared/models/constants';
 import { Component, OnInit, ElementRef, Input, ViewChild } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-
 import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-down-element';
 
 interface Dimensions {
@@ -32,9 +33,9 @@ export class MultiDropDownComponent<T> implements OnInit {
   private _selectAllOption: MultiDropDownElement<T>;
   private _focusedIndex = -1;
 
-  constructor(private _eref: ElementRef) {
+  constructor(private _eref: ElementRef, private _ts : TranslateService) {
     this._selectAllOption = {
-      displayLabel: "Select All",
+      displayLabel: _ts.instant(PortalResources.selectAll),
       value: null,
       isSelected: false
     };
@@ -104,7 +105,17 @@ export class MultiDropDownComponent<T> implements OnInit {
     }
     else if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
       if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length) {
-        this.options[this._focusedIndex].isSelected = !this.options[this._focusedIndex].isSelected;
+        let option = this.options[this._focusedIndex];
+        option.isSelected = !option.isSelected;
+
+        if(option === this._selectAllOption){
+          if(option.isSelected){
+            this.options.forEach(o => o.isSelected = true);
+          }
+          else{
+            this.options.forEach(o => o.isSelected = false);
+          }
+        }
       }
     }
     else if (event.keyCode === KeyCodes.escape) {
@@ -231,10 +242,10 @@ export class MultiDropDownComponent<T> implements OnInit {
     }
 
     if (this._selectAllOption.isSelected) {
-      displayText = `All items selected`;
+      displayText = this._ts.instant(PortalResources.allItemsSelected);
     }
     else if (selectedValues.length > 1) {
-      displayText = `${selectedValues.length} items selected`;
+      displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
     }
 
     this.displayText = displayText;

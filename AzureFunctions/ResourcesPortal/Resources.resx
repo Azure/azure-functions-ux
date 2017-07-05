@@ -129,6 +129,15 @@
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>All items selected</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} items selected</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Create Function Error: {{error}}</value>
   </data>
