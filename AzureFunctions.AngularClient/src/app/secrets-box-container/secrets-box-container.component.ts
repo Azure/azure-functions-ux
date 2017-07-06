@@ -10,11 +10,11 @@ import {SecretsBoxInputDirective} from './secrets-box-input.directive'
 export class SecretsBoxContainerComponent {
     @ContentChild(SecretsBoxInputDirective) input: SecretsBoxInputDirective;
 
-    private show: boolean;
+    public show: boolean;
 
     constructor() { }
 
-    toggleShow() {
+    toggleShow(event) {
         this.show = !this.show;
         if (this.show) {
             this.input.changeType("text");

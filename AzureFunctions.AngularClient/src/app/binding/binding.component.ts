@@ -1,27 +1,39 @@
-import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
-import {BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput} from '../shared/models/binding-input';
+import {Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { AiService } from '../shared/services/ai.service';
+
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
 import {BindingManager} from '../shared/models/binding-manager';
-import {FunctionsService} from '../shared//services/functions.service';
 import {BindingInputList} from '../shared/models/binding-input-list';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
-import {Subscription} from 'rxjs/Rx';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {Validator} from '../shared/models/binding';
+import {FunctionApp} from '../shared/function-app';
+import {CacheService} from '../shared/services/cache.service';
+import {ArmObj} from '../shared/models/arm/arm-obj';
+import {AuthSettings} from '../shared/models/auth-settings';
+
+declare var jQuery: any;
 declare var marked: any;
 
 @Component({
-  selector: 'binding',
-  templateUrl: './binding.component.html',
-  styleUrls: ['./binding.component.css'],
-  inputs: ['binding', 'clickSave'],
+    selector: 'binding',
+    templateUrl: './binding.component.html',
+    styleUrls: ['./binding.component.scss'],
+    inputs: ['functionAppInput', 'binding', 'clickSave']
 })
 
-export class BindingComponent {
+export class BindingComponent{
     @Input() canDelete: boolean = true;
     @Input() canSave: boolean = true;
     @Input() canCancel: boolean = true;
@@ -36,7 +48,6 @@ export class BindingComponent {
     @Output() cancel = new EventEmitter<void>();
 
     public newFunction: boolean = false;
-    public disabled: boolean;
     public storageAccountName: string;
     public storageAccountKey: string;
     public storageConnectionString: string;
@@ -46,18 +57,62 @@ export class BindingComponent {
     public hasInputsToShow = false;
     public isDirty: boolean = false;
     public isDocShown: boolean = false;
+    public functionApp: FunctionApp;
+    // While there are no uses for this in the code, it's used in
+    // a template for the bindings that comes from the templates repo.
+    // "warnings": [
+    //         {
+    //           "text": "$ADDToken_warningCongigured",
+    //           "type": "Info",
+    //           "variablePath": "authSettings.AADConfigured",
+    //           "addLinkToAuth": true
+    //        }]
+    public authSettings: AuthSettings;
+
+    private _functionAppStream = new Subject<any>();
+    private _bindingStream = new Subject<UIFunctionBinding>();
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
     private _newBinding;
+    private _appSettings : { [key: string]: string };
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _cacheService : CacheService,
+        private _translateService: TranslateService,
+        private _aiService: AiService) {
         var renderer = new marked.Renderer();
+
+        let funcStream = this._functionAppStream
+            .distinctUntilChanged()
+            .switchMap(functionApp => {
+                this.functionApp = functionApp;
+                return Observable.zip(
+                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
+                    this.functionApp.getAuthSettings(),
+                    (a, e) => ({appSettings : a.json(), authSettings: e}));
+            });
+
+        funcStream
+            .merge(this._bindingStream)
+            .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
+                try{
+                    if (res.appSettings) {
+                        this._appSettings = res.appSettings.properties;
+                    }
+                    else {
+                        this._updateBinding(<any>res);
+                    }
+                    if (res.authSettings) {
+                        this.authSettings = res.authSettings;
+                        this.filterWarnings();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+        });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
@@ -75,8 +130,6 @@ export class BindingComponent {
         });
 
         this._elementRef = elementRef;
-
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
 
@@ -103,6 +156,10 @@ export class BindingComponent {
         this._subscription.unsubscribe();
     }
 
+    set functionAppInput(functionApp : FunctionApp){
+        this._functionAppStream.next(functionApp);
+    }
+
     set clickSave(value: boolean) {
         if (value) {
             this.saveClicked();
@@ -110,9 +167,13 @@ export class BindingComponent {
     }
 
     set binding(value: UIFunctionBinding) {
+        this._bindingStream.next(value);
+    }
+
+    private _updateBinding(value : UIFunctionBinding){
         this.isDirty = false;
         var that = this;
-        this._functionsService.getBindingConfig().subscribe((bindings) => {
+        this.functionApp.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
             this.setDirtyIfNewBinding();
             // Convert settings to input conotrls
@@ -125,12 +186,13 @@ export class BindingComponent {
             }
 
             this.model.actions = [];
-            if (!this.newFunction && bindingSchema.actions) {
-                bindingSchema.actions.forEach((a) => {
-                    if (a.templateId) {
-                        this.model.actions.push(a);
-                    }
-                });
+            this.model.warnings = [];
+            if (!this.newFunction && bindingSchema) {
+                if (bindingSchema.actions) {
+                    this.model.actions = bindingSchema.actions;
+                }
+                this.model.warnings = bindingSchema.warnings;
+                this.filterWarnings();
             }
 
             this.setLabel();
@@ -172,7 +234,7 @@ export class BindingComponent {
                             if (setting.value === SettingType.string && setting.resource) {
                                 let input = new PickerInput();
                                 input.resource = setting.resource;
-                                input.items = this._globalStateService.getResourceAppSettings(setting.resource);
+                                input.items = this._getResourceAppSettings(setting.resource);
                                 input.id = setting.name;
                                 input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
@@ -372,12 +434,11 @@ export class BindingComponent {
     }
 
     saveClicked() {
-        this._portalService.logAction(
-            "binding-component",
-            "save-binding", {
-                type: this.bindingValue.type,
-                direction: this.bindingValue.direction
-            });
+        var data = this.getDataToLog();
+
+
+        this._portalService.logAction('binding', 'save', data);
+        this._aiService.trackEvent('/binding/save', data);
 
         this.bindingValue.newBinding = false;
         this.bindingValue.name = this.model.getInput("name").value;
@@ -429,7 +490,12 @@ export class BindingComponent {
 
         this.setLabel();
         this.model.saveOriginInputs();
-        this.setStorageInformation(selectedStorage);
+        // if we create new storage account we need to update appSettings to get new storage information
+        this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).subscribe(r => {
+            this._appSettings = r.json().properties;
+            this.setStorageInformation(selectedStorage);
+        });
+
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
@@ -457,6 +523,21 @@ export class BindingComponent {
 
     showDoc(value: boolean) {
         this.isDocShown = value;
+
+        if (this.isDocShown) {
+            var data = this.getDataToLog();
+            this._portalService.logAction('binding', 'openDocumentation', data);
+            this._aiService.trackEvent('binding/openDocumentation', data);
+        }
+    }
+
+    onAuth() {
+        this._portalService.openBlade({
+            detailBlade: "AppAuth",
+            detailBladeInputs: { resourceUri: this.functionApp.site.id }
+        },
+            "binding"
+        );
     }
 
     private setStorageInformation(selectedStorage: string) {
@@ -464,7 +545,7 @@ export class BindingComponent {
         this.storageAccountName = undefined;
         this.storageConnectionString = undefined;
         if (selectedStorage) {
-            var storageAccount = this._globalStateService.getAccountNameAndKeyFromAppSetting(selectedStorage);
+            var storageAccount = this._getAccountNameAndKeyFromAppSetting(selectedStorage);
             if (storageAccount.length === 3) {
                 this.storageAccountName = storageAccount.pop();
                 this.storageAccountKey = storageAccount.pop();
@@ -492,12 +573,12 @@ export class BindingComponent {
     private setLabel() {
         var bindingTypeString = this.bindingValue.direction.toString();
         switch (bindingTypeString) {
-            case "in":
+             case "in":
                 bindingTypeString = "input";
                 break;
-            case "out":
-                bindingTypeString = "output";
-                break;
+             case "out":
+                 bindingTypeString = "output";
+                 break;
         }
 
         this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
@@ -514,4 +595,102 @@ export class BindingComponent {
         }
         return isHidden;
     }
+
+    private _getResourceAppSettings(type: ResourceType): string[] {
+       var result = [];
+       switch (type) {
+           case ResourceType.Storage:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1 ) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.EventHub:
+           case ResourceType.ServiceBus:
+               for (var key in this._appSettings) {
+
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.ApiHub:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+
+           case ResourceType.DocumentDB:
+               for (var key in this._appSettings) {
+                   var value = this._appSettings[key].toLowerCase();
+                   if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
+                       result.push(key);
+                   }
+               }
+               break;
+           case ResourceType.AppSetting:
+               for (var key in this._appSettings) result.push(key);
+               break;
+       }
+       return result;
+   }
+
+
+   private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
+       var value = this._appSettings ? this._appSettings[settingName] : null;
+       if (value) {
+            var account = [];
+            var accountName;
+            var accountKey;
+            var partsArray = value.split(';');
+            for (var i = 0; i < partsArray.length; i++) {
+                var part = partsArray[i];
+                var accountNameIndex = part.toLowerCase().indexOf("accountname");
+                var accountKeyIndex = part.toLowerCase().indexOf("accountkey");
+                if (accountNameIndex > -1)
+                    accountName = (part.substring(accountNameIndex + 12, part.length));
+                if (accountKeyIndex > -1)
+                    accountKey = (part.substring(accountKeyIndex + 11, part.length));
+            }
+            account.push(value);
+            if (accountKey) account.push(accountKey);
+            if (accountName) account.push(accountName);
+            return account;
+       } else {
+           return [];
+       }
+    }
+
+   private filterWarnings() {
+       if (this.newFunction) {
+           this.model.warnings = undefined;
+       }
+
+       if (this.model.warnings) {
+           this.model.warnings.forEach((w) => {
+               var array = w.variablePath.split('.');
+               var showWarning: any = this;
+               array.forEach((part) => {
+                   showWarning = showWarning[part];
+               });
+
+               if (showWarning === true) {
+                   w.visible = true;
+               }
+           });
+       }
+   }
+
+   private getDataToLog() {
+       return {
+           name: this.bindingValue.type.toString(),
+           direction: this.bindingValue.direction.toString()
+       };
+   }
 }

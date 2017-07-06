@@ -4,19 +4,27 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 @Component({
   selector: 'pop-over',
   templateUrl: './pop-over.component.html',
-  styleUrls: ['./pop-over.component.css']
+  styleUrls: ['./pop-over.component.scss']
 })
 export class PopOverComponent {
-    @Input() public message: string;
+
+    @Input() message: string;
     @Input() hideAfter: number;
     @Input() isInputError: boolean;
+    @Input() popOverClass = "pop-over-container";
+    @Input() position: string;
+
     public show: boolean;
-    @Input() public position: string;
 
     constructor() { }
 
     onBlur(event: any) {
-        this.show = false;
+        // blur() will always be called after focus(). If there is a hideAfter, then focus() will
+        // take care of hiding the pop-over. Without this, blur will always hide the pop-over
+        // right away ignoring hideAfter.
+        if (!this.hideAfter) {
+            this.show = false;
+        }
         if (event.relatedTarget && this.validURL(event.relatedTarget)) {
             window.open(
                 event.relatedTarget.toString(),
@@ -31,7 +39,7 @@ export class PopOverComponent {
         if (this.hideAfter) {
             setTimeout(() => {
                 this.show = false;
-            }, this.hideAfter)
+            }, this.hideAfter);
         }
     }
 

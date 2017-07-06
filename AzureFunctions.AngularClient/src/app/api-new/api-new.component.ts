@@ -1,42 +1,63 @@
 import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { AppNode } from './../tree-view/app-node';
+import { Constants } from './../shared/models/constants';
+import { CacheService } from './../shared/services/cache.service';
+import { AiService } from './../shared/services/ai.service';
 import {ApiProxy} from '../shared/models/api-proxy';
 import {FunctionsService} from '../shared/services/functions.service';
 import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import {GlobalStateService} from '../shared/services/global-state.service';
 import {PortalResources} from '../shared/models/portal-resources';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {ErrorEvent} from '../shared/models/error-event';
-import {FunctionInfo} from '../shared/models/function-info';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {ProxiesNode} from '../tree-view/proxies-node';
+import {FunctionApp} from '../shared/function-app';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { FunctionInfo } from '../shared/models/function-info';
+import { ErrorIds } from '../shared/models/error-ids';
 
 @Component({
   selector: 'api-new',
   templateUrl: './api-new.component.html',
   //styleUrls: ['./api-new.component.scss']
-  styleUrls: ['./api-new.component.css', '../binding-input/binding-input.component.css']
+  styleUrls: ['./api-new.component.scss', '../binding-input/binding-input.component.css'],
+  inputs: ['viewInfoInput']
 })
 export class ApiNewComponent implements OnInit {
 
-    @Input() apiProxies: ApiProxy[];
-    @Input() functionsInfo: FunctionInfo[];
     complexForm: FormGroup;
     isMethodsVisible: boolean = false;
-    @Output() private functionAppSettingsClicked: EventEmitter<any> = new EventEmitter<any>();
     isEnabled: boolean;
+
+    public functionApp: FunctionApp;
+    public apiProxies: ApiProxy[];
+    public functionsInfo: FunctionInfo[];
+    public appNode: AppNode;
+    private _proxiesNode: ProxiesNode;
+    private _viewInfoStream = new Subject<TreeViewInfo>();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _aiService : AiService,
+        private _cacheService : CacheService) {
 
         this.complexForm = fb.group({
-            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we’ll default the gender to female.
+            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, weï¿½ll default the gender to female.
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
-            backendUri: [null, Validators.compose([Validators.required, ApiNewComponent.validateUrl()])],
+            backendUri: [null, Validators.compose([ApiNewComponent.validateUrl()])],
             method_GET: false,
             method_POST: false,
             method_DELETE: false,
@@ -51,11 +72,42 @@ export class ApiNewComponent implements OnInit {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this.isEnabled = this._globalStateService.IsRoutingEnabled;
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._globalStateService.setBusyState();
+            this._proxiesNode = <ProxiesNode>viewInfo.node;
+            this.functionApp = this._proxiesNode.functionApp;
+            this.appNode = (<AppNode>this._proxiesNode.parent);
+
+            // Should be okay to query app settings without checkout RBAC/locks since this component
+            // shouldn't load unless you have write access.
+            return Observable.zip(
+                this.functionApp.getFunctions(),
+                this.functionApp.getApiProxies(),
+                this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true),
+                (f, p, a) =>({ fcs : f, proxies : p, appSettings : a.json()}))
+        })
+        .do(null, e =>{
+            this._aiService.trackException(e, '/errors/proxy-create');
+            console.error(e);
+        })
+        .retry()
+        .subscribe(res =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = res.fcs;
+            this.apiProxies = res.proxies;
+
+            let extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
+        })
+    }
+
+    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+        this._viewInfoStream.next(viewInfoInput);
     }
 
     onFunctionAppSettingsClicked(event: any) {
-        this.functionAppSettingsClicked.emit(event);
+        this.appNode.openSettings();
     }
 
     static validateUrl(): ValidatorFn {
@@ -120,19 +172,26 @@ export class ApiNewComponent implements OnInit {
                 matchCondition: {
                     route: this.complexForm.controls["routeTemplate"].value,
                     methods: []
-                }
+                },
+                functionApp: null,
             };
 
-            this._functionsService.getApiProxies().subscribe(proxies => {
+            this.functionApp.getApiProxies().subscribe(proxies => {
 
-                this.apiProxies = ApiProxy.fromJson(proxies);
+                this.apiProxies = proxies;
                 var existingProxy = this.apiProxies.find((p) => {
                     return p.name === newApiProxy.name;
                 });
 
                 if (existingProxy) {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }) });
+                    // No need to log this error as this is just a user error.
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                         message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }),
+                         errorId: ErrorIds.proxyWithSameNameAlreadyExists,
+                         errorType: ErrorType.UserError,
+                         resourceId: this.functionApp.site.id
+                    });
                     throw `Proxy with name '${newApiProxy.name}' already exists`;
                 } else {
                     if (this.complexForm.controls["methodSelectionType"].value !== "All") {
@@ -148,9 +207,13 @@ export class ApiNewComponent implements OnInit {
 
                 this.apiProxies.push(newApiProxy);
 
-                this._functionsService.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
+                this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.ApiProxyAdded, newApiProxy);
+                    
+                    // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                    this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);
+                    this._proxiesNode.addChild(newApiProxy);
+                    this._aiService.trackEvent('/actions/proxy/create');
                 });
             });
 

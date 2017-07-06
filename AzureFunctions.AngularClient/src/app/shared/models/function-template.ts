@@ -23,4 +23,10 @@ export interface FunctionTemplateMetadata {
     visible?: boolean;
     filters?: string[];
     enabledInTryMode?: boolean;
+    warning: Warning;
+}
+
+export interface Warning {
+    type: string;
+    text: string;
 }

@@ -1,14 +1,37 @@
-<div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
+<div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-                <span *ngIf="showFunctionInvokeUrlModal" class="text-level2-heading">{{'functionDev_functionUrl' | translate}}</span>
-                <span *ngIf="showFunctionKeyModal" class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
+                <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
             </div>
+            <div class="modal-body keys-dialog-body">
+                <div *ngIf="isHttpFunction && hostKeys">
+                    <div class="text-label">{{'keysDialog_key' | translate}}</div>
+                    <select (change)="onChangeKey($event.target.value)">
+                        <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
+                        <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
+                    </select>
+                </div>
+                <div class="keys-dialog-body-invokeUrl">
+                    <div class="text-label">{{'keysDialog_url' | translate}}</div>
+                    <div><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+            </div>
+
             <div class="modal-body">
-                <div *ngIf="showFunctionInvokeUrlModal"><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
-                <div *ngIf="showFunctionKeyModal"><copy-pre [content]="functionKey || secrets?.key || _functionsService?.HostSecrets"></copy-pre></div>
+                <div><copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre></div>
             </div>
         </div>
     </div>
@@ -16,12 +39,10 @@
 
 <div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" class="modal-backdrop fade in"></div>
 
+
 <div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
     <div *ngIf="scriptFile" class="dev-full">
         <div>
-
-            <busy-state name="run-busy"></busy-state>
-
             <div style="display: flex">
 
                 <!-- Head, Code editor, logs -->
@@ -31,12 +52,12 @@
                     <div class="left-container">
 
                         <!-- Header -->
-                        <div style="display:flex;">
+                        <div style="display:flex;align-items: center;">
                             <span class="text-level1-heading">{{fileName}}</span>
                             <span>
-                                <button class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()" [disabled]="disabled">{{ 'save' | translate }}</button>
+                                <button [fnWriteAccess]="functionApp" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
                             </span>
-                            <span>
+                            <span *ngIf="!isStandalone">
                                 <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -45,8 +66,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
-                            </span>
-                            <span>
+
                                 <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -55,6 +75,7 @@
                                     <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
+
                             </span>
                             <span>
                                 <button *ngIf="running"
@@ -81,13 +102,14 @@
                         <div #editorContainer class="dev-full">
 
                             <div monacoEditor id="code"
-                                 class="monaco dev-full"
-                                 style="margin-top: 7px"
-                                 (onSave)="saveScript()"
-                                 (onContentChanged)="contentChanged($event)"
-                                 [content]="content"
-                                 [fileName]="fileName"
-                                 [disabled]="disabled">
+                                class="monaco dev-full"
+                                style="margin-top: 7px"
+                                (onSave)="saveScript()"
+                                (onContentChanged)="contentChanged($event)"
+                                [content]="content"
+                                [fileName]="fileName"
+                                [disabled]="disabled | async"
+                                [functionAppInput]="functionApp">
                             </div>
 
                         </div>
@@ -95,12 +117,12 @@
                     </div>
 
                     <!-- Logs -->
-                    <div class="dev-flex-column"> 
+                    <div class="dev-flex-column">
 
-                        <div *ngIf="!bottomTab" class="bottom-bar-closed">
-                            <span class="tab-label-disabled" (click)="clickRightTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
+                        <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
+                            <span class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</span>
                             <span style="flex-grow: 1;"></span>
-                            <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab('logs')"><i class="fa fa-chevron-up"></i></span>
+                            <span style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></span>
                         </div>
 
                         <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
@@ -114,7 +136,6 @@
                 </div>
 
                 <!--<busy-state name="run-busy"></busy-state>-->
-
                 <!-- Right bar-->
                 <div style="display: flex; flex-grow: 1;">
 
@@ -127,8 +148,7 @@
                             <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
                             <span class="tab-label-rotate-right" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
                             <span class="tab-label-rotate" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                            <span class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
-                            <span class="tab-label-rotate" *ngIf="_functionsService?.isMultiKeySupported" [class.bubble]="rightTab==='keys'" [class.active]="rightTab==='keys'" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
+                            <span *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
                         </div>
                     </div>
 
@@ -138,8 +158,7 @@
                         <div *ngIf="rightTab">
                             <div class="rigth-container-bar">
                                 <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                                <span [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
-                                <span [class.tab-label-selected]="rightTab==='keys'" [class.tab-label]="rightTab!=='keys'" *ngIf="_functionsService?.isMultiKeySupported" (click)="clickRightTab('keys')">{{ 'keys' | translate }}</span>
+                                <span *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
                                 <span style="flex-grow: 1;"></span>
                                 <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
                             </div>
@@ -159,18 +178,20 @@
                             <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
 
                                 <run-http *ngIf="isHttpFunction"
-                                          [functionInvokeUrl]="functionInvokeUrl"
-                                          [functionInfo]="functionInfo"
-                                          (validChange)="onRunValid($event)">
+                                    [functionInvokeUrl]="functionInvokeUrl"
+                                    [functionInfo]="functionInfo"
+                                    (validChange)="onRunValid($event)"
+                                    (disableTestData)="onDisableTestData($event)">
                                 </run-http>
 
                                 <div>
                                     <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
                                     <div id="test_data" monacoEditor class="monaco"
-                                         (onSave)="saveTestData()"
-                                         (onContentChanged)="testContentChanged($event)"
-                                         [content]="testContent"
-                                         fileName="sample.dat">
+                                        (onSave)="saveTestData()"
+                                        (onContentChanged)="testContentChanged($event)"
+                                        [content]="testContent"
+                                        fileName="sample.dat"
+                                        [functionAppInput]="functionApp">
                                     </div>
                                 </div>
 
@@ -180,7 +201,7 @@
 
                                         <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                         <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
+                                        <div *ngIf="runResult && (runResult.statusCode < 99 || runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
                                     </div>
 
                                     <pre class="run-pre-regular">{{runResult?.content}}</pre>
@@ -201,13 +222,13 @@
 
                                 <!--<div *ngIf="isHttpFunction">
 
-                <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
+                                <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
 
-                <log-streaming [functionInfo]="functionInfo"
-                               [isHttpLogs]="true"
-                               (closeClicked)="clickRightTab('logs')">
-                </log-streaming>
-            </div>-->
+                                <log-streaming [functionInfo]="functionInfo"
+                                                [isHttpLogs]="true"
+                                                (closeClicked)="clickRightTab('logs')">
+                                </log-streaming>
+                            </div>-->
 
                             </div>
 
@@ -231,11 +252,6 @@
                             </div>
                         </div>
 
-                        <div [hidden]="rightTab!=='keys'" *ngIf="functionInfo && _functionsService?.isMultiKeySupported" class="dev-full dev-border" style="overflow: auto;">
-                            <function-keys [autoSelect]="true" [functionInfo]="functionInfo" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)"></function-keys>
-                            <div style="margin: 25px 0 25px 0;width: 100%;height: 1px;background-color: black;"></div>
-                            <function-keys [autoSelect]="autoSelectAdminKey" [enableKeySelect]="true" (selectedKey)="selectedKeyStream.next($event)" [inputChange]="functionInfo"></function-keys>
-                        </div>
                     </div>
 
                 </div>

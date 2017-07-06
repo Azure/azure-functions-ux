@@ -1,0 +1,53 @@
+@import '../../sass/main';
+
+.feature-group-header{
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: $border;
+    font-weight: bold;
+}
+
+.feature-group-item{
+    padding: 5px 45px 5px 0px;
+    position: relative;
+
+    .feature-group-item-content{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    img{
+        height: 16px;
+        width: 16px;
+        vertical-align: middle;
+        margin-bottom: 2px;
+        margin-left: 3px;
+    }
+
+    &:hover{
+        background-color: $chrome-color;
+    }
+
+    .feature-group-result-title{
+        background-color: $highlight-text-color;
+    }
+}
+
+.feature-group-info{
+    position: absolute;
+    right: 5px;
+    top: 6px;
+
+    i{
+        font-size: 15px;
+    }
+}
+
+.feature-menu-item{
+    margin-left: 5px;
+}
+
+.feature-group-disabled{
+    color: darken($chrome-color, 30%);
+}

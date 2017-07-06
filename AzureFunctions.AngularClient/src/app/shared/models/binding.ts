@@ -4,6 +4,7 @@
     eventHub = <any>"eventHub",
     queue = <any>"queue",
     queueTrigger = <any>"queueTrigger",
+    sqlQueueTrigger = <any>"sqlQueueTrigger",
     blob = <any>"blob",
     blobTrigger = <any>"blobTrigger",
     apiHubFile = <any>"apiHubFile",
@@ -20,16 +21,16 @@
     mobileTable = <any>"mobileTable",
     notificationHub = <any>"notificationHub",
     sendGrid = <any>"sendGrid",
-    twilioSms = <any>"twilioSms"
+    twilioSms = <any>"twilioSms",
+    aadtoken = <any>"aadToken"
 }
 
 export interface BindingConfig {
-    $shcema: string,
+    $schema: string,
     contentVersion: string,
     variables: any,
     bindings: Binding[]
 }
-
 
 export interface Binding {
     type: BindingType;
@@ -38,6 +39,7 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
+    warnings: Warning[];
     filters?: string[];
     enabledInTryMode?: boolean;
     actions: Action[];
@@ -45,7 +47,7 @@ export interface Binding {
 
 export interface Setting {
     name: string;
-    value: SettingType;
+    value: string;
     resource?: ResourceType;
     required?: boolean;
     label: string;
@@ -72,6 +74,13 @@ export interface RuleValue {
     shownSettings: string[];
 }
 
+export interface Warning {
+    text: string;
+    type: string;
+    variablePath: string;
+    visible?: boolean; // for UI only
+}
+
 export interface Validator {
     expression: string;
     errorText: string;
@@ -80,7 +89,7 @@ export interface Validator {
 export interface EnumOption {
     value: string;
     display: string;
-} 
+}
 
 export enum DirectionType {
     trigger = <any>"trigger",
@@ -94,17 +103,18 @@ export enum ResourceType {
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
     DocumentDB = <any>"DocumentDB",
-    ApiHub = <any>"ApiHub"
+    ApiHub = <any>"ApiHub",
+    AppSetting = <any>"AppSetting"
 }
 
-export enum SettingType {
-    string = <any>"string",
-    boolean = <any>"boolean",
-    label = <any>"label",
-    enum = <any>"enum",
-    int = <any>"int",
-    picker = <any>"picker",
-    checkBoxList = <any>"checkBoxList"
+export class SettingType{
+    public static string = "string";
+    public static boolean = "boolean";
+    public static label = "label";
+    public static enum = "enum";
+    public static int = "int";
+    public static picker = "picker";
+    public static checkBoxList = "checkBoxList";
 }
 
 export interface UIFunctionConfig {

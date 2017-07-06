@@ -1,0 +1,78 @@
+@import '../../../sass/main';
+
+.site-faded-text{
+    font-style: italic;
+    color: $disabled-color;
+}
+
+.site-summary-actions{
+    padding-left: 12px;
+
+    img{
+        height: 15px;
+        width: 15px;
+        vertical-align: top;
+        margin-right: 5px;
+    }
+
+    .disabled-action{
+        opacity: 0.4;
+        filter: alpha(opacity=40); /* msie */
+        cursor: text;
+        pointer-events: none;
+    }
+
+    >span{
+        padding: 12px;
+        display: inline-block;
+        
+        &:hover{
+            background-color: $chrome-color;
+        }
+    }
+}
+
+#essentials-container{
+    border-bottom: $border;
+    padding: 10px 20px 12px 20px;
+}
+
+.essentials-col{
+    min-width: 175px;
+    display: inline-block;
+    font-size: 13px;
+
+    label{
+        margin-bottom: 0px;
+        font-size: 11px;
+        font-weight: normal;
+        color: $label-text-color;
+    }
+
+    .link{
+        &:hover{
+            color: $primary-color-hover;
+        }
+    }
+
+    > div{
+        padding: 10px;
+    }
+
+    img{
+        display: inline-block;
+        margin-right: 5px;
+        height: 13px;
+        width: 13px;
+        margin-top: -2px;
+    }
+}
+
+#site-summary-body{
+    padding: 10px 35px;
+}
+
+#site-summary-features{
+    width: 300px;
+
+}

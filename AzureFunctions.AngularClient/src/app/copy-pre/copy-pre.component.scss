@@ -1,0 +1,23 @@
+@import '../../sass/main';
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper > div:nth-child(2) {
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+i {
+    padding-left: 5px;    
+ }
+
+pre {
+    white-space: normal;
+}
+
+.fix-font {
+    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;   
+}

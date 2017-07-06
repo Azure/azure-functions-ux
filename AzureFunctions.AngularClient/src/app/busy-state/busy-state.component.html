@@ -1,4 +1,11 @@
-<div class="container" [class.try-functions-busy]="name === 'try-functions'" [class.global]="isGlobal" *ngIf="busy">
+<!-- TODO: Should probably come up with a better way to control styling for the container -->
+<div class="container"
+    [class.try-functions-busy]="name === 'try-functions'"
+    [class.global]="isGlobal"
+    [class.busy-dashboard]="name === 'dashboard'"
+    [class.busy-site-tabs]="name === 'site-tabs'"
+    *ngIf="busy">
+
     <div class="fxs-progress" *ngIf="name !== 'try-functions'">
         <div class="fxs-progress-dots">
             <div></div><div></div><div></div>

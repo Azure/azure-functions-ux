@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" class="msportalfx-svg-placeholder" role="presentation" focusable="false" aria-hidden="true">
+    <style type="text/css">
+        .msportalfx-svg-c01{ fill: #fff; }
+        .msportalfx-svg-c02{ fill: #e5e5e5; }
+        .msportalfx-svg-c04{ fill: #7a7a7a;}
+        .msportalfx-svg-c06{fill: #1e1e1e;}
+        .msportalfx-svg-c15{ fill: #59b4d9; }
+    </style>
+
+   <g>
+      <path d="M4 0h10.003v50H4z" class="msportalfx-svg-c02" />
+      <path d="M6 2h5.941v46H6z" class="msportalfx-svg-c15" />
+      <path opacity="0.6" d="M6 20h6.003v28H6z" class="msportalfx-svg-c01" />
+      <path d="M4 18h9.999v4H4z" class="msportalfx-svg-c04" />
+      <path opacity="0.7" d="M4.001 18h10v2h-10z" class="msportalfx-svg-c01" />
+      <path d="M20 0h10.003v50H20z" class="msportalfx-svg-c02" />
+      <path d="M22 2h5.941v46H22z" class="msportalfx-svg-c15" />
+      <path opacity="0.6" d="M22.005 36h6.003v12h-6.003z" class="msportalfx-svg-c01" />
+      <path d="M20 34h9.999v4H20z" class="msportalfx-svg-c04" />
+      <path opacity="0.7" d="M20.001 34h10v2h-10z" class="msportalfx-svg-c01" />
+      <path d="M36 0h10.003v50H36z" class="msportalfx-svg-c02" />
+      <path d="M38 2h5.941v46H38z" class="msportalfx-svg-c15" />
+      <path opacity="0.6" d="M38 20h6.003v28H38z" class="msportalfx-svg-c01" />
+      <path d="M36 18h9.999v4H36z" class="msportalfx-svg-c04" />
+      <path opacity="0.7" d="M36.001 18h10v2h-10z" class="msportalfx-svg-c01" />
+      <path opacity="0.2" d="M4.001 22h10v2h-10zm31.969 0h10v2h-10zM20.007 38h10v2h-10z" class="msportalfx-svg-c06" />
+   </g>
+</svg>

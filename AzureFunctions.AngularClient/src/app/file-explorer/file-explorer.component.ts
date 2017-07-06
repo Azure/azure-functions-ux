@@ -1,17 +1,20 @@
 import {Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/throw';
+import { FileUploader } from 'ng2-file-upload';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+
 import {FunctionInfo} from '../shared/models/function-info';
 import {VfsObject} from '../shared/models/vfs-object';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {FunctionsService} from '../shared/services/functions.service';
-import {FileUploader} from 'ng2-file-upload/ng2-file-upload';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {Subscription as RxSubscription} from 'rxjs/Rx';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
-import {Observable} from 'rxjs/Rx';
+import {FunctionApp} from '../shared/function-app';
 
 
 @Component({
@@ -40,9 +43,9 @@ export class FileExplorerComponent implements OnChanges {
     private binaryExtensions = ['.zip', '.exe', '.dll', '.png', '.jpeg', '.jpg', '.gif', '.bmp', '.ico', '.pdf', '.so', '.ttf', '.bz2', '.gz', '.jar', '.cab', '.tar', '.iso', '.img', '.dmg'];
 
     public uploader: FileUploader;
+    public functionApp: FunctionApp;
 
     constructor(
-        private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
@@ -50,10 +53,13 @@ export class FileExplorerComponent implements OnChanges {
         this.selectedFileChange = new EventEmitter<VfsObject>();
         this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
         this.selectedFunctionChange
-            .switchMap(e => this._functionsService.getVfsObjects(e))
+            .switchMap(e =>  {
+                this.functionApp = e.functionApp;
+                return this.functionApp.getVfsObjects(e)
+            })
             .subscribe(r => {
-                this.folders = this.getFolders(r);
-                this.files = this.getFiles(r);
+                    this.folders = this.getFolders(r);
+                    this.files = this.getFiles(r);
             });
 
         this.history = [];
@@ -65,7 +71,7 @@ export class FileExplorerComponent implements OnChanges {
             url = this.trim(url);
             this.uploader.setOptions({
                 authToken: `Bearer ${this._globalStateService.CurrentToken}`,
-                headers: [{ name: 'If-Match', value: '*' }]
+                headers: [{name: 'If-Match', value: '*'}]
             });
             for (let i = 0; i < files.length; i++) {
                 files[i].method = 'PUT';
@@ -77,18 +83,18 @@ export class FileExplorerComponent implements OnChanges {
 
         this.uploader.onCompleteAll = () => {
             this.uploader.clearQueue();
-            this._functionsService.ClearAllFunctionCache(this.functionInfo);
+            this.functionApp.ClearAllFunctionCache(this.functionInfo);
             this.refresh();
             this._aiService.trackEvent('/actions/file_explorer/upload_file');
         };
 
         this.uploader.onErrorItem = (item, response, status, headers) => {
-            this._broadcastService.broadcast(BroadcastEvent.Error, { message: '', details: '' });
+            this._broadcastService.broadcast(BroadcastEvent.Error, {message: '', details: ''});
         };
 
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges(changes: {[key: string]: SimpleChange}) {
         if (changes['functionInfo']) {
             this.currentTitle = this.functionInfo.name;
             this.resetState();
@@ -136,18 +142,18 @@ export class FileExplorerComponent implements OnChanges {
                 this.currentVfsObject = vfsObject;
             }
 
-            this._functionsService.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
+            this.functionInfo.functionApp.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
                 .subscribe(r => {
                     this.folders = this.getFolders(r);
                     this.files = this.getFiles(r);
                     this.currentTitle = name || '..';
                     this.clearBusyState();
                 }, () => this.clearBusyState());
-            return;
+                return;
         }
 
         if (typeof vfsObject !== 'string') {
-            this.selectedFileChange.emit(vfsObject);
+             this.selectedFileChange.emit(vfsObject);
         }
     }
 
@@ -169,7 +175,7 @@ export class FileExplorerComponent implements OnChanges {
         setTimeout(() => element.focus(), 50);
     }
 
-    addFile(content?: string): Observable<VfsObject | string> {
+    addFile(content? : string): Observable<VfsObject | string> {
         if (this.newFileName && this.files.find(f => f.name.toLocaleLowerCase() === this.newFileName.toLocaleLowerCase())) {
             let error = {
                 message: this._translateService.instant(PortalResources.fileExplorer_fileAlreadyExists, { fileName: this.newFileName })
@@ -182,16 +188,16 @@ export class FileExplorerComponent implements OnChanges {
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        let saveFileObservable = this._functionsService.saveFile(href, content || '', this.functionInfo);
+        var saveFileObservable = this.functionApp.saveFile(href, content || '', this.functionInfo);
         saveFileObservable
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
-                    this._functionsService.ClearAllFunctionCache(this.functionInfo);
+                    this.functionApp.ClearAllFunctionCache(this.functionInfo);
                     this.refresh();
                     this._aiService.trackEvent('/actions/file_explorer/create_directory');
                 } else {
                     let o = typeof r === 'string'
-                        ? { name: this.newFileName, href: href, mime: 'file' }
+                        ? {name: this.newFileName, href: href, mime: 'file'}
                         : r;
                     this.files.push(o);
                     this.selectVfsObject(o, true);
@@ -216,7 +222,7 @@ export class FileExplorerComponent implements OnChanges {
 
     renameFile() {
         this.setBusyState();
-        this._functionsService.getFileContent(this.selectedFile)
+        this.functionApp.getFileContent(this.selectedFile)
             .subscribe(content => {
                 let bypassConfirm = true;
                 this.addFile(content)
@@ -261,9 +267,9 @@ export class FileExplorerComponent implements OnChanges {
         }
 
         this.setBusyState();
-        this._functionsService.deleteFile(this.selectedFile, this.functionInfo)
-            .subscribe((deleted: VfsObject) => {
-                this._functionsService.ClearAllFunctionCache(this.functionInfo);
+        this.functionApp.deleteFile(this.selectedFile, this.functionInfo)
+            .subscribe((deleted : VfsObject) => {
+                this.functionApp.ClearAllFunctionCache(this.functionInfo);
                 this.clearBusyState();
                 let fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
                 if (fileIndex === -1 || this.files.length === 1) {

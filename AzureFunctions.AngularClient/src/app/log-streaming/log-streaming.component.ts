@@ -1,5 +1,8 @@
 import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter} from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
+import { Subscription } from 'rxjs/Subscription';
+import {TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
 import {UserService} from '../shared/services/user.service';
 import {FunctionContainer} from '../shared/models/function-container';
 import {FunctionsService} from '../shared/services/functions.service';
@@ -7,14 +10,12 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {ErrorEvent} from '../shared/models/error-event';
 import {UtilitiesService} from '../shared/services/utilities.service';
-import {Subscription} from 'Rxjs/rx';
-import {TranslatePipe} from 'ng2-translate/ng2-translate';
 import {GlobalStateService} from '../shared/services/global-state.service';
 
 @Component({
-  selector: 'log-streaming',
-  templateUrl: './log-streaming.component.html',
-  styleUrls: ['./log-streaming.component.scss', '../function-dev/function-dev.component.scss']
+    selector: 'log-streaming',
+    templateUrl: './log-streaming.component.html',
+    styleUrls: ['./log-streaming.component.scss', '../function-dev/function-dev.component.scss']
 })
 export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
@@ -36,11 +37,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _utilities: UtilitiesService,
         private _globalStateService: GlobalStateService) {
-        this.tokenSubscription = this._userService.getToken().subscribe(t => this.token = t);
+        this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
         this.log = '';
         this.timeouts = [];
     }
@@ -51,7 +51,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     ngOnDestroy() {
-        if (this.xhReq) {
+        if (this.xhReq){
             this.timeouts.forEach(window.clearTimeout);
             this.timeouts = [];
             this.xhReq.abort();
@@ -62,15 +62,15 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         }
     }
 
-    startLogs() {
+    startLogs(){
         this.stopped = false;
     }
 
-    stopLogs() {
+    stopLogs(){
         this.stopped = true;
     }
 
-    clearLogs() {
+    clearLogs(){
         this.skipLength = this.skipLength + this.log.length;
         this.log = ' ';
     }
@@ -101,7 +101,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
 
-    private initLogs(clear?: boolean) {
+    private initLogs(createEmpty: boolean = true, log?: string) {
         const maxCharactersInLog = 500000;
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 1000;
@@ -116,25 +116,28 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 this.log = '';
                 this.xhReq.abort();
                 this.oldLength = 0;
+                if (createEmpty && log) {
+                    this.log = oldLogs = log;
+                    this.oldLength = oldLogs.length;
+                    this.skipLength = 0;
+                }
             }
 
-            var scmUrl = this.functionInfo.href.substring(0, this.functionInfo.href.indexOf('/api/'));
+            let scmUrl = this.functionInfo.functionApp.getScmUrl();
 
             this.xhReq = new XMLHttpRequest();
-            let url = this._globalStateService.isRunningLocal
-                ? `https://localhost:6061/admin/logstream/application/functions/function/${this.functionInfo.name}`
-                : `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
+            let url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
 
             this.xhReq.open('GET', url, true);
-            if (this._globalStateService.ScmCreds) {
-                this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.ScmCreds}`);
+            if (this.functionInfo.functionApp.tryFunctionsScmCreds) {
+                this.xhReq.setRequestHeader('Authorization', `Basic ${this.functionInfo.functionApp.tryFunctionsScmCreds}`);
             } else {
                 this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
             }
             this.xhReq.setRequestHeader('FunctionsPortal', '1');
             this.xhReq.send(null);
-            if (!clear) {
-                this._functionsService.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
+            if (!createEmpty) {
+                this.functionInfo.functionApp.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
             }
 
             var callBack = () => {
@@ -170,7 +173,11 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 } else if (diff == 0) {
                     this.timerInterval = defaultInterval;
                 }
-                this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+                if (this.xhReq.readyState === XMLHttpRequest.DONE) {
+                    this.initLogs(true, this.log);
+                } else {
+                    this.timeouts.push(window.setTimeout(callBack, this.timerInterval));
+                }
             };
             callBack();
 

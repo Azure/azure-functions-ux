@@ -1,6 +1,6 @@
 .drop-down-container {
     background: #fff;
-    border: 2px solid #dedede;
+    border: 1px solid #dedede;
     padding-right: 30px;
     position: relative;
     vertical-align: middle;
@@ -9,7 +9,6 @@
 .drop-down-select {
     background: transparent;
     border: none;
-    font-size: 14px;
     filter: alpha(opacity=0);
     height: 25px;
     opacity: 0;

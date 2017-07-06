@@ -1,41 +1,54 @@
-import {Directive, EventEmitter, ElementRef, AfterViewInit } from '@angular/core';
-import {MonacoModel} from '../models/monaco-model';
-import {GlobalStateService} from '../services/global-state.service';
-import {FunctionsService} from '../services/functions.service';
+import { ConfigService } from './../services/config.service';
+import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+
+import { GlobalStateService } from '../services/global-state.service';
+import {FunctionApp} from '../function-app';
 
 declare var monaco;
 declare var require;
 
 @Directive({
     selector: '[monacoEditor]',
-    inputs: ['content', 'fileName', 'disabled'],
-    outputs: ['onContentChanged', 'onSave']
 })
 export class MonacoEditorDirective {
-    public onContentChanged: EventEmitter<string>;
-    public onSave: EventEmitter<string>;
+    @Output() public onContentChanged: EventEmitter<string>;
+    @Output() public onSave: EventEmitter<string>;
 
     private _language: string;
     private _content: string;
     private _disabled: boolean;
     private _editor: any;
-    private _containerName: string;
     private _silent: boolean = false;
     private _fileName: string;
+    private _functionAppStream : Subject<FunctionApp>;
+    private _functionApp : FunctionApp;
 
     constructor(public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _functionsService: FunctionsService
-    ) {
+        private _configService : ConfigService
+        ) {
+
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
 
-        this.init();
+        this._functionAppStream = new Subject<FunctionApp>();
+        this._functionAppStream
+            .distinctUntilChanged()
+            .subscribe(functionApp =>{
+                this._functionApp = functionApp;
+                this.init();
+            });
     }
 
-    set content(str: string) {
+    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp){
+        this._functionAppStream.next(functionApp);
+    }
+
+    @Input('content') set content(str: string) {
         if (!str) {
-            str = "";
+            str = '';
         }
 
         if (this._editor && this._editor.getValue() === str) {
@@ -49,43 +62,48 @@ export class MonacoEditorDirective {
         }
     }
 
-    set disabled(value: boolean) {
-        this._disabled = value;
+    @Input('disabled') set disabled(value: boolean) {
+        if (value !== this._disabled) {
+            this._disabled = value;
+            if (this._editor) {
+                this._editor.updateOptions({
+                    readOnly: this._disabled
+                });
+            }
+        }
     }
 
-    set fileName(filename: string) {
-        var extension = filename.split('.').pop().toLocaleLowerCase();
+    @Input('fileName') set fileName(filename: string) {
+        let extension = filename.split('.').pop().toLocaleLowerCase();
         this._fileName = filename;
 
         switch (extension) {
 
-            case "bat":
-                this._language = "bat";
+            case 'bat':
+                this._language = 'bat';
                 break;
-            case "csx":
-                this._language = "csharp";
+            case 'csx':
+                this._language = 'csharp';
                 break;
-            case "fsx":
-                this._language = "fsharp";
+            case 'fsx':
+                this._language = 'fsharp';
                 break;
-            case "js":
-                this._language = "javascript";
+            case 'js':
+                this._language = 'javascript';
                 break;
-            case "json":
-                this._language = "json";
+            case 'json':
+                this._language = 'json';
                 break;
-            case "ps1":
-                this._language = "powershell";
+            case 'ps1':
+                this._language = 'powershell';
                 break;
-            case "py":
-                this._language = "python";
+            case 'py':
+                this._language = 'python';
                 break;
-            case "ts":
-                this._language = "typescript";
+            case 'ts':
+                this._language = 'typescript';
                 break;
             // Monaco does not have sh, php
-            case "sh":
-            case "php":
             default:
                 this._language = undefined;
                 break;
@@ -94,7 +112,7 @@ export class MonacoEditorDirective {
         if (this._editor) {
             this.init();
             // This does not work for JSON
-            //monaco.editor.setModelLanguage(this._editor.getModel(), this._language);
+            // monaco.editor.setModelLanguage(this._editor.getModel(), this._language);
         }
     }
 
@@ -102,7 +120,7 @@ export class MonacoEditorDirective {
 
     public setLayout(width?: number, height?: number) {
         if (this._editor) {
-            var layout = this._editor.getLayoutInfo();
+            let layout = this._editor.getLayoutInfo();
             this._editor.layout({
                 width: width ? width : layout.width,
                 height: height ? height : layout.height,
@@ -112,70 +130,59 @@ export class MonacoEditorDirective {
 
 
     private init() {
-        //https://gist.github.com/chrisber/ef567098216319784c0596c5dac8e3aa
-        //require.config({ paths: { 'vs': 'assets/monaco-editor/min/vs' } });
         this._globalStateService.setBusyState();
 
-        var onGotAmdLoader = () => {
-            // Load monaco
-            if (window.location.hostname === "localhost") {
-                (<any>window).require.config({ paths: { 'vs': '/ng2app/assets/monaco/min/vs' } });
-            } else {
-                (<any>window).require.config({ paths: { 'vs': '/assets/monaco/min/vs' } });
-            }
+        let onGotAmdLoader = () => {
+            (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });
             (<any>window).require(['vs/editor/editor.main'], () => {
-                var that = this;
+                let that = this;
+                if (that._editor) {
+                    that._editor.dispose();
+                }
 
-                //setTimeout(() => {
-                //    require(['vs/editor/editor.main'], function (input: any) {
-
-                        if (that._editor) {
-                            that._editor.dispose();
-                        }
-
-                        if (that._fileName && that._fileName.toLowerCase() === "project.json") {
-                            that._functionsService.getJson("/schemas/" + that._fileName.toLowerCase()).subscribe((schema) => {
-                                monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                                    schemas: [{
-                                        fileMatch: ["*"],
-                                        schema: schema
-                                    }]
-                                });
-                            });
-                        } else {
-                            monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                                schemas: []
-                            });
-                        }
-
-                        that._editor = monaco.editor.create(that.elementRef.nativeElement, {
-                            value: that._content,
-                            language: that._language,
-                            readOnly: that._disabled,
-                            lineHeight: 17
-                        });
-
-                        that._editor.onDidChangeModelContent(() => {
-                            if (!that._silent) {
-                                that.onContentChanged.emit(that._editor.getValue());
-                            }
-                        });
-
-                        // TODO: test with MAC
-                        that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-                            that.onSave.emit(that._editor.getValue());
-                        });
-                        that._globalStateService.clearBusyState();
-
+                const projectJson = 'project.json';
+                const functionJson = 'function.json';
+                const hostJson = 'host.json';
+                let fileName = that._fileName || '';
+                fileName = fileName.toLocaleLowerCase();
+                if (fileName === projectJson || fileName === functionJson || fileName === hostJson) {
+                        that.setMonacoSchema(fileName, that._functionApp);
+                } else {
+                    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                        schemas: []
                     });
-                //}, 0);
-                
-            //});
+                }
+
+                // compiler options
+                monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                    target: monaco.languages.typescript.ScriptTarget.ES2015,
+                });
+
+                that._editor = monaco.editor.create(that.elementRef.nativeElement, {
+                    value: that._content,
+                    language: that._language,
+                    readOnly: that._disabled,
+                    lineHeight: 17
+                });
+
+                that._editor.onDidChangeModelContent(() => {
+                    if (!that._silent) {
+                        that.onContentChanged.emit(that._editor.getValue());
+                    }
+                });
+
+                // TODO: test with MAC
+                that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+                    that.onSave.emit(that._editor.getValue());
+                });
+                that._globalStateService.clearBusyState();
+
+            });
         };
 
         // Load AMD loader if necessary
         if (!(<any>window).require) {
-            var loaderScript = document.createElement('script');
+            let loaderScript = document.createElement('script');
             loaderScript.type = 'text/javascript';
             loaderScript.src = 'assets/monaco/vs/loader.js';
             loaderScript.addEventListener('load', onGotAmdLoader);
@@ -183,5 +190,19 @@ export class MonacoEditorDirective {
         } else {
             onGotAmdLoader();
         }
+    }
+
+    setMonacoSchema(schemaName: string, functionApp: FunctionApp) {
+        functionApp.getJson('assets/schemas/' + schemaName)
+            .subscribe((schema) => {
+                schema.additionalProperties = false;
+                monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                    validate: true,
+                    schemas: [{
+                        fileMatch: ['*'],
+                        schema: schema
+                    }]
+                });
+            });
     }
 }

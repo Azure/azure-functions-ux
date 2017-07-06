@@ -1,5 +1,5 @@
 ﻿import {BindingInputBase, CheckBoxListInput} from './binding-input';
-import {SettingType, Action} from './binding';
+import {SettingType, Action, Warning} from './binding';
 
 export class BindingInputList {
     inputs: BindingInputBase<any>[] = [];
@@ -10,6 +10,7 @@ export class BindingInputList {
     description: string;
     documentation: string;
     actions: Action[];
+    warnings: Warning[];
 
     saveOriginInputs() {
         this.originInputs = JSON.parse(JSON.stringify(this.inputs));

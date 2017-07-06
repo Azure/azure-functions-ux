@@ -1,0 +1,68 @@
+@import '../../sass/main';
+
+.title {
+    @extend .text-label;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.operation {
+    margin-right: 20px;
+    cursor: pointer;
+    color: $primary-color;
+    padding: 6px;
+}
+
+.operation:hover {
+    background-color: $tree-node-hover-color;
+}
+
+.operation-red {
+    color: #ff1525;
+}
+
+.not-clickable:hover {
+    cursor: default !important;
+    background-color: initial !important;
+}
+
+td {
+    word-break: break-all;
+    text-align: left !important;
+}
+
+table {
+    margin-bottom: 15px;
+}
+
+tr {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: #E6E7E8;
+}
+
+tr:hover {
+    background-color : #D1D2D4;
+    cursor: pointer;
+}
+
+.custom-button {
+    margin-left: 0;
+}
+
+input {
+    width: 100%;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+    background-color: #ECEFF1 !important;
+}
+
+.selected {
+    background-color : #D1D2D4;
+}

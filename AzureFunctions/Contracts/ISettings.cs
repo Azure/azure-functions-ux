@@ -22,6 +22,7 @@ namespace AzureFunctions.Contracts
     public enum RuntimeType
     {
         Azure,
-        OnPrem
+        OnPrem,
+        Standalone
     }
 }

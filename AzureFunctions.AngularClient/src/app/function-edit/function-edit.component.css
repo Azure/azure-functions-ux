@@ -10,7 +10,13 @@
     color: #419BF3;
 }
 
-.tab-content{
-    padding: 20px;
+.function-edit-content{
+    padding: 7px 25px 0px 25px;
+    background-color: #FFF;
+    height: 100%;
+    width: 100%;
+}
+
+.function-edit-content-dev {
     background-color: #FFF;
 }

@@ -1,0 +1,26 @@
+@import '../../../sass/main';
+
+.textbox-wrapper{
+    width: 100%;
+    position: relative;
+
+    input{
+        height: 23px;
+        width: 100%;
+    }
+
+    .validation-error{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        display: inline-block;
+    }
+
+    .input-error {
+        background-color: $error-color;
+        height: 22px;
+        padding: 5px 4px 0px 4px;
+        left: -15px;
+        margin-bottom: -3px;
+    }
+}

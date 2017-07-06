@@ -1,0 +1,16 @@
+@import '../../../sass/main';
+
+div.site-enabled-feature{
+    padding : 6px 0px;
+    line-height: 22px;
+
+    img{
+        height : 16px;
+        width: 16px;
+        margin: 0px 5px;
+    }
+
+    &:hover{
+        background-color: $chrome-color;
+    }
+}

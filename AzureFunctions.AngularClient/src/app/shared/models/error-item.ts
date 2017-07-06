@@ -1,7 +1,12 @@
+import { ErrorEvent, ErrorType } from './error-event';
+
 export interface ErrorItem {
     message: string;
     dateTime: string;
-    date: Date,
+    date: Date;
+    dismissable: boolean;
     href?: string;
     hrefText?: string;
+    errorType: ErrorType;
+    errorIds: string[];
 }

@@ -1,0 +1,35 @@
+@import '../../sass/main';
+
+.switch {
+    position: relative;
+    display: inline-block;
+    height: 25px;
+    background: #ccc;
+}
+
+.switch-label {
+    position: relative;
+    z-index: 2;
+    float: left;
+    line-height: 25px;
+    font-size: 11px;
+    color: #f2f2f2;
+    text-align: center;
+    cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.switch-input {
+    display: none;
+}
+    .switch-input:checked + .switch-label {
+        font-weight: bold;
+        color: white;
+    }
+
+.selected {
+    display: block;
+    z-index: 1;
+    background: $primary-color;
+}

@@ -1,6 +1,10 @@
 import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
-import {NgClass} from '@angular/common';
-import {FunctionsService} from '../shared/services/functions.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
 import {BindingComponent} from '../binding/binding.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
 import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
@@ -14,36 +18,27 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {PortalService} from '../shared/services/portal.service';
 import {ErrorEvent} from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
+import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import {FunctionsNode} from '../tree-view/functions-node';
+import {FunctionApp} from '../shared/function-app';
+import { AppNode } from '../tree-view/app-node';
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'function-new',
   templateUrl: './function-new.component.html',
-  styleUrls: ['./function-new.component.css'],
+  styleUrls: ['./function-new.component.scss'],
   outputs: ['functionAdded'],
-  inputs: ['action', 'functionsInfo']
+  inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
-    set functionsInfo(value: FunctionInfo[]) {
-        this._functionsInfo = value;
-        if (this._action && this._functionsInfo && !this.selectedTemplate) {
-            this.selectedTemplateId = this._action.templateId;
-        }
-    }
 
-    get functionsInfo() {
-        return this._functionsInfo;
-    }
+    private functionsNode : FunctionsNode;
 
-    set action(action: Action) {
-        this._action = action;
-        if (this._action && this._functionsInfo && !this.selectedTemplate) {
-            //this.onTemplatePickUpComplete(this._action.templateId);
-            this.selectedTemplateId = this._action.templateId;
-        }
-    }
+    public functionApp: FunctionApp;
+    public functionsInfo : FunctionInfo[];
 
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
@@ -58,6 +53,7 @@ export class FunctionNewComponent {
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
     templateWarning: string;
+    addLinkToAuth: boolean = false;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -67,11 +63,12 @@ export class FunctionNewComponent {
         "metadata.json"
     ];
     private _action: Action;
-    private _functionsInfo: FunctionInfo[];
+
+    private _viewInfoStream = new Subject<TreeViewInfo>();
+    public appNode: AppNode;
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
-        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -79,22 +76,61 @@ export class FunctionNewComponent {
         private _aiService: AiService) {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
+
+        this._viewInfoStream
+        .switchMap(viewInfo =>{
+            this._globalStateService.setBusyState();
+            this.functionsNode = <FunctionsNode>viewInfo.node;
+            this.appNode = <AppNode> viewInfo.node.parent;
+            this.functionApp = this.functionsNode.functionApp;
+            if (this.functionsNode.action) {
+                this._action = Object.create(this.functionsNode.action);
+                delete this.functionsNode.action;
+            }
+            return this.functionApp.getFunctions()
+        })
+        .do(null, e =>{
+            this._aiService.trackException(e, '/errors/function-new');
+            console.error(e);
+        })
+        .retry()
+        .subscribe(fcs =>{
+            this._globalStateService.clearBusyState();
+            this.functionsInfo = fcs;
+
+            if (this._action && this.functionsInfo && !this.selectedTemplate) {
+                this.selectedTemplateId = this._action.templateId;
+            }
+        })
+    }
+
+    set viewInfoInput(viewInfoInput : TreeViewInfo){
+        this._viewInfoStream.next(viewInfoInput);
     }
 
     onTemplatePickUpComplete(templateName: string) {
         this._bindingComponents = [];
         this._globalStateService.setBusyState();
-        this._functionsService.getTemplates().subscribe((templates) => {
+        this.functionApp.getTemplates().subscribe((templates) => {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
 
                 var experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === "Experimental";
                 });
+
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
+                if (this.selectedTemplate.metadata.warning) {
+                    this.addLinkToAuth = (<any>this.selectedTemplate.metadata.warning).addLinkToAuth ? true : false;
+                    if (this.templateWarning) {
+                        this.templateWarning += "<br/>" + this.selectedTemplate.metadata.warning.text;
+                    } else {
+                        this.templateWarning += this.selectedTemplate.metadata.warning.text;
+                    }
+                }
 
                 this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                this._functionsService.getBindingConfig().subscribe((bindings) => {
+                this.functionApp.getBindingConfig().subscribe((bindings) => {
                     this._globalStateService.clearBusyState();
                     this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
@@ -182,6 +218,19 @@ export class FunctionNewComponent {
         this.validate();
     }
 
+    quickstart() {
+        this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
+    }
+
+    onAuth() {
+        this._portalService.openBlade({
+            detailBlade: "AppAuth",
+            detailBladeInputs: { resourceUri: this.functionApp.site.id }
+        },
+            "binding"
+        );
+    }
+
     private validate() {
         //^[a-z][a-z0-9_\-]{0,127}$(?<!^host$) C# expression
         // Lookbehind is not supported in JS
@@ -195,7 +244,7 @@ export class FunctionNewComponent {
         if (!this.areInputsValid) {
             this.functionNameError = this.areInputsValid ? '' : this._translateService.instant(PortalResources.functionNew_nameError);
         } else {
-            var nameMatch = this._functionsInfo.find((f) => {
+            var nameMatch = this.functionsInfo.find((f) => {
                 return f.name.toLowerCase() === this.functionName.toLowerCase();
             });
             if (nameMatch) {
@@ -221,21 +270,18 @@ export class FunctionNewComponent {
         });
 
         this._globalStateService.setBusyState();
-        this._functionsService.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+        this.functionApp.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(res => {
                 this._portalService.logAction("new-function", "success", { template: this.selectedTemplate.id, name: this.functionName });
                 this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "success", first: "false" });
-                this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+
+                // If someone refreshed the app, it would created a new set of child nodes under the app node.
+                this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
+                this.functionsNode.addChild(res);
                 this._globalStateService.clearBusyState();
             },
             e => {
-                this._portalService.logAction("new-function", "failed", { template: this.selectedTemplate.id, name: this.functionName });
-                this._aiService.trackEvent("new-function", { template: this.selectedTemplate.id, result: "failed", first: "false" });
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
-                    details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) })
-                });
             });
     }
 }

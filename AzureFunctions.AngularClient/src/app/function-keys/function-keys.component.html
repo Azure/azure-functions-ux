@@ -1,23 +1,25 @@
-<div class="wrapper" [class.wrapper-border]="showBorders" style="padding: 10px;">
+<div class="wrapper">
     <busy-state></busy-state>
-    <h4 *ngIf="functionInfo"> {{'functionKeys_title' | translate}} </h4>
-    <h4 *ngIf="!functionInfo"> {{'adminKeys_title' | translate}} </h4>
+    <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
+    <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
     <table class="table-function">
         <thead>
             <tr class="not-clickable">
                 <th width="15%">{{'functionKeys_keyName' | translate}}</th>
                 <th width="50%">{{'functionKeys_keyValue' | translate}}</th>
-                <th width="35%"></th>
+                <th width="35%" style="text-align: left;">{{'functionKeys_actions' | translate}}</th>
             </tr>
         </thead>
         <tbody>
-            <tr [class.not-clickable]="!enableKeySelect" [class.hoverable]="enableKeySelect" *ngFor="let key of keys" (click)="enableKeySelect && selectKey(key)" [class.selected]="enableKeySelect && key.selected">
+            <tr class="not-clickable" *ngFor="let key of keys">
                 <td>{{key.name}}</td>
                 <td *ngIf="key.show">{{key.value}}</td>
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
                 <td>
                     <div id="operations-bar">
-                        <span *ngIf="key.show" class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
+                            <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        </pop-over>
                         <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</span>
                         <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}</span>
                     </div>
@@ -31,7 +33,7 @@
         </tbody>
     </table>
     <div class="custom-button" (click)="showOrHideNewKeyUi()">
-        <span *ngIf="!addingNew && functionInfo">
+        <span *ngIf="!addingNew && !!functionInfo">
             {{ 'functionKeys_addNewFunctionKey' | translate}}
         </span>
         <span *ngIf="!addingNew && !functionInfo">

@@ -1,0 +1,99 @@
+@import '../../sass/main';
+
+/*div {
+    text-align: center;
+}*/
+
+label {
+    display: block;
+    font-weight: 500;
+}
+
+.container {
+    display: block;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    width: 900px;
+    padding-top: 30px;
+}
+
+.container > div{
+    text-align: left;
+}
+
+.start-banner{
+    background-color: $primary-color;
+    height: 150px;
+    text-align: center;
+}
+
+.start-banner-content{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    // color: #FFF;
+}
+
+.start-banner-header{
+    color: $body-bg-color
+}
+
+.start-banner-content *{
+    display: inline;
+    font-family: "Segoe UI Light","Segoe WP Light","Segoe UI","Segoe WP",Tahoma,Arial,sans-serif;
+    font-weight: lighter;
+    font-size: 48px;
+}
+
+.start-banner-content img{
+    margin-top: -16px;
+    margin-right: 10px;
+}
+
+.start-right{
+    float: right;
+    padding-left: 20px;
+}
+
+.start-left{
+    float: left;
+    padding-right: 20px;
+}
+
+.start-row{
+    clear: both;
+    padding-top: 50px;
+}
+
+.start-half{
+    width: 50%
+}
+
+.start-below-description{
+    margin-top: 25px;
+}
+
+.custom-button {
+    margin-left: 0px;
+    padding: 6px 15px;
+}
+
+input{
+    background: #fff;
+    border: 1px solid #dedede;
+    padding-right: 30px;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+    height: 29px;
+}
+
+button {
+    margin-top: 20px;
+}
+
+.error-output {
+    border: 1px none;
+    color: red;
+}

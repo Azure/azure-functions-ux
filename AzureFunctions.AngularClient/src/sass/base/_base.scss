@@ -1,10 +1,50 @@
+html, body {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    background-color: $body-bg-color;
+    font-size: 12px;
+    color: #464f59;
+}
+
+pre {
+    display: block;
+    padding: 5px;
+    margin: 0 0 10px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: darken($body-bg-color, 5%);
+    border: 1px solid $border-color;
+    font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+    border-radius: 0;
+}
+
 .clickable {
     cursor: pointer;
 }
 
 .link{
     cursor: pointer;
-    color: $link-color;
+    color: $primary-color;
+}
+
+.hover-underline:hover{
+    text-decoration: underline;
+}
+
+.disabled-link{
+    pointer-events: none;
+    cursor: text;
 }
 
 .row {
@@ -24,4 +64,8 @@
 
 .row-group {
     display: table-row-group;
+}
+
+.invisible{
+    visibility: hidden;
 }

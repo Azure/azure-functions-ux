@@ -67,6 +67,26 @@ namespace AzureFunctions
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+            var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
+            var clientConfig = settings.GetClientConfiguration();
+            var runtimeType = (RuntimeType)Enum.Parse(typeof(RuntimeType), clientConfig.RuntimeType, true);
+
+            if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
+            else if (context.Request.Url.AbsolutePath.Equals("/api/ping", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Response.Write("success");
+                context.Response.StatusCode = 200;
+                context.Response.Flush();
+                context.Response.End();
+                return;
+            }
 
             var isFile = FileSystemHelpers.FileExists(HostingEnvironment.MapPath($"~{context.Request.Url.AbsolutePath.Replace('/', '\\')}"));
             var route = RouteTable.Routes.GetRouteData(context);
@@ -78,7 +98,8 @@ namespace AzureFunctions
             // context.Request.UrlReferrer = null evals to true, is okay in this case
             var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
 
-            if (   !isFile              //skip auth for files
+            if (!isFile              //skip auth for files
+                && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
                 && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
@@ -87,19 +108,13 @@ namespace AzureFunctions
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
                 }
-                else if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Response.WriteFile(HostingEnvironment.MapPath("~/health.html"));
-                    context.Response.Flush();
-                    context.Response.End();
-                }
                 else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
                 {
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
-            }
+            } 
         }
 
         private IContainer InitAutofacContainer()
@@ -208,6 +223,10 @@ namespace AzureFunctions
             builder.RegisterType<TelemetryClient>()
                 .As<TelemetryClient>()
                 .InstancePerRequest();
+
+            builder.RegisterType<PassThroughRequestManager>()
+                .As<IPassThroughRequestManager>()
+                .InstancePerRequest();
         }
 
         private void RegisterRoutes(HttpConfiguration config)
@@ -226,7 +245,9 @@ namespace AzureFunctions
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
-            config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+
+            config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authrnticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

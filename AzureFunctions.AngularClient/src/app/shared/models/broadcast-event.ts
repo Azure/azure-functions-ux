@@ -12,8 +12,5 @@ export enum BroadcastEvent {
     TrialExpired,
     ResetKeySelection,
     RefreshPortal,
-    ApiProxyAdded,
-    ApiProxyDeleted,
-    ApiProxySelected,
-    ApiProxyUpdated
+    ClearError
 }

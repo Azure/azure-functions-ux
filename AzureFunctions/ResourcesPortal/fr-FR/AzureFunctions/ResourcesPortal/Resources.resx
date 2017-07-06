@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Fonctions Azure</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Runtime Azure Functions</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -139,10 +142,10 @@
     <value>Erreur de la fonction (${{name}}) : {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>URL de la fonction :</value>
+    <value>URL de fonction</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Secret GitHub :</value>
+    <value>Secret GitHub</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Masquer les fichiers</value>
@@ -166,7 +169,7 @@
     <value>Afficher les fichiers</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choisir un modèle</value>
+    <value>Choisissez un modèle ci-dessous ou</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Ce modèle est expérimental et ne bénéficie pas encore d'une prise en charge complète. Si vous rencontrez des problèmes, ouvrez un bogue sur notre &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;dépôt GitHub&lt;/a&gt;.</value>
@@ -231,44 +234,53 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Votre abonnement</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>La création d'une application Function App approvisionne automatiquement un nouveau conteneur capable d'héberger et d'exécuter votre code.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Échec de la création de l'application</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Choisissez un langage :</value>
+    <value>2. Choisissez un langage</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Choisissez un scénario :</value>
+    <value>1. Choisissez un scénario</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>Créer cette fonction</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Créer votre propre fonction personnalisée</value>
+    <value>créer votre propre fonction personnalisée</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Fonction personnalisée</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Traitement des données</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>L'accès le plus rapide aux fonctions</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>ou</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
     <value>Commencez rapidement avec une fonction prédéfinie</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Ou avec une de vos fonctions</value>
+    <value>Bien démarrer tout seul</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>Continuer à utiliser ce démarrage rapide</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Si vous préférez un autre langage pris en charge, choisissez</value>
+    <value>Pour PowerShell, Python et Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>démarrez à partir du contrôle de code source.</value>
+    <value>Démarrer à partir du contrôle de code source</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Minuteur</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>Écrivez une fonction en quelques minutes : pour exécuter une tâche simple qui nettoie une base de données ou pour créer une architecture plus complexe. La création de fonctions est plus facile que jamais, quels que soient le système d'exploitation, la plateforme ou la méthode de développement choisis. Aucune installation n'est nécessaire.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>Effacer</value>
@@ -298,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>ou</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Lecture seule : comme vous avez commencé à modifier avec contrôle du code source, cette vue est en lecture seule.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Votre application est actuellement en mode lecture seule, car vous avez activé l'intégration de la gestion de code source. Pour changer le mode d'édition, visitez </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Région</value>
@@ -310,6 +322,21 @@
   <data name="save" xml:space="preserve">
     <value>Enregistrer</value>
   </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Ajouter un nouveau paramètre</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Ajouter une nouvelle chaîne de connexion</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Entrer un nom</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Entrer une valeur</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Valeur masquée. Cliquez pour l'afficher.</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Les modifications apportées à la fonction {{name}} seront perdues. Voulez-vous vraiment continuer ?</value>
   </data>
@@ -319,11 +346,26 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>Actualiser</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>Rechercher</value>
   </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Fonctionnalités de recherche</value>
+  </data>
   <data name="subscription" xml:space="preserve">
+    <value>ID d'abonnement</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
     <value>Abonnement</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Groupe de ressources</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Emplacement</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>Aucun résultat</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>Les modifications apportées à la fonction actuelle seront perdues. Voulez-vous vraiment continuer ?</value>
@@ -332,7 +374,7 @@
     <value>Paramètres de l'application de fonctions</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Une nouvelle version d'Azure Functions est disponible. Pour effectuer la mise à niveau, visitez</value>
+    <value>Une nouvelle version d'Azure Functions est disponible. Pour effectuer la mise à niveau, cliquez ici</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Démarrage rapide</value>
@@ -342,60 +384,6 @@
   </data>
   <data name="all" xml:space="preserve">
     <value>Tout</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Paramètres avancés</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Permettre aux clients de consommer plus facilement vos fonctions déclenchées via HTTP</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Permettre à vos fonctions déclenchées via HTTP d'être appelées depuis un navigateur web</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>Définition de l'API</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Authentification/autorisation</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Intégration continue</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Configurer l'authentification</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Configurer les métadonnées de l'API</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Configurer l'intégration continue</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Configurer CORS</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Déployer le code de votre fonction depuis GitHub, Visual Studio Team Services et plus encore</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Pour les fonctions qui utilisent le déclencheur HTTP, vous pouvez exiger l'authentification des appels.</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Accéder aux paramètres App Service</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Gérez votre application de fonctions comme n'importe quelle autre instance App Service.</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Taille de la mémoire</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Version du runtime : La plus récente ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Version du runtime : {{extensionVersion}}. Une version plus récente est disponible ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>Exécutions de l'application</value>
@@ -458,7 +446,7 @@
     <value>Exécuter</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Lecture seule : comme vous avez commencé à modifier avec contrôle du code source, cette vue est en lecture seule. Vous pouvez modifier ces paramètres dans function.json</value>
+    <value>Lecture seule : comme vous avez commencé à modifier avec contrôle du code source, cette vue est en lecture seule.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Éditeur avancé</value>
@@ -482,10 +470,10 @@
     <value>Chargement en cours...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Nombre de réussites récentes</value>
+    <value>Nombre de réussites depuis</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Nombre d'erreurs récentes</value>
+    <value>Nombre d'erreurs depuis</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Journal des invocations</value>
@@ -655,12 +643,6 @@
   <data name="resourceSelect" xml:space="preserve">
     <value>En attente de la ressource</value>
   </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Version du runtime : {{extensionVersion}}. Une version plus récente est disponible ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Version du runtime : La plus récente ({{latestExtensionVersion}})</value>
-  </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>Nous sommes ravis d'avoir hébergé vos fonctions !</value>
   </data>
@@ -736,33 +718,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>Erreur lors de la suppression du fichier : {{fileName}}</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Paramètres de l'application</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Gérer les variables d'environnement et les chaînes de connexion de votre application de fonction</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Console de développement</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Console du portail permettant d'accéder au système de fichiers de votre application de fonction</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Accédez aux fonctionnalités avancées d'App Service comme le chargement des fichiers zip, l'arrêt des processus et plus encore</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Configurer les paramètres de l'application</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Ouvrir la console de développement</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Accéder à Kudu</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>Le moyen le plus rapide de modifier du code est d'utiliser l'éditeur de code, mais vous pouvez aussi utiliser Git. Cet exemple utilise le langage C#, mais de nombreux autres langages sont également pris en charge.</value>
   </data>
@@ -771,9 +726,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>Moins d'une minute</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Indisponible pendant votre essai gratuit ! Pour créer un compte Azure gratuit, cliquez sur le lien ci-dessus</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Quand vous créez un compte Azure gratuit, toutes les fonctions sont déverrouillées et aucune limite de durée n'est appliquée !</value>
@@ -784,10 +736,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>Nous ne pouvons pas atteindre votre application de fonction. Votre application rencontre peut-être un problème temporaire ou de démarrage. Vous pouvez consulter les journaux ou réessayer dans quelques minutes.</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>Impossible de récupérer l'application de fonction ({{functionApp}})</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>Nous ne pouvons pas atteindre votre application de fonction ({{statusText}}). Réessayez plus tard.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -854,7 +806,10 @@
     <value>Requête</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>Paramètre « Always On » défini sur Désactivé</value>
+    <value>« Always On » n'est pas activé. Votre application risque de ne pas fonctionner correctement</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>La valeur de l'ID a été définie explicitement dans host.json, ce qui peut provoquer un comportement inattendu si vous utilisez des emplacements de déploiement</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notes de publication Azure Functions.</value>
@@ -863,7 +818,7 @@
     <value>Clés de l'hôte (toutes les fonctions)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>Ajouter une nouvelle clé d'administration</value>
+    <value>Ajouter une nouvelle clé hôte</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
     <value>Ajouter une nouvelle clé de fonction</value>
@@ -881,10 +836,10 @@
     <value>(Facultatif) Laissez vide pour générer automatiquement une clé.</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>Nom de la clé</value>
+    <value>NOM</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>Valeur de la clé</value>
+    <value>VALEUR</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
     <value>Clés de fonction</value>
@@ -896,7 +851,7 @@
     <value>Quota d'utilisation quotidienne (Go/s)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>L'application de fonction a atteint le quota d'utilisation quotidienne et a été arrêtée pour les prochaines 24 heures.</value>
+    <value>L'application de fonction a atteint le quota d'utilisation quotidienne et a été arrêtée pendant les prochaines 24 heures.</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>Supprimer le quota</value>
@@ -905,7 +860,7 @@
     <value>Définir le quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>L'application de fonction sera arrêtée pendant 24 heures quand elle atteindra le quota d'utilisation quotidienne.</value>
+    <value>Si le quota d'utilisation quotidienne est atteint, l'application Function App est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Voulez-vous vraiment révoquer la clé {{name}} ?</value>
@@ -921,30 +876,6 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>Déployer</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>Développer</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>Gérer</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>Paramètres App Service</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Fonctionnalités avancées. Accédez à toutes les fonctionnalités sous-jacentes d'Azure App Service</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>Éditeur App Service</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>Dans l'éditeur du portail avec une console intégrée et des journaux de streaming</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Accéder à l'Éditeur App Service</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Version du runtime</value>
@@ -962,10 +893,10 @@
     <value>Le nom du paramètre doit être unique.</value>
   </data>
   <data name="binding_useFunctionReturnValue" xml:space="preserve">
-    <value>Use function return value</value>
+    <value>Utiliser la valeur de retour de la fonction</value>
   </data>
   <data name="functionEdit_functionState" xml:space="preserve">
-    <value>Function State</value>
+    <value>État de la fonction</value>
   </data>
   <data name="off" xml:space="preserve">
     <value>Désactivé</value>
@@ -974,55 +905,67 @@
     <value>Activé</value>
   </data>
   <data name="topBar_functionApiSettings" xml:space="preserve">
-    <value>API settings</value>
+    <value>Paramètres de l'API</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>New API Proxy</value>
+    <value>Nouveau proxy</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
-    <value>All methods</value>
+    <value>Toutes les méthodes</value>
   </data>
   <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
     <value>Méthodes HTTP autorisées</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL</value>
+    <value>URL du serveur principal</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>Un proxy ou une fonction portant ce nom existe déjà.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Nom</value>
   </data>
   <data name="apiProxy_proxyUrl" xml:space="preserve">
-    <value>Proxy URL</value>
+    <value>URL du proxy</value>
   </data>
   <data name="apiProxy_routeTemplate" xml:space="preserve">
     <value>Modèle de routage</value>
   </data>
   <data name="apiProxy_seectedMethods" xml:space="preserve">
-    <value>Selected methods</value>
+    <value>Méthodes sélectionnées</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Paramètres Function App</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Version du runtime : {{extensionVersion}}. Une version plus récente est disponible ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Version du runtime : {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>API proxies (preview)</value>
+    <value>Proxys (préversion)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Version du runtime du proxy : {{extensionVersion}}. Une version plus récente est disponible ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+    <value>Version du runtime du proxy : la plus récente ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>Use API proxies</value>
+    <value>Activer les proxys Azure Functions (préversion)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>Les proxys Azure Functions sont actuellement désactivés. Pour les activer, visitez</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>Les modifications apportées au proxy {{name}} seront perdues. Voulez-vous vraiment continuer ?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
-    <value>Proxy with name '{{name}}' already exists</value>
+    <value>Un proxy portant le nom « {{name}} » existe déjà</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Les emplacements Azure Functions (préversion) sont actuellement désactivés. Pour les activer, visitez</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>Ignorer</value>
@@ -1031,18 +974,909 @@
     <value>Fonctions</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>Sign in with Facebook</value>
+    <value>Se connecter avec Facebook</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>Sign in with GitHub</value>
+    <value>Se connecter avec GitHub</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>Sign in with Google</value>
+    <value>Se connecter avec Google</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Sign in with Microsoft</value>
+    <value>Connectez-vous avec Microsoft</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>Backend URL must start with 'http://' or 'https://'</value>
+    <value>Une URL de serveur principal doit commencer par « http:// » ou « https:// »</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Renouveler</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Révoquer</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Réduire</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Développer</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Obtenir l'URL de fonction</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Obtenir le secret GitHub</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>En-têtes</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>Il n'y a pas d'en-têtes</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>Tous les abonnements</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} abonnements</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Fonctions (aucun accès)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Fonctions (verrou ReadOnly)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Fonctions (à l'arrêt)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxys (aucun accès)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxys (à l'arrêt)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxys (verrou ReadOnly)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Fonctions</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>Nouvelle fonction</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Applications de fonctions</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Arrêter</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Démarrer</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Redémarrer</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Basculer</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Télécharger le profil de publication</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Réinitialiser les informations d'identification de publication</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Disponibilité</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Disponible</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>Aucun accès</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Non applicable</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Non disponible</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Fonctionnalités configurées</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Les liens rapides vers vos fonctionnalités s'affichent ici une fois que vous avez configuré celles-ci sous l'onglet « Fonctionnalités de la plateforme » ci-dessus.</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>Une erreur s'est produite durant la récupération des informations de l'application '{0}'</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>L'application '{0}' est introuvable</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Voulez-vous vraiment arrêter « {0} »</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>Arrêt de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Démarrage de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>Application « {0} » arrêtée</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>Application « {0} » démarrée</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Échec de l'arrêt de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Échec du démarrage de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Voulez-vous vraiment réinitialiser votre profil de publication ? Les profils téléchargés précédemment ne seront plus valides.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Réinitialisation du profil de publication</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Réinitialisation réussie du profil de publication</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Échec de la réinitialisation du profil de publication</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Voulez-vous vraiment supprimer '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>Suppression de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>Application « {0} » supprimée</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Échec de suppression de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Voulez-vous vraiment redémarrer « {0} »</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>Redémarrage de l'application « {0} »</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>Application « {0} » redémarrée</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Échec du redémarrage de l'application « {0} »</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>Cette fonctionnalité n'est pas prise en charge pour les applications d'un plan Consommation</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Vous devez disposer d'autorisations d'accès en écriture sur l'application actuelle pour pouvoir utiliser cette fonctionnalité</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Cette fonctionnalité est désactivée, car l'application a un verrou ReadOnly sur celle-ci</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>Vous devez disposer d'autorisations d'accès en lecture sur le plan App Service associé pour pouvoir utiliser cette fonctionnalité</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Options de déploiement</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Configurez et gérez les options de déploiement pour votre application, notamment le déploiement continu à partir de VSTS, GitHub et BitBucket, et déclenchez des déploiements à partir de OneDrive, Dropbox, Git externe et bien plus encore.</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Informations d'identification de déploiement</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Configurez les informations d'identification de déploiement au niveau du compte Azure. Pour changer vos informations d'identification au niveau de l'application (c'est-à-dire les « informations d'identification de publication »), choisissez « Réinitialiser les informations d'identification de publication » sous l'onglet « Vue d'ensemble ». &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;En savoir plus&lt;/a&gt;.</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Explorez le système de fichiers de votre application à partir d'une console web interactive.</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Les extensions ajoutent des fonctionnalités à l'ensemble de votre application.</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Paramètres de l'application</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Gérez les paramètres de l'application, les chaînes de connexion, les paramètres d'exécution et bien plus encore.</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>Affichez les propriétés de votre application.</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Sauvegardes</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Utilisez Sauvegarde et restauration pour créer facilement des sauvegardes automatiques ou manuelles.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>Tous les paramètres</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>Affichez tous les paramètres App Service.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>Paramètres généraux</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Déploiement du code</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Outils de développement</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Mise en réseau</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Accédez aux ressources en toute sécurité grâce à l'intégration au réseau virtuel et aux connexions hybrides.</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Configurez les liaisons SSL pour votre application à l'aide d'un certificat acheté en externe ou d'App Service Certificate.</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Domaines personnalisés</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Configurez et achetez des noms de domaine personnalisés.</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Authentification / Autorisation</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Utilisez Authentification/autorisation pour protéger votre application et utiliser les données par utilisateur.</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Notifications Push</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Envoyez des notifications push mobiles rapides, scalables et multiplateformes à l'aide de Notification Hubs.</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Journaux de diagnostic</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Configurez l'emplacement et la fréquence de la journalisation des événements de l'application et du serveur.</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Streaming des journaux</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>Affichez en temps réel les journaux des applications.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Explorateur de processus</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>Affichez les détails des processus, de l'utilisation de la mémoire et de l'utilisation de l'UC pour votre application.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Analyse de la sécurité</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Activez l'analyse de sécurité pour votre application avec Tinfoil Security.</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Analyse</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Configurez les règles de partage des ressources cross-origin (CORS) de votre application.</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>Définition de l'API</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>Configurez l'emplacement des métadonnées Swagger 2.0 décrivant votre API. Cette opération permet aux autres utilisateurs de découvrir et de consommer facilement votre API.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>Un plan App Service est le conteneur de votre application. Les paramètres du plan App Service déterminent l'emplacement, les fonctionnalités, le coût et les ressources de calcul associés à votre application.</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Quotas</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Surveillez les quotas d'utilisation du système de fichiers.</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Journal d'activité</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>Affichez les opérations de gestion qui ont été effectuées sur votre application.</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Contrôle d’accès (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Configurez le contrôle d'accès en fonction du rôle (RBAC) pour votre application.</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Étiquettes</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Les étiquettes sont des paires clé/valeur qui vous permettent de classer vos ressources et d'obtenir une facturation centralisée en appliquant la même étiquette à plusieurs ressources et groupes de ressources. </value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Verrous</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Verrouillez les ressources pour éviter les modifications ou suppressions inattendues.</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Script d’automatisation</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Automatisez le déploiement des ressources avec les modèles Azure Resource Manager en une seule opération coordonnée. Définissez les ressources et les paramètres d'entrée configurables, puis effectuez le déploiement à l'aide d'un script ou de code.</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Gestion des ressources</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Outils avancés (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Utilisez Kudu pour inspecter les variables d'environnement, accéder à la console de débogage, charger les fichiers zip, afficher les processus et bien plus encore.</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>Éditeur App Service</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>L'éditeur App Service fournit une expérience de modification du code dans le navigateur.</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Explorateur de ressources</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Explorez les API de gestion avec Azure Resource Explorer (préversion).</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>Règles CORS - {0} définie(s)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Options de déploiement configurées avec {0}</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>Certificats SSL</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>WebJobs - {0} défini(s)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Extensions - {0} installée(s)</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Vue d'ensemble</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Fonctionnalités de la plateforme</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>La gestion de votre application de fonction n'est pas disponible pour cet essai.</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Événements</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>plan App Service</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>Plan App Service / niveau tarifaire</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Authentification</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Autorisation</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Connexions hybrides</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>demande de support</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>échelle</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Chaînes de connexion</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Déboguer</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Déploiement continu</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>Nous ne pouvons pas accéder à vos paramètres Azure pour votre application de fonction.</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>Commencez par vérifier que vous disposez des droits d'accès appropriés à la ressource Azure {0}. Si ce n'est pas le cas, essayez d'actualiser le portail pour renouveler votre jeton d'authentification.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>Vérifiez la chaîne de connexion du compte de stockage dans les paramètres de l'application, car elle ne semble pas valide.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>Mettez à jour le paramètre d'application avec une chaîne de connexion de stockage valide.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>Votre application ne contient pas le paramètre d'application « {0} ». Ce paramètre contient une chaîne de connexion à un compte de Stockage Azure qui permet d'héberger le contenu de vos fonctions. Sans ce paramètre, votre application ne fonctionnera pas. Si vous n'avez plus accès à la valeur de ce paramètre d'application, vous devrez peut-être supprimer l'application de fonction et la recréer.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>Votre application ne contient pas le paramètre d'application « {0} ». Ce paramètre contient un nom de partage où réside le contenu de vos fonctions. Sans ce paramètre, votre application ne fonctionnera pas. Si vous n'avez plus accès à la valeur de ce paramètre d'application, vous devrez peut-être supprimer l'application de fonction et la recréer.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>Votre application ne contient pas le paramètre d'application « {0} ». Ce paramètre contient une chaîne de connexion à un compte de Stockage Azure qui est nécessaire pour générer la vue de surveillance de vos fonctions. C'est là que les données d'appel sont agrégées puis affichées dans la vue de surveillance. Sans ce paramètre, votre vue de surveillance risque de ne pas fonctionner.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>Votre application ne contient pas le paramètre d'application « {0} ». Ce paramètre contient une chaîne de connexion à un compte de Stockage Azure dont le runtime des fonctions a besoin pour traiter la synchronisation de plusieurs instances, les résultats d'appel de journaux et d'autres travaux d'infrastructure. Sans ce paramètre, votre application de fonction ne fonctionnera pas correctement.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>Créez le paramètre d'application avec une chaîne de connexion de stockage valide.</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>Votre application ne contient pas le paramètre d'application « {0} ». Sans ce paramètre, vous exécuterez toujours la dernière version du runtime, et ce même après la publication de mises à jour vers des versions principales susceptibles de contenir des modifications importantes. Il est conseillé d'affecter à cette valeur la dernière version principale (~1). De cette façon, vous recevez une notification quand une mise à jour vers une version plus récente est disponible.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>La chaîne de connexion au compte de Stockage Azure stockée dans « {0} » est Null ou vide. Cette chaîne est nécessaire au bon fonctionnement de votre application de fonction.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>Mettez à jour le paramètre d'application avec une chaîne de connexion de stockage valide.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>Le compte de stockage {0} n'existe pas. Si vous supprimez le compte de stockage utilisé par l'application de fonction, cette dernière cessera de fonctionner. </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>Mettez à jour le paramètre d'application avec une chaîne de connexion à un stockage existant valide.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>Le compte de stockage {0} ne prend pas en charge Stockage File d'attente Azure. Les files d'attente sont nécessaires au bon fonctionnement du runtime des fonctions. Vous devez supprimer votre application de fonction et la recréer avec un compte de stockage prenant en charge Stockage File d'attente Azure.</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>Un problème semble s'être produit pendant l'interrogation du back-end Azure de votre application de fonction.</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>Un problème semble s'être produit pendant l'interrogation du back-end Azure de votre application de fonction.</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>Si le problème persiste, contactez le support avec le code suivant : {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer la liste des fonctions pour cette application de fonction.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>Nous ne pouvons pas créer la fonction {{functionName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>Nous ne pouvons pas déchiffrer les clés d'accès de votre fonction. Cette situation peut se produire si vous supprimez et que vous recréez l'application avec le même nom, ou si vous avez copié vos clés à partir d'une autre application de fonction. Vous pouvez essayer la procédure suivante pour résoudre le problème : https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas supprimer le fichier {{fileName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>Nous ne pouvons pas supprimer la fonction {{functionName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas obtenir le contenu pour {{fileName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer vos fonctions pour l'instant. Réessayez plus tard.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer le fichier de secrets pour {{functionName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>Nous ne pouvons pas enregistrer le contenu pour {{fileName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer le contenu du répertoire pour votre fonction. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>Nous ne pouvons pas obtenir la fonction {{functionName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer la configuration du runtime. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer la clé principale du runtime. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>Nous ne pouvons pas mettre à jour la fonction {{functionName}}. Réessayez plus tard.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>Le runtime des fonctions ne peut pas démarrer. Recherchez d'éventuelles erreurs dans les journaux de runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>Nous ne pouvons pas créer ou mettre à jour la clé {{keyName}} pour la fonction {{functionName}}. Cette situation peut se produire si le runtime ne peut pas charger votre fonction. Consultez les autres erreurs de fonction.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>Nous ne pouvons pas supprimer la clé {{keyName}} pour la fonction {{functionName}}. Cette situation peut se produire si le runtime ne peut pas charger votre fonction. Consultez les autres erreurs de fonction.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>Nous ne pouvons pas renouveler la clé {{keyName}} pour la fonction {{functionName}}. Cette situation peut se produire si le runtime ne peut pas charger votre fonction. Consultez les autres erreurs de fonction.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>Nous ne pouvons pas récupérer les clés pour la fonction {{functionName}}. Cette situation peut se produire si le runtime ne peut pas charger votre fonction. Consultez les autres erreurs de fonction.</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>L'application est hors connexion. Vérifiez votre connexion Internet.</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>ACTIONS</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>accédez au démarrage rapide</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>Il n'existe aucun paramètre de requête</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Réduire</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Voulez-vous vraiment supprimer votre définition d'API ?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Développer</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>URL externe</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Lire la présentation de la fonctionnalité</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Consulter notre didacticiel de prise en main</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Fonction</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>Clé de définition d'API</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Charger la définition d'API</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Générer le modèle de définition d'API</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Exporter vers Power Apps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Impossible d'enregistrer une définition d'API incorrecte.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Renouveler</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Définir l'URL de définition externe</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>Source de définition d'API</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Utiliser vos fonctions déclenchées via HTTP dans divers services à l'aide d'une définition OpenAPI 2.0 (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Définition de l'API de fonction (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>URL de définition d'API</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Utiliser votre définition d'API</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>Définition d'API (préversion)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>Nous ne pouvons pas créer ou mettre à jour la clé swaggerdocumentationkey pour le point de terminaison Swagger. Recherchez les éventuelles erreurs dans les journaux du runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>Nous ne pouvons pas supprimer la définition d'API. Recherchez les éventuelles erreurs dans les journaux du runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>Nous ne pouvons pas obtenir la clé {{keyName}}. Recherchez les éventuelles erreurs dans les journaux du runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>Nous ne pouvons pas charger la définition d'API générée. Recherchez les éventuelles erreurs dans les journaux du runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>Nous ne pouvons pas mettre à jour la configuration du runtime. Réessayez plus tard.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>Nous ne pouvons pas mettre à jour la définition d'API. Recherchez les éventuelles erreurs dans les journaux du runtime ou réessayez plus tard.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Rétablir le dernier enregistrement</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Configurer l'authentification et les autorisations App Service</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Cliquez sur « Générer le modèle de définition d'API » pour démarrer</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Voulez-vous vraiment remplacer la définition de l'API dans l'éditeur ?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Utilisez votre définition d'API pour accéder à vos fonctions à partir de &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; et de &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Créez une définition minime avec les métadonnées de vos fonctions déclenchées par HTTP.
+Remplissez les &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;objets d'opération&lt;/a&gt; et d'autres informations sur votre API avant de l'utiliser.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Cette clé sécurise votre définition d'API en empêchant les personnes qui n'ont pas cette clé d'y accéder.
+Elle ne sécurise pas l'API sous-jacente. Consultez chaque fonction pour voir sa clé de sécurité.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Choisissez « Fonction » pour permettre une définition d'API hébergée et la génération d'une définition de modèle.
+Choisissez « URL externe » pour utiliser une définition d'API hébergée ailleurs.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Utilisez cette URL pour accéder directement à votre définition d'API et l'importer dans des outils tiers </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Changer le mode d'édition de l'application de fonction</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Mode d'édition de l'application de fonction</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Lecture seule</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Lecture\écriture</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Les valeurs en double ne sont pas autorisées</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Ce champ est obligatoire</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>Le nom doit contenir au moins 2 caractères</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>Le nom doit contenir moins de 60 caractères</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>« {0} » n'est pas un caractère valide</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>Le nom d'application '{0}' n'est pas disponible</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Nous ne pouvons pas mettre à jour le mode d'édition de votre application de fonction. Réessayez plus tard.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Votre application est actuellement en mode lecture seule, car vous avez défini le mode d'édition en lecture seule. Pour changer le mode d'édition, visitez </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Votre application est actuellement en mode lecture\écriture, car vous avez défini le mode d'édition en lecture\écriture (bien que la gestion de code source soit activée). Tout changement risque d'être remplacé par votre prochain déploiement. Pour changer le mode d'édition, visitez </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Obtenir l'URL de la fonction</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Télécharger le contenu de l'application</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Voulez-vous vraiment renouveler la clé {{name}} ?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Accélérez votre développement avec Azure Functions, une expérience de calcul sans serveur basée sur les événements. Adaptez la mise à l'échelle à la demande et payez uniquement pour les ressources que vous consommez.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>En savoir plus sur Azure Functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Hub d'événements</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Espace de noms</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Introuvable.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Point de terminaison</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Aucune application de fonction à afficher</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Emplacements (préversion)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Activer les emplacements de déploiement (préversion). Cette fonctionnalité d'adhésion (opt-in) à usage unique sur l'application de fonction ne peut pas être désactivée et réinitialise tous les secrets préexistants. Une fois la mise à jour effectuée, vous pouvez copier les secrets à partir de </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>l'onglet « Gérer » pour chaque fonction.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Créer un emplacement de déploiement</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Les emplacements de déploiement vous permettent de déployer différentes versions de votre application de fonction sur différentes URL. Vous pouvez tester une version spécifique, puis permuter le contenu et la configuration entre les emplacements.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Création de l'emplacement {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Emplacement {0} créé </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Échec de la création de l'emplacement {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Impossible de mettre à jour la liste des emplacements</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>Aucun accès pour créer un emplacement. Vérifiez que vous disposez de l'accès RBAC approprié pour l'application de fonction et que les verrous en lecture ne sont pas activés.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>Plan App Service</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Emplacements (préversion)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>Pour bénéficier de fonctionnalités de surveillance plus riches, notamment des métriques en temps réel et des requêtes personnalisées, nous vous recommandons d'utiliser &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;.</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Cette valeur sera ajoutée à l'URL de votre application web principale et servira d'adresse publique de l'emplacement. Par exemple, si votre application web s'appelle « contoso » et que votre emplacement s'appelle « staging », le nouvel emplacement aura une URL similaire à « http://contoso-staging.azurewebsites.net ».</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Le plan de consommation n'autorise qu'un seul emplacement. Si plusieurs emplacements sont nécessaires, utilisez des plans App Service dédiés.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Fonctions de recherche</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Supprimer la fonction</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>Un certificat client est nécessaire pour exécuter cette fonction. Pour l'exécuter à partir du portail, vous devez désactiver le certificat client.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Votre application est actuellement en mode lecture seule, car un ou plusieurs emplacements sont configurés. Pour changer de mode d'édition, visitez</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Gérer les paramètres d'application</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>Hub IoT</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Événements (point de terminaison intégré)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Surveillance des opérations</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Stratégie</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>Erreur de validation du schéma proxies.json</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>Dans un plan de consommation, vous pouvez limiter l'utilisation de la plateforme en définissant un quota d'utilisation quotidienne en gigaoctets-secondes. Une fois ce quota atteint, l'application Function App est arrêtée jusqu'au lendemain à 0h00 UTC.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(stratégie de hub)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(stratégie d'espace de noms)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>Le paramètre d'application est introuvable.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>afficher la valeur</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Ajouter un paramètre d'application</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Télécharger</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Inclure les paramètres d'application dans le téléchargement</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>Cette opération ajoute un fichier nommé local.settings.json qui contient les valeurs de vos paramètres d'application. Ce fichier n'est pas chiffré lors du téléchargement, mais peut l'être à l'aide de la ligne de commande des outils principaux d'Azure Functions.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Contenu du site</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Contenu et projet Visual Studio</value>
   </data>
 </root>

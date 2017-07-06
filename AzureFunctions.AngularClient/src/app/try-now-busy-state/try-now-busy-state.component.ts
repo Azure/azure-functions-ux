@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'try-now-busy-state',
@@ -17,7 +17,7 @@ export class TryNowBusyStateComponent implements OnInit {
     private outputArrowClass: string;
     private outputStoreClass: string;
     private frame: number;
-    private isIE: boolean;
+    public isIE: boolean;
 
     ngOnInit() {
         this.isIE = navigator.userAgent.toLocaleLowerCase().indexOf("trident") !== -1;

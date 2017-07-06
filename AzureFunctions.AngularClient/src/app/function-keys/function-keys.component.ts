@@ -1,8 +1,19 @@
 import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Rx';
-import {FunctionsService} from '../shared/services/functions.service';
-import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { FunctionKeys } from './../shared/models/function-key';
+import { AiService } from './../shared/services/ai.service';
+import { FunctionApp } from '../shared/function-app';
+import { FunctionInfo } from '../shared/models/function-info';
 import {FunctionKey} from '../shared/models/function-key';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
 import {BroadcastService} from '../shared/services/broadcast.service';
@@ -12,42 +23,63 @@ import {UtilitiesService} from '../shared/services/utilities.service';
 
 
 @Component({
-  selector: 'function-keys',
-  templateUrl: './function-keys.component.html',
-  styleUrls: ['./function-keys.component.css', '../table-function-monitor/table-function-monitor.component.css']
+    selector: 'function-keys',
+    templateUrl: './function-keys.component.html',
+    styleUrls: ['./function-keys.component.scss', '../table-function-monitor/table-function-monitor.component.scss']
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;
-    @Input() enableKeySelect: boolean;
+    @Input() functionApp : FunctionApp;
     @Input() autoSelect: boolean;
     // TODO: This is a hack to trigger change on this component for admin keys.
     // Find a better way to do that.
     @Input() inputChange: any;
-    @Output() selectedKey = new EventEmitter<string>();
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-
     private functionStream: Subject<FunctionInfo>;
-    private keys: Array<FunctionKey>;
-    private addingNew: boolean;
+    private functionAppStream: Subject<FunctionApp>;
     private newKeyName: string;
     private newKeyValue: string;
     private validKey: boolean;
 
-    constructor(private _functionsService: FunctionsService,
+    public keys: Array<FunctionKey>;
+    public addingNew: boolean;
+
+    constructor(
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _utilities: UtilitiesService) {
+        private _utilities: UtilitiesService,
+        private _aiService : AiService) {
+
         this.validKey = false;
         this.keys = [];
         this.functionStream = new Subject<FunctionInfo>();
-        this.functionStream
-            .switchMap(fi => {
+        this.functionAppStream = new Subject<FunctionApp>();
+
+        this.functionAppStream
+            .merge(this.functionStream)
+            .debounceTime(100)
+            .switchMap((r : any) => {
+
+                let functionApp = r && (<FunctionInfo>r).functionApp;
+                let fi : FunctionInfo;
+                if(functionApp){
+                    this.functionApp = functionApp;
+                    fi = r;
+                }
+
                 this.setBusyState();
                 this.resetState();
+
                 return fi
-                    ? this._functionsService.getFunctionKeys(fi)
-                    : this._functionsService.getFunctionHostKeys();
+                    ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
+                    : this.functionApp.getFunctionHostKeys().catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
+
             })
+            .do(null, e =>{
+                this._aiService.trackException(e, "/errors/function-keys");
+                console.error(e);
+            })
+            .retry()
             .subscribe(keys => {
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
@@ -58,17 +90,6 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     }
                 }
                 this.keys = keys.keys;
-                let selectedKey = this.keys.find(k => k.selected);
-                if (this.enableKeySelect && this.autoSelect && !selectedKey && this.keys.length > 0) {
-                    var key = this.keys.find(k => k.name === "_master") || this.keys[0];
-                    this.selectKey(key);
-                } else if (selectedKey) {
-                    this.selectKey(selectedKey);
-                } else {
-                    this.selectKey(null);
-                }
-            }, e => {
-                this.clearBusyState();
             });
         this._broadcastService.subscribe<FunctionInfo>(BroadcastEvent.ResetKeySelection, fi => {
             if ((fi && fi === this.functionInfo) || (!fi && !this.functionInfo)) {
@@ -82,29 +103,25 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.handleInitAndChanges();
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges(changes: {[key: string]: SimpleChange}) {
         this.handleInitAndChanges();
     }
 
     handleInitAndChanges() {
         this.resetState();
-        this.functionStream.next(this.functionInfo);
+
+        if (this.functionApp) {
+            this.functionAppStream.next(this.functionApp);
+        }
+
+        if (this.functionInfo) {
+            this.functionStream.next(this.functionInfo);
+        }
     }
 
     ngOnDestroy() {
         if (this.functionStream) {
             this.functionStream.unsubscribe();
-        }
-    }
-
-    selectKey(key: FunctionKey) {
-        this.keys.forEach(k => k.selected = false);
-        if (key) {
-            key.selected = true;
-            this.selectedKey.emit(key.value);
-            this._broadcastService.broadcast<FunctionInfo>(BroadcastEvent.ResetKeySelection, this.functionInfo);
-        } else {
-            this.selectedKey.emit(null);
         }
     }
 
@@ -131,19 +148,21 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     saveNewKey() {
-        this.setBusyState();
-        this._functionsService
-            .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
-            .subscribe(key => {
-                this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
-            }, e => this.clearBusyState());
+        if (this.validKey) {
+            this.setBusyState();
+            this.functionApp
+                .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
+                .subscribe(key => {
+                    this.clearBusyState();
+                    this.functionStream.next(this.functionInfo);
+                }, e => this.clearBusyState());
+        }
     }
 
     revokeKey(key: FunctionKey) {
-        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, {name: key.name}))) {
             this.setBusyState();
-            this._functionsService
+            this.functionApp
                 .deleteKey(key, this.functionInfo)
                 .subscribe(r => {
                     this.clearBusyState();
@@ -153,13 +172,15 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     renewKey(key: FunctionKey) {
-        this.setBusyState();
-        this._functionsService
-            .renewKey(key, this.functionInfo)
-            .subscribe(r => {
-                this.clearBusyState();
-                this.functionStream.next(this.functionInfo)
-            }, e => this.clearBusyState());
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, {name: key.name}))) {
+            this.setBusyState();
+            this.functionApp
+                .renewKey(key, this.functionInfo)
+                .subscribe(r => {
+                    this.clearBusyState();
+                    this.functionStream.next(this.functionInfo)
+                }, e => this.clearBusyState());
+        }
     }
 
     copyKey(key: FunctionKey) {
@@ -174,12 +195,14 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 }

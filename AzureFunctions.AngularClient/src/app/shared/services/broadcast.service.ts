@@ -1,6 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {FunctionInfo} from '../models/function-info';
+import { Subscription } from 'rxjs/Subscription';
+
+import { FunctionInfo } from '../models/function-info';
 import {ApiProxy} from '../models/api-proxy';
 import {TutorialEvent, TutorialStep} from '../models/tutorial';
 import {ErrorEvent} from '../models/error-event';
@@ -24,6 +25,7 @@ export class BroadcastService {
     private apiProxyDeletedEvent: EventEmitter<ApiProxy>;
     private apiProxySelectedEvent: EventEmitter<ApiProxy>;
     private apiProxyUpdatedEvent: EventEmitter<ApiProxy>;
+    private clearErrorEvent: EventEmitter<string>;
     private dirtyStateMap: { [key: string]: number } = {};
     private defaultDirtyReason = 'global';
 
@@ -44,6 +46,7 @@ export class BroadcastService {
         this.apiProxyDeletedEvent = new EventEmitter<ApiProxy>();
         this.apiProxySelectedEvent = new EventEmitter<ApiProxy>();
         this.apiProxyUpdatedEvent = new EventEmitter<ApiProxy>();
+        this.clearErrorEvent = new EventEmitter<string>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -128,8 +131,6 @@ export class BroadcastService {
             case BroadcastEvent.TrialExpired:
                 return this.trialExpired;
 
-            case BroadcastEvent.FunctionNew:
-                return this.functionNewEvent;
 
             case BroadcastEvent.ResetKeySelection:
                 return this.resetKeySelection;
@@ -137,18 +138,8 @@ export class BroadcastService {
             case BroadcastEvent.RefreshPortal:
                 return this.refreshPortal;
 
-            case BroadcastEvent.ApiProxyAdded:
-                return this.apiProxyAddedEvent;
-
-            case BroadcastEvent.ApiProxyDeleted:
-                return this.apiProxyDeletedEvent;
-
-            case BroadcastEvent.ApiProxySelected:
-                return this.apiProxySelectedEvent;
-
-            case BroadcastEvent.ApiProxyUpdated:
-                return this.apiProxyUpdatedEvent;
-
+            case BroadcastEvent.ClearError:
+                return this.clearErrorEvent;
         }
     }
 }

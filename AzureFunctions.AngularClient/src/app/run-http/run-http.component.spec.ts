@@ -1,3 +1,4 @@
+import { AppModule } from './../app.module';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,9 +11,7 @@ describe('RunHttpComponent', () => {
   let fixture: ComponentFixture<RunHttpComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RunHttpComponent ]
-    })
+    TestBed.configureTestingModule(AppModule.moduleDefinition)
     .compileComponents();
   }));
 

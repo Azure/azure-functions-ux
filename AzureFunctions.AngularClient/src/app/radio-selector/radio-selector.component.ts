@@ -1,37 +1,26 @@
-import {Component, EventEmitter, Input} from '@angular/core';
-import {SelectOption} from '../shared/models/select-option';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { SelectOption } from '../shared/models/select-option';
+
 @Component({
   selector: 'radio-selector',
   templateUrl: './radio-selector.component.html',
-  styleUrls: ['./radio-selector.component.css'],
-  inputs: ['options', 'defaultValue'],
-  outputs: ['value']
+  styleUrls: ['./radio-selector.component.scss'],
 })
 export class RadioSelectorComponent<T> {
+    @Input() options: SelectOption<T>[];
     @Input() disabled: boolean;
-    public value: EventEmitter<T>;
-    public defaultValue: T;
-    private _options: SelectOption<T>[];
+    @Input() public defaultValue: T;
+    @Output() public value: Subject<T>;
 
     constructor() {
         this.value = new EventEmitter<T>();
     }
 
-    set options(value: SelectOption<T>[]) {
-        this._options = [];
-        for (var i = 0; i < value.length; i++) {
-            this._options.push({
-                id: i,
-                displayLabel: value[i].displayLabel,
-                value: value[i].value
-            });
-        }
-    }
-
     select(option: SelectOption<T>) {
         if (!this.disabled) {
             this.defaultValue = option.value;
-            this.value.emit(option.value);
+            this.value.next(option.value);
         }
     }
 }

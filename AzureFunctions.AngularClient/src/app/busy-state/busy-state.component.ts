@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 @Component({
   selector: 'busy-state',
   templateUrl: './busy-state.component.html',
-  styleUrls: ['./busy-state.component.css']
+  styleUrls: ['./busy-state.component.scss']
 })
 export class BusyStateComponent implements OnInit {
 

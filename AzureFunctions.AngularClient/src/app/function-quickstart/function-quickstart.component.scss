@@ -1,0 +1,142 @@
+@import '../../sass/main';
+
+#quickstart-container{
+    text-align: center;
+    height: 100%;
+    background-color: $qs-footer-bg-color;
+
+    .custom-button{
+        &:hover{
+            background-color:$primary-color-hover;
+        }
+    }
+
+    label{
+        font-weight: normal;
+    }
+}
+
+#quickstart-header{
+    background-color: $qs-header-bg-color;
+    padding: 25px 25px 40px 25px;
+
+    >img{
+        width: 75px;
+        height: 75px;
+    }
+
+    .text-main2-heading{
+        margin: 15px 0px 25px 0px;
+    }
+
+    .text-level1-heading{
+        margin-bottom: 10px;
+    }
+
+    button{
+        min-width: 200px;
+        height: 40px;
+    }
+
+}
+
+#quickstart-templates{
+    margin-bottom: 30px;
+}
+
+.quickstart-template{
+    display: inline-block;
+    margin: 0px 2px;
+    font-size: 16px;
+    cursor: pointer;
+
+    .quickstart-template-icon{
+        background-color: $body-bg-color;
+        padding: 10px;
+        width: 150px;
+        height: 80px;
+        box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.2);
+
+        >div{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+    }
+
+    img{
+        width: 32px;
+        height: 32px;
+    }
+
+    &:hover{
+        box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);        
+        margin: 0px 2px;
+    }
+}
+
+.quickstart-template-selected{
+    border: 2px solid $primary-color;
+    margin: 0px;
+
+    &:hover{
+        border: 2px solid $primary-color;
+        margin: 0px;
+        box-shadow: 0px 0px 0px 0px;
+    }
+}
+
+.quickstart-template-lang{
+    padding: 10px;
+    display: inline-block;
+    font-size: 16px;
+    width: 156px;
+}
+
+#quickstart-lang-radios{
+    @extend .text-subheading;
+    margin-bottom: 15px;
+    color: $value-text-color;
+
+    input{
+        margin: 0px 10px;
+    }
+}
+
+#quickstart-lang-custom{
+    margin-bottom: 25px;
+}
+
+.circle {
+    background-color: $qs-header-bg-color;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+    margin: auto;
+    padding-top: 3px;
+    position: relative;
+    top: -33px;
+}
+
+#quickstart-footer{
+    padding: 16px 25px 25px 25px;
+    color: $body-bg-color;
+    background-color: $qs-footer-bg-color;
+
+    .text-main2-heading{
+        margin-top: 0px;
+        color: $body-bg-color;
+    }
+
+    .link{
+        color: $qs-footer-link-color;
+        line-height: 30px;
+    }
+}
+
+.link-disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: white;
+}

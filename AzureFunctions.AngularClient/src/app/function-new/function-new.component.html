@@ -1,19 +1,24 @@
-<div class="newfunc-container">
+<div class="newfunc-container" >
 
-    <div *ngIf="disabled">
-        <br />
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            {{ 'readOnly' | translate }}
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+
+    <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
+        <div class="choose">
+            <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
+            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
         </div>
-    </div>
-
-    <div *ngIf="!disabled">
-        <h3>{{ 'functionNew_chooseTemplate' | translate }}</h3>
-        <template-picker [type]="type" [showFooter]="false" (complete)="onTemplatePickUpComplete($event)" [template]="selectedTemplateId"></template-picker>
+        <template-picker
+            [functionAppInput]="functionApp"
+            [type]="type"
+            [showFooter]="false"
+            (complete)="onTemplatePickUpComplete($event)"
+            [template]="selectedTemplateId"></template-picker>
     </div>
 
     <div *ngIf="selectedTemplate">
-        <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="templateWarning">
+        <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert">
+            <div [innerHTML]="templateWarning"></div>
+            <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
         </div>
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
         <input type="text"
@@ -30,6 +35,7 @@
         <!--<h3 *ngIf="hasInputsToShow" style="margin-top: 40px">{{ 'configure' | translate }}</h3>-->
         <binding *ngIf="model.trigger"
                  (validChange)="onValidChanged($event)"
+                 [functionAppInput]="functionApp"
                  [binding]="model.trigger"
                  [canDelete]="false"
                  [canCancel]="false"
@@ -40,6 +46,7 @@
 
         <binding *ngFor="let binding of model.inputs"
                  (validChange)="onValidChanged($event)"
+                 [functionAppInput]="functionApp"
                  [binding]="binding"
                  [canSave]="false"
                  [canDelete]="false"
@@ -50,6 +57,7 @@
 
         <binding *ngFor="let binding of model.outputs"
                  (validChange)="onValidChanged($event)"
+                 [functionAppInput]="functionApp"
                  [binding]="binding"
                  [canSave]="false"
                  [canDelete]="false"
@@ -58,6 +66,9 @@
                  (remove)="onRemoveBinding($event)"
                  (update)="onUpdateBinding($event)"></binding>
 
-        <button [class.custom-button]="areInputsValid" [class.custom-button-disabled]="!areInputsValid" style="display: block; margin-top: 40px" [disabled]="!areInputsValid" (click)="onCreate()">{{ 'create' | translate }}</button>
+        <button [class.custom-button]="areInputsValid"
+                [class.custom-button-disabled]="!areInputsValid"
+                style="display: block; margin-top: 40px"
+                (click)="onCreate()">{{ 'create' | translate }}</button>
     </div>
 </div>

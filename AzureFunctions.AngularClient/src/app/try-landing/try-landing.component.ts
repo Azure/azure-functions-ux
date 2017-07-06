@@ -1,4 +1,19 @@
+import { SlotsService } from 'app/shared/services/slots.service';
 import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Http } from '@angular/http';
+import { Subject } from 'rxjs/Subject';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+
+import { ConfigService } from './../shared/services/config.service';
+import { ArmTryService } from './../shared/services/arm-try.service';
+import { CacheService } from './../shared/services/cache.service';
+import { AuthzService } from './../shared/services/authz.service';
+import { LanguageService } from './../shared/services/language.service';
+import { ArmService } from './../shared/services/arm.service';
+import { FunctionApp } from './../shared/function-app';
+import { Site } from './../shared/models/arm/site';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ErrorIds } from './../shared/models/error-ids';
 import {FunctionsService} from '../shared/services/functions.service';
 import {BroadcastService} from '../shared/services/broadcast.service';
 import {UserService} from '../shared/services/user.service';
@@ -8,37 +23,45 @@ import {FunctionTemplate} from '../shared/models/function-template';
 import {FunctionInfo} from '../shared/models/function-info';
 import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
 import {BindingManager} from '../shared/models/binding-manager';
-import {ErrorEvent} from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import {GlobalStateService} from '../shared/services/global-state.service';
 import {UIResource} from '../shared/models/ui-resource';
 import {FunctionContainer} from '../shared/models/function-container';
 import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {AiService} from '../shared/services/ai.service';
 
 @Component({
   selector: 'try-landing',
   templateUrl: './try-landing.component.html',
-  styleUrls: ['./try-landing.component.css']
+  styleUrls: ['./try-landing.component.scss']
 })
 export class TryLandingComponent implements OnInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    @Output() tryFunctionsContainer: EventEmitter<FunctionContainer>;
+    @Output() tryFunctionApp: Subject<FunctionApp>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
     loginOptions: boolean = false;
     selectedFunction: string;
     selectedLanguage: string;
-    constructor(private _functionsService: FunctionsService,
+
+    private _functionApp : FunctionApp;
+
+    constructor(
+        private _httpService : Http,
+        private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService,
-        private _aiService: AiService
-
-    ) {
-        this.tryFunctionsContainer = new EventEmitter<FunctionContainer>();
+        private _aiService: AiService,
+        private _armService : ArmService,
+        private _cacheService : CacheService,
+        private _languageService : LanguageService,
+        private _authZService : AuthzService,
+        private _configService : ConfigService,
+        private _slotsService: SlotsService) {
+        this.tryFunctionApp = new Subject<FunctionApp>();
     }
 
     ngOnInit() {
@@ -46,7 +69,7 @@ export class TryLandingComponent implements OnInit {
         //possibly related to https://github.com/angular/angular/issues/6782
         //and strangely the clearbusystate doesnt get called.
         //this.setBusyState();
-        this.selectedFunction = this._functionsService.selectedFunction || 'TimerTrigger';
+        this.selectedFunction = this._functionsService.selectedFunction || 'HttpTrigger';
         this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
         this._functionsService.getTemplates().subscribe((templates) => {
             if (this._globalStateService.TryAppServiceToken) {
@@ -78,7 +101,21 @@ export class TryLandingComponent implements OnInit {
             }
         });
 
-        var result = this._functionsService.getNewFunctionNode();
+        let result = {
+            name: this._translateService.instant(PortalResources.sideBar_newFunction),
+            href: null,
+            config: null,
+            script_href: null,
+            template_id: null,
+            clientOnly: true,
+            isDeleted: false,
+            secrets_file_href: null,
+            test_data: null,
+            script_root_path_href: null,
+            config_href: null,
+            functionApp : null
+        };
+
         this.functionsInfo.push(result);
     }
 
@@ -134,15 +171,26 @@ export class TryLandingComponent implements OnInit {
                                         }
                                         );
                                 } else {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}` });
+                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                        message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                                        details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
+                                        errorId: ErrorIds.tryAppServiceError,
+                                        errorType: ErrorType.Warning,
+                                        resourceId: 'try-app'
+                                    });
                                     this.clearBusyState();
                                     throw error;
                                 }
                                 this.clearBusyState();
                             });
-                    }
-                    catch (e) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}` });
+                    } catch (e) {
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                            details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
+                            errorId: ErrorIds.tryAppServiceError,
+                            errorType: ErrorType.Warning,
+                            resourceId: 'try-app'
+                        });
                         throw e;
                     }
                 }
@@ -153,13 +201,15 @@ export class TryLandingComponent implements OnInit {
         var scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
         var encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
         // TODO: find a better way to handle this
-        var tryfunctionContainer = <FunctionContainer>{
+        var tryfunctionContainer = <ArmObj<Site>>{
             id: resource.csmId,
             name: resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length),
             type: "Microsoft.Web/sites",
             kind: "functionapp",
             location: "West US",
             properties: {
+                state : "Running",
+                hostNames : null,
                 hostNameSslStates: [
                     {
                         name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".scm.azurewebsites.net"),
@@ -171,28 +221,53 @@ export class TryLandingComponent implements OnInit {
                     }],
                 sku: "Free",
                 containerSize: 128,
+                serverFarmId : null,
                 enabled: true,
-                state: "Running",
                 defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net")
             },
             tryScmCred: encryptedCreds
         };
-        this._functionsService.setScmParams(tryfunctionContainer);
+
+        this._functionApp = new FunctionApp(
+            tryfunctionContainer,
+            this._httpService,
+            this._userService,
+            this._globalStateService,
+            this._translateService,
+            this._broadcastService,
+            this._armService,
+            this._cacheService,
+            this._languageService,
+            this._authZService,
+            this._aiService,
+            this._configService,
+            this._slotsService);
+
+        (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
+
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
-        this._functionsService.getFunctionContainerAppSettings(tryfunctionContainer)
-            .subscribe(a => this._globalStateService.AppSettings = a);
-        this._functionsService.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
+        // this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
+            // .subscribe(a => {
+            //     this._globalStateService.AppSettings = a;
+            // });
+        this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
                 this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "success", first: "true" });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this.tryFunctionsContainer.emit(tryfunctionContainer);
+                this.tryFunctionApp.next(this._functionApp);
             },
             e => {
                 this.clearBusyState();
                 this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "failed", first: "true" });
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, { message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`, details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}` });
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                    details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
+                    errorId: ErrorIds.tryAppServiceError,
+                    errorType: ErrorType.Warning,
+                    resourceId: 'try-app'
+                });
             });
     }
 

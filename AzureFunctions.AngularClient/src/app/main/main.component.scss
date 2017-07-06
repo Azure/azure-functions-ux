@@ -1,0 +1,15 @@
+@import '../../sass/main';
+#dashboard-blank {
+    background-color: $body-bg-color;
+}
+
+#content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: $body-bg-color;
+    padding-left: $sidenav-width;
+    #dashboard {
+        height: 100%;
+    }
+}

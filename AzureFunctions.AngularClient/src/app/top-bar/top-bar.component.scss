@@ -7,21 +7,48 @@
     margin-left: 15px;
 }
 
-.top-bar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0;
-    margin: 0;
-    z-index: 10;
+.logo-standalone{
+    @extend .logo;
+    font-size: 18px;
+    margin-left: 265px;
 }
 
-.top-bar {
-    background-color: #E6E7E8;
-    color: $link-color;
-    height: 40px;
-    z-index: 100;
+// .top-bar-container {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     padding: 0;
+//     margin: 0;
+//     z-index: 10;
+// }
+
+.top-bar-notification{
+    >i{
+        margin-right: 5px;
+    }
+}
+
+.top-bar-notification-clickable{
+    cursor: pointer;
+    border-left: 1px hidden;
+    
+    // padding: 5px;
+
+    &:hover{
+        background-color: $body-bg-color;
+        border: 1px $primary-color solid;
+    }
+}
+
+.top-bar-notification-extra{
+    border-left: 1px darken($border-color, 10%) solid;
+    margin-left: 5px;
+    padding-left: 10px;
+}
+
+.top-bar-notification-learn{
+    margin-left: 5px;
 }
 
 .top-bar-getting-started{
@@ -29,28 +56,46 @@
     color: #000
 }
 
-.top-bar .left {
-    float: left;
-}
+.top-bar{
+    background-color: #E6E7E8;
+    color: $primary-color;
+    height: $top-bar-height;
 
-.top-bar .right {
-    float: right;
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .azure-logo {
+        padding-left: 10px;
+        height: 100%;
+    }
+
+    .top-bar-tool {
+        padding: 7px 10px;
+        /*border-left: 1px solid rgba(128,128,128,.4);*/
+    }
+
+    .info-azure{
+        margin-left: 265px;
+    }
+
+    .info-standalone{
+        margin-left: 50px;
+    }
+
+    .info-no-iframe {
+        margin-left: 145px !important;
+    }
 }
 
 .vertical-align-center {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-}
-
-.top-bar .azure-logo {
-    padding-left: 10px;
-    height: 100%;
-}
-
-.top-bar .top-bar-tool {
-    padding: 7px 10px;
-    /*border-left: 1px solid rgba(128,128,128,.4);*/
 }
 
 .top-bar-tools span{
@@ -61,26 +106,10 @@
     margin-left: 2px;
 }
 
-.top-bar-info {
-    color: black;
-    margin-left: 120px;
+.top-bar-info{
+    color: $value-text-color;
+    margin-left: 270px;
 }
-
-.top-bar svg{
-    fill: #2E80AB;
-}
-
-/*.settings{
-    color: #FFFFFF;
-}
-
-.settings:hover{
-    background-color: #19507B;
-}
-
-.settings:last-child {
-    margin-right: 10px;
-}*/
 
 /* http://stackoverflow.com/a/6900392/3234163 */
 .top-bar-tool {

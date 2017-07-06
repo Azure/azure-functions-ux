@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions 執行階段</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -139,10 +142,10 @@
     <value>函式 (${{name}}) 錯誤: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>函式 URL:</value>
+    <value>函數 URL</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Github 密碼:</value>
+    <value>Github 密碼</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>隱藏檔案</value>
@@ -166,7 +169,7 @@
     <value>檢視檔案</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>選擇範本</value>
+    <value>選擇以下範本，或</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>此範本為實驗性質，且尚未具備完整支援。若您遇到問題，請於 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt; GitHub 存放庫&lt;/a&gt;提出 Bug。</value>
@@ -231,44 +234,53 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>您的訂用帳戶</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>建立函數應用程式會自動佈建能裝載及執行程式碼的新容器。</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>無法建立應用程式</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) 選擇語言:</value>
+    <value>2. 選擇語言</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) 選擇案例:</value>
+    <value>1. 選擇案例</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>建立此函式</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>建立您自己的自訂函式</value>
+    <value>建立您自己的自訂函數</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>自訂函數</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>資料處理</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>更快取得函式的方法</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>或</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
     <value>搭配預先建立的函式快速開始使用</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>或是自行開始使用</value>
+    <value>自行開始使用</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>持續使用此快速入門</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>若您偏好其他支援的語言，請選擇</value>
+    <value>若是 PowerShell、Python 與 Batch，</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>從原始檔控制開始。</value>
+    <value>從原始檔控制著手</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>計時器</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>無論是要執行清除資料庫的簡單作業，或者建置更複雜的架構，請皆以分鐘為單位寫入任何函式。建立函式比以往更加容易，無論您選擇何種 OS、平台或開發方法皆然。無須安裝。</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>清除</value>
@@ -277,7 +289,7 @@
     <value>已複製!</value>
   </data>
   <data name="logStreaming_copyLogs" xml:space="preserve">
-    <value>複製記錄</value>
+    <value>複製記錄檔</value>
   </data>
   <data name="logStreaming_pause" xml:space="preserve">
     <value>暫停</value>
@@ -298,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>或</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>因為您啟用了原始檔控制整合，所以應用程式目前是唯讀模式。若要變更編輯模式，請瀏覽</value>
   </data>
   <data name="region" xml:space="preserve">
     <value>區域</value>
@@ -310,6 +322,21 @@
   <data name="save" xml:space="preserve">
     <value>儲存</value>
   </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ 新增設定</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ 新增連接字串</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>輸入名稱</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>輸入值</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>隱藏的值。按一下即可顯示。</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>將遺失對函式 {{name}} 所做的變更。確定要繼續嗎?</value>
   </data>
@@ -319,11 +346,26 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>重新整理</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>搜尋</value>
   </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>搜尋功能</value>
+  </data>
   <data name="subscription" xml:space="preserve">
+    <value>訂用帳戶 ID</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
     <value>訂用帳戶</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>資源群組</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>沒有結果</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>將遺失對目前函式所做的變更。確定要繼續嗎?</value>
@@ -332,7 +374,7 @@
     <value>函數應用程式設定</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>有可用的 Azure Functions 新版本。如需升級，請造訪</value>
+    <value>已提供新版 Azure Functions。若要升級，請按一下這裡</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>快速入門</value>
@@ -342,60 +384,6 @@
   </data>
   <data name="all" xml:space="preserve">
     <value>全部</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>進階設定</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>讓用戶端能更輕鬆地使用您的 HTTP 觸發函式</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>讓您的 HTTP 觸發函式可從網頁瀏覽器中呼叫</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API 定義</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>驗證/授權</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>持續整合</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>設定驗證</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>設定 API 中繼資料</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>設定持續整合</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>設定 CORS</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>從 GitHub、Visual Studio Team Services 等部署您的函式程式碼</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>若為使用 HTTP 觸發程序的函式，您可要求驗證呼叫</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>前往 App Service 設定</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>以管理任何其他 App Service 執行個體的方式來管理您的函數應用程式。</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>記憶體大小</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>執行階段版本: 最新的 ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>應用程式執行</value>
@@ -458,7 +446,7 @@
     <value>執行</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。您可以在 function.json 中編輯這些設定。</value>
+    <value>唯讀 - 因為您已開始編輯原始檔控制，所以此檢視為唯讀。</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>進階編輯器</value>
@@ -482,10 +470,10 @@
     <value>正在載入...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>近期成功計數</value>
+    <value>成功計數，開始於:</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>近期錯誤計數</value>
+    <value>錯誤計數，開始於:</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>引動過程記錄檔</value>
@@ -587,7 +575,7 @@
     <value>此處所做的變更會影響您函數應用程式中的所有函式。</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;建立全新函式&lt;/span&gt; - 開始使用其中一項預先建立的函式範本</value>
+    <value>&lt;span&gt;建立全新函數&lt;/span&gt; - 開始使用其中一個預先建置的函數範本</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
     <value>開發</value>
@@ -654,12 +642,6 @@
   </data>
   <data name="resourceSelect" xml:space="preserve">
     <value>正在等候資源</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>執行階段版本: 最新的 ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>我們很高興能主控您的函式!</value>
@@ -736,33 +718,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>刪除檔案 {{fileName}} 時發生錯誤</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>應用程式設定</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>管理您函數應用程式的環境變數及連接字串</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>開發主控台</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>入口網站內的主控台，用以存取您函數應用程式的檔案系統</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>使用 App Service 的進階功能，例如上傳 ZIP 檔案及終止處理序等</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>設定應用程式設定</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>開啟開發主控台</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>前往 Kudu</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>編輯程式碼最快速的方法為使用程式碼編輯器，但您也可以使用 GIT。此範例使用 C#，但許多其他語言也受支援。</value>
   </data>
@@ -771,9 +726,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>少於 1 分鐘</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>無法在您的免費試用期間使用! 按一下上方連結建立免費的 Azure 帳戶</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>註冊免費的 Azure 帳戶，將所有函式功能解除鎖定，而不需擔心時間限制!</value>
@@ -784,10 +736,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>無法連接您的函數應用程式。您的應用程式可能發生暫時問題或無法啟動。您可以檢查記錄檔，或幾分鐘後再試一次。</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>無法擷取函數應用程式 ({{functionApp}})</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>無法連接您的函數應用程式 ({{statusText}})。請稍後再試。</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -854,7 +806,10 @@
     <value>查詢</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>[一律開啟] 設定設為關閉</value>
+    <value>未啟用 'AlwaysOn'。您的應用程式可能無法正確運作</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>識別碼的值已在 host.json 中明確設定，這可能會在使用部署位置時造成非預期的行為</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions 版本資訊。</value>
@@ -863,7 +818,7 @@
     <value>主機金鑰 (所有功能)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>新增管理金鑰</value>
+    <value>新增主機鍵</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
     <value>新增功能鍵</value>
@@ -881,10 +836,10 @@
     <value>(可省略) 保留空白即可自動產生金鑰。</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>金鑰名稱</value>
+    <value>名稱</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>金鑰值</value>
+    <value>值</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
     <value>功能鍵</value>
@@ -896,7 +851,7 @@
     <value>每日使用量配額 (GB-秒)</value>
   </data>
   <data name="functionAppSettings_quotaWarning" xml:space="preserve">
-    <value>函數應用程式已達每日使用量且已停止，直到下一個 24 小時時間範圍為止。</value>
+    <value>函數應用程式已達每日使用量配額，所以在開始下一個 24 小時的時間範圍之前，該函數應用程式會停止。</value>
   </data>
   <data name="functionAppSettings_removeQuota" xml:space="preserve">
     <value>移除配額</value>
@@ -905,7 +860,7 @@
     <value>設定配額</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>函數應用程式將於到達每日使用量時停止，直到下一個 24 小時時間範圍為止。</value>
+    <value>超過每日使用量配額時，函數應用程式會停止運作，直到隔天上午 0:00 UTC。</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>確定要撤銷 {{name}} 金鑰嗎?</value>
@@ -921,30 +876,6 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>測試</value>
-  </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>部署</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>開發</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>管理</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service 設定</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>進階功能。存取 Azure App Service 所有的基礎功能</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service 編輯器</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>入口網站內編輯器與整合式主控台及資料流記錄</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>前往 App Service 編輯器</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Run-time 版本</value>
@@ -962,10 +893,10 @@
     <value>參數名稱必須為唯一。</value>
   </data>
   <data name="binding_useFunctionReturnValue" xml:space="preserve">
-    <value>Use function return value</value>
+    <value>使用函數傳回值</value>
   </data>
   <data name="functionEdit_functionState" xml:space="preserve">
-    <value>Function State</value>
+    <value>函數狀態</value>
   </data>
   <data name="off" xml:space="preserve">
     <value>關閉</value>
@@ -974,22 +905,22 @@
     <value>開啟</value>
   </data>
   <data name="topBar_functionApiSettings" xml:space="preserve">
-    <value>API settings</value>
+    <value>API 設定</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>New API Proxy</value>
+    <value>新增 Proxy</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
-    <value>All methods</value>
+    <value>所有方法</value>
   </data>
   <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
     <value>允許的 HTTP 方法</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL</value>
+    <value>後端 URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>具備該名稱的 Proxy 或函數已存在。</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>名稱</value>
@@ -1001,28 +932,40 @@
     <value>路由範本</value>
   </data>
   <data name="apiProxy_seectedMethods" xml:space="preserve">
-    <value>Selected methods</value>
+    <value>選取的方法</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>函數應用程式設定</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>執行階段版本: {{extensionVersion}}。有可用的較新版本 ({{latestExtensionVersion}})。</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>執行階段版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>API proxies (preview)</value>
+    <value>Proxy (預覽)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Proxy 執行階段版本: {{extensionVersion}}。有較新的版本可供使用 ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+    <value>Proxy 執行階段版本: 最新版 ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>Use API proxies</value>
+    <value>啟用 Azure Functions Proxy (預覽)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>Azure Functions Proxy 目前已停用。若要啟用，請瀏覽</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>對 Proxy {{name}} 所進行的變更都將遺失。確定要繼續嗎?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
-    <value>Proxy with name '{{name}}' already exists</value>
+    <value>名稱為 '{{name}}' 的 Proxy 已存在</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure Functions 位置 (預覽) 目前已停用。若要啟用，請瀏覽</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>捨棄</value>
@@ -1031,18 +974,909 @@
     <value>函式</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>Sign in with Facebook</value>
+    <value>以 Facebook 登入</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>Sign in with GitHub</value>
+    <value>以 GitHub 登入</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>Sign in with Google</value>
+    <value>以 Google 登入</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Sign in with Microsoft</value>
+    <value>使用 Microsoft 登入</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>Backend URL must start with 'http://' or 'https://'</value>
+    <value>後端 URL 必須以 'http://' 或 'https://' 為開頭</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>撤銷</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>摺疊</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>展開</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; 取得函數 URL</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; 取得 GitHub 密碼</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>標頭</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>沒有任何標頭</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>所有訂用帳戶</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} 個訂用帳戶</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Functions (無存取權)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Functions (唯讀鎖定)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Functions (已停止)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxy (無存取權)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxy (已停止)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxy (唯讀鎖定)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>函式</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>新增函式</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>函數應用程式</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>重新啟動</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>交換</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>下載發行設定檔</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>重設發行認證</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>狀態</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>可用性</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>可用</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>沒有存取權</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>不適用</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>無法使用</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>已設定的功能</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>從上方的 [平台功能] 索引標籤設定快速連結之後，此處即會顯示您功能的快速連結。</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>擷取應用程式 '{0}' 的相關資訊時出現錯誤</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>找不到應用程式 '{0}' </value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>確定要停止 '{0}' 嗎</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>正在停止應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>正在啟動應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>已成功停止應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>已成功啟動應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>無法停止應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>無法啟動應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>確定要重設發行設定檔嗎? 先前下載的設定檔將會變成無效。</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>正在重設發行設定檔</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>已成功重設發行設定檔</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>無法重設發行設定檔</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>您確定要刪除 '{0}' 嗎</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>正在刪除應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>已成功刪除應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>無法刪除應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>確定要重新啟動 '{0}' 嗎</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>正在重新啟動應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>已成功重新啟動應用程式 '{0}'</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>無法重新啟動應用程式 '{0}'</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>對使用情況方案上的應用程式，不支援此功能</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>您必須對目前的應用程式具有寫入權限，才可使用此功能</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>因為應用程式有唯讀鎖定，所以停用了此功能</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>您必須具備所關聯之 App Service 方案的讀取權限，才能使用此功能</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>部署選項</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>為您的應用程式設定及管理部署選項，包括從 VSTS、Github 及 Bitbucket 持續部署，以及從 OneDrive、Dropbox、外部 Git 等位置觸發部署。</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>部署認證</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>設定 Azure 帳戶層級部署認證。若要變更您的應用程式層級認證 (亦即「發行認證」)，請選擇 [概觀] 索引標籤中的 [重設發行認證]。&lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;深入了解&lt;/a&gt;。</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>主控台</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>從互動式 Web 主控台探索您的應用程式檔案系統。</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>擴充功能</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>整個應用程式的延伸模組與功能。</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>應用程式設定</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>管理應用程式設定、連接字串、執行階段設定等等。</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>屬性</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>檢視您應用程式的屬性。</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>備份</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>利用備份及還原輕鬆建立自動或手動備份。</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>所有設定</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>檢視所有 App Service 設定。</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>程式碼部署</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>開發工具</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>網路功能</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>透過 VNET 整合與混合式連線安全地存取資源。</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>使用您從外部購買的憑證或 App Service 憑證，為您的應用程式設定 SSL 繫結。</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>自訂網域</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>設定及購買自訂網域名稱。</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>驗證/授權</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>使用驗證/授權保護您的應用程式及使用個別使用者的資料。</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>推播通知</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>使用通知中樞跨平台傳送快速、可靈活調整的行動推播通知。</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>診斷記錄</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>設定記錄應用程式或伺服器事件的位置與時機。</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>記錄串流</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>檢視即時應用程式記錄。</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>處理序總管</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>檢視應用程式處理序、記憶體使用量與 CPU 使用率的詳細資料。</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>安全性掃描</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>使用 Tinfoil Security 為您的應用程式提供安全性掃描。</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>監視中</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>為您的應用程式設定跨原始來源資源共用 (CORS) 規則</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>API 定義</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>設定說明 API 之 Swagger2.0 中繼資料的位置。如此可方便其他人探索及取用您的 API。</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>應用程式服務方案是您應用程式的容器。應用程式服務方案設定會判斷與您應用程式相關聯的位置、功能、成本及計算資源。</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>配額</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>監視檔案系統使用量配額。</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>活動記錄</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>檢視曾對您應用程式執行的管理作業。</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>存取控制 (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>為您的應用程式設定角色型存取控制 (RBAC)。</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>標記</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>標籤是索引鍵/值組。當您將相同的標籤套用到多項資源及資源群組時，可讓您分類資源及檢視合併的帳單。</value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>鎖定</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>鎖定資源，以防未預期的變更或刪除。</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>自動化指令碼</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>使用 Azure Resource Manager 範本執行一項井然有序的作業來自動部署資源。請定義資源及可設定的輸入參數，然後使用指令碼或程式碼進行部署。</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>資源管理</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>進階工具 (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>使用 Kudu 檢查環境變數、存取偵錯主控台、上傳 Zip、檢視處理序等等。</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service 編輯器</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>App Service 編輯器可讓您直接在瀏覽器中編輯您的程式碼。</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>資源總管</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>使用 Azure 資源總管 (預覽版) 探索管理 API。</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>CORS 規則 (已定義 {0} 個)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>部署以 {0} 設定的選項</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL 憑證</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>WebJobs (已定義 {0} 個)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>延伸模組 (已安裝 {0} 個)</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>概觀</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>平台功能</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>此試用版無法管理函數應用程式。</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>範本</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>事件</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>App Service 方案</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>App Service 方案/定價層</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>驗證</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>授權</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>混合式連線</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>支援要求</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>調整規模</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>連接字串</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>偵錯</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>連續部署</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>來源</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>選項</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>我們無法存取您函數應用程式的 Azure 設定。</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>請先確認您對 Azure 資源 {0} 具有適當的存取權。若您沒有適當的存取權，請嘗試重新整理入口網站，更新您的驗證權杖。</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>請檢查應用程式設定中的儲存體帳戶連接字串，因為該字串似乎無效。</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>請以有效的儲存體連接字串，更新應用程式設定。</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>您的應用程式缺少 '{0}' 應用程式設定。此設定包含用於裝載函數內容之 Azure 儲存體帳戶的連接字串。若無該項設定，您的應用程式將會完全中斷。如果您無法再存取該應用程式設定的值，可能需要刪除此函數應用程式，然後重新建立。</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>您的應用程式缺少 '{0}' 應用程式設定。此設定包含函數內容所在的共用名稱。若無該項設定，您的應用程式將會完全中斷。如果您已無法再存取該應用程式設定的值，可能需要刪除此函數應用程式，然後再重新建立。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>您的應用程式缺少 '{0}' 應用程式設定。此設定包含監視函數檢視所需的 Azure 儲存體帳戶連接字串。其為引動過程資料彙總之處，引動過程資料接著會顯示在監視檢視中。您的監視檢視可能已中斷。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>您的應用程式缺少 '{0}' 應用程式設定。此設定包含 Azure 儲存體帳戶進行以下作業所需的連接字串: 讓函數執行個體可處理多重執行個體的同步、記錄檔引動過程結果，以及其他基礎結構工作。若無該項設定，函數應用程式將無法正常運作。</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>請以有效的儲存體連接字串，建立應用程式設定。</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>您的應用程式缺少 '{0}' 應用程式設定。若無該項設定，則一律會執行最新版的執行階段 (甚至跨越可能包含最新變更的主要版本更新)。建議將該值設定為目前最新的主要版本 (~ 1)，如此即可通知您有更新的版本可供更新。</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>儲存在 '{0}' 中的 Azure 儲存體帳戶連接字串為 null 或空白。必須要有此連接字串，函數應用程式才可運作。</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>請以有效的儲存體連接字串，更新應用程式設定。</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>儲存體帳戶 {0} 不存在。刪除該函數應用程式目前所使用的儲存體帳戶，會導致該函數應用程式停止運作。 </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>請以現有的有效儲存體連接字串，更新應用程式設定。</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>儲存體帳戶 {0} 不支援 Azure 佇列儲存體。函數執行階段需要佇列才可正確運作。您必須利用支援 Azure 佇列儲存體的儲存體帳戶，刪除該函數應用程式，然後再重新建立。</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>查詢函數應用程式的 Azure 後端似乎發生問題。</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>查詢函數應用程式的 Azure 後端似乎發生問題。</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>如果問題持續發生，請連絡客戶支援，並附上下列代碼 {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>無法擷取此函數應用程式的函數清單。</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>無法建立函數 {{functionName}}。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>無法解密您函數的存取金鑰。若您刪除了相同名稱的應用程式後，再重新建立該應用程式，或若是從不同的函數應用程式複製您的金鑰，也可能會發生此情況。您可嘗試下列步驟來修正此問題。應遵循的步驟於此: https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>無法刪除檔案 {{fileName}}。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>無法刪除函數 {{functionName}}。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>無法取得 {{fileName}} 的內容。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>無法立即擷取您的函數。請稍後再試一次。</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>無法擷取 {{functionName}} 的密碼檔案。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>無法儲存 {{fileName}} 的內容。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>無法擷取您函數的目錄內容。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>無法取得函數 {{functionName}}。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>無法擷取執行階段設定。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>無法擷取執行階段的主要金鑰。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>無法更新函數 {{functionName}}。請稍後再試一次。</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>函數執行階段無法啟動。請查看執行階段記錄檔中有無任何錯誤，或稍後再試一次。</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>無法建立或更新函數 {{functionName}} 的金鑰 {{keyName}}。如果執行階段無法載入您的函數，也可能會發生此情況。請查看其他函數錯誤。</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>無法刪除函數 {{functionName}} 的金鑰 {{keyName}}。如果執行階段無法載入您的函數，也可能會發生此情況。請查看其他函數錯誤。</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>無法更新函數 {{functionName}} 的金鑰 {{keyName}}。如果執行階段無法載入您的函數，也可能會發生此情況。請查看其他函數錯誤。</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>無法擷取函數 {{functionName}} 的金鑰。如果執行階段無法載入您的函數，也可能會發生此情況。請查看其他函數錯誤。</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>應用程式已離線。請檢查網際網路連線。</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>動作</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>前往快速入門</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>沒有任何查詢參數</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>摺疊</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>確定要刪除您的 API 定義嗎?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>展開</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>外部 URL</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>閱讀功能概觀</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>了解我們的快速入門教學課程</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>函式</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>API 定義金鑰</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>載入 API 定義</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>產生 API 定義範本</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>匯出至 Power Apps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>無法儲存格式不正確的 API 定義。</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>設定外部定義 URL</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>API 定義來源</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>使用 OpenAPI 2.0 (Swagger) 定義取用各種服務中觸發了 HTTP 的函數</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>函數 API 定義 (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>API 定義 URL</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>使用您的 API 定義</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>API 定義 (預覽)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>無法為 Swagger 端點建立或更新索引鍵 swaggerdocumentationkey。請查看執行階段記錄中有無任何錯誤，並於稍後再試一次。</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>無法刪除此 API 定義。請查看執行階段記錄中有無任何錯誤，並於稍後再試一次。</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>無法取得索引鍵 {{keyName}}。請查看執行階段記錄中有無任何錯誤，並於稍後再試一次。</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>無法載入所產生的 API 定義。請查看執行階段記錄中有無任何錯誤，並於稍後再試一次。</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>無法更新執行階段組態。請稍後再試一次。</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>無法更新此 API 定義。請查看執行階段記錄中有無任何錯誤，並於稍後再試一次。</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>還原成上次儲存的版本</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>設定 App Service 驗證/授權</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#按一下 [Generate API definition template] 即可開始</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>確定要覆寫編輯器中的 API 定義嗎?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>使用 API 定義可存取來自 &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; 與 &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt; 中的函數。</value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>利用來自您 HTTP 所觸發之函數的中繼資料，建立疏鬆定義。
+使用前請填入&lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;作業物件&lt;/a&gt;，及 API 的其他相關資訊。</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>此金鑰可保護 API 定義免受任何沒有金鑰的人員加以存取。
+它無法保護基礎 API。請參閱每個函數，以了解其金鑰安全性。</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>設定為「函數」即可產生主控的 API 定義與範本定義。
+設定為「外部 URL」則可使用其他位置所主控的 API 定義。</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>使用此 URL 可直接存取您的 API 定義，並將其匯入協力廠商的工具中 </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>變更函數應用程式的編輯模式</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>函數應用程式編輯模式</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>唯讀</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>讀取\寫入</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>不允許重複的值</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>這是必要欄位</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>名稱至少必須包含 2 個字元</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>名稱必須少於 60 個字元</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>{0} 是無效字元</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>無法使用應用程式名稱 '{0}'</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>目前無法更新您函數應用程式的編輯模式。請稍後再試一次。</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>因為您已將編輯模式設定為唯讀模式，所以應用程式目前是唯讀模式。若要變更編輯模式，請瀏覽</value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>因為雖然已啟用了原始檔控制，但您仍已將編輯模式設定為讀寫，所以應用程式目前是讀寫模式。您所進行的任何變更，都會覆寫下一次的部署。若要變更編輯模式，請瀏覽</value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>取得函數 URL</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>索引鍵</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>下載應用程式內容</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>確定要更新 {{name}} 金鑰嗎?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions 是以事件為基礎的無伺服器計算體驗，可加速您的開發。規模取決於您當時所需的規模，且只需要支付您所取用的資源即可。</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>深入了解 Azure Functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>事件中樞</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>命名空間</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>找不到。</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>端點</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>沒有任何要顯示的函數應用程式</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>位置 (預覽)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>啟用部署位置 (預覽)。這是函數應用程式的單次加入，無法停用，而且會重設任何原有的祕密。在更新後，可以從各函數的 </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>[管理] 節點下複製祕密。</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>建立新的部署位置</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>您可利用部署位置，為不同的 URL 部署不同版本的函數應用程式。您可測試特定版本，然後在位置之間交換內容及設定。</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>正在建立新的位置 {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>已成功建立位置 {0} </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>無法建立位置 {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>無法更新位置清單</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>沒有建立位置的存取權。請確定您對函數應用程式擁有正確的 RBAC 存取權，而且也沒有啟用讀取鎖定。</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>狀態</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>應用程式服務方案</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>位置 (預覽)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>如需更豐富的監視體驗 (包括即時計量和自訂查詢)，建議您使用 &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights。&lt;/a&gt;</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>此值之後會附加您主要 Web 應用程式的 URL，並會用為位置的公用位址。例如，若您的 Web 應用程式名稱為 'contoso'，位置名稱為 'staging'，則新位置的 URL 會類似於 'http://contoso-staging.azurewebsites.net'。</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>取用方案僅允許單一位置。如果您需要多個位置，請使用專屬的 App Service 方案。</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>搜尋函數</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>刪除函式</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>必須有用戶端憑證才能呼叫執行這個函數。若要從入口網站予以執行，您必須停用用戶端憑證。</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>因為您已設定位置，所以應用程式目前為唯讀模式。若要變更編輯模式，請前往</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>管理應用程式設定</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT 中心</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>索引鍵</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>連接</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>自訂</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>事件 (內建端點)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>作業監視</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>原則</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>proxies.json 結構描述驗證錯誤</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>透過取用量方案，您可以設定每日使用量配額以限制平台使用量 (GB-秒)。當達到每日使用量配額時，函數應用程式會停止運作，直到隔天上午 0:00 UTC。</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(中樞原則)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(命名空間原則)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>服務匯流排</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>找不到應用程式設定。</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>顯示值</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>新增應用程式設定</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>下載</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>在下載中包含應用程式設定</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>這會包含名為 local.settings.json 的檔案。此檔案包含您應用程式的設定值，而且在下載時不會加密，但可使用 Azure Functions Core Tools 命令列加密。</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>網站內容</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>內容與 Visual Studio 專案</value>
   </data>
 </root>

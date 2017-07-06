@@ -1,0 +1,81 @@
+<div id="quickstart-container">
+<div id="quickstart-header">
+    <img src="images/functions.svg" />
+
+    <h2 class="text-main2-heading">{{ 'intro_getStarted' | translate }}</h2>
+    <div class="text-level1-heading">{{ 'intro_chooseScenario' | translate }}</div>
+    <div id="quickstart-templates">
+        <div class="quickstart-template"
+             (click)="onFunctionCliked('HttpTrigger')"
+             [class.quickstart-template-selected]="selectedFunction === 'HttpTrigger'">
+
+            <div class="quickstart-template-icon">
+                <img src="images/code.svg" />
+                <div>{{ 'intro_webHook' | translate }}</div>
+            </div>
+        </div>
+
+        <div class="quickstart-template"
+            (click)="onFunctionCliked('TimerTrigger')"
+            [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
+
+            <div class="quickstart-template-icon">
+                <img src="images/clock.svg" />
+                <div>{{ 'intro_timer' | translate }}</div>
+            </div>
+
+        </div>
+
+        <div class="quickstart-template"
+            (click)="onFunctionCliked('QueueTrigger')"
+            [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
+
+            <div class="quickstart-template-icon">
+                <img src="images/databaseMini3.svg" />
+                <div>{{ 'intro_dataProcessing' | translate}}</div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div class="text-level1-heading">{{ 'intro_chooseLanguage' | translate }}</div>
+
+
+    <div id="quickstart-lang-radios">
+        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp</label>
+        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript</label>
+        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
+    </div>
+
+    <div id="quickstart-lang-custom">
+        {{ 'intro_ifYou' | translate }}
+        <span class="link" (click)='createFromScratch()'>
+            {{ 'intro_createYourOwn' | translate }}.
+        </span>
+    </div>
+
+    <div>
+        <button class="custom-button"
+                (click)="onCreateNewFunction()"
+                [disabled]="!selectedFunction">
+            {{ 'intro_createThisFunction' | translate }}
+        </button>
+
+    </div>
+</div>  <!-- /intro-header -->
+
+<div id="quickstart-footer">
+    <div class="circle text-level1-heading">
+        {{ 'intro_or' | translate}}
+    </div>
+
+    <h3 class="text-main2-heading">{{ 'intro_getStartedOn' | translate }}</h3>
+    <div>
+        <span class="link" (click)='createFromScratch()'>{{ 'intro_customFunction' | translate }}</span>
+    </div>
+    <div>
+        <span class="link" (click)='startFromSC()'>{{ 'intro_startSC' | translate }}</span>
+    </div>
+</div>  <!-- /intro-footer -->
+</div> <!-- /intro-container -->

@@ -2,12 +2,12 @@
     margin-left: 15px;
     display: inline;
     padding: 5px 45px 5px 45px;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;
     color: $body-bg-color;
-    background-color: $button-bg-color;
+    background-color: $primary-color;
 }
 
 .custom-button{
@@ -17,14 +17,14 @@
 
 .custom-button-invert{
     @extend %button;
-    border: 1px solid $button-bg-color;
+    border: 1px solid $primary-color;
     background-color: $body-bg-color;
-    color: $button-bg-color;
+    color: $primary-color;
 }
 
 .custom-button-danger{
     @extend %button;
-    background-color: $danger-color;
+    background-color: $error-color;
     color: $body-bg-color;
 }
 
@@ -32,4 +32,8 @@
     @extend %button;
     cursor: not-allowed;
     background-color : darken($chrome-color, 10%);    
+}
+
+.button-block{
+    display: block;
 }

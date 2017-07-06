@@ -4,3 +4,7 @@
     value: T;
     default?: boolean;
 }
+
+export interface MultiDropDownElement<T> extends DropDownElement<T>{
+    isSelected?: boolean;
+}

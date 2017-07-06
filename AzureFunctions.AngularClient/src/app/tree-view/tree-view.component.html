@@ -1,0 +1,62 @@
+<div *ngIf="level > 0"
+     class="tree-node"
+     [style.padding-left]="paddingLeft"
+     [class]="node.nodeClass"
+     [class.clickable]="!node.disabled"
+     [class.selected]="node.sideNav && node.sideNav.resourceId === node.resourceId"
+     [class.try-root-node]="level === 0 && showTryView"
+     [class.focused]="node.isFocused"
+     (mouseenter)="node.showMenu = true"
+     (mouseleave)="node.showMenu = false"
+     (click)="node.select()">
+
+  <!-- Expand node icon -->
+  <i *ngIf="node.showExpandIcon"
+    class="fa"
+    [class.fa-caret-right]="!node.isExpanded"
+    [class.fa-caret-down]="node.isExpanded"
+    (click)="node.toggle($event)"></i>
+
+  <!-- Custom icon per node -->
+  <i *ngIf="node.iconClass" [class]="node.iconClass">
+    <img *ngIf="node.iconUrl" [src]="node.iconUrl" />
+  </i>
+
+  {{node.title}}
+
+  <i *ngIf="node.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+
+  <!-- Optional menu icons that show up on right side of each node -->
+  <span class="tree-node-menu">
+
+    <span *ngIf="node.showMenu || node.inSelectedTree">
+
+      <i *ngIf="node.disabled"
+        class="fa fa-info-circle"
+        title="You either do not have access to this app or there are orphaned slots associated with it"></i>
+
+      <i *ngIf="!!node.newDashboardType"
+          (click)="node.openCreateNew($event)"
+          class="fa fa-plus"
+          title="New"></i>
+
+      <i *ngIf="node.supportsRefresh"
+        (click)="node.refresh($event)"
+        class="fa fa-refresh tree-node-refresh-icon"
+        title="Refresh"></i>
+
+      <i *ngIf="node.supportsScope && !showTryView"
+        class="fa fa-angle-double-right tree-node-scope-icon"
+        (click)="node.scopeToNode()"
+        title="Scope to this app"></i>
+    </span>
+  </span>
+</div>
+
+<hr *ngIf="level === 1 && !showTryView" class="tree-node-separator" />
+
+<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1">
+  <tree-view *ngFor="let child of node.children"
+              [node]="child"
+              [levelInput]="level + 1"></tree-view>
+</div>

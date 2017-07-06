@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Modul runtime služby Azure Functions</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Zrušit</value>
   </data>
@@ -139,10 +142,10 @@
     <value>Funkce (${{name}}) Chyba: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Adresa URL funkce:</value>
+    <value>Adresa URL funkce</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>Tajný klíč GitHubu:</value>
+    <value>Tajný kód GitHubu</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Skrýt soubory</value>
@@ -166,7 +169,7 @@
     <value>Zobrazit soubory</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Zvolte šablonu</value>
+    <value>Zvolte šablonu níže nebo</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Tato šablona je experimentální a ještě nemá plnou podporu. Pokud narazíte na potíže, pošlete prosím zprávu o chybě prostřednictvím našeho &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;úložiště GitHub&lt;/a&gt;.</value>
@@ -231,44 +234,53 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Vaše předplatné</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Když se vytvoří aplikace Function App, automaticky se zřídí nový kontejner, který dokáže hostovat a spustit váš kód.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Nepovedlo se vytvořit aplikaci.</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Zvolte jazyk:</value>
+    <value>2. Zvolte jazyk</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Zvolte scénář:</value>
+    <value>1. Zvolte scénář</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>Vytvořte tuto funkci.</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Vytvořit svoji vlastní funkci</value>
+    <value>vytvořit svoji vlastní funkci</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Vlastní funkce</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Zpracování dat</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>Rychlejší cesta k funkcím</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>nebo</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
     <value>Začněte rychle pomocí předpřipravených funkcí.</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Nebo začněte vlastními silami.</value>
+    <value>Začít vlastními silami</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>I nadále používat tento rychlý start</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Pokud dáváte přednost jinému podporovanému jazyku, zvolte</value>
+    <value>Pro PowerShell, Python a Batch</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>začít ze správy zdrojového kódu</value>
+    <value>Začít ze správy zdrojového kódu</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Časovač</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook + API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>Napište jakoukoli funkci během pár minut – ať už má spouštět jednoduchou úlohu, která vyčistí databáze, nebo vytvořit složitější architekturu. Vytvářet funkce je jednodušší než kdy dřív bez ohledu na to, jaký operační systém, platformu nebo metodu vývoje používáte. Nic se nemusí instalovat.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>Vymazat</value>
@@ -298,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>nebo</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Vaše aplikace je aktuálně v režimu jen pro čtení, protože máte aktivovanou integraci správy zdrojového kódu. Pokud chcete režim úprav změnit, navštivte </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Oblast</value>
@@ -310,6 +322,21 @@
   <data name="save" xml:space="preserve">
     <value>Uložit</value>
   </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Přidat nové nastavení</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Přidat nový připojovací řetězec</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Zadejte název</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Zadat hodnotu</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Skrytá hodnota. Kliknutím ji zobrazíte.</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Změny, které jste udělali ve funkci {{name}}, se ztratí. Opravdu chcete pokračovat?</value>
   </data>
@@ -319,11 +346,26 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>Aktualizovat</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>Hledat</value>
   </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Funkce pro hledání</value>
+  </data>
   <data name="subscription" xml:space="preserve">
+    <value>ID předplatného</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
     <value>Předplatné</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Skupina prostředků</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Umístění</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>Žádné výsledky</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>Změny, které jste udělali v aktuální funkci, se ztratí. Opravdu chcete pokračovat?</value>
@@ -332,7 +374,7 @@
     <value>Nastavení Function App</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Je k dispozici nová verze Azure Functions. Pokud chcete upgradovat, navštivte</value>
+    <value>Je k dispozici nová verze Azure Functions. Pokud chcete provést upgrade, klikněte sem.</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Rychlý start</value>
@@ -342,60 +384,6 @@
   </data>
   <data name="all" xml:space="preserve">
     <value>Vše</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Upřesnit nastavení</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Umožnit klientům snadněji používat funkce aktivované přes HTTP</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Umožnit volání funkcí aktivovaných přes HTTP z webového prohlížeče</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>Definice rozhraní API</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Ověřování nebo autorizace</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Kontinuální integrace</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Konfigurovat ověřování</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>Konfigurovat metadata rozhraní API</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Konfigurovat kontinuální integraci</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>Konfigurovat CORS</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Nasadit kód funkce z GitHubu, Visual Studio Team Services a dalších služeb</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>U funkcí, které používají aktivační událost HTTP, můžete vyžadovat, aby se volání nejdříve ověřila.</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Přejít na nastavení App Service</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>Spravovat aplikaci funkcí jako jakoukoli jinou instanci služby App Service</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Velikost paměti</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Verze modulu runtime: nejnovější ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>Spuštění aplikace</value>
@@ -458,7 +446,7 @@
     <value>Spustit</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení. Tato nastavení můžete upravovat v souboru function.json.</value>
+    <value>Jen pro čtení – vzhledem k tomu, že jste začali upravovat se správou zdrojového kódu, je toto zobrazení k dispozici jen pro čtení.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Rozšířený editor</value>
@@ -482,10 +470,10 @@
     <value>Načítá se...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Počet posledních úspěchů</value>
+    <value>Souhrnný počet úspěchů</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Počet posledních chyb</value>
+    <value>Souhrnný počet chyb</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Protokol volání</value>
@@ -655,12 +643,6 @@
   <data name="resourceSelect" xml:space="preserve">
     <value>Čeká se na prostředek</value>
   </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Verze modulu runtime: nejnovější ({{latestExtensionVersion}})</value>
-  </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>Hostování vašich funkcí nás bavilo!</value>
   </data>
@@ -736,33 +718,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>Chyba při odstraňování souboru: {{fileName}}</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Nastavení aplikace</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Spravovat proměnné prostředí a připojovací řetězce pro svou Function App</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Konzola pro vývojáře</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Konzola na portálu pro přístup k systému souborů vaší Function App</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Přístup k rozšířeným funkcím služby App Service, jako je nahrávání komprimovaných souborů zip, ukončování procesů a další</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>Konfigurovat nastavení aplikace</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Otevřít konzolu pro vývojáře</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Přejít na Kudu</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>Nejrychlejší způsob, jak upravovat kód, je pomocí editoru kódu, ale můžete použít i Git. V této ukázce se používá C#, ale podporuje se i mnoho dalších jazyků.</value>
   </data>
@@ -771,9 +726,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>Méně než 1 minuta</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Během bezplatného zkušebního období toto není k dispozici! Vytvořte si bezplatný účet Azure tak, že kliknete na odkaz nahoře.</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Když si zaregistrujete bezplatný účet Azure, odemknou se všechny možnosti funkcí a nejste omezení časem!</value>
@@ -784,10 +736,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App. Je možné, že s aplikací jsou jenom dočasné problémy nebo se ji nedaří spustit. Můžete se podívat na protokoly nebo to zkusit za pár minut znovu.</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>Nepovedlo se načíst aplikaci Function App ({{functionApp}}).</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>Nepovedlo se nám kontaktovat vaši aplikaci Function App ({{statusText}}). Zkuste to prosím znovu.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -854,7 +806,10 @@
     <value>Dotaz</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>Nastavení Stálé připojení je vypnuté.</value>
+    <value>AlwaysOn není povolené. Vaše aplikace možná nebude fungovat správně.</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>V souboru host.json se výslovně zadala hodnota pro id, ale to může při používání slotů nasazení způsobovat neočekávané chování.</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Zpráva k vydání verze Azure Functions.</value>
@@ -863,7 +818,7 @@
     <value>Klíče hostitele (všechny funkce)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>Přidat nový klíč správce</value>
+    <value>Přidat nový klíč hostitele</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
     <value>Přidat nový klíč funkce</value>
@@ -881,10 +836,10 @@
     <value>(Nepovinné) Pokud chcete vygenerovat klíč automaticky, nechejte toto pole prázdné.</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>Název klíče</value>
+    <value>JMÉNO</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>Hodnota klíče</value>
+    <value>HODNOTA</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
     <value>Klíče funkcí</value>
@@ -905,7 +860,7 @@
     <value>Nastavit kvótu</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Až aplikace Function App dosáhne svého denního využití, zastaví se. Obnoví se až během následujících 24 hodin.</value>
+    <value>Jakmile se denní kvóta využití překročí, aplikace Function App se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Určitě chcete odvolat klíč {{name}}?</value>
@@ -921,30 +876,6 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>Nasadit</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>Vyvíjet</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>Spravovat</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>Nastavení App Service</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Pokročilé funkce. Přístup ke všem funkcím Azure App Service</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service Editor</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>Editor dostupný přímo na portálu s integrovanou konzolou a protokoly streamování</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Přejít na App Service Editor</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Verze modulu runtime</value>
@@ -977,7 +908,7 @@
     <value>Nastavení rozhraní API</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>Nový proxy server rozhraní API</value>
+    <value>Nový proxy server</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
     <value>Všechny metody</value>
@@ -989,7 +920,7 @@
     <value>Adresa URL back-endu</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>Funkce nebo proxy server s tímto názvem už existuje.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Název</value>
@@ -1003,8 +934,17 @@
   <data name="apiProxy_seectedMethods" xml:space="preserve">
     <value>Vybrané metody</value>
   </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Nastavení aplikace Function App</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Verze modulu runtime: {{extensionVersion}}. Je k dispozici novější verze ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Verze modulu runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
+  </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxy servery rozhraní API (Preview)</value>
+    <value>Proxies (Preview)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
     <value>Verze modulu runtime proxy serveru: {{extensionVersion}}. K dispozici je novější verze ({{latestExtensionVersion}}).</value>
@@ -1013,16 +953,19 @@
     <value>Verze modulu runtime proxy serveru: nejnovější ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>Používat proxy servery rozhraní API</value>
+    <value>Povolit Azure Functions Proxies (Preview)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>Funkce Azure Functions Proxies je v tuto chvíli zakázaná. Pokud ji chcete povolit, navštivte</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>Změny provedené v proxy serveru rozhraní API {{name}} se ztratí. Opravdu chcete pokračovat?</value>
+    <value>Změny provedené v proxy serveru {{name}} se ztratí. Opravdu chcete pokračovat?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>Proxy server s názvem {{name}} už existuje.</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Sloty Azure Functions (Preview) jsou v tuto chvíli zakázané. Pokud je chcete povolit, navštivte</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>Zahodit</value>
@@ -1031,18 +974,909 @@
     <value>Funkce</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>Sign in with Facebook</value>
+    <value>Přihlásit se přes Facebook</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>Sign in with GitHub</value>
+    <value>Přihlásit se přes GitHub</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>Sign in with Google</value>
+    <value>Přihlásit se přes Google</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Sign in with Microsoft</value>
+    <value>Přihlásit se k Microsoftu</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>Backend URL must start with 'http://' or 'https://'</value>
+    <value>Adresa URL back-endu musí začínat na http:// nebo https://.</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Prodloužit platnost</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Odvolat</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Sbalit</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Rozbalit</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Získat adresu URL funkce</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Získat tajný kód GitHubu</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Záhlaví</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>Neexistují žádné hlavičky.</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>Všechna předplatná</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>Počet předplatných: {0}</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Funkce (bez přístupu)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Funkce (zámek ReadOnly)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Funkce (zastavené)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxy (bez přístupu)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxy (zastavené)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxy (zámek ReadOnly)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>Nová funkce</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Aplikace funkcí</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Zastavit</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Spustit</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Restartovat</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Přepnout</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Stáhnout profil publikování</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Resetovat přihlašovací údaje pro publikování</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Dostupnost</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>K dispozici</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>Žádný přístup</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Nepoužitelné</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Není k dispozici</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Nakonfigurované funkce</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Tady se zobrazí rychlé odkazy na vaše funkce, až je nakonfigurujete na kartě Funkce platformy výše.</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>Při načítání informací o aplikaci {0} došlo k chybě.</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>Aplikaci {0} nešlo najít.</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Opravdu chcete zastavit {0}?</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>Zastavuje se aplikace {0}</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Spouští se aplikace {0}</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>Aplikace {0} se úspěšně zastavila.</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>Aplikace {0} se úspěšně spustila</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Nepodařilo se zastavit aplikaci {0}.</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Nepovedlo se spustit aplikaci {0}.</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Opravdu chcete resetovat svůj profil publikování? Dříve stažené profily už nebudou platné.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Resetuje se profil publikování</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Profil publikování se úspěšně obnovil.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Profil publikování se nepovedlo obnovit.</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Opravdu chcete prostředek {0} odstranit?</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>Odstraňuje se aplikace {0}</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>Aplikace {0} se úspěšně odstranila.</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Nepovedlo se odstranit aplikaci {0}.</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Opravdu chcete restartovat {0}.</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>Restartuje se aplikace {0}</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>Aplikace {0} se úspěšně restartovala.</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Nepovedlo se restartovat aplikaci {0}.</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>Pro aplikace v plánu Consumption se tato funkce nepodporuje.</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Abyste mohli tuto funkci používat, musíte mít v aktuální aplikaci oprávnění zapisovat.</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Tato funkce je zakázaná, protože aplikace má zámek ReadOnly.</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>Abyste mohli tuto funkci používat, musíte mít pro přidružený plán služby App Service oprávnění ke čtení.</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Možnosti nasazení</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Nakonfiguruje a spravuje možnosti nasazení vaší aplikace, včetně průběžného nasazování z VSTS, GitHubu a Bitbucketu, a aktivuje nasazování z OneDrivu, Dropboxu, externího Gitu a dalších.</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Přihlašovací údaje pro nasazení</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Nakonfiguruje přihlašovací údaje Azure pro nasazení na úrovni účtu. Pokud chcete změnit svoje přihlašovací údaje na úrovni aplikace (známé taky jako přihlašovací údaje pro publikování), zvolte na kartě Přehled možnost Resetovat přihlašovací údaje pro publikování. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Další informace&lt;/a&gt;</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Konzola</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Prozkoumání systému souborů aplikace z interaktivní webové konzoly</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Rozšíření</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Rozšíření obohacují celou aplikaci o další funkce.</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Nastavení aplikace</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Správa nastavení aplikace, připojovacích řetězců, nastavení modulu runtime a další</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Vlastnosti</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>Zobrazí vlastnosti aplikace.</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Zálohy</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Pomocí Zálohování a obnovení můžete snadno vytvářet automatické nebo ruční zálohy.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>Všechna nastavení</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>Zobrazí všechna nastavení služby App Service.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>Obecné nastavení</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Nasazení kódu</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Vývojové nástroje</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Sítě</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Umožňuje zabezpečeně přistupovat k prostředkům prostřednictvím Integrace virtuální sítě a Hybrid Connections.</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Nakonfiguruje vazby SSL pro aplikaci pomocí certifikátu, který jste si koupili externě, nebo pomocí služby App Service Certificate.</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Vlastní domény</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Nakonfiguruje a nakoupí vlastní názvy domén.</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Ověřování / autorizace</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Použije ověřování/autorizaci k ochraně aplikace a pracuje s daty jednotlivých uživatelů.</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Nabízená oznámení</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Umožňuje posílat rychlá, škálovatelná a multiplatformní mobilní nabízená oznámení pomocí služby Notification Hubs.</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Protokoly pro diagnostiku</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Konfiguruje, kde a kdy se protokolují události aplikace a serveru.</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Streamování protokolů</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>Zobrazí protokoly aplikace v reálném čase.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Průzkumník procesů</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>Umožňuje zobrazovat podrobnosti o procesech aplikace a využití paměti a procesoru.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Security Scanning</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Povolí Security Scanning pro aplikaci s Tinfoil Security.</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Sledování</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Konfigurace pravidel CORS (Cross-Origin Resource Sharing) pro aplikaci</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>Definice rozhraní API</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>Nakonfigurujte umístění metadat Swagger 2.0, která popisují vaše rozhraní API. Díky tomu můžou rozhraní API snadno objevit a používat i ostatní uživatelé.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>Plán Aplikační služby je kontejner na vaše aplikace. V nastavení plánu Aplikační služby je umístění, funkce, náklady a výpočetní prostředky přidružené k vaší aplikaci.</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Kvóty</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Monitoruje kvóty využití systému souborů.</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Protokol aktivit</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>Zobrazí operace správy, které se provedly pro vaši aplikaci.</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Řízení přístupu (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Nakonfiguruje pro aplikaci řízení přístupu na základě role (RBAC).</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Značky</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Značky jsou páry klíč/hodnota, které umožňují zařadit prostředky do kategorií a zobrazovat souhrnné údaje o fakturaci tím, že se jedna značka použije pro několik prostředků a jejich skupin. </value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Zámky</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Prostředky zamkněte, pokud chcete zabránit neočekávaným změnám nebo odstraněním.</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Automatizační skript</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Automatizace nasazování prostředků pomocí šablon Azure Resource Manageru v jediné koordinované operaci. Definuje prostředky a konfigurovatelné vstupní parametry a pak nasazení provede pomocí skriptu nebo kódu.</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Správa prostředků</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Rozšířené nástroje (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Pomocí Kudu můžete prohlížet proměnné prostředí, přistupovat ke konzole ladění, odesílat soubory ZIP, zobrazovat procesy a další.</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service Editor</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>App Service Editor poskytuje prostředí pro úpravy kódu v prohlížeči.</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Průzkumník prostředků</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Umožňuje prozkoumávat rozhraní API pro správu pomocí Průzkumníka prostředků Azure (Preview).</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>Pravidla CORS (počet definovaných: {0})</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Možnosti nasazení mají nakonfigurované {0}.</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>Certifikáty SSL</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>Webové úlohy (počet definovaných: {0})</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Rozšíření (počet nainstalovaných: {0})</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Přehled</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Funkce platformy</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Konfigurace</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>Pro tuto zkušební verzi není správa aplikace Function App k dispozici.</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Šablona</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Události</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>plán služby App Service</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>Plán služby App Service / cenová úroveň</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Ověřování</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Autorizace</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Hybridní připojení</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>žádost o podporu</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>škála</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Připojovací řetězce</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Ladit</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Průběžné nasazování</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Zdroj</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>Nedaří se nám získat přístup k nastavením Azure pro vaši aplikaci Function App.</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>Nejdříve se ujistěte, že máte patřičný přístup k prostředku {0}. Pokud ho máte, zkuste aktualizovat portál, aby se obnovil ověřovací token.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>Zkontrolujte prosím připojovací řetězec účtu úložiště v nastaveních aplikace, protože to vypadá, že není platný.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>Zadejte do nastavení aplikace platný připojovací řetězec úložiště.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, ve kterém se hostuje obsah funkcí. Bez tohoto nastavení vaše aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci Function App odstranit a znovu vytvořit.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje název sdílené složky, která uchovává obsah vaší funkce. Bez toho nastavení aplikace nebude vůbec fungovat. Pokud už k hodnotě daného nastavení aplikace nemáte přístup, budete možná muset tuto aplikaci Function App odstranit a znovu vytvořit.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec k účtu Azure Storage, který je nezbytný pro zobrazení monitorování vašich funkcí. Je to místo, kde se data volání agregují a zobrazují v zobrazení monitorování. Vaše zobrazení monitorování nemusí fungovat správně.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Toto nastavení obsahuje připojovací řetězec pro účet Azure Storage, bez kterého modul runtime funkcí nemůže zpracovat synchronizaci několika instancí, protokolovat výsledky volání a provádět další úlohy infrastruktury. Bez tohoto nastavení vaše aplikace Function App nebude správně fungovat.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>Vytvořte nastavení aplikace s platným připojovacím řetězcem úložiště.</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>Ve vaší aplikaci chybí nastavení aplikace {0}. Bez tohoto nastavení budete vždycky spouštět nejnovější verzi modulu runtime, i když se aktualizuje hlavní verze, která může obsahovat rozbíjející změny. Doporučuje se nastavit tuto hodnotu na aktuální poslední hlavní verzi (~1). O nových verzích, na které můžete aktualizovat, dostanete oznámení.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>Připojovací řetězec účtu Azure Storage uložený v {0} je null nebo prázdný. Řetězec je nezbytný, aby vaše aplikace Function App fungovala.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>Zadejte do nastavení aplikace platný připojovací řetězec úložiště.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>Účet úložiště {0} neexistuje. Když odstraníte účet úložiště, který používá aplikace Function App, přestane tato aplikace fungovat. </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>Zadejte do nastavení aplikace platný existující připojovací řetězec úložiště.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>Účet úložiště {0} nepodporuje Azure Queue Storage. Fronty jsou nezbytné, aby modul runtime funkcí mohl správně fungovat. Budete muset odstranit a znovu vytvořit aplikaci Function App pomocí účtu úložiště, který podporuje Azure Queue Storage.</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci Function App dochází k problému.</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>Vypadá to, že při dotazování back-endu Azure na vaši aplikaci Function App dochází k problému.</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>Pokud se problém nevyřeší, obraťte se na podporu s následujícím kódem: {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>Nedokážeme načíst seznam funkcí této aplikace Function App.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>Nedokážeme vytvořit funkci {{functionName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>Nedokážeme dešifrovat přístupové klíče vaší funkce. To se může stát, když odstraníte a znovu vytvoříte aplikaci se stejným názvem nebo když zkopírujete klíče z jiné aplikace Function App. Tento problém můžete zkusit opravit tímto postupem: https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>Nedokážeme odstranit soubor {{fileName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>Nedokážeme odstranit funkci {{functionName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>Nedokážeme získat obsah souboru {{fileName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>V tuto chvíli nedokážeme načíst vaše funkce. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>Nedokážeme načíst soubor tajných kódů pro {{functionName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>Nedokážeme uložit obsah souboru {{fileName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>Nedokážeme načíst obsah adresáře pro vaši funkci. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>Nedokážeme získat funkci {{functionName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>Nedokážeme načíst konfiguraci modulu runtime. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>Nedokážeme načíst hlavní klíč modulu runtime. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>Nedokážeme aktualizovat funkci {{functionName}}. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>Modul runtime funkce nejde spustit. Podívejte se prosím na chyby do protokolu modulu runtime nebo to zkuste znovu později.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>Nedokážeme vytvořit ani aktualizovat klíč {{keyName}} pro funkci {{functionName}}. To se může stát, když modul runtime nedokáže vaši funkci načíst. Podívejte se, jestli nedošlo k jiným chybám funkce.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>Nedokážeme odstranit klíč {{keyName}} pro funkci {{functionName}}. To se může stát, když modul runtime nedokáže vaši funkci načíst. Podívejte se, jestli nedošlo k jiným chybám funkce.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>Nedokážeme obnovit klíč {{keyName}} pro funkci {{functionName}}. To se může stát, když modul runtime nedokáže vaši funkci načíst. Podívejte se, jestli nedošlo k jiným chybám funkce.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>Nedokážeme načíst klíče pro funkci {{functionName}}. To se může stát, když modul runtime nedokáže vaši funkci načíst. Podívejte se, jestli nedošlo k jiným chybám funkce.</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>Aplikace je offline. Zkontrolujte prosím připojení k internetu.</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>AKCE</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>přejděte na rychlý start</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>Neexistují žádné parametry dotazu.</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Sbalit</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Opravdu chcete odstranit definici rozhraní API?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Dokumentace</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Rozbalit</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>Externí adresa URL</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Zobrazit přehled funkcí</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Přejít na kurz Začínáme</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>Klíč definice rozhraní API</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Načíst definici rozhraní API</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Vygenerovat šablonu definic rozhraní API</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Exportovat do Power Apps a Flowu</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Definici rozhraní API s nesprávným formátem nejde uložit.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Prodloužit platnost</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Nastavit externí adresu URL definice</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>Zdroj definice rozhraní API</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Pomocí definice OpenAPI 2.0 (Swagger) můžete využívat svoje funkce aktivované pomocí protokolu HTTP v různých službách.</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Definice rozhraní API funkce (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>Adresa URL definice rozhraní API</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Použít definici rozhraní API</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>Definice rozhraní API (Preview)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>Nemůžeme vytvořit nebo aktualizovat klíč swaggerdocumentationkey pro koncový bod Swaggeru. Podívejte se prosím, jestli v protokolech modulu runtime nejsou nějaké chyby, nebo to zkuste později.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>Nemůžeme odstranit definici rozhraní API. Podívejte se prosím, jestli v protokolech modulu runtime nejsou nějaké chyby, nebo to zkuste později.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>Nemůžeme získat klíč {{keyName}}. Podívejte se prosím, jestli v protokolech modulu runtime nejsou nějaké chyby, nebo to zkuste později.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>Nemůžeme načíst vygenerovanou definici rozhraní API. Podívejte se prosím, jestli v protokolech modulu runtime nejsou nějaké chyby, nebo to zkuste později.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>Nemůžeme aktualizovat konfiguraci modulu runtime. Zkuste to prosím znovu později.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>Nemůžeme aktualizovat definici rozhraní API. Podívejte se prosím, jestli v protokolech modulu runtime nejsou nějaké chyby, nebo to zkuste později.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Vrátit se k poslední uložené verzi</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Konfigurovat ověřování/autorizaci služby App Service</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Začněte tím, že kliknete na Vygenerovat šablonu definic rozhraní API.</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Opravdu chcete přepsat definici rozhraní API v editoru?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Pomocí své definice rozhraní API můžete k funkcím přistupovat z &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; a &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flowu&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Vytvořte stručnou definici pomocí metadat z funkcí aktivovaných protokolem HTTP.
+Před použitím vyplňte &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;objekty operací&lt;/a&gt; a další informace o rozhraní API.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Tento klíč chrání definici rozhraní API, aby k ní neměl přístup nikdo, kdo nemá daný klíč.
+Nezabezpečuje základní rozhraní API. Zabezpečení klíčem najdete v jednotlivých funkcích.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Pokud chcete povolit hostovanou definici rozhraní API a generování definic šablon, nastavte tuto možnost na Funkce.
+Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, nastavte tuto možnost na Externí adresa URL.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Pomocí této adresy URL můžete přímo přistupovat k definici rozhraní API a importovat do nástrojů třetích stran. </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Umožňuje změnit režim úprav dané Function App.</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Režim úprav pro Function App</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Jen pro čtení</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Čtení\zápis</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Duplicitní hodnoty se nepovolují.</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Toto pole je povinné.</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>Název musí mít aspoň 2 znaky.</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>Název musí mít méně než 60 znaků.</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>{0} není platný znak.</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>Název aplikace {0} není dostupný.</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Nedokážeme aktualizovat režim úprav dané Function App. Zkuste to prosím později.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Vaše aplikace je aktuálně v režimu jen pro čtení, protože jste tak nastavili režim úprav. Pokud chcete režim úprav změnit, navštivte </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Vaše aplikace je aktuálně v režimu čtení\zápis, protože jste tak nastavili režim úprav, přestože máte aktivovanou správu zdrojového kódu. Případné změny, které provedete, se můžou přepsat při příštím nasazení. Pokud chcete režim úprav změnit, navštivte </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Získat adresu URL funkce</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>Adresa URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Stáhnout obsah aplikace</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Opravdu chcete prodloužit platnost klíče {{name}}?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Služba Azure Functions je výpočetní prostředí bez serverů založené na událostech, které urychluje vývoj. Umožňuje škálování podle potřeby, se kterým platíte jenom za prostředky, které spotřebujete.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Další informace o službě Azure Functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Centrum událostí</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Obor názvů</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Nenalezeno</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Koncový bod</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Nejsou k dispozici žádné aplikace Function App, které by se daly zobrazit</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Sloty (Preview)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Povolit sloty nasazení (Preview). Toto je jednorázový výslovný souhlas v aplikaci Function App, který se nedá vzít zpět a který resetuje všechny stávající tajné kódy. Po aktualizaci se tajné kódy dají zkopírovat pod </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>Uzel Spravovat pro jednotlivé funkce</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Vytvořit nový slot nasazení</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Sloty nasazení umožňují nasazovat různé verze aplikace Function App na různé adresy URL. Můžete otestovat určitou verzi a pak mezi sloty přepnout obsah a konfiguraci.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Vytváří se nový slot {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Slot {0} se úspěšně vytvořil </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Nepovedlo se vytvořit slot {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Nejde aktualizovat seznam slotů.</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>K vytvoření slotu nemáte přístup. Ujistěte se prosím, že pro aplikaci Function App máte správný přístup RBAC a že nejsou povolené zámky pro čtení.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>Plán služby App Service</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Sloty (Preview)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>Abyste měli k dispozici rozmanitější možnosti monitorování, včetně živých metrik a vlastních dotazů, doporučujeme použít &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;.</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Tato hodnota se připojí k adrese URL vaší hlavní webové aplikace a bude sloužit jako veřejná adresa slotu. Pokud třeba máte webovou aplikaci s názvem contoso a slot s názvem staging, bude mít nový slot adresu URL podobnou této: http://contoso-staging.azurewebsites.net.</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Plán Consumption umožňuje použít jenom jeden slot. Pokud jich potřebujete více, použijte prosím vyhrazené plány služby App Service.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Hledat funkce</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Nový</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Odstranit funkci</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>Aby se mohlo zavolat spuštění této funkce, vyžaduje se klientský certifikát. Pokud ji chcete spustit z portálu, musíte klientský certifikát zakázat.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože máte nakonfigurované sloty. Pokud chcete změnit režim úprav, přejděte na</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Spravovat nastavení aplikace</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>Centrum IoT</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Klíč</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Připojení</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Vlastní</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Události (integrovaný koncový bod)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Sledování činnosti</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Zásady</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>Chyba ověřování schématu proxies.json</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>V plánu Consumption můžete omezit využití platformy tak, že nastavíte denní kvótu využití v gigabajtech za sekundu. Jakmile se denní kvóta využití naplní, aplikace Function App se zastaví a zůstane zastavená do 0:00 UTC dalšího dne.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(zásady centra)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(zásady oboru názvů)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>Nastavení aplikace se nenašla.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>zobrazit hodnotu</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Přidat nastavení aplikace</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Stáhnout</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Zahrnout do stahování i nastavení aplikace</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>Tato možnost zahrne soubor s názvem local.settings.json, který bude obsahovat hodnoty nastavení aplikace. Tento soubor nebude během stahování zašifrovaný, ale dá se zašifrovat pomocí příkazového řádku Azure Functions Core Tools.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Obsah webu</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Obsah a projekt sady Visual Studio</value>
   </data>
 </root>

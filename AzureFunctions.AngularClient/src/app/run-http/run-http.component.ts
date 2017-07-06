@@ -2,8 +2,9 @@ import {Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren
 import {HttpRunModel, Param} from '../shared/models/http-run';
 import {BindingType} from '../shared/models/binding'
 import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {Constants} from '../shared/models/constants';
+import {URLSearchParams} from '@angular/http';
 
 
 @Component({
@@ -14,19 +15,21 @@ import {Constants} from '../shared/models/constants';
 })
 export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
+    @Output() disableTestData = new EventEmitter<boolean>();
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
     availableMethods: string[] = [];
-
 
     constructor(private _translateService: TranslateService) {
     }
 
     set functionInfo(value: FunctionInfo) {
+        this.model = undefined;
         if (value.test_data) {
             try {
                 this.model = JSON.parse(value.test_data);
-                if (this.model.body === undefined) {
+                // Check if it's valid model
+                if (!Array.isArray(this.model.headers)) {
                     this.model = undefined;
                 }
             } catch (e) {
@@ -64,6 +67,7 @@ export class RunHttpComponent {
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
+        this.paramChanged();
     }
 
     set functionInvokeUrl(value: string) {
@@ -75,22 +79,23 @@ export class RunHttpComponent {
                 var findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;
                 });
+
                 if (!findResult) {
-                    this.model.queryStringParams.push(p);
+                    this.model.queryStringParams.splice(0,0, p);
                 }
             });
-            this.change();
         }
+        this.paramChanged();
     }
 
     removeQueryStringParam(index: number) {
         this.model.queryStringParams.splice(index, 1);
-        this.change();
+        this.paramChanged();
     }
 
     removeHeader(index: number) {
         this.model.headers.splice(index, 1);
-        this.change();
+        this.paramChanged();
     }
 
     addQueryStringParam() {
@@ -99,7 +104,7 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();
+        this.paramChanged();
     }
 
     addHeader() {
@@ -108,23 +113,31 @@ export class RunHttpComponent {
                 name: "",
                 value: "",
             });
-        this.change();
+        this.paramChanged();
     }
 
-    change(event?: any) {
-        var emptyQuery = this.model.queryStringParams.find((p) => {
-            return !p.name;
-        });
+    paramChanged(event?: any) {
+        // iterate all params and set valid property depends of params name
 
-        var emptyHeader = this.model.headers.find((h) => {
-            return !h.name;
-        });
+        var regex = new RegExp("^$|[^A-Za-z0-9]");
+        this.valid = true;
+        this.model.queryStringParams.concat(this.model.headers).forEach((item => {
+            item.valid = !regex.test(item.name);
+            this.valid = item.valid && this.valid;
+        }));
 
-        this.valid = !(emptyQuery || emptyHeader);
         this.validChange.emit(this.valid);
     }
 
+    onChangeMethod(method: string) {
+        this.disableTestData.emit((method.toLowerCase() === 'get' ||
+            method.toLowerCase() === 'delete' ||
+            method.toLowerCase() === 'head' ||
+            method.toLowerCase() === 'options'));
+    }
+
     private getQueryParams(url: string): Param[] {
+
         var result = [];
         var urlCopy = url;
 
@@ -138,24 +151,20 @@ export class RunHttpComponent {
             });
         }
 
-        var queryArray = urlCopy.split('?');
-
-        if (queryArray.length > 1) {
-            var query = queryArray[1];
-            var vars = query.split('&');
-            if (vars.length === 1) {
-                vars[0] = query;
-            }
-
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
-                result.push({
-                    name: decodeURIComponent(pair[0]),
-                    value: decodeURIComponent(pair[1]),
-                    isFixed: true
+        var indexOf = urlCopy.indexOf('?');
+        if (indexOf > 0) {
+            var usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
+            usp.paramsMap.forEach((value, key) => {
+                value.forEach((v) => {
+                    result.push({
+                        name: decodeURIComponent(key),
+                        value: decodeURIComponent(v),
+                        isFixed: true
+                    });
                 });
-            }
+            });
         }
+
         return result;
     }
 

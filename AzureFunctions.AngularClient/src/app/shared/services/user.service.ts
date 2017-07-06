@@ -1,47 +1,131 @@
-import {Http, Headers} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs/Rx';
-import {User} from '../models/user';
-import {TenantInfo} from '../models/tenant-info';
-import {FunctionContainer} from '../models/function-container';
-import {IAppInsights} from '../models/app-insights';
-import {AiService} from './ai.service';
-import {Constants} from '../models/constants';
+import { LanguageServiceHelper } from './language.service-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from './../models/subscription';
+import { ArmServiceHelper } from './arm.service-helper';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+import { ConfigService } from './config.service';
+import { Constants} from './../models/constants';
+import { User } from '../models/user';
+import { TenantInfo } from '../models/tenant-info';
+import { FunctionContainer } from '../models/function-container';
+import { IAppInsights } from '../models/app-insights';
+import { AiService } from './ai.service';
+import { PortalService } from './portal.service';
+import { StartupInfo } from '../models/portal';
 
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
-    private functionContainerSubject: ReplaySubject<FunctionContainer>;
-    private tokenSubject: ReplaySubject<string>;
-    private languageSubject: ReplaySubject<string>;
-    private currentToken: string;
+    private _startupInfoStream: ReplaySubject<StartupInfo>;
+    private _startupInfo: StartupInfo;
+    private _inTry: boolean;
 
-    constructor(private _http: Http, private _aiService: AiService) {
-        this.tokenSubject = new ReplaySubject<string>(1);
-        this.languageSubject = new ReplaySubject<string>(1);
-        this.inIFrame = window.parent !== window;
-        this.functionContainerSubject = new ReplaySubject<FunctionContainer>(1);
+    constructor(
+        private _http: Http,
+        private _aiService: AiService,
+        private _portalService: PortalService,
+        private _configService: ConfigService,
+        private _translateService: TranslateService) {
+
+        this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
+        this.inIFrame = PortalService.inIFrame();
+        this._inTry = window.location.pathname.endsWith('/try');
+
+        this._startupInfo = {
+            token: null,
+            subscriptions: null,
+            sessionId: null,
+            acceptLanguage: null,
+            effectiveLocale: null,
+            resourceId: null
+        };
+
+        if (this.inIFrame) {
+            this._portalService.getStartupInfo()
+                .mergeMap(info => {
+                    return Observable.zip(
+                        Observable.of(info),
+                        this._getLocalizedResources(info, null),
+                        (i, r) => ({ info: i, resources: r }));
+                })
+                .subscribe(r => {
+                    const info = r.info;
+                    this.updateStartupInfo(info);
+                });
+        } else if (this._inTry) {
+            Observable.zip(
+                this._getSubscriptions(null),
+                this._getLocalizedResources(this._startupInfo, null),
+                (s, r) => ({ subscriptions : s, resources : r})
+            )
+            .subscribe(r =>{
+                this._startupInfo.subscriptions = r.subscriptions;
+                this.updateStartupInfo(this._startupInfo);
+            });
+        }
     }
 
     getTenants() {
         return this._http.get(Constants.serviceHost + 'api/tenants')
             .catch(e => Observable.of({ json: () => [] }))
-            .map<TenantInfo[]>(r => r.json());
+            .map(r => <TenantInfo[]>r.json());
+    }
+
+    getAndUpdateToken() {
+        return this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
+            .catch(e => {
+
+                // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
+                // this call in place instead of preventing it from being called because:
+                // 1. It makes the code simpler to always call the API
+                // 2. It makes it easier to test because we can test Standalone mode with production ARM
+                return Observable.of(null);
+            })
+            .map(r => {
+
+                let token: string;
+                if (r) {
+                    token = r.text();
+                } else {
+                    token = '';
+                }
+
+                this._setToken(token);
+            });
     }
 
     getUser() {
         return this._http.get(Constants.serviceHost + 'api/token')
-            .map<User>(r => r.json());
+            .map(r => <User>r.json());
     }
 
-    getToken() {
-        return this.tokenSubject;
-    }
+    private _setToken(token: string) {
+        if (token !== this._startupInfo.token) {
 
-    setToken(token: string) {
-        if (token !== this.currentToken) {
-            this.tokenSubject.next(token);
-            this.currentToken = token;
+            Observable.zip(
+                this._getSubscriptions(token),
+                this._getLocalizedResources(this._startupInfo, null),
+                (s, r) => ({ subs: s, resources: r }))
+                .subscribe(r => {
+                    const info = {
+                        token: token,
+                        subscriptions: r.subs,
+                        sessionId: this._startupInfo.sessionId,
+                        acceptLanguage: this._startupInfo.acceptLanguage,
+                        effectiveLocale: this._startupInfo.effectiveLocale,
+                        resourceId: this._startupInfo.resourceId,
+                        stringResources: r.resources
+                    };
+
+                    this.updateStartupInfo(info);
+                });
+
             try {
                 var encodedUser = token.split('.')[1];
                 var user: { unique_name: string, email: string } = JSON.parse(atob(encodedUser));
@@ -53,6 +137,15 @@ export class UserService {
         }
     }
 
+    getStartupInfo() {
+        return this._startupInfoStream;
+    }
+
+    updateStartupInfo(startupInfo: StartupInfo) {
+        this._startupInfo = startupInfo;
+        this._startupInfoStream.next(startupInfo);
+    }
+
     setTryUserName(userName: string) {
         if (userName) {
             try {
@@ -62,19 +155,35 @@ export class UserService {
             }
         }
     }
-    setLanguage(lang: string) {
-        this.languageSubject.next(lang);
+
+    private _getSubscriptions(token: string) {
+        if (this._inTry) {
+            return Observable.of([{
+                subscriptionId: 'TrialSubscription',
+                displayName: 'Trial Subscription',
+                state: 'Enabled'
+            }]);
+        }
+
+        const url = `${ArmServiceHelper.armEndpoint}/subscriptions?api-version=2014-04-01`;
+        const headers = ArmServiceHelper.getHeaders(token);
+
+        return this._http.get(url, { headers: headers })
+            .map(r => <Subscription[]>(r.json().value));
     }
 
-    getLanguage() {
-        return this.languageSubject;
-    }
+    private _getLocalizedResources(startupInfo: StartupInfo, runtime: string): Observable<any> {
 
-    getFunctionContainer() {
-        return this.functionContainerSubject;
-    }
+        const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
 
-    setFunctionContainer(fc: FunctionContainer) {
-        this.functionContainerSubject.next(fc);
+        return this._http.get(
+            `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
+            { headers: LanguageServiceHelper.getApiControllerHeaders() })
+
+            .retryWhen(LanguageServiceHelper.retry)
+            .map(r => {
+                const resources = r.json();
+                LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
+            });
     }
 }

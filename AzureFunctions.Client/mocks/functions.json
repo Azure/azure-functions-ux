@@ -1,6 +1,0 @@
-[
-    { "name": "QueueTrigger", "script_href": "mocks/QueueTrigger/index.js", "href": "", "template_id": "", "config": {} },
-    { "name": "BlobTrigger", "script_href": "mocks/BlobTrigger/index.js", "href": "", "template_id": "", "config": {} },
-    { "name": "TimerTrigger", "script_href": "mocks/TimerTrigger/index.js", "href": "", "template_id": "", "config": {} },
-    { "name": "WebHook", "script_href": "mocks/WebHook/index.js", "href": "", "template_id": "", "config": {} }
-]

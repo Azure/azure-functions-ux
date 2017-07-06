@@ -2,11 +2,6 @@
     border: none;
 }
 
-.panel-title{
-    font-weight: bold;
-    margin-right: 10px;
-}
-
 .panel-heading, .panel-body{
     background-color: #FFF;
     border: none;
@@ -42,7 +37,7 @@
 
 input, select{
     background: #fff;
-    border: 2px solid #dedede;
+    border: 1px solid #dedede;
     position: relative;
     vertical-align: middle;
     height: 29px;
@@ -100,4 +95,28 @@ button.go {
 
 .methods-list input {
     margin-left:0px
+}
+
+.hide-arrow {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.input-header {
+    display: flex;
+    width: 300px;
+}
+
+.input-header label {
+    flex-grow: 1;
+}
+
+.input-header span {
+    margin-bottom: 4px;
+    align-self: flex-end;
+}
+
+.hidden {
+    display: none;
 }

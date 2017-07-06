@@ -1,5 +1,8 @@
-import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from '@angular/core';
-import {BindingInputBase} from '../shared/models/binding-input';
+import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild} from '@angular/core';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import {PopoverContent} from "ng2-popover";
+
+import { BindingInputBase } from '../shared/models/binding-input';
 import {PortalService} from '../shared/services/portal.service';
 import {UserService} from '../shared/services/user.service';
 import {PickerInput} from '../shared/models/binding-input';
@@ -7,37 +10,44 @@ import {BroadcastService} from '../shared/services/broadcast.service';
 import {BroadcastEvent} from '../shared/models/broadcast-event';
 import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
 import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 import {PortalResources} from '../shared/models/portal-resources';
 import {GlobalStateService} from '../shared/services/global-state.service';
-
+import {FunctionApp} from '../shared/function-app';
+import { CacheService } from './../shared/services/cache.service';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ArmService } from './../shared/services/arm.service';
 
 @Component({
   selector: 'binding-input',
   templateUrl: './binding-input.component.html',
   styleUrls: ['./binding-input.component.css'],
-  inputs: ["input"]
 })
 export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
+    @ViewChild('pickerPopover') pickerPopover: PopoverContent;
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     public description: string;
     public functionReturnValue: boolean;
+    public pickerName: string;
+    public appSettingValue: string;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
+    @Input() public functionApp: FunctionApp;
+
     constructor(
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
         private _userService: UserService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _cacheService: CacheService,
+        private _armService: ArmService) {
         this.showTryView = this._globalStateService.showTryView;
-        this.disabled = _broadcastService.getDirtyState("function_disabled");
     }
 
-    set input(input: BindingInputBase<any>) {
+    @Input('input') set input(input: BindingInputBase<any>) {
         if (input.type === SettingType.picker) {
             var picker = <PickerInput>input;
             if (!input.value && picker.items) {
@@ -65,22 +75,26 @@ export class BindingInputComponent {
         return this._input;
     }
 
-    openCollectorBlade(input: PickerInput) {
-        let name = "";
+    openPicker(input: PickerInput) {
         let bladeInput = null;
-
         switch (input.resource) {
             case ResourceType.Storage:
-                name = "StorageAccountPickerBlade";
+                this.pickerName = "StorageAccountPickerBlade";
                 break;
             case ResourceType.EventHub:
-                name = "CustomConnectionPickerBlade";
-                break;
-            case ResourceType.DocumentDB:
-                name = "DocDbPickerBlade";
+                this.pickerName = "EventHub";
                 break;
             case ResourceType.ServiceBus:
-                name = "NotificationHubPickerBlade";
+                this.pickerName = "ServiceBus";
+                break;
+            case ResourceType.AppSetting:
+                this.pickerName = "AppSetting";
+                break;
+            case ResourceType.DocumentDB:
+                this.pickerName = "DocDbPickerBlade";
+                break;
+            case ResourceType.ServiceBus:
+                this.pickerName = "NotificationHubPickerBlade";
                 break;
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
@@ -102,27 +116,60 @@ export class BindingInputComponent {
 
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
-        this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
-        if (bladeInput) {
-            this._portalService.openCollectorBladeWithInputs(bladeInput, "binding-input", (appSettingName: string) => {
-                this.finishResourcePickup(appSettingName, picker);
-            });
-        } else {
-            this._portalService.openCollectorBlade(name, "binding-input", (appSettingName: string) => {
-                this.finishResourcePickup(appSettingName, picker);
-            });
+        if (this.pickerName != "EventHub" && this.pickerName != "ServiceBus" && this.pickerName != "AppSetting") {
+
+            this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
+
+            if (bladeInput) {
+                this._portalService.openCollectorBladeWithInputs(
+                    this.functionApp.site.id,
+                    bladeInput,
+                    "binding-input",
+                    (appSettingName: string) => {
+                        this.finishResourcePickup(appSettingName, picker);
+                    });
+            } else {
+                this._portalService.openCollectorBlade(
+                    this.functionApp.site.id,
+                    this.pickerName,
+                    "binding-input",
+                    (appSettingName: string) => {
+                        this.finishResourcePickup(appSettingName, picker);
+                    });
+            }
         }
     }
 
     inputChanged(value: any) {
         this.setBottomDescription(this._input.id, value);
-
         if (this._input.changeValue) {
             this._input.changeValue(value);
         }
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
+    }
+
+    onAppSettingValueShown() {
+        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
+            .do(null, e => {
+                this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+            })
+            .subscribe(r => {
+                this.appSettingValue = r.json().properties[this._input.value];
+                if (!this.appSettingValue) {
+                    this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
+                }
+                // Use timeout as content is changed
+                setTimeout(() => {
+                    this.pickerPopover.show();
+                }, 0);
+            });
+    }
+
+    onAppSettingValueHidden()
+    {
+        this.appSettingValue = null;
     }
 
     onDropDownInputChanged(value: any) {
@@ -136,6 +183,18 @@ export class BindingInputComponent {
             this.inputChanged('$return');
         }
         this.disabled = value;
+    }
+
+    closePicker() {
+        this.pickerName = "";
+        var picker = <PickerInput>this.input;
+        picker.inProcess = false;
+    }
+
+    finishDialogPicker(appSettingName: any) {
+        var picker = <PickerInput>this.input;
+        this.pickerName = "";
+        this.finishResourcePickup(appSettingName, picker);
     }
 
     private setClass(value: any) {

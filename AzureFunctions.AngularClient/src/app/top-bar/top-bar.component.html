@@ -1,17 +1,21 @@
-<dir class="top-bar-container">
-    <try-now *ngIf="_globalStateService?.showTryView && !gettingStarted"></try-now>
-    <div class="top-bar" [class.top-bar-getting-started]="gettingStarted"
-         *ngIf="(needUpdateExtensionVersion || (user && currentTenant && !inIFrame) || !_globalStateService.isAlwaysOn)">
-        <div class="azure-logo left">
-            <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+<div class="top-bar-container">
+    <try-now *ngIf="showTryView && !gettingStarted"></try-now>
+    <div *ngIf="visible" class="top-bar" [class.top-bar-getting-started]="gettingStarted">
+
+        <div *ngIf="!inIFrame" class="azure-logo left">
+            <div *ngIf="!isStandalone" class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+            <div *ngIf="isStandalone" class="vertical-align-center logo-standalone">{{ 'azureFunctionsRuntime' | translate }}</div>
         </div>
-        <div class="top-bar-info left vertical-align-center">
-            <span *ngIf="!_globalStateService.isAlwaysOn" class="left" style="padding-right:20px;">
-                <i class="fa fa-exclamation-triangle warning"></i> {{ 'topBar_alwaysOn' | translate }}. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=830855">{{ 'topBar_learnMore' | translate }}</a>.
-            </span>
-            <span *ngIf="needUpdateExtensionVersion" class="left">
-                <i class="fa fa-info"></i> {{ 'topBar_newVersion' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
-                <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=829530">{{ 'topBar_learnMore' | translate }}</a>.
+
+        <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone" [class.info-no-iframe]="!inIFrame">
+            <span *ngFor="let notification of topBarNotifications; let isFirst = first"
+                  [class.top-bar-notification-extra]="!isFirst">
+
+                <span class="top-bar-notification" [class.top-bar-notification-clickable]="!!notification.clickCallback" (click)="notificationClick(notification)">
+                    <i [class]="notification.iconClass"></i>
+                    {{notification.message}}
+                </span>
+                <a  *ngIf="notification.learnMoreLink!==''" class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
             </span>
         </div>
 
@@ -34,4 +38,4 @@
             </div>
         </div>
     </div>
-</dir>
+</div>

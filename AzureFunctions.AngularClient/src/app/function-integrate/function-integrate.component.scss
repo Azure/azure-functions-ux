@@ -1,0 +1,49 @@
+@import '../../sass/main';
+
+h2.dev-block-header{
+    display: inline;
+    @extend .text-level1-heading;
+    line-height: 29px;
+}
+
+div.dev-block-header{
+    float: right;
+    display: flex; 
+    flex-direction: row;
+}
+
+.dev-block-header > span{
+    margin-left: 10px;
+}
+
+.dev-block-header > span span{
+    color: #536E7A;
+}
+
+.dev-block-header > span > span i{
+    margin-right: 5px;
+}
+
+#toggle-editor {    
+    top: 0;
+    right: 0;
+    padding: 7px;
+    color: $primary-color;
+}
+
+.full-view {
+    height:100%;
+    width:100%;
+}
+
+
+.top-row {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    padding-bottom: 7px;
+}
+
+.toggle {
+    flex-grow:1;
+}

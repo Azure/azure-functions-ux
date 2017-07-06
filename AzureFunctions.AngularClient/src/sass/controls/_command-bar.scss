@@ -1,0 +1,26 @@
+.command-bar-wrapper{
+    border-bottom: $border;
+    padding-left: 12px;
+
+    img{
+        height: 15px;
+        width: 15px;
+        vertical-align: top;
+        margin-right: 5px;
+    }
+
+    .disabled-command{
+        opacity: 0.4;
+        filter: alpha(opacity=40); /* msie */
+        cursor: text;
+    }
+
+    .command{
+        padding: 12px;
+        display: inline-block;
+        
+        &:hover{
+            background-color: $command-color-hover;
+        }
+    }
+}

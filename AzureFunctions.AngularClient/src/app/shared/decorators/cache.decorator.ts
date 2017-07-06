@@ -1,4 +1,9 @@
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
+
 import {FunctionInfo} from '../models/function-info';
 
 let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?: any}} = {};
@@ -23,7 +28,7 @@ export function Cache(propertyKey?: string, arg?: number) {
                      (functionName === 'getBindingConfig' && window.localStorage.getItem('dev-bindings')))) {
                     return originalMethod.apply(this, args);
                 }
-            } catch(e) {
+            } catch (e) {
                 console.log(e);
             }
 
@@ -39,7 +44,7 @@ export function Cache(propertyKey?: string, arg?: number) {
                         cache.data = r;
                         return cache.data;
                     })
-                    .catch(error => {
+                    .do(null, error => {
                         delete cachedData[key];
                     })
                     .share()

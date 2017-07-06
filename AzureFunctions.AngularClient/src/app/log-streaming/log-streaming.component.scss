@@ -1,7 +1,41 @@
+@import '../../sass/main';
+
+.log-stream {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    word-break: normal;
+    word-wrap: normal;
+}
+
 .bottom-logs {
     margin: 0px 25px 10px 25px;
 }
 
 .http-logs {
     margin: 0px;
+}
+
+.action {
+    @extend .text-hl;
+    margin-left: 10px;
+    margin-bottom: 12px;
+
+}
+
+.log-toolbar {
+    height: 50px; 
+    display: flex; 
+    align-items: flex-end;
+    padding-left: 15px; 
+    padding-right: 25px;
+}
+
+.log-toolbar:hover {
+    cursor: pointer;
+}
+
+.log-empty-space {
+    flex-grow: 1;
+    height: 100%;
 }
