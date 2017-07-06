@@ -59,7 +59,7 @@
       [class.dirty]="group.controls['javaVersion'].dirty">
       {{ group.controls['javaVersion'].friendlyName }}
     </p>
-    <drop-down
+    <drop-down #javaVersionDropDown
       [group]="group.controls['javaVersion']"
       name="value"
       [options]="group.controls['javaVersion'].options">
