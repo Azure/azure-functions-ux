@@ -581,7 +581,7 @@ export class BindingComponent{
                  break;
         }
 
-        this.model.label = this.bindingValue.displayName + " " + bindingTypeString + " (" + this.bindingValue.name + ")";
+        this.model.label = this.bindingValue.displayName + " " + bindingTypeString;
     }
 
     private isHidden(name: string) {
