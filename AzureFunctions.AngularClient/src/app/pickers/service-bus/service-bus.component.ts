@@ -11,6 +11,7 @@ import { Response } from '@angular/http';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources} from '../../shared/models/portal-resources';
+import { Subscription } from 'rxjs/Subscription';
 
 class OptionTypes {    
     serviceBus: string = "ServiceBus";
@@ -42,6 +43,7 @@ export class ServiceBusComponent {
 
     private _functionApp: FunctionApp;
     private _descriptor: SiteDescriptor;
+    private _subscription: Subscription;
 
     constructor(
         private _cacheService: CacheService,
@@ -88,7 +90,10 @@ export class ServiceBusComponent {
     onChangeNamespace(value: string) {
         this.polices = null;
         this.selectedPolicy = null;
-        this._cacheService.getArm(value + "/AuthorizationRules", true).subscribe(r => {
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
+        this._subscription = this._cacheService.getArm(value + "/AuthorizationRules", true).subscribe(r => {
             this.polices = r.json();
             if (this.polices.value.length > 0) {
                 this.selectedPolicy = this.polices.value[0].id;
