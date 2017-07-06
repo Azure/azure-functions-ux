@@ -1,4 +1,4 @@
-export class HttpMethods {
+﻿export class HttpMethods {
     public GET = "get";
     public POST = "post";
     public DELETE = "delete";
@@ -13,7 +13,7 @@ export class HttpMethods {
 
 export class Constants {
     public static serviceHost =
-        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
+        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone" || window.appsvc.env.runtimeType === "OnPrem"
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
