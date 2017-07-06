@@ -243,15 +243,4 @@ export class CacheService {
             return uri + separator + key + "=" + value;
         }
     }
-
-    public _getMapSummary(): Array<any>{
-        let foo = [];
-        for(let key in this._cache){
-            foo.push({
-                key: key,
-                hasResponseObservable: !!this._cache[key].responseObservable
-            });
-        }
-        return foo;
-    }
 }

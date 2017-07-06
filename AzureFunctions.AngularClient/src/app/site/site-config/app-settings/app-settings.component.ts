@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -10,7 +10,7 @@ import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { TabsComponent } from './../../../tabs/tabs.component';
-import { CustomFormGroup, CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { TblItem } from './../../../controls/tbl/tbl.component';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -22,7 +22,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   templateUrl: './app-settings.component.html',
   styleUrls: ['./app-settings.component.scss']
 })
-export class AppSettingsComponent implements OnInit, OnChanges {
+export class AppSettingsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
@@ -31,7 +31,7 @@ export class AppSettingsComponent implements OnInit, OnChanges {
 
   private _busyState: BusyStateComponent;
   private _busyStateSubscription: RxSubscription;
-  private _busyStateKey: string;
+  private _busyStateKey: string | undefined;
 
   private _saveError: string;
 
@@ -39,6 +39,10 @@ export class AppSettingsComponent implements OnInit, OnChanges {
   private _uniqueAppSettingValidator: UniqueValidator;
 
   private _appSettingsArm: ArmObj<any>;
+
+  @Input() mainForm: FormGroup;
+
+  @Input() resourceId: string;
 
   constructor(
     private _cacheService: CacheService,
@@ -74,25 +78,13 @@ export class AppSettingsComponent implements OnInit, OnChanges {
       });
   }
 
-  @Input() mainForm: FormGroup;
-
-  @Input() resourceId: string;
-
   ngOnChanges(changes: SimpleChanges){
-    let resourceIdChanged = false;
-
-    if (changes['resourceId']) {
+    if (changes['resourceId']){
       this.resourceIdStream.next(this.resourceId);
-      resourceIdChanged = true;
     }
-
-    if(changes['mainForm'] && !resourceIdChanged)
-    {
+    if(changes['mainForm'] && !changes['resourceId']){
       this._setupForm(this._appSettingsArm);
     }
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy(): void{
@@ -202,7 +194,7 @@ export class AppSettingsComponent implements OnInit, OnChanges {
       }
 
       return this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm)
-      .switchMap(appSettingsResponse => {
+      .do(appSettingsResponse => {
         this._appSettingsArm = appSettingsResponse.json();
         return Observable.of(true);
       })

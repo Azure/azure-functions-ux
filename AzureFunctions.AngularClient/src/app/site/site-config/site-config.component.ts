@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +15,7 @@ import { ConnectionStringsComponent } from './connection-strings/connection-stri
   templateUrl: './site-config.component.html',
   styleUrls: ['./site-config.component.scss']
 })
-export class SiteConfigComponent implements OnInit {
+export class SiteConfigComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo>;
 
   public mainForm: FormGroup;
@@ -23,6 +23,10 @@ export class SiteConfigComponent implements OnInit {
 
   private _viewInfoSubscription: RxSubscription;
   private _busyState: BusyStateComponent;
+
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo){
+      this.viewInfoStream.next(viewInfo);
+  }
 
   @ViewChild(AppSettingsComponent) appSettings : AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings : ConnectionStringsComponent;
@@ -36,20 +40,12 @@ export class SiteConfigComponent implements OnInit {
       this.viewInfoStream = new Subject<TreeViewInfo>();
       this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
-      .switchMap(viewInfo => {
+      .subscribe(viewInfo => {
         this.resourceId = viewInfo.resourceId;
         this.mainForm = this._fb.group({});
         return Observable.of(viewInfo);
         // Not bothering to check RBAC since this component will only be used in Standalone mode
-      })
-      .subscribe();
-  }
-
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo){
-      this.viewInfoStream.next(viewInfo);
-  }
-
-  ngOnInit() {
+      });
   }
 
   ngOnDestroy(): void{

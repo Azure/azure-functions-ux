@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -12,7 +12,7 @@ import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { TabsComponent } from './../../../tabs/tabs.component';
-import { CustomFormGroup, CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { TblItem } from './../../../controls/tbl/tbl.component';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -25,7 +25,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   templateUrl: './connection-strings.component.html',
   styleUrls: ['./connection-strings.component.scss']
 })
-export class ConnectionStringsComponent implements OnInit, OnChanges {
+export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
@@ -34,7 +34,7 @@ export class ConnectionStringsComponent implements OnInit, OnChanges {
 
   private _busyState: BusyStateComponent;
   private _busyStateSubscription: RxSubscription;
-  private _busyStateKey: string;
+  private _busyStateKey: string | undefined;
 
   private _saveError: string;
 
@@ -43,6 +43,10 @@ export class ConnectionStringsComponent implements OnInit, OnChanges {
 
   private _connectionStringsArm: ArmObj<ConnectionStrings>;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
+
+  @Input() mainForm: FormGroup;
+
+  @Input() resourceId: string;
 
 constructor(
     private _cacheService: CacheService,
@@ -78,25 +82,13 @@ constructor(
       });
   }
 
-  @Input() mainForm: FormGroup;
-
-  @Input() resourceId: string;
-
   ngOnChanges(changes: SimpleChanges){
-    let resourceIdChanged = false;
-
-    if (changes['resourceId']) {
+    if (changes['resourceId']){
       this.resourceIdStream.next(this.resourceId);
-      resourceIdChanged = true;
     }
-
-    if(changes['mainForm'] && !resourceIdChanged)
-    {
+    if(changes['mainForm'] && !changes['resourceId']){
       this._setupForm(this._connectionStringsArm);
     }
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy(): void{
@@ -220,7 +212,7 @@ constructor(
       }
 
       return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
-      .switchMap(connectionStringsResponse => {
+      .do(connectionStringsResponse => {
         this._connectionStringsArm = connectionStringsResponse.json();
         return Observable.of(true);
       })

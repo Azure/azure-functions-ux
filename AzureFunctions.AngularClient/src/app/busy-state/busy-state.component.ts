@@ -15,7 +15,7 @@ export class BusyStateComponent implements OnInit {
     @Input() message: string;
     @Output() clear = new Subject<any>();
 
-    private busyStateMap: { [key: string]: number } = {};
+    private busyStateMap: { [key: string]: boolean } = {};
     private reservedKey: string = "-";
 
     ngOnInit() {
@@ -28,7 +28,7 @@ export class BusyStateComponent implements OnInit {
 
     setScopedBusyState(key: string): string {
         key = key || this.getNewGuid();
-        this.busyStateMap[key] = 1;
+        this.busyStateMap[key] = true;
         this.busy = true;
         return key;
     }
