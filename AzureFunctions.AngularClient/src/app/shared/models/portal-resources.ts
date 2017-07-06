@@ -6,6 +6,9 @@ export class PortalResources
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static selectAll: string = "selectAll";
+    public static allItemsSelected: string = "allItemsSelected";
+    public static numItemsSelected: string = "numItemsSelected";
     public static functionCreateErrorDetails: string = "functionCreateErrorDetails";
     public static functionCreateErrorMessage: string = "functionCreateErrorMessage";
     public static functionDev_functionErrorDetails: string = "functionDev_functionErrorDetails";

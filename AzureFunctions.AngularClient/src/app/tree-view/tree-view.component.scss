@@ -10,7 +10,9 @@
     position: relative;
 
     // Necessary for getting the bottom/top borders showing when the
-    // first/last node in the tree when the node has keyboard focus
+    // first/last node in the tree when the node has keyboard focus.
+    // If you change this value, make sure to update the scroll calculations
+    // in sidenav component logic.
     margin-top: 1px;
     margin-bottom: 1px;
 
