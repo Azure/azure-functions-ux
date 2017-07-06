@@ -5,14 +5,6 @@ import { Component, OnInit, ElementRef, Input, ViewChild } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-down-element';
 
-interface Dimensions {
-  container: HTMLDivElement;  // The containing element
-  viewScrollTop: number;      // Scrollbar position relative to top of client view
-  viewHeight: number;         // Height of the view
-  viewBottom: number;         // Bottom of the current client view
-  itemHeight: number;         // Height of each item
-}
-
 @Component({
   selector: 'multi-drop-down',
   templateUrl: './multi-drop-down.component.html',
@@ -139,11 +131,6 @@ export class MultiDropDownComponent<T> implements OnInit {
       return;
     }
 
-    let dim = this._getDimensions();
-    if (!dim) {
-      return;
-    }
-
     if (this._focusedIndex < this.options.length - 1) {
       if (this._focusedIndex > -1) {
         this.options[this._focusedIndex].isFocused = false;
@@ -152,65 +139,57 @@ export class MultiDropDownComponent<T> implements OnInit {
       this.options[++this._focusedIndex].isFocused = true;
     }
 
-    this._scrollIntoView(dim);
+    this._scrollIntoView();
   }
 
   private _moveFocusedItemUp() {
-    let dim = this._getDimensions();
-    if (!dim) {
-      return;
-    }
 
     if (this._focusedIndex > 0) {
       this.options[this._focusedIndex].isFocused = false;
       this.options[--this._focusedIndex].isFocused = true;
     }
 
-    this._scrollIntoView(dim);
+    this._scrollIntoView();
   }
 
-  private _getDimensions(): Dimensions {
-    let container = this.itemListContainer && <HTMLDivElement>this.itemListContainer.nativeElement;
+  private _getViewContainer(): HTMLDivElement {
+    return this.itemListContainer && <HTMLDivElement>this.itemListContainer.nativeElement;
+  }
 
-    if (!container) {
-      return null;
+  private _scrollIntoView() {
+    let view = this._getViewContainer();
+    if(!view){
+      return;
     }
 
-    let firstItem = container.querySelector('li');
+    let firstItem = view.querySelector('li');
     if (!firstItem) {
       return null;
     }
 
-    return {
-      container: container,
-      viewScrollTop: container.scrollTop,
-      viewHeight: container.clientHeight,
-      viewBottom: container.scrollTop + container.clientHeight,
-      itemHeight: firstItem.scrollHeight
-    }
-  }
+    let viewBottom = view.scrollTop + view.clientHeight;
+    let itemHeight = firstItem.clientHeight;
 
-  private _scrollIntoView(dim: Dimensions) {
     // If view needs to scroll down
-    if ((this._focusedIndex + 1) * dim.itemHeight > dim.viewBottom) {
+    if ((this._focusedIndex + 1) * itemHeight > viewBottom) {
 
       // If view is scrolled way out of view, then scroll so that selected is top
-      if (dim.viewBottom + dim.itemHeight < (this._focusedIndex + 1) * dim.itemHeight) {
-        dim.container.scrollTop = this._focusedIndex * dim.itemHeight;
+      if (viewBottom + itemHeight < (this._focusedIndex + 1) * itemHeight) {
+        view.scrollTop = this._focusedIndex * itemHeight;
       }
       else {
         // If view is incremented out of view, then scroll by a single item
-        dim.container.scrollTop += dim.itemHeight;
+        view.scrollTop += itemHeight;
       }
     }
-    else if (this._focusedIndex * dim.itemHeight <= dim.viewScrollTop) {
+    else if (this._focusedIndex * itemHeight <= view.scrollTop) {
       // If view needs to scroll up
 
-      if (dim.viewScrollTop - dim.itemHeight > this._focusedIndex * dim.itemHeight) {
-        dim.container.scrollTop = this._focusedIndex * dim.itemHeight;
+      if (view.scrollTop - itemHeight > this._focusedIndex * itemHeight) {
+        view.scrollTop = this._focusedIndex * itemHeight;
       }
       else {
-        dim.container.scrollTop -= dim.itemHeight;
+        view.scrollTop -= itemHeight;
       }
     }
   }
