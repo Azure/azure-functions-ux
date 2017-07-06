@@ -228,7 +228,7 @@ export class BindingManager {
 
     public static isHttpFunction(functionInfo: FunctionInfo) {
         var inputBinding = (functionInfo.config && functionInfo.config.bindings
-            ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
+            ? functionInfo.config.bindings.find(e => e.type.toLowerCase() === 'httptrigger')
             : null);
         return !!inputBinding;
     }
