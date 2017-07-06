@@ -14,7 +14,7 @@
 
     <div *ngIf="!isStandalone">
         <function-keys
-            *ngIf="functionApp?.isMultiKeySupported"
+            *ngIf="functionApp?.isMultiKeySupported && isHttpFunction"
             [functionApp]="functionApp"
             [functionInfo]="functionInfo"></function-keys>
 
