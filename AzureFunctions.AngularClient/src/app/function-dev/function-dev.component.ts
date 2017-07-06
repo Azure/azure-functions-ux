@@ -186,17 +186,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this.showFunctionKey = this.webHookType === 'github';
 
-                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
-                this.updateKeys();
-
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
-                    ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
+                    ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
                     : null);
                 if (inputBinding) {
-                    this.isHttpFunction = true;
+                    this.authLevel = inputBinding.authLevel;
                 } else {
-                    this.isHttpFunction = false;
+                    delete this.authLevel;
                 }
+                this.updateKeys();
+
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();
