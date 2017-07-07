@@ -1,6 +1,7 @@
 import {Component, Input, Output, OnInit} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Guid } from './../shared/Utilities/Guid';
+import { BusyStateScopeHelper } from './busy-state-scope-helper';
 
 @Component({
   selector: 'busy-state',
@@ -79,6 +80,10 @@ export class BusyStateComponent implements OnInit {
             guid = Guid.newGuid();
         }
         return guid;
+    }
+
+    getScopeHelper() : BusyStateScopeHelper {
+        return new BusyStateScopeHelper(this);
     }
 
 }
