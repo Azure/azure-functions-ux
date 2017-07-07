@@ -367,6 +367,7 @@
     <TypeScriptCompile Include="src\app\breadcrumbs\breadcrumbs.component.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.spec.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\busy-state\busy-state-scope-manager.ts" />
     <TypeScriptCompile Include="src\app\controls\click-to-edit\click-to-edit.component.spec.ts" />
     <TypeScriptCompile Include="src\app\controls\click-to-edit\click-to-edit.component.ts" />
     <TypeScriptCompile Include="src\app\controls\command-bar\command-bar.component.spec.ts" />

@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Guid } from './../shared/Utilities/Guid';
+import { BusyStateScopeManager } from './busy-state-scope-manager';
 
 @Component({
     selector: 'busy-state',
@@ -67,6 +68,10 @@ export class BusyStateComponent implements OnInit {
             }
         }
         return true;
+    }
+
+    getScopeManager(): BusyStateScopeManager {
+        return new BusyStateScopeManager(this);
     }
 
 }
