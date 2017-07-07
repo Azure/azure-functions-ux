@@ -11,6 +11,7 @@ import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { TabsComponent } from './../../../tabs/tabs.component';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
+import { BusyStateScopeHelper } from './../../../busy-state/busy-state-scope-helper';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { TblItem } from './../../../controls/tbl/tbl.component';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -30,8 +31,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _resourceIdSubscription: RxSubscription;
 
   private _busyState: BusyStateComponent;
-  private _busyStateSubscription: RxSubscription;
-  private _busyStateKey: string | undefined;
+  private _busyStateScopeHelper: BusyStateScopeHelper;
 
   private _saveError: string;
 
@@ -52,7 +52,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     tabsComponent: TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
-      this._busyStateSubscription = this._busyState.clear.subscribe(event => this._busyStateKey = undefined);
+      this._busyStateScopeHelper = this._busyState.getScopeHelper();
 
       this.resourceIdStream = new Subject<string>();
 
@@ -60,7 +60,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .distinctUntilChanged()
       .switchMap(() => {
         this._saveError = null;
-        this.setScopedBusyState();
+        this._busyStateScopeHelper.setScopedBusyState();
         // Not bothering to check RBAC since this component will only be used in Standalone mode
         return this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true);
       })
@@ -68,13 +68,13 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._aiService.trackEvent("/errors/app-settings", error);
         this._appSettingsArm = null;
         this._setupForm(this._appSettingsArm);
-        this.clearScopedBusyState();
+        this._busyStateScopeHelper.clearScopedBusyState();
       })
       .retry()
       .subscribe(r => {
         this._appSettingsArm = r.json();
         this._setupForm(this._appSettingsArm);
-        this.clearScopedBusyState();
+        this._busyStateScopeHelper.clearScopedBusyState();
       });
   }
 
@@ -89,36 +89,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void{
     this._resourceIdSubscription.unsubscribe();
-    this._busyStateSubscription.unsubscribe();
+    this._busyStateScopeHelper.discard();
   }
-
-  private setScopedBusyState(){
-    this._busyStateKey = this._busyState.setScopedBusyState(this._busyStateKey);
-  }
-
-  private clearScopedBusyState(){
-    this._busyState.clearScopedBusyState(this._busyStateKey);
-    this._busyStateKey = undefined;
-  }
-
-/*
-  private setScopedBusyState(){
-    this._setScopedBusyState(this._busyStateKey, this._busyState);
-  }
-
-  private clearScopedBusyState(){
-    this._clearScopedBusyState(this._busyStateKey, this._busyState);
-  }
-
-  private _setScopedBusyState(busyStateKey: string, busyState: BusyStateComponent){
-    busyStateKey = busyState.setScopedBusyState(busyStateKey);
-  }
-
-  private _clearScopedBusyState(busyStateKey: string, busyState: BusyStateComponent){
-    busyState.clearScopedBusyState(busyStateKey);
-    busyStateKey = undefined;
-  }
-*/
 
   private _setupForm(appSettingsArm: ArmObj<any>){
     
