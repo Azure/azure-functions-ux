@@ -1835,7 +1835,7 @@ export class FunctionApp {
 
     getSystemKey(): Observable<FunctionKeys> {
         const masterKey = this.masterKey
-                ? Observable.of()
+                ? Observable.of(null) // you have to pass something to Observable.of() otherwise it doesn't trigger subscribers.
                 : this.getHostSecretsFromScm();
 
         return masterKey
