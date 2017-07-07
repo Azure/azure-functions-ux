@@ -206,4 +206,9 @@ export class ApiDetailsComponent implements OnInit {
 
         //this.isEnabled = this._globalStateService.IsRoutingEnabled;
     }
+
+    openAdvancedEditor() {
+        let scmUrl = this.apiProxyEdit.functionApp.getScmUrl();
+        window.open(`${scmUrl}/dev/wwwroot/proxies.json`);
+    }
 }

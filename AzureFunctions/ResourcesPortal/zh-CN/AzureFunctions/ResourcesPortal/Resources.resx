@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions 运行时</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -166,7 +169,7 @@
     <value>查看文件</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>选择下面的模板或转到</value>
+    <value>选择下面的模板或</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>此模板是实验模板，尚无完全支持。如果遇到问题，请将 bug 提交于我们的 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub 存储库。&lt;/a&gt;</value>
@@ -231,6 +234,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>你的订阅</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>创建 Function App 将自动预配一个新的容器以在其中托管并运行你的代码。</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>未能创建应用</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2. 选择语言</value>
   </data>
@@ -262,7 +271,7 @@
     <value>继续使用此快速入门</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>对于 F#、PowerShell、Python 和 Batch，</value>
+    <value>对于 PowerShell、Python 和 Batch，</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>从源控件开始</value>
@@ -301,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>或</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>只读 - 由于你已开始使用源控件进行编辑，所以此视图为只读。</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>由于你已启用源控件集成，因此应用当前处于只读模式。若要更改编辑模式，请访问 </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>区域</value>
@@ -312,6 +321,21 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ 添加新设置</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ 添加新连接字符串</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>输入名称</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>输入一个值</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>隐藏值。单击以显示。</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>将丢失对函数 {{name}} 所做的更改。是否确实要继续?</value>
@@ -784,6 +808,9 @@
   <data name="topBar_alwaysOn" xml:space="preserve">
     <value>未启用 "AlwaysOn"。应用可能无法正常工作</value>
   </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>ID 值已在 host.json 中显式设置，这可能会在使用部署槽时引发意外行为</value>
+  </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions 发行说明。</value>
   </data>
@@ -833,7 +860,7 @@
     <value>设置配额</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>当达到每日使用限制时，将停止使用 Function App 24 小时。</value>
+    <value>超过每日使用量配额时，Function App 停止，直到第二天凌晨 0:00 UTC。</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>是否确实要撤销 {{name}} 关键值?</value>
@@ -914,7 +941,7 @@
     <value>运行时版本: {{extensionVersion}}。更新的版本可用({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>运行时版本: 最新({{latestExtensionVersion}})</value>
+    <value>运行时版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>代理(预览)</value>
@@ -936,6 +963,9 @@
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>名称为“{{name}}”的代理已存在</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure Functions 槽位(预览)当前已禁用。要启用，请访问</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>放弃</value>
@@ -1013,7 +1043,7 @@
     <value>函数</value>
   </data>
   <data name="newFunction" xml:space="preserve">
-    <value>新建函数</value>
+    <value>新函数</value>
   </data>
   <data name="functionApps" xml:space="preserve">
     <value>Function App</value>
@@ -1026,6 +1056,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>重新启动</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>交换</value>
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>下载发布配置文件</value>
@@ -1073,7 +1106,7 @@
     <value>正在停止应用“{0}”</value>
   </data>
   <data name="siteSummary_startNotifyTitle" xml:space="preserve">
-    <value>Starting app '{0}'</value>
+    <value>正在启动应用“{0}”</value>
   </data>
   <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
     <value>已成功停止应用“{0}”</value>
@@ -1142,7 +1175,7 @@
     <value>部署选项</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>配置并管理应用的部署选项，包括来自 VSTS、Github 和 Bitbucket 的持续部署以及来自 OneDrive、Dropbox、外部 Git 和更多内容的触发器部署。</value>
+    <value>配置并管理应用的部署选项，包括来自 VSTS、Github 和 Bitbucket 的持续部署以及来自 OneDrive、Dropbox、外部 GIT 和更多内容的触发器部署。</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>部署凭据</value>
@@ -1185,6 +1218,9 @@
   </data>
   <data name="feature_allSettingsInfo" xml:space="preserve">
     <value>查看所有应用服务设置。</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>常规设置</value>
@@ -1322,7 +1358,7 @@
     <value>CORS 规则(已定义 {0})</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>使用 {0} 配置的部署源</value>
+    <value>使用 {0} 配置的部署选项</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>SSL 证书</value>
@@ -1341,6 +1377,12 @@
   </data>
   <data name="tab_settings" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>配置</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>此试用版不支持管理 Function App。</value>
@@ -1383,6 +1425,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>源</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>选项</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>无法访问 Function App 的 Azure 设置。</value>
@@ -1501,97 +1546,337 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>操作</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>键功能不可用，因为此 Function App 已启用身份验证/授权。</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>快速入门</value>
+    <value>转到快速入门</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>无查询参数</value>
   </data>
   <data name="swaggerDefinition_collapse" xml:space="preserve">
-    <value>Collapse</value>
+    <value>折叠</value>
   </data>
   <data name="swaggerDefinition_delete" xml:space="preserve">
-    <value>Are you sure you want to delete your API definition?</value>
+    <value>确定要删除 API 定义吗?</value>
   </data>
   <data name="swaggerDefinition_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>文档</value>
   </data>
   <data name="swaggerDefinition_expand" xml:space="preserve">
-    <value>Expand</value>
+    <value>展开</value>
   </data>
   <data name="swaggerDefinition_external" xml:space="preserve">
-    <value>External URL</value>
+    <value>外部 URL</value>
   </data>
   <data name="swaggerDefinition_feature_overview" xml:space="preserve">
-    <value>Read the feature overview</value>
+    <value>阅读功能概述</value>
   </data>
   <data name="swaggerDefinition_getting_started" xml:space="preserve">
-    <value>Check out our getting started tutorial</value>
+    <value>查看我们的入门教程</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Function</value>
+    <value>函数</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
-    <value>API definition key</value>
+    <value>API 定义密钥</value>
   </data>
   <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
-    <value>Load API definition</value>
+    <value>加载 API 定义</value>
   </data>
   <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
-    <value>Generate API definition template</value>
+    <value>生成 API 定义模板</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>导出到 Power Apps + Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
-    <value>Cannot save malformed API definition.</value>
+    <value>无法保存格式不正确的 API 定义。</value>
   </data>
   <data name="swaggerDefinition_renew" xml:space="preserve">
-    <value>Renew</value>
+    <value>续订</value>
   </data>
   <data name="swaggerDefinition_setExternal" xml:space="preserve">
-    <value>Set external definition URL</value>
+    <value>设置外部定义 URL</value>
   </data>
   <data name="swaggerDefinition_source" xml:space="preserve">
-    <value>API definition source</value>
+    <value>API 定义源</value>
   </data>
   <data name="swaggerDefinition_subtitle" xml:space="preserve">
-    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+    <value>使用 OpenAPI 2.0 (Swagger)定义在各种服务中使用 HTTP 触发的函数</value>
   </data>
   <data name="swaggerDefinition_title" xml:space="preserve">
-    <value>Function API definition (Swagger)</value>
+    <value>函数 API 定义(Swagger)</value>
   </data>
   <data name="swaggerDefinition_url" xml:space="preserve">
-    <value>API definition URL</value>
+    <value>API 定义 URL</value>
   </data>
   <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
-    <value>Use your API definition</value>
+    <value>使用你的 API 定义</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API definition (preview)</value>
+    <value>API 定义(预览)</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
-    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+    <value>我们无法创建或更新 Swagger 终结点的密钥 swaggerdocumentationkey。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
   </data>
   <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
-    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+    <value>我们无法删除 API 定义。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
   </data>
   <data name="error_unableToGetSystemKey" xml:space="preserve">
-    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+    <value>我们无法获取密钥 {{keyName}}。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
   </data>
   <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
-    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>我们无法加载生成的 API 定义。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
   </data>
   <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
-    <value>We are unable to update the runtime config. Please try again later.</value>
+    <value>我们无法更新运行时配置。请稍后重试。</value>
   </data>
   <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
-    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>我们无法更新 API 定义。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
   </data>
   <data name="swaggerDefinition_revert" xml:space="preserve">
-    <value>Revert to last save</value>
+    <value>还原到上次保存</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>配置应用服务身份验证/授权</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#点击“生成 API 定义模板”开始</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>确定要覆盖编辑器中的 API 定义吗?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>使用你的 API 定义，从 &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; 和 &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt; 内部访问你的函数。</value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>通过从 HTTP 触发功能获取的元数据创建稀疏定义
+使用之前，请填充&lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;操作对象&lt;/a&gt;和有关 API 的其他信息。</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>此密钥可保护你的 API 定义，阻止没有此密钥的任何人访问。
+它不能保护基础 API。请查看每个函数以了解其密钥安全性。</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>设置为“函数”以允许生成托管 API 定义和模板定义。
+设置为“外部 URL”以使用托管在别处的 API 定义。</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>使用此 URL 直接访问你的 API 定义并导入到第三方工具</value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>更改 Function App 的编辑模式</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Function App 编辑模式</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>读取\写入</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>不允许重复值</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>此字段是必需的</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>名称必须包含至少 2 个字符</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>名称必须少于 60 个字符</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>“{0}”是一个无效字符</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>应用名“{0}”不可用</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>无法更新 Function App 的编辑模式。请稍后再试。</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>由于你已将编辑模式设为“只读”，因此应用当前处于只读模式。若要更改编辑模式，请访问 </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>尽管已启用源控件，但由于你已将读取/写入模式设为“读取\写入”，因此应用当前处于读取\写入模式。下次部署可能会替代所做的所有更改。若要更改编辑模式，请访问 </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>获取函数 URL</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>键</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>下载应用内容</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>是否确实要更新 {{name}} 密钥?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions 是一种可促进开发的基于事件的无服务计算体验。按需缩放，并仅为你耗用的资源付费。</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>了解有关 Azure Functions 的详细信息</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>事件中心</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>命名空间</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>未找到。</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>终结点</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>没有要显示的 Function App</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>槽位(预览)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>启用部署槽位(预览)。这是对无法被禁用并将重置任何预存在密码的 Function App 的一次性选择加入。更新后，可从每个函数的“管理”节点下复制</value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>密码。</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>创建新的部署槽位</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>部署槽位可使你将不同版本的 Function App 部署到不同的 URL。可以测试某个版本，然后在槽位之间交换内容并配置。</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>正在创建槽位 {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>已成功创建槽位 {0} </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>未能创建槽位 {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>无法更新槽位列表</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>没有对创建槽位的访问权限。请确保具有对 Function App 的合适 RBAC 访问权限且未启用读取锁定。</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App Service 计划</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>槽位(预览)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>若要获得更丰富的监视体验，包括实时指标和自定义查询，我们建议使用 &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;。</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>此值将附加到主 Web 应用程序的 URL 并作为插槽的公用地址。例如，如果你有一个名为 "contoso" 的 Web 应用程序以及一个名为 "staging" 的插槽，则新插槽将有一个类似于“http://contoso-staging.azurewebsites.net”的 URL。</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>消耗计划仅允许用于单个槽位。如果需要多个槽位，请使用专用的应用服务计划。</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>搜索函数</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>删除函数</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>需要客户端证书以调用运行此函数。若要从门户运行，必须禁用客户端证书。</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>应用当前处于只读模式，因为已配置槽。若要更改编辑模式，请访问</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>管理应用程序设置</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT 中心</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>键</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>事件(内置终结点)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>操作监控</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>策略</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>proxies.json 架构验证错误</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>在“使用”计划中，可通过设置每日使用量配额(以 GB/秒计)，限制平台使用量。一旦达到每日使用量配额，Function App 停止，直到第二天的凌晨 0:00 UTC。</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(中心策略)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(命名空间策略)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>服务总线</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>找不到应用设置。</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>显示值</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>添加应用设置</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>在下载中包括应用设置</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>这将包含一个名为 local.settings.json 的文件，该文件将包含你的应用设置值。此文件不会在下载时加密，但可使用 Azure Functions 核心工具命令行进行加密。</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>站点工具</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>内容和 Visual Studio 项目</value>
   </data>
 </root>

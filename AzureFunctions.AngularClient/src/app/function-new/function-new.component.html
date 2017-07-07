@@ -25,7 +25,8 @@
                [(ngModel)]="functionName"
                (ngModelChange)="functionNameChanged($event)"
                placeholder="{{ 'functionNew_functionName' | translate }}"
-               [ngClass]="{'input-error':!!functionNameError}">
+               [ngClass]="{'input-error':!!functionNameError}"
+               class="function-name">
 
         <pop-over *ngIf="!!functionNameError" [message]="functionNameError" [isInputError]="true">
         </pop-over>

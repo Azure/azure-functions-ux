@@ -1,5 +1,10 @@
 @import '../../../sass/main';
 
+#site-dashboard-container{
+    padding-top: 5px;
+    background-color: $chrome-color;
+}
+
 #site-dashboard-pin{
     display: inline-block;
     height: 14px;

@@ -196,14 +196,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
                 this.updateKeys();
 
-                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
-                    ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
-                    : null);
-                if (inputBinding) {
-                    this.isHttpFunction = true;
-                } else {
-                    this.isHttpFunction = false;
-                }
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();
@@ -374,15 +367,37 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
     private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
-            var code = '';
-            if (this.webHookType === 'github' || this.authLevel === 'anonymous') {
-                code = '';
-            } else if (key) {
-                code = `?code=${key}`;
+            
+            //No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
+            //WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
+            //WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
+            let code = '';
+            let clientId = '';
+            let queryParams = '';
+            if (key) {
+                code = key;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
-                code = `?code=${this.secrets.key}`;
+                code = this.secrets.key;
             } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isClientCertEnabled) {
-                code = `?code=${this.functionApp.HostSecrets}`;
+                code = this.functionApp.HostSecrets;
+            }
+
+            if (this.webHookType && key) {
+                var allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+                var keyWithValue = allKeys.find(k => k.value == key);
+                if (keyWithValue) {
+                    clientId = keyWithValue.name;
+                }
+
+                if (this.webHookType.toLowerCase() !== 'genericjson') {
+                    code = '';
+                }
+            }
+            if (code) {
+                queryParams = `?code=${code}`;
+            }
+            if (clientId) {
+                queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
             }
 
            this.functionApp.getHostJson().subscribe((jsonObj) => {
@@ -402,7 +417,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 var find = '//';
                 var re = new RegExp(find, 'g');
                 path = path.replace(re, '/');
-                path = path.replace('/?', '?') + code;
+                path = path.replace('/?', '?') + queryParams;
 
                 this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
                 this.runValid = true;
@@ -612,7 +627,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
+        var allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+        if (allKeys.length > 0) {
+            this.onChangeKey(allKeys[0].value);
+        }
         this.showFunctionInvokeUrlModal = value;
+        
     }
 
     setShowFunctionKeyModal(value: boolean) {

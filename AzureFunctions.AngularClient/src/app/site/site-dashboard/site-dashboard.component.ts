@@ -1,7 +1,10 @@
+import { Url } from './../../shared/Utilities/url';
+import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { Component, OnInit, EventEmitter, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
@@ -12,7 +15,7 @@ import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds } from './../../shared/models/constants';
+import { SiteTabIds, LocalStorageKeys, EnableTabFeature } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import {TabsComponent} from '../../tabs/tabs.component';
 import {TabComponent} from '../../tab/tab.component';
@@ -24,6 +27,7 @@ import {Descriptor, SiteDescriptor} from '../../shared/resourceDescriptors';
 import {ArmObj} from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
+import { TabSettings } from './../../shared/models/localStorage/local-storage';
 
 @Component({
     selector: 'site-dashboard',
@@ -36,13 +40,16 @@ export class SiteDashboardComponent {
     @ViewChild(TabsComponent) tabs : TabsComponent;
 
     public selectedTabId: string = SiteTabIds.overview;
+    public dynamicTabId: string | null = null;
     public site : ArmObj<Site>;
     public viewInfoStream : Subject<TreeViewInfo>;
     public viewInfo : TreeViewInfo;
     public TabIds = SiteTabIds;
     public Resources = PortalResources;
-    public activeComponent = "";
     public isStandalone = false;
+    public tabsFeature: EnableTabFeature;
+    public openFeatureId = new ReplaySubject<string>(1);
+    private _prevFeatureId : string;
 
     private _tabsLoaded = false;
     private _traceOnTabSelection = false;
@@ -53,9 +60,11 @@ export class SiteDashboardComponent {
         private _aiService : AiService,
         private _portalService: PortalService,
         private _translateService : TranslateService,
-        private _configService : ConfigService) {
+        private _configService : ConfigService,
+        private _storageService : LocalStorageService) {
 
         this.isStandalone = _configService.isStandalone();
+        this.tabsFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
@@ -107,14 +116,21 @@ export class SiteDashboardComponent {
                 // time the component is loaded.
                 setTimeout(() =>{
                     let appNode = <AppNode>this.viewInfo.node;
-                    if(appNode.openFunctionSettingsTab && this.tabs && this.tabs.tabs){
-                        let tabs = this.tabs.tabs.toArray();
-                        let functionTab = tabs.find(t => t.title === SiteTabIds.functionRuntime);
-                        if(functionTab){
-                            this.tabs.selectTab(functionTab);
-                        }
+                    if(this.tabs && this.tabs.tabs){
 
-                        appNode.openFunctionSettingsTab = false;
+                        let savedTabInfo = <TabSettings> this._storageService.getItem(LocalStorageKeys.siteTabs);
+                        if (appNode.openFunctionSettingsTab){
+                            let tabs = this.tabs.tabs.toArray();
+                            let functionTab = tabs.find(t => t.id === SiteTabIds.functionRuntime);
+                            if(functionTab){
+                                this.tabs.selectTab(functionTab);
+                            }
+
+                            appNode.openFunctionSettingsTab = false;
+                        }
+                        else if(savedTabInfo){
+                            this.dynamicTabId = savedTabInfo.dynamicTabId;
+                        }
                     }
                 },
                 100);
@@ -133,21 +149,54 @@ export class SiteDashboardComponent {
 
         this._tabsLoaded = true;
         this._traceOnTabSelection = true;
+        this._prevFeatureId = this.selectedTabId;
         this.selectedTabId = selectedTab.id;
     }
 
-    onTabClosed(closedTab: TabComponent){
-        // For now only support a single dynamic tab
-        this.activeComponent = "";
+    closeDynamicTab(tabId : string){
+        let prevFeatureId = this.dynamicTabId === this.selectedTabId ? this._prevFeatureId : null;
+        this.dynamicTabId = null;
+        this._storageService.removeItem(LocalStorageKeys.siteTabs);
+        if(prevFeatureId){
+            this.tabs.selectTabId(this._prevFeatureId);
+        }
+
+        this._prevFeatureId = null;
     }
 
-    openTab(component : string){
-        this.activeComponent = component;
+    openFeature(featureId : string){
 
-        setTimeout(() =>{
-            let tabs = this.tabs.tabs.toArray();
-            this.tabs.selectTab(tabs[tabs.length-1]);
-        }, 100);
+        if(this.tabsFeature === 'tabs'){
+            this._prevFeatureId = this.selectedTabId;
+            
+            this.dynamicTabId = featureId;
+            let tabSettings = <TabSettings>{
+                id : LocalStorageKeys.siteTabs,
+                dynamicTabId : this.dynamicTabId
+            };
+
+            this._storageService.setItem(LocalStorageKeys.siteTabs, tabSettings);
+
+            setTimeout(() =>{
+                this.tabs.selectTabId(featureId);
+            }, 100);
+
+        }
+        else if(this.tabsFeature === 'inplace'){
+            if(featureId){
+                this.tabs.selectTabId(SiteTabIds.features);
+            }
+            else{
+                this.tabs.selectTabId(this._prevFeatureId);
+            }
+
+            setTimeout(() =>{
+                this.openFeatureId.next(featureId);
+            }, 100)
+        }
+        else{
+            this.tabs.selectTabId(featureId);
+        }
     }
 
     pinPart(){

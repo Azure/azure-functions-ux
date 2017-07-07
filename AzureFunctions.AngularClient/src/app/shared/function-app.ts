@@ -1833,17 +1833,17 @@ export class FunctionApp {
             });
     }
 
-    getSystemKey() {
-        let masterKey = this.masterKey
-                ? Observable.of(this.masterKey)
-                : this.getHostSecretsFromScm().map(r => <string>r.json().masterKey);
+    getSystemKey(): Observable<FunctionKeys> {
+        const masterKey = this.masterKey
+                ? Observable.of(null) // you have to pass something to Observable.of() otherwise it doesn't trigger subscribers.
+                : this.getHostSecretsFromScm();
 
         return masterKey
-            .mergeMap(r => {
-                let headers = this.getMainSiteHeaders();
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
                 return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
-                    .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
                     (error: FunctionsResponse) => {
                         if (!error.isHandled) {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {

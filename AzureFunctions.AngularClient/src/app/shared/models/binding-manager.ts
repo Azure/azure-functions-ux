@@ -226,6 +226,13 @@ export class BindingManager {
              this.s4() + '-' + this.s4() + this.s4() + this.s4();
     }
 
+    public static isHttpFunction(functionInfo: FunctionInfo) {
+        var inputBinding = (functionInfo.config && functionInfo.config.bindings
+            ? functionInfo.config.bindings.find(e => e.type.toLowerCase() === 'httptrigger')
+            : null);
+        return !!inputBinding;
+    }
+
     private s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)

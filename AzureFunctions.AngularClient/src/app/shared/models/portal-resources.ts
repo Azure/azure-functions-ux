@@ -6,6 +6,9 @@ export class PortalResources
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static selectAll: string = "selectAll";
+    public static allItemsSelected: string = "allItemsSelected";
+    public static numItemsSelected: string = "numItemsSelected";
     public static functionCreateErrorDetails: string = "functionCreateErrorDetails";
     public static functionCreateErrorMessage: string = "functionCreateErrorMessage";
     public static functionDev_functionErrorDetails: string = "functionDev_functionErrorDetails";
@@ -369,6 +372,7 @@ export class PortalResources
     public static feature_backupsInfo: string = "feature_backupsInfo";
     public static feature_allSettingsName: string = "feature_allSettingsName";
     public static feature_allSettingsInfo: string = "feature_allSettingsInfo";
+    public static feature_functionSettingsInfo: string = "feature_functionSettingsInfo";
     public static feature_generalSettings: string = "feature_generalSettings";
     public static feature_codeDeployment: string = "feature_codeDeployment";
     public static feature_developmentTools: string = "feature_developmentTools";
@@ -421,6 +425,7 @@ export class PortalResources
     public static tab_overview: string = "tab_overview";
     public static tab_features: string = "tab_features";
     public static tab_settings: string = "tab_settings";
+    public static tab_functionSettings: string = "tab_functionSettings";
     public static tab_configuration: string = "tab_configuration";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
@@ -532,7 +537,6 @@ export class PortalResources
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
     public static keysDialog_url: string = "keysDialog_url";
-    public static keysDialog_urlAndAdminKey: string = "keysDialog_urlAndAdminKey";
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
     public static emptyBrowse: string = "emptyBrowse";
@@ -581,6 +585,7 @@ export class PortalResources
     public static serviceBusPicker_serviceBus: string = "serviceBusPicker_serviceBus";
     public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
     public static bindingInput_show: string = "bindingInput_show";
+    public static appSettingPicker_add: string = "appSettingPicker_add";
     public static download: string = "download";
     public static downloadFunctionAppContent_includeAppSettings: string = "downloadFunctionAppContent_includeAppSettings";
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";

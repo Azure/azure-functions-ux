@@ -19,6 +19,7 @@ import {PortalResources} from '../shared/models/portal-resources';
 import {FunctionApp} from '../shared/function-app';
 import {TreeViewInfo} from '../tree-view/models/tree-view-info';
 import {FunctionManageNode} from '../tree-view/function-node';
+import {BindingManager} from '../shared/models/binding-manager';
 
 @Component({
     selector: 'function-manage',
@@ -30,7 +31,8 @@ export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
     public functionInfo : FunctionInfo;
     public functionApp : FunctionApp;
-    public isStandalone : boolean;
+    public isStandalone: boolean;
+    public isHttpFunction: boolean = false;
 
     private _viewInfoStream : Subject<TreeViewInfo>;
     private _functionNode : FunctionManageNode;
@@ -51,6 +53,7 @@ export class FunctionManageComponent {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
             });
 
         this.functionStatusOptions = [

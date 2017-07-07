@@ -169,6 +169,16 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete proxy
+        ///.
+        /// </summary>
+        internal static string apiProxy_delete {
+            get {
+                return ResourceManager.GetString("apiProxy_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxy or function with that name already exists..
         /// </summary>
         internal static string apiProxy_errorExists {
@@ -183,6 +193,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string apiProxy_name {
             get {
                 return ResourceManager.GetString("apiProxy_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New proxy.
+        /// </summary>
+        internal static string apiProxy_new {
+            get {
+                return ResourceManager.GetString("apiProxy_new", resourceCulture);
             }
         }
         
@@ -1960,6 +1979,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage settings that affect the Functions runtime for all functions within your app..
+        /// </summary>
+        internal static string feature_functionSettingsInfo {
+            get {
+                return ResourceManager.GetString("feature_functionSettingsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         internal static string feature_generalSettings {
@@ -3517,15 +3545,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to URL and admin key.
-        /// </summary>
-        internal static string keysDialog_urlAndAdminKey {
-            get {
-                return ResourceManager.GetString("keysDialog_urlAndAdminKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         internal static string location {
@@ -4740,6 +4759,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tab_features {
             get {
                 return ResourceManager.GetString("tab_features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function settings.
+        /// </summary>
+        internal static string tab_functionSettings {
+            get {
+                return ResourceManager.GetString("tab_functionSettings", resourceCulture);
             }
         }
         

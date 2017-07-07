@@ -24,7 +24,7 @@
          id="tree-view-container"
          (focus)="onFocus($event)"
          (blur)="onBlur($event)"
-         (keydown)="onKeyDown($event)">
+         (keydown)="onKeyPress($event)">
         <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
     </div>
 

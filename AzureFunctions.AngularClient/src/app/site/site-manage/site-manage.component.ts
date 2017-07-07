@@ -1,3 +1,7 @@
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
+import { Url } from './../../shared/Utilities/url';
+import { SiteTabIds } from './../../shared/models/constants';
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -6,14 +10,13 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
 import { Message } from './../../shared/models/portal';
-import { DisableableBladeFeature, DisableableFeature, DisableInfo } from './../../feature-group/feature-item';
+import { DisableableBladeFeature, DisableableFeature, DisableInfo, TabFeature, FeatureItem, BladeFeature, OpenBrowserWindowFeature} from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import {ArmService} from '../../shared/services/arm.service';
 import {AuthzService} from '../../shared/services/authz.service';
@@ -23,7 +26,6 @@ import {ArmObj} from '../../shared/models/arm/arm-obj';
 import {SiteDescriptor} from '../../shared/resourceDescriptors';
 import {PopOverComponent} from '../../pop-over/pop-over.component';
 import {FeatureGroupComponent} from '../../feature-group/feature-group.component';
-import {FeatureItem, TabFeature, BladeFeature, OpenBrowserWindowFeature} from '../../feature-group/feature-item';
 import {WebsiteId} from '../../shared/models/portal';
 
 @Component({
@@ -39,16 +41,23 @@ export class SiteManageComponent {
     public groups3 : FeatureGroup[];
 
     public searchTerm = "";
+    public TabIds = SiteTabIds;
+
+    public viewInfo : TreeViewInfo;
+
+    // Used to open features within the same tab instead of in a new tab
+    public selectedFeatureId : string | null = null;
+
     private _viewInfoStream = new Subject<TreeViewInfo>();
-    private _viewInfo : TreeViewInfo;
     private _descriptor : SiteDescriptor;
 
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
 
     private _dynamicDisableInfo : DisableInfo;
+    private _tabsFeature: string;
 
-    @Output() openTabEvent = new Subject<string>();
+    private _selectedFeatureSubscription : RxSubscription;
 
     set viewInfoInput(viewInfo : TreeViewInfo){
         this._viewInfoStream.next(viewInfo);
@@ -60,17 +69,20 @@ export class SiteManageComponent {
         private _aiService : AiService,
         private _cacheService : CacheService,
         private _globalStateService : GlobalStateService,
-        private _translateService : TranslateService){
+        private _translateService : TranslateService,
+        private _siteDashboard : SiteDashboardComponent){
+
+        this._tabsFeature = Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
 
         this._viewInfoStream
         .switchMap(viewInfo =>{
-            this._viewInfo = viewInfo;
+            this.viewInfo = viewInfo;
             this._globalStateService.setBusyState();
             return this._cacheService.getArm(viewInfo.resourceId);
         })
         .switchMap(r =>{
             this._globalStateService.clearBusyState();
-            let traceKey = this._viewInfo.data.siteTraceKey;
+            let traceKey = this.viewInfo.data.siteTraceKey;
             this._aiService.stopTrace("/site/features-tab-ready", traceKey);
 
             let site : ArmObj<Site> = r.json();
@@ -122,11 +134,21 @@ export class SiteManageComponent {
                 disableMessage : this._translateService.instant(PortalResources.featureDisabledNoPermissionToPlan)
             })
         });
+
+        this._selectedFeatureSubscription = this._siteDashboard.openFeatureId.subscribe(featureId => {
+            if(this._tabsFeature === "inplace"){
+                this.selectedFeatureId = featureId;
+            }
+        })
     }
 
     ngOnDestroy() {
         this._portalService.closeBlades();
         this._disposeGroups();
+        if(this._selectedFeatureSubscription){
+            this._selectedFeatureSubscription.unsubscribe();
+            this._selectedFeatureSubscription = null;
+        }
     }
 
     private _disposeGroups(){
@@ -227,7 +249,8 @@ export class SiteManageComponent {
                 this._dynamicDisableInfo),
         ]
 
-        let generalFeatures = [
+        let generalFeatures: FeatureItem[] = [
+
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_applicationSettingsName),
                 this._translateService.instant(PortalResources.feature_applicationSettingsName) +
@@ -286,6 +309,18 @@ export class SiteManageComponent {
                 },
                 this._portalService)
         ]
+
+        if(this._tabsFeature === 'tabs' || this._tabsFeature === 'inplace'){
+            generalFeatures.splice(0, 0, 
+                new TabFeature(
+                    this._translateService.instant(PortalResources.tab_functionSettings),
+                    this._translateService.instant(PortalResources.tab_functionSettings),
+                    this._translateService.instant(PortalResources.feature_functionSettingsInfo),
+                    "images/functions.svg",
+                    SiteTabIds.functionRuntime,
+                    this._siteDashboard)
+            );
+        }
 
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
@@ -422,7 +457,7 @@ export class SiteManageComponent {
     }
 
     private _initCol3Groups(site : ArmObj<Site>){
-        let apiManagementFeatures = [
+        let apiManagementFeatures: FeatureItem[] = [
             new BladeFeature(
                 "CORS",
                 "cors api",
@@ -432,19 +467,20 @@ export class SiteManageComponent {
                     detailBlade : "ApiCors",
                     detailBladeInputs : { resourceUri : site.id }
                 },
-                this._portalService),
+                this._portalService)
+        ]
 
-            new BladeFeature(
+        if(this._tabsFeature === "tabs" || this._tabsFeature === "inplace"){
+            apiManagementFeatures.splice(0, 0, 
+                new TabFeature(
                 this._translateService.instant(PortalResources.feature_apiDefinitionName),
                 this._translateService.instant(PortalResources.feature_apiDefinitionName) + " swagger",
                 this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
                 "images/api-definition.svg",
-                {
-                    detailBlade : "ApiDefinition",
-                    detailBladeInputs : { resourceUri : site.id }
-                },
-                this._portalService),
-        ]
+                SiteTabIds.apiDefinition,
+                this._siteDashboard
+            ));
+        }
 
         let appServicePlanFeatures = [
             new DisableableBladeFeature(
@@ -574,8 +610,9 @@ export class SiteManageComponent {
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
     }
 
-    openTab(tabName : string){
-        this.openTabEvent.next(tabName);
+    navBack(){
+        // this.selectedFeatureId = null;
+        this._siteDashboard.openFeature(null);
     }
 }
 
