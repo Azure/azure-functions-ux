@@ -1,7 +1,7 @@
 import {Component, Input, Output, OnInit} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Guid } from './../shared/Utilities/Guid';
-import { BusyStateScopeHelper } from './busy-state-scope-helper';
+import { BusyStateScopeManager } from './busy-state-scope-manager';
 
 @Component({
   selector: 'busy-state',
@@ -34,12 +34,9 @@ export class BusyStateComponent implements OnInit {
         return key;
     }
 
-    clearBusyState() {
-        this.clearScopedBusyState(this.reservedKey);
-    }
-
-    clearScopedBusyState(key: string) {
-        if(!!key && this.busyStateMap[key]){
+    clearBusyState(key?: string) {
+        key = key || this.reservedKey;
+        if(this.busyStateMap[key]){
             delete this.busyStateMap[key];
         }
         this.busy = !this.isEmptyMap(this.busyStateMap);
@@ -82,8 +79,8 @@ export class BusyStateComponent implements OnInit {
         return guid;
     }
 
-    getScopeHelper() : BusyStateScopeHelper {
-        return new BusyStateScopeHelper(this);
+    getScopeManager() : BusyStateScopeManager {
+        return new BusyStateScopeManager(this);
     }
 
 }

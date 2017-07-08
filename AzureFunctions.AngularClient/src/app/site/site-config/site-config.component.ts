@@ -43,7 +43,6 @@ export class SiteConfigComponent implements OnDestroy {
       .subscribe(viewInfo => {
         this.resourceId = viewInfo.resourceId;
         this.mainForm = this._fb.group({});
-        return Observable.of(viewInfo);
         // Not bothering to check RBAC since this component will only be used in Standalone mode
       });
   }

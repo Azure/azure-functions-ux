@@ -9,9 +9,9 @@ import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
+import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { TabsComponent } from './../../../tabs/tabs.component';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { BusyStateScopeHelper } from './../../../busy-state/busy-state-scope-helper';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { TblItem } from './../../../controls/tbl/tbl.component';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -27,11 +27,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
-  public resourceIdStream: Subject<string>;
+  private _resourceIdStream: Subject<string>;
   private _resourceIdSubscription: RxSubscription;
 
   private _busyState: BusyStateComponent;
-  private _busyStateScopeHelper: BusyStateScopeHelper;
+  private _busyStateScopeManager: BusyStateScopeManager;
 
   private _saveError: string;
 
@@ -52,15 +52,15 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     tabsComponent: TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
-      this._busyStateScopeHelper = this._busyState.getScopeHelper();
+      this._busyStateScopeManager = this._busyState.getScopeManager();
 
-      this.resourceIdStream = new Subject<string>();
+      this._resourceIdStream = new Subject<string>();
 
-      this._resourceIdSubscription = this.resourceIdStream
+      this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
         this._saveError = null;
-        this._busyStateScopeHelper.setScopedBusyState();
+        this._busyStateScopeManager.setBusy();
         // Not bothering to check RBAC since this component will only be used in Standalone mode
         return this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true);
       })
@@ -68,19 +68,19 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._aiService.trackEvent("/errors/app-settings", error);
         this._appSettingsArm = null;
         this._setupForm(this._appSettingsArm);
-        this._busyStateScopeHelper.clearScopedBusyState();
+        this._busyStateScopeManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
         this._appSettingsArm = r.json();
         this._setupForm(this._appSettingsArm);
-        this._busyStateScopeHelper.clearScopedBusyState();
+        this._busyStateScopeManager.clearBusy();
       });
   }
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['resourceId']){
-      this.resourceIdStream.next(this.resourceId);
+      this._resourceIdStream.next(this.resourceId);
     }
     if(changes['mainForm'] && !changes['resourceId']){
       this._setupForm(this._appSettingsArm);
@@ -89,7 +89,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void{
     this._resourceIdSubscription.unsubscribe();
-    this._busyStateScopeHelper.discard();
+    this._busyStateScopeManager.dispose();
   }
 
   private _setupForm(appSettingsArm: ArmObj<any>){
@@ -158,7 +158,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
     if(this.mainForm.valid){
       let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-      delete appSettingsArm.properties;
       appSettingsArm.properties = {};
 
       for(let i = 0; i < appSettingGroups.length; i++){
@@ -166,9 +165,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       }
 
       return this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm)
-      .do(appSettingsResponse => {
+      .map(appSettingsResponse => {
         this._appSettingsArm = appSettingsResponse.json();
-        return Observable.of(true);
+        return true;
       })
       .catch(error => {
         //this._appSettingsArm = null;
