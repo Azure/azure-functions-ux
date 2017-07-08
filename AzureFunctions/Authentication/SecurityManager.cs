@@ -21,7 +21,7 @@ namespace AzureFunctions.Authentication
 
         private static IAuthProvider GetAuthProvider(HttpContextBase context)
         {
-            return context.Request.Url.IsLoopback || _settings.RuntimeType == RuntimeType.OnPrem
+            return context.Request.Url.IsLoopback
                 ? _localhostAuthProvider
                 : _frontEndAuthProvider;
         }
