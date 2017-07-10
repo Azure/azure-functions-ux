@@ -165,7 +165,7 @@ constructor(
     });
   }
 
-  save() : Observable<boolean>{
+  save() : Observable<string>{
     let connectionStringGroups = this.groupArray.controls;
 
     if(this.mainForm.valid){
@@ -185,16 +185,16 @@ constructor(
       return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
       .map(connectionStringsResponse => {
         this._connectionStringsArm = connectionStringsResponse.json();
-        return true;
+        return "OK";
       })
       .catch(error => {
         //this._connectionStringsArm = null;
-        this._saveError = "Error"; //TODO: Get message from error and display in a notification
-        return Observable.of(false);
+        this._saveError = error._body;
+        return Observable.of(error._body);
       });
     }
     else{
-      return Observable.of(false);
+      return Observable.of("Failed to save Connection Strings due to invalid input.");
     }
   }
 

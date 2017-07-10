@@ -9,6 +9,7 @@ import { TabsComponent } from './../../tabs/tabs.component';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
+import { PortalService } from './../../shared/services/portal.service';
 
 @Component({
   selector: 'site-config',
@@ -33,6 +34,7 @@ export class SiteConfigComponent implements OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
+    private _portalService: PortalService,
     tabsComponent: TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
@@ -56,17 +58,32 @@ export class SiteConfigComponent implements OnDestroy {
     this.connectionStrings.validate();
 
     this._busyState.setBusyState();
-    Observable.zip(
-      this.appSettings.save(),
-      this.connectionStrings.save(),
-      (a, c) => ({appSettingsSaved: a, connectionStringsSaved: c})
-    )
+    let notificationId = null;
+    this._portalService.startNotification(
+      "Updating web app settings",
+      "Updating web app settings")
+    .switchMap(s => {
+      notificationId = s.id;
+      return Observable.zip(
+        this.appSettings.save(),
+        this.connectionStrings.save(),
+        (a, c) => ({appSettingsResult: a, connectionStringsResult: c})
+      )
+    })
     .subscribe(r => {
       this._busyState.clearBusyState();
       this.mainForm = this._fb.group({});
-      if(!r.appSettingsSaved || !r.connectionStringsSaved){
+
+      let saveResults: string[] = [r.appSettingsResult, r.connectionStringsResult];
+      let saveFailures: string[] = saveResults.filter(r => r != "OK");
+      let saveSuccess: boolean = !saveFailures.length || saveFailures.length == 0;
+      let saveNotification = saveSuccess ? "Successfully updated web app settings" : "Failed to update web app settings: " + JSON.stringify(saveFailures);
+
+      if(!saveSuccess){
         this.mainForm.markAsDirty();
       }
+
+      this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
     });
   }
 

@@ -153,7 +153,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     });
   }
 
-  save() : Observable<boolean>{
+  save() : Observable<string>{
     let appSettingGroups = this.groupArray.controls;
 
     if(this.mainForm.valid){
@@ -167,16 +167,16 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       return this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm)
       .map(appSettingsResponse => {
         this._appSettingsArm = appSettingsResponse.json();
-        return true;
+        return "OK";
       })
       .catch(error => {
         //this._appSettingsArm = null;
-        this._saveError = "Error"; //TODO: Get message from error and display in a notification
-        return Observable.of(false);
+        this._saveError = error._body;
+        return Observable.of(error._body);
       });
     }
     else{
-      return(Observable.of(false));
+      return(Observable.of("Failed to save App Settings due to invalid input."));
     }
   }
 
