@@ -1,6 +1,4 @@
 ﻿import { Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked } from '@angular/core';
-import { Headers } from '@angular/http';
-import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,7 +10,8 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
 import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, TokenInput } from '../shared/models/binding-input';
-import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, Moniker, GraphSubscription, GraphSubscriptionEntry, EnumOption, ODataTypeMapping } from '../shared/models/binding';
+import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
+import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -26,10 +25,11 @@ import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
 import { Constants } from "app/shared/models/constants";
 import { MobileAppsClient } from "../shared/models/mobile-apps-client";
+import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
+import { Url } from '../shared/Utilities/url';
 
 declare var jQuery: any;
 declare var marked: any;
-declare var require: any
 
 @Component({
     selector: 'binding',
@@ -250,16 +250,8 @@ export class BindingComponent {
             return;
         }
 
-        let ddValue = rule.values[0].value;
-
-
-        rule.values.forEach((value) => {
-            var findResult = this.bindingValue.settings.find((s) => {
-                return s.name === value.value && s.value;
-            });
-            if (findResult) {
-                ddValue = value.value;
-            }
+        let existingSetting = this.bindingValue.settings.find(s => {
+            return s.name === rule.name;
         });
 
         let ddInput = new SelectInput();
@@ -267,8 +259,12 @@ export class BindingComponent {
         ddInput.isHidden = isHidden;
         ddInput.label = rule.label;
         ddInput.help = rule.help;
-        ddInput.value = ddValue;
+        ddInput.value = rule.values[0].value;
         ddInput.enum = rule.values;
+
+        if (existingSetting) {
+            ddInput.value = existingSetting.value;
+        }
 
         ddInput.changeValue = () => {
             var rules = <Rule[]><any>ddInput.enum;
@@ -289,8 +285,14 @@ export class BindingComponent {
                     if (checkBoxInput instanceof CheckBoxListInput) {
                         // Change which options are shown & reset selected options
                         if (!this.enumOptionsEqual(checkBoxInput.enum, v.shownCheckboxOptions.values)) {
+                            var oldVals = checkBoxInput.getArrayValue();
                             checkBoxInput.clear();
-                            checkBoxInput.enum = v.shownCheckboxOptions.values;                            
+                            checkBoxInput.enum = v.shownCheckboxOptions.values; 
+                            checkBoxInput.enum.forEach(e => {
+                                if (oldVals.includes(e.value)) {
+                                    checkBoxInput.value[e.value] = true;
+                                }
+                            });
                         }
                     }
                 }
@@ -354,7 +356,6 @@ export class BindingComponent {
             if (bindingSchema) {
                 var selectedStorage = '';
                 bindingSchema.settings.forEach((setting) => {
-
                     var functionSettingV = this.bindingValue.settings.find((s) => {
                         return s.name === setting.name;
                     });
@@ -667,102 +668,9 @@ export class BindingComponent {
         this.isDirty = false;
     }
 
-    saveWebHook() {     
-        // 1. Retrieve subscription parameters from input values
-        var subscriptionResource = this.model.inputs.find((input) => {
-            return input.id === "Listen";
-        });
-        var changeTypeInput = this.model.inputs.find((input) => {
-            return input.id === "ChangeType";
-        });
-        var changeType = String((<CheckBoxListInput>changeTypeInput).getArrayValue()); // cast input value to string[], then convert to string for POST request
-        var expiration = new Date();
-        expiration.setUTCMilliseconds(expiration.getUTCMilliseconds() + 4230 * 60 * 1000);
-
-        var notificationUrl = this.functionApp.getMainSiteUrl() + "/admin/extensions/O365Extension"
-        var clientState = UUID.UUID();
-
-        var subscription = new GraphSubscription(changeType, notificationUrl, subscriptionResource.value, expiration.toISOString(), clientState);
-
-        var token = null;
-
-        // 2. Retrieve graph token through function app
-        var options = {
-            parameters: {
-                resource: Constants.MSGraphResource
-            }
-        };
-
-        // Mobile Service Client returns promises that only support the 'then' continuation (for now):
-        // https://azure.github.io/azure-mobile-apps-js-client/global.html#Promise
-
-        let dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl(), this._aiService);
-        dataRetriever.retrieveOID(options).then(values => {
-            // 2.1 use graph token to subscribe to MS graph resource
-            this.subscribeToGraphResource(subscription, values.token).subscribe(
-                subscription => {
-                    // 3. Save new file containing the mapping: subscription ID <--> principal ID
-                    var moniker = new Moniker(Constants.MSGraphResource, null, values.OID);
-                    var entry = new GraphSubscriptionEntry(subscription, clientState, JSON.stringify(moniker));
-                    this.getBYOBStorageLocation().subscribe(
-                        storageLocation => {
-                            // Get storage location; app setting overrides default
-                            if (!storageLocation) {
-                                storageLocation = Constants.defaultBYOBLocation;
-                            } else {
-                                storageLocation = storageLocation.replace(/\\/g, '/').split("D:/home")[1];
-                            }
-                            var scm = this.functionApp.getScmUrl().concat("/api/vfs", storageLocation, '/', subscription);
-                            this.functionApp.saveFile(scm, JSON.stringify(entry)).subscribe();
-                        },
-                        err => {
-                            this._aiService.trackException(err, 'binding - saveWebhook() - getBYOBStorageLocation()');
-                        });
-                },
-                err => {
-                    this._aiService.trackException(err, 'binding - saveWebhook() - subscribeToGraphResource()');
-                });
-        });
-
-        // 4. Directly map the resource to the corresponding OData Type 
-        // used to transform webhook notifications into useful objects
-        var resourceKeys = Object.keys(ODataTypeMapping);
-        resourceKeys.forEach(key => {
-            if (subscriptionResource.value.search(new RegExp(key, "i")) !== -1) {
-                var typeInput = this.model.inputs.find((input) => {
-                    return input.id === "Type";
-                });
-
-                typeInput.value = ODataTypeMapping[key];
-            }
-        });
-
-        // 5. Save inputs to .json like normal
-        this.saveClicked();
-    }
-
-    private getBYOBStorageLocation() {
-        // if app setting set, retrieve location after D:\home (vfs prepends path with D:\home)
-        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`)
-            .map(r => {
-                let appSettingsArm: ArmObj<any> = r.json();
-                return appSettingsArm.properties[Constants.BYOBTokenMapSettingName];
-            });
-    }
-
-    private subscribeToGraphResource(subscription: GraphSubscription, token: string) {
-        var url = Constants.MSGraphResource + "/v" +
-            Constants.latestMSGraphVersion + "/" +
-            "subscriptions";
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', `Bearer ${token}`);
-        var content = JSON.stringify(subscription);
-        return this._cacheService.post(url, null, headers, JSON.stringify(subscription))
-            .map(r => {
-                let newSubscription: GraphSubscription = r.json();
-                return newSubscription.id;
-            });
+    saveWebHook() {
+        let helper = new MicrosoftGraphHelper(this, this._cacheService, this._aiService, this.functionApp);
+        helper.saveWebHook();
     }
 
     onValidChanged(input: BindingInputBase<any>) {

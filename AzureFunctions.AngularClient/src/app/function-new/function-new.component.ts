@@ -329,7 +329,12 @@ export class FunctionNewComponent {
                                 if (principalId) {
                                     this._dataRetriever.retrieveOID(null, principalId).then(values => {
 
-                                        this.functionApp.createApplicationSetting(values.appSettingName, values.OID);  // create new app setting for identity
+                                        this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
+                                            r => { },
+                                            error => {
+                                                this._aiService.trackException(error, 'New function component - createApplicationSetting()');
+                                            }
+                                        );  // create new app setting for identity
 
                                         principalId.value = "%".concat(values.appSettingName, "%");
 

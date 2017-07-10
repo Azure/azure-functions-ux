@@ -15,7 +15,6 @@ import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ArmService } from './../shared/services/arm.service';
-import { Subject } from 'rxjs/Subject';
 import { Constants } from "app/shared/models/constants";
 import { MobileAppsClient } from "../shared/models/mobile-apps-client";
 import { AiService } from '../shared/services/ai.service';
@@ -38,7 +37,6 @@ export class BindingInputComponent {
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
     @Input() public functionApp: FunctionApp;
-    @Output() select = new Subject<string>();
 
     constructor(
         private _portalService: PortalService,
@@ -153,7 +151,7 @@ export class BindingInputComponent {
         }
 
         // Goal of this is to have only one of two inputs enabled at once [Principal Id or Id Token]
-        if (typeof this._input.counterpartToDisable != "undefined") {
+        if (!this._input.counterpartToDisable) {
             // If this input is not empty, disable the other input
             // If this input is empty, enable the other input
             var inputs = parent.document.getElementsByTagName("input");

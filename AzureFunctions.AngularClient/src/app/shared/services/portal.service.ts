@@ -1,4 +1,4 @@
-import { Url } from './../Utilities/url';
+﻿import { Url } from './../Utilities/url';
 import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -240,5 +240,10 @@ export class PortalService {
 
     public static inIFrame() : boolean{
         return window.parent !== window && window.location.pathname !== "/context.html";
+    }
+
+    public static MSGraphFeature(): boolean {
+        let shellUrl = decodeURI(window.location.href);
+        return Url.getParameterByName(shellUrl, "feature") === "MSGraph";
     }
 }
