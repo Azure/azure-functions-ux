@@ -57,6 +57,8 @@ export class GeneralSettingsGroups {
   //styleUrls: ['./general-settings.component.scss']
 })
 export class GeneralSettingsComponent implements OnChanges, OnDestroy {
+  public debug = false; //for debugging
+  
   public Resources = PortalResources;
   public group: FormGroup;
 
@@ -315,31 +317,37 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     let clientAffinityEnabledGroup = this._fb.group({
       value: siteConfigArm.properties.clientAffinityEnabled
     });
+    (<any>clientAffinityEnabledGroup).timeStamp = new Date(); //for debugging
 
 
     let use32BitWorkerProcessGroup = this._fb.group({
       value: webConfigArm.properties.use32BitWorkerProcess
     });
+    (<any>use32BitWorkerProcessGroup).timeStamp = new Date(); //for debugging
 
 
     let webSocketsEnabledGroup = this._fb.group({
       value: webConfigArm.properties.webSocketsEnabled
     });
+    (<any>webSocketsEnabledGroup).timeStamp = new Date(); //for debugging
 
 
     let alwaysOnGroup = this._fb.group({
       value: webConfigArm.properties.alwaysOn
     });
+    (<any>alwaysOnGroup).timeStamp = new Date(); //for debugging
 
 
     let managedPipelineModeGroup = this._fb.group({
       value: webConfigArm.properties.managedPipelineMode
     });
+    (<any>managedPipelineModeGroup).timeStamp = new Date(); //for debugging
 
 
     let remoteDebuggingEnabledGroup = this._fb.group({
       value: webConfigArm.properties.remoteDebuggingEnabled
     });
+    (<any>remoteDebuggingEnabledGroup).timeStamp = new Date(); //for debugging
 
 
     let remoteDebuggingVersionGroup = this._fb.group({
@@ -348,6 +356,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if(!webConfigArm.properties.remoteDebuggingEnabled){
       remoteDebuggingVersionGroup.disable();
     }
+    (<any>remoteDebuggingVersionGroup).timeStamp = new Date(); //for debugging
 
     return {
       clientAffinityEnabled: clientAffinityEnabledGroup,
@@ -381,6 +390,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultValue
     });
     (<any>netFrameWorkVersionGroup).options = netFrameworkVersionOptions;
+    (<any>netFrameWorkVersionGroup).timeStamp = new Date(); //for debugging
 
     return netFrameWorkVersionGroup;
   }
@@ -406,6 +416,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultValue
     });
     (<any>phpVersionGroup).options = phpVersionOptions;
+    (<any>phpVersionGroup).timeStamp = new Date(); //for debugging
 
     return phpVersionGroup;
   }
@@ -431,6 +442,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultValue
     });
     (<any>pythonVersionGroup).options = pythonVersionOptions;
+    (<any>pythonVersionGroup).timeStamp = new Date(); //for debugging
 
     return pythonVersionGroup;
   }
@@ -481,6 +493,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultJavaVersion
     });
     (<any>javaVersionGroup).options = javaVersionOptions;
+    (<any>javaVersionGroup).timeStamp = new Date(); //for debugging
 
     //MinorVersion
     if(defaultJavaVersion){
@@ -500,7 +513,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultJavaMinorVersion
     });
     (<any>javaMinorVersionGroup).options = javaMinorVersionOptions;
-
+    (<any>javaMinorVersionGroup).timeStamp = new Date(); //for debugging
 
     //WebContainer
     if(defaultJavaVersion){
@@ -526,6 +539,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       value: defaultJavaWebContainer
     });
     (<any>javaWebContainerGroup).options = javaWebContainerOptions;
+    (<any>javaWebContainerGroup).timeStamp = new Date(); //for debugging
 
     return {
       majorVersion:javaVersionGroup,
@@ -582,6 +596,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         value: defaultJavaMinorVersion
       });
       (<any>javaMinorVersionGroup).options = javaMinorVersionOptions;
+      (<any>javaMinorVersionGroup).timeStamp = new Date(); //for debugging
 
       if(this.group.contains("javaMinorVersion")){
         this.group.setControl("javaMinorVersion", javaMinorVersionGroup);
@@ -598,6 +613,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         value: defaultJavaWebContainer
       });
       (<any>javaWebContainerGroup).options = javaWebContainerOptions;
+      (<any>javaWebContainerGroup).timeStamp = new Date(); //for debugging
 
       if(this.group.contains("javaWebContainer")){
         this.group.setControl("javaWebContainer", javaWebContainerGroup);
@@ -868,4 +884,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   //  this.group.reset();
   //  this._setupForm(this._webConfigArm);
   //}
+
+  public generalSettingsClick(){
+    let x = 1;
+    let y = x + 1;
+    //const saveResults: string[] = ["A", "B"];
+    //let saveFailures: string[] = saveResults.filter(r => r === "X");
+    //alert(!saveFailures.length);
+    //alert(saveFailures.length == 0);
+    //alert(saveFailures.length);
+  }
 }

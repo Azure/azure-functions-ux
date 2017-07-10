@@ -52,6 +52,13 @@
     <div class="link add-setting" (click)="addConnectionString()">
       {{ 'addNewConnectionString' | translate }}
     </div>
+    
+    <div *ngIf="debug === true">
+      <p>{{mainForm.timeStamp}}</p>
+      <p>{{this.groupArray.parent.timeStamp}}</p>
+      <p>busyStateKeys: {{_busyState.name}}</p>
+      <p>busyStateKeys: {{_busyState.busyStateKeys}}</p>
+    </div>
 
   </ng-container>
 

@@ -25,6 +25,8 @@ export interface SaveResult {
   styleUrls: ['./site-config.component.scss']
 })
 export class SiteConfigComponent implements OnDestroy {
+  public debug = false; //for debugging
+
   public viewInfoStream: Subject<TreeViewInfo>;
   private _viewInfoSubscription: RxSubscription;
   private _writePermission: boolean = true;
@@ -115,6 +117,7 @@ export class SiteConfigComponent implements OnDestroy {
     .subscribe(r => {
       this._busyState.clearBusyState();
       this.mainForm = this._fb.group({});
+      (<any>this.mainForm).timeStamp = new Date(); //for debugging
 
       const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
       let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
@@ -131,5 +134,6 @@ export class SiteConfigComponent implements OnDestroy {
 
   discard(){
     this.mainForm = this._fb.group({});
+    (<any>this.mainForm).timeStamp = new Date(); //for debugging
   }
 }

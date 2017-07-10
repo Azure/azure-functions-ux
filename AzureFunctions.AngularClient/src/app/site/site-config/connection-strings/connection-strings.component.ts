@@ -34,6 +34,8 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   //styleUrls: ['./connection-strings.component.scss']
 })
 export class ConnectionStringsComponent implements OnChanges, OnDestroy {
+  public debug = false; //for debugging
+
   public Resources = PortalResources;
   public groupArray: FormArray;
 
