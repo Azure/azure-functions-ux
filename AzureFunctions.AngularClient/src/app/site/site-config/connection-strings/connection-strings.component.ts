@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SaveResult } from './../site-config.component';
+import { SaveResult, ResourceInfo } from './../site-config.component';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
@@ -31,8 +31,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
-  private _resourceIdStream: Subject<string>;
-  private _resourceIdSubscription: RxSubscription;
+  private _resourceInfoStream: Subject<ResourceInfo>;
+  private _resourceInfoSubscription: RxSubscription;
+  public hasWritePermissions: boolean = true;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
@@ -47,7 +48,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
   @Input() mainForm: FormGroup;
 
-  @Input() resourceId: string;
+  @Input() resourceInfo: ResourceInfo;
 
 constructor(
     private _cacheService: CacheService,
@@ -59,15 +60,13 @@ constructor(
       this._busyState = tabsComponent.busyState;
       this._busyStateScopeManager = this._busyState.getScopeManager();
 
-      this._resourceIdStream = new Subject<string>();
-
-      this._resourceIdSubscription = this._resourceIdStream
+      this._resourceInfoStream = new Subject<ResourceInfo>();
+      this._resourceInfoSubscription = this._resourceInfoStream
       .distinctUntilChanged()
       .switchMap(() => {
         this._saveError = null;
         this._busyStateScopeManager.setBusy();
-        // Not bothering to check RBAC since this component will only be used in Standalone mode
-        return this._cacheService.postArm(`${this.resourceId}/config/connectionstrings/list`, true);
+        return this._cacheService.postArm(`${this.resourceInfo.resourceId}/config/connectionstrings/list`, true);
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/connection-strings", error);
@@ -84,16 +83,17 @@ constructor(
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if (changes['resourceId']){
-      this._resourceIdStream.next(this.resourceId);
+    if (changes['resourceInfo']){
+      this._resourceInfoStream.next(this.resourceInfo);
+      this.hasWritePermissions = this.resourceInfo.writePermission && !this.resourceInfo.readOnlyLock;
     }
-    if(changes['mainForm'] && !changes['resourceId']){
+    if(changes['mainForm'] && !changes['resourceInfo']){
       this._setupForm(this._connectionStringsArm);
     }
   }
 
   ngOnDestroy(): void{
-    this._resourceIdSubscription.unsubscribe();
+    this._resourceInfoSubscription.unsubscribe();
     this._busyStateScopeManager.dispose();
   }
 
@@ -183,7 +183,7 @@ constructor(
         connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
       }
 
-      return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
+      return this._cacheService.putArm(`${this.resourceInfo.resourceId}/config/connectionstrings`, null, connectionStringsArm)
       .map(connectionStringsResponse => {
         this._connectionStringsArm = connectionStringsResponse.json();
         return {

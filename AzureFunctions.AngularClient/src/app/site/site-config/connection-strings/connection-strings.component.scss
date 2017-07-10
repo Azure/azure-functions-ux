@@ -42,8 +42,26 @@ h3{
     font-weight: normal;
     margin-left: 10px;
     margin-bottom: 0px;
+    margin-top: 55px;
 
-    &.connection-strings{
-        margin-top: 75px;
+    &.first-config-heading{
+        margin-top: 10px;
     }
+}
+
+.settings-group-wrapper{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.placeholder{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    border: 1px solid black;
+    background: rgba(0, 0, 0, 0.60);
+    color: white;
+    text-align: center;
 }

@@ -3,21 +3,20 @@
     displayText="Save"
     iconUrl="images/save.svg"
     (click)="save()"
-    [disabled]="!mainForm.valid || mainForm.pristine"></command>
+    [disabled]="!mainForm.valid || mainForm.pristine || !hasWritePermissions"></command>
 
   <command
     displayText="Discard"
     iconUrl="images/discard.svg"
     (click)="discard()"
-    [disabled]="mainForm.pristine"></command>
+    [disabled]="mainForm.pristine || !hasWritePermissions"></command>
 
 </command-bar>
 
 <div *ngIf="!!mainForm" id="site-config-wrapper">
 
-<app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
+<app-settings [mainForm]="mainForm" [resourceInfo]="resourceInfo"></app-settings>
 
-<connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
-
+<connection-strings [mainForm]="mainForm" [resourceInfo]="resourceInfo"></connection-strings>
 
 </div>
