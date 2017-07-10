@@ -67,6 +67,10 @@
         width: 100%;
     }
 
+    &:focus{
+        outline: none;
+    }
+
     .drop-down-selected-value{
         height: 22px;
     }
