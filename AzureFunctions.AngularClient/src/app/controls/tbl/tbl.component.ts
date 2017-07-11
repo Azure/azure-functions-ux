@@ -1,3 +1,4 @@
+import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { FormGroup } from '@angular/forms';
@@ -8,11 +9,6 @@ export interface TblItem {
   data: any
 }
 
-interface Coordinates {
-  rowIndex: number;
-  cellIndex: number;
-}
-
 @Component({
   selector: 'tbl',
   template: `
@@ -21,6 +17,7 @@ interface Coordinates {
     [class]='tblClass'
     tabindex='0'
     (focus)='onFocus($event)'
+    (blur)='onBlur($event)'
     (keydown)="onKeyPress($event)">
       <ng-content></ng-content>
   </table>`,
@@ -56,19 +53,22 @@ export class TblComponent implements OnInit, OnChanges {
 
   onFocus(event: FocusEvent) {
     if (this._focusedRowIndex === -1 && this._focusedCellIndex === -1) {
-      const rows = this._getRows();
-      if (rows.length > 0) {
-        const row = rows[0];
+      this._focusedRowIndex = 0;
+      this._focusedCellIndex = 0;
+    }
 
-        const cells = this._getCells(row);
+    const rows = this._getRows();
+    const cell = this._getCurrentCellOrReset(rows);
+    if (cell) {
+      Dom.setFocus(cell);
+    }
+  }
 
-        if (cells.length > 0) {
-          cells[0].classList.add('focused');
-        }
-
-        this._focusedRowIndex = 0;
-        this._focusedCellIndex = 0;
-      }
+  onBlur(event: FocusEvent) {
+    const rows = this._getRows();
+    const curCell = this._getCurrentCellOrReset(rows);
+    if (curCell) {
+      Dom.clearFocus(curCell);
     }
   }
 
@@ -97,9 +97,35 @@ export class TblComponent implements OnInit, OnChanges {
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex - 1, this._focusedCellIndex);
 
+    } else if (event.keyCode === KeyCodes.enter) {
+
+      const rows = this._getRows();
+      const curCell = this._getCurrentCellOrReset(rows);
+      if (curCell) {
+        curCell.click();
+      }
     }
 
-    event.preventDefault();
+    if (event.keyCode !== KeyCodes.tab) {
+      event.preventDefault();
+    }
+  }
+
+  private _getCurrentCellOrReset(rows: NodeListOf<HTMLTableRowElement>) {
+    if (this._focusedRowIndex >= 0 && this._focusedRowIndex < rows.length) {
+      const rowCells = this._getCells(rows[this._focusedRowIndex]);
+      if (this._focusedCellIndex >= 0 && this._focusedCellIndex < rowCells.length) {
+        return Dom.getTabbableControl(rowCells[this._focusedCellIndex]);
+      } else {
+        this._focusedRowIndex = -1;
+        this._focusedCellIndex = -1;
+      }
+    } else {
+      this._focusedRowIndex = -1;
+      this._focusedCellIndex = -1;
+    }
+
+    return null;
   }
 
   private _getRows() {
@@ -114,14 +140,9 @@ export class TblComponent implements OnInit, OnChanges {
   private _clearFocusOnCell(
     rows: NodeListOf<HTMLTableRowElement>,
     rowIndex: number,
-    cellIndex: number){
+    cellIndex: number) {
 
     let srcRow: HTMLTableRowElement;
-    const coordinates: Coordinates = {
-      rowIndex: -1,
-      cellIndex: -1
-    };
-
     if (rowIndex >= 0 && rowIndex < rows.length) {
       srcRow = rows[rowIndex];
     }
@@ -130,7 +151,8 @@ export class TblComponent implements OnInit, OnChanges {
       const srcCells = this._getCells(srcRow);
 
       if (cellIndex >= 0 && cellIndex < srcCells.length) {
-        srcCells[cellIndex].classList.remove('focused');
+        const control = Dom.getTabbableControl(srcCells[cellIndex]);
+        Dom.clearFocus(control);
       }
     }
   }
@@ -139,7 +161,7 @@ export class TblComponent implements OnInit, OnChanges {
     rows: NodeListOf<HTMLTableRowElement>,
     rowIndex: number,
     cellIndex: number
-  ){
+  ) {
     let destRow: HTMLTableRowElement;
     let finalRowIndex = -1;
     let finalCellIndex = -1;
@@ -176,7 +198,8 @@ export class TblComponent implements OnInit, OnChanges {
       }
 
       if (destCell) {
-        destCell.classList.add('focused');
+        const control = Dom.getTabbableControl(destCell);
+        Dom.setFocus(control);
       }
     }
 
