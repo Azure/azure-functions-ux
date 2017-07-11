@@ -5,35 +5,34 @@ import 'rxjs/add/observable/of';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
-import {FunctionsNode} from './functions-node';
+import { FunctionsNode } from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import {FunctionContainer} from '../shared/models/function-container';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionInfo} from '../shared/models/function-info';
+import { FunctionContainer } from '../shared/models/function-container';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionInfo } from '../shared/models/function-info';
 
-export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
+export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.function;
     private _enabledTitle: string;
     private _disabledTitle: string;
 
     constructor(
-        sideNav : SideNavComponent,
-        private _functionsNode : FunctionsNode,
-        public functionInfo : FunctionInfo,
-        parentNode : TreeNode){
+        sideNav: SideNavComponent,
+        private _functionsNode: FunctionsNode,
+        public functionInfo: FunctionInfo,
+        parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
             parentNode);
         this.iconClass = "tree-node-svg-icon";
         this.iconUrl = "images/function_f.svg";
-        const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
         this._enabledTitle = this.functionInfo.name;
-        this._disabledTitle = `(${disabledStr}) ${this.functionInfo.name}`;
+        this._disabledTitle = this.functionInfo.name;
     }
 
     // This will be called on every change detection run. So I'm making sure to always
@@ -44,41 +43,41 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             : this._enabledTitle;
     }
 
-    public handleSelection() : Observable<any>{
-        if(!this.disabled){
+    public handleSelection(): Observable<any> {
+        if (!this.disabled) {
             return (<AppNode>this.parent.parent).initialize();
         }
 
         return Observable.of({});
     }
 
-    public loadChildren(){
+    public loadChildren() {
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
             new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
         ]
 
-        if(!this.sideNav.configService.isStandalone()){
+        if (!this.sideNav.configService.isStandalone()) {
             this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
         }
 
         return Observable.of(null);
     }
 
-    public getViewData() : any{
+    public getViewData(): any {
         return this.functionInfo;
     }
 
-    public shouldBlockNavChange() : boolean{
+    public shouldBlockNavChange(): boolean {
         return FunctionNode.blockNavChangeHelper(this);
     }
 
-    public dispose(newSelectedNode? : TreeNode){
+    public dispose(newSelectedNode?: TreeNode) {
         this.sideNav.broadcastService.clearAllDirtyStates();
         this.parent.dispose(newSelectedNode);
     }
 
-    public static blockNavChangeHelper(currentNode : TreeNode){
+    public static blockNavChangeHelper(currentNode: TreeNode) {
         var canSwitchFunction = true;
         if (currentNode.sideNav.broadcastService.getDirtyState('function')
             || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
@@ -97,47 +96,47 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 }
 
-export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
+export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public showExpandIcon = false;
 
     constructor(
-        sideNav : SideNavComponent,
-        public functionInfo : FunctionInfo,
-        resourceId : string,
-        public parentNode : TreeNode){
+        sideNav: SideNavComponent,
+        public functionInfo: FunctionInfo,
+        resourceId: string,
+        public parentNode: TreeNode) {
 
         super(sideNav, resourceId, parentNode);
     }
 
-    public handleSelection() : Observable<any>{
-        if(!this.disabled){
+    public handleSelection(): Observable<any> {
+        if (!this.disabled) {
             return (<AppNode>this.parent.parent.parent).initialize();
         }
 
         return Observable.of({});
     }
 
-    public getViewData() : any{
+    public getViewData(): any {
         return this.functionInfo;
     }
 
-    public shouldBlockNavChange() : boolean{
+    public shouldBlockNavChange(): boolean {
         return FunctionNode.blockNavChangeHelper(this);
     }
 
-    public dispose(newSelectedNode? : TreeNode){
+    public dispose(newSelectedNode?: TreeNode) {
         this.parentNode.dispose(newSelectedNode);
     }
 }
 
-export class FunctionIntegrateNode extends FunctionEditBaseNode{
+export class FunctionIntegrateNode extends FunctionEditBaseNode {
     public dashboardType = DashboardType.functionIntegrate
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_integrate);
 
     constructor(
-        sideNav : SideNavComponent,
-        functionInfo : FunctionInfo,
-        parentNode : TreeNode){
+        sideNav: SideNavComponent,
+        functionInfo: FunctionInfo,
+        parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
@@ -148,15 +147,15 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode{
     }
 }
 
-export class FunctionManageNode extends FunctionEditBaseNode implements Removable{
+export class FunctionManageNode extends FunctionEditBaseNode implements Removable {
     public dashboardType = DashboardType.functionManage
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_manage);;
 
     constructor(
-        sideNav : SideNavComponent,
-        private _functionsNode : FunctionsNode,
-        functionInfo : FunctionInfo,
-        parentNode : TreeNode){
+        sideNav: SideNavComponent,
+        private _functionsNode: FunctionsNode,
+        functionInfo: FunctionInfo,
+        parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
@@ -166,7 +165,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
         this.iconClass = "fa fa-cog tree-node-function-edit-icon";
     }
 
-    public remove(){
+    public remove() {
         this._functionsNode.removeChild(this.functionInfo, false);
 
         this.sideNav.cacheService.clearCachePrefix(
@@ -178,14 +177,14 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
     }
 }
 
-export class FunctionMonitorNode extends FunctionEditBaseNode{
+export class FunctionMonitorNode extends FunctionEditBaseNode {
     public dashboardType = DashboardType.functionMonitor;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_monitor);;
 
     constructor(
-        sideNav : SideNavComponent,
-        functionInfo : FunctionInfo,
-        parentNode : TreeNode){
+        sideNav: SideNavComponent,
+        functionInfo: FunctionInfo,
+        parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
