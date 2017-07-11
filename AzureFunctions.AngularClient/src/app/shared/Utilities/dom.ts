@@ -1,10 +1,10 @@
 
 export class Dom {
-    public static setFocus(element: HTMLElement){
+    public static setFocus(element: HTMLElement) {
         element.classList.add('focused');
     }
 
-    public static clearFocus(element: HTMLElement){
+    public static clearFocus(element: HTMLElement) {
         element.classList.remove('focused');
     }
 
@@ -19,5 +19,54 @@ export class Dom {
         } else {
             return <HTMLElement>controls[0];
         }
+    }
+
+    //https://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document
+    public static getElementCoordinates(elem: HTMLElement) {
+        const box = elem.getBoundingClientRect();
+
+        const body = document.body;
+        const docEl = document.documentElement;
+
+        const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+        const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+        const clientTop = docEl.clientTop || body.clientTop || 0;
+        const clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+        const top = box.top + scrollTop - clientTop;
+        const left = box.left + scrollLeft - clientLeft;
+
+        return { top: Math.round(top), left: Math.round(left) };
+    }
+
+    public static scrollIntoView(elem: HTMLElement, container: HTMLElement) {
+        const viewBottom = container.scrollTop + container.clientHeight;
+        let elemCoordinates: { top: number };
+
+        if (container.tagName === 'BODY') {
+            elemCoordinates = Dom.getElementCoordinates(elem);
+        } else {
+            elemCoordinates = {
+                top: elem.offsetTop
+            };
+        }
+
+        if (elemCoordinates.top + elem.clientHeight > viewBottom) {
+            // If view is scrolled way out of view, then scroll so that selected is top
+            if (viewBottom + elem.clientHeight < elem.offsetTop) {
+                container.scrollTop = elem.offsetTop;
+            } else {
+                container.scrollTop += elem.clientHeight + 1;  // +1 for margin
+            }
+        } else if (elemCoordinates.top < container.scrollTop) {
+            // If view needs to scroll up
+            if (container.scrollTop - elem.clientHeight > elem.offsetTop) {
+                container.scrollTop = elemCoordinates.top;
+            } else {
+                container.scrollTop -= elem.clientHeight - 1;   // -1 for margin
+            }
+        }
+
     }
 }

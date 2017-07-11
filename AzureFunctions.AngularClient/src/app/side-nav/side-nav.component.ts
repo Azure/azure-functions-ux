@@ -1,3 +1,4 @@
+import { Dom } from './../shared/Utilities/dom';
 import { SearchBoxComponent } from './../search-box/search-box.component';
 import { TreeNodeIterator } from './../tree-view/tree-node-iterator';
 import { Component, OnInit, EventEmitter, OnDestroy, Output, Input, ViewChild, AfterViewInit } from '@angular/core';
@@ -281,39 +282,17 @@ export class SideNavComponent implements AfterViewInit {
 
     private _scrollIntoView(){
         setTimeout(() =>{
-            let view = this._getViewContainer();
-            if(!view){
+            const containerElement = this._getViewContainer();
+            if(!containerElement){
                 return;
             }
 
-            let node = <HTMLDivElement>view.querySelector('div.tree-node.focused');
+            const node = <HTMLDivElement>containerElement.querySelector('div.tree-node.focused');
             if(!node){
                 return;
             }
 
-            let viewBottom = view.scrollTop + view.clientHeight;
-
-            // If view needs to scroll down
-            if(node.offsetTop + node.clientHeight > viewBottom){
-
-                // If view is scrolled way out of view, then scroll so that selected is top
-                if(viewBottom + node.clientHeight < node.offsetTop){
-                    view.scrollTop = node.offsetTop;
-                }
-                else{
-                    view.scrollTop += node.clientHeight + 1;  // +1 for margin
-                }
-            }
-            else if(node.offsetTop < view.scrollTop){
-                // If view needs to scroll up
-                if(view.scrollTop - node.clientHeight > node.offsetTop){
-                    view.scrollTop = node.offsetTop;
-                }
-                else{
-                    view.scrollTop -= node.clientHeight - 1;   // -1 for margin
-                }
-            }
-
+            Dom.scrollIntoView(node, containerElement);
         }, 0);
     }
 

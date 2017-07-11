@@ -2,7 +2,7 @@ import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { FormGroup } from '@angular/forms';
-import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList } from '@angular/core';
+import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList, Inject } from '@angular/core';
 import { Component, OnInit, forwardRef } from '@angular/core';
 
 export interface TblItem {
@@ -90,12 +90,14 @@ export class TblComponent implements OnInit, OnChanges {
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex + 1, this._focusedCellIndex);
+      this._scrollIntoView(rows[this._focusedRowIndex]);
 
     } else if (event.keyCode === KeyCodes.arrowUp) {
 
       const rows = this._getRows();
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex - 1, this._focusedCellIndex);
+      this._scrollIntoView(rows[this._focusedRowIndex]);
 
     } else if (event.keyCode === KeyCodes.enter) {
 
@@ -126,6 +128,10 @@ export class TblComponent implements OnInit, OnChanges {
     }
 
     return null;
+  }
+
+  private _scrollIntoView(elem: HTMLElement) {
+      Dom.scrollIntoView(elem, window.document.body);
   }
 
   private _getRows() {
