@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { SaveResult } from './../site-config.component';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
@@ -165,7 +166,7 @@ constructor(
     });
   }
 
-  save() : Observable<string>{
+  save() : Observable<SaveResult>{
     let connectionStringGroups = this.groupArray.controls;
 
     if(this.mainForm.valid){
@@ -185,16 +186,25 @@ constructor(
       return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
       .map(connectionStringsResponse => {
         this._connectionStringsArm = connectionStringsResponse.json();
-        return "OK";
+        return {
+          success: true,
+          error: null
+        };
       })
       .catch(error => {
         //this._connectionStringsArm = null;
         this._saveError = error._body;
-        return Observable.of(error._body);
+        return Observable.of({
+          success: false,
+          error: error._body
+        });
       });
     }
     else{
-      return Observable.of("Failed to save Connection Strings due to invalid input.");
+      return Observable.of({
+        success: false,
+        error: "Failed to save Connection Strings due to invalid input."
+      });
     }
   }
 

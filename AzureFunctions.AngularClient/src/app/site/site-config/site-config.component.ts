@@ -11,6 +11,11 @@ import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 import { PortalService } from './../../shared/services/portal.service';
 
+export interface SaveResult {
+    success: boolean;
+    error?: string;
+}
+
 @Component({
   selector: 'site-config',
   templateUrl: './site-config.component.html',
@@ -74,9 +79,9 @@ export class SiteConfigComponent implements OnDestroy {
       this._busyState.clearBusyState();
       this.mainForm = this._fb.group({});
 
-      let saveResults: string[] = [r.appSettingsResult, r.connectionStringsResult];
-      let saveFailures: string[] = saveResults.filter(r => r != "OK");
-      let saveSuccess: boolean = !saveFailures.length || saveFailures.length == 0;
+      const saveResults: SaveResult[] = [r.appSettingsResult, r.connectionStringsResult];
+      let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
+      let saveSuccess: boolean = saveFailures.length == 0;
       let saveNotification = saveSuccess ? "Successfully updated web app settings" : "Failed to update web app settings: " + JSON.stringify(saveFailures);
 
       if(!saveSuccess){
