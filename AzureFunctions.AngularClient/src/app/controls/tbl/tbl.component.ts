@@ -52,7 +52,11 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
+  // Gets called if a user either "tabs" over to a table, or clicks somewhere
+  // within the table.
   onFocus(event: FocusEvent) {
+
+    // If the table hasn't received focus yet
     if (this._focusedRowIndex === -1 && this._focusedCellIndex === -1) {
       this._focusedRowIndex = 0;
       this._focusedCellIndex = 0;
@@ -65,6 +69,9 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
+  // Gets called if a user "tabs" or clicks away from a table.  In this case
+  // we'll keep the currently selected cells state but just remove the focus
+  // on it.
   onBlur(event?: FocusEvent) {
     const rows = this._getRows();
     const curCell = this._getCurrentCellOrReset(rows);
@@ -73,11 +80,15 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
-  // For now we'll just hide the focused element on click.
+  // Gets called specifically on click for a table.  For now we'll just
+  // hide the focused element on click.
   onClick(e: MouseEvent){
     this.onBlur(null);
   }
 
+  // Gets called for any keypresses that occur whenever the focus is currently
+  // on the table.  Most of the handling here should be for keyboard navigation
+  // like up/down/left/right and enter keys.
   onKeyPress(event: KeyboardEvent) {
     if (event.keyCode === KeyCodes.arrowRight) {
 
@@ -118,11 +129,14 @@ export class TblComponent implements OnInit, OnChanges {
       }
     }
 
+    // Only allow "tab" key events to bubble outside of table
     if (event.keyCode !== KeyCodes.tab) {
       event.preventDefault();
     }
   }
 
+  // Get the current selected cell from list of rows.  If the table has
+  // changed for some reason and the cell doesn't exist, then just reset the selection.
   private _getCurrentCellOrReset(rows: NodeListOf<HTMLTableRowElement>) {
     if (this._focusedRowIndex >= 0 && this._focusedRowIndex < rows.length) {
       const rowCells = this._getCells(rows[this._focusedRowIndex]);
@@ -148,6 +162,7 @@ export class TblComponent implements OnInit, OnChanges {
     return (<HTMLTableElement>this.table.nativeElement).querySelectorAll('tr');
   }
 
+  // Grab either TH or TD cells
   private _getCells(row: HTMLTableRowElement) {
     const cells = row.querySelectorAll('th');
     return cells.length > 0 ? cells : row.querySelectorAll('td');
@@ -179,6 +194,10 @@ export class TblComponent implements OnInit, OnChanges {
     cellIndex: number
   ) {
     let destRow: HTMLTableRowElement;
+
+    // We have to recompute the "final" row and cell indices because it's
+    // possible that the table has changed since the last time we set
+    // rowIndex/cellIndex.
     let finalRowIndex = -1;
     let finalCellIndex = -1;
 
@@ -186,6 +205,8 @@ export class TblComponent implements OnInit, OnChanges {
       finalRowIndex = rowIndex;
       destRow = rows[finalRowIndex];
     } else if (rows.length > 0) {
+      // The # of rows in table has changed and rowIndex no longer exists.
+
       if (rowIndex === -1) {
         finalRowIndex = 0;
         destRow = rows[0];
@@ -203,6 +224,9 @@ export class TblComponent implements OnInit, OnChanges {
         finalCellIndex = cellIndex;
         destCell = destCells[finalCellIndex];
       } else if (destCells.length > 0) {
+        // The # of cells in the current row has either changed, or we've
+        // navigated up/down to a row with a different # of cells.
+
         if (cellIndex === -1) {
           finalCellIndex = 0;
           destCell = destCells[0];
@@ -214,6 +238,8 @@ export class TblComponent implements OnInit, OnChanges {
       }
 
       if (destCell) {
+        // A cell can contain a "tab-able" control within it.  So search within
+        // the cell and set focus on it instead of the cell if one is found.
         const control = Dom.getTabbableControl(destCell);
         Dom.setFocus(control);
       }
