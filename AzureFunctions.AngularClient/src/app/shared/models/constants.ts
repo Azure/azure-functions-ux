@@ -47,7 +47,7 @@ export class Constants {
     public static latestMSGraphVersion = '1.0';
     public static WebhookHandlerFunctionName = "RefreshO365Subscriptions";
     public static WebhookHandlerFunctionId = "TimerTrigger-CSharpWebhookHandler";
-    public static WebhookFunctionName = "O365Webhook";
+    public static WebhookFunctionName = "MSGraphWebhook";
 }
 
 export class SiteTabIds{

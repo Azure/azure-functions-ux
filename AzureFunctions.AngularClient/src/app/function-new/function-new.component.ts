@@ -7,7 +7,7 @@ import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 
 import {BindingComponent} from '../binding/binding.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
-import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
+import {UIFunctionConfig, UIFunctionBinding, DirectionType} from '../shared/models/binding';
 import {BindingList} from '../shared/models/binding-list';
 import {Action} from '../shared/models/binding';
 import {FunctionInfo} from '../shared/models/function-info';
@@ -29,7 +29,7 @@ import { Constants } from "app/shared/models/constants";
 import { CacheService } from './../shared/services/cache.service';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ArmService } from './../shared/services/arm.service';
-import { MobileAppsClient } from '../shared/models/mobile-apps-client';
+import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 
 @Component({
     selector: 'function-new',
@@ -59,6 +59,7 @@ export class FunctionNewComponent {
     selectedTemplateId: string;
     templateWarning: string;
     addLinkToAuth: boolean = false;
+    action: Action;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -67,12 +68,9 @@ export class FunctionNewComponent {
         "readme.md",
         "metadata.json"
     ];
-    private _action: Action;
 
     private _viewInfoStream = new Subject<TreeViewInfo>();
     public appNode: AppNode;
-
-    private _dataRetriever: MobileAppsClient;
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
@@ -92,9 +90,8 @@ export class FunctionNewComponent {
                 this.functionsNode = <FunctionsNode>viewInfo.node;
                 this.appNode = <AppNode>viewInfo.node.parent;
                 this.functionApp = this.functionsNode.functionApp;
-                this._dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl(), this._aiService);
                 if (this.functionsNode.action) {
-                    this._action = Object.create(this.functionsNode.action);
+                    this.action = Object.create(this.functionsNode.action);
                     delete this.functionsNode.action;
                 }
                 return this.functionApp.getFunctions()
@@ -108,8 +105,8 @@ export class FunctionNewComponent {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = fcs;
 
-                if (this._action && this.functionsInfo && !this.selectedTemplate) {
-                    this.selectedTemplateId = this._action.templateId;
+                if (this.action && this.functionsInfo && !this.selectedTemplate) {
+                    this.selectedTemplateId = this.action.templateId;
                 }
             })
     }
@@ -159,19 +156,19 @@ export class FunctionNewComponent {
                     this.validate();
 
                     var that = this;
-                    if (this._action) {
+                    if (this.action) {
 
                         var binding = this.model.config.bindings.find((b) => {
-                            return b.type.toString() === this._action.binding;
+                            return b.type.toString() === this.action.binding;
                         });
 
                         if (binding) {
-                            this._action.settings.forEach((s, index) => {
+                            this.action.settings.forEach((s, index) => {
                                 var setting = binding.settings.find(bs => {
                                     return bs.name === s;
                                 });
                                 if (setting) {
-                                    setting.value = this._action.settingValues[index];
+                                    setting.value = this.action.settingValues[index];
                                 }
                             });
                         }
@@ -241,7 +238,7 @@ export class FunctionNewComponent {
         );
     }
 
-    private validate() {
+    validate() {
         //^[a-z][a-z0-9_\-]{0,127}$(?<!^host$) C# expression
         // Lookbehind is not supported in JS
         this.areInputsValid = true;
@@ -290,90 +287,13 @@ export class FunctionNewComponent {
                 this.functionsNode.addChild(res);
 
                 if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    this.createO365WebhookSupportFunction();
+                    let helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+                    helper.function = this;
+                    helper.createO365WebhookSupportFunction(this._globalStateService);
                 }
             },
             e => {
                 this._globalStateService.clearBusyState();
             });
-    }
-    private createO365WebhookSupportFunction() {
-        // First, check if an O365 support function already exists
-        this.functionApp.getFunctions().subscribe(list => {
-            let existing = list.find(fx => {
-                return fx.name.startsWith(Constants.WebhookHandlerFunctionName);
-            });
-            if (existing) {
-                return;
-            }
-            // Set up the necessary data (files, metadata, etc.) for a "new" function
-            this.functionName = Constants.WebhookHandlerFunctionName;
-            this.functionApp.getTemplates().subscribe((templates) => {
-                setTimeout(() => {
-                    this.selectedTemplate = templates.find((t) => t.id === Constants.WebhookHandlerFunctionId);
-                    this.functionApp.getBindingConfig().subscribe((bindings) => {
-                        this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-
-                        this.model.config = this.bc.functionConfigToUI({
-                            disabled: false,
-                            bindings: this.selectedTemplate.function.bindings
-                        }, bindings.bindings);
-
-                        // Retrieve Principal Id necessary to refresh user's subscriptions
-                        this.model.config.bindings.forEach((b) => {
-                            b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
-                            if (b.type == BindingType.GraphWebhook) {
-                                var principalId = b.settings.find(setting => {
-                                    return setting.name == "PrincipalId";
-                                });
-                                if (principalId) {
-                                    this._dataRetriever.retrieveOID(null, principalId).then(values => {
-
-                                        this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
-                                            r => { },
-                                            error => {
-                                                this._aiService.trackException(error, 'New function component - createApplicationSetting()');
-                                            }
-                                        );  // create new app setting for identity
-
-                                        principalId.value = "%".concat(values.appSettingName, "%");
-
-                                        // Finish setting up data for function creation
-                                        this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
-
-                                        this.model.setBindings();
-                                        this.validate();
-
-                                        if (this._action) {
-
-                                            var binding = this.model.config.bindings.find((b) => {
-                                                return b.type.toString() === this._action.binding;
-                                            });
-
-                                            if (binding) {
-                                                this._action.settings.forEach((s, index) => {
-                                                    var setting = binding.settings.find(bs => {
-                                                        return bs.name === s;
-                                                    });
-                                                    if (setting) {
-                                                        setting.value = this._action.settingValues[index];
-                                                    }
-                                                });
-                                            }
-                                        }
-                                        this._globalStateService.clearBusyState(); // need to clear in order for create fx to work
-                                        this.onCreate(); // this sets busy state as part of its internal processes
-                                        this._globalStateService.clearBusyState();
-                                    }, error => {
-                                        this._aiService.trackException(error, "function-new - createO365WebhookSupportFunction() - retrieveOID()");
-                                        this._globalStateService.clearBusyState();
-                                   });
-                                }
-                            }
-                        });
-                    });
-                });
-            });
-        });
     }
 }
