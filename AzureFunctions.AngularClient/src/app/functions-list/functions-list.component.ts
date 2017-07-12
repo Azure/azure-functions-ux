@@ -80,9 +80,9 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         return this.functionApp.updateFunction(item.functionInfo)
             .do(null, e => {
                 item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
-                var s = item.functionInfo.config.disabled ? this._translateService.instant(PortalResources.enable) : this._translateService.instant(PortalResources.disable);
+                let state = item.functionInfo.config.disabled ? this._translateService.instant(PortalResources.enable) : this._translateService.instant(PortalResources.disable);
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.failedToSwitchFunctionState, { state: s, functionName: item.functionInfo.name }),
+                    message: this._translateService.instant(PortalResources.failedToSwitchFunctionState, { state: state, functionName: item.functionInfo.name }),
                     errorId: ErrorIds.failedToSwitchEnabledFunction,
                     errorType: ErrorType.UserError,
                     resourceId: this.functionApp.site.id
@@ -90,6 +90,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
                 console.error(e);
             })
             .subscribe(r => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToSwitchEnabledFunction);
             });
     }
 
