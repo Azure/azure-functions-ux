@@ -17,6 +17,7 @@ export interface TblItem {
     [class]='tblClass'
     tabindex='0'
     (focus)='onFocus($event)'
+    (click)='onClick($event)'
     (blur)='onBlur($event)'
     (keydown)="onKeyPress($event)">
       <ng-content></ng-content>
@@ -64,12 +65,17 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
-  onBlur(event: FocusEvent) {
+  onBlur(event?: FocusEvent) {
     const rows = this._getRows();
     const curCell = this._getCurrentCellOrReset(rows);
     if (curCell) {
       Dom.clearFocus(curCell);
     }
+  }
+
+  // For now we'll just hide the focused element on click.
+  onClick(e: MouseEvent){
+    this.onBlur(null);
   }
 
   onKeyPress(event: KeyboardEvent) {
