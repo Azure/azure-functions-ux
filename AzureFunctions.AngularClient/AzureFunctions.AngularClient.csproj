@@ -94,7 +94,6 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
-    <Content Include="src\app\controls\tbl\tbl-th\tbl-th.component.scss" />
     <None Include="src\app\copy-pre\copy-pre.component.scss" />
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
     <Content Include="src\app\controls\command-bar\command\command.component.html" />
