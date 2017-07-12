@@ -6,6 +6,9 @@ export class PortalResources
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static selectAll: string = "selectAll";
+    public static allItemsSelected: string = "allItemsSelected";
+    public static numItemsSelected: string = "numItemsSelected";
     public static functionCreateErrorDetails: string = "functionCreateErrorDetails";
     public static functionCreateErrorMessage: string = "functionCreateErrorMessage";
     public static functionDev_functionErrorDetails: string = "functionDev_functionErrorDetails";
@@ -104,9 +107,12 @@ export class PortalResources
     public static dashboard_yourTrialExpiered: string = "dashboard_yourTrialExpiered";
     public static disabled: string = "disabled";
     public static enabled: string = "enabled";
+    public static disable: string = "disable";
+    public static enable: string = "enable";
     public static errorList_here: string = "errorList_here";
     public static errorList_youMay: string = "errorList_youMay";
     public static errorParsingConfig: string = "errorParsingConfig";
+    public static failedToSwitchFunctionState: string = "failedToSwitchFunctionState";
     public static features: string = "features";
     public static filedRequired: string = "filedRequired";
     public static functionDev_code: string = "functionDev_code";
@@ -369,6 +375,7 @@ export class PortalResources
     public static feature_backupsInfo: string = "feature_backupsInfo";
     public static feature_allSettingsName: string = "feature_allSettingsName";
     public static feature_allSettingsInfo: string = "feature_allSettingsInfo";
+    public static feature_functionSettingsInfo: string = "feature_functionSettingsInfo";
     public static feature_generalSettings: string = "feature_generalSettings";
     public static feature_codeDeployment: string = "feature_codeDeployment";
     public static feature_developmentTools: string = "feature_developmentTools";
@@ -421,6 +428,7 @@ export class PortalResources
     public static tab_overview: string = "tab_overview";
     public static tab_features: string = "tab_features";
     public static tab_settings: string = "tab_settings";
+    public static tab_functionSettings: string = "tab_functionSettings";
     public static tab_configuration: string = "tab_configuration";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
@@ -586,5 +594,7 @@ export class PortalResources
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
     public static downloadFunctionAppContent_siteContent: string = "downloadFunctionAppContent_siteContent";
     public static downloadFunctionAppContent_vsProject: string = "downloadFunctionAppContent_vsProject";
+    public static apiProxy_delete: string = "apiProxy_delete";
+    public static apiProxy_new: string = "apiProxy_new";
 }
 

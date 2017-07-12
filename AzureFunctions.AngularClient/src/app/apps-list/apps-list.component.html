@@ -11,18 +11,18 @@
   </tr>
 
   <tr *ngFor="let item of table.items">
-    <td class="link" (click)="clickRow(item)">{{item.title}}</td>
+    <td><span class="link" (click)="clickRow(item)">{{item.title}}</span></td>
     <td>{{item.subscription}}</td>
     <td>{{item.resourceGroup}}</td>
     <td>{{item.location}}</td>    
   </tr>
 
-  <tr *ngIf="appsNode?.isLoading">
-    <td *ngIf="appsNode?.isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!appsNode?.isLoading" colspan="4"></td>
+  <tr *ngIf="isLoading">
+    <td *ngIf="isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
+    <td *ngIf="isLoading" colspan="4"></td>
   </tr>
 </tbl>
-<div *ngIf="!appsNode?.isLoading && table.items.length === 0" class="empty-browse">
+<div *ngIf="!isLoading && table.items.length === 0" class="empty-browse">
   <img src="images/emptybrowse-functions.svg" />
   <h4>{{'emptyBrowse_title' | translate}}</h4>
   <span>{{'emptyBrowse' | translate}}</span>

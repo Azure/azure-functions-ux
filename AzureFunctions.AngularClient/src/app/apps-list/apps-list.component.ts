@@ -19,8 +19,9 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public apps : AppNode[] = [];
   public appsNode : AppsNode;
 
+  public isLoading = true;
+
   private _viewInfoSubscription : RxSubscription;
-  private _origRefToItems : AppNode[];
 
   constructor() {
       this.viewInfoStream = new Subject<TreeViewInfo>();
@@ -29,20 +30,12 @@ export class AppsListComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .switchMap(viewInfo =>{
         this.appsNode = (<AppsNode>viewInfo.node);
-        /* this is need to avoid flickering b/w no list view & table on load
-        see https://github.com/Azure/azure-functions-ux/issues/1286 */
-        this.appsNode.isLoading = true;
+        this.isLoading = true;
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children =>{
         this.apps = children;
-
-        /* fix for https://github.com/Azure/azure-functions-ux/issues/1374 
-         if the FunctionApps node has a sibling, the below logic will need to be updated */
-        if(children.length > 0){
-          this.appsNode.isLoading = false;
-        }
-        this._origRefToItems = children;
+        this.isLoading = false;
       });
 
    }

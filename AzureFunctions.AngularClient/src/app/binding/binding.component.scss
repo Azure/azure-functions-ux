@@ -16,6 +16,10 @@
     border: none;
     padding-left: 0px;
     padding-right: 0px;
+
+    span:nth-child(2) {
+        vertical-align:middle;
+    }
 }
 
 .control-label{

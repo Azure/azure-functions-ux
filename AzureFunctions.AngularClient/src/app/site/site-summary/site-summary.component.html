@@ -104,7 +104,7 @@
 <div id="site-summary-body">
 <div *ngIf="!isStandalone" id="site-summary-features">
     <h3>{{ 'enabledFeatures_header' | translate }}</h3>
-    <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
+    <site-enabled-features [siteInput]="site"></site-enabled-features>
 </div>
 </div>
 

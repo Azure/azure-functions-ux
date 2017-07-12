@@ -50,15 +50,16 @@ export class Constants {
     public static WebhookFunctionName = "MSGraphWebhook";
 }
 
+export type EnableTabFeature = 'tabs' | 'inplace' | null;
+
 export class SiteTabIds{
-    public static overview = "Overview";
-    public static monitor = "Monitor";
-    public static features = "Platform features";
-    public static functionRuntime = "Settings";
-    public static apiDefinition = "API Definition";
-    public static troubleshoot = "Troubleshoot";
-    public static deploymentSource = "Deployment Source";
-    public static config = "Config";
+    public static readonly overview = "overview";
+    public static readonly monitor = "monitor";
+    public static readonly features = "platformFeatures";
+    public static readonly functionRuntime = "functionRuntimeSettings";
+    public static readonly apiDefinition = "apiDefinition";
+    public static readonly config = "config";
+    public static readonly  applicationSettings = "appSettings";
 }
 
 export class Arm{
@@ -91,6 +92,10 @@ export class Regex{
 
 export class Links{
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+}
+
+export class LocalStorageKeys{
+    public static readonly siteTabs = "/site/tabs"
 }
 
 export class Order {
@@ -127,7 +132,10 @@ export class Order {
 }
 
 export class KeyCodes{
+    public static readonly tab = 9;
     public static readonly enter = 13;
+    public static readonly space = 32;
+    public static readonly escape = 27;
     public static readonly arrowLeft = 37;
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;

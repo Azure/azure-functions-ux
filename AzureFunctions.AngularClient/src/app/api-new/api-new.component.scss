@@ -1,7 +1,7 @@
 @import '../../sass/main';
 
 form {
-    padding:30px;
+    padding:15px 0px 0px 0px;
 }
 
 form > div {
@@ -19,4 +19,15 @@ form > div {
 .newproxy-container{
     padding: 20px;
     background-color: $body-bg-color;
+}
+
+.header {
+    display: flex;
+    div:nth-child(1) {
+        flex-grow:1;
+        align-items:center;
+    }
+    div:nth-child(2) {
+        flex-grow:0;
+    }
 }

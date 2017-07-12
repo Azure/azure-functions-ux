@@ -1,3 +1,4 @@
+import { LocalStorageKeys } from './../models/constants';
 import { PortalService } from './portal.service';
 import {LogEntryLevel} from '../models/portal';
 import {Injectable, EventEmitter} from '@angular/core';
@@ -6,7 +7,7 @@ import {EnabledFeature, Feature} from '../models/localStorage/enabled-features';
 
 @Injectable()
 export class LocalStorageService {
-    private _apiVersion = "2017-02-01";
+    private _apiVersion = "2017-06-01";
     private _apiVersionKey = "appsvc-api-version";
 
     constructor(private _portalService : PortalService){
@@ -14,6 +15,9 @@ export class LocalStorageService {
         if(!apiVersion || apiVersion !== this._apiVersion){
             this._resetStorage();
         }
+
+        // Ensures that saving tab state should only happen per-session
+        localStorage.removeItem(LocalStorageKeys.siteTabs);
     }
 
     getItem(key : string) : StorageItem{
@@ -36,6 +40,10 @@ export class LocalStorageService {
                 this._portalService.logMessage(LogEntryLevel.Error, "Failed to save to local storage on 2nd attempt. ${e2}");
             }
         }
+    }
+
+    removeItem(key : string){
+        localStorage.removeItem(key);
     }
 
     private _resetStorage(){

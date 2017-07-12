@@ -196,14 +196,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
                 this.updateKeys();
 
-                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
-                    ? this.functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
-                    : null);
-                if (inputBinding) {
-                    this.isHttpFunction = true;
-                } else {
-                    this.isHttpFunction = false;
-                }
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();

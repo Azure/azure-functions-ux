@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions ランタイム</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -231,6 +234,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>サブスクリプション</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Function App を作成すると、コードのホストと実行が可能な新しいコンテナーが自動でプロビジョニングされます。</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>アプリを作成できませんでした</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2. 言語を選択します</value>
   </data>
@@ -262,7 +271,7 @@
     <value>このクイックスタートの使用を続ける</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>F#、PowerShell、Python、Batch の場合には、</value>
+    <value>PowerShell、Python、Batch の場合には、</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>ソース管理から開始する</value>
@@ -301,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>または</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>読み取り専用 - ソース管理の編集を開始したため、このビューは読み取り専用です。</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>ソース管理の統合が有効になっているため、アプリが現在 [読み取り専用] モードになっています。編集モードを変更するには、</value>
   </data>
   <data name="region" xml:space="preserve">
     <value>リージョン</value>
@@ -312,6 +321,21 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ 新しい文字列の追加</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ 新しい接続文字列の追加</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>名前の入力</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>値を入力してください</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>非表示の値です。表示するには、クリックしてください。</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>関数 {{name}} に対する変更が失われます。続行してもよろしいですか?</value>
@@ -784,6 +808,9 @@
   <data name="topBar_alwaysOn" xml:space="preserve">
     <value>'AlwaysOn' が有効になっていません。アプリが正常に動作しない可能性があります</value>
   </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>host.json に ID の値が明示的に設定されているため、展開スロットの使用時に予期しない動作が発生する可能性があります</value>
+  </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Azure Functions リリース ノート。</value>
   </data>
@@ -833,7 +860,7 @@
     <value>クォータの設定</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Function App は、日ごとの使用量に達すると、次の 24 時間の時間枠まで停止します。</value>
+    <value>1 日あたりの使用量のクォータを超過すると、次の日の午前 0:00 UTC まで Function App が停止します。</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>{{name}} キーを取り消してもよろしいですか?</value>
@@ -914,7 +941,7 @@
     <value>ランタイム バージョン: {{extensionVersion}}。新しいバージョンが利用できます ({{latestExtensionVersion}})。</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>ランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
+    <value>ランタイム バージョン: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>プロキシ (プレビュー)</value>
@@ -936,6 +963,9 @@
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>'{{name}}' という名前のプロキシが既に存在します</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Azure Functions スロット (プレビュー) は現在無効になっています。有効にするには、</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>破棄</value>
@@ -1013,7 +1043,7 @@
     <value>関数</value>
   </data>
   <data name="newFunction" xml:space="preserve">
-    <value>新しい関数</value>
+    <value>新しい機能</value>
   </data>
   <data name="functionApps" xml:space="preserve">
     <value>Function App</value>
@@ -1026,6 +1056,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>再開</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>スワップ</value>
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>発行プロファイルのダウンロード</value>
@@ -1073,7 +1106,7 @@
     <value>アプリ '{0}' を停止しています</value>
   </data>
   <data name="siteSummary_startNotifyTitle" xml:space="preserve">
-    <value>Starting app '{0}'</value>
+    <value>アプリ '{0}' を起動しています</value>
   </data>
   <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
     <value>アプリ '{0}' を正常に停止しました</value>
@@ -1142,7 +1175,7 @@
     <value>展開オプション</value>
   </data>
   <data name="feature_deploymentSourceInfo" xml:space="preserve">
-    <value>VSTS、GitHub、Bitbucket からの継続的デプロイのほか、OneDrive、DropBox、外部 Git などからのトリガー デプロイなど、アプリのデプロイ オプションを構成および管理します。</value>
+    <value>VSTS、GitHub、Bitbucket からの継続的デプロイのほか、OneDrive、DropBox、外部 Git などからのトリガー デプロイなど、アプリのさまざまなデプロイ オプションを構成および管理します。</value>
   </data>
   <data name="feature_deploymentCredsName" xml:space="preserve">
     <value>デプロイ資格情報</value>
@@ -1185,6 +1218,9 @@
   </data>
   <data name="feature_allSettingsInfo" xml:space="preserve">
     <value>App Service の設定をすべて表示します。</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>全般設定</value>
@@ -1322,7 +1358,7 @@
     <value>CORS 規則 ({0} 件が定義済み)</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>{0} を使って構成されたデプロイ ソース</value>
+    <value>{0} が構成されたデプロイ オプション</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>SSL 証明書</value>
@@ -1341,6 +1377,12 @@
   </data>
   <data name="tab_settings" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>構成</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>この試用版では、Function App の管理機能は利用できません。</value>
@@ -1383,6 +1425,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>ソース</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>オプション</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>Function App の Azure 設定にアクセスできません。</value>
@@ -1501,97 +1546,337 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>アクション</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>この Function App では認証/承認が有効になっていないため、キー機能を利用できません。</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>クイックスタート</value>
+    <value>クイックスタートに移動します</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>クエリ パラメーターがありません</value>
   </data>
   <data name="swaggerDefinition_collapse" xml:space="preserve">
-    <value>Collapse</value>
+    <value>折りたたみ</value>
   </data>
   <data name="swaggerDefinition_delete" xml:space="preserve">
-    <value>Are you sure you want to delete your API definition?</value>
+    <value>API 定義を削除してもよろしいですか?</value>
   </data>
   <data name="swaggerDefinition_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>ドキュメント</value>
   </data>
   <data name="swaggerDefinition_expand" xml:space="preserve">
-    <value>Expand</value>
+    <value>展開</value>
   </data>
   <data name="swaggerDefinition_external" xml:space="preserve">
-    <value>External URL</value>
+    <value>外部 URL</value>
   </data>
   <data name="swaggerDefinition_feature_overview" xml:space="preserve">
-    <value>Read the feature overview</value>
+    <value>機能の概要を読む</value>
   </data>
   <data name="swaggerDefinition_getting_started" xml:space="preserve">
-    <value>Check out our getting started tutorial</value>
+    <value>入門用チュートリアルを確認する</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Function</value>
+    <value>関数</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
-    <value>API definition key</value>
+    <value>API 定義キー</value>
   </data>
   <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
-    <value>Load API definition</value>
+    <value>API 定義を読み込む</value>
   </data>
   <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
-    <value>Generate API definition template</value>
+    <value>API 定義テンプレートを生成する</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>PowerApps + Flow にエクスポートする</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
-    <value>Cannot save malformed API definition.</value>
+    <value>API 定義の形式が正しくないため、保存できません。</value>
   </data>
   <data name="swaggerDefinition_renew" xml:space="preserve">
-    <value>Renew</value>
+    <value>更新</value>
   </data>
   <data name="swaggerDefinition_setExternal" xml:space="preserve">
-    <value>Set external definition URL</value>
+    <value>外部定義 URL を設定する</value>
   </data>
   <data name="swaggerDefinition_source" xml:space="preserve">
-    <value>API definition source</value>
+    <value>API 定義のソース</value>
   </data>
   <data name="swaggerDefinition_subtitle" xml:space="preserve">
-    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+    <value>OpenAPI 2.0 (Swagger) 定義を使って、HTTP によりトリガーされる関数をさまざまなサービスで消費します</value>
   </data>
   <data name="swaggerDefinition_title" xml:space="preserve">
-    <value>Function API definition (Swagger)</value>
+    <value>関数の API 定義 (Swagger)</value>
   </data>
   <data name="swaggerDefinition_url" xml:space="preserve">
-    <value>API definition URL</value>
+    <value>API 定義の URL</value>
   </data>
   <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
-    <value>Use your API definition</value>
+    <value>自分の API 定義を使用する</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API definition (preview)</value>
+    <value>API 定義 (プレビュー)</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
-    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+    <value>Swagger エンドポイント用のキー swaggerdocumentationkey を作成または更新できません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
-    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+    <value>API 定義を削除できません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToGetSystemKey" xml:space="preserve">
-    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+    <value>キー {{keyName}} を取得できません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
-    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>生成された API 定義を読み込めません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
-    <value>We are unable to update the runtime config. Please try again later.</value>
+    <value>ランタイム構成を更新できません。後でもう一度やり直してください。</value>
   </data>
   <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
-    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>API 定義を更新できません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
   </data>
   <data name="swaggerDefinition_revert" xml:space="preserve">
-    <value>Revert to last save</value>
+    <value>前回保存した時点に戻す</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>App Service の認証と承認の構成</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#開始するには、[Generate API definition template] をクリックします</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>エディターの API 定義を上書きしてもよろしいですか?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>&lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; と &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt; で関数にアクセスするには、API 定義を使用します。</value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>HTTP によってトリガーされる関数からメタデータを使ってスパース定義を作成します。
+使用する前に、&lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;操作オブジェクト&lt;/a&gt;など、API に関する情報を入力してください。</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>このキーは、キーを持たないユーザーが API 定義にアクセスできないよう保護するものです。
+基になる API そのものを保護するわけではありません。キーのセキュリティを確認する場合には、それぞれの関数をご覧ください。</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>ホストされている API 定義とテンプレート定義の生成を有効にする場合には、[関数] に設定します。
+他の場所でホストされている API を使用する場合には、[外部 URL] に設定します。</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>API 定義に直接アクセスし、サード パーティ ツールにインポートする際に使用する URL です</value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Function App の編集モードの変更</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Function App の編集モード</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>読み取り専用</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>読み取り\書き込み</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>値の重複は許可されていません</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>このフィールドは必須項目です</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>名前は 2 文字以上でなければなりません</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>名前は 60 文字未満でなければなりません</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>'{0}' は無効な文字です</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>アプリ名 '{0}' は使用できません</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Function App の編集モードを更新できませんでした。後でもう一度やり直してください。</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>編集モードが [読み取り専用] に設定されたため、アプリが現在 [読み取り専用] モードになっています。編集モードを変更するには、</value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>ソース管理が有効になっているにもかかわらず編集モードが [読み取り\書き込み] に設定されたため、アプリが現在 [読み取り\書き込み] モードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、</value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>関数の URL の取得</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>キー</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>アプリのコンテンツのダウンロード</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>{{name}} キーを更新してもよろしいですか?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions は、イベントベースのサーバーレス コンピューティング エクスペリエンスであり、開発期間の短縮に役立ちます。必要に応じてスケールでき、消費したリソースに対してのみ料金を支払います。</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Azure Functions の詳細</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>イベント ハブ</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>名前空間</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>見つかりませんでした。</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>エンドポイント</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>表示する Function App がありません</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>スロット (プレビュー)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>展開スロット (プレビュー) を有効にします。これは、Function App に対する 1 回限りのオプトインであり、後から無効にはできません。シークレットが既に存在する場合には、リセットされます。更新後の新しいシークレットは、次の場所にコピーされます</value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>各関数の [管理] ノード。</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>新しい展開スロットの作成</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>展開スロットを使うと、さまざまなバージョンの Function App をさまざまな URL にデプロイすることができます。特定のバージョンをテストしたうえで、スロット単位でコンテンツと構成を切り替えることができるようになります。</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>新しいスロット {0} を作成しています</value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>スロット {0} を正常に作成しました</value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>スロット {0} を作成できませんでした</value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>スロットの一覧を更新できません</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>スロットの作成にアクセスできません。Function App に対して正しい RBAC アクセス権を持っており、読み取りロックが有効になっていないことを確認してください。</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App Service プラン</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>スロット (プレビュー)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するために、&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt; の使用をお勧めします。</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>この値は、メイン Web アプリの URL に追加され、スロットのパブリック アドレスとして機能します。たとえば、'contoso' という名前の Web アプリで、スロットの名前が 'staging' である場合、新しいスロットの URL は 'http://contoso-staging.azurewebsites.net' のようになります。</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>従量課金プランでは、単一のスロットのみ使用できます。スロットが複数必要な場合には、専用の App Service プランを使用してください。</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>関数の検索</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>新規</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>関数の削除</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>この関数を実行するには、クライアント証明書が必要です。ポータルから実行するには、クライアント証明書を無効にする必要があります。</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>スロットが構成済みになっているため、アプリは現在、読み取り専用モードになっています。編集モードに変更するには、</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>アプリケーション設定の管理</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT Hub</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>キー</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>接続</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>イベント (組み込みのエンドポイント)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>操作の監視</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>ポリシー</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>proxies.json スキーマ バージョンのエラー</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>従量課金プランでは、1 日あたりの使用量のクォータをギガバイト/秒単位で設定することによって、プラットフォームの使用量に上限を設けることができます。1 日あたりの使用量のクォータに達すると、次の日の午前 0:00 UTC まで Function App が停止します。</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(ハブ ポリシー)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(名前空間ポリシー)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>アプリの設定が見つかりませんでした。</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>値の表示</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>アプリ設定の追加</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>ダウンロードにアプリ設定を含める</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>これにより、アプリ設定の値が格納されているファイル local.settings.json が含まれるようになります。ダウンロードに際してこのファイルが暗号化されることはありませんが、Azure Functions Core Tools のコマンド ラインを使用して暗号化することは可能です。</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>サイトのコンテンツ</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>コンテンツと Visual Studio プロジェクト</value>
   </data>
 </root>

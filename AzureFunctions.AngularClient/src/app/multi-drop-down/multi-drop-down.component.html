@@ -1,9 +1,9 @@
 <div class="multi-select-container">
-  <input type="text" [value]="displayText" readonly (click)="click()" />
+  <input type="text" [value]="displayText" readonly (click)="click()" (keydown)="onKeyPress($event)" />
   <span class="multi-select-arrow" (click)="click()"></span>
-  <div class="multi-select-content" *ngIf="opened">
+  <div class="multi-select-content" *ngIf="opened" #itemListContainer>
     <ul>
-      <li *ngFor="let option of options" (click)="handleChecked(option)">
+      <li *ngFor="let option of options" (click)="handleChecked(option)" [class.focused]="option.isFocused">
         <input type="checkbox" [checked]="option.isSelected"/>{{option.displayLabel}}
       </li>
     </ul>

@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Funções do Azure</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Tempo de Execução das Funções do Azure</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -166,7 +169,7 @@
     <value>Ver ficheiros</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Escolher um modelo abaixo ou vá para o</value>
+    <value>Escolha um modelo abaixo ou</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Este modelo é experimental e ainda não tem suporte completo. Se tiver problemas, arquive um erro no nosso &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositório do GitHub.&lt;/a&gt;</value>
@@ -231,6 +234,12 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>A sua subscrição</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Criar uma Function App provisiona automaticamente um novo contentor capaz de alojar e executar o seu código.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Falha ao criar a aplicação</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
     <value>2) Escolha um idioma</value>
   </data>
@@ -262,7 +271,7 @@
     <value>Continue a utilizar este início rápido</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Para F#, PowerShell, Python e Batch,</value>
+    <value>Para PowerShell, Python e Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
     <value>Comece a partir do controlo de origem</value>
@@ -301,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>ou</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Só de leitura - como começou a editar com o controlo de código fonte, esta vista é só de leitura.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>A aplicação está atualmente no modo só de leitura porque tem a integração do controlo de origem ativada. Para alterar o modo de edição visite </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Região</value>
@@ -312,6 +321,21 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Adicionar nova definição</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Adicionar nova cadeia de ligação</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Introduzir um nome</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Introduzir um valor</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Valor oculto.  Clique para mostrar.</value>
   </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>Perderá as alterações realizadas à função {{name}}. Tem a certeza de que quer continuar?</value>
@@ -784,6 +808,9 @@
   <data name="topBar_alwaysOn" xml:space="preserve">
     <value>A definição "Sempre ligado" não está ativada. A aplicação pode não funcionar corretamente</value>
   </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>O valor para o id foi explicitamente definido em host.json, o que pode causar comportamentos inesperados ao utilizar ranhuras de implementação</value>
+  </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Notas de versão das Funções do Azure.</value>
   </data>
@@ -833,7 +860,7 @@
     <value>Definir quota</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>A Function App vai ser parada quando atingir a utilização diária até ao próximo período de tempo de 24 horas.</value>
+    <value>Quando a quota de utilização diária é excedida, a Function App é parada até ao dia seguinte às 0:00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
     <value>Quer mesmo revogar a chave {{name}}?</value>
@@ -914,7 +941,7 @@
     <value>Versão de runtime: {{extensionVersion}}. Está disponível uma versão mais recente ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Versão de runtime: mais recente ({{latestExtensionVersion}})</value>
+    <value>Versão de runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (pré-visualização)</value>
@@ -936,6 +963,9 @@
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
     <value>O proxy com o nome "{{name}}" já existe</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>As ranhuras de funções do Azure (pré-visualização) estão atualmente desativadas. Para ativar, visite</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>Eliminar</value>
@@ -1013,7 +1043,7 @@
     <value>Funções</value>
   </data>
   <data name="newFunction" xml:space="preserve">
-    <value>Nova Função</value>
+    <value>Nova função</value>
   </data>
   <data name="functionApps" xml:space="preserve">
     <value>Aplicações de Funções</value>
@@ -1026,6 +1056,9 @@
   </data>
   <data name="restart" xml:space="preserve">
     <value>Reiniciar</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Trocar</value>
   </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Transferir perfil de publicação</value>
@@ -1073,7 +1106,7 @@
     <value>A parar a aplicação "{0}"</value>
   </data>
   <data name="siteSummary_startNotifyTitle" xml:space="preserve">
-    <value>Starting app '{0}'</value>
+    <value>A iniciar a aplicação "{0}"</value>
   </data>
   <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
     <value>A aplicação "{0}" foi parada com êxito</value>
@@ -1185,6 +1218,9 @@
   </data>
   <data name="feature_allSettingsInfo" xml:space="preserve">
     <value>Ver todas as definições do Serviço de Aplicações.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Definições Gerais</value>
@@ -1322,7 +1358,7 @@
     <value>Regras CORS ({0} definido)</value>
   </data>
   <data name="featureEnabled_deploymentSource" xml:space="preserve">
-    <value>Origem da implementação configurada com {0}</value>
+    <value>Opções da implementação configurada com {0}</value>
   </data>
   <data name="featureEnabled_sslCert" xml:space="preserve">
     <value>Certificados SSL</value>
@@ -1341,6 +1377,12 @@
   </data>
   <data name="tab_settings" xml:space="preserve">
     <value>Definições</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuração</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Gerir a aplicação de Função não está disponível para esta versão de avaliação.</value>
@@ -1383,6 +1425,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>Origem</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Opções</value>
   </data>
   <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
     <value>Não é possível aceder às definições do Azure para a aplicação de função.</value>
@@ -1501,97 +1546,337 @@
   <data name="functionKeys_actions" xml:space="preserve">
     <value>AÇÕES</value>
   </data>
-  <data name="functionKeys_easyAuthWarning" xml:space="preserve">
-    <value>A funcionalidade de Chaves não está disponível porque a Autenticação/Autorização está ativada para esta Aplicação de Função.</value>
-  </data>
   <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
-    <value>início rápido</value>
+    <value>vá para o início rápido</value>
   </data>
   <data name="httpRun_noQuery" xml:space="preserve">
     <value>Não existem parâmetros de consulta</value>
   </data>
   <data name="swaggerDefinition_collapse" xml:space="preserve">
-    <value>Collapse</value>
+    <value>Fechar</value>
   </data>
   <data name="swaggerDefinition_delete" xml:space="preserve">
-    <value>Are you sure you want to delete your API definition?</value>
+    <value>Quer mesmo eliminar a definição de API?</value>
   </data>
   <data name="swaggerDefinition_documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Documentação</value>
   </data>
   <data name="swaggerDefinition_expand" xml:space="preserve">
-    <value>Expand</value>
+    <value>Expandir</value>
   </data>
   <data name="swaggerDefinition_external" xml:space="preserve">
-    <value>External URL</value>
+    <value>URL externo</value>
   </data>
   <data name="swaggerDefinition_feature_overview" xml:space="preserve">
-    <value>Read the feature overview</value>
+    <value>Leia a descrição geral da funcionalidade</value>
   </data>
   <data name="swaggerDefinition_getting_started" xml:space="preserve">
-    <value>Check out our getting started tutorial</value>
+    <value>Consulte o nosso tutorial de introdução</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Function</value>
+    <value>Função</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
-    <value>API definition key</value>
+    <value>Chave de definição de API</value>
   </data>
   <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
-    <value>Load API definition</value>
+    <value>Carregar definição de API</value>
   </data>
   <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
-    <value>Generate API definition template</value>
+    <value>Gerar modelo de definição de API</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>Exportar para o Power Apps + Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
-    <value>Cannot save malformed API definition.</value>
+    <value>Não é possível guardar definição de API danificada.</value>
   </data>
   <data name="swaggerDefinition_renew" xml:space="preserve">
-    <value>Renew</value>
+    <value>Renovar</value>
   </data>
   <data name="swaggerDefinition_setExternal" xml:space="preserve">
-    <value>Set external definition URL</value>
+    <value>Configurar definição externa do URL</value>
   </data>
   <data name="swaggerDefinition_source" xml:space="preserve">
-    <value>API definition source</value>
+    <value>Origem de definição de API</value>
   </data>
   <data name="swaggerDefinition_subtitle" xml:space="preserve">
-    <value>Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition</value>
+    <value>Consumir as Funções de HTTP acionadas numa variedade de serviços utilizando uma definição OpenAPI 2.0 (Swagger)</value>
   </data>
   <data name="swaggerDefinition_title" xml:space="preserve">
-    <value>Function API definition (Swagger)</value>
+    <value>Definição de função de API (Swagger)</value>
   </data>
   <data name="swaggerDefinition_url" xml:space="preserve">
-    <value>API definition URL</value>
+    <value>URL de definição de API</value>
   </data>
   <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
-    <value>Use your API definition</value>
+    <value>Utilize a sua definição de API</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API definition (preview)</value>
+    <value>Definição de API (pré-visualização)</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
-    <value>We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later.</value>
+    <value>Não foi possível criar ou atualizar a chave swaggerdocumentationkey para o Ponto Final de Swagger. Verifique os registos de tempo de execução para quaisquer erros e tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
-    <value>We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later.</value>
+    <value>Não foi possível eliminar a definição de API. Verifique os registos de tempo de execução para quaisquer erros e tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToGetSystemKey" xml:space="preserve">
-    <value>We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later.</value>
+    <value>Não foi possível obter a chave {{keyName}}. Verifique os registos de tempo de execução para quaisquer erros e tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
-    <value>We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>Não foi possível carregar a definição de API gerada. Verifique os registos de tempo de execução para quaisquer erros e tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
-    <value>We are unable to update the runtime config. Please try again later.</value>
+    <value>Não foi possível atualizar a configuração de tempo de execução. Tente novamente mais tarde.</value>
   </data>
   <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
-    <value>We are not able to update the API definition. Please check the runtime logs for any errors or try again later.</value>
+    <value>Não foi possível atualizar a definição de API. Verifique os registos de tempo de execução para quaisquer erros e tente novamente mais tarde.</value>
   </data>
   <data name="swaggerDefinition_revert" xml:space="preserve">
-    <value>Revert to last save</value>
+    <value>Reverter para a última guardada</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Configure a Autenticação / Autorização do Serviço de Aplicações</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Clique em "Gerar modelo de definição de API" para começar</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Quer mesmo substituir a definição de API no editor?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Utilize a definição da API para aceder às Funções dentro do &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; e &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Crie uma definição dispersa com os metadados das funções acionadas de HTTP.
+Preencha nos &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;objetos de operação&lt;/a&gt;, e outras informações sobre a API antes de utilizar.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Esta chave protege a Definição de API do acesso a qualquer pessoa sem chave. 
+Não protege a API subjacente. Veja cada Função para ver a respetiva segurança de chaves.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Defina como "Função" para ativar uma definição de API alojada e a geração da definição de modelo.
+Defina para "URL Externo" para utilizar uma definição de API que está alojada noutro local.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Utilize este URL para aceder diretamente à definição de API e importar para ferramentas de terceiros </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Alterar o modo de edição da aplicação de função</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Modo de edição da aplicação de função</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Só de Leitura</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Leitura\Escrita</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Não são permitidos valores duplicados</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Este campo é obrigatório</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>O nome tem de ter, pelo menos, 2 carateres</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>O nome tem de ter menos de 60 carateres</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>"{0}" é um caráter inválido</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>O nome da aplicação "{0}" não está disponível</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Não foi possível atualizar o modo de edição da aplicação de função. Tente novamente mais tarde.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>A aplicação está atualmente no modo só de leitura porque definiu o modo de edição para só de leitura. Para alterar o modo de edição visite </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>A aplicação está atualmente no modo de leitura\escrita porque definiu o modo de edição para leitura\escrita mesmo tendo o controlo de origem ativado. Quaisquer alterações que efetue podem ser substituídas pela próxima implementação. Para alterar o modo de edição visite </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Obter URL de função</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Chave</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Transferir conteúdo da aplicação</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Quer mesmo renovar a chave {{name}}?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>A ranhura {0} foi criada com êxito </value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Saiba mais sobre as funções do azure</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Hub de Eventos</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Espaço de nomes</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Não encontrado.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Ponto final</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Não existem aplicações de função para apresentar</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Ranhuras (pré-visualização)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Ative as ranhuras de implementação (pré-visualização). Esta é uma opção ativa de participação na aplicação de Função que não pode ser desativada e serão repostos quaisquer segredos já existentes. Após a atualização, os segredos podem ser copiados sob o</value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>Nó de "Gerir" para cada função.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Criar nova ranhura de implementação</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>As ranhuras de implementação permitem-lhe implementar versões diferentes da aplicação de função para URLs diferentes. Pode testar uma determinada versão e, em seguida, mudar o conteúdo e a configuração entre ranhuras.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>A criar nova ranhura {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>A ranhura {0} foi criada com êxito </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Falha ao criar a ranhura {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Não é possível atualizar a lista de ranhuras</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>Não existe acesso para criar uma ranhura. Certifique-se de que tem o acesso de RBAC correto para a aplicação de função e também que não tem os bloqueios de leitura ativados.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>Plano do serviço de aplicações</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Ranhuras (pré-visualização)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>Para uma melhor experiência de monitorização, incluindo métricas dinâmicas e consultas personalizadas, recomendamos que utilize o &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Application Insights do Azure.&lt;/a&gt;</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Este valor será anexado ao URL da principal aplicação Web e funcionará como endereço público da ranhura. Por exemplo, se tiver uma aplicação Web com o nome "contoso" e uma ranhura denominada "testes", a nova ranhura terá um URL como o que se segue: "http://contoso-staging.azurewebsites.net".</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>O plano de consumo permite apenas uma única ranhura. Se necessitar de mais de uma ranhura, utilize os planos dedicados do Serviço de Aplicações.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Procurar funções</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Nova</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Eliminar função</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>É necessário um certificado de cliente para executar esta função. Para executá-la a partir do portal tem de desativar o certificado de cliente.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>A aplicação está atualmente apenas no modo de leitura porque tem ranhura ou ranhuras configuradas. Para alterar o modo de edição visite</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Gerir definições da aplicação</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>Hub IoT</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Chave</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Ligação</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Eventos (ponto final incorporado)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Monitorização de operações</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Política</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>erro de validação do esquema proxies.json</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>Num plano de Consumo, pode limitar a utilização da plataforma definindo uma quota de utilização diária em gigabytes-segundo. Uma vez que a quota de utilização diária é atingida, a Function App é parada até ao dia seguinte às 0:00 UTC.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(política do hub)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(política de espaço de nomes)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>A definição de aplicação não foi encontrada.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>mostrar valor</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Adicionar definição de aplicação</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Transferência</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Incluir definições de aplicação na transferência</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>Esta ação vai incluir um ficheiro denominado como local.settings.json que irá conter os valores das definições de aplicação. Este ficheiro não será encriptado na transferência, mas pode ser encriptado através da linha de comando das Ferramentas de Núcleo das Funções do Azure.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Conteúdo do site</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Conteúdo e projeto do Visual Studio</value>
   </data>
 </root>

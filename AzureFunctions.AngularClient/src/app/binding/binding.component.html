@@ -13,7 +13,9 @@
             <h3 class="binding-title pull-left">
                 {{model.label}}
             </h3>
-            <span [fnWriteAccess]="functionApp" *ngIf="canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">{{ 'binding_delete' | translate }}</span>
+            <span [fnWriteAccess]="functionApp" *ngIf="canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">
+                <i class="fa fa-remove"></i> {{ 'binding_delete' | translate }}
+            </span>
             <div class="clearfix"></div>
         </div>
 

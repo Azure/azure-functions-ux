@@ -94,7 +94,6 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
-    <Content Include="src\app\controls\tbl\tbl-th\tbl-th.component.scss" />
     <None Include="src\app\copy-pre\copy-pre.component.scss" />
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
     <Content Include="src\app\controls\command-bar\command\command.component.html" />
@@ -195,7 +194,6 @@
     <Content Include="src\app\slots-list\slots-list.component.scss" />
     <Content Include="src\app\slot-new\slot-new.component.scss" />
     <Content Include="src\app\search-box\search-box.component.scss" />
-    <None Include="src\app\tabs\tabs.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
     <None Include="src\app\template-picker\template-picker.component.scss" />
@@ -661,7 +659,6 @@
     <Content Include=".ember-cli" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\app\api-details\api-details.component.css" />
     <None Include="src\app\api-new\api-new.component.scss" />
     <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
