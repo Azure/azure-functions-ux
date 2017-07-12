@@ -307,6 +307,32 @@ export class BindingComponent {
         return ddInput;
     }
 
+    // Only one text box input should be filled in at a time
+    private _handleNANDRule(rule: Rule, isHidden: boolean) {
+        // should be two values corresponding to two inputs; cannot both be active
+        if (rule.values.length != 2) {
+            return;
+        }
+
+        let inputOne = this.model.inputs.find(i=> {
+            return i.id === rule.values[0].value;
+        });
+
+        let inputTwo = this.model.inputs.find(i => {
+            return i.id === rule.values[1].value;
+        });
+
+        if (inputOne && inputTwo) {
+            inputOne.changeValue = (value) => {
+                inputTwo.isDisabled = value != "";
+            };
+
+            inputTwo.changeValue = (value) => {
+                inputOne.isDisabled = value != "";
+            };
+        }  
+    }
+
     private enumOptionsEqual(current: EnumOption[], newOptions: EnumOption[]) {
         // Compare two enum arrays by comparing the display, value at each index. They are not guaranteed be in the same order.
         if (current.length == newOptions.length) {
@@ -506,23 +532,7 @@ export class BindingComponent {
                             this.model.inputs.splice(0, 0, ddInput);
                         }
                         else if (rule.type === "NAND") {
-                            // should be two values corresponding to two inputs; cannot both be active
-                            if (rule.values.length == 2) {
-                                var inputOneId = rule.values[0].value;
-                                var inputTwoId = rule.values[1].value;
-                                var inputOne = this.model.inputs.find(input => {
-                                    return input.id === inputOneId;
-                                });
-                                var inputTwo = this.model.inputs.find(input => {
-                                    return input.id === inputTwoId;
-                                });
-
-                                inputOne.counterpartToDisable = inputTwoId;
-                                inputTwo.counterpartToDisable = inputOneId;
-
-                                inputTwo.isDisabled = typeof inputOne.value != "undefined" && inputOne.value != "";
-                                inputOne.isDisabled = typeof inputTwo.value != "undefined" && inputTwo.value != "";
-                            }
+                            this._handleNANDRule(rule, isHidden);
                         }
                         else if (rule.type === "changeOptionsDisplayed") {
                             var ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);

@@ -89,19 +89,6 @@ export class MicrosoftGraphComponent {
             this._input.changeValue(value);
         }
 
-        // Goal of this is to have only one of two inputs enabled at once [Principal Id or Id Token]
-        if (typeof this._input.counterpartToDisable != "undefined") {
-            // If this input is not empty, disable the other input
-            // If this input is empty, enable the other input
-            var inputs = parent.document.getElementsByTagName("input");
-            for (var i = 0; i < inputs.length; i++) {
-                var input = inputs.item(i);
-                if (input.id == this._input.counterpartToDisable || (input.list && input.list.id == this._input.counterpartToDisable)) {
-                    input.disabled = value != "";
-                }
-            }
-        }
-
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
     }

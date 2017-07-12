@@ -20,7 +20,6 @@ export class BindingInputBase<T>
     placeholder: string;
     explicitSave: boolean = false;
 
-    counterpartToDisable: string;
     isDisabled: boolean = false;
 }
 
