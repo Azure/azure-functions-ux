@@ -433,6 +433,12 @@
   <data name="enabled" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>disable</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>enabled</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>here</value>
   </data>
@@ -441,6 +447,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Error parsing config: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>Failed to {{state}} function: {{functionName}}</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>Features</value>
