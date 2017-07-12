@@ -111,6 +111,10 @@ export class TblComponent implements OnInit, OnChanges {
       const curCell = this._getCurrentCellOrReset(rows);
       if (curCell) {
         curCell.click();
+
+        setTimeout(() =>{
+          this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
+        }, 0);
       }
     }
 
