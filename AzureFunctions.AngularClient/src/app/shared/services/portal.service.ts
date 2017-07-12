@@ -45,6 +45,7 @@ export class PortalService {
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
+        this.localStorage = window.localStorage;
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
