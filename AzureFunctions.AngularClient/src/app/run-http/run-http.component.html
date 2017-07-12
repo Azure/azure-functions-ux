@@ -5,67 +5,21 @@
     <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
 </select>
 
-<div style="padding-top:8px">{{ 'httpRun_query' | translate }}
-</div>
-
-<div *ngIf="model.queryStringParams.length === 1" class="text-label" style="font-style:italic">
-    {{ 'httpRun_noQuery' | translate }}
-</div>
-
-<ng-container *ngFor="let param of model.queryStringParams; let i = index;">
-    <div *ngIf="!param.isFixed" class="pair">
-        <input type="text" class="name"
-               [(ngModel)]="param.name"
-               (ngModelChange)="paramChanged($event)"
-               placeholder="name">
-
-        <pop-over *ngIf="!param.valid" [isInputError]="true" class="error-fix">
-        </pop-over>
-
-        <input type="text" class="value"
-               [(ngModel)]="param.value"
-               placeholder="value">
 
 
-        <span class="text-hl">
-            <i class="fa fa-remove clickable delete" (click)="removeQueryStringParam(i)"></i>
-        </span>
-    </div>
-</ng-container>
+<pair-list *ngIf="paramsOptions" 
+               [options]="paramsOptions" 
+               addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
+               emptyLabel="{{ 'httpRun_noQuery' | translate }}"
+               title="{{ 'httpRun_query' | translate }}"
+               (valueChanges)="paramsValueChanges($event)">
 
-<div>
-    <span class="text-hl" (click)="addQueryStringParam()">
-        <i class="fa fa-plus clickable"></i> {{ 'httpRun_addParameter' | translate }}
-    </span>
-</div>
+</pair-list>
+<pair-list *ngIf="headerOptions" 
+               [options]="headerOptions" 
+               addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
+               emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
+               title="{{ 'httpRun_headers' | translate }}"
+               (valueChanges)="headerValueChanges($event)">
 
-<div style="padding-top:8px">{{ 'httpRun_headers' | translate }}</div>
-
-<div *ngIf="model.headers.length === 0" class="text-label" style="font-style:italic">
-    {{ 'httpRun_noHeaders' | translate }}
-</div>
-
-<div *ngFor="let header of model.headers; let i = index;" class="pair">
-    <input type="text" class="name"
-           [(ngModel)]="header.name"
-           (ngModelChange)="paramChanged($event)"
-           placeholder="name">
-
-    <pop-over *ngIf="!header.valid" [isInputError]="true" class="error-fix">
-    </pop-over>
-
-    <input type="text" class="value"
-           [(ngModel)]="header.value"
-           placeholder="value">
-
-
-    <span class="text-hl">
-        <i class="fa fa-remove clickable delete" (click)="removeHeader(i)"></i>
-    </span>
-</div>
-
-<div>
-    <span class="text-hl" (click)="addHeader()">
-        <i class="fa fa-plus clickable"></i> {{ 'httpRun_addHeader' | translate }}
-    </span>
-</div>
+</pair-list>

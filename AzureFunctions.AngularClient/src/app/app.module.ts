@@ -114,6 +114,7 @@ import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
+import { PairListComponent } from './controls/pair-list/pair-list.component';
 import { GeneralSettingsComponent } from './site/site-config/general-settings/general-settings.component';
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
@@ -236,7 +237,7 @@ export class AppModule {
       GeneralSettingsComponent,
       AppSettingsComponent,
       ConnectionStringsComponent,
-      BindingEventGridComponent
+      PairListComponent
     ],
     imports: [
       FormsModule,

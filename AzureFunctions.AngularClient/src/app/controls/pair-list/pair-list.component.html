@@ -1,0 +1,33 @@
+<form [formGroup]="form">
+
+    <div style="padding-top:8px">
+        {{ title }}
+    </div>
+
+    <div *ngIf="form.value.items.length === 0" class="text-label" style="font-style:italic">
+        {{ emptyLabel }}
+    </div>
+
+    <div *ngFor="let item of form.controls.items.controls; let i=index" class="pair" formArrayName="items">
+        <ng-container [formGroupName]="i">
+
+                <input type="text" name="item{{i}}" placeholder="name" class="name" formControlName="name">
+
+                <pop-over *ngIf="!form.controls.items.controls[i].controls.name.valid" [isInputError]="true" class="error-fix">
+                </pop-over>
+
+                <input type="text" placeholder="value" class="value" formControlName="value">
+
+                <span class="text-hl">
+                    <i class="fa fa-remove clickable delete" (click)="removeItem(i)"></i>
+                </span>
+        </ng-container>
+    </div>
+
+    <div>
+        <span class="text-hl" (click)="addItem()">
+            <i class="fa fa-plus clickable"></i> {{addButtonLabel}}
+        </span>
+    </div>
+
+</form>

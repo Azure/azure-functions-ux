@@ -1,16 +1,19 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { HttpRunModel, Param } from '../shared/models/http-run';
-import { BindingType } from '../shared/models/binding';
-import { FunctionInfo } from '../shared/models/function-info';
-import { Constants } from '../shared/models/constants';
-import { URLSearchParams } from '@angular/http';
+import {Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
+import {HttpRunModel, Param} from '../shared/models/http-run';
+import {BindingType} from '../shared/models/binding'
+import {FunctionInfo} from '../shared/models/function-info';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import {Constants} from '../shared/models/constants';
+import {URLSearchParams} from '@angular/http';
+import {PairListOptions } from '../controls/pair-list/pair-list.component';
+import {Validators, FormGroup} from '@angular/forms';
 
 
 @Component({
-    selector: 'run-http',
-    templateUrl: './run-http.component.html',
-    styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
-    inputs: ['functionInfo', 'functionInvokeUrl']
+  selector: 'run-http',
+  templateUrl: './run-http.component.html',
+  styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
+  inputs: ['functionInfo', 'functionInvokeUrl']
 })
 export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
@@ -18,8 +21,14 @@ export class RunHttpComponent {
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
     availableMethods: string[] = [];
+    headerOptions: PairListOptions;
+    paramsOptions: PairListOptions;
+    private _code: Param;
+    private _headersValid: boolean;
+    private _paramsValid: boolean;
 
-    constructor() {
+
+    constructor(private _translateService: TranslateService) {
     }
 
     set functionInfo(value: FunctionInfo) {
@@ -36,7 +45,7 @@ export class RunHttpComponent {
             }
         }
 
-        const httpTrigger = value.config.bindings.find(b => {
+        var httpTrigger = value.config.bindings.find(b => {
             return b.type === BindingType.httpTrigger.toString();
         });
 
@@ -66,68 +75,43 @@ export class RunHttpComponent {
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
-        this.onChangeMethod(this.model.method);
-        this.paramChanged();
+
     }
 
     set functionInvokeUrl(value: string) {
         if (value) {
-            let params = this.getQueryParams(value);
-            const pathParams = this.getPathParams(value);
+            // Store "code" aithentication parameter 
+            var params = this.getQueryParams(value);
+            var codeIndex = params.findIndex(p => (p.name.toLowerCase() === "code"));
+            if (codeIndex > -1) {
+                this._code = params[codeIndex];
+                params.splice(codeIndex, 1);
+            }
+
+            var pathParams = this.getPathParams(value);
             params = pathParams.concat(params);
             params.forEach((p) => {
-                const findResult = this.model.queryStringParams.find((qp) => {
+                var findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;
                 });
 
                 if (!findResult) {
-                    this.model.queryStringParams.splice(0, 0, p);
+                    this.model.queryStringParams.splice(0,0, p);
                 }
             });
         }
-        this.paramChanged();
+        this.headerOptions = {
+            items: this.model.headers,
+            nameValidators: [Validators.required, Validators.pattern("^[a-zA-Z0-9\-]+$")]
+        };
+
+        this.paramsOptions = {
+            items: this.model.queryStringParams,
+            nameValidators: [Validators.required, Validators.pattern("^[a-zA-Z0-9\-]+$")]
+        };
+
     }
 
-    removeQueryStringParam(index: number) {
-        this.model.queryStringParams.splice(index, 1);
-        this.paramChanged();
-    }
-
-    removeHeader(index: number) {
-        this.model.headers.splice(index, 1);
-        this.paramChanged();
-    }
-
-    addQueryStringParam() {
-        this.model.queryStringParams.push(
-            {
-                name: '',
-                value: '',
-            });
-        this.paramChanged();
-    }
-
-    addHeader() {
-        this.model.headers.push(
-            {
-                name: '',
-                value: '',
-            });
-        this.paramChanged();
-    }
-
-    paramChanged() {
-        // iterate all params and set valid property depends of params name
-
-        const regex = new RegExp('^$|[^A-Za-z0-9-_]');
-        this.valid = true;
-        this.model.queryStringParams.concat(this.model.headers).forEach((item => {
-            item.valid = !regex.test(item.name);
-            this.valid = item.valid && this.valid;
-        }));
-
-        this.validChange.emit(this.valid);
-    }
 
     onChangeMethod(method: string) {
         this.disableTestData.emit((method.toLowerCase() === 'get' ||
@@ -136,30 +120,47 @@ export class RunHttpComponent {
             method.toLowerCase() === 'options'));
     }
 
+    headerValueChanges(form: FormGroup) {
+        this._headersValid = form.valid;
+        this.valid = this._paramsValid && this._headersValid;
+        this.model.headers = form.value.items;
+        this.validChange.emit(this.valid);
+    }
+
+    paramsValueChanges(form: FormGroup) {
+        this._paramsValid = form.valid;
+        this.valid = this._paramsValid && this._headersValid;
+        this.model.queryStringParams = form.value.items;
+        if (this._code) {
+            this.model.queryStringParams.push(this._code);
+        }
+
+        this.validChange.emit(this.valid);
+    }
+
     private getQueryParams(url: string): Param[] {
 
-        const result = [];
-        let urlCopy = url;
+        var result = [];
+        var urlCopy = url;
 
 
         // Remove path params
-        const regExp = /\{([^}]+)\}/g;
-        const matches = urlCopy.match(regExp);
+        var regExp = /\{([^}]+)\}/g;
+        var matches = urlCopy.match(regExp);
         if (matches) {
             matches.forEach((m) => {
-                urlCopy = urlCopy.replace(m, '');
+                urlCopy = urlCopy.replace(m, "");
             });
         }
 
-        const indexOf = urlCopy.indexOf('?');
+        var indexOf = urlCopy.indexOf('?');
         if (indexOf > 0) {
-            const usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
+            var usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
             usp.paramsMap.forEach((value, key) => {
                 value.forEach((v) => {
                     result.push({
                         name: decodeURIComponent(key),
-                        value: decodeURIComponent(v),
-                        isFixed: true
+                        value: decodeURIComponent(v)
                     });
                 });
             });
@@ -169,18 +170,17 @@ export class RunHttpComponent {
     }
 
     private getPathParams(url: string): Param[] {
-        const regExp = /\{([^}]+)\}/g;
+        var regExp = /\{([^}]+)\}/g;
 
-        const matches = url.match(regExp);
-        const result = [];
+        var matches = url.match(regExp);
+        var result = [];
 
         if (matches) {
             matches.forEach((m) => {
-                const splitResult = m.split(':');
+                var splitResult = m.split(":");
                 result.push({
-                    name: splitResult[0].replace('{', '').replace('}', ''),
-                    value: '',
-                    isFixed: false
+                    name: splitResult[0].replace("{", "").replace("}", ""),
+                    value: ""
                 });
             });
         }
