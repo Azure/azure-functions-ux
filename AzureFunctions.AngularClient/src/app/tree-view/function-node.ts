@@ -10,13 +10,16 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import { FunctionContainer } from '../shared/models/function-container';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { PortalResources } from '../shared/models/portal-resources';
-import { FunctionInfo } from '../shared/models/function-info';
+import {FunctionContainer} from '../shared/models/function-container';
+import {BroadcastEvent} from '../shared/models/broadcast-event';
+import {PortalResources} from '../shared/models/portal-resources';
+import {FunctionInfo} from '../shared/models/function-info';
+import { Url } from "app/shared/Utilities/url";
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.function;
+    public supportsTab: boolean;
+
     constructor(
         sideNav: SideNavComponent,
         private _functionsNode: FunctionsNode,
@@ -28,7 +31,9 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             parentNode);
         this.iconClass = "tree-node-svg-icon";
         this.iconUrl = "images/function_f.svg";
+        const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
 
+        this.supportsTab = (Url.getParameterByName(window.location.href, "appsvc.feature") === 'tabbed');
     }
 
     // This will be called on every change detection run. So I'm making sure to always

@@ -73,8 +73,18 @@ export class SiteDescriptor extends Descriptor {
         }
     }
 
-    getWebsiteId(): WebsiteId {
-        if (!this._websiteId) {
+    getResourceId() : string{
+        // resource id without slot information
+        let resource : string = `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.site}`;
+        // add slots if available
+        if (this.slot) {
+            resource = `${resource}/slots/${this.slot}`;
+        }
+        return resource
+    }
+
+    getWebsiteId() : WebsiteId{
+        if(!this._websiteId){
             let name = !this.slot ? this.site : `${this.site}(${this.slot})`;
             this._websiteId = {
                 Name: name,

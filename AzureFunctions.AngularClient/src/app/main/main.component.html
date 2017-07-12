@@ -2,9 +2,12 @@
 <busy-state name='dashboard'></busy-state>
 
 <div id="content">
-    <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp"></side-nav>
+    
+    <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp" *ngIf="!inTab"></side-nav>
+    
+    <function-dev *ngIf="inTab" [selectedFunction]="selectedFunction"></function-dev>
 
-    <div id="dashboard" *ngIf="!!viewInfo">
+    <div id="dashboard" *ngIf="!!viewInfo" class="padded">
 
         <apps-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'apps'"></apps-list>
         <create-app [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createApp'"></create-app>

@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         this.showTryLanding = window.location.pathname.endsWith('/try');
 
-        if (_userService.inIFrame || window.location.protocol === 'http:') {
+        if (_userService.inIFrame || window.location.protocol === 'http:' || _userService.inTab) {
             this.gettingStarted = false;
             return;
         } else {
