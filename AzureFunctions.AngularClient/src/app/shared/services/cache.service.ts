@@ -11,6 +11,7 @@ import { ArmArrayResult } from './../models/arm/arm-obj';
 import { Subscription } from './../models/subscription';
 import {ArmService} from './arm.service';
 import { ClearCache } from '../decorators/cache.decorator';
+import { Url } from './../../shared/Utilities/url';
 
 export interface CacheItem{
     id : string,
@@ -28,7 +29,7 @@ export class Cache{
 @Injectable()
 export class CacheService {
     private _cache : Cache;
-    private _expireMS = 60000;
+    private _expireMS = parseInt(Url.getParameterByName(window.location.href, "appsvc.debug.cacheinterval"), 10) || 60000;
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 
