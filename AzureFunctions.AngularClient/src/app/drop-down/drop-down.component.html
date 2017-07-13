@@ -1,4 +1,8 @@
-<div class="drop-down-container" *ngIf="_options">
+<div
+    *ngIf="_options"
+    class="drop-down-container"
+    [class.dirty]="highlightDirty && control?.dirty">
+
     <select
         *ngIf="!control"
         (change)="onSelect($event.target.value)"

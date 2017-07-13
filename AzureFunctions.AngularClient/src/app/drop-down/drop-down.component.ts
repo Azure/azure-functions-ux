@@ -7,7 +7,7 @@ import {DropDownElement} from '../shared/models/drop-down-element';
 @Component({
   selector: 'drop-down',
   templateUrl: './drop-down.component.html',
-  styleUrls: ['./drop-down.component.css']
+  styleUrls: ['./drop-down.component.scss']
 })
 export class DropDownComponent<T> implements OnInit, OnChanges {
 
@@ -16,6 +16,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     @Input() name : string;
     @Input() placeholder: string;
     @Input() disabled: boolean;
+    @Input() highlightDirty: boolean;
 
     @Output() value: EventEmitter<T>;
     @Output() blur = new Subject<any>();
