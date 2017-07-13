@@ -15,7 +15,7 @@ declare var require;
 export class MonacoEditorDirective {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
-    @Output() public onRun: EventEmitter<string>;
+    @Output() public onRun: EventEmitter<void>;
 
     private _language: string;
     private _content: string;
@@ -33,7 +33,7 @@ export class MonacoEditorDirective {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
-        this.onRun = new EventEmitter<string>();
+        this.onRun = new EventEmitter<void>();
 
         this._functionAppStream = new Subject<FunctionApp>();
         this._functionAppStream
@@ -179,7 +179,7 @@ export class MonacoEditorDirective {
                 });
 
                 that._editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
-                    that.onRun.emit(that._editor.getValue());
+                    that.onRun.emit();
                 });
 
                 that._globalStateService.clearBusyState();
