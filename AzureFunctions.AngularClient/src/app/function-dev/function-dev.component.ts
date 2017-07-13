@@ -1,3 +1,5 @@
+import { TabComponent } from './../tab/tab.component';
+import { TabsComponent } from './../tabs/tabs.component';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
@@ -101,7 +103,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private _bindingManager = new BindingManager();
 
     private _isClientCertEnabled = false;
-
     constructor(private _broadcastService: BroadcastService,
                 private _portalService: PortalService,
                 private _globalStateService: GlobalStateService,
@@ -112,7 +113,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
-
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .switchMap(file => {
@@ -459,8 +459,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         let notificationId = null;
         return this._portalService.startNotification(
-            this.ts.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name),
-            this.ts.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name))
+            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name),
+            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name))
             .first()
             .switchMap(r => {
                 notificationId = r.id;
@@ -481,15 +481,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._portalService.stopNotification(
                         notificationId,
                         true,
-                        this.ts.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
+                        this._translateService.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
                 this.content = this.updatedContent;
             },
             e => {
-                this._busyState.clearBusyState();
+                this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
-                    this.ts.instant(PortalResources.functionDev_saveFunctionFailure).format(this.functionInfo.name));
+                    this._translateService.instant(PortalResources.functionDev_saveFunctionFailure).format(this.functionInfo.name));
 
             });
     }
