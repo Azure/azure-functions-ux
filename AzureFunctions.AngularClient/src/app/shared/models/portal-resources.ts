@@ -366,6 +366,10 @@ export class PortalResources
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
+    public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
+    public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
+    public static configLoadFailure: string = "configLoadFailure";
+    public static configLoading: string = "configLoading";
     public static feature_propertiesName: string = "feature_propertiesName";
     public static feature_propertiesInfo: string = "feature_propertiesInfo";
     public static feature_backupsName: string = "feature_backupsName";

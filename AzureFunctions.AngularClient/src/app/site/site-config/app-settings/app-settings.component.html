@@ -2,13 +2,13 @@
 
 <div *ngIf="!hasWritePermissions" class="settings-group-wrapper">
   <div class="placeholder">
-    NO ACCESS
+    {{permissionsMessage}}
   </div>
 </div>
 
 <div *ngIf="hasWritePermissions && !groupArray" class="settings-group-wrapper">
   <div class="placeholder">
-    NOT LOADED
+    {{loadingStateMessage}}
   </div>
 </div>
 

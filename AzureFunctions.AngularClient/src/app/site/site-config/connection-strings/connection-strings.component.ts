@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SaveResult, ResourceInfo } from './../site-config.component';
+import { SaveResult } from './../site-config.component';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
@@ -18,6 +18,7 @@ import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { TblItem } from './../../../controls/tbl/tbl.component';
 import { CacheService } from './../../../shared/services/cache.service';
+import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -31,12 +32,17 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
-  private _resourceInfoStream: Subject<ResourceInfo>;
-  private _resourceInfoSubscription: RxSubscription;
-  public hasWritePermissions: boolean = true;
+  private _resourceIdStream: Subject<string>;
+  private _resourceIdSubscription: RxSubscription;
+  private _writePermission: boolean;
+  private _readOnlyLock: boolean;
+  public hasWritePermissions: boolean;
+  public permissionsMessage: string;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
+ 
+  private _authZService: AuthzService;
 
   private _saveError: string;
 
@@ -46,55 +52,105 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   private _connectionStringsArm: ArmObj<ConnectionStrings>;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
 
+  public loadingStateMessage: string;
+
   @Input() mainForm: FormGroup;
 
-  @Input() resourceInfo: ResourceInfo;
+  @Input() resourceId: string;
 
 constructor(
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _aiService: AiService,
+    authZService: AuthzService,
     tabsComponent: TabsComponent
     ) {
       this._busyState = tabsComponent.busyState;
       this._busyStateScopeManager = this._busyState.getScopeManager();
+      
+      this._authZService = authZService;
 
-      this._resourceInfoStream = new Subject<ResourceInfo>();
-      this._resourceInfoSubscription = this._resourceInfoStream
+      this._resetPermissionsAndLoadingState();
+
+      this._resourceIdStream = new Subject<string>();
+      this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
-        this._saveError = null;
         this._busyStateScopeManager.setBusy();
-        return this._cacheService.postArm(`${this.resourceInfo.resourceId}/config/connectionstrings/list`, true);
+        this._saveError = null;
+        this._connectionStringsArm = null;
+        this.groupArray = null;
+        this._resetPermissionsAndLoadingState();
+        return Observable.zip(
+          this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
+          this._authZService.hasReadOnlyLock(this.resourceId),
+          (wp, rl) => ({writePermission: wp, readOnlyLock: rl})
+        )
+      })
+      .mergeMap(p => {
+        this._setPermissions(p.writePermission, p.readOnlyLock);
+        return Observable.zip(
+          Observable.of(this.hasWritePermissions),
+          this.hasWritePermissions ?
+            this._cacheService.postArm(`${this.resourceId}/config/connectionstrings/list`, true) : Observable.of(null),
+          (h, c) => ({hasWritePermissions: h, connectionStringsResponse: c})
+        )
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/connection-strings", error);
-        this._connectionStringsArm = null;
+        //this._connectionStringsArm = null;
         this._setupForm(this._connectionStringsArm);
+        this.loadingStateMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
-        this._connectionStringsArm = r.json();
-        this._setupForm(this._connectionStringsArm);
+        if(r.hasWritePermissions){
+          this._connectionStringsArm = r.connectionStringsResponse.json();
+          this._setupForm(this._connectionStringsArm);
+        }
         this._busyStateScopeManager.clearBusy();
       });
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if (changes['resourceInfo']){
-      this._resourceInfoStream.next(this.resourceInfo);
-      this.hasWritePermissions = this.resourceInfo.writePermission && !this.resourceInfo.readOnlyLock;
+    if (changes['resourceId']){
+      this._resourceIdStream.next(this.resourceId);
     }
-    if(changes['mainForm'] && !changes['resourceInfo']){
+    if(changes['mainForm'] && !changes['resourceId']){
       this._setupForm(this._connectionStringsArm);
     }
   }
 
   ngOnDestroy(): void{
-    this._resourceInfoSubscription.unsubscribe();
+    this._resourceIdSubscription.unsubscribe();
     this._busyStateScopeManager.dispose();
+  }
+
+  private _resetPermissionsAndLoadingState(){
+    this._writePermission = true;
+    this._readOnlyLock = false;
+    this.hasWritePermissions = true;
+    this.permissionsMessage = "";
+    this.loadingStateMessage = this._translateService.instant(PortalResources.configLoading);
+  }
+
+  private _setPermissions(writePermission: boolean, readOnlyLock: boolean){
+    this._writePermission = writePermission;
+    this._readOnlyLock = readOnlyLock;
+
+    if(!this._writePermission){
+      this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
+    }
+    else if(this._readOnlyLock){
+      this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
+    }
+    else{
+      this.permissionsMessage = "";
+    }
+
+    this.hasWritePermissions = this._writePermission && !this._readOnlyLock;
   }
 
   private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>){
@@ -183,7 +239,7 @@ constructor(
         connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
       }
 
-      return this._cacheService.putArm(`${this.resourceInfo.resourceId}/config/connectionstrings`, null, connectionStringsArm)
+      return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
       .map(connectionStringsResponse => {
         this._connectionStringsArm = connectionStringsResponse.json();
         return {

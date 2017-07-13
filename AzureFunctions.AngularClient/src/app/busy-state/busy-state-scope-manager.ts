@@ -25,8 +25,8 @@ export class BusyStateScopeManager {
     if(this._busyStateSubscription){
       this._busyStateSubscription.unsubscribe();
     }
+    this.clearBusy();
     this._busyState = undefined;
-    this._busyStateKey = undefined;
     this._busyStateSubscription = undefined;
   }
 

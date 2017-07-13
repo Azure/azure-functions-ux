@@ -18,12 +18,6 @@ export interface SaveResult {
   error?: string;
 }
 
-export interface ResourceInfo {
-  resourceId: string;
-  writePermission: boolean;
-  readOnlyLock: boolean
-}
-
 @Component({
   selector: 'site-config',
   templateUrl: './site-config.component.html',
@@ -32,10 +26,12 @@ export interface ResourceInfo {
 export class SiteConfigComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo>;
   private _viewInfoSubscription: RxSubscription;
-  public hasWritePermissions: boolean = false;
+  private _writePermission: boolean = true;
+  private _readOnlyLock: boolean = false;
+  public hasWritePermissions: boolean = true;
 
   public mainForm: FormGroup;
-  private resourceInfo: ResourceInfo;
+  private resourceId: string;
 
   private _busyState: BusyStateComponent;
  
@@ -66,13 +62,13 @@ export class SiteConfigComponent implements OnDestroy {
         this._busyState.setBusyState();
          return Observable.zip(
            Observable.of(viewInfo.resourceId),
-           this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope], true),
-           this._authZService.hasReadOnlyLock(viewInfo.resourceId, true),
+           this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
+           this._authZService.hasReadOnlyLock(viewInfo.resourceId),
            (r, wp, rl) => ({resourceId: r, writePermission: wp, readOnlyLock: rl})
          )
        })
       .do(null, error => {
-        this.resourceInfo = null;
+        this.resourceId = null;
         this.mainForm = this._fb.group({});
         (<any>this.mainForm).timeStamp = new Date(); //for debugging
         this._aiService.trackEvent("/errors/site-config", error);
@@ -80,12 +76,10 @@ export class SiteConfigComponent implements OnDestroy {
       })
       .retry()
       .subscribe(r => {
-        this.resourceInfo = {
-          resourceId: r.resourceId,
-          writePermission: r.writePermission,
-          readOnlyLock: r.readOnlyLock
-        };
+        this._writePermission = r.writePermission;
+        this._readOnlyLock = r.readOnlyLock;
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+        this.resourceId = r.resourceId;
         this.mainForm = this._fb.group({});
         (<any>this.mainForm).timeStamp = new Date(); //for debugging
         this._busyState.clearBusyState();

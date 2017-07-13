@@ -28,7 +28,7 @@ export class BusyStateComponent implements OnInit {
     }
 
     setScopedBusyState(key: string): string {
-        key = key || this.getNewGuid();
+        key = key || Guid.newGuid();
         this.busyStateMap[key] = true;
         this.busy = true;
         return key;
@@ -68,15 +68,6 @@ export class BusyStateComponent implements OnInit {
             }
         }
         return true;
-    }
-
-    getNewGuid()
-    {
-        let guid = Guid.newGuid();
-        while(this.busyStateMap[guid]) {
-            guid = Guid.newGuid();
-        }
-        return guid;
     }
 
     getScopeManager() : BusyStateScopeManager {

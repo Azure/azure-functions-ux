@@ -1210,6 +1210,18 @@
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
   </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to edit these settings.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This resource has a read-only lock that prevents us from getting the data. Please remove the lock and try again.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Failed to load settings.</value>
+  </data>
+  <data name="configLoading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>
   </data>
