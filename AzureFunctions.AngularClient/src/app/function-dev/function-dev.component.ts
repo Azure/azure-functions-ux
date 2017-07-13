@@ -1,5 +1,3 @@
-import { TabComponent } from './../tab/tab.component';
-import { TabsComponent } from './../tabs/tabs.component';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
 import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
