@@ -42,7 +42,7 @@ pre {
     text-decoration: underline;
 }
 
-.focused{
+:focus{
     outline: $border-focus;
 }
 
