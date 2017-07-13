@@ -1,13 +1,13 @@
 <h3 class="text-level2-heading connection-strings">{{ 'feature_applicationSettingsName' | translate }}</h3>
 
 <div *ngIf="!hasWritePermissions" class="settings-group-wrapper">
-  <div class="placeholder">
+  <div class="settings-load-message">
     {{permissionsMessage}}
   </div>
 </div>
 
 <div *ngIf="hasWritePermissions && !groupArray" class="settings-group-wrapper">
-  <div class="placeholder">
+  <div class="settings-load-message">
     {{loadingStateMessage}}
   </div>
 </div>

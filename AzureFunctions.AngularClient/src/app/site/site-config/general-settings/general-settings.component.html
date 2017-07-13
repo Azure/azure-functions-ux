@@ -2,11 +2,11 @@
 
 <div *ngIf="!group" class="settings-group-wrapper">
 
-  <div *ngIf="hasWritePermissions" class="placeholder">
+  <div *ngIf="hasWritePermissions" class="settings-load-message">
     {{loadingStateMessage}}
   </div>
   
-  <div *ngIf="!hasWritePermissions" class="placeholder">
+  <div *ngIf="!hasWritePermissions" class="settings-load-message">
     {{permissionsMessage}}
   </div>
 
@@ -15,85 +15,79 @@
 <div *ngIf="!!group" class="settings-group-wrapper">
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['netFrameWorkVersion'].pristine"
-      [class.dirty]="group.controls['netFrameWorkVersion'].dirty">
-      {{ group.controls['netFrameWorkVersion'].friendlyName }}
-    </p>
-    <drop-down
-      [group]="group.controls['netFrameWorkVersion']"
-      name="value"
-      [options]="group.controls['netFrameWorkVersion'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['netFrameWorkVersion'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down
+        [group]="group.controls['netFrameWorkVersion']"
+        name="value"
+        [options]="group.controls['netFrameWorkVersion'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['phpVersion'].pristine"
-      [class.dirty]="group.controls['phpVersion'].dirty">
-      {{ group.controls['phpVersion'].friendlyName }}
-    </p>
-    <drop-down
-      [group]="group.controls['phpVersion']"
-      name="value"
-      [options]="group.controls['phpVersion'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['phpVersion'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down
+        [group]="group.controls['phpVersion']"
+        name="value"
+        [options]="group.controls['phpVersion'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['pythonVersion'].pristine"
-      [class.dirty]="group.controls['pythonVersion'].dirty">
-      {{ group.controls['pythonVersion'].friendlyName }}
-    </p>
-    <drop-down
-      [group]="group.controls['pythonVersion']"
-      name="value"
-      [options]="group.controls['pythonVersion'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['pythonVersion'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down
+        [group]="group.controls['pythonVersion']"
+        name="value"
+        [options]="group.controls['pythonVersion'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['javaVersion'].pristine"
-      [class.dirty]="group.controls['javaVersion'].dirty">
-      {{ group.controls['javaVersion'].friendlyName }}
-    </p>
-    <drop-down #javaVersionDropDown
-      [group]="group.controls['javaVersion']"
-      name="value"
-      [options]="group.controls['javaVersion'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['javaVersion'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down #javaVersionDropDown
+        [group]="group.controls['javaVersion']"
+        name="value"
+        [options]="group.controls['javaVersion'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['javaMinorVersion'].pristine"
-      [class.dirty]="group.controls['javaMinorVersion'].dirty">
-      {{ group.controls['javaMinorVersion'].friendlyName }}
-    </p>
-    <drop-down
-      [group]="group.controls['javaMinorVersion']"
-      name="value"
-      [options]="group.controls['javaMinorVersion'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['javaMinorVersion'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down
+        [group]="group.controls['javaMinorVersion']"
+        name="value"
+        [options]="group.controls['javaMinorVersion'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div class="setting-wrapper">
-    <p 
-      [class.pristine]="group.controls['javaWebContainer'].pristine"
-      [class.dirty]="group.controls['javaWebContainer'].dirty">
-      {{ group.controls['javaWebContainer'].friendlyName }}
-    </p>
-    <drop-down
-      [group]="group.controls['javaWebContainer']"
-      name="value"
-      [options]="group.controls['javaWebContainer'].options">
-    </drop-down>
+    <div class="setting-label">{{ group.controls['javaWebContainer'].friendlyName }}</div>
+    <div class="setting-control-container">
+      <drop-down
+        [group]="group.controls['javaWebContainer']"
+        name="value"
+        [options]="group.controls['javaWebContainer'].options"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
   </div>
 
   <div *ngIf="!hasWritePermissions" class="shield">
-    <div class="placeholder">
+    <div class="shield-message">
       {{permissionsMessage}}
     </div>
   </div>

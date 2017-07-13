@@ -42,7 +42,8 @@ export class JavaSettingsGroups {
 @Component({
   selector: 'general-settings',
   templateUrl: './general-settings.component.html',
-  styleUrls: ['./general-settings.component.scss']
+  styleUrls: ['./../site-config.component.scss']
+  //styleUrls: ['./general-settings.component.scss']
 })
 export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;

@@ -30,7 +30,8 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 @Component({
   selector: 'connection-strings',
   templateUrl: './connection-strings.component.html',
-  styleUrls: ['./connection-strings.component.scss']
+  styleUrls: ['./../site-config.component.scss']
+  //styleUrls: ['./connection-strings.component.scss']
 })
 export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public Resources = PortalResources;

@@ -3,9 +3,11 @@
 h3{
     @extend .text-level2-heading;
     font-weight: normal;
-    margin-left: 10px;
-    margin-bottom: 0px;
-    margin-top: 55px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 35px;
+    padding-bottom: 10px;
+    //border-bottom: 1px solid #dedede;
 
     &.first-config-heading{
         margin-top: 10px;
@@ -21,21 +23,20 @@ h3{
     z-index: 10;
     display: flex;
     background: rgba(255, 255, 255, 0.60);
-}
 
-
-.placeholder{
-    padding-top: 15px;
-    padding-bottom: 15px;
-    //margin-left: 5px;
-    //margin-right: 5px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 100%;
-    border: 1px solid black;
-    background: rgba(0, 0, 0, 0.60);
-    color: white;
-    text-align: center;
+    .shield-message{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-left: 25px;
+        margin-right: 25px;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 100%;
+        border: 1px solid black;
+        background: rgba(0, 0, 0, 0.60);
+        color: white;
+        text-align: center;
+    }
 }
 
 .settings-group-wrapper{
@@ -43,15 +44,44 @@ h3{
     margin-bottom: 10px;
     position: relative;
 
-    .setting-wrapper{
-        p{
-            &.pristine{
-                color: orange;
-            }
+    .settings-load-message{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+        margin-right: 25px;
+        //width: 100%;
+        border: 1px solid black;
+        background: rgba(0, 0, 0, 0.60);
+        color: white;
+        text-align: center;
+    }
 
-            &.dirty{
-                color: purple;
-            }
+    .setting-wrapper{
+        padding-bottom: 15px;
+
+        .setting-label{
+            box-sizing: border-box;
+            color: rgb(71, 71, 71);
+            display: inline-block;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: normal;
+            min-height: 20px;
+            width: 16%;
+        }
+
+        .setting-control-container{
+            color: rgb(37, 37, 37);
+            display: inline-block;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: normal;
+            vertical-align: middle;
+            width: 82%;
         }
     }
 }
