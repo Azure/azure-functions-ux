@@ -104,6 +104,7 @@
                             <div monacoEditor id="code"
                                 class="monaco dev-full"
                                 style="margin-top: 7px"
+                                (onRun)="runFunction()"
                                 (onSave)="saveScript()"
                                 (onContentChanged)="contentChanged($event)"
                                 [content]="content"
