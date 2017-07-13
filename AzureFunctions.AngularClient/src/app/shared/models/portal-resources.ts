@@ -596,5 +596,8 @@ export class PortalResources
     public static downloadFunctionAppContent_vsProject: string = "downloadFunctionAppContent_vsProject";
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
+    public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
+    public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
+    public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
 }
 
