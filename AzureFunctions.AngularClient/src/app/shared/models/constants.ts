@@ -125,6 +125,7 @@ export class Order {
 export class KeyCodes{
     public static readonly tab = 9;
     public static readonly enter = 13;
+    public static readonly shiftLeft = 16;
     public static readonly space = 32;
     public static readonly escape = 27;
     public static readonly arrowLeft = 37;
