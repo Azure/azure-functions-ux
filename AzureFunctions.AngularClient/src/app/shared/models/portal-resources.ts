@@ -373,6 +373,12 @@ export class PortalResources
     public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
     public static configLoadFailure: string = "configLoadFailure";
     public static configLoading: string = "configLoading";
+    public static netFrameWorkVersionLabel: string = "netFrameWorkVersionLabel";
+    public static phpVersionLabel: string = "phpVersionLabel";
+    public static pythonVersionLabel: string = "pythonVersionLabel";
+    public static javaVersionLabel: string = "javaVersionLabel";
+    public static javaMinorVersionLabel: string = "javaMinorVersionLabel";
+    public static javaWebContainerLabel: string = "javaWebContainerLabel";
     public static feature_propertiesName: string = "feature_propertiesName";
     public static feature_propertiesInfo: string = "feature_propertiesInfo";
     public static feature_backupsName: string = "feature_backupsName";

@@ -1824,7 +1824,61 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configLoading", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to .NET Framework version
+        /// </summary>
+        internal static string netFrameWorkVersionLabel {
+            get {
+                return ResourceManager.GetString("netFrameWorkVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to PHP version
+        /// </summary>
+        internal static string phpVersionLabel {
+            get {
+                return ResourceManager.GetString("phpVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Python version
+        /// </summary>
+        internal static string pythonVersionLabel {
+            get {
+                return ResourceManager.GetString("pythonVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java version
+        /// </summary>
+        internal static string javaVersionLabel {
+            get {
+                return ResourceManager.GetString("javaVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java minor version
+        /// </summary>
+        internal static string javaMinorVersionLabel {
+            get {
+                return ResourceManager.GetString("javaMinorVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web container
+        /// </summary>
+        internal static string javaWebContainerLabel {
+            get {
+                return ResourceManager.GetString("javaWebContainerLabel", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>

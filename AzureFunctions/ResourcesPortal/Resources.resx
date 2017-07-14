@@ -1231,6 +1231,24 @@
   <data name="configLoading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework version</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP version</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python version</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java version</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java minor version</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Web container</value>
+  </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>
   </data>

@@ -15,7 +15,7 @@
 <div *ngIf="!!group" class="settings-group-wrapper">
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['netFrameWorkVersion'].friendlyName }}</div>
+    <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down
         [group]="group.controls['netFrameWorkVersion']"
@@ -27,7 +27,7 @@
   </div>
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['phpVersion'].friendlyName }}</div>
+    <div class="setting-label">{{ 'phpVersionLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down
         [group]="group.controls['phpVersion']"
@@ -39,7 +39,7 @@
   </div>
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['pythonVersion'].friendlyName }}</div>
+    <div class="setting-label">{{ 'pythonVersionLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down
         [group]="group.controls['pythonVersion']"
@@ -51,7 +51,7 @@
   </div>
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['javaVersion'].friendlyName }}</div>
+    <div class="setting-label">{{ 'javaVersionLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down #javaVersionDropDown
         [group]="group.controls['javaVersion']"
@@ -63,7 +63,7 @@
   </div>
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['javaMinorVersion'].friendlyName }}</div>
+    <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down
         [group]="group.controls['javaMinorVersion']"
@@ -75,7 +75,7 @@
   </div>
 
   <div class="setting-wrapper">
-    <div class="setting-label">{{ group.controls['javaWebContainer'].friendlyName }}</div>
+    <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}</div>
     <div class="setting-control-container">
       <drop-down
         [group]="group.controls['javaWebContainer']"
