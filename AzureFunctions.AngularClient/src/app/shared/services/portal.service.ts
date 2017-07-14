@@ -226,6 +226,13 @@ export class PortalService {
         else if(methodName === Verbs.sendNotificationStarted){
             this.notificationStartStream.next(data);
         }
+        else if(methodName === Verbs.sendResourceId){
+            if(!this.startupInfo) {
+                return;
+            }
+            this.startupInfo.resourceId = data;
+            this.startupInfoObservable.next(this.startupInfo);
+        }
     }
 
     private postMessage(verb: string, data: string){
