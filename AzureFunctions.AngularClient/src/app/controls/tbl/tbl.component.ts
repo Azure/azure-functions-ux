@@ -81,8 +81,8 @@ export class TblComponent implements OnInit, OnChanges {
 
     if (row && cell) {
       const rows = this._getRows();
-      const rowIndex = this._findElemIndex(<HTMLElement[]><any>rows, row);
-      const cells: HTMLTableCellElement[] = <any>this._getCells(row);
+      const rowIndex = this._findElemIndex(rows, row);
+      const cells = this._getCells(row);
       const cellIndex = this._findElemIndex(cells, cell);
 
       if (rowIndex && cellIndex) {
@@ -157,7 +157,8 @@ export class TblComponent implements OnInit, OnChanges {
   // types for some reason, so you can't use methods like "find" or "findIndex".
   // I'm not sure what the proper type is so I'm just treating it like an array
   // without "findIndex"
-  private _findElemIndex(elems: HTMLElement[], elem: HTMLElement) {
+  private _findElemIndex(elems: NodeList, elem: HTMLElement) {
+
     for (let i = 0; i < elems.length; i++) {
       if (elems[i] === elem) {
         return i;
