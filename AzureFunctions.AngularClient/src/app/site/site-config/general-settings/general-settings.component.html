@@ -1,27 +1,18 @@
 <h3 class="text-level2-heading first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
 
-<div *ngIf="!group" class="settings-group-wrapper">
-
-  <div *ngIf="hasWritePermissions" class="settings-load-message">
-    {{loadingStateMessage}}
-  </div>
-  
-  <div *ngIf="!hasWritePermissions" class="settings-load-message">
-    {{permissionsMessage}}
-  </div>
-
-</div>
-
-<div *ngIf="!!group" class="settings-group-wrapper">
+<div class="settings-group-wrapper">
 
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down
+      <drop-down *ngIf="!!group"
         [group]="group.controls['netFrameWorkVersion']"
         name="value"
         [options]="group.controls['netFrameWorkVersion'].options"
         [highlightDirty]="true">
+      </drop-down>
+      <drop-down *ngIf="!group"
+        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -29,11 +20,14 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'phpVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down
+      <drop-down *ngIf="!!group"
         [group]="group.controls['phpVersion']"
         name="value"
         [options]="group.controls['phpVersion'].options"
         [highlightDirty]="true">
+      </drop-down>
+      <drop-down *ngIf="!group"
+        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -41,11 +35,14 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'pythonVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down
+      <drop-down *ngIf="!!group"
         [group]="group.controls['pythonVersion']"
         name="value"
         [options]="group.controls['pythonVersion'].options"
         [highlightDirty]="true">
+      </drop-down>
+      <drop-down *ngIf="!group"
+        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -53,11 +50,14 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down #javaVersionDropDown
+      <drop-down *ngIf="!!group" #javaVersionDropDown
         [group]="group.controls['javaVersion']"
         name="value"
         [options]="group.controls['javaVersion'].options"
         [highlightDirty]="true">
+      </drop-down>
+      <drop-down *ngIf="!group"  #javaVersionDropDown
+        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -65,11 +65,14 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down
+      <drop-down *ngIf="!!group"
         [group]="group.controls['javaMinorVersion']"
         name="value"
         [options]="group.controls['javaMinorVersion'].options"
         [highlightDirty]="true">
+      </drop-down>
+      <drop-down *ngIf="!group"
+        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -77,17 +80,23 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down
+      <drop-down *ngIf="!!group"
         [group]="group.controls['javaWebContainer']"
         name="value"
         [options]="group.controls['javaWebContainer'].options"
         [highlightDirty]="true">
       </drop-down>
+      <drop-down *ngIf="!group"
+        [options]="optionsPlaceholder">
+      </drop-down>
     </div>
   </div>
 
-  <div *ngIf="!hasWritePermissions" class="shield">
-    <div class="shield-message">
+  <div *ngIf="!hasWritePermissions || !group" class="shield">
+    <div *ngIf="hasWritePermissions" class="shield-message">
+      {{loadingStateMessage}}
+    </div>
+    <div *ngIf="!hasWritePermissions" class="shield-message">
       {{permissionsMessage}}
     </div>
   </div>

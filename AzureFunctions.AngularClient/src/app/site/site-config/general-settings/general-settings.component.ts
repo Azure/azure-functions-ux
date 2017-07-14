@@ -91,6 +91,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _selectedJavaVersion: string;
   private _javaVersionSubscription: RxSubscription;
 
+  public optionsPlaceholder: DropDownElement<string>[] = [{ displayLabel: "-", value: "", default: true }];
+
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
