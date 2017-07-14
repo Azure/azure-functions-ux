@@ -1,13 +1,13 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { Lock } from './../models/arm/locks';
 import { ArmObj } from './../models/arm/arm-obj';
-import {ArmService} from './arm.service';
-import {CacheService} from './cache.service';
-import {Permissions, PermissionsAsRegExp} from '../models/arm/permission';
+import { ArmService } from './arm.service';
+import { CacheService } from './cache.service';
+import { Permissions, PermissionsAsRegExp } from '../models/arm/permission';
 
 @Injectable()
 export class AuthzService {
@@ -21,66 +21,66 @@ export class AuthzService {
 
     private _wildCardEscapeSequence = "\\*";
 
-    constructor(private _cacheService : CacheService, private _armService : ArmService){
+    constructor(private _cacheService: CacheService, private _armService: ArmService) {
     }
 
-    hasPermission(resourceId : string, requestedActions : string[]) : Observable<boolean>{
+    hasPermission(resourceId: string, requestedActions: string[]): Observable<boolean> {
         let authId = `${resourceId}${AuthzService.permissionsSuffix}`;
         return this._cacheService.getArm(authId, false, this._armService.armPermissionsVersion)
-        .map(r =>{
-            let permissionsSet = r.json().value;
-            return this._checkPermissions(resourceId, requestedActions, permissionsSet);
-        })
-        .catch(e => {
+            .map(r => {
+                let permissionsSet = r.json().value;
+                return this._checkPermissions(resourceId, requestedActions, permissionsSet);
+            })
+            .catch(e => {
 
-            // We've seen cases where ARM has a bad day and permission checks will start to fail with 429's.
-            // So if these requests fail, just assume that you have permission and try your best.
-            if(e.status === 429 /* too many requests */){
-                return Observable.of(true)
-            }
+                // We've seen cases where ARM has a bad day and permission checks will start to fail with 429's.
+                // So if these requests fail, just assume that you have permission and try your best.
+                if (e.status === 429 /* too many requests */) {
+                    return Observable.of(true)
+                }
 
-            return Observable.of(false);
-        });
+                return Observable.of(false);
+            });
     }
 
-    hasReadOnlyLock(resourceId : string) : Observable<boolean>{
+    hasReadOnlyLock(resourceId: string): Observable<boolean> {
         return this._getLocks(resourceId)
-        .map(locks =>{
-            return !!locks.find(l => l.properties.level === "ReadOnly");
-        })
+            .map(locks => {
+                return !!locks.find(l => l.properties.level === "ReadOnly");
+            })
     }
 
-    private _getLocks(resourceId : string){
+    private _getLocks(resourceId: string) {
         let lockId = `${resourceId}${AuthzService.authSuffix}`;
         return this._cacheService.getArm(lockId, false, this._armService.armLocksApiVersion)
-        .map(r =>{
-            return <ArmObj<Lock>[]>r.json().value;
-        });
+            .map(r => {
+                return <ArmObj<Lock>[]>r.json().value;
+            });
     }
 
-    private _getResourceType(resourceId : string){
+    private _getResourceType(resourceId: string) {
         let parts = resourceId.split("/").filter(part => !!part);
         let resourceType = parts[5];
-        for(let i = 6; i < parts.length; i += 2){
+        for (let i = 6; i < parts.length; i += 2) {
             resourceType = resourceType + "/" + parts[i];
         }
 
         return resourceType;
     }
 
-    private _checkPermissions(resourceId : string, requestedActions : string[], permissionsSet : Permissions[]){
-        if(!requestedActions || !permissionsSet || permissionsSet.length === 0){
+    private _checkPermissions(resourceId: string, requestedActions: string[], permissionsSet: Permissions[]) {
+        if (!requestedActions || !permissionsSet || permissionsSet.length === 0) {
             // If there are no requested actions or no available actions the caller has no permissions
             return false;
         }
 
         let resourceType = this._getResourceType(resourceId);
-        let permissionSetRegexes = permissionsSet.map(permission =>{
+        let permissionSetRegexes = permissionsSet.map(permission => {
             return this._permissionsToRegExp(permission);
         });
 
-        return requestedActions.every(action =>{
-            if(action.length > 1 && action.charAt(0) === "." && action.charAt(1) === "/"){
+        return requestedActions.every(action => {
+            if (action.length > 1 && action.charAt(0) === "." && action.charAt(1) === "/") {
                 // Special case: turn leading ./ to {resourceType}/ for formatting.
                 action = resourceType + action.substring(1);
             }
@@ -92,11 +92,11 @@ export class AuthzService {
     }
 
     private _permissionsToRegExp(permissions: Permissions): PermissionsAsRegExp {
-        var actions = permissions.actions.map(pattern =>{
+        var actions = permissions.actions.map(pattern => {
             return this._convertWildCardPatternToRegex(pattern);
         });
 
-        var notActions = permissions.notActions.map(pattern =>{
+        var notActions = permissions.notActions.map(pattern => {
             return this._convertWildCardPatternToRegex(pattern);
         });
 

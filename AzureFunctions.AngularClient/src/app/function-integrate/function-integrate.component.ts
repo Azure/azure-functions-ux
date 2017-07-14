@@ -3,16 +3,16 @@ import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import {Component, OnDestroy, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit} from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
-import {PortalService} from '../shared/services/portal.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
+import { Component, OnDestroy, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { FunctionInfo } from '../shared/models/function-info';
+import { PortalService } from '../shared/services/portal.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BindingManager} from '../shared/models/binding-manager';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BindingManager } from '../shared/models/binding-manager';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
     selector: 'function-integrate',
@@ -31,7 +31,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     private _originalContent: string;
     private _currentConent: string;
     private _bindingManager: BindingManager = new BindingManager();
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
     public disabled: Observable<boolean>;
 
     constructor(
@@ -83,12 +83,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
                 this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
-                .subscribe(fi => {
-                    this._originalContent = this.configContent;
-                    this.clearDirty();
-                    this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
-                });
+                    .subscribe(fi => {
+                        this._originalContent = this.configContent;
+                        this.clearDirty();
+                        this._globalStateService.clearBusyState();
+                        this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
+                    });
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {

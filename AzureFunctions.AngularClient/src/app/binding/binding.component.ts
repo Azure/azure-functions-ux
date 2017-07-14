@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
+import { Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,22 +6,22 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
 import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
-import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
-import {BindingManager} from '../shared/models/binding-manager';
-import {BindingInputList} from '../shared/models/binding-input-list';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {PortalService} from '../shared/services/portal.service';
-import {PortalResources} from '../shared/models/portal-resources';
-import {Validator} from '../shared/models/binding';
-import {FunctionApp} from '../shared/function-app';
-import {CacheService} from '../shared/services/cache.service';
-import {ArmObj} from '../shared/models/arm/arm-obj';
-import {AuthSettings} from '../shared/models/auth-settings';
+import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType } from '../shared/models/binding';
+import { BindingManager } from '../shared/models/binding-manager';
+import { BindingInputList } from '../shared/models/binding-input-list';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { PortalService } from '../shared/services/portal.service';
+import { PortalResources } from '../shared/models/portal-resources';
+import { Validator } from '../shared/models/binding';
+import { FunctionApp } from '../shared/function-app';
+import { CacheService } from '../shared/services/cache.service';
+import { ArmObj } from '../shared/models/arm/arm-obj';
+import { AuthSettings } from '../shared/models/auth-settings';
 
 declare var jQuery: any;
 declare var marked: any;
@@ -33,7 +33,7 @@ declare var marked: any;
     inputs: ['functionAppInput', 'binding', 'clickSave']
 })
 
-export class BindingComponent{
+export class BindingComponent {
     @Input() canDelete: boolean = true;
     @Input() canSave: boolean = true;
     @Input() canCancel: boolean = true;
@@ -75,12 +75,12 @@ export class BindingComponent{
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
     private _newBinding;
-    private _appSettings : { [key: string]: string };
+    private _appSettings: { [key: string]: string };
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
-        private _cacheService : CacheService,
+        private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
         var renderer = new marked.Renderer();
@@ -92,13 +92,13 @@ export class BindingComponent{
                 return Observable.zip(
                     this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
-                    (a, e) => ({appSettings : a.json(), authSettings: e}));
+                    (a, e) => ({ appSettings: a.json(), authSettings: e }));
             });
 
         funcStream
             .merge(this._bindingStream)
             .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
-                try{
+                try {
                     if (res.appSettings) {
                         this._appSettings = res.appSettings.properties;
                     }
@@ -112,7 +112,7 @@ export class BindingComponent{
                 } catch (e) {
                     console.error(e);
                 }
-        });
+            });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
@@ -156,7 +156,7 @@ export class BindingComponent{
         this._subscription.unsubscribe();
     }
 
-    set functionAppInput(functionApp : FunctionApp){
+    set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
@@ -170,7 +170,7 @@ export class BindingComponent{
         this._bindingStream.next(value);
     }
 
-    private _updateBinding(value : UIFunctionBinding){
+    private _updateBinding(value: UIFunctionBinding) {
         this.isDirty = false;
         var that = this;
         this.functionApp.getBindingConfig().subscribe((bindings) => {
@@ -573,12 +573,12 @@ export class BindingComponent{
     private setLabel() {
         var bindingTypeString = this.bindingValue.direction.toString();
         switch (bindingTypeString) {
-             case "in":
+            case "in":
                 bindingTypeString = "input";
                 break;
-             case "out":
-                 bindingTypeString = "output";
-                 break;
+            case "out":
+                bindingTypeString = "output";
+                break;
         }
 
         this.model.label = this.bindingValue.displayName + " " + bindingTypeString;
@@ -597,54 +597,54 @@ export class BindingComponent{
     }
 
     private _getResourceAppSettings(type: ResourceType): string[] {
-       var result = [];
-       switch (type) {
-           case ResourceType.Storage:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1 ) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.EventHub:
-           case ResourceType.ServiceBus:
-               for (var key in this._appSettings) {
+        var result = [];
+        switch (type) {
+            case ResourceType.Storage:
+                for (var key in this._appSettings) {
+                    var value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.EventHub:
+            case ResourceType.ServiceBus:
+                for (var key in this._appSettings) {
 
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.ApiHub:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
+                    var value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.ApiHub:
+                for (var key in this._appSettings) {
+                    var value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
 
-           case ResourceType.DocumentDB:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.AppSetting:
-               for (var key in this._appSettings) result.push(key);
-               break;
-       }
-       return result;
-   }
+            case ResourceType.DocumentDB:
+                for (var key in this._appSettings) {
+                    var value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.AppSetting:
+                for (var key in this._appSettings) result.push(key);
+                break;
+        }
+        return result;
+    }
 
 
-   private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
-       var value = this._appSettings ? this._appSettings[settingName] : null;
-       if (value) {
+    private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
+        var value = this._appSettings ? this._appSettings[settingName] : null;
+        if (value) {
             var account = [];
             var accountName;
             var accountKey;
@@ -662,35 +662,35 @@ export class BindingComponent{
             if (accountKey) account.push(accountKey);
             if (accountName) account.push(accountName);
             return account;
-       } else {
-           return [];
-       }
+        } else {
+            return [];
+        }
     }
 
-   private filterWarnings() {
-       if (this.newFunction) {
-           this.model.warnings = undefined;
-       }
+    private filterWarnings() {
+        if (this.newFunction) {
+            this.model.warnings = undefined;
+        }
 
-       if (this.model.warnings) {
-           this.model.warnings.forEach((w) => {
-               var array = w.variablePath.split('.');
-               var showWarning: any = this;
-               array.forEach((part) => {
-                   showWarning = showWarning[part];
-               });
+        if (this.model.warnings) {
+            this.model.warnings.forEach((w) => {
+                var array = w.variablePath.split('.');
+                var showWarning: any = this;
+                array.forEach((part) => {
+                    showWarning = showWarning[part];
+                });
 
-               if (showWarning === true) {
-                   w.visible = true;
-               }
-           });
-       }
-   }
+                if (showWarning === true) {
+                    w.visible = true;
+                }
+            });
+        }
+    }
 
-   private getDataToLog() {
-       return {
-           name: this.bindingValue.type.toString(),
-           direction: this.bindingValue.direction.toString()
-       };
-   }
+    private getDataToLog() {
+        return {
+            name: this.bindingValue.type.toString(),
+            direction: this.bindingValue.direction.toString()
+        };
+    }
 }

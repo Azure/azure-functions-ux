@@ -9,22 +9,22 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import {FunctionContainer} from '../shared/models/function-container';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {ApiProxy} from '../shared/models/api-proxy';
+import { FunctionContainer } from '../shared/models/function-container';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { ApiProxy } from '../shared/models/api-proxy';
 
-export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection{
+export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public title = "Proxy";
     public dashboardType = DashboardType.proxy;
     public showExpandIcon = false;
 
     constructor(
-        sideNav : SideNavComponent,
+        sideNav: SideNavComponent,
         private _functionsNode: ProxiesNode,
         //public functionInfo: FunctionInfo,
         public proxy: ApiProxy,
-        parentNode : TreeNode){
+        parentNode: TreeNode) {
 
         super(sideNav,
             proxy.functionApp.site.id + "/proxies/" + proxy.name,
@@ -35,8 +35,8 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
         this.iconUrl = "images/api-proxy.svg";
     }
 
-    public handleSelection() : Observable<any>{
-        if(!this.disabled){
+    public handleSelection(): Observable<any> {
+        if (!this.disabled) {
             return (<AppNode>this.parent.parent).initialize();
         }
 
@@ -53,20 +53,20 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
     //    return Observable.of(null);
     //}
 
-    public getViewData() : any{
+    public getViewData(): any {
         return this.proxy;
     }
 
-    public shouldBlockNavChange() : boolean{
+    public shouldBlockNavChange(): boolean {
         return ProxyNode.blockNavChangeHelper(this);
     }
 
-    public dispose(newSelectedNode? : TreeNode){
+    public dispose(newSelectedNode?: TreeNode) {
         this.sideNav.broadcastService.clearAllDirtyStates();
         this.parent.dispose(newSelectedNode);
     }
 
-    public static blockNavChangeHelper(currentNode : TreeNode){
+    public static blockNavChangeHelper(currentNode: TreeNode) {
         var canSwitchFunction = true;
         if (currentNode.sideNav.broadcastService.getDirtyState('function')
             || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')

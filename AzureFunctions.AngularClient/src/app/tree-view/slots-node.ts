@@ -58,10 +58,10 @@ export class SlotsNode extends TreeNode {
         })
 
         this._removeHelper(removeIndex, callRemoveOnChild);
-         this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
+        this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
     }
 
-    public dispose(newSelectedNode? : TreeNode){
+    public dispose(newSelectedNode?: TreeNode) {
         this.parent.dispose(newSelectedNode);
     }
 }

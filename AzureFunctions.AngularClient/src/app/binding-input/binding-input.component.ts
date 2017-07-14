@@ -1,26 +1,26 @@
-import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild} from '@angular/core';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PopoverContent} from "ng2-popover";
+import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild } from '@angular/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PopoverContent } from "ng2-popover";
 
 import { BindingInputBase } from '../shared/models/binding-input';
-import {PortalService} from '../shared/services/portal.service';
-import {UserService} from '../shared/services/user.service';
-import {PickerInput} from '../shared/models/binding-input';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {SettingType, ResourceType, UIFunctionBinding} from '../shared/models/binding';
-import {DropDownElement} from '../shared/models/drop-down-element';
-import {PortalResources} from '../shared/models/portal-resources';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {FunctionApp} from '../shared/function-app';
+import { PortalService } from '../shared/services/portal.service';
+import { UserService } from '../shared/services/user.service';
+import { PickerInput } from '../shared/models/binding-input';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { SettingType, ResourceType, UIFunctionBinding } from '../shared/models/binding';
+import { DropDownElement } from '../shared/models/drop-down-element';
+import { PortalResources } from '../shared/models/portal-resources';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ArmService } from './../shared/services/arm.service';
 
 @Component({
-  selector: 'binding-input',
-  templateUrl: './binding-input.component.html',
-  styleUrls: ['./binding-input.component.css'],
+    selector: 'binding-input',
+    templateUrl: './binding-input.component.html',
+    styleUrls: ['./binding-input.component.css'],
 })
 export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
@@ -167,8 +167,7 @@ export class BindingInputComponent {
             });
     }
 
-    onAppSettingValueHidden()
-    {
+    onAppSettingValueHidden() {
         this.appSettingValue = null;
     }
 

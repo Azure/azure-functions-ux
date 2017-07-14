@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
-import {FunctionApp} from '../function-app';
+import { FunctionApp } from '../function-app';
 
 declare var monaco;
 declare var require;
@@ -23,13 +23,13 @@ export class MonacoEditorDirective {
     private _editor: any;
     private _silent: boolean = false;
     private _fileName: string;
-    private _functionAppStream : Subject<FunctionApp>;
-    private _functionApp : FunctionApp;
+    private _functionAppStream: Subject<FunctionApp>;
+    private _functionApp: FunctionApp;
 
     constructor(public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _configService : ConfigService
-        ) {
+        private _configService: ConfigService
+    ) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -38,13 +38,13 @@ export class MonacoEditorDirective {
         this._functionAppStream = new Subject<FunctionApp>();
         this._functionAppStream
             .distinctUntilChanged()
-            .subscribe(functionApp =>{
+            .subscribe(functionApp => {
                 this._functionApp = functionApp;
                 this.init();
             });
     }
 
-    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp){
+    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
@@ -148,7 +148,7 @@ export class MonacoEditorDirective {
                 let fileName = that._fileName || '';
                 fileName = fileName.toLocaleLowerCase();
                 if (fileName === projectJson || fileName === functionJson || fileName === hostJson) {
-                        that.setMonacoSchema(fileName, that._functionApp);
+                    that.setMonacoSchema(fileName, that._functionApp);
                 } else {
                     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                         schemas: []

@@ -1,23 +1,23 @@
 import { AppNode } from './../tree-view/app-node';
-import {Component, OnInit, EventEmitter, ViewChild, Input} from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionsService } from '../shared/services/functions.service';
-import {FunctionApp} from '../shared/function-app';
-import {PortalService} from '../shared/services/portal.service';
-import {UserService} from '../shared/services/user.service';
-import {FunctionInfo} from '../shared/models/function-info';
-import {VfsObject} from '../shared/models/vfs-object';
-import {FunctionDevComponent} from '../function-dev/function-dev.component';
-import {FunctionConfig} from '../shared/models/function-config';
+import { FunctionApp } from '../shared/function-app';
+import { PortalService } from '../shared/services/portal.service';
+import { UserService } from '../shared/services/user.service';
+import { FunctionInfo } from '../shared/models/function-info';
+import { VfsObject } from '../shared/models/vfs-object';
+import { FunctionDevComponent } from '../function-dev/function-dev.component';
+import { FunctionConfig } from '../shared/models/function-config';
 import { FunctionSecrets } from '../shared/models/function-secrets';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
-import {FunctionNode} from '../tree-view/function-node';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { FunctionNode } from '../tree-view/function-node';
 
 @Component({
     selector: 'function-edit',
@@ -29,7 +29,7 @@ export class FunctionEditComponent {
 
     @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
-    public viewInfo : TreeViewInfo;
+    public viewInfo: TreeViewInfo;
     public inIFrame: boolean;
     public editorType: string = "standard";
     public disabled: boolean;
@@ -40,7 +40,7 @@ export class FunctionEditComponent {
     public ManageTab: string;
     public tabId: string = "";
 
-    private _viewInfoStream : Subject<TreeViewInfo>;
+    private _viewInfoStream: Subject<TreeViewInfo>;
 
     private appNode: AppNode;
     private functionApp: FunctionApp;
@@ -59,14 +59,14 @@ export class FunctionEditComponent {
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
-            .subscribe(viewInfo =>{
+            .subscribe(viewInfo => {
                 this.viewInfo = viewInfo;
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
                 this.functionApp = this.selectedFunction.functionApp;
-                this.appNode = <AppNode> viewInfo.node.parent.parent;
+                this.appNode = <AppNode>viewInfo.node.parent.parent;
                 let segments = viewInfo.resourceId.split("/");
                 // support for both site & slots
-                if (segments.length === 13 && segments[11] === "functions" || segments.length ===11 && segments[9] === "functions"){
+                if (segments.length === 13 && segments[11] === "functions" || segments.length === 11 && segments[9] === "functions") {
                     this.tabId = "develop";
                 } else {
                     this.tabId = segments[segments.length - 1];
@@ -74,7 +74,7 @@ export class FunctionEditComponent {
             });
     }
 
-    set viewInfoInput(viewInfo : TreeViewInfo){
+    set viewInfoInput(viewInfo: TreeViewInfo) {
         this._viewInfoStream.next(viewInfo);
     }
 

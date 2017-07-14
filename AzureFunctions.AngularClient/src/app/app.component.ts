@@ -13,19 +13,19 @@ import { GlobalStateService } from './shared/services/global-state.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Constants } from './shared/models/constants';
 import { AiService } from './shared/services/ai.service';
-import {PortalService} from './shared/services/portal.service';
-import {ArmService} from './shared/services/arm.service';
-import {UserService} from './shared/services/user.service';
-import {FunctionsService} from './shared/services/functions.service';
-import {ErrorListComponent} from './error-list/error-list.component';
-import {MainComponent} from './main/main.component';
+import { PortalService } from './shared/services/portal.service';
+import { ArmService } from './shared/services/arm.service';
+import { UserService } from './shared/services/user.service';
+import { FunctionsService } from './shared/services/functions.service';
+import { ErrorListComponent } from './error-list/error-list.component';
+import { MainComponent } from './main/main.component';
 // import {MonitoringService} from './shared/services/app-monitoring.service';
 // import {BackgroundTasksService} from './shared/services/background-tasks.service';
 // import {GlobalStateService} from './shared/services/global-state.service';
 // import {TranslateService} from '@ngx-translate/core';
 // import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
 // import {PortalResources} from './shared/models/portal-resources';
-import {ConfigService} from './shared/services/config.service';
+import { ConfigService } from './shared/services/config.service';
 
 @Component({
     selector: 'app-root',
@@ -35,9 +35,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     public gettingStarted: boolean;
     public ready: boolean;
     public showTryLanding: boolean;
-    public tryFunctionApp : FunctionApp;
+    public tryFunctionApp: FunctionApp;
 
-    private _startupInfo : StartupInfo;
+    private _startupInfo: StartupInfo;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
@@ -65,23 +65,23 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._userService.getStartupInfo()
-        .first()
-        .subscribe(info => {
-            this._startupInfo = info;
-            this.ready = true;
-
-            if (!this._userService.inIFrame) {
+            .first()
+            .subscribe(info => {
+                this._startupInfo = info;
                 this.ready = true;
 
-                if (this._configService.isStandalone()) {
-                    this.initializeDashboard(null);
+                if (!this._userService.inIFrame) {
+                    this.ready = true;
+
+                    if (this._configService.isStandalone()) {
+                        this.initializeDashboard(null);
+                    }
                 }
-            }
-        });
+            });
     }
 
     ngAfterViewInit() {
-        this._globalStateService.GlobalBusyStateComponent  = this.busyStateComponent;
+        this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
     }
 
     initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (typeof functionContainer !== 'string') {
             this._broadcastService.clearAllDirtyStates();
 
-            if(this._startupInfo){
+            if (this._startupInfo) {
                 this._startupInfo.resourceId = functionContainer && functionContainer.id;
                 this._userService.updateStartupInfo(this._startupInfo);
             }
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
     }
 
-    initializeTryDashboard(functionApp : FunctionApp){
+    initializeTryDashboard(functionApp: FunctionApp) {
         this._globalStateService.setBusyState();
         this._broadcastService.clearAllDirtyStates();
         this.gettingStarted = false;

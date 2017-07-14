@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import { ConfigService } from './config.service';
-import { Constants} from './../models/constants';
+import { Constants } from './../models/constants';
 import { User } from '../models/user';
 import { TenantInfo } from '../models/tenant-info';
 import { FunctionContainer } from '../models/function-container';
@@ -62,12 +62,12 @@ export class UserService {
             Observable.zip(
                 this._getSubscriptions(null),
                 this._getLocalizedResources(this._startupInfo, null),
-                (s, r) => ({ subscriptions : s, resources : r})
+                (s, r) => ({ subscriptions: s, resources: r })
             )
-            .subscribe(r =>{
-                this._startupInfo.subscriptions = r.subscriptions;
-                this.updateStartupInfo(this._startupInfo);
-            });
+                .subscribe(r => {
+                    this._startupInfo.subscriptions = r.subscriptions;
+                    this.updateStartupInfo(this._startupInfo);
+                });
         }
     }
 

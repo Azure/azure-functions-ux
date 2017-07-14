@@ -21,10 +21,10 @@ function MixPanelDefined() {
 
 @Injectable()
 export class AiTryService extends AiService {
-    private _tryTraceStartTimes: {[name: string]: number} = {};
+    private _tryTraceStartTimes: { [name: string]: number } = {};
 
     constructor() {
-      super();
+        super();
     }
 
     setSessionId(sessionId: string, count?: number) { }

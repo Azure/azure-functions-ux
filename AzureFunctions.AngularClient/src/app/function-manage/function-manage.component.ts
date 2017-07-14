@@ -1,25 +1,25 @@
 import { ConfigService } from './../shared/services/config.service';
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import {FunctionConfig} from '../shared/models/function-config';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {SelectOption} from '../shared/models/select-option';
-import {PortalService} from '../shared/services/portal.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionApp} from '../shared/function-app';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
-import {FunctionManageNode} from '../tree-view/function-node';
-import {BindingManager} from '../shared/models/binding-manager';
+import { FunctionConfig } from '../shared/models/function-config';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { SelectOption } from '../shared/models/select-option';
+import { PortalService } from '../shared/services/portal.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionApp } from '../shared/function-app';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { FunctionManageNode } from '../tree-view/function-node';
+import { BindingManager } from '../shared/models/binding-manager';
 
 @Component({
     selector: 'function-manage',
@@ -29,20 +29,20 @@ import {BindingManager} from '../shared/models/binding-manager';
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
-    public functionInfo : FunctionInfo;
-    public functionApp : FunctionApp;
+    public functionInfo: FunctionInfo;
+    public functionApp: FunctionApp;
     public isStandalone: boolean;
     public isHttpFunction: boolean = false;
 
-    private _viewInfoStream : Subject<TreeViewInfo>;
-    private _functionNode : FunctionManageNode;
+    private _viewInfoStream: Subject<TreeViewInfo>;
+    private _functionNode: FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
 
     constructor(private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService,
-                configService: ConfigService) {
+        private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
+        configService: ConfigService) {
 
         this.isStandalone = configService.isStandalone();
 
@@ -65,26 +65,26 @@ export class FunctionManageComponent {
                 value: true
             }];
 
-            this.functionStateValueChange = new Subject<boolean>();
-            this.functionStateValueChange
-                .switchMap(state => {
-                     const originalState = this.functionInfo.config.disabled;
-                     this._globalStateService.setBusyState();
-                     this.functionInfo.config.disabled = state;
-                     return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
-                 })
-                 .do(null, originalState => {
-                     this.functionInfo.config.disabled = originalState;
-                     this._globalStateService.clearBusyState();
-                 })
-                .retry()
-                .subscribe((fi : FunctionInfo) => {
-                    this._globalStateService.clearBusyState();
-                    this.functionInfo.config.disabled = fi.config.disabled;
-                });
+        this.functionStateValueChange = new Subject<boolean>();
+        this.functionStateValueChange
+            .switchMap(state => {
+                const originalState = this.functionInfo.config.disabled;
+                this._globalStateService.setBusyState();
+                this.functionInfo.config.disabled = state;
+                return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
+            })
+            .do(null, originalState => {
+                this.functionInfo.config.disabled = originalState;
+                this._globalStateService.clearBusyState();
+            })
+            .retry()
+            .subscribe((fi: FunctionInfo) => {
+                this._globalStateService.clearBusyState();
+                this.functionInfo.config.disabled = fi.config.disabled;
+            });
     }
 
-    set viewInfoInput(viewInfo : TreeViewInfo){
+    set viewInfoInput(viewInfo: TreeViewInfo) {
         this._viewInfoStream.next(viewInfo);
     }
 

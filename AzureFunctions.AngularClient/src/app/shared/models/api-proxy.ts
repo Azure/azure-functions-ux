@@ -1,6 +1,6 @@
-﻿import {TranslateService } from '@ngx-translate/core';
-import {PortalResources} from './portal-resources';
-import {FunctionApp} from '../function-app';
+﻿import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from './portal-resources';
+import { FunctionApp } from '../function-app';
 
 export class ApiProxy {
     name: string;

@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter} from '@angular/core';
+import { Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import {TranslatePipe} from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import {UserService} from '../shared/services/user.service';
-import {FunctionContainer} from '../shared/models/function-container';
-import {FunctionsService} from '../shared/services/functions.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {ErrorEvent} from '../shared/models/error-event';
-import {UtilitiesService} from '../shared/services/utilities.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
+import { UserService } from '../shared/services/user.service';
+import { FunctionContainer } from '../shared/models/function-container';
+import { FunctionsService } from '../shared/services/functions.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { ErrorEvent } from '../shared/models/error-event';
+import { UtilitiesService } from '../shared/services/utilities.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
 
 @Component({
     selector: 'log-streaming',
@@ -51,7 +51,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     }
 
     ngOnDestroy() {
-        if (this.xhReq){
+        if (this.xhReq) {
             this.timeouts.forEach(window.clearTimeout);
             this.timeouts = [];
             this.xhReq.abort();
@@ -62,15 +62,15 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         }
     }
 
-    startLogs(){
+    startLogs() {
         this.stopped = false;
     }
 
-    stopLogs(){
+    stopLogs() {
         this.stopped = true;
     }
 
-    clearLogs(){
+    clearLogs() {
         this.skipLength = this.skipLength + this.log.length;
         this.log = ' ';
     }

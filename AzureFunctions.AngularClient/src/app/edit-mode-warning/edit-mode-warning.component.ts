@@ -20,19 +20,19 @@ export class EditModeWarningComponent implements OnInit {
 
   ngOnInit() {
     this.functionApp &&
-    this.functionApp
-      .getFunctionAppEditMode()
-      .subscribe(editMode => {
-        if (editMode === FunctionAppEditMode.ReadOnly) {
-          this.readOnly = true;
-        } else if (editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
-          this.readOnlySourceControlled = true;
-        } else if (editMode === FunctionAppEditMode.ReadWriteSourceControlled) {
-          this.readWriteSourceControlled = true;
-        } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
-          this.readOnlySlots = true;
-        }
-      });
+      this.functionApp
+        .getFunctionAppEditMode()
+        .subscribe(editMode => {
+          if (editMode === FunctionAppEditMode.ReadOnly) {
+            this.readOnly = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlySourceControlled) {
+            this.readOnlySourceControlled = true;
+          } else if (editMode === FunctionAppEditMode.ReadWriteSourceControlled) {
+            this.readWriteSourceControlled = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
+            this.readOnlySlots = true;
+          }
+        });
   }
 
   onFunctionAppSettingsClicked() {

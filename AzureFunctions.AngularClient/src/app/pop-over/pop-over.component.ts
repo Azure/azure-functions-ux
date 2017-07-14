@@ -1,10 +1,10 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {DropDownElement} from '../shared/models/drop-down-element';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { DropDownElement } from '../shared/models/drop-down-element';
 
 @Component({
-  selector: 'pop-over',
-  templateUrl: './pop-over.component.html',
-  styleUrls: ['./pop-over.component.scss']
+    selector: 'pop-over',
+    templateUrl: './pop-over.component.html',
+    styleUrls: ['./pop-over.component.scss']
 })
 export class PopOverComponent {
 

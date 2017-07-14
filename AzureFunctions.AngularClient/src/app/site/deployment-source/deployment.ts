@@ -1,4 +1,4 @@
-import {ArmObj} from '../../shared/models/arm/arm-obj';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
 
 export enum ProviderType {
     None = 0,
@@ -20,14 +20,14 @@ export enum ProviderType {
     VSTSRM = 16
 }
 
-export interface Provider{
-    title : string,
-    subtitle : string,
+export interface Provider {
+    title: string,
+    subtitle: string,
     imgUrl: string,
-    type : ProviderType
+    type: ProviderType
 }
 
-export enum Status{
+export enum Status {
     Pending,
     Building,
     Deploying,
@@ -36,19 +36,19 @@ export enum Status{
 }
 
 export interface Deployment {
-    id : string;
-    status : Status;
+    id: string;
+    status: Status;
     author: string;
     deployer: string;
     message: string;
     progress: string;
-    active : boolean;
-    end_time : string;
-    last_success_end_time : string;
+    active: boolean;
+    end_time: string;
+    last_success_end_time: string;
     log_url: string;
 }
 
-export interface DeploymentLog{
+export interface DeploymentLog {
     "log_time": string;
     "id": string;
     "message": string;
@@ -63,7 +63,7 @@ export interface SetupOAuthRequest {
     SetupToken: string;
     SetupTokenSecret: string;
     SiteName: string;
-    SubscriptionId : string;
+    SubscriptionId: string;
     ShellUrl: string;
 }
 
@@ -107,10 +107,10 @@ export interface Folder {
     Name: string;
 }
 
-export interface SourceControls{
+export interface SourceControls {
     repoUrl: string,
-    branch : string,
-    isManualIntegration : boolean,
-    deploymentRollbackEnabled : boolean,
+    branch: string,
+    isManualIntegration: boolean,
+    deploymentRollbackEnabled: boolean,
     isMercurial: boolean,
 }
