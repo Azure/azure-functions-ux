@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./aggregate-block.component.css']
 })
 export class AggregateBlockComponent {
-    @Input() value: string;
-    @Input() title: string;
+  @Input() value: string;
+  @Input() title: string;
 }

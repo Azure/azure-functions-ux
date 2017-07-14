@@ -15,19 +15,19 @@ import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.
  */
 export class UniqueValidator implements Validator {
     constructor(
-        private _controlName : string,
-        private _controlsArray : FormArray,
-        private _error){
+        private _controlName: string,
+        private _controlsArray: FormArray,
+        private _error) {
     }
 
-    validate(control : CustomFormControl){
-        if(control.pristine){
+    validate(control: CustomFormControl) {
+        if (control.pristine) {
             return null;
         }
 
-        let match = this._controlsArray.controls.find(group =>{
+        let match = this._controlsArray.controls.find(group => {
             let cs = (<FormGroup>group).controls;
-            if(!cs){
+            if (!cs) {
                 throw "Validator requires hierarchy of FormArray -> FormGroup -> FormControl";
             }
 
@@ -37,6 +37,6 @@ export class UniqueValidator implements Validator {
                 && c.value.toString().toLowerCase() === control.value.toString().toLowerCase();
         });
 
-        return !!match ? { "notUnique" : this._error} : null;
+        return !!match ? { "notUnique": this._error } : null;
     }
 }

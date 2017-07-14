@@ -8,13 +8,13 @@ import { FunctionApp } from './../function-app';
 import { FunctionAppEditMode } from '../models/function-app-edit-mode';
 
 @Directive({
-  selector: '[fnWriteAccess]',
+    selector: '[fnWriteAccess]',
 })
 export class FnWriteAccessDirective {
 
     functionAppStream: Subject<FunctionApp>;
 
-    @Input('fnWriteAccess') set functionApp (value) {
+    @Input('fnWriteAccess') set functionApp(value) {
         this.functionAppStream.next(value);
     }
 

@@ -18,12 +18,12 @@ export class NoCorsHttpService {
         private _broadcastService: BroadcastService,
         private _aiService: AiService,
         private _translateService: TranslateService,
-        private portalHeadersCallback: () => Headers ) { }
+        private portalHeadersCallback: () => Headers) { }
 
-   request(url: string, options?: RequestOptionsArgs): Observable<Response> {
+    request(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this._http.request(url, options)
             .catch(e => this.tryPassThroughController(e, options.method.toString(), url, options.body, options));
-   }
+    }
 
     /**
      * Performs a request with `get` http method.

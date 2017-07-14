@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, Response, Request} from '@angular/http';
+import { Http, Headers, Response, Request } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -20,11 +20,11 @@ import { UserService } from './user.service';
 @Injectable()
 export class ArmTryService extends ArmService {
 
-    private _tryFunctionApp : FunctionApp;
+    private _tryFunctionApp: FunctionApp;
 
-    private _whiteListedPrefixUrls : string[] = [
-            `${Constants.serviceHost}api`
-        ];
+    private _whiteListedPrefixUrls: string[] = [
+        `${Constants.serviceHost}api`
+    ];
 
     constructor(http: Http,
         configService: ConfigService,
@@ -35,104 +35,104 @@ export class ArmTryService extends ArmService {
         super(http, configService, userService, aiService, translateService);
     }
 
-    public set tryFunctionApp(tryFunctionApp : FunctionApp){
+    public set tryFunctionApp(tryFunctionApp: FunctionApp) {
         this._tryFunctionApp = tryFunctionApp;
         this._whiteListedPrefixUrls.push(`${tryFunctionApp.getScmUrl()}/api`);
         this._whiteListedPrefixUrls.push(`${tryFunctionApp.getMainSiteUrl()}`);
     }
 
-    public get tryFunctionApp(){
+    public get tryFunctionApp() {
         return this._tryFunctionApp;
     }
 
-    get(resourceId : string, apiVersion? : string) : Observable<Response>{
+    get(resourceId: string, apiVersion?: string): Observable<Response> {
         this._aiService.trackEvent("/try/arm-get-failure", {
-            uri : resourceId
+            uri: resourceId
         });
 
         throw "[ArmTryService] - get: " + resourceId;
     }
 
-    delete(resourceId : string, apiVersion? : string) : Observable<Response>{
+    delete(resourceId: string, apiVersion?: string): Observable<Response> {
 
         this._aiService.trackEvent("/try/arm-delete-failure", {
-            uri : resourceId
+            uri: resourceId
         });
 
         throw "[ArmTryService] - delete: " + resourceId;
     }
 
-    put(resourceId : string, body : any, apiVersion? : string) : Observable<Response>{
+    put(resourceId: string, body: any, apiVersion?: string): Observable<Response> {
         this._aiService.trackEvent("/try/arm-put-failure", {
-            uri : resourceId
+            uri: resourceId
         });
 
         throw "[ArmTryService] - put: " + resourceId;
     }
 
-    post(resourceId : string, body : any, apiVersion? : string) : Observable<Response>{
+    post(resourceId: string, body: any, apiVersion?: string): Observable<Response> {
         this._aiService.trackEvent("/try/arm-post-failure", {
-            uri : resourceId
+            uri: resourceId
         });
 
         throw "[ArmTryService] - post: " + resourceId;
     }
 
-    send(method : string, url : string, body? : any, etag? : string, headers? : Headers) : Observable<Response>{
+    send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
         let urlNoQuery = url.toLowerCase().split('?')[0];
 
-        if(this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))){
+        if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {
             return super.send(method, url, body, etag, headers);
         }
-        else if(urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())){
+        else if (urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())) {
             return Observable.of(this._getFakeResponse(this.tryFunctionApp.site));
         }
-        else if(urlNoQuery.endsWith("/providers/microsoft.authorization/permissions")){
+        else if (urlNoQuery.endsWith("/providers/microsoft.authorization/permissions")) {
             return Observable.of(this._getFakeResponse({
-                "value" : [{
-                    "actions" : ["*"],
+                "value": [{
+                    "actions": ["*"],
                     "notActions": []
                 }],
-                "nextLink":null
+                "nextLink": null
             }));
         }
-        else if(urlNoQuery.endsWith("/providers/microsoft.authorization/locks")){
-            return Observable.of(this._getFakeResponse({"value":[]}));
+        else if (urlNoQuery.endsWith("/providers/microsoft.authorization/locks")) {
+            return Observable.of(this._getFakeResponse({ "value": [] }));
         }
-        else if(urlNoQuery.endsWith("/config/web")){
+        else if (urlNoQuery.endsWith("/config/web")) {
             return Observable.of(<any>this._getFakeResponse({
-                id : this._tryFunctionApp.site.id,
-                properties : {
-                    scmType : "None"
+                id: this._tryFunctionApp.site.id,
+                properties: {
+                    scmType: "None"
                 }
             }));
         }
-        else if(urlNoQuery.endsWith("/appsettings/list")){
+        else if (urlNoQuery.endsWith("/appsettings/list")) {
             return this.tryFunctionApp.getFunctionContainerAppSettings()
-            .map(r =>{
-                return this._getFakeResponse({
-                    properties: r
+                .map(r => {
+                    return this._getFakeResponse({
+                        properties: r
+                    })
                 })
-            })
         } else if (urlNoQuery.endsWith("/slots")) {
             return Observable.of(this._getFakeResponse({ value: [] }));
         }
 
         this._aiService.trackEvent("/try/arm-send-failure", {
-            uri : url
+            uri: url
         });
 
         throw "[ArmTryService] - send: " + url;
     }
 
-    private _getFakeResponse(jsonObj : any) : any{
+    private _getFakeResponse(jsonObj: any): any {
         return {
-            headers : {
-                get : (name : string) =>{
+            headers: {
+                get: (name: string) => {
                     return null;
                 }
             },
-            json : () =>{
+            json: () => {
                 return jsonObj;
             }
         }

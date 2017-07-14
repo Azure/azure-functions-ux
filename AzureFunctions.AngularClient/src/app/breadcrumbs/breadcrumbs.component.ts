@@ -1,6 +1,6 @@
-import {Component, ViewChild, Input, OnChanges, SimpleChange} from '@angular/core';
+import { Component, ViewChild, Input, OnChanges, SimpleChange } from '@angular/core';
 
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 
 @Component({
     selector: 'breadcrumbs',
@@ -9,15 +9,15 @@ import {TreeViewInfo} from '../tree-view/models/tree-view-info';
     inputs: ['viewInfoInput']
 })
 export class BreadcrumbsComponent {
-    public path : string;
+    public path: string;
 
-    constructor() {}
+    constructor() { }
 
-    set viewInfoInput(viewInfo : TreeViewInfo){
+    set viewInfoInput(viewInfo: TreeViewInfo) {
         let pathNames = viewInfo.node.getTreePathNames();
         let path = "";
 
-        pathNames.forEach(name =>{
+        pathNames.forEach(name => {
             path += name + " > ";
         });
 

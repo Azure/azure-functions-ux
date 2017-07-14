@@ -1,13 +1,13 @@
-import {Component, OnInit, EventEmitter} from '@angular/core';
-import {FunctionBinding} from '../shared/models/function-config';
-import {Binding, BindingOption} from '../shared/models/designer-schema';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { FunctionBinding } from '../shared/models/function-config';
+import { Binding, BindingOption } from '../shared/models/designer-schema';
 
 @Component({
-  selector: 'binding-designer',
-  templateUrl: './binding-designer.component.html',
-  styleUrls: ['./binding-designer.component.css'],
-  inputs: ['currentBinding', 'bindings'],
-  outputs: ['changedBinding']
+    selector: 'binding-designer',
+    templateUrl: './binding-designer.component.html',
+    styleUrls: ['./binding-designer.component.css'],
+    inputs: ['currentBinding', 'bindings'],
+    outputs: ['changedBinding']
 })
 export class BindingDesignerComponent implements OnInit {
     public changedBinding: EventEmitter<FunctionBinding>;

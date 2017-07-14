@@ -25,7 +25,7 @@ export class MultiDropDownComponent<T> implements OnInit {
   private _selectAllOption: MultiDropDownElement<T>;
   private _focusedIndex = -1;
 
-  constructor(private _eref: ElementRef, private _ts : TranslateService) {
+  constructor(private _eref: ElementRef, private _ts: TranslateService) {
     this._selectAllOption = {
       displayLabel: _ts.instant(PortalResources.selectAll),
       value: null,
@@ -100,11 +100,11 @@ export class MultiDropDownComponent<T> implements OnInit {
         let option = this.options[this._focusedIndex];
         option.isSelected = !option.isSelected;
 
-        if(option === this._selectAllOption){
-          if(option.isSelected){
+        if (option === this._selectAllOption) {
+          if (option.isSelected) {
             this.options.forEach(o => o.isSelected = true);
           }
-          else{
+          else {
             this.options.forEach(o => o.isSelected = false);
           }
         }
@@ -158,7 +158,7 @@ export class MultiDropDownComponent<T> implements OnInit {
 
   private _scrollIntoView() {
     let view = this._getViewContainer();
-    if(!view){
+    if (!view) {
       return;
     }
 

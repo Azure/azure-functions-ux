@@ -1,5 +1,5 @@
 //https://github.com/henkie14/angular2-show-hide-password
-import {Directive, HostBinding} from '@angular/core'
+import { Directive, HostBinding } from '@angular/core'
 
 
 @Directive({

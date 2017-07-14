@@ -322,7 +322,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                                 this._functionApp.getHostErrors().catch(e => Observable.of([])),
                                 this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                                 this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
-                                 this.sideNav.slotsService.getSlotsList(`${this.resourceId}`),
+                                this.sideNav.slotsService.getSlotsList(`${this.resourceId}`),
                                 this._functionApp.pingScmSite(),
                                 (e: string[], c: Response, a: Response, s: ArmObj<Site>[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }))
                             return val;
@@ -395,18 +395,18 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
                 if (result.slotsResponse) {
                     let slotsStorageSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
-                    if(!!slotsStorageSetting){
+                    if (!!slotsStorageSetting) {
                         slotsStorageSetting = slotsStorageSetting.toLowerCase()
                     }
                     let numSlots = result.slotsResponse.length;
-                    if(numSlots > 0 && slotsStorageSetting!== Constants.slotsSecretStorageSettingsValue.toLowerCase()){
+                    if (numSlots > 0 && slotsStorageSetting !== Constants.slotsSecretStorageSettingsValue.toLowerCase()) {
                         notifications.push({
-                        id: NotificationIds.slotsHostId,
-                        message: this.sideNav.translateService.instant(PortalResources.topBar_slotsHostId),
-                        iconClass: 'fa fa-exclamation-triangle warning',
-                        learnMoreLink: '',
-                        clickCallback: null
-                    });
+                            id: NotificationIds.slotsHostId,
+                            message: this.sideNav.translateService.instant(PortalResources.topBar_slotsHostId),
+                            iconClass: 'fa fa-exclamation-triangle warning',
+                            learnMoreLink: '',
+                            clickCallback: null
+                        });
                     }
                 }
 

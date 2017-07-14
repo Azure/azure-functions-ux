@@ -1,16 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
-import {GlobalStateService} from '../../shared/services/global-state.service';
-import {FunctionApp} from '../../shared/function-app';
+import { GlobalStateService } from '../../shared/services/global-state.service';
+import { FunctionApp } from '../../shared/function-app';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
-import { ArmObj, ArmArrayResult} from './../../shared/models/arm/arm-obj';
+import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { ArmService } from '../../shared/services/arm.service';
 
 @Component({
-  selector: 'app-setting',
-  templateUrl: './app-setting.component.html',
-  styleUrls: ['./../picker.scss']
+    selector: 'app-setting',
+    templateUrl: './app-setting.component.html',
+    styleUrls: ['./../picker.scss']
 })
 export class AppSettingComponent implements OnInit {
 
@@ -37,9 +37,9 @@ export class AppSettingComponent implements OnInit {
     }
 
     onClose() {
-      if (!this.selectInProcess) {
-          this.close.next(null);
-       }
+        if (!this.selectInProcess) {
+            this.close.next(null);
+        }
     }
 
     onSelect() {
@@ -50,15 +50,15 @@ export class AppSettingComponent implements OnInit {
             appSettings.properties[this.appSettingName] = this.appSettingValue;
             return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
         })
-        .do(null, e => {
-            this._globalStateService.clearBusyState();
-            this.selectInProcess = false;
-            console.log(e);
-        })
-        .subscribe(r => {
-            this._globalStateService.clearBusyState();
-            this.selectItem.next(this.appSettingName);
-        });
+            .do(null, e => {
+                this._globalStateService.clearBusyState();
+                this.selectInProcess = false;
+                console.log(e);
+            })
+            .subscribe(r => {
+                this._globalStateService.clearBusyState();
+                this.selectItem.next(this.appSettingName);
+            });
 
     }
 }

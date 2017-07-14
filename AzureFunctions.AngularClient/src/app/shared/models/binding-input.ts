@@ -1,4 +1,4 @@
-﻿import {SettingType, EnumOption, ResourceType, Validator} from './binding';
+﻿import { SettingType, EnumOption, ResourceType, Validator } from './binding';
 
 export class BindingInputBase<T>
 {
@@ -87,7 +87,7 @@ export class CheckBoxListInput extends BindingInputBase<any>{
             this.value = [];
         }
 
-        var valueDup = this.value.slice(); 
+        var valueDup = this.value.slice();
         this.value = {};
 
         valueDup.forEach((v) => {

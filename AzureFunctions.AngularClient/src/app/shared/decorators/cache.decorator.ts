@@ -4,9 +4,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/of';
 
-import {FunctionInfo} from '../models/function-info';
+import { FunctionInfo } from '../models/function-info';
 
-let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?: any}} = {};
+let cachedData: { [key: string]: { date?: Date, observable: Observable<any>, data?: any } } = {};
 /**
  * Caches the returned Observable.
  * The cache key used is either a property with the name ${propertyKey} from the first arg to the function.
@@ -18,14 +18,14 @@ let cachedData: {[key: string]: {date?: Date, observable: Observable<any>, data?
 export function Cache(propertyKey?: string, arg?: number) {
     return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
-        descriptor.value = function(...args: any[]) {
+        descriptor.value = function (...args: any[]) {
             let key = getCacheKey(functionName, propertyKey, args, arg || 0);
             let cache = cachedData[key];
             // Special case getTemplates() for testing templates
             try {
                 if (window.localStorage &&
                     ((functionName === 'getTemplates' && window.localStorage.getItem('dev-templates')) ||
-                     (functionName === 'getBindingConfig' && window.localStorage.getItem('dev-bindings')))) {
+                        (functionName === 'getBindingConfig' && window.localStorage.getItem('dev-bindings')))) {
                     return originalMethod.apply(this, args);
                 }
             } catch (e) {
@@ -34,20 +34,20 @@ export function Cache(propertyKey?: string, arg?: number) {
 
             if (cache && cache.data) {
                 return Observable.of(cache.data);
-            } else if (cache && cache.observable){
+            } else if (cache && cache.observable) {
                 return cache.observable;
             } else {
                 cache = {
                     observable: originalMethod.apply(this, args)
-                    .map(r => {
-                        delete cache.observable;
-                        cache.data = r;
-                        return cache.data;
-                    })
-                    .do(null, error => {
-                        delete cachedData[key];
-                    })
-                    .share()
+                        .map(r => {
+                            delete cache.observable;
+                            cache.data = r;
+                            return cache.data;
+                        })
+                        .do(null, error => {
+                            delete cachedData[key];
+                        })
+                        .share()
                 };
                 cachedData[key] = cache;
                 return cache.observable;
@@ -65,7 +65,7 @@ export function Cache(propertyKey?: string, arg?: number) {
 export function ClearCache(functionName: string, propertyKey?: string, arg?: number) {
     return (target: Object, propertyName: string, descriptor: TypedPropertyDescriptor<any>) => {
         let originalMethod = descriptor.value;
-        descriptor.value = function(...args: any[]) {
+        descriptor.value = function (...args: any[]) {
             if (functionName === 'clearAllCachedData') {
                 cachedData = {};
             } else if (functionName === 'clearAllFunction' && propertyKey) {

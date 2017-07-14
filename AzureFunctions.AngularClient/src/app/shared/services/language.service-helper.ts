@@ -6,8 +6,8 @@ import { Http, Headers, Response } from '@angular/http';
 
 // Used so that the UserService can do initialization work without having to depend
 // on the LanguageService, which would create a circular dependency
-export class LanguageServiceHelper{
-    public static getLanguageAndRuntime(startupInfo: StartupInfo, runtime: String){
+export class LanguageServiceHelper {
+    public static getLanguageAndRuntime(startupInfo: StartupInfo, runtime: String) {
         let lang = 'en';
         runtime = runtime ? runtime : 'default';
 
@@ -18,12 +18,12 @@ export class LanguageServiceHelper{
         }
 
         return {
-            lang : lang,
-            runtime : runtime
+            lang: lang,
+            runtime: runtime
         };
     }
 
-    public static setTranslation(stringResources : any, lang : string, ts : TranslateService){
+    public static setTranslation(stringResources: any, lang: string, ts: TranslateService) {
         ts.setDefaultLang('en');
         ts.setTranslation('en', stringResources.en);
         if (stringResources.lang) {

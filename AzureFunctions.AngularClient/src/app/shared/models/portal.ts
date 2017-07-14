@@ -1,26 +1,26 @@
-﻿import {Subscription} from './subscription';
+﻿import { Subscription } from './subscription';
 
 export interface Event {
     data: Data;
 }
 
-export interface Data{
+export interface Data {
     signature: string;
     kind: string;
     data: any;
 }
 
-export interface GetStartupInfo{
-    iframeHostName : string
+export interface GetStartupInfo {
+    iframeHostName: string
 }
 
-export interface StartupInfo{
-    token : string;
-    subscriptions : Subscription[];
+export interface StartupInfo {
+    token: string;
+    subscriptions: Subscription[];
     sessionId: string;
-    acceptLanguage : string,
-    effectiveLocale : string,
-    resourceId : string
+    acceptLanguage: string,
+    effectiveLocale: string,
+    resourceId: string
 }
 
 export interface Action {
@@ -29,13 +29,13 @@ export interface Action {
     data: any;  // Properties of the object will be logged as a key-value pair
 }
 
-export interface Message{
-    level : LogEntryLevel,
+export interface Message {
+    level: LogEntryLevel,
     message: string,
     restArgs: any[]
 }
 
-export class Verbs{
+export class Verbs {
     // Initialization verbs
     public static message = "message";
     public static ready = "ready";
@@ -80,31 +80,31 @@ export interface WebsiteId {
     SubscriptionId: string;
 }
 
-export interface OpenBladeInfo{
+export interface OpenBladeInfo {
     detailBlade: string,
     detailBladeInputs: any,
-    extension? : string
+    extension?: string
 }
 
-export interface UpdateBladeInfo{
-    title? : string,
-    subtitle? : string
+export interface UpdateBladeInfo {
+    title?: string,
+    subtitle?: string
 };
 
-export interface PinPartInfo{
-    partSize : PartSize;
-    partInput : any,
+export interface PinPartInfo {
+    partSize: PartSize;
+    partInput: any,
 }
 
-export interface NotificationInfo{
-    id? : string,
-    state : string,  // start, success, fail
-    title : string,
-    description : string
+export interface NotificationInfo {
+    id?: string,
+    state: string,  // start, success, fail
+    title: string,
+    description: string
 }
 
-export interface NotificationStartedInfo{
-    id : string
+export interface NotificationStartedInfo {
+    id: string
 }
 
 export enum PartSize {

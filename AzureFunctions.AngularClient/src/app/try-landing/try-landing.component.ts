@@ -1,8 +1,8 @@
 import { SlotsService } from 'app/shared/services/slots.service';
-import {Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ConfigService } from './../shared/services/config.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
@@ -14,27 +14,27 @@ import { FunctionApp } from './../shared/function-app';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ErrorIds } from './../shared/models/error-ids';
-import {FunctionsService} from '../shared/services/functions.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {UserService} from '../shared/services/user.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {BindingType} from '../shared/models/binding';
-import {FunctionTemplate} from '../shared/models/function-template';
-import {FunctionInfo} from '../shared/models/function-info';
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {BindingManager} from '../shared/models/binding-manager';
+import { FunctionsService } from '../shared/services/functions.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { UserService } from '../shared/services/user.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { BindingType } from '../shared/models/binding';
+import { FunctionTemplate } from '../shared/models/function-template';
+import { FunctionInfo } from '../shared/models/function-info';
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { BindingManager } from '../shared/models/binding-manager';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {UIResource} from '../shared/models/ui-resource';
-import {FunctionContainer} from '../shared/models/function-container';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {PortalResources} from '../shared/models/portal-resources';
-import {AiService} from '../shared/services/ai.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { UIResource } from '../shared/models/ui-resource';
+import { FunctionContainer } from '../shared/models/function-container';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
+import { PortalResources } from '../shared/models/portal-resources';
+import { AiService } from '../shared/services/ai.service';
 
 @Component({
-  selector: 'try-landing',
-  templateUrl: './try-landing.component.html',
-  styleUrls: ['./try-landing.component.scss']
+    selector: 'try-landing',
+    templateUrl: './try-landing.component.html',
+    styleUrls: ['./try-landing.component.scss']
 })
 export class TryLandingComponent implements OnInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
@@ -45,21 +45,21 @@ export class TryLandingComponent implements OnInit {
     selectedFunction: string;
     selectedLanguage: string;
 
-    private _functionApp : FunctionApp;
+    private _functionApp: FunctionApp;
 
     constructor(
-        private _httpService : Http,
+        private _httpService: Http,
         private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _armService : ArmService,
-        private _cacheService : CacheService,
-        private _languageService : LanguageService,
-        private _authZService : AuthzService,
-        private _configService : ConfigService,
+        private _armService: ArmService,
+        private _cacheService: CacheService,
+        private _languageService: LanguageService,
+        private _authZService: AuthzService,
+        private _configService: ConfigService,
         private _slotsService: SlotsService) {
         this.tryFunctionApp = new Subject<FunctionApp>();
     }
@@ -113,7 +113,7 @@ export class TryLandingComponent implements OnInit {
             test_data: null,
             script_root_path_href: null,
             config_href: null,
-            functionApp : null
+            functionApp: null
         };
 
         this.functionsInfo.push(result);
@@ -208,8 +208,8 @@ export class TryLandingComponent implements OnInit {
             kind: "functionapp",
             location: "West US",
             properties: {
-                state : "Running",
-                hostNames : null,
+                state: "Running",
+                hostNames: null,
                 hostNameSslStates: [
                     {
                         name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".scm.azurewebsites.net"),
@@ -221,7 +221,7 @@ export class TryLandingComponent implements OnInit {
                     }],
                 sku: "Free",
                 containerSize: 128,
-                serverFarmId : null,
+                serverFarmId: null,
                 enabled: true,
                 defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net")
             },
@@ -248,9 +248,9 @@ export class TryLandingComponent implements OnInit {
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
         // this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
-            // .subscribe(a => {
-            //     this._globalStateService.AppSettings = a;
-            // });
+        // .subscribe(a => {
+        //     this._globalStateService.AppSettings = a;
+        // });
         this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();

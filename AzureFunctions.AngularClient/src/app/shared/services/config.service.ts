@@ -1,5 +1,5 @@
-﻿import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+﻿import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -15,7 +15,7 @@ export class ConfigService {
         return this.runtimeType === "Azure";
     }
 
-    isStandalone() : boolean{
+    isStandalone(): boolean {
         return this.runtimeType === "Standalone";
     }
 }

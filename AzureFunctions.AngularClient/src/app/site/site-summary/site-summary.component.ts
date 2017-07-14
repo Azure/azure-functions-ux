@@ -87,7 +87,7 @@ export class SiteSummaryComponent implements OnDestroy {
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
-      private _busyState : BusyStateComponent;
+    private _busyState: BusyStateComponent;
 
     constructor(
         private _cacheService: CacheService,
@@ -101,16 +101,16 @@ export class SiteSummaryComponent implements OnDestroy {
         private _configService: ConfigService,
         private _slotService: SlotsService,
         userService: UserService,
-        tabsComponent : TabsComponent) {
+        tabsComponent: TabsComponent) {
 
         this.isStandalone = _configService.isStandalone();
         this._busyState = tabsComponent.busyState;
 
         userService.getStartupInfo()
-        .first()
-        .subscribe(info => {
-            this._subs = info.subscriptions;
-        });
+            .first()
+            .subscribe(info => {
+                this._subs = info.subscriptions;
+            });
 
         this._viewInfoStream = new Subject<TreeViewInfo>();
         this._viewInfoStream
@@ -127,7 +127,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.subscriptionId = descriptor.subscription;
 
-                if(this.showTryView){
+                if (this.showTryView) {
                     this.subscriptionName = 'Trial Subscription';
                 } else {
                     this.subscriptionName = this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName;
@@ -171,9 +171,9 @@ export class SiteSummaryComponent implements OnDestroy {
                     authZService.hasPermission(site.id, [AuthzService.actionScope]),
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
-                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) =>{
-                    // this call fails with 409 is Microsoft.ResourceHealth is not registered
-                      if (e.status === 409) {
+                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
+                        // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                        if (e.status === 409) {
                             return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
                                 .mergeMap(() => {
                                     return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)

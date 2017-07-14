@@ -1,4 +1,4 @@
-import {ArmObj} from '../../shared/models/arm/arm-obj';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
 
 export interface Availability {
     availabilityState: string,
@@ -27,7 +27,7 @@ export interface AlertIncident {
     resolvedTime: Date
 }
 
-export interface AlertItem extends ArmObj<AlertRule>{
+export interface AlertItem extends ArmObj<AlertRule> {
     incidents: AlertIncident[]
 }
 

@@ -1,10 +1,10 @@
-﻿import {UIFunctionConfig, UIFunctionBinding, DirectionType, SettingType, BindingType, Binding} from './binding';
-import {FunctionConfig} from './function-config';
-import {Template} from './template-picker';
-import {FunctionInfo} from '../models/function-info';
-import {FunctionBinding} from './function-config';
-import {PortalResources} from './portal-resources';
-import {TranslateService} from '@ngx-translate/core';
+﻿import { UIFunctionConfig, UIFunctionBinding, DirectionType, SettingType, BindingType, Binding } from './binding';
+import { FunctionConfig } from './function-config';
+import { Template } from './template-picker';
+import { FunctionInfo } from '../models/function-info';
+import { FunctionBinding } from './function-config';
+import { PortalResources } from './portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 
 export class BindingManager {
 
@@ -223,7 +223,7 @@ export class BindingManager {
     //http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     guid() {
         return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
-             this.s4() + '-' + this.s4() + this.s4() + this.s4();
+            this.s4() + '-' + this.s4() + this.s4() + this.s4();
     }
 
     public static isHttpFunction(functionInfo: FunctionInfo) {

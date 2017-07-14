@@ -8,8 +8,8 @@ import { Subject } from 'rxjs/Subject';
 })
 export class CommandComponent implements OnInit {
 
-  @Input() displayText : string;
-  @Input() iconUrl : string;
+  @Input() displayText: string;
+  @Input() iconUrl: string;
   @Input() disabled = false;
   @Output() click = new Subject<any>();
 
@@ -18,12 +18,12 @@ export class CommandComponent implements OnInit {
   ngOnInit() {
   }
 
-  onClick(event : any){
-    if(!this.disabled){
+  onClick(event: any) {
+    if (!this.disabled) {
       this.click.next(event);
     }
 
-    event.stopPropagation();    
+    event.stopPropagation();
   }
 
 }

@@ -10,14 +10,14 @@ import { PortalService } from '../shared/services/portal.service';
 })
 export class TabsComponent implements AfterContentInit {
 
-    @ViewChild(BusyStateComponent) busyState : BusyStateComponent;
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
     @Output() tabSelected = new EventEmitter<TabComponent>();
     @Output() tabClosed = new EventEmitter<TabComponent>();
 
     constructor(
         private _portalService: PortalService,
-        private _aiService : AiService) {
+        private _aiService: AiService) {
     }
 
     ngAfterContentInit() {
@@ -28,16 +28,16 @@ export class TabsComponent implements AfterContentInit {
         }
     }
 
-    selectTabId(tabId : string){
+    selectTabId(tabId: string) {
         let tabs = this.tabs.toArray();
         let tab = tabs.find(t => t.id === tabId);
-        if(tab){
+        if (tab) {
             this.selectTab(tab);
         }
     }
 
     selectTab(tab: TabComponent) {
-        this._aiService.trackEvent("/sites/open-tab", { name : tab.id });
+        this._aiService.trackEvent("/sites/open-tab", { name: tab.id });
         this.selectTabHelper(tab);
     }
 

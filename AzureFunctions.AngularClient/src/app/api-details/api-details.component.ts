@@ -1,22 +1,22 @@
-import {Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {ApiProxy} from '../shared/models/api-proxy';
-import {FunctionsService} from '../shared/services/functions.service';
-import {FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
-import {PortalResources} from '../shared/models/portal-resources';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {FunctionContainer} from '../shared/models/function-container';
-import {ApiNewComponent} from '../api-new/api-new.component';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
-import {ProxiesNode} from '../tree-view/proxies-node';
-import {AppNode} from '../tree-view/app-node';
-import {ProxyNode} from '../tree-view/proxy-node';
-import {FunctionApp} from '../shared/function-app';
-import {Constants} from '../shared/models/constants';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { ApiProxy } from '../shared/models/api-proxy';
+import { FunctionsService } from '../shared/services/functions.service';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import { PortalResources } from '../shared/models/portal-resources';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { FunctionContainer } from '../shared/models/function-container';
+import { ApiNewComponent } from '../api-new/api-new.component';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { ProxiesNode } from '../tree-view/proxies-node';
+import { AppNode } from '../tree-view/app-node';
+import { ProxyNode } from '../tree-view/proxy-node';
+import { FunctionApp } from '../shared/function-app';
+import { Constants } from '../shared/models/constants';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import {AiService} from '../shared/services/ai.service';
+import { AiService } from '../shared/services/ai.service';
 
 @Component({
     selector: 'api-details',
@@ -52,7 +52,7 @@ export class ApiDetailsComponent implements OnInit {
             });
 
         this.appNode = (<AppNode>this.proxiesNode.parent);
-        var cacherService = this.appNode.sideNav.cacheService;        
+        var cacherService = this.appNode.sideNav.cacheService;
         cacherService.postArm(`${this.functionApp.site.id}/config/appsettings/list`).subscribe((r => {
             let appSettings: ArmObj<any> = r.json();
             var routingVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
@@ -91,10 +91,10 @@ export class ApiDetailsComponent implements OnInit {
         this.proxyUrl = `https://${this.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 0).name}` + route;
 
         var methods = {}
-        methods["method_GET"]  = false;
+        methods["method_GET"] = false;
         methods["method_POST"] = false;
         methods["method_DELETE"] = false;
-        methods["method_HEAD"] =  false;
+        methods["method_HEAD"] = false;
         methods["method_PATCH"] = false;
         methods["method_PUT"] = false;
         methods["method_OPTIONS"] = false;
@@ -139,7 +139,7 @@ export class ApiDetailsComponent implements OnInit {
         this.initComplexFrom();
         this.initEdit();
         this._broadcastService.clearDirtyState('api-proxy', true);
-     }
+    }
 
     submitForm(value: any) {
 
