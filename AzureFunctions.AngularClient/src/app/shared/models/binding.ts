@@ -107,7 +107,7 @@ export enum ResourceType {
     AppSetting = <any>"AppSetting"
 }
 
-export class SettingType{
+export class SettingType {
     public static string = "string";
     public static boolean = "boolean";
     public static label = "label";

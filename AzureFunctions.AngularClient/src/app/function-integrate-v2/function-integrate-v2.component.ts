@@ -1,21 +1,21 @@
 import { FunctionApp } from './../shared/function-app';
-import {Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
-import {BindingList} from '../shared/models/binding-list';
-import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action} from '../shared/models/binding';
-import {BindingManager} from '../shared/models/binding-manager';
-import {FunctionInfo, FunctionInfoHelper} from '../shared/models/function-info';
-import {TemplatePickerType} from '../shared/models/template-picker';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {PortalService} from '../shared/services/portal.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
+import { Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { BindingList } from '../shared/models/binding-list';
+import { UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action } from '../shared/models/binding';
+import { BindingManager } from '../shared/models/binding-manager';
+import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
+import { TemplatePickerType } from '../shared/models/template-picker';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { PortalService } from '../shared/services/portal.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from '../shared/models/error-ids';
-import { FunctionsNode} from '../tree-view/functions-node';
+import { FunctionsNode } from '../tree-view/functions-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 
 @Component({
     selector: 'function-integrate-v2',
@@ -232,7 +232,7 @@ export class FunctionIntegrateV2Component {
     private switchIntegrate() {
         var result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
-            result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, {name: this.functionInfo.name}));
+            result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this.functionInfo.name }));
         }
         return result;
     }

@@ -1,4 +1,4 @@
-import {FunctionBindingBase} from './binding';
+import { FunctionBindingBase } from './binding';
 
 export interface FunctionTemplate {
     name: string;

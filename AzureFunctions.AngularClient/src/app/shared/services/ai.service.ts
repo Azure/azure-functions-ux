@@ -40,7 +40,7 @@ export class AiService implements IAppInsights {
     */
     queue: (() => void)[] = run(() => appInsights.queue);
 
-    private _traceStartTimes: {[name: string]: number} = {};
+    private _traceStartTimes: { [name: string]: number } = {};
 
     /**
     * Sets the sessionId for all the current events.

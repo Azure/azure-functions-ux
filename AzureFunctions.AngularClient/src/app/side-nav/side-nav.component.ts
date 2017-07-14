@@ -254,7 +254,7 @@ export class SideNavComponent implements AfterViewInit {
             return null;
         }
 
-        return  <HTMLDivElement>treeViewContainer.querySelector('.top-level-children');
+        return <HTMLDivElement>treeViewContainer.querySelector('.top-level-children');
     }
 
     private _moveFocusedItemDown() {
@@ -280,15 +280,15 @@ export class SideNavComponent implements AfterViewInit {
         this._focusedNode.isFocused = true;
     }
 
-    private _scrollIntoView(){
-        setTimeout(() =>{
+    private _scrollIntoView() {
+        setTimeout(() => {
             const containerElement = this._getViewContainer();
-            if(!containerElement){
+            if (!containerElement) {
                 return;
             }
 
             const node = <HTMLDivElement>containerElement.querySelector('div.tree-node.focused');
-            if(!node){
+            if (!node) {
                 return;
             }
 

@@ -27,15 +27,15 @@ export class SlotsService {
 
     //Create Slot
     createNewSlot(siteId: string, slotName: string, loc: string, serverfarmId: string) {
-            // create payload
-            let payload = JSON.stringify({
-                location: loc,
-                properties: {
-                    serverFarmId: serverfarmId
-                }
-            });
-            return this._cacheService.putArm(`${siteId}/slots/${slotName}`, this._armService.websiteApiVersion, payload);
-        }
+        // create payload
+        let payload = JSON.stringify({
+            location: loc,
+            properties: {
+                serverFarmId: serverfarmId
+            }
+        });
+        return this._cacheService.putArm(`${siteId}/slots/${slotName}`, this._armService.websiteApiVersion, payload);
+    }
 
     public static isSlot(siteId: string) {
         // slots id looks like

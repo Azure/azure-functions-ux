@@ -6,21 +6,21 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
 // Used to communicate between click-to-edit components
-export class CustomFormGroup extends FormGroup{
+export class CustomFormGroup extends FormGroup {
 
   // Tells other ClickToEdit components when we're in "edit" mode for the form group.
-  public _msShowTextbox : Subject<boolean>;
+  public _msShowTextbox: Subject<boolean>;
 
   // Tells other ClickToEdit components which control currently has focus
-  public _msFocusedControl : string;
+  public _msFocusedControl: string;
 
   // Overrides the ClickToEdit default behavior to start in edit mode for new items
-  public _msStartInEditMode : boolean;
+  public _msStartInEditMode: boolean;
 }
 
-export class CustomFormControl extends FormControl{
+export class CustomFormControl extends FormControl {
   // Forces the required validation control to run on next evaluation
-  public _msRunValidation : boolean;
+  public _msRunValidation: boolean;
 }
 
 @Component({
@@ -31,16 +31,16 @@ export class CustomFormControl extends FormControl{
 export class ClickToEditComponent implements OnInit, OnDestroy {
 
   public showTextbox = false;
-  @Input() group : FormGroup;
-  @Input() name : string;
-  @Input() placeholder : string;
-  @Input() hiddenText : boolean;
+  @Input() group: FormGroup;
+  @Input() name: string;
+  @Input() placeholder: string;
+  @Input() hiddenText: boolean;
 
-  @ContentChild(TextboxComponent) textbox : TextboxComponent;
-  @ContentChild(DropDownComponent) dropdown : DropDownComponent<any>;
+  @ContentChild(TextboxComponent) textbox: TextboxComponent;
+  @ContentChild(DropDownComponent) dropdown: DropDownComponent<any>;
 
-  public control : CustomFormControl;
-  private _sub : Subscription;
+  public control: CustomFormControl;
+  private _sub: Subscription;
 
   constructor(private _eref: ElementRef) { }
 
@@ -48,39 +48,39 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
     this.control = <CustomFormControl>this.group.controls[this.name];
 
     let group = <CustomFormGroup>this.group;
-    if(!group._msShowTextbox){
+    if (!group._msShowTextbox) {
       group._msShowTextbox = new Subject<boolean>();
     }
 
-    this._sub = group._msShowTextbox.subscribe(showTextbox =>{
+    this._sub = group._msShowTextbox.subscribe(showTextbox => {
       this.showTextbox = showTextbox;
     })
 
-    if((<CustomFormGroup>group)._msStartInEditMode){
+    if ((<CustomFormGroup>group)._msStartInEditMode) {
       this.showTextbox = true;
     }
 
-    if(this.textbox){
+    if (this.textbox) {
       this.textbox.blur.subscribe(event => this.onBlur(event));
     }
-    else if(this.dropdown){
+    else if (this.dropdown) {
       this.dropdown.blur.subscribe(event => this.onBlur(event));
     }
   }
 
-  ngOnDestroy(){
-    if(this._sub){
+  ngOnDestroy() {
+    if (this._sub) {
       this._sub.unsubscribe();
       this._sub = null;
     }
   }
 
-  onClick(event : any){
-    if(!this.showTextbox){
-      if(this.textbox){
+  onClick(event: any) {
+    if (!this.showTextbox) {
+      if (this.textbox) {
         this.textbox.focus();
       }
-      else if(this.dropdown){
+      else if (this.dropdown) {
         this.dropdown.focus();
       }
     }
@@ -88,11 +88,11 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
     this._updateShowTextbox(true);
   }
 
-  onBlur(event : any){
+  onBlur(event: any) {
     this.control._msRunValidation = true;
     this.control.updateValueAndValidity();
 
-    if(this.group.valid){
+    if (this.group.valid) {
 
       // Blur happens before click.  So if you're switching between
       // click-to-edit-textbox components in the same form group,
@@ -100,23 +100,23 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       // is able to change _azFocusedControl before you update showTextbox
       // on the source component.  Otherwise when you switch components
       // blur will remove the textbox and the click will never happen/
-      setTimeout(() =>{
+      setTimeout(() => {
         this._updateShowTextbox(false);
       }, 100)
     }
   }
 
-  protected _updateShowTextbox(show : boolean){
+  protected _updateShowTextbox(show: boolean) {
     let group = <CustomFormGroup>this.group;
 
-    if(show){
+    if (show) {
       group._msFocusedControl = this.name;
     }
-    else if(group._msFocusedControl === this.name){
+    else if (group._msFocusedControl === this.name) {
       group._msFocusedControl = "";
     }
 
-    if(!group._msFocusedControl || group._msFocusedControl === this.name){
+    if (!group._msFocusedControl || group._msFocusedControl === this.name) {
       group._msShowTextbox.next(show);
     }
   }

@@ -10,20 +10,20 @@ import { QuickstartSettings } from './../shared/models/localStorage/local-storag
 import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection} from './tree-node';
+import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { ArmObj } from '../shared/models/arm/arm-obj';
-import {FunctionContainer} from '../shared/models/function-container';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionInfo} from '../shared/models/function-info';
-import {FunctionNode} from './function-node';
-import {FunctionApp} from '../shared/function-app';
+import { FunctionContainer } from '../shared/models/function-container';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionInfo } from '../shared/models/function-info';
+import { FunctionNode } from './function-node';
+import { FunctionApp } from '../shared/function-app';
 import { Action } from '../shared/models/binding';
 
-export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection{
+export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection {
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunctionAutoDetect;
@@ -52,23 +52,23 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
             });
     }
 
-    public loadChildren(){
+    public loadChildren() {
         if (this.functionApp.site.properties.state === 'Running') {
             return Observable.zip(
                 this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
                 this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                (p, l) => ({ hasWritePermission : p, hasReadOnlyLock : l}))
-            .switchMap(r =>{
-                if(r.hasWritePermission && !r.hasReadOnlyLock){
-                    return this._updateTreeForStartedSite();
-                }
-                else if(!r.hasWritePermission){
-                    return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
-                }
-                else{
-                    return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
-                }
-            });
+                (p, l) => ({ hasWritePermission: p, hasReadOnlyLock: l }))
+                .switchMap(r => {
+                    if (r.hasWritePermission && !r.hasReadOnlyLock) {
+                        return this._updateTreeForStartedSite();
+                    }
+                    else if (!r.hasWritePermission) {
+                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
+                    }
+                    else {
+                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
+                    }
+                });
         } else {
             return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped));
         }
@@ -129,17 +129,17 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
         if (!this.children || this.children.length === 0) {
             return this.functionApp.getFunctions()
-            .map(fcs => {
-                const fcNodes = <FunctionNode[]>[];
-                fcs.forEach(fc => {
-                    fc.functionApp = this.functionApp;
-                    fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
+                .map(fcs => {
+                    const fcNodes = <FunctionNode[]>[];
+                    fcs.forEach(fc => {
+                        fc.functionApp = this.functionApp;
+                        fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
+                    });
+
+                    this.children = fcNodes;
+
+                    return null;
                 });
-
-                this.children = fcNodes;
-
-                return null;
-            });
         } else {
             return Observable.of(null);
         }

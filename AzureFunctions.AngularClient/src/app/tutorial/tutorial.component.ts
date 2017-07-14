@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {FunctionInfo, FunctionInfoHelper} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
 
 
 @Component({
-  selector: 'tutorial',
-  templateUrl: './tutorial.component.html',
-  styleUrls: ['./tutorial.component.css']
+    selector: 'tutorial',
+    templateUrl: './tutorial.component.html',
+    styleUrls: ['./tutorial.component.css']
 })
 export class TutorialComponent {
     public currentStep = TutorialStep.Off;

@@ -7,7 +7,7 @@ export interface UIResource {
     contentDownloadUrl: string;
     gitUrl: string;
     timeLeft: number;
-    appService: AppService ;
+    appService: AppService;
     isRbacEnabled: boolean;
     templateName: string;
     isExtended: boolean;

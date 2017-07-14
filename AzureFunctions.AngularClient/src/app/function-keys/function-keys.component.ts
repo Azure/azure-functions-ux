@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit} from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
@@ -8,18 +8,18 @@ import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionKeys } from './../shared/models/function-key';
 import { AiService } from './../shared/services/ai.service';
 import { FunctionApp } from '../shared/function-app';
 import { FunctionInfo } from '../shared/models/function-info';
-import {FunctionKey} from '../shared/models/function-key';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {UtilitiesService} from '../shared/services/utilities.service';
+import { FunctionKey } from '../shared/models/function-key';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { UtilitiesService } from '../shared/services/utilities.service';
 
 
 @Component({
@@ -29,7 +29,7 @@ import {UtilitiesService} from '../shared/services/utilities.service';
 })
 export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @Input() functionInfo: FunctionInfo;
-    @Input() functionApp : FunctionApp;
+    @Input() functionApp: FunctionApp;
     @Input() autoSelect: boolean;
     // TODO: This is a hack to trigger change on this component for admin keys.
     // Find a better way to do that.
@@ -48,7 +48,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
         private _utilities: UtilitiesService,
-        private _aiService : AiService) {
+        private _aiService: AiService) {
 
         this.validKey = false;
         this.keys = [];
@@ -58,11 +58,11 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.functionAppStream
             .merge(this.functionStream)
             .debounceTime(100)
-            .switchMap((r : any) => {
+            .switchMap((r: any) => {
 
                 let functionApp = r && (<FunctionInfo>r).functionApp;
-                let fi : FunctionInfo;
-                if(functionApp){
+                let fi: FunctionInfo;
+                if (functionApp) {
                     this.functionApp = functionApp;
                     fi = r;
                 }
@@ -75,7 +75,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                     : this.functionApp.getFunctionHostKeys().catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
 
             })
-            .do(null, e =>{
+            .do(null, e => {
                 this._aiService.trackException(e, "/errors/function-keys");
                 console.error(e);
             })
@@ -103,7 +103,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.handleInitAndChanges();
     }
 
-    ngOnChanges(changes: {[key: string]: SimpleChange}) {
+    ngOnChanges(changes: { [key: string]: SimpleChange }) {
         this.handleInitAndChanges();
     }
 
@@ -160,7 +160,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     revokeKey(key: FunctionKey) {
-        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, {name: key.name}))) {
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_revokeConfirmation, { name: key.name }))) {
             this.setBusyState();
             this.functionApp
                 .deleteKey(key, this.functionInfo)
@@ -172,7 +172,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     renewKey(key: FunctionKey) {
-        if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, {name: key.name}))) {
+        if (confirm(this._translateService.instant(PortalResources.functionKeys_renewConfirmation, { name: key.name }))) {
             this.setBusyState();
             this.functionApp
                 .renewKey(key, this.functionInfo)

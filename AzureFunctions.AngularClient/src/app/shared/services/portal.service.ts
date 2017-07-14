@@ -1,17 +1,17 @@
 import { Url } from './../Utilities/url';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
-import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
-import {ErrorEvent} from '../models/error-event';
-import {BroadcastService} from './broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
-import {UserService} from './user.service';
-import {AiService} from './ai.service';
-import {SetupOAuthRequest, SetupOAuthResponse} from '../../site/deployment-source/deployment';
+import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo } from '../models/portal';
+import { ErrorEvent } from '../models/error-event';
+import { BroadcastService } from './broadcast.service';
+import { BroadcastEvent } from '../models/broadcast-event'
+import { UserService } from './user.service';
+import { AiService } from './ai.service';
+import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
 
 @Injectable()
 export class PortalService {
@@ -19,29 +19,29 @@ export class PortalService {
 
     private portalSignature: string = "FxAppBlade";
     private startupInfo: StartupInfo = null;
-    private startupInfoObservable : ReplaySubject<StartupInfo>;
-    private setupOAuthObservable : Subject<SetupOAuthResponse>;
+    private startupInfoObservable: ReplaySubject<StartupInfo>;
+    private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
-    private notificationStartStream : Subject<NotificationStartedInfo>;
+    private notificationStartStream: Subject<NotificationStartedInfo>;
 
-    constructor(private _broadcastService : BroadcastService,
-     private _aiService: AiService) {
+    constructor(private _broadcastService: BroadcastService,
+        private _aiService: AiService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
-        if (PortalService.inIFrame()){
+        if (PortalService.inIFrame()) {
             this.initializeIframe();
         }
     }
 
-    getStartupInfo(){
+    getStartupInfo() {
         return this.startupInfoObservable;
     }
 
-    setupOAuth(input : SetupOAuthRequest){
+    setupOAuth(input: SetupOAuthRequest) {
         this.postMessage(Verbs.setupOAuth, JSON.stringify(input));
         return this.setupOAuthObservable;
     }
@@ -53,8 +53,8 @@ export class PortalService {
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
         let appsvc = window.appsvc;
-        let getStartupInfoObj : GetStartupInfo = {
-            iframeHostName : appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
+        let getStartupInfoObj: GetStartupInfo = {
+            iframeHostName: appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
         };
 
         // This is a required message. It tells the shell that your iframe is ready to receive messages.
@@ -68,12 +68,12 @@ export class PortalService {
         });
     }
 
-    openBlade(bladeInfo : OpenBladeInfo, source : string){
+    openBlade(bladeInfo: OpenBladeInfo, source: string) {
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
         this._aiService.trackEvent('/site/open-blade', {
-            targetBlade : bladeInfo.detailBlade,
-            targetExtension : bladeInfo.extension,
-            source : source
+            targetBlade: bladeInfo.detailBlade,
+            targetExtension: bladeInfo.extension,
+            source: source
         });
 
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
@@ -82,90 +82,90 @@ export class PortalService {
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.logAction(source, "open-blade-collector" + name, null);
         this._aiService.trackEvent('/site/open-collector-blade', {
-            targetBlade : name,
-            source : source
+            targetBlade: name,
+            source: source
         });
 
         this.getAppSettingCallback = getAppSettingCallback;
         let payload = {
-            resourceId : resourceId,
-            bladeName : name
+            resourceId: resourceId,
+            bladeName: name
         };
 
         this.postMessage(Verbs.openBladeCollector, JSON.stringify(payload));
     }
 
-    openCollectorBladeWithInputs(resourceId : string, obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+    openCollectorBladeWithInputs(resourceId: string, obj: any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
         this.logAction(source, "open-blade-collector-inputs" + obj.bladeName, null);
 
         this._aiService.trackEvent('/site/open-collector-blade', {
-            targetBlade : obj.bladeName,
-            source : source
+            targetBlade: obj.bladeName,
+            source: source
         });
 
         this.getAppSettingCallback = getAppSettingCallback;
 
         let payload = {
-            resourceId : resourceId,
-            input : obj
+            resourceId: resourceId,
+            input: obj
         };
 
         this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
     }
 
-    closeBlades(){
+    closeBlades() {
         this.postMessage(Verbs.closeBlades, "");
     }
 
-    updateBladeInfo(title : string, subtitle : string){
-        let payload : UpdateBladeInfo = {
-            title : title,
-            subtitle : subtitle
+    updateBladeInfo(title: string, subtitle: string) {
+        let payload: UpdateBladeInfo = {
+            title: title,
+            subtitle: subtitle
         };
 
         this.postMessage(Verbs.updateBladeInfo, JSON.stringify(payload));
     }
 
-    pinPart(pinPartInfo : PinPartInfo){
+    pinPart(pinPartInfo: PinPartInfo) {
         this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
     }
 
-    startNotification(title : string, description : string){
-        if(PortalService.inIFrame()){
-            let payload : NotificationInfo = {
-                state : "start",
-                title : title,
-                description : description
+    startNotification(title: string, description: string) {
+        if (PortalService.inIFrame()) {
+            let payload: NotificationInfo = {
+                state: "start",
+                title: title,
+                description: description
             };
 
             this.postMessage(Verbs.setNotification, JSON.stringify(payload));
         }
-        else{
-            setTimeout(() =>{
-                this.notificationStartStream.next({ id : "id" });
+        else {
+            setTimeout(() => {
+                this.notificationStartStream.next({ id: "id" });
             });
         }
 
         return this.notificationStartStream;
     }
 
-    stopNotification(id : string, success : boolean, description : string){
+    stopNotification(id: string, success: boolean, description: string) {
         let state = "success";
-        if(!success){
+        if (!success) {
             state = "fail";
         }
 
-        let payload : NotificationInfo = {
-            id : id,
-            state : state,
-            title : null,
-            description : description
+        let payload: NotificationInfo = {
+            id: id,
+            state: state,
+            title: null,
+            description: description
         };
 
         this.postMessage(Verbs.setNotification, JSON.stringify(payload));
     }
 
-    logAction(subcomponent: string, action: string, data?: any): void{
+    logAction(subcomponent: string, action: string, data?: any): void {
         let actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
             action: action,
@@ -175,15 +175,15 @@ export class PortalService {
         this.postMessage(Verbs.logAction, actionStr);
     }
 
-    setDirtyState(dirty : boolean) : void{
+    setDirtyState(dirty: boolean): void {
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
     }
 
-    logMessage(level : LogEntryLevel, message : string, ...restArgs: any[]){
+    logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
         let messageStr = JSON.stringify(<Message>{
-            level : level,
-            message : message,
-            restArgs : restArgs
+            level: level,
+            message: message,
+            restArgs: restArgs
         });
 
         this.postMessage(Verbs.logMessage, messageStr);
@@ -191,7 +191,7 @@ export class PortalService {
 
     private iframeReceivedMsg(event: Event): void {
 
-        if (!event || !event.data || event.data.signature !== this.portalSignature){
+        if (!event || !event.data || event.data.signature !== this.portalSignature) {
             return;
         }
 
@@ -200,7 +200,7 @@ export class PortalService {
 
         console.log("[iFrame] Received mesg: " + methodName);
 
-        if(methodName === Verbs.sendStartupInfo){
+        if (methodName === Verbs.sendStartupInfo) {
             this.startupInfo = <StartupInfo>data;
             this.sessionId = this.startupInfo.sessionId;
             // this._userService.setToken(startupInfo.token);
@@ -208,37 +208,37 @@ export class PortalService {
 
             this.startupInfoObservable.next(this.startupInfo);
         }
-        else if(methodName === Verbs.sendToken){
-            if(this.startupInfo){
+        else if (methodName === Verbs.sendToken) {
+            if (this.startupInfo) {
                 this.startupInfo.token = <string>data;
                 this.startupInfoObservable.next(this.startupInfo);
             }
         }
         else if (methodName === Verbs.sendAppSettingName) {
-            if(this.getAppSettingCallback){
+            if (this.getAppSettingCallback) {
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
         }
-        else if(methodName === Verbs.sendOAuthInfo){
+        else if (methodName === Verbs.sendOAuthInfo) {
             this.setupOAuthObservable.next(data);
         }
-        else if(methodName === Verbs.sendNotificationStarted){
+        else if (methodName === Verbs.sendNotificationStarted) {
             this.notificationStartStream.next(data);
         }
     }
 
-    private postMessage(verb: string, data: string){
-        if(PortalService.inIFrame()){
+    private postMessage(verb: string, data: string) {
+        if (PortalService.inIFrame()) {
             window.parent.postMessage(<Data>{
-                signature : this.portalSignature,
+                signature: this.portalSignature,
                 kind: verb,
                 data: data
             }, this.shellSrc);
         }
     }
 
-    public static inIFrame() : boolean{
+    public static inIFrame(): boolean {
         return window.parent !== window && window.location.pathname !== "/context.html";
     }
 }

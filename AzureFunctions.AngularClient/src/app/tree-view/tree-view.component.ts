@@ -1,7 +1,7 @@
 import { GlobalStateService } from './../shared/services/global-state.service';
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {ArmService} from '../shared/services/arm.service';
-import {TreeNode} from './tree-node';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { ArmService } from '../shared/services/arm.service';
+import { TreeNode } from './tree-node';
 
 @Component({
     selector: 'tree-view',
@@ -10,23 +10,23 @@ import {TreeNode} from './tree-node';
     inputs: ['node', 'levelInput']
 })
 
-export class TreeViewComponent{
-    node : TreeNode;
-    paddingLeft : string;
-    level : number;
+export class TreeViewComponent {
+    node: TreeNode;
+    paddingLeft: string;
+    level: number;
 
     public showTryView = false;
 
-    constructor(globalStateService : GlobalStateService) {
+    constructor(globalStateService: GlobalStateService) {
         this.showTryView = globalStateService.showTryView;
     }
 
-    set levelInput(level : number){
-        if(level > 2){
+    set levelInput(level: number) {
+        if (level > 2) {
             let padding = level * 10 - 10;
             this.paddingLeft = padding + "px";
         }
-        else{
+        else {
             this.paddingLeft = "10px";
         }
 

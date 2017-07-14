@@ -17,14 +17,14 @@ import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteTabIds, LocalStorageKeys, EnableTabFeature } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
-import {TabsComponent} from '../../tabs/tabs.component';
-import {TabComponent} from '../../tab/tab.component';
-import {CacheService} from '../../shared/services/cache.service';
-import {GlobalStateService} from '../../shared/services/global-state.service';
-import {TreeViewInfo} from '../../tree-view/models/tree-view-info';
-import {DashboardType} from '../../tree-view/models/dashboard-type';
-import {Descriptor, SiteDescriptor} from '../../shared/resourceDescriptors';
-import {ArmObj} from '../../shared/models/arm/arm-obj';
+import { TabsComponent } from '../../tabs/tabs.component';
+import { TabComponent } from '../../tab/tab.component';
+import { CacheService } from '../../shared/services/cache.service';
+import { GlobalStateService } from '../../shared/services/global-state.service';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
+import { DashboardType } from '../../tree-view/models/dashboard-type';
+import { Descriptor, SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
 import { TabSettings } from './../../shared/models/localStorage/local-storage';
@@ -37,44 +37,44 @@ import { TabSettings } from './../../shared/models/localStorage/local-storage';
 })
 
 export class SiteDashboardComponent {
-    @ViewChild(TabsComponent) tabs : TabsComponent;
+    @ViewChild(TabsComponent) tabs: TabsComponent;
 
     public selectedTabId: string = SiteTabIds.overview;
     public dynamicTabId: string | null = null;
-    public site : ArmObj<Site>;
-    public viewInfoStream : Subject<TreeViewInfo>;
-    public viewInfo : TreeViewInfo;
+    public site: ArmObj<Site>;
+    public viewInfoStream: Subject<TreeViewInfo>;
+    public viewInfo: TreeViewInfo;
     public TabIds = SiteTabIds;
     public Resources = PortalResources;
     public isStandalone = false;
     public tabsFeature: EnableTabFeature;
     public openFeatureId = new ReplaySubject<string>(1);
-    private _prevFeatureId : string;
+    private _prevFeatureId: string;
 
     private _tabsLoaded = false;
     private _traceOnTabSelection = false;
 
     constructor(
-        private _cacheService : CacheService,
-        private _globalStateService : GlobalStateService,
-        private _aiService : AiService,
+        private _cacheService: CacheService,
+        private _globalStateService: GlobalStateService,
+        private _aiService: AiService,
         private _portalService: PortalService,
-        private _translateService : TranslateService,
-        private _configService : ConfigService,
-        private _storageService : LocalStorageService) {
+        private _translateService: TranslateService,
+        private _configService: ConfigService,
+        private _storageService: LocalStorageService) {
 
         this.isStandalone = _configService.isStandalone();
         this.tabsFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
 
         this.viewInfoStream = new Subject<TreeViewInfo>();
         this.viewInfoStream
-            .switchMap(viewInfo =>{
+            .switchMap(viewInfo => {
 
-                if(this._globalStateService.showTryView){
+                if (this._globalStateService.showTryView) {
                     this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
                 }
 
-                if(!this._tabsLoaded){
+                if (!this._tabsLoaded) {
                     // We only set to false on 1st time load because that's the only time
                     // that we'll update the viewInfoStream, AND call onTabSelected.  Changing
                     // tabs only calls onTabSelected, and clicking on another app will only
@@ -89,12 +89,12 @@ export class SiteDashboardComponent {
                 return Observable.zip(
                     Observable.of(viewInfo),
                     this._cacheService.getArm(viewInfo.resourceId),
-                    (v, s) => ({ viewInfo : v, site : s}));
+                    (v, s) => ({ viewInfo: v, site: s }));
             })
-            .do(null, e =>{
+            .do(null, e => {
                 let descriptor = new SiteDescriptor(this.viewInfo.resourceId);
                 let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
-                if(e && e.status === 404){
+                if (e && e.status === 404) {
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
@@ -104,46 +104,45 @@ export class SiteDashboardComponent {
                 this._globalStateService.clearBusyState();
             })
             .retry()
-            .subscribe(r =>{
+            .subscribe(r => {
                 this._globalStateService.clearBusyState();
                 this.viewInfo = r.viewInfo;
 
-                let site : ArmObj<Site> = r.site.json();
+                let site: ArmObj<Site> = r.site.json();
                 this.site = site;
 
                 // Is a bit hacky but seems to work well enough in waiting for the tabs to load.
                 // AfterContentInit doesn't work and even if it did, it only gets called on the first
                 // time the component is loaded.
-                setTimeout(() =>{
+                setTimeout(() => {
                     let appNode = <AppNode>this.viewInfo.node;
-                    if(this.tabs && this.tabs.tabs){
+                    if (this.tabs && this.tabs.tabs) {
 
-                        let savedTabInfo = <TabSettings> this._storageService.getItem(LocalStorageKeys.siteTabs);
-                        if (appNode.openFunctionSettingsTab){
+                        let savedTabInfo = <TabSettings>this._storageService.getItem(LocalStorageKeys.siteTabs);
+                        if (appNode.openFunctionSettingsTab) {
                             let tabs = this.tabs.tabs.toArray();
                             let functionTab = tabs.find(t => t.id === SiteTabIds.functionRuntime);
-                            if(functionTab){
+                            if (functionTab) {
                                 this.tabs.selectTab(functionTab);
                             }
 
                             appNode.openFunctionSettingsTab = false;
                         }
-                        else if(savedTabInfo){
+                        else if (savedTabInfo) {
                             this.dynamicTabId = savedTabInfo.dynamicTabId;
                         }
                     }
-                },
-                100);
+                }, 100);
             });
     }
 
-    set viewInfoInput(viewInfo : TreeViewInfo){
+    set viewInfoInput(viewInfo: TreeViewInfo) {
         this.viewInfoStream.next(viewInfo);
     }
 
     onTabSelected(selectedTab: TabComponent) {
 
-        if(this._traceOnTabSelection){
+        if (this._traceOnTabSelection) {
             this.viewInfo.data.siteTraceKey = this._aiService.startTrace();
         }
 
@@ -153,57 +152,57 @@ export class SiteDashboardComponent {
         this.selectedTabId = selectedTab.id;
     }
 
-    closeDynamicTab(tabId : string){
+    closeDynamicTab(tabId: string) {
         let prevFeatureId = this.dynamicTabId === this.selectedTabId ? this._prevFeatureId : null;
         this.dynamicTabId = null;
         this._storageService.removeItem(LocalStorageKeys.siteTabs);
-        if(prevFeatureId){
+        if (prevFeatureId) {
             this.tabs.selectTabId(this._prevFeatureId);
         }
 
         this._prevFeatureId = null;
     }
 
-    openFeature(featureId : string){
+    openFeature(featureId: string) {
 
-        if(this.tabsFeature === 'tabs'){
+        if (this.tabsFeature === 'tabs') {
             this._prevFeatureId = this.selectedTabId;
-            
+
             this.dynamicTabId = featureId;
             let tabSettings = <TabSettings>{
-                id : LocalStorageKeys.siteTabs,
-                dynamicTabId : this.dynamicTabId
+                id: LocalStorageKeys.siteTabs,
+                dynamicTabId: this.dynamicTabId
             };
 
             this._storageService.setItem(LocalStorageKeys.siteTabs, tabSettings);
 
-            setTimeout(() =>{
+            setTimeout(() => {
                 this.tabs.selectTabId(featureId);
             }, 100);
 
         }
-        else if(this.tabsFeature === 'inplace'){
-            if(featureId){
+        else if (this.tabsFeature === 'inplace') {
+            if (featureId) {
                 this.tabs.selectTabId(SiteTabIds.features);
             }
-            else{
+            else {
                 this.tabs.selectTabId(this._prevFeatureId);
             }
 
-            setTimeout(() =>{
+            setTimeout(() => {
                 this.openFeatureId.next(featureId);
             }, 100)
         }
-        else{
+        else {
             this.tabs.selectTabId(featureId);
         }
     }
 
-    pinPart(){
+    pinPart() {
         this._portalService.pinPart({
-            partSize : PartSize.Normal,
-            partInput : {
-                id : this.viewInfo.resourceId
+            partSize: PartSize.Normal,
+            partInput: {
+                id: this.viewInfo.resourceId
             }
         })
     }
