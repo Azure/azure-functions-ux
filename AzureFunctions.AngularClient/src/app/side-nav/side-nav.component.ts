@@ -111,12 +111,9 @@ export class SideNavComponent implements AfterViewInit {
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized) {
                 this._initialized = true;
-                // this.resourceId = !!this.resourceId ? this.resourceId : info.resourceId;
-                this.initialResourceId = info.resourceId;
-
                 this.rootNode = new TreeNode(this, null, null);
 
-                let appsNode = new AppsNode(
+                const appsNode = new AppsNode(
                     this,
                     this.rootNode,
                     this._subscriptionsStream,
@@ -136,26 +133,23 @@ export class SideNavComponent implements AfterViewInit {
                 this._searchTermStream
                     .subscribe(term => {
                         this.searchTerm = term;
-                    })
-
-                // Get the streams in the top-level nodes moving
-                if (this.initialResourceId) {
-                    let descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
-                    if (descriptor.site) {
-                        this._searchTermStream.next(`"${descriptor.site}"`);
-                        this.hasValue = true;
-                    }
-                    else {
-                        this._searchTermStream.next("");
-                    }
-                }
-                else {
-                    this._searchTermStream.next("");
-                }
+                    });
 
                 if (this.subscriptionOptions.length === 0) {
                     this._setupInitialSubscriptions(info.resourceId);
                 }
+            }
+            this.initialResourceId = info.resourceId;
+            if (this.initialResourceId) {
+                const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
+                if (descriptor.site) {
+                    this._searchTermStream.next(`"${descriptor.site}"`);
+                    this.hasValue = true;
+                } else {
+                    this._searchTermStream.next('');
+                }
+            } else {
+                this._searchTermStream.next('');
             }
         });
 
@@ -187,7 +181,7 @@ export class SideNavComponent implements AfterViewInit {
                 this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appNode];
                 this.rootNode.isExpanded = true;
-            })
+            });
     }
 
     ngAfterViewInit() {

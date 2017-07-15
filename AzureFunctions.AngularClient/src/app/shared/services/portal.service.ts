@@ -196,7 +196,7 @@ export class PortalService {
         }
 
         var data = event.data.data;
-        let methodName = event.data.kind;
+        const methodName = event.data.kind;
 
         console.log("[iFrame] Received mesg: " + methodName);
 
@@ -226,6 +226,14 @@ export class PortalService {
         else if (methodName === Verbs.sendNotificationStarted) {
             this.notificationStartStream.next(data);
         }
+        else if (methodName === Verbs.sendResourceId) {
+            if (!this.startupInfo) {
+                return;
+            }
+
+            this.startupInfo.resourceId = data;
+            this.startupInfoObservable.next(this.startupInfo);
+        }
     }
 
     private postMessage(verb: string, data: string) {
@@ -239,6 +247,6 @@ export class PortalService {
     }
 
     public static inIFrame(): boolean {
-        return window.parent !== window && window.location.pathname !== "/context.html";
+        return window.parent !== window && window.location.pathname !== '/context.html';
     }
 }
