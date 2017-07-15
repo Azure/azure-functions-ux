@@ -181,7 +181,7 @@ export class SideNavComponent implements AfterViewInit {
                 this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appNode];
                 this.rootNode.isExpanded = true;
-            })
+            });
     }
 
     ngAfterViewInit() {
