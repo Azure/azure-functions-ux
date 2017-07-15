@@ -5,14 +5,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group"
-        [group]="group.controls['netFrameWorkVersion']"
+      <drop-down
+        [group]="!!group ? group.controls['netFrameWorkVersion'] : null"
         name="value"
-        [options]="group.controls['netFrameWorkVersion'].options"
+        [options]="!!group ? group.controls['netFrameWorkVersion'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -20,14 +17,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'phpVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group"
-        [group]="group.controls['phpVersion']"
+      <drop-down
+        [group]="!!group ? group.controls['phpVersion'] : null"
         name="value"
-        [options]="group.controls['phpVersion'].options"
+        [options]="!!group ? group.controls['phpVersion'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -35,14 +29,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'pythonVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group"
-        [group]="group.controls['pythonVersion']"
+      <drop-down
+        [group]="!!group ? group.controls['pythonVersion'] : null"
         name="value"
-        [options]="group.controls['pythonVersion'].options"
+        [options]="!!group ? group.controls['pythonVersion'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -50,14 +41,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group" #javaVersionDropDown
-        [group]="group.controls['javaVersion']"
+      <drop-down #javaVersionDropDown
+        [group]="!!group ? group.controls['javaVersion'] : null"
         name="value"
-        [options]="group.controls['javaVersion'].options"
+        [options]="!!group ? group.controls['javaVersion'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"  #javaVersionDropDown
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -65,14 +53,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group"
-        [group]="group.controls['javaMinorVersion']"
+      <drop-down
+        [group]="!!group ? group.controls['javaMinorVersion'] : null"
         name="value"
-        [options]="group.controls['javaMinorVersion'].options"
+        [options]="!!group ? group.controls['javaMinorVersion'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -80,14 +65,11 @@
   <div class="setting-wrapper">
     <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}</div>
     <div class="setting-control-container">
-      <drop-down *ngIf="!!group"
-        [group]="group.controls['javaWebContainer']"
+      <drop-down
+        [group]="!!group ? group.controls['javaWebContainer'] : null"
         name="value"
-        [options]="group.controls['javaWebContainer'].options"
+        [options]="!!group ? group.controls['javaWebContainer'].options : optionsPlaceholder"
         [highlightDirty]="true">
-      </drop-down>
-      <drop-down *ngIf="!group"
-        [options]="optionsPlaceholder">
       </drop-down>
     </div>
   </div>
@@ -96,8 +78,11 @@
     <div class="setting-label">Platform</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['use32BitWorkerProcess'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['use32BitWorkerProcess'].controls['value'].value : null"
-        [options]="use32BitWorkerProcessOptions">
+        [options]="use32BitWorkerProcessOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -106,8 +91,11 @@
     <div class="setting-label">Web sockets</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['webSocketsEnabled'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['webSocketsEnabled'].controls['value'].value : null"
-        [options]="webSocketsEnabledOptions">
+        [options]="webSocketsEnabledOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -116,8 +104,11 @@
     <div class="setting-label">Always On</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['alwaysOn'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['alwaysOn'].controls['value'].value : null"
-        [options]="alwaysOnOptions">
+        [options]="alwaysOnOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -126,8 +117,11 @@
     <div class="setting-label">Managed Pipeline Version</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['managedPipelineMode'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['managedPipelineMode'].controls['value'].value : null"
-        [options]="managedPipelineModeOptions">
+        [options]="managedPipelineModeOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -136,8 +130,11 @@
     <div class="setting-label">ARR Affinity</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['clientAffinityEnabled'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['clientAffinityEnabled'].controls['value'].value : null"
-        [options]="clientAffinityEnabledOptions">
+        [options]="clientAffinityEnabledOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -161,8 +158,11 @@
     <div class="setting-label">Remote debugging</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['remoteDebuggingEnabled'].controls['value'].value : null"
-        [options]="remoteDebuggingEnabledOptions">
+        [options]="remoteDebuggingEnabledOptions"
+        [highlightDirty]="true">
       </radio-selector>
     </div>
   </div>
@@ -171,8 +171,12 @@
     <div class="setting-label">Remote Visual Studio version</div>
     <div class="setting-control-container">
       <radio-selector
+        [group]="!!group ? group.controls['remoteDebuggingVersion'] : null"
+        name="value"
         [defaultValue]="!!group ? group.controls['remoteDebuggingVersion'].controls['value'].value : null"
-        [options]="remoteDebuggingVersionOptions">
+        [options]="remoteDebuggingVersionOptions"
+        [highlightDirty]="true"
+        [disabled]="!!group ? !group.controls['remoteDebuggingEnabled'].controls['value'].value : false">
       </radio-selector>
     </div>
   </div>
