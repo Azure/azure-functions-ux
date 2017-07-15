@@ -15,5 +15,7 @@ export interface SiteConfig{
     pythonVersion : string;
     use32BitWorkerProcess : boolean;
     webSocketsEnabled : boolean;
-    managedPipelineMode : number;
+    managedPipelineMode : string;
+    remoteDebuggingEnabled : boolean;
+    remoteDebuggingVersion : string;
 }

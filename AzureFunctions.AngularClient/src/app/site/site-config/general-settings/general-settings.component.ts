@@ -5,12 +5,13 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStackNames, Version } from 'app/shared/models/constants';
 import { AvailableStack, MinorVersion, MajorVersion, Framework } from 'app/shared/models/arm/stacks';
 import { StacksHelper } from './../../../shared/Utilities/stacks.helper';
 import { DropDownComponent } from './../../../drop-down/drop-down.component';
-
+import { SelectOption } from './../../../shared/models/select-option';
 
 import { SaveResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
@@ -37,6 +38,16 @@ export class JavaSettingsGroups {
   majorVersion: FormGroup;
   minorVersion: FormGroup;
   webContainer: FormGroup;
+}
+
+export class GeneralSettingsGroups {
+  clientAffinityEnabled: FormGroup;
+  use32BitWorkerProcess: FormGroup;
+  webSocketsEnabled: FormGroup;
+  alwaysOn: FormGroup;
+  managedPipelineMode: FormGroup;
+  remoteDebuggingEnabled: FormGroup;
+  remoteDebuggingVersion: FormGroup;
 }
 
 @Component({
@@ -67,6 +78,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   //private _uniqueAppSettingValidator: UniqueValidator;
 
   private _webConfigArm: ArmObj<SiteConfig>;
+  private _siteConfigArm: ArmObj<Site>;
   public loadingStateMessage: string;
 
   private _usingCustomContainer: boolean;
@@ -80,6 +92,30 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _availableStacksArm: ArmArrayResult<AvailableStack>;
   //private _javaMajorToMinorMap: Map<string, MinorVersion[]>;
+
+  public clientAffinityEnabledOptions: SelectOption<boolean>[] = [{ displayLabel: "On", value: true },
+                                                                  { displayLabel: "Off", value: false }];
+
+  public use32BitWorkerProcessOptions: SelectOption<boolean>[] = [{ displayLabel: "32-bit", value: true },
+                                                                  { displayLabel: "64-bit", value: false }];
+
+  public webSocketsEnabledOptions: SelectOption<boolean>[] = [{ displayLabel: "On", value: true },
+                                                              { displayLabel: "Off", value: false }];
+
+  public alwaysOnOptions: SelectOption<boolean>[] = [{ displayLabel: "On", value: true },
+                                                     { displayLabel: "Off", value: false }];
+
+  public managedPipelineModeOptions: SelectOption<number>[] = [{ displayLabel: "Classic", value: 0 },
+                                                               { displayLabel: "Integrated", value: 1 }];
+
+  public remoteDebuggingEnabledOptions: SelectOption<boolean>[] = [{ displayLabel: "On", value: true },
+                                                                   { displayLabel: "Off", value: false }];
+
+  public remoteDebuggingVersionOptions: SelectOption<string>[] = [{ displayLabel: "2012", value: "VS2012" },
+                                                                  { displayLabel: "2013", value: "VS2013" },
+                                                                  { displayLabel: "2015", value: "VS2015" },
+                                                                  { displayLabel: "2017", value: "VS2017" }];
+
 
   private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: "-", containerMajorVersion: "", containerMinorVersion: "" };
   private _emptyJavaWebContainerOptions: DropDownElement<string>[] = [{ displayLabel: "-", value: JSON.stringify(this._emptyJavaWebContainerProperties), default: true }];
@@ -120,6 +156,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .switchMap(() => {
         this._busyStateScopeManager.setBusy();
         this._saveError = null;
+        this._siteConfigArm = null;
         this._webConfigArm = null;
         this.group = null;
         this._resetPermissionsAndLoadingState();
@@ -133,26 +170,28 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._setPermissions(p.writePermission, p.readOnlyLock);
         return Observable.zip(
           Observable.of(this.hasWritePermissions),
+          this._cacheService.getArm(`${this.resourceId}`, true),
           this._cacheService.getArm(`${this.resourceId}/config/web`, true),
           !this._availableStacksArm ? this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks`, true) : Observable.of(null),
-          (h, w, s) => ({hasWritePermissions: h, webConfigResponse: w, availableStacksResponse: s})
+          (h, c, w, s) => ({hasWritePermissions: h, siteConfigResponse: c, webConfigResponse: w, availableStacksResponse: s})
         )
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/general-settings", error);
         //this._webConfigArm = null;
-        this._setupForm(this._webConfigArm);
+        this._setupForm(this._webConfigArm, this._siteConfigArm);
         this.loadingStateMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
+        this._siteConfigArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
         this._availableStacksArm = this._availableStacksArm || r.availableStacksResponse.json();
         if(!this._versionOptionsMap){
           this._parseAvailableStacks(this._availableStacksArm);
         }
-        this._setupForm(this._webConfigArm);
+        this._setupForm(this._webConfigArm, this._siteConfigArm);
         //setTimeout(() => { this._setupJavaVersionSubscription(); }, 0);
         this._busyStateScopeManager.clearBusy();
       });
@@ -163,7 +202,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if(changes['mainForm'] && !changes['resourceId']){
-      this._setupForm(this._webConfigArm);
+      this._setupForm(this._webConfigArm, this._siteConfigArm);
     }
   }
 
@@ -215,8 +254,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private _setupForm(webConfigArm: ArmObj<SiteConfig>){
-    if(!!webConfigArm){
+  private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>){
+    if(!!webConfigArm || !siteConfigArm){
 
       if(this._javaVersionSubscription){
         this._javaVersionSubscription.unsubscribe();
@@ -227,6 +266,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         let phpVersion = this._setupPhpVersion(webConfigArm.properties.phpVersion);
         let pythonVersion = this._setupPythonVersion(webConfigArm.properties.pythonVersion);
         let java: JavaSettingsGroups = this._setupJava(webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
+        let generalSettings: GeneralSettingsGroups = this._setupGeneralSettings(webConfigArm, siteConfigArm);
 
         this.group = this._fb.group({
           netFrameWorkVersion: netFrameWorkVersion,
@@ -234,7 +274,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           pythonVersion: pythonVersion,
           javaVersion: java.majorVersion,
           javaMinorVersion: java.minorVersion,
-          javaWebContainer: java.webContainer
+          javaWebContainer: java.webContainer,
+          clientAffinityEnabled: generalSettings.clientAffinityEnabled,
+          use32BitWorkerProcess: generalSettings.use32BitWorkerProcess,
+          webSocketsEnabled: generalSettings.webSocketsEnabled,
+          alwaysOn: generalSettings.alwaysOn,
+          managedPipelineMode: generalSettings.managedPipelineMode,
+          remoteDebuggingEnabled: generalSettings.remoteDebuggingEnabled,
+          remoteDebuggingVersion: generalSettings.remoteDebuggingVersion
         });
       }
         
@@ -260,6 +307,57 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     this._saveError = null;
 
+  }
+
+
+
+  private _setupGeneralSettings(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>): GeneralSettingsGroups{
+    let clientAffinityEnabledGroup = this._fb.group({
+      value: siteConfigArm.properties.clientAffinityEnabled
+    });
+
+
+    let use32BitWorkerProcessGroup = this._fb.group({
+      value: webConfigArm.properties.use32BitWorkerProcess
+    });
+
+
+    let webSocketsEnabledGroup = this._fb.group({
+      value: webConfigArm.properties.webSocketsEnabled
+    });
+
+
+    let alwaysOnGroup = this._fb.group({
+      value: webConfigArm.properties.alwaysOn
+    });
+
+
+    let managedPipelineModeGroup = this._fb.group({
+      value: webConfigArm.properties.managedPipelineMode
+    });
+
+
+    let remoteDebuggingEnabledGroup = this._fb.group({
+      value: webConfigArm.properties.remoteDebuggingEnabled
+    });
+
+
+    let remoteDebuggingVersionGroup = this._fb.group({
+      value: webConfigArm.properties.remoteDebuggingVersion
+    });
+    if(!webConfigArm.properties.remoteDebuggingEnabled){
+      remoteDebuggingVersionGroup.disable();
+    }
+
+    return {
+      clientAffinityEnabled: clientAffinityEnabledGroup,
+      use32BitWorkerProcess: use32BitWorkerProcessGroup,
+      webSocketsEnabled: webSocketsEnabledGroup,
+      alwaysOn: alwaysOnGroup,
+      managedPipelineMode: managedPipelineModeGroup,
+      remoteDebuggingEnabled: remoteDebuggingEnabledGroup,
+      remoteDebuggingVersion: remoteDebuggingVersionGroup
+    };
   }
 
   private _setupNetFramworkVersion(netFrameworkVersion: string): FormGroup{
@@ -686,8 +784,30 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     let generalSettingsControls = this.group.controls;
 
     if(this.mainForm.valid){
+      //level: site
+      let siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
+      let clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value.value);
+      siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled ;
+
+      //level: site/config/web
       let webConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._webConfigArm));
 
+      // -- non-stack settings --
+      let use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value.value);
+      let webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value.value);
+      let alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value.value);
+      let managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value.value);
+      let remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value.value);
+      let remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value.value);
+
+      webConfigArm.properties.use32BitWorkerProcess = use32BitWorkerProcess;
+      webConfigArm.properties.webSocketsEnabled = webSocketsEnabled;
+      webConfigArm.properties.alwaysOn = alwaysOn;
+      webConfigArm.properties.managedPipelineMode = managedPipelineMode;
+      webConfigArm.properties.remoteDebuggingEnabled = remoteDebuggingEnabled;
+      webConfigArm.properties.remoteDebuggingVersion = remoteDebuggingVersion;
+
+      // -- stacks settings --
       let netFrameWorkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value.value);
       let phpVersion = <string>(generalSettingsControls['phpVersion'].value.value);
       let pythonVersion = <string>(generalSettingsControls['pythonVersion'].value.value);
@@ -709,24 +829,25 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       webConfigArm.properties.netFrameworkVersion = netFrameWorkVersion;
       webConfigArm.properties.phpVersion = phpVersion;
       webConfigArm.properties.pythonVersion = pythonVersion;
-      
-      // webConfigArm.properties.javaVersion = "1.8";
-      // webConfigArm.properties.javaContainer = "TOMCAT";
-      // webConfigArm.properties.javaContainerVersion = "7.0.50";
-
       webConfigArm.properties.javaVersion = javaVersion || "";
       webConfigArm.properties.javaContainer = javaContainer || "";
       webConfigArm.properties.javaContainerVersion = javaContainerVersion || "";
 
-      return this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm)
-      .map(webConfigResponse => {
-        this._webConfigArm = webConfigResponse.json();
+      return Observable.zip(
+        this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
+        this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm),
+        (c, w) => ({siteConfigResponse: c, webConfigResponse: w})
+      )
+      .map(r => {
+        this._siteConfigArm = r.siteConfigResponse.json();
+        this._webConfigArm = r.webConfigResponse.json();
         return {
           success: true,
           error: null
         };
       })
       .catch(error => {
+        //this._siteConfigArm = null;
         //this._webConfigArm = null;
         this._saveError = error._body;
         return Observable.of({
@@ -738,7 +859,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     else{
       return Observable.of({
         success: false,
-        error: "Failed to save App Settings due to invalid input."
+        error: "Failed to save General Settings due to invalid input."
       });
     }
   }

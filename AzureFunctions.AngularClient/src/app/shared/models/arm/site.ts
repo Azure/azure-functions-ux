@@ -14,4 +14,5 @@ export interface Site {
     enabled?: boolean;
     siteDisabledReason?: number;
     clientCertEnabled?: boolean;
+    clientAffinityEnabled?: boolean;
 }

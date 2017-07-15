@@ -107,6 +107,10 @@ h3{
     .setting-wrapper{
         padding-bottom: 15px;
 
+        &.last{
+            padding-bottom: 0px;
+        }
+
         .setting-label{
             box-sizing: border-box;
             color: rgb(71, 71, 71);

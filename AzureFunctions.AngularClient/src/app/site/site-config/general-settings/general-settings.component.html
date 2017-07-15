@@ -92,6 +92,91 @@
     </div>
   </div>
 
+  <div class="setting-wrapper">
+    <div class="setting-label">Platform</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['use32BitWorkerProcess'].controls['value'].value : null"
+        [options]="use32BitWorkerProcessOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">Web sockets</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['webSocketsEnabled'].controls['value'].value : null"
+        [options]="webSocketsEnabledOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">Always On</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['alwaysOn'].controls['value'].value : null"
+        [options]="alwaysOnOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">Managed Pipeline Version</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['managedPipelineMode'].controls['value'].value : null"
+        [options]="managedPipelineModeOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper last">
+    <div class="setting-label">ARR Affinity</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['clientAffinityEnabled'].controls['value'].value : null"
+        [options]="clientAffinityEnabledOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div *ngIf="!hasWritePermissions || !group" class="shield">
+    <div *ngIf="hasWritePermissions" class="shield-message">
+      {{loadingStateMessage}}
+    </div>
+    <div *ngIf="!hasWritePermissions" class="shield-message">
+      {{permissionsMessage}}
+    </div>
+  </div>
+
+</div>
+
+<h3 class="text-level2-heading">{{ 'feature_debuggingSettingsName' | translate }}</h3>
+
+<div class="settings-group-wrapper">
+
+  <div class="setting-wrapper">
+    <div class="setting-label">Remote debugging</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['remoteDebuggingEnabled'].controls['value'].value : null"
+        [options]="remoteDebuggingEnabledOptions">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">Remote Visual Studio version</div>
+    <div class="setting-control-container">
+      <radio-selector
+        [defaultValue]="!!group ? group.controls['remoteDebuggingVersion'].controls['value'].value : null"
+        [options]="remoteDebuggingVersionOptions">
+      </radio-selector>
+    </div>
+  </div>
+
   <div *ngIf="!hasWritePermissions || !group" class="shield">
     <div *ngIf="hasWritePermissions" class="shield-message">
       {{loadingStateMessage}}
