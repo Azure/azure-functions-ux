@@ -2038,6 +2038,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="apiProxy_new" xml:space="preserve">
     <value>New proxy</value>
   </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>No override</value>
+  </data>
   <data name="functionDev_saveFunctionFailure" xml:space="preserve">
     <value>Failed to save function '{0}'</value>
   </data>

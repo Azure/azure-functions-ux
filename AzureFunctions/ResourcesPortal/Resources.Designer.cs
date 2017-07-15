@@ -214,6 +214,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No override.
+        /// </summary>
+        internal static string apiProxy_noOverride {
+            get {
+                return ResourceManager.GetString("apiProxy_noOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxy URL.
         /// </summary>
         internal static string apiProxy_proxyUrl {

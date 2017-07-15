@@ -92,8 +92,8 @@ import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.compon
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
 import { FunctionRuntimeComponent } from './site/function-runtime/function-runtime.component';
-import { ApiDetailsComponent } from './api-details/api-details.component';
-import { ApiNewComponent } from './api-new/api-new.component';
+import { ApiDetailsComponent } from './api/api-details/api-details.component';
+import { ApiNewComponent } from './api/api-new/api-new.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { ProxiesListComponent } from './proxies-list/proxies-list.component';
 import { DisabledDashboardComponent } from './disabled-dashboard/disabled-dashboard.component';
@@ -115,6 +115,7 @@ import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
 import { PairListComponent } from './controls/pair-list/pair-list.component';
+import { RequestResposeOverrideComponent } from './api/request-respose-override/request-respose-override.component';
 import { GeneralSettingsComponent } from './site/site-config/general-settings/general-settings.component';
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
@@ -237,7 +238,8 @@ export class AppModule {
       GeneralSettingsComponent,
       AppSettingsComponent,
       ConnectionStringsComponent,
-      PairListComponent
+      PairListComponent,
+	  RequestResposeOverrideComponent
     ],
     imports: [
       FormsModule,
