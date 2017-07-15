@@ -1,3 +1,5 @@
+import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter,  Output, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -23,6 +25,7 @@ import { FunctionApp } from '../shared/function-app';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { FunctionInfo } from '../shared/models/function-info';
 import { ErrorIds } from '../shared/models/error-ids';
+import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 
 @Component({
     selector: 'api-new',
@@ -31,7 +34,7 @@ import { ErrorIds } from '../shared/models/error-ids';
     inputs: ['viewInfoInput']
 })
 export class ApiNewComponent implements OnInit {
-
+    @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
     isEnabled: boolean;
@@ -40,7 +43,9 @@ export class ApiNewComponent implements OnInit {
     public apiProxies: ApiProxy[];
     public functionsInfo: FunctionInfo[];
     public appNode: AppNode;
+    public rrOverrideValid: boolean;
     private _proxiesNode: ProxiesNode;
+    private _rrOverrideValue: any;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     constructor(fb: FormBuilder,
@@ -161,7 +166,7 @@ export class ApiNewComponent implements OnInit {
 
     submitForm() {
 
-        if (this.complexForm.valid) {
+        if (this.complexForm.valid && this.rrOverrideValid) {
             this._globalStateService.setBusyState();
 
             const newApiProxy: ApiProxy = {
@@ -203,6 +208,14 @@ export class ApiNewComponent implements OnInit {
                     }
                 }
 
+                // https://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
+                // we are using ES5 now
+                if (this._rrOverrideValue) {
+                    for (var prop in this._rrOverrideValue) {
+                        newApiProxy[prop] = this._rrOverrideValue[prop];
+                    }
+                }
+
                 this.apiProxies.push(newApiProxy);
 
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
@@ -216,6 +229,11 @@ export class ApiNewComponent implements OnInit {
             });
 
         }
-
     }
+
+    rrOverriedValueChanges(value: any) {
+        this._rrOverrideValue = value;
+        this.rrOverrideValid = this.rrComponent.valid;
+    }
+
 }

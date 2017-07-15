@@ -34,6 +34,8 @@ export class PairListComponent {
 
     private _options: PairListOptions;
 
+    constructor(private _fb: FormBuilder) { }
+
     @Input('options') set options(value: PairListOptions) {
         this._options = value;
         var items = this._fb.array([]);
@@ -54,8 +56,6 @@ export class PairListComponent {
 
         this.valueChanges.next(this.form);
     }
-
-    constructor(private _fb: FormBuilder) { }
 
     removeItem(i: number) {
         const control = <FormArray>this.form.controls['items'];

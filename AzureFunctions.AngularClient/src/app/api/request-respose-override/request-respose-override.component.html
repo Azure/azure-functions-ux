@@ -1,0 +1,73 @@
+<div class="rr-container">
+    <div class="text-level1-heading">Request override</div>
+
+    <div>
+        <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
+
+        <select *ngIf="model" [(ngModel)]="model.method" (ngModelChange)="changeValue()">
+            <option value="no">{{ 'apiProxy_noOverride' | translate }}</option>
+            <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
+        </select>
+    </div>
+
+    <div>
+        <pair-list *ngIf="paramsOptions"
+                    [options]="paramsOptions"
+                    addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
+                    emptyLabel="{{ 'httpRun_noQuery' | translate }}"
+                    title="{{ 'httpRun_query' | translate }}"
+                    (valueChanges)="paramsValueChanges($event)">
+
+        </pair-list>
+    </div>
+        
+    <div>
+        <pair-list *ngIf="headerOptions"
+                    [options]="headerOptions"
+                    addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
+                    emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
+                    title="{{ 'httpRun_headers' | translate }}"
+                    (valueChanges)="headerValueChanges($event)">
+
+        </pair-list>
+    </div>
+
+    <div class="text-level1-heading">Response override</div>
+
+    <div class="response-status">
+        <div>
+            <div>
+                <label class="control-label">Status code</label>
+            </div>
+            <input type="text" [(ngModel)]="model.statusCode" (ngModelChange)="changeValue()">
+        </div>
+        <div>
+            <div>
+                <label class="control-label">Status message</label>
+            </div>
+            <input type="text" [(ngModel)]="model.statusReason" (ngModelChange)="changeValue()">
+        </div>
+    </div>
+        
+    <div>
+        <pair-list *ngIf="responseHeaderOptions"
+                    [options]="responseHeaderOptions"
+                    addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
+                    emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
+                    title="{{ 'httpRun_headers' | translate }}"
+                    (valueChanges)="responseHeaderValueChanges($event)">
+
+        </pair-list>
+    </div>
+
+    <div>
+        <label class="control-label">Body</label>
+        <div monacoEditor class="monaco response-body"
+                (onContentChanged)="contentChanged($event)"
+                [content]="model.body"
+                [functionAppInput]="functionApp">
+        </div>
+    </div>
+</div>
+
+

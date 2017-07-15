@@ -1,0 +1,18 @@
+.rr-container {
+    width: 740px;
+}
+
+.rr-container > div {
+    margin-bottom: 10px;
+}
+
+.response-body {
+    height:200px;
+}
+
+.response-status {
+    display:flex;
+    div:nth-child(2) {
+        padding-left:65px;
+    }
+}
