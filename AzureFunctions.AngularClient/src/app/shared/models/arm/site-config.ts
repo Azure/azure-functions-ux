@@ -1,10 +1,10 @@
-export interface SiteConfig{
-    scmType : string;
-    alwaysOn : boolean;
-    cors : {
+export interface SiteConfig {
+    scmType: string;
+    alwaysOn: boolean;
+    cors: {
         allowedOrigins: string[]
     },
-    apiDefinition : {
-        url : string
+    apiDefinition: {
+        url: string
     }
 }

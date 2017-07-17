@@ -65,14 +65,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private _viewInfoSub: RxSubscription;
     private _viewInfo: TreeViewInfo;
     private _appNode: AppNode;
-    private _busyState : BusyStateComponent;
+    private _busyState: BusyStateComponent;
 
     constructor(private _aiService: AiService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        tabsComponent : TabsComponent
+        tabsComponent: TabsComponent
     ) {
         this._busyState = tabsComponent.busyState;
 

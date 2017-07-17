@@ -1,4 +1,4 @@
-export interface Lock{
-    level : string,
-    notes : string
+export interface Lock {
+    level: string,
+    notes: string
 }

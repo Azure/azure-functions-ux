@@ -1,4 +1,4 @@
-export class Url{
+export class Url {
     public static getParameterByName(url, name) {
         if (url === null) {
             url = window.location.href;

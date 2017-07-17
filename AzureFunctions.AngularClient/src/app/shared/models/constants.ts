@@ -13,7 +13,7 @@
 
 export class Constants {
     public static serviceHost =
-        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
+    window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
@@ -52,21 +52,21 @@ export class Constants {
 
 export type EnableTabFeature = 'tabs' | 'inplace' | null;
 
-export class SiteTabIds{
+export class SiteTabIds {
     public static readonly overview = "overview";
     public static readonly monitor = "monitor";
     public static readonly features = "platformFeatures";
     public static readonly functionRuntime = "functionRuntimeSettings";
     public static readonly apiDefinition = "apiDefinition";
     public static readonly config = "config";
-    public static readonly  applicationSettings = "appSettings";
+    public static readonly applicationSettings = "appSettings";
 }
 
-export class Arm{
+export class Arm {
     public static MaxSubscriptionBatchSize = 40;
 }
 
-export class AvailabilityStates{
+export class AvailabilityStates {
     public static unknown = 'unknown';
     public static unavailable = 'unavailable';
     public static available = 'available';
@@ -75,31 +75,31 @@ export class AvailabilityStates{
     public static userinitiated = 'userinitiated';
 }
 
-export class NotificationIds{
+export class NotificationIds {
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
     public static slotsHostId = "slotsBlobStorage"
 }
 
-export class Validations{
+export class Validations {
     public static websiteNameMinLength: number = 2;
     public static websiteNameMaxLength: number = 60;
 }
 
-export class Regex{
+export class Regex {
     public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
 }
 
-export class Links{
+export class Links {
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
 }
 
-export class LocalStorageKeys{
+export class LocalStorageKeys {
     public static readonly siteTabs = "/site/tabs"
 }
 
 export class Order {
-    public static templateOrder: string[] = 
+    public static templateOrder: string[] =
     [
         'HttpTrigger-',
         'TimerTrigger-',
@@ -131,9 +131,10 @@ export class Order {
     ]
 }
 
-export class KeyCodes{
+export class KeyCodes {
     public static readonly tab = 9;
     public static readonly enter = 13;
+    public static readonly shiftLeft = 16;
     public static readonly space = 32;
     public static readonly escape = 27;
     public static readonly arrowLeft = 37;

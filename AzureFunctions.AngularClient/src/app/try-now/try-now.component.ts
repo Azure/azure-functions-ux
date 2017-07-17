@@ -1,19 +1,19 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {UIResource} from '../shared/models/ui-resource';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {FunctionsService} from '../shared/services/functions.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {AiService} from '../shared/services/ai.service';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { UIResource } from '../shared/models/ui-resource';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { FunctionsService } from '../shared/services/functions.service';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { AiService } from '../shared/services/ai.service';
 
 declare var mixpanel: any;
 
 @Component({
-  selector: 'try-now',
-  templateUrl: './try-now.component.html',
-  styleUrls: ['./try-now.component.scss']
+    selector: 'try-now',
+    templateUrl: './try-now.component.html',
+    styleUrls: ['./try-now.component.scss']
 })
 export class TryNowComponent implements OnInit {
     private uiResource: UIResource;

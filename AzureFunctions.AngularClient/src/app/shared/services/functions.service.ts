@@ -1,51 +1,51 @@
-import {Http, Headers, Response, ResponseType} from '@angular/http';
-import {Injectable} from '@angular/core';
+import { Http, Headers, Response, ResponseType } from '@angular/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/observable/of';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { DiagnosticsResult } from './../models/diagnostics-result';
 import { WebApiException } from './../models/webapi-exception';
 import { FunctionsResponse } from './../models/functions-response';
-import {FunctionInfo} from '../models/function-info';
-import {VfsObject} from '../models/vfs-object';
-import {ScmInfo} from '../models/scm-info';
-import {PassthroughInfo} from '../models/passthrough-info';
-import {CreateFunctionInfo} from '../models/create-function-info';
-import {FunctionTemplate} from '../models/function-template';
-import {RunResponse} from '../models/run-response';
-import {DesignerSchema} from '../models/designer-schema';
-import {FunctionSecrets} from '../models/function-secrets';
-import {Subscription} from '../models/subscription';
-import {ServerFarm} from '../models/server-farm';
-import {BindingConfig} from '../models/binding';
-import {PortalService} from './portal.service';
-import {UserService} from './user.service';
-import {FunctionContainer} from '../models/function-container';
-import {RunFunctionResult} from '../models/run-function-result';
-import {Constants} from '../models/constants';
-import {Cache, ClearCache, ClearAllFunctionCache} from '../decorators/cache.decorator';
-import {GlobalStateService} from './global-state.service';
-import {PortalResources} from '../models/portal-resources';
-import {UIResource, AppService, ITryAppServiceTemplate} from '../models/ui-resource';
-import {Cookie} from 'ng2-cookies/ng2-cookies';
-import {UsageVolume} from '../models/app-monitoring-usage'
-import {BroadcastService} from './broadcast.service';
-import {ArmService} from './arm.service';
-import {BroadcastEvent} from '../models/broadcast-event';
+import { FunctionInfo } from '../models/function-info';
+import { VfsObject } from '../models/vfs-object';
+import { ScmInfo } from '../models/scm-info';
+import { PassthroughInfo } from '../models/passthrough-info';
+import { CreateFunctionInfo } from '../models/create-function-info';
+import { FunctionTemplate } from '../models/function-template';
+import { RunResponse } from '../models/run-response';
+import { DesignerSchema } from '../models/designer-schema';
+import { FunctionSecrets } from '../models/function-secrets';
+import { Subscription } from '../models/subscription';
+import { ServerFarm } from '../models/server-farm';
+import { BindingConfig } from '../models/binding';
+import { PortalService } from './portal.service';
+import { UserService } from './user.service';
+import { FunctionContainer } from '../models/function-container';
+import { RunFunctionResult } from '../models/run-function-result';
+import { Constants } from '../models/constants';
+import { Cache, ClearCache, ClearAllFunctionCache } from '../decorators/cache.decorator';
+import { GlobalStateService } from './global-state.service';
+import { PortalResources } from '../models/portal-resources';
+import { UIResource, AppService, ITryAppServiceTemplate } from '../models/ui-resource';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { UsageVolume } from '../models/app-monitoring-usage'
+import { BroadcastService } from './broadcast.service';
+import { ArmService } from './arm.service';
+import { BroadcastEvent } from '../models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../models/error-event';
-import {HttpRunModel} from '../models/http-run';
-import {FunctionKeys, FunctionKey} from '../models/function-key';
-import {StartupInfo} from '../models/portal';
-import {CacheService} from './cache.service';
-import {ArmObj} from '../models/arm/arm-obj';
-import {Site} from '../models/arm/site';
-import {FunctionApp} from '../function-app';
-import {SiteDescriptor} from '../resourceDescriptors';
+import { HttpRunModel } from '../models/http-run';
+import { FunctionKeys, FunctionKey } from '../models/function-key';
+import { StartupInfo } from '../models/portal';
+import { CacheService } from './cache.service';
+import { ArmObj } from '../models/arm/arm-obj';
+import { Site } from '../models/arm/site';
+import { FunctionApp } from '../function-app';
+import { SiteDescriptor } from '../resourceDescriptors';
 import { AiService } from './ai.service';
 import { ErrorIds } from '../models/error-ids';
 
@@ -86,7 +86,7 @@ export class FunctionsService {
         }
 
         if (!_globalStateService.showTryView) {
-            this._userService.getStartupInfo().subscribe(info =>{ this.token = info.token});
+            this._userService.getStartupInfo().subscribe(info => { this.token = info.token });
         }
 
         if (Cookie.get('TryAppServiceToken')) {
@@ -102,7 +102,7 @@ export class FunctionsService {
     // This function is special cased in the Cache() decorator by name to allow for dev scenarios.
     @Cache()
     getTemplates() {
-         try {
+        try {
             if (localStorage.getItem('dev-templates')) {
                 let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
                 // this.localize(devTemplate);
@@ -244,7 +244,7 @@ export class FunctionsService {
     }
 
     private retryAntares(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount : number, err: FunctionsResponse) => {
+        return error.scan((errorCount: number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
                 throw err;
             } else {
@@ -254,7 +254,7 @@ export class FunctionsService {
     }
 
     private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount : number, err: Response) => {
+        return error.scan((errorCount: number, err: Response) => {
             // 400 => you already have a resource, 403 => No login creds provided
             if (err.status === 400 || err.status === 403 || errorCount >= 10) {
                 throw err;
@@ -265,7 +265,7 @@ export class FunctionsService {
     }
 
     private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount : number, err: Response) => {
+        return error.scan((errorCount: number, err: Response) => {
             // 403 => No login creds provided
             if (err.status === 403 || errorCount >= 10) {
                 throw err;
@@ -280,7 +280,7 @@ export class FunctionsService {
      * Currently that's only scmUrl
      * @param params any additional parameters to get added to the default parameters that this class reports to AppInsights
      */
-    private trackEvent(name: string, params: {[name: string]: string}) {
+    private trackEvent(name: string, params: { [name: string]: string }) {
         let standardParams = {
             scmUrl: this._scmUrl
         };

@@ -47,7 +47,7 @@ export class SlotNewComponent implements OnInit {
     public newSlotForm: FormGroup;
     public slotNamePlaceholder: string;
     public hasReachedDynamicQuotaLimit: boolean;
-    public isLoading : boolean = true;
+    public isLoading: boolean = true;
 
     private _slotsNode: SlotsNode;
     private _viewInfoStream = new Subject<TreeViewInfo>();

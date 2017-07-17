@@ -1,11 +1,11 @@
-import {Component, Input, OnChanges, SimpleChange, ViewChild} from '@angular/core';
-import {FunctionMonitorService} from '../shared/services/function-monitor.service';
-import {FunctionInvocations} from '../shared/models/function-monitor';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionInfo} from '../shared/models/function-info';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
+import { Component, Input, OnChanges, SimpleChange, ViewChild } from '@angular/core';
+import { FunctionMonitorService } from '../shared/services/function-monitor.service';
+import { FunctionInvocations } from '../shared/models/function-monitor';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionInfo } from '../shared/models/function-info';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
 
 @Component({
     selector: 'table-function-monitor',
@@ -35,21 +35,21 @@ export class TableFunctionMonitorComponent implements OnChanges {
         this._functionMonitorService.getInvocationDetailsForSelectedInvocation(this.selectedFunction.functionApp, rowData.id)
             .subscribe(results => {
 
-            if (!!results) {
-                this.invocation = results.invocation;
-                this.details = results.parameters;
-                this.selectedRowId = rowData.id;
-                this.setOutputLogInfo(this.selectedRowId);
-            }
-        });
+                if (!!results) {
+                    this.invocation = results.invocation;
+                    this.details = results.parameters;
+                    this.selectedRowId = rowData.id;
+                    this.setOutputLogInfo(this.selectedRowId);
+                }
+            });
         return this.details;
     }
 
     setOutputLogInfo(rowId: string) {
         this._functionMonitorService.getOutputDetailsForSelectedInvocation(this.selectedFunction.functionApp, rowId)
-        .subscribe(outputData => {
-            this.outputLog = outputData;
-        });
+            .subscribe(outputData => {
+                this.outputLog = outputData;
+            });
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
@@ -61,10 +61,10 @@ export class TableFunctionMonitorComponent implements OnChanges {
     refreshFuncMonitorGridData() {
         this.setBusyState();
         this._functionMonitorService.getInvocationsDataForSelectedFunction(this.selectedFunction.functionApp, this.selectedFuncId)
-        .subscribe(result => {
-            this.data = result;
-            this.clearBusyState();
-        });
+            .subscribe(result => {
+                this.data = result;
+                this.clearBusyState();
+            });
     }
 
     setBusyState() {

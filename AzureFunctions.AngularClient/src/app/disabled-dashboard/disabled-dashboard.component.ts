@@ -7,11 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./disabled-dashboard.component.scss']
 })
 export class DisabledDashboardComponent implements OnInit {
-  public message : string = null;
+  public message: string = null;
   public showTryView = false;
 
-  constructor(globalStateService : GlobalStateService) {
-    globalStateService.disabledMessage.subscribe(message =>{
+  constructor(globalStateService: GlobalStateService) {
+    globalStateService.disabledMessage.subscribe(message => {
       this.message = message;
     })
 

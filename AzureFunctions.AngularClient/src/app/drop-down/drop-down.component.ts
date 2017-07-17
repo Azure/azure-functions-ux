@@ -1,19 +1,19 @@
 import { Subject } from 'rxjs/Subject';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, ViewChild, Input, Output } from '@angular/core';
-import {DropDownElement} from '../shared/models/drop-down-element';
+import { DropDownElement } from '../shared/models/drop-down-element';
 
 
 @Component({
-  selector: 'drop-down',
-  templateUrl: './drop-down.component.html',
-  styleUrls: ['./drop-down.component.css']
+    selector: 'drop-down',
+    templateUrl: './drop-down.component.html',
+    styleUrls: ['./drop-down.component.css']
 })
 export class DropDownComponent<T> implements OnInit {
 
-    @Input() group : FormGroup;
-    @Input() control : FormControl;
-    @Input() name : string;
+    @Input() group: FormGroup;
+    @Input() control: FormControl;
+    @Input() name: string;
     @Input() placeholder: string;
     @Input() disabled: boolean;
 
@@ -24,14 +24,14 @@ export class DropDownComponent<T> implements OnInit {
     public empty: any;
     public _options: DropDownElement<T>[];
 
-    @ViewChild('selectInput') selectInput : any;
+    @ViewChild('selectInput') selectInput: any;
 
     constructor() {
         this.value = new EventEmitter<T>();
     }
 
-    ngOnInit(){
-        if(this.group && this.name){
+    ngOnInit() {
+        if (this.group && this.name) {
             this.control = <FormControl>this.group.controls[this.name];
         }
     }
@@ -48,17 +48,17 @@ export class DropDownComponent<T> implements OnInit {
         }
         // If there is only 1, auto-select it
         if (this._options.find(d => d.default)) {
-            if(this.control){
+            if (this.control) {
                 this.onSelectValue(this._options.find(d => d.default).value);
             }
-            else{
+            else {
                 this.onSelect(this._options.find(d => d.default).id.toString());
             }
         } else if (this._options.length > 0) {
-            if(this.control){
+            if (this.control) {
                 this.onSelectValue(this._options[0].value);
             }
-            else{
+            else {
                 this.onSelect(this._options[0].id.toString());
 
             }
@@ -89,15 +89,15 @@ export class DropDownComponent<T> implements OnInit {
         this.value.emit(element.value);
     }
 
-    onBlur(event : any){
+    onBlur(event: any) {
         this.blur.next(event);
     }
 
-    focus(){
-        if(this.selectInput){
-        setTimeout(() =>{
-            this.selectInput.nativeElement.focus();
-        })
+    focus() {
+        if (this.selectInput) {
+            setTimeout(() => {
+                this.selectInput.nativeElement.focus();
+            })
         }
     }
 

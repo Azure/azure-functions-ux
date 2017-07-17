@@ -1,11 +1,12 @@
 
 export class Dom {
     public static setFocus(element: HTMLElement) {
-        element.classList.add('focused');
+        element.tabIndex = 0;
+        element.focus();
     }
 
     public static clearFocus(element: HTMLElement) {
-        element.classList.remove('focused');
+        element.tabIndex = -1;
     }
 
     // This isn't comprehensive but is good enough for our current scenarios.  To get more context, checkout these links:

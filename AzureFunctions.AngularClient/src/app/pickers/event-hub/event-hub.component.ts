@@ -1,18 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
-import {GlobalStateService} from '../../shared/services/global-state.service';
-import {FunctionApp} from '../../shared/function-app';
+import { GlobalStateService } from '../../shared/services/global-state.service';
+import { FunctionApp } from '../../shared/function-app';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
-import { ArmObj, ArmArrayResult} from './../../shared/models/arm/arm-obj';
+import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Response } from '@angular/http';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
-import { PortalResources} from '../../shared/models/portal-resources';
+import { PortalResources } from '../../shared/models/portal-resources';
 
-class OptionTypes {    
+class OptionTypes {
     eventHub: string = "EventHub";
     IOTHub: string = "IOTHub";
     custom: string = "Custom";
@@ -118,7 +118,7 @@ export class EventHubComponent {
         });
 
     }
-           
+
     onChangeNamespace(value: string) {
         this.eventHubs = null;
         this.selectedEventHub = null;
@@ -203,7 +203,7 @@ export class EventHubComponent {
     }
 
     onClose() {
-        if(!this.selectInProcess) {
+        if (!this.selectInProcess) {
             this.close.next(null);
         }
     }
@@ -271,15 +271,15 @@ export class EventHubComponent {
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 })
-                .do(null, e => {
-                    this._globalStateService.clearBusyState();
-                    this.selectInProcess = false;
-                    console.log(e);
-                })
-                .subscribe(r => {
-                    this._globalStateService.clearBusyState();
-                    this.selectItem.next(appSettingName);
-                });
+                    .do(null, e => {
+                        this._globalStateService.clearBusyState();
+                        this.selectInProcess = false;
+                        console.log(e);
+                    })
+                    .subscribe(r => {
+                        this._globalStateService.clearBusyState();
+                        this.selectItem.next(appSettingName);
+                    });
             }
         }
     }
@@ -304,7 +304,7 @@ export class EventHubComponent {
         }
     }
 
-    private getIOTConnstionString(endpoint: string, path:string, key: string) {
+    private getIOTConnstionString(endpoint: string, path: string, key: string) {
         return `Endpoint=${endpoint};SharedAccessKeyName=iothubowner;SharedAccessKey=${key};EntityPath=${path}`;
     }
 

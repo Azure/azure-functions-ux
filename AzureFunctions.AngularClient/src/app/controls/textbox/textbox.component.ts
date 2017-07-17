@@ -9,12 +9,12 @@ import { Subject } from 'rxjs/Subject';
 })
 export class TextboxComponent implements OnInit {
 
-  @Input() control : FormControl;
-  @Input() placeholder : string;
+  @Input() control: FormControl;
+  @Input() placeholder: string;
 
   @Output() blur = new Subject<any>();
 
-  @ViewChild('textboxInput') textboxInput : any;
+  @ViewChild('textboxInput') textboxInput: any;
 
   public Obj = Object;
 
@@ -24,13 +24,13 @@ export class TextboxComponent implements OnInit {
   ngOnInit() {
   }
 
-  onBlur(event : any){
+  onBlur(event: any) {
     this.blur.next(event);
   }
 
-  focus(){
-    if(this.textboxInput){
-      setTimeout(() =>{
+  focus() {
+    if (this.textboxInput) {
+      setTimeout(() => {
         this.textboxInput.nativeElement.focus();
       })
     }

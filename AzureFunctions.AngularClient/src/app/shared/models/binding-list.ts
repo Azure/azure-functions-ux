@@ -1,4 +1,4 @@
-﻿import {UIFunctionConfig, UIFunctionBinding, DirectionType} from './binding';
+﻿import { UIFunctionConfig, UIFunctionBinding, DirectionType } from './binding';
 
 export class BindingList {
 

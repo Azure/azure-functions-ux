@@ -18,13 +18,15 @@ export interface TblItem {
     tabindex='0'
     (focus)='onFocus($event)'
     (click)='onClick($event)'
-    (blur)='onBlur($event)'
-    (keydown)="onKeyPress($event)">
+    (keydown)="onKeyPress($event)"
+    role="grid"
+    [attr.aria-label]="name">
       <ng-content></ng-content>
   </table>`,
   exportAs: 'tbl'
 })
 export class TblComponent implements OnInit, OnChanges {
+  @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TblItem[];
   @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
@@ -69,21 +71,25 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
-  // Gets called if a user "tabs" or clicks away from a table.  In this case
-  // we'll keep the currently selected cells state but just remove the focus
-  // on it.
-  onBlur(event?: FocusEvent) {
-    const rows = this._getRows();
-    const curCell = this._getCurrentCellOrReset(rows);
-    if (curCell) {
-      Dom.clearFocus(curCell);
-    }
-  }
+  onClick(e: MouseEvent) {
 
-  // Gets called specifically on click for a table.  For now we'll just
-  // hide the focused element on click.
-  onClick(e: MouseEvent){
-    this.onBlur(null);
+    // If someone clicks on a cell directly, then we'll have to figure out
+    // which cell and row that click event belonged to and update our
+    // knowledge of it.
+    const cell = this._findParentCell(<HTMLElement>e.srcElement);
+    const row = this._findParentRow(<HTMLElement>e.srcElement);
+
+    if (row && cell) {
+      const rows = this._getRows();
+      const rowIndex = this._findElemIndex(rows, row);
+      const cells = this._getCells(row);
+      const cellIndex = this._findElemIndex(cells, cell);
+
+      if (rowIndex && cellIndex) {
+        this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
+        this._setFocusOnCell(rows, rowIndex, cellIndex);
+      }
+    }
   }
 
   // Gets called for any keypresses that occur whenever the focus is currently
@@ -118,14 +124,26 @@ export class TblComponent implements OnInit, OnChanges {
 
     } else if (event.keyCode === KeyCodes.enter) {
 
+      // On "enter", we'll "click" on the current cell
       const rows = this._getRows();
       const curCell = this._getCurrentCellOrReset(rows);
       if (curCell) {
         curCell.click();
 
-        setTimeout(() =>{
+        setTimeout(() => {
           this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
         }, 0);
+      }
+
+    } else if (event.keyCode === KeyCodes.escape) {
+
+      // If a control within a cell is currently selected, hitting escape will cause the 
+      // focus to switch to the containing cell instead.
+      const rows = this._getRows();
+      const curCell = this._getCurrentCellOrReset(rows, true /* force set focus on cell */);
+      if (curCell) {
+        this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
+        Dom.setFocus(curCell);
       }
     }
 
@@ -135,13 +153,57 @@ export class TblComponent implements OnInit, OnChanges {
     }
   }
 
+  // elems is not exactly an array, and Angular doesn't give us the proper
+  // types for some reason, so you can't use methods like "find" or "findIndex".
+  // I'm not sure what the proper type is so I'm just treating it like an array
+  // without "findIndex"
+  private _findElemIndex(elems: NodeList, elem: HTMLElement) {
+
+    for (let i = 0; i < elems.length; i++) {
+      if (elems[i] === elem) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  private _findParentCell(elem: HTMLElement): HTMLTableCellElement {
+    while (elem) {
+      if (elem.tagName === 'TH' || elem.tagName === 'TD') {
+        return <HTMLTableCellElement>elem;
+      }
+
+      elem = elem.parentElement;
+    }
+
+    return null;
+  }
+
+  private _findParentRow(elem: HTMLElement): HTMLTableRowElement {
+    while (elem) {
+      if (elem.tagName === 'TR') {
+        return <HTMLTableRowElement>elem;
+      }
+
+      elem = elem.parentElement;
+    }
+
+    return null;
+  }
+
   // Get the current selected cell from list of rows.  If the table has
   // changed for some reason and the cell doesn't exist, then just reset the selection.
-  private _getCurrentCellOrReset(rows: NodeListOf<HTMLTableRowElement>) {
+  private _getCurrentCellOrReset(rows: NodeListOf<HTMLTableRowElement>, forceCellSelection?: boolean) {
     if (this._focusedRowIndex >= 0 && this._focusedRowIndex < rows.length) {
       const rowCells = this._getCells(rows[this._focusedRowIndex]);
       if (this._focusedCellIndex >= 0 && this._focusedCellIndex < rowCells.length) {
-        return Dom.getTabbableControl(rowCells[this._focusedCellIndex]);
+        if (forceCellSelection) {
+          return rowCells[this._focusedCellIndex];
+        } else {
+          return Dom.getTabbableControl(rowCells[this._focusedCellIndex]);
+        }
+
       } else {
         this._focusedRowIndex = -1;
         this._focusedCellIndex = -1;
@@ -155,7 +217,7 @@ export class TblComponent implements OnInit, OnChanges {
   }
 
   private _scrollIntoView(elem: HTMLElement) {
-      Dom.scrollIntoView(elem, window.document.body);
+    Dom.scrollIntoView(elem, window.document.body);
   }
 
   private _getRows() {

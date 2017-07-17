@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Response, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -11,30 +11,30 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { Constants } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
 import { ResourceGroup } from './../shared/models/resource-group';
-import {UserService} from '../shared/services/user.service';
-import {FunctionsService} from '../shared/services/functions.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {User} from '../shared/models/user';
-import {Subscription} from '../shared/models/subscription';
-import {DropDownElement} from '../shared/models/drop-down-element';
-import {ArmService} from '../shared/services/arm.service';
-import {FunctionContainer} from '../shared/models/function-container';
-import {TelemetryService} from '../shared/services/telemetry.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TenantInfo} from '../shared/models/tenant-info';
-import {PortalResources} from '../shared/models/portal-resources';
-import {AiService} from '../shared/services/ai.service';
+import { UserService } from '../shared/services/user.service';
+import { FunctionsService } from '../shared/services/functions.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { User } from '../shared/models/user';
+import { Subscription } from '../shared/models/subscription';
+import { DropDownElement } from '../shared/models/drop-down-element';
+import { ArmService } from '../shared/services/arm.service';
+import { FunctionContainer } from '../shared/models/function-container';
+import { TelemetryService } from '../shared/services/telemetry.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { TenantInfo } from '../shared/models/tenant-info';
+import { PortalResources } from '../shared/models/portal-resources';
+import { AiService } from '../shared/services/ai.service';
 
 @Component({
-  selector: 'getting-started',
-  templateUrl: './getting-started.component.html',
-  styleUrls: ['./getting-started.component.scss']
+    selector: 'getting-started',
+    templateUrl: './getting-started.component.html',
+    styleUrls: ['./getting-started.component.scss']
 })
 
 export class GettingStartedComponent implements OnInit {
@@ -87,15 +87,15 @@ export class GettingStartedComponent implements OnInit {
         Observable.zip(
             this._userService.getStartupInfo(),
             this._userService.getUser(),
-            (i, u) => ({ info: i, user: u}))
-        .subscribe(r => {
-            this.subscriptions = r.info.subscriptions
-                .map(e => ({ displayLabel: e.displayName, value: e }))
-                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+            (i, u) => ({ info: i, user: u }))
+            .subscribe(r => {
+                this.subscriptions = r.info.subscriptions
+                    .map(e => ({ displayLabel: e.displayName, value: e }))
+                    .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
 
-            this.user = r.user;
-            this._globalStateService.clearBusyState();
-        });
+                this.user = r.user;
+                this._globalStateService.clearBusyState();
+            });
     }
 
     createFunctionsContainer() {
@@ -131,7 +131,7 @@ export class GettingStartedComponent implements OnInit {
                     .map(e => ({ displayLabel: e.displayName, value: e.name }))
                     .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
                 if (this.geoRegions.length === 0) {
-                    this.createError = this._translateService.instant(PortalResources.gettingStarted_subIsNotWhitelisted, {displayName: value.displayName, subscriptionId: value.subscriptionId });
+                    this.createError = this._translateService.instant(PortalResources.gettingStarted_subIsNotWhitelisted, { displayName: value.displayName, subscriptionId: value.subscriptionId });
                 } else {
                     delete this.createError;
                 }
@@ -193,7 +193,7 @@ export class GettingStartedComponent implements OnInit {
         return Observable.zip(
             this._armService.send("GET", dynamicUrl).map(r => <{ name: string; displayName: string }[]>(r.json().value.map(e => e.properties))),
             this._armService.get(geoFencedId, "2014-04-01").map(r => <string[]>([].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() == 'sites').map(e => e.locations)))),
-            (d: {name: string, displayName: string}[], g: string[]) => ({dynamicEnabled: d, geoFenced: g})
+            (d: { name: string, displayName: string }[], g: string[]) => ({ dynamicEnabled: d, geoFenced: g })
         ).map(result => <{ name: string; displayName: string }[]>(result.dynamicEnabled.filter(e => !!result.geoFenced.find(g => g.toLowerCase() === e.name.toLowerCase()))));
     }
 
@@ -208,15 +208,15 @@ export class GettingStartedComponent implements OnInit {
     private _getFunctionContainers(subscription: string) {
         var url = `${this._armService.armUrl}/subscriptions/${subscription}/resources?api-version=${this._armService.armApiVersion}&$filter=resourceType eq 'Microsoft.Web/sites'`;
         return this._armService.send("GET", url)
-        .map(r => {
-            var sites: FunctionContainer[] = r.json().value;
-            return sites.filter(e => e.kind === 'functionapp');
-        });
+            .map(r => {
+                var sites: FunctionContainer[] = r.json().value;
+                return sites.filter(e => e.kind === 'functionapp');
+            });
     }
 
     private _createFunctionContainerHelper(subscription: string, geoRegion: string, name: string) {
         var result = new Subject<FunctionContainer>();
-        geoRegion = geoRegion.replace(/ /g,'');
+        geoRegion = geoRegion.replace(/ /g, '');
         this._registerProviders(subscription, geoRegion, name, result);
         return result;
     }
@@ -256,7 +256,7 @@ export class GettingStartedComponent implements OnInit {
             }
         };
 
-        this._armService.get(providersId, this._armService.armApiVersion )
+        this._armService.get(providersId, this._armService.armApiVersion)
             .map(r => <string[]>(r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace'])))
             .subscribe(
             p => registerProviders(p),
@@ -266,7 +266,7 @@ export class GettingStartedComponent implements OnInit {
     private _getResourceGroup(subscription: string, geoRegion: string): Observable<ResourceGroup> {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
         return this._armService.get(id, this._armService.armApiVersion)
-        .map(r => r.json());
+            .map(r => r.json());
     }
 
     private _createResourceGroup(subscription: string, geoRegion: string, functionAppName: string, result: Subject<FunctionContainer>) {
@@ -275,7 +275,7 @@ export class GettingStartedComponent implements OnInit {
             location: geoRegion
         };
         this._armService.put(id, body, this._armService.armApiVersion)
-        .subscribe(
+            .subscribe(
             r => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
             e => this.completeError(result, e));
     }
@@ -283,22 +283,22 @@ export class GettingStartedComponent implements OnInit {
     private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccount> {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts`;
         return this._armService.get(id, this._armService.storageApiVersion)
-        .map(r => {
-            var accounts: StorageAccount[] = r.json().value;
-            return accounts.find(sa => sa.name.startsWith('azurefunctions'));
-        });
+            .map(r => {
+                var accounts: StorageAccount[] = r.json().value;
+                return accounts.find(sa => sa.name.startsWith('azurefunctions'));
+            });
     }
 
     private _pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0) {
         var id = typeof storageAccount === 'string'
-        ? `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount}`
-        : `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}`;
+            ? `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount}`
+            : `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}`;
 
         if (storageAccount &&
             typeof storageAccount !== 'string' &&
             storageAccount.properties.provisioningState === 'Succeeded') {
             this._getStorageAccountSecrets(subscription, geoRegion, storageAccount, functionAppName, result);
-        } else  {
+        } else {
             this._armService.get(id, this._armService.storageApiVersion)
                 .map(r => <StorageAccount>(r.json()))
                 .subscribe(
@@ -308,12 +308,12 @@ export class GettingStartedComponent implements OnInit {
                     } else if (count < 100) {
                         setTimeout(() => this._pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400)
                     } else {
-                        this._aiService.trackEvent('/errors/portal/storage/timeout', {count : count.toString(), geoRegion: geoRegion, subscription: subscription})
+                        this._aiService.trackEvent('/errors/portal/storage/timeout', { count: count.toString(), geoRegion: geoRegion, subscription: subscription })
                         this.completeError(result, sa);
                     }
                 },
                 e => {
-                    this._aiService.trackEvent('/errors/portal/storage/pull', {count : count.toString(), geoRegion: geoRegion, subscription: subscription})
+                    this._aiService.trackEvent('/errors/portal/storage/pull', { count: count.toString(), geoRegion: geoRegion, subscription: subscription })
                     this.completeError(result, e);
                 });
         }
@@ -329,13 +329,13 @@ export class GettingStartedComponent implements OnInit {
             }
         };
         this._armService.put(id, body, this._armService.storageApiVersion)
-        .retryWhen(e => e.scan((errorCount : number, err: Response) => {
-            if (errorCount >= 5) {
-                throw err;
-            }
-            return errorCount + 1;
-        }, 0).delay(200))
-        .subscribe(
+            .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                if (errorCount >= 5) {
+                    throw err;
+                }
+                return errorCount + 1;
+            }, 0).delay(200))
+            .subscribe(
             r => this._pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
             e => this.completeError(result, e));
     }
@@ -354,7 +354,7 @@ export class GettingStartedComponent implements OnInit {
             .subscribe(r => {
             }, error => {
                 return this._armService.put(id, body, this._armService.armLocksApiVersion)
-                    .retryWhen(e => e.scan((errorCount : number, err: Response) => {
+                    .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                         if (errorCount >= 5) {
                             throw err;
                         }
@@ -366,11 +366,11 @@ export class GettingStartedComponent implements OnInit {
     private _getStorageAccountSecrets(subscription: string, geoRegion: string, storageAccount: StorageAccount, functionAppName: string, result: Subject<FunctionContainer>) {
         var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys`;
         return this._armService.post(id, null, this._armService.storageApiVersion)
-        .map(r => <{ key1: string, key2: string }>(r.json()))
-        .subscribe(
+            .map(r => <{ key1: string, key2: string }>(r.json()))
+            .subscribe(
             secrets => this._createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
             error => this.completeError(result, error)
-        ).add(() => this._createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName));
+            ).add(() => this._createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName));
 
     }
 
@@ -398,9 +398,9 @@ export class GettingStartedComponent implements OnInit {
         };
 
         this._armService.put(id, body, this._armService.websiteApiVersion)
-        .map(r => <FunctionContainer>(r.json()))
-        .subscribe(
-            r =>  this.complete(result, r),
+            .map(r => <FunctionContainer>(r.json()))
+            .subscribe(
+            r => this.complete(result, r),
             e => this.completeError(result, e));
     }
 

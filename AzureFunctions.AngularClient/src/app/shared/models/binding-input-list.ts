@@ -1,5 +1,5 @@
-﻿import {BindingInputBase, CheckBoxListInput} from './binding-input';
-import {SettingType, Action, Warning} from './binding';
+﻿import { BindingInputBase, CheckBoxListInput } from './binding-input';
+import { SettingType, Action, Warning } from './binding';
 
 export class BindingInputList {
     inputs: BindingInputBase<any>[] = [];

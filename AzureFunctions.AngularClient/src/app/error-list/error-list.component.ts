@@ -1,22 +1,22 @@
 import { GlobalStateService } from './../shared/services/global-state.service';
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
-import {AiService} from '../shared/services/ai.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalService} from '../shared/services/portal.service';
-import {ErrorItem} from '../shared/models/error-item';
+import { AiService } from '../shared/services/ai.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalService } from '../shared/services/portal.service';
+import { ErrorItem } from '../shared/models/error-item';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {FunctionsService} from './../shared/services/functions.service';
-import {PortalResources} from '../shared/models/portal-resources';
+import { FunctionsService } from './../shared/services/functions.service';
+import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
-  selector: 'error-list',
-  templateUrl: './error-list.component.html',
-  styleUrls: ['./error-list.component.css']
+    selector: 'error-list',
+    templateUrl: './error-list.component.html',
+    styleUrls: ['./error-list.component.css']
 })
 export class ErrorListComponent {
     public errorList: ErrorItem[];

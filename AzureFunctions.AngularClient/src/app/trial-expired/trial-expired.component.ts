@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
-import {AiService} from '../shared/services/ai.service';
+import { Component, OnInit } from '@angular/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
+import { AiService } from '../shared/services/ai.service';
 
 @Component({
-  selector: 'trial-expired',
-  templateUrl: './trial-expired.component.html',
-  styleUrls: ['./trial-expired.component.scss']
+    selector: 'trial-expired',
+    templateUrl: './trial-expired.component.html',
+    styleUrls: ['./trial-expired.component.scss']
 })
 export class TrialExpiredComponent implements OnInit {
 

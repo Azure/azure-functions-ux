@@ -43,7 +43,7 @@ export class TemplatePickerComponent {
     private _language: string = "";
     private _type: TemplatePickerType;
     private _initialized = false;
-    private _orderedCategoties: CategoryOrder[]= [];
+    private _orderedCategoties: CategoryOrder[] = [];
     private _functionAppStream = new Subject<FunctionApp>();
     private _functionApp : FunctionApp;
     private _MSGraphFeature: boolean = PortalService.MSGraphFeature();
@@ -64,7 +64,7 @@ export class TemplatePickerComponent {
 
         this._functionAppStream
             .distinctUntilChanged()
-            .subscribe(functionApp =>{
+            .subscribe(functionApp => {
                 this._functionApp = functionApp;
             })
 
@@ -83,7 +83,7 @@ export class TemplatePickerComponent {
             {
                 name: this._translateService.instant("temp_category_dataProcessing"),
                 index: 2,
-                
+
             },
             {
                 name: this._translateService.instant("temp_category_samples"),
@@ -100,7 +100,7 @@ export class TemplatePickerComponent {
         ];
     }
 
-    set functionAppInput(functionApp : FunctionApp){
+    set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
@@ -261,7 +261,7 @@ export class TemplatePickerComponent {
         this.cancel.emit(""); // this fires an eventClicked
     }
 
-    onTemplateClicked(template: string, templateDisabled:boolean) {
+    onTemplateClicked(template: string, templateDisabled: boolean) {
         if (!templateDisabled) {
             this.selectedTemplate = template;
             if (!this.showFooter) {
@@ -312,7 +312,7 @@ export class TemplatePickerComponent {
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
                     enabledInTryMode: binding.enabledInTryMode
-            });
+                });
 
             }
         });
@@ -320,7 +320,7 @@ export class TemplatePickerComponent {
         return result;
     }
 
-    private getFilterMatach(filters: string[]) : boolean {
+    private getFilterMatach(filters: string[]): boolean {
         var isFilterMatch = true;
         if (filters && filters.length > 0) {
             isFilterMatch = false;

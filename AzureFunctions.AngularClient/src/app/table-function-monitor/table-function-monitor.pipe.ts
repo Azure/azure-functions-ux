@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser'
-import {DatePipe, DecimalPipe} from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 declare let moment: any;
 

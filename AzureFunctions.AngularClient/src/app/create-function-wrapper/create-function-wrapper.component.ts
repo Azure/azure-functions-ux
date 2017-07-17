@@ -23,68 +23,68 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
 
   private _viewInfoStream = new Subject<TreeViewInfo>();
-  public dashboardType : string;
-  public viewInfo : TreeViewInfo;
-  private _subscription : RxSubscription;
+  public dashboardType: string;
+  public viewInfo: TreeViewInfo;
+  private _subscription: RxSubscription;
 
   constructor(
-    private _aiService : AiService,
-    private _configService : ConfigService
-  ) { 
+    private _aiService: AiService,
+    private _configService: ConfigService
+  ) {
 
-    let initialDashboardType : DashboardType;
+    let initialDashboardType: DashboardType;
 
     this._subscription = this._viewInfoStream
-    .switchMap(info =>{
-      this.viewInfo = info;
+      .switchMap(info => {
+        this.viewInfo = info;
 
-      if(info.dashboardType === DashboardType.createFunction
-        || info.dashboardType === DashboardType.createFunctionQuickstart){
+        if (info.dashboardType === DashboardType.createFunction
+          || info.dashboardType === DashboardType.createFunctionQuickstart) {
 
-        this.dashboardType = DashboardType[info.dashboardType];
-        return Observable.of(null);
-      }
+          this.dashboardType = DashboardType[info.dashboardType];
+          return Observable.of(null);
+        }
 
-      // Set default for autodetect to CreateFunction while we load function list
-      this.dashboardType = DashboardType[DashboardType.createFunction];
-
-      let appNode = <AppNode>info.node.parent;
-      return appNode.functionAppStream;
-    })
-    .switchMap(functionApp =>{
-      if(!functionApp){
-        return Observable.of(null);
-      }
-
-      return functionApp.getFunctions();
-    })
-    .do(null, e =>{
-      this._aiService.trackException(e, '/errors/create-function-wrapper');
-    })
-    .retry()
-    .subscribe((fcs : FunctionInfo[]) =>{
-      if(!fcs){
-        return;
-      }
-      
-      if(fcs.length > 0 || this._configService.isStandalone()){
+        // Set default for autodetect to CreateFunction while we load function list
         this.dashboardType = DashboardType[DashboardType.createFunction];
-      }
-      else{
-        this.dashboardType = DashboardType[DashboardType.createFunctionQuickstart];
-      }
-    });
+
+        let appNode = <AppNode>info.node.parent;
+        return appNode.functionAppStream;
+      })
+      .switchMap(functionApp => {
+        if (!functionApp) {
+          return Observable.of(null);
+        }
+
+        return functionApp.getFunctions();
+      })
+      .do(null, e => {
+        this._aiService.trackException(e, '/errors/create-function-wrapper');
+      })
+      .retry()
+      .subscribe((fcs: FunctionInfo[]) => {
+        if (!fcs) {
+          return;
+        }
+
+        if (fcs.length > 0 || this._configService.isStandalone()) {
+          this.dashboardType = DashboardType[DashboardType.createFunction];
+        }
+        else {
+          this.dashboardType = DashboardType[DashboardType.createFunctionQuickstart];
+        }
+      });
   }
 
-  set viewInfoInput(viewInfo : TreeViewInfo){
+  set viewInfoInput(viewInfo: TreeViewInfo) {
     this._viewInfoStream.next(viewInfo);
   }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(){
-    if(this._subscription){
+  ngOnDestroy() {
+    if (this._subscription) {
       this._subscription.unsubscribe();
       this._subscription = null;
     }

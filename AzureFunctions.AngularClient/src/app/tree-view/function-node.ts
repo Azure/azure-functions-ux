@@ -42,7 +42,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             : this.functionInfo.name;
     }
 
-    public get functionName() : string {
+    public get functionName(): string {
         return this.functionInfo.name;
     }
     public handleSelection(): Observable<any> {

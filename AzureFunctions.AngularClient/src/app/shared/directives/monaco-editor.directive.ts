@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
-import {FunctionApp} from '../function-app';
+import { FunctionApp } from '../function-app';
 
 declare var monaco;
 declare var require;
@@ -15,6 +15,7 @@ declare var require;
 export class MonacoEditorDirective {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
+    @Output() public onRun: EventEmitter<void>;
 
     private _language: string;
     private _content: string;
@@ -22,27 +23,28 @@ export class MonacoEditorDirective {
     private _editor: any;
     private _silent: boolean = false;
     private _fileName: string;
-    private _functionAppStream : Subject<FunctionApp>;
-    private _functionApp : FunctionApp;
+    private _functionAppStream: Subject<FunctionApp>;
+    private _functionApp: FunctionApp;
 
     constructor(public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _configService : ConfigService
-        ) {
+        private _configService: ConfigService
+    ) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
+        this.onRun = new EventEmitter<void>();
 
         this._functionAppStream = new Subject<FunctionApp>();
         this._functionAppStream
             .distinctUntilChanged()
-            .subscribe(functionApp =>{
+            .subscribe(functionApp => {
                 this._functionApp = functionApp;
                 this.init();
             });
     }
 
-    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp){
+    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
@@ -146,7 +148,7 @@ export class MonacoEditorDirective {
                 let fileName = that._fileName || '';
                 fileName = fileName.toLocaleLowerCase();
                 if (fileName === projectJson || fileName === functionJson || fileName === hostJson) {
-                        that.setMonacoSchema(fileName, that._functionApp);
+                    that.setMonacoSchema(fileName, that._functionApp);
                 } else {
                     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                         schemas: []
@@ -175,6 +177,11 @@ export class MonacoEditorDirective {
                 that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
                     that.onSave.emit(that._editor.getValue());
                 });
+
+                that._editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+                    that.onRun.emit();
+                });
+
                 that._globalStateService.clearBusyState();
 
             });

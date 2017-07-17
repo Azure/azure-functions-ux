@@ -1,46 +1,46 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import {Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';import 'rxjs/add/observable/zip';
+import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import {VfsObject} from '../shared/models/vfs-object';
+import { VfsObject } from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
-import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
-import {FunctionConfig} from '../shared/models/function-config';
-import {FunctionSecrets} from '../shared/models/function-secrets';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {FunctionApp} from '../shared/function-app'
-import {PortalService} from '../shared/services/portal.service';
-import {BindingType} from '../shared/models/binding';
-import {RunFunctionResult} from '../shared/models/run-function-result';
-import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
+import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
+import { FunctionConfig } from '../shared/models/function-config';
+import { FunctionSecrets } from '../shared/models/function-secrets';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { FunctionApp } from '../shared/function-app'
+import { PortalService } from '../shared/services/portal.service';
+import { BindingType } from '../shared/models/binding';
+import { RunFunctionResult } from '../shared/models/run-function-result';
+import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {AiService} from '../shared/services/ai.service';
-import {MonacoEditorDirective} from '../shared/directives/monaco-editor.directive';
-import {BindingManager} from '../shared/models/binding-manager';
+import { PortalResources } from '../shared/models/portal-resources';
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { AiService } from '../shared/services/ai.service';
+import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
+import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
-import {HttpRunModel, Param} from '../shared/models/http-run';
-import {FunctionKey, FunctionKeys} from '../shared/models/function-key';
+import { HttpRunModel, Param } from '../shared/models/http-run';
+import { FunctionKey, FunctionKeys } from '../shared/models/function-key';
 import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
 
 
 @Component({
-  selector: 'function-dev',
-  templateUrl: './function-dev.component.html',
-  styleUrls: ['./function-dev.component.scss']
+    selector: 'function-dev',
+    templateUrl: './function-dev.component.html',
+    styleUrls: ['./function-dev.component.scss']
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -88,7 +88,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public hostKeys: FunctionKeys;
     public masterKey: string;
 
-    public isStandalone : boolean;
+    public isStandalone: boolean;
 
     public disabled: Observable<boolean>;
 
@@ -101,24 +101,22 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private _bindingManager = new BindingManager();
 
     private _isClientCertEnabled = false;
-
     constructor(private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService,
-                private _aiService: AiService,
-                private _el: ElementRef,
-                configService : ConfigService) {
+        private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
+        private _aiService: AiService,
+        private _el: ElementRef,
+        configService: ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
-
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .switchMap(file => {
                 if (this.fileExplorer)
                     this.fileExplorer.setBusyState();
-                return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({content: c, file: f}));
+                return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
             })
             .subscribe((res: { content: string, file: VfsObject }) => {
                 this.content = res.content;
@@ -142,7 +140,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.getAuthSettings(),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e}))
+                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }))
             })
             .subscribe(res => {
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
@@ -168,7 +166,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
-                    : {name: this.fileName, href: href, mime: 'file'};
+                    : { name: this.fileName, href: href, mime: 'file' };
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
@@ -217,7 +215,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
-         });
+        });
     }
 
     expandLogsClicked(isExpand: boolean) {
@@ -337,8 +335,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             });
     }
 
-    private setInvokeUrlVisibility()
-    {
+    private setInvokeUrlVisibility() {
         if (this.functionInfo.config.bindings) {
             var b = this.functionInfo.config.bindings.find((b) => {
                 return b.type === BindingType.httpTrigger.toString();
@@ -347,12 +344,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    ngOnChanges(changes: {[key: string]: SimpleChange}) {
+    ngOnChanges(changes: { [key: string]: SimpleChange }) {
         if (changes['selectedFunction']) {
             delete this.updatedTestContent;
             delete this.runResult;
             this.functionSelectStream.next(changes['selectedFunction'].currentValue);
-            }
+        }
     }
 
     private setFunctionKey(functionInfo) {
@@ -367,7 +364,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
     private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
-            
+
             //No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
             //WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
             //WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
@@ -400,7 +397,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
             }
 
-           this.functionApp.getHostJson().subscribe((jsonObj) => {
+            this.functionApp.getHostJson().subscribe((jsonObj) => {
                 var that = this;
                 var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
@@ -432,7 +429,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     saveScript(dontClearBusy?: boolean) {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) {
-             return;
+            return;
         }
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
@@ -457,7 +454,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = JSON.parse(this.updatedContent);
         }
 
-        return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
+        let notificationId = null;
+        return this._portalService.startNotification(
+            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name),
+            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name))
+            .first()
+            .switchMap(r => {
+                notificationId = r.id;
+                return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo);
+            })
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
@@ -467,10 +472,22 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this._broadcastService.clearDirtyState('function');
                     this._portalService.setDirtyState(false);
                 }
-                this.content = this.updatedContent;
                 if (syncTriggers) {
                     this.functionApp.fireSyncTrigger();
                 }
+                this._portalService.stopNotification(
+                    notificationId,
+                    true,
+                    this._translateService.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
+                this.content = this.updatedContent;
+            },
+            e => {
+                this._globalStateService.clearBusyState();
+                this._portalService.stopNotification(
+                    notificationId,
+                    false,
+                    this._translateService.instant(PortalResources.functionDev_saveFunctionFailure).format(this.functionInfo.name));
+
             });
     }
 
@@ -632,7 +649,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.onChangeKey(allKeys[0].value);
         }
         this.showFunctionInvokeUrlModal = value;
-        
+
     }
 
     setShowFunctionKeyModal(value: boolean) {

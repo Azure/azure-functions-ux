@@ -122,7 +122,7 @@ export enum ResourceType {
     MSGraph = <any>"MSGraph"
 }
 
-export class SettingType{
+export class SettingType {
     public static string = "string";
     public static boolean = "boolean";
     public static label = "label";

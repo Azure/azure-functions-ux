@@ -115,6 +115,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All items selected.
+        /// </summary>
+        internal static string allItemsSelected {
+            get {
+                return ResourceManager.GetString("allItemsSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azure Functions Proxies are currently disabled. To enable, visit.
         /// </summary>
         internal static string apiProxies_warningOff {
@@ -998,6 +1007,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to disable.
+        /// </summary>
+        internal static string disable {
+            get {
+                return ResourceManager.GetString("disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disabled.
         /// </summary>
         internal static string disabled {
@@ -1102,6 +1120,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string emptyBrowse_title {
             get {
                 return ResourceManager.GetString("emptyBrowse_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to enabled.
+        /// </summary>
+        internal static string enable {
+            get {
+                return ResourceManager.GetString("enable", resourceCulture);
             }
         }
         
@@ -1642,6 +1669,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string events {
             get {
                 return ResourceManager.GetString("events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
+        /// </summary>
+        internal static string failedToSwitchFunctionState {
+            get {
+                return ResourceManager.GetString("failedToSwitchFunctionState", resourceCulture);
             }
         }
         
@@ -2605,6 +2641,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionDev_saveAndRun {
             get {
                 return ResourceManager.GetString("functionDev_saveAndRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save function, try again later.
+        /// </summary>
+        internal static string functionDev_saveFunctionFailure {
+            get {
+                return ResourceManager.GetString("functionDev_saveFunctionFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully saved function.
+        /// </summary>
+        internal static string functionDev_saveFunctionSuccess {
+            get {
+                return ResourceManager.GetString("functionDev_saveFunctionSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving Function.
+        /// </summary>
+        internal static string functionDev_saveFunctionNotifyTitle {
+            get {
+                return ResourceManager.GetString("functionDev_StartSaveNotification", resourceCulture);
             }
         }
         
@@ -3752,6 +3815,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} items selected.
+        /// </summary>
+        internal static string numItemsSelected {
+            get {
+                return ResourceManager.GetString("numItemsSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
         internal static string off {
@@ -3946,6 +4018,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string select {
             get {
                 return ResourceManager.GetString("select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select all.
+        /// </summary>
+        internal static string selectAll {
+            get {
+                return ResourceManager.GetString("selectAll", resourceCulture);
             }
         }
         
@@ -4563,7 +4644,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function.
+        ///   Looks up a localized string similar to Function (preview).
         /// </summary>
         internal static string swaggerDefinition_internal {
             get {
@@ -4736,7 +4817,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API definition (preview).
+        ///   Looks up a localized string similar to API definition.
         /// </summary>
         internal static string tab_api_definition {
             get {

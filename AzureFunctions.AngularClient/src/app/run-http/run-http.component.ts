@@ -1,17 +1,17 @@
-import {Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
-import {HttpRunModel, Param} from '../shared/models/http-run';
-import {BindingType} from '../shared/models/binding'
-import {FunctionInfo} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {Constants} from '../shared/models/constants';
-import {URLSearchParams} from '@angular/http';
+import { Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
+import { HttpRunModel, Param } from '../shared/models/http-run';
+import { BindingType } from '../shared/models/binding'
+import { FunctionInfo } from '../shared/models/function-info';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { Constants } from '../shared/models/constants';
+import { URLSearchParams } from '@angular/http';
 
 
 @Component({
-  selector: 'run-http',
-  templateUrl: './run-http.component.html',
-  styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
-  inputs: ['functionInfo', 'functionInvokeUrl']
+    selector: 'run-http',
+    templateUrl: './run-http.component.html',
+    styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
+    inputs: ['functionInfo', 'functionInvokeUrl']
 })
 export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
@@ -81,7 +81,7 @@ export class RunHttpComponent {
                 });
 
                 if (!findResult) {
-                    this.model.queryStringParams.splice(0,0, p);
+                    this.model.queryStringParams.splice(0, 0, p);
                 }
             });
         }

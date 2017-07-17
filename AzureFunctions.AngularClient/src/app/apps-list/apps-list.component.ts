@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PortalResources } from './../shared/models/portal-resources';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -12,46 +13,45 @@ import { TreeViewInfo } from './../tree-view/models/tree-view-info';
   selector: 'apps-list',
   templateUrl: './apps-list.component.html',
   styleUrls: ['./apps-list.component.scss'],
-  inputs: ['viewInfoInput']
 })
 export class AppsListComponent implements OnInit, OnDestroy {
-  public viewInfoStream : Subject<TreeViewInfo>;
-  public apps : AppNode[] = [];
-  public appsNode : AppsNode;
+  public viewInfoStream: Subject<TreeViewInfo>;
+  public apps: AppNode[] = [];
+  public appsNode: AppsNode;
+  public Resources = PortalResources;
 
   public isLoading = true;
 
-  private _viewInfoSubscription : RxSubscription;
+  private _viewInfoSubscription: RxSubscription;
 
   constructor() {
-      this.viewInfoStream = new Subject<TreeViewInfo>();
+    this.viewInfoStream = new Subject<TreeViewInfo>();
 
-      this._viewInfoSubscription = this.viewInfoStream
+    this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
-      .switchMap(viewInfo =>{
+      .switchMap(viewInfo => {
         this.appsNode = (<AppsNode>viewInfo.node);
         this.isLoading = true;
         return (<AppsNode>viewInfo.node).childrenStream;
       })
-      .subscribe(children =>{
+      .subscribe(children => {
         this.apps = children;
         this.isLoading = false;
       });
-
-   }
+  }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     this._viewInfoSubscription.unsubscribe();
   }
 
-  set viewInfoInput(viewInfo : TreeViewInfo){
-      this.viewInfoStream.next(viewInfo);
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
+    this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item : AppNode){
+  clickRow(item: AppNode) {
     item.sideNav.searchExact(item.title);
   }
 }

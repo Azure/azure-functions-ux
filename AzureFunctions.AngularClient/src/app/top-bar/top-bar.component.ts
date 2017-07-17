@@ -1,24 +1,24 @@
 import { ConfigService } from './../shared/services/config.service';
 import { TopBarNotification } from './top-bar-models';
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {UserService} from '../shared/services/user.service';
-import {User} from '../shared/models/user';
-import {TenantInfo} from '../shared/models/tenant-info';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {PortalService} from '../shared/services/portal.service';
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {FunctionsService} from '../shared/services/functions.service';
-import {Constants} from '../shared/models/constants';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {PortalResources} from '../shared/models/portal-resources';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { UserService } from '../shared/services/user.service';
+import { User } from '../shared/models/user';
+import { TenantInfo } from '../shared/models/tenant-info';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { PortalService } from '../shared/services/portal.service';
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { FunctionsService } from '../shared/services/functions.service';
+import { Constants } from '../shared/models/constants';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
-  selector: 'top-bar',
-  templateUrl: './top-bar.component.html',
-  styleUrls: ['./top-bar.component.scss'],
-  inputs: ['isFunctionSelected']
+    selector: 'top-bar',
+    templateUrl: './top-bar.component.html',
+    styleUrls: ['./top-bar.component.scss'],
+    inputs: ['isFunctionSelected']
 })
 export class TopBarComponent implements OnInit {
     @Input() gettingStarted: boolean;
@@ -26,12 +26,12 @@ export class TopBarComponent implements OnInit {
     public tenants: TenantInfo[];
     public currentTenant: TenantInfo;
     public inIFrame: boolean;
-    public isStandalone : boolean;
+    public isStandalone: boolean;
     // public needUpdateExtensionVersion;
     private _isFunctionSelected: boolean;
 
     public visible = false;
-    public topBarNotifications : TopBarNotification[] = [];
+    public topBarNotifications: TopBarNotification[] = [];
 
     // @Output() private functionAppSettingsClicked: EventEmitter<any>;
 
@@ -41,35 +41,35 @@ export class TopBarComponent implements OnInit {
         private _functionsService: FunctionsService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _configService : ConfigService
+        private _configService: ConfigService
     ) {
         // this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
         this.isStandalone = this._configService.isStandalone();
 
         this._globalStateService.topBarNotificationsStream
-        .subscribe(topBarNotifications =>{
-            this.topBarNotifications = topBarNotifications;
-            this._setVisible();
-        })
+            .subscribe(topBarNotifications => {
+                this.topBarNotifications = topBarNotifications;
+                this._setVisible();
+            })
 
         this._setVisible();
 
         // this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
-            // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
-            // this.setVisible();
+        // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
+        // this.setVisible();
         // });
     }
 
     public get showTryView() {
-      return this._globalStateService.showTryView;
+        return this._globalStateService.showTryView;
     }
 
     private _setVisible() {
-        if(this.inIFrame){
+        if (this.inIFrame) {
             this.visible = this.topBarNotifications && this.topBarNotifications.length > 0;
         }
-        else if(!this._globalStateService.showTryView){
+        else if (!this._globalStateService.showTryView) {
             this.visible = true;
         }
     }
@@ -103,8 +103,8 @@ export class TopBarComponent implements OnInit {
         window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
     }
 
-    notificationClick(notification : TopBarNotification){
-        if(notification.clickCallback){
+    notificationClick(notification: TopBarNotification) {
+        if (notification.clickCallback) {
             notification.clickCallback();
         }
     }
