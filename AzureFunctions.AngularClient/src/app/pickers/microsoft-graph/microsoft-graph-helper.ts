@@ -100,16 +100,16 @@ export class MicrosoftGraphHelper {
         this.binding.saveClicked();
     }
 
-    createO365WebhookSupportFunction(globalStateService: GlobalStateService) {
+   createO365WebhookSupportFunction(globalStateService: GlobalStateService) {
         // First, check if an O365 support function already exists
         this.functionApp.getFunctions().subscribe(list => {
-            let existing = list.find(fx => {
+            const existing = list.find(fx => {
                 return fx.name.startsWith(Constants.WebhookHandlerFunctionName);
             });
             if (existing) {
                 return;
             }
-            // Set up the necessary data (files, metadata, etc.) for a "new" function
+            // Set up the necessary data (files, metadata, etc.) for a 'new' function
             this.function.functionName = Constants.WebhookHandlerFunctionName;
             this.functionApp.getTemplates().subscribe((templates) => {
                 setTimeout(() => {
@@ -122,64 +122,43 @@ export class MicrosoftGraphHelper {
                             bindings: this.function.selectedTemplate.function.bindings
                         }, bindings.bindings);
 
-                        // Retrieve Principal Id necessary to refresh user's subscriptions
                         this.function.model.config.bindings.forEach((b) => {
                             b.hiddenList = this.function.selectedTemplate.metadata.userPrompt || [];
-                            if (b.type == BindingType.GraphWebhook) {
-                                var principalId = b.settings.find(setting => {
-                                    return setting.name == "PrincipalId";
+
+                            this.function.hasConfigUI = ((this.function.selectedTemplate.metadata.userPrompt) &&
+                                (this.function.selectedTemplate.metadata.userPrompt.length > 0));
+
+                            this.function.model.setBindings();
+                            this.function.validate();
+
+                            if (this.function.action) {
+
+                                const binding = this.function.model.config.bindings.find((b) => {
+                                    return b.type.toString() === this.function.action.binding;
                                 });
-                                if (principalId) {
-                                    this._dataRetriever.retrieveOID(null, principalId).then(values => {
 
-                                        this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
-                                            r => { },
-                                            error => {
-                                                this._aiService.trackException(error, 'New function component - createApplicationSetting()');
-                                            }
-                                        );  // create new app setting for identity
-
-                                        principalId.value = "%".concat(values.appSettingName, "%");
-
-                                        // Finish setting up data for function creation
-                                        this.function.hasConfigUI = ((this.function.selectedTemplate.metadata.userPrompt) &&
-                                            (this.function.selectedTemplate.metadata.userPrompt.length > 0));
-
-                                        this.function.model.setBindings();
-                                        this.function.validate();
-
-                                        if (this.function.action) {
-
-                                            var binding = this.function.model.config.bindings.find((b) => {
-                                                return b.type.toString() === this.function.action.binding;
-                                            });
-
-                                            if (binding) {
-                                                this.function.action.settings.forEach((s, index) => {
-                                                    var setting = binding.settings.find(bs => {
-                                                        return bs.name === s;
-                                                    });
-                                                    if (setting) {
-                                                        setting.value = this.function.action.settingValues[index];
-                                                    }
-                                                });
-                                            }
+                                if (binding) {
+                                    this.function.action.settings.forEach((s, index) => {
+                                        const setting = binding.settings.find(bs => {
+                                            return bs.name === s;
+                                        });
+                                        if (setting) {
+                                            setting.value = this.function.action.settingValues[index];
                                         }
-                                        globalStateService.clearBusyState(); // need to clear in order for create fx to work
-                                        this.function.onCreate(); // this sets busy state as part of its internal processes
-                                        globalStateService.clearBusyState();
-                                    }, error => {
-                                        this._aiService.trackException(error, "function-new - createO365WebhookSupportFunction() - retrieveOID()");
-                                        globalStateService.clearBusyState();
                                     });
                                 }
                             }
                         });
+
+                        globalStateService.clearBusyState(); // need to clear in order for create fx to work
+                        this.function.onCreate(); // this sets busy state as part of its internal processes
+                        globalStateService.clearBusyState();
                     });
                 });
             });
         });
     }
+
 
     private getBYOBStorageLocation() {
         // if app setting set, retrieve location after D:\home (vfs prepends path with D:\home)
