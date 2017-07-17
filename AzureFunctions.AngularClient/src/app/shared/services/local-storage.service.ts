@@ -7,7 +7,7 @@ import { EnabledFeature, Feature } from '../models/localStorage/enabled-features
 
 @Injectable()
 export class LocalStorageService {
-    private _apiVersion = "2017-06-01";
+    private _apiVersion = "2017-07-01";
     private _apiVersionKey = "appsvc-api-version";
 
     constructor(private _portalService: PortalService) {

@@ -14,5 +14,5 @@ export interface QuickstartSettings extends StorageItem {
 }
 
 export interface TabSettings extends StorageItem {
-    dynamicTabId: string;
-} 
+    dynamicTabIds: (string | null)[];
+}

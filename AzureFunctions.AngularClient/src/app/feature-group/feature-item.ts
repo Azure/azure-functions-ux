@@ -7,6 +7,8 @@ import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from '../shared/services/authz.service';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
+import { EnableTabFeature } from "app/shared/models/constants";
+import { Url } from "app/shared/Utilities/url";
 
 export interface DisableInfo {
     enabled: boolean;
@@ -14,21 +16,25 @@ export interface DisableInfo {
 }
 
 export class FeatureItem {
-    public title: string;
-    public keywords: string;  // Space delimited
+    public title: string | null;
+    public keywords: string | null;  // Space delimited
     public enabled = true;
-    public info: string;
-    public warning: string;
-    public isHighlighted: boolean;
-    public isEmpty: boolean;   // Used to reserve blank space when filtering results
-    public highlight: boolean;
-    public imageUrl = "images/activity-log.svg";
+    public info: string | null;
+    public warning: string | null;
+    public isHighlighted: boolean | null;
+    public isEmpty: boolean | null;   // Used to reserve blank space when filtering results
+    public highlight: boolean | null;
+    public iconUrl = 'images/activity-log.svg';
+    public superScriptIconUrl: string | null = null;
 
-    constructor(title: string, keywords: string, info: string, imageUrl?: string) {
+    constructor(title: string, keywords: string, info: string, iconUrl?: string, superScriptIconUrl?: string) {
         this.title = title;
         this.keywords = keywords;
         this.info = info;
-        this.imageUrl = imageUrl ? imageUrl : this.imageUrl;
+        this.iconUrl = iconUrl ? iconUrl : this.iconUrl;
+
+        const tabFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
+        this.superScriptIconUrl = tabFeature ? superScriptIconUrl : null;
     }
 
     click() {
@@ -162,7 +168,7 @@ export class TabFeature extends FeatureItem {
         public featureId: string,
         private _siteDashboard: SiteDashboardComponent) {
 
-        super(title, keywords, info, imageUrl);
+        super(title, keywords, info, imageUrl, 'images/new-tab.svg');
     }
 
     click() {
