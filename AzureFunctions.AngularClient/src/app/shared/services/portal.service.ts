@@ -16,9 +16,14 @@ import { LocalStorageService } from './local-storage.service';
 import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
 import { Guid } from "../Utilities/Guid";
 import { TabCommunicationVerbs } from "../models/constants";
+<<<<<<< HEAD
 import { FunctionApp } from "app/shared/function-app";
 import { TabMessage } from "app/shared/models/localStorage/local-storage";
 import { Logger } from "app/shared/utilities/logger";
+=======
+import { TabMessage, GetModel } from "app/shared/models/localStorage/local-storage";
+import { FunctionApp } from "app/shared/function-app";
+>>>>>>> increasing code clarity and cleaness
 
 @Injectable()
 export class PortalService {
@@ -45,7 +50,6 @@ export class PortalService {
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
-        this.localStorage = window.localStorage;
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();

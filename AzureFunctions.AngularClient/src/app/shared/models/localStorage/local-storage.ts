@@ -23,3 +23,7 @@ export interface TabMessage<T> extends StorageItem {
     verb: string;
     data: T;
 }
+
+export interface GetModel {
+    something: number;
+}
