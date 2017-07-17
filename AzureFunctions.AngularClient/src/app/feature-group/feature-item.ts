@@ -7,6 +7,8 @@ import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from '../shared/services/authz.service';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
+import { EnableTabFeature } from "app/shared/models/constants";
+import { Url } from "app/shared/Utilities/url";
 
 export interface DisableInfo {
     enabled: boolean;
@@ -30,7 +32,9 @@ export class FeatureItem {
         this.keywords = keywords;
         this.info = info;
         this.iconUrl = iconUrl ? iconUrl : this.iconUrl;
-        this.superScriptIconUrl = superScriptIconUrl;
+
+        const tabFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
+        this.superScriptIconUrl = tabFeature ? superScriptIconUrl : null;
     }
 
     click() {
