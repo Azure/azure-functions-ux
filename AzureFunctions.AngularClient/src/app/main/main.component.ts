@@ -72,7 +72,7 @@ export class MainComponent implements AfterViewInit {
         }
     }
 
-    initializeChildWindow(_userService: UserService,
+    private initializeChildWindow(_userService: UserService,
         _globalStateService: GlobalStateService,
         _cacheService: CacheService,
         _ngHttp: Http,
@@ -112,7 +112,7 @@ export class MainComponent implements AfterViewInit {
                         const targetName: string = fnDescriptor.functionName
                         const selectedFunction = functions.find(f => f.name === targetName);
 
-                        if (selectedFunction !== undefined) {
+                        if (selectedFunction) {
                             this.selectedFunction = selectedFunction;
                         } else {
                             // handle the error

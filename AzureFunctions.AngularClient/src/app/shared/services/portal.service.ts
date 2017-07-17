@@ -13,10 +13,11 @@ import { UserService } from './user.service';
 import { AiService } from './ai.service';
 import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
 import { LocalStorageService } from './local-storage.service';
-import { SiteDescriptor } from "../resourceDescriptors";
+import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
 import { Guid } from "../Utilities/Guid";
 import { TabCommunicationVerbs } from "../models/constants";
-import { TabMessage } from "app/shared/models/localStorage/local-storage";
+import { TabMessage, GetModel } from "app/shared/models/localStorage/local-storage";
+import { FunctionApp } from "app/shared/function-app";
 
 @Injectable()
 export class PortalService {
@@ -43,7 +44,6 @@ export class PortalService {
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
-        this.localStorage = window.localStorage;
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
@@ -69,8 +69,6 @@ export class PortalService {
         // listener for localstorage events from any child tabs of the window
         this._storageService.addEventListener(this.recieveStorageMessage, this);
 
-        window.addEventListener("storage", this.recieveStorageMessage.bind(this), false);
-
         let shellUrl = decodeURI(window.location.href);
         this.shellSrc = Url.getParameterByName(shellUrl, "trustedAuthority");
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
@@ -94,7 +92,6 @@ export class PortalService {
     private initializeTab(): void {
 
         // listener to localStorage
-        // window.addEventListener("storage", this.recieveStorageMessage.bind(this));
         this._storageService.addEventListener(this.recieveStorageMessage, this);
 
         if (PortalService.inTab() && !this.tabId) {
@@ -120,6 +117,7 @@ export class PortalService {
             const key: string = item.key.split(":")[0];
             if (key === `${TabCommunicationVerbs.getStartInfo}`) {
                 let id: string = msg.id;
+
                 // assign self an id to be shared with child
                 if (this.iFrameId === null) {
                     this.iFrameId = Guid.newTinyGuid();
@@ -155,7 +153,6 @@ export class PortalService {
                 // TODO: keep count of parent tabs and flash warning if there are none
             }
         }
-
     }
 
     sendTabStartupInfo(id) {
@@ -163,14 +160,14 @@ export class PortalService {
             .take(1)
             .subscribe(info => {
                 const startup: StartupInfo = Object.assign({}, info, { resourceId: '' });
-                this.returnMessage(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
+                this.returnMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
             })
     }
 
-    private returnMessage(source: string, verb: string, data: any, dest?: string | null) {
+    returnMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
         // return the ready message with guid
         // TODO: unsure what type to define tabmessage as, should that be passed in? data could be anything?
-        const returnMessage: TabMessage<any> = {
+        const returnMessage: TabMessage<T> = {
             source_id: source,
             id: source,
             dest_id: dest,
@@ -371,7 +368,8 @@ export class PortalService {
         return window.parent !== window && window.location.pathname !== "/context.html";
     }
 
-    // does not check for window heirarchy to make sure s
+    // does not check for window heirarchy
+    // instead checks for url query
     public static inTab(): boolean {
         return (Url.getParameterByName(null, "tabbed") === 'true');
     }
