@@ -8,7 +8,9 @@
      [class.focused]="node.isFocused"
      (mouseenter)="node.showMenu = true"
      (mouseleave)="node.showMenu = false"
-     (click)="node.select()">
+     (click)="node.select()"
+     role="treeitem"
+     [attr.aria-expanded]="node.showExpandIcon && node.isExpanded ? true : node.showExpandIcon ? false : null">
 
   <!-- Expand node icon -->
   <i *ngIf="node.showExpandIcon"
@@ -60,7 +62,7 @@
 
 <hr *ngIf="level === 1 && !showTryView" class="tree-node-separator" />
 
-<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1">
+<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1" role="group">
   <tree-view *ngFor="let child of node.children"
               [node]="child"
               [levelInput]="level + 1"></tree-view>
