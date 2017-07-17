@@ -25,6 +25,10 @@
         margin-left: 3px;
     }
 
+    img.super-icon{
+        vertical-align: top;
+    }
+
     &:hover{
         background-color: $chrome-color;
     }
