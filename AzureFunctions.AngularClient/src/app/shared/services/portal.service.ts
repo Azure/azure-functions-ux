@@ -16,8 +16,8 @@ import { LocalStorageService } from './local-storage.service';
 import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
 import { Guid } from "../Utilities/Guid";
 import { TabCommunicationVerbs } from "../models/constants";
-import { TabMessage, GetModel } from "app/shared/models/localStorage/local-storage";
 import { FunctionApp } from "app/shared/function-app";
+import { TabMessage } from "app/shared/models/localStorage/local-storage";
 
 @Injectable()
 export class PortalService {
@@ -94,11 +94,11 @@ export class PortalService {
         // listener to localStorage
         this._storageService.addEventListener(this.recieveStorageMessage, this);
 
-        if (PortalService.inTab() && !this.tabId) {
+        if (PortalService.inTab()) {
             // create own id and set
             this.tabId = Guid.newTinyGuid();
             //send id back to parent
-            this.returnMessage(this.tabId, TabCommunicationVerbs.getStartInfo, null, null);
+            this._sendTabMessage<null>(this.tabId, TabCommunicationVerbs.getStartInfo, null, null);
         }
     }
 
@@ -110,12 +110,12 @@ export class PortalService {
             return;
         }
 
-        if (PortalService.debugging()) { console.log(item); }
+        Logger.debug(item);
 
-        if (PortalService.inIFrame() && !PortalService.inTab()) {
+        if (PortalService.inIFrame()) {
             // if parent recieved new id call
             const key: string = item.key.split(":")[0];
-            if (key === `${TabCommunicationVerbs.getStartInfo}`) {
+            if (key === TabCommunicationVerbs.getStartInfo) {
                 let id: string = msg.id;
 
                 // assign self an id to be shared with child
@@ -135,10 +135,8 @@ export class PortalService {
             //if the startup message is meant for the child tab
             if (msg.dest_id === this.tabId && msg.verb === TabCommunicationVerbs.sentStartInfo) {
                 // get new startup info and update
-                // let startupInfo: StartupInfo = msg.data;
-                const startup: StartupInfo = Object.assign({}, msg.data, { resourceId: '' });
-                startup.resourceId = Url.getParameterByName(null, "rid");
-                this.startupInfoObservable.next(startup);
+                msg.data.resourceId = Url.getParameterByName(null, "rid");
+                this.startupInfoObservable.next(msg.data);
             }
 
             else if (msg.verb === TabCommunicationVerbs.updatedFile) {
@@ -148,26 +146,21 @@ export class PortalService {
             else if (msg.verb === TabCommunicationVerbs.newToken) {
                 // TODO: handle recieved new token
             }
-
-            else if (msg.verb === TabCommunicationVerbs.parentClosed) {
-                // TODO: keep count of parent tabs and flash warning if there are none
-            }
         }
     }
 
-    sendTabStartupInfo(id) {
+    private sendTabStartupInfo(id) {
         this.getStartupInfo()
             .take(1)
             .subscribe(info => {
                 const startup: StartupInfo = Object.assign({}, info, { resourceId: '' });
-                this.returnMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
+                this._sendTabMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
             })
     }
 
-    returnMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
+    private _sendTabMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
         // return the ready message with guid
-        // TODO: unsure what type to define tabmessage as, should that be passed in? data could be anything?
-        const returnMessage: TabMessage<T> = {
+        const tabMessage: TabMessage<T> = {
             source_id: source,
             id: source,
             dest_id: dest,
@@ -176,13 +169,13 @@ export class PortalService {
         };
 
         let id: string = `${verb}:${source}`;
-        if (dest !== null) {
+        if (dest) {
             id += `:${dest}`
         }
 
         // send and then remove
         // include the id in the key so that douplicate messages from different windows can not remove another
-        this._storageService.setItem(verb, returnMessage);
+        this._storageService.setItem(verb, tabMessage);
         this._storageService.removeItem(verb);
     }
 
@@ -368,19 +361,23 @@ export class PortalService {
         return window.parent !== window && window.location.pathname !== "/context.html";
     }
 
-    // does not check for window heirarchy
-    // instead checks for url query
+    // checks for url query
     public static inTab(): boolean {
         return (Url.getParameterByName(null, "tabbed") === 'true');
-    }
-
-    // if console logs should be printed
-    public static debugging(): boolean {
-        return (Url.getParameterByName(null, "debug") === 'true');
     }
 
     // what feature is being looked at currently
     public static feature(): string {
         return (Url.getParameterByName(null, "feature"));
+    }
+}
+
+class Logger {
+    static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
+
+    public static debug(obj: any) {
+        if (this.debugging) {
+            console.log(obj);
+        }
     }
 }
