@@ -35,6 +35,7 @@ import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel, Param } from '../shared/models/http-run';
 import { FunctionKey, FunctionKeys } from '../shared/models/function-key';
 import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
+import { LocalStorageService } from "app/shared/services/local-storage.service";
 
 
 @Component({
@@ -89,6 +90,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public masterKey: string;
 
     public isStandalone: boolean;
+    public inTab: boolean;
 
     public disabled: Observable<boolean>;
 
@@ -111,6 +113,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
+        this.inTab = PortalService.inTab();
+
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .switchMap(file => {
@@ -348,7 +352,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (changes['selectedFunction']) {
             delete this.updatedTestContent;
             delete this.runResult;
-            this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+            const selectedFunction = changes['selectedFunction'].currentValue;
+            if(selectedFunction){
+                this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+            }
         }
     }
 

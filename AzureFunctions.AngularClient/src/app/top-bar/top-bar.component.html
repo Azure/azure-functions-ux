@@ -2,9 +2,13 @@
     <try-now *ngIf="showTryView && !gettingStarted"></try-now>
     <div *ngIf="visible" class="top-bar" [class.top-bar-getting-started]="gettingStarted">
 
-        <div *ngIf="!inIFrame" class="azure-logo left">
-            <div *ngIf="!isStandalone" class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+        <div *ngIf="!inIFrame" class="azure-logo" [class.right]="inTab" [class.left]="isStandalone">
+            <div *ngIf="!isStandalone" class="vertical-align-center logo" [class.tabbed-logo]="inTab">{{ 'azureFunctions' | translate }}</div>
             <div *ngIf="isStandalone" class="vertical-align-center logo-standalone">{{ 'azureFunctionsRuntime' | translate }}</div>
+        </div>
+
+        <div *ngIf="!inIFrame" class="left vertical-align-center">
+            <div *ngIf="!isStandalone" class=" function-information"><h4>{{ appName }} - {{ fnName }}</h4></div>
         </div>
 
         <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone" [class.info-no-iframe]="!inIFrame">
@@ -20,7 +24,7 @@
         </div>
 
         <div class="top-bar-tools right vertical-align-center">
-            <span *ngIf="user && currentTenant && !inIFrame"
+            <span *ngIf="user && currentTenant && !inIFrame && !inTab"
                   class="top-bar-tool clickable"
                   [class.top-bar-tool-selected]="showUserMenu"
                   (click)="showUserMenu = !showUserMenu">

@@ -18,6 +18,9 @@
 
     &:hover{
         background-color: $tree-node-hover-color;
+        .fa.fa-external-link{
+            display: inline-block;
+        }
     }
 
     &.selected{

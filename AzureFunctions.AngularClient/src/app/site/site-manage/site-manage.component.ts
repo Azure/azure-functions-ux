@@ -2,7 +2,7 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { Url } from './../../shared/Utilities/url';
 import { SiteTabIds } from './../../shared/models/constants';
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -35,12 +35,12 @@ import { WebsiteId } from '../../shared/models/portal';
     inputs: ["viewInfoInput"]
 })
 
-export class SiteManageComponent {
+export class SiteManageComponent implements OnDestroy {
     public groups1: FeatureGroup[];
     public groups2: FeatureGroup[];
     public groups3: FeatureGroup[];
 
-    public searchTerm = "";
+    public searchTerm = '';
     public TabIds = SiteTabIds;
 
     public viewInfo: TreeViewInfo;
@@ -72,7 +72,7 @@ export class SiteManageComponent {
         private _translateService: TranslateService,
         private _siteDashboard: SiteDashboardComponent) {
 
-        this._tabsFeature = Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
+        this._tabsFeature = Url.getParameterByName(window.location.href, 'appsvc.feature.tabs');
 
         this._viewInfoStream
             .switchMap(viewInfo => {
@@ -82,15 +82,16 @@ export class SiteManageComponent {
             })
             .switchMap(r => {
                 this._globalStateService.clearBusyState();
-                let traceKey = this.viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace("/site/features-tab-ready", traceKey);
 
-                let site: ArmObj<Site> = r.json();
+                const traceKey = this.viewInfo.data.siteTraceKey;
+                this._aiService.stopTrace('/site/features-tab-ready', traceKey);
+
+                const site: ArmObj<Site> = r.json();
                 this._portalService.closeBlades();
                 this._descriptor = new SiteDescriptor(site.id);
 
                 this._dynamicDisableInfo = {
-                    enabled: site.properties.sku !== "Dynamic",
+                    enabled: site.properties.sku !== 'Dynamic',
                     disableMessage: this._translateService.instant(PortalResources.featureNotSupportedConsumption)
                 }
 
@@ -100,7 +101,7 @@ export class SiteManageComponent {
                 this._initCol2Groups(site);
                 this._initCol3Groups(site);
 
-                let loadObs: Observable<any>[] = [];
+                const loadObs: Observable<any>[] = [];
 
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
@@ -110,12 +111,12 @@ export class SiteManageComponent {
                 )
             })
             .do(null, e => {
-                this._aiService.trackException(e, "site-manage");
+                this._aiService.trackException(e, 'site-manage');
             })
             .retry()
             .subscribe(r => {
                 let hasSiteWritePermissions = r.hasSiteWritePermissions && !r.hasReadOnlyLock;
-                let siteWriteDisabledMessage = "";
+                let siteWriteDisabledMessage = '';
 
                 if (!r.hasSiteWritePermissions) {
                     siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureRequiresWritePermissionOnApp);
@@ -136,7 +137,7 @@ export class SiteManageComponent {
             });
 
         this._selectedFeatureSubscription = this._siteDashboard.openFeatureId.subscribe(featureId => {
-            if (this._tabsFeature === "inplace") {
+            if (this._tabsFeature === 'inplace') {
                 this.selectedFeatureId = featureId;
             }
         })

@@ -22,6 +22,7 @@ import { StartupInfo } from '../models/portal';
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
+    public inTab: boolean;
     private _startupInfoStream: ReplaySubject<StartupInfo>;
     private _startupInfo: StartupInfo;
     private _inTry: boolean;
@@ -35,6 +36,7 @@ export class UserService {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = PortalService.inIFrame();
+        this.inTab = PortalService.inTab();
         this._inTry = window.location.pathname.endsWith('/try');
 
         this._startupInfo = {
@@ -46,7 +48,7 @@ export class UserService {
             resourceId: null
         };
 
-        if (this.inIFrame) {
+        if (this.inIFrame || this.inTab) {
             this._portalService.getStartupInfo()
                 .mergeMap(info => {
                     return Observable.zip(
