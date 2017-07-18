@@ -372,13 +372,3 @@ export class PortalService {
         return (Url.getParameterByName(null, "feature"));
     }
 }
-
-class Logger {
-    static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
-
-    public static debug(obj: any) {
-        if (this.debugging) {
-            console.log(obj);
-        }
-    }
-}
