@@ -16,14 +16,9 @@ import { LocalStorageService } from './local-storage.service';
 import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
 import { Guid } from "../Utilities/Guid";
 import { TabCommunicationVerbs } from "../models/constants";
-<<<<<<< HEAD
 import { FunctionApp } from "app/shared/function-app";
 import { TabMessage } from "app/shared/models/localStorage/local-storage";
 import { Logger } from "app/shared/utilities/logger";
-=======
-import { TabMessage, GetModel } from "app/shared/models/localStorage/local-storage";
-import { FunctionApp } from "app/shared/function-app";
->>>>>>> increasing code clarity and cleaness
 
 @Injectable()
 export class PortalService {
@@ -375,5 +370,15 @@ export class PortalService {
     // what feature is being looked at currently
     public static feature(): string {
         return (Url.getParameterByName(null, "feature"));
+    }
+}
+
+class Logger {
+    static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
+
+    public static debug(obj: any) {
+        if (this.debugging) {
+            console.log(obj);
+        }
     }
 }
