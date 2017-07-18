@@ -226,7 +226,7 @@ export class PortalService {
         else if (methodName === Verbs.sendNotificationStarted) {
             this.notificationStartStream.next(data);
         }
-        else if (methodName === Verbs.sendInputs {
+        else if (methodName === Verbs.sendInputs) {
             if (!this.startupInfo) {
                 return;
             }
