@@ -60,7 +60,7 @@ export class Verbs {
     public static sendStartupInfo = "send-startup-info";
     public static sendAppSettingName = "send-appSettingName";
     public static sendResourceId = "send-resourceId";
-    public static sendResourceObject = "send-resourceObject";
+    public static sendInputs = "send-inputs";
     public static sendToken = "send-token";
     public static sendOAuthInfo = "send-oauth-info";
     public static sendNotificationStarted = "send-notification-started";
