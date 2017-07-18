@@ -18,6 +18,7 @@ import { Guid } from "../Utilities/Guid";
 import { TabCommunicationVerbs } from "../models/constants";
 import { FunctionApp } from "app/shared/function-app";
 import { TabMessage } from "app/shared/models/localStorage/local-storage";
+import { Logger } from "app/shared/utilities/logger";
 
 @Injectable()
 export class PortalService {
@@ -369,15 +370,5 @@ export class PortalService {
     // what feature is being looked at currently
     public static feature(): string {
         return (Url.getParameterByName(null, "feature"));
-    }
-}
-
-class Logger {
-    static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
-
-    public static debug(obj: any) {
-        if (this.debugging) {
-            console.log(obj);
-        }
     }
 }
