@@ -9,6 +9,7 @@ import { SelectOption } from '../shared/models/select-option';
   styleUrls: ['./radio-selector.component.scss'],
 })
 export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
+    private _isFirstChange: boolean = true;
     @Input() control : FormControl;
     @Input() group : FormGroup;
     @Input() name : string;
@@ -50,19 +51,30 @@ export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
         }
     }
 
+    /*
     private _syncForm(controlUpdated: boolean, groupInfoUpdated: boolean, defaultValueUpdated: boolean, disabedUpdated: boolean) {
         if(!controlUpdated && groupInfoUpdated) {
             this._setControl();
             controlUpdated = true;
         }
 
+        let emitValue = false;
         if(defaultValueUpdated) {
             this._setControlValue(this.defaultValue);
-            this.value.next(this.defaultValue);
+            emitValue = true;
         }
         else if(controlUpdated) {
             this.defaultValue = this.control ? this.control.value : null;
-            this.value.next(this.defaultValue);
+            emitValue = true;
+        }
+        
+        if(emitValue === true) {
+            if(this.defaultValue === undefined || this.defaultValue === null) {
+                this.value.next();
+            }
+            else {
+                this.value.next(this.defaultValue);
+            }
         }
 
         if(disabedUpdated) {
@@ -78,7 +90,9 @@ export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
         //[ctrl] && (defaultValue) => ctrl.setValue(defaultValue) //MARK DIRTY?
         //(ctrl) && [defaultValue] => defaultValue = ctrl.value
     }
+    */
 
+    /*
     ngOnInit() {
         this._syncForm(
             !!this.control,
@@ -87,9 +101,10 @@ export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
             !(this.disabled === undefined)
         );
     }
+    */
 
-/*
-    ngOnInit() {
+    /*
+    ngOnInit() {    
         let controlPresent = !!this.control;
         if(!controlPresent && (this.group && this.name)) {
             this._setControl();
@@ -103,8 +118,9 @@ export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
             this.defaultValue = this.control.value;
         }
     }
-*/
+    */
 
+    /*
     ngOnChanges(changes: SimpleChanges) {
         this._syncForm(
             !!changes['control'],
@@ -112,6 +128,60 @@ export class RadioSelectorComponent<T> implements /*OnInit,*/ OnChanges{
             !!changes['defaultValue'],
             !!changes['disabled']
         );
+    }
+    */
+
+    ngOnChanges(changes: SimpleChanges) {
+        let formControlChanged = !!changes['control'];
+        if(!formControlChanged || !this.control) {
+            if(!!changes['group'] || !!changes['name']) {
+                this._setControl();
+                formControlChanged = true;
+            }
+        }
+
+        let emitValue = false;
+        if(changes['defaultValue'] && formControlChanged) {
+            let defaultValueHasValue = this.defaultValue !== undefined && this.defaultValue !== null;
+            let formControlHasValue = this.control && this.control.value !== undefined && this.control.value !== null;
+            if(defaultValueHasValue) {
+                this._setControlValue(this.defaultValue);
+            }
+            else if(formControlHasValue) {
+                this.defaultValue = this.control.value;
+            }
+            emitValue = true;
+        }
+        else if(changes['defaultValue']) {
+            this._setControlValue(this.defaultValue);
+            emitValue = true;
+        }
+        else if(formControlChanged) {
+            this.defaultValue = this.control ? this.control.value : this.defaultValue;
+            emitValue = true;
+        }
+
+        if(emitValue && !this._isFirstChange) {
+            this._setControlValue(this.defaultValue);
+        }
+
+
+        if(changes['disabled'] && formControlChanged) {
+            if(this.disabled !== undefined || this.disabled === null) {
+                this._setControlDisabled(this.disabled);
+            }
+            else {
+                this.disabled = this.control ? this.control.disabled : this.disabled;
+            }
+        }
+        else if(changes['disabled']) {
+            this._setControlDisabled(this.disabled);
+        }
+        else if(formControlChanged) {
+            this.disabled = this.control ? this.control.disabled : this.disabled;
+        }
+
+        this._isFirstChange = false;
     }
 
 /*
