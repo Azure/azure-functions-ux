@@ -1,7 +1,8 @@
 import { GlobalStateService } from './../shared/services/global-state.service';
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { ArmService } from '../shared/services/arm.service';
-import { TreeNode } from './tree-node';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {ArmService} from '../shared/services/arm.service';
+import {TreeNode} from './tree-node';
+import { Url } from "app/shared/Utilities/url";
 
 @Component({
     selector: 'tree-view',
@@ -29,7 +30,17 @@ export class TreeViewComponent {
         else {
             this.paddingLeft = "10px";
         }
-
         this.level = level;
+    }
+
+    openNewTab() {
+        //open a new tab with the rousource information
+        let windowLocation : string = `${window.location.hostname}`;
+        if (window.location.port) {
+            windowLocation += `:${window.location.port}`
+        }
+        window.open(`https://${windowLocation}/?tabbed=true&rid=${this.node.resourceId}`, '_blank');
+        // window.open(`https://localhost:44300/?tabbed=true&rid=${this.node.resourceId}`, '_blank');
+        
     }
 }

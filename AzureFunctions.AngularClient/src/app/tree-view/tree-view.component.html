@@ -49,6 +49,11 @@
         class="fa fa-angle-double-right tree-node-scope-icon"
         (click)="node.scopeToNode()"
         title="Scope to this app"></i>
+
+      <i *ngIf="node.supportsTab"
+        class="fa fa-external-link"
+        (click)="openNewTab()"
+        title="Open in new tab"></i>
     </span>
   </span>
 </div>

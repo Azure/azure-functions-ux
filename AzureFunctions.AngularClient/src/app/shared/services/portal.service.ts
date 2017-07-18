@@ -12,21 +12,35 @@ import { BroadcastEvent } from '../models/broadcast-event'
 import { UserService } from './user.service';
 import { AiService } from './ai.service';
 import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
+import { LocalStorageService } from './local-storage.service';
+import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
+import { Guid } from "../Utilities/Guid";
+import { TabCommunicationVerbs } from "../models/constants";
+import { FunctionApp } from "app/shared/function-app";
+import { TabMessage } from "app/shared/models/localStorage/local-storage";
+import { Logger } from "app/shared/utilities/logger";
 
 @Injectable()
 export class PortalService {
+    public tabId: string | null;
+    public iFrameId: string | null;
+
     public sessionId = "";
 
     private portalSignature: string = "FxAppBlade";
-    private startupInfo: StartupInfo = null;
+    private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
     private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
     private notificationStartStream: Subject<NotificationStartedInfo>;
+    private localStorage: Storage;
+
+    public resourceId: string;
 
     constructor(private _broadcastService: BroadcastService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _storageService: LocalStorageService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
@@ -34,6 +48,9 @@ export class PortalService {
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
+        }
+        else if (PortalService.inTab()) {
+            this.initializeTab();
         }
     }
 
@@ -46,7 +63,12 @@ export class PortalService {
         return this.setupOAuthObservable;
     }
 
-    initializeIframe(): void {
+    private initializeIframe(): void {
+
+        this.iFrameId = Guid.newShortGuid();
+
+        // listener for localstorage events from any child tabs of the window
+        this._storageService.addEventListener(this.recieveStorageMessage, this);
 
         let shellUrl = decodeURI(window.location.href);
         this.shellSrc = Url.getParameterByName(shellUrl, "trustedAuthority");
@@ -66,6 +88,96 @@ export class PortalService {
                 this.logMessage(LogEntryLevel.Error, error.details);
             }
         });
+    }
+
+    private initializeTab(): void {
+
+        // listener to localStorage
+        this._storageService.addEventListener(this.recieveStorageMessage, this);
+
+        if (PortalService.inTab()) {
+            // create own id and set
+            this.tabId = Guid.newTinyGuid();
+            //send id back to parent
+            this._sendTabMessage<null>(this.tabId, TabCommunicationVerbs.getStartInfo, null, null);
+        }
+    }
+
+    private recieveStorageMessage(item: StorageEvent) {
+
+        const msg: TabMessage<any> = JSON.parse(item.newValue);
+
+        if (!msg) {
+            return;
+        }
+
+        Logger.debug(item);
+
+        if (PortalService.inIFrame()) {
+            // if parent recieved new id call
+            const key: string = item.key.split(":")[0];
+            if (key === TabCommunicationVerbs.getStartInfo) {
+                let id: string = msg.id;
+
+                // assign self an id to be shared with child
+                if (this.iFrameId === null) {
+                    this.iFrameId = Guid.newTinyGuid();
+                }
+                //send over startupinfo
+                this.sendTabStartupInfo(id);
+            }
+
+            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
+                //check if file is open, if yes then update
+            }
+        }
+
+        else if (PortalService.inTab()) {
+            //if the startup message is meant for the child tab
+            if (msg.dest_id === this.tabId && msg.verb === TabCommunicationVerbs.sentStartInfo) {
+                // get new startup info and update
+                msg.data.resourceId = Url.getParameterByName(null, "rid");
+                this.startupInfoObservable.next(msg.data);
+            }
+
+            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
+                //check if file is open, if yes then update
+            }
+
+            else if (msg.verb === TabCommunicationVerbs.newToken) {
+                // TODO: handle recieved new token
+            }
+        }
+    }
+
+    private sendTabStartupInfo(id) {
+        this.getStartupInfo()
+            .take(1)
+            .subscribe(info => {
+                const startup: StartupInfo = Object.assign({}, info, { resourceId: '' });
+                this._sendTabMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
+            })
+    }
+
+    private _sendTabMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
+        // return the ready message with guid
+        const tabMessage: TabMessage<T> = {
+            source_id: source,
+            id: source,
+            dest_id: dest,
+            verb: verb,
+            data: data
+        };
+
+        let id: string = `${verb}:${source}`;
+        if (dest) {
+            id += `:${dest}`
+        }
+
+        // send and then remove
+        // include the id in the key so that douplicate messages from different windows can not remove another
+        this._storageService.setItem(verb, tabMessage);
+        this._storageService.removeItem(verb);
     }
 
     openBlade(bladeInfo: OpenBladeInfo, source: string) {
@@ -247,6 +359,16 @@ export class PortalService {
     }
 
     public static inIFrame(): boolean {
-        return window.parent !== window && window.location.pathname !== '/context.html';
+        return window.parent !== window && window.location.pathname !== "/context.html";
+    }
+
+    // checks for url query
+    public static inTab(): boolean {
+        return (Url.getParameterByName(null, "tabbed") === 'true');
+    }
+
+    // what feature is being looked at currently
+    public static feature(): string {
+        return (Url.getParameterByName(null, "feature"));
     }
 }
