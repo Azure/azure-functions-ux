@@ -110,6 +110,10 @@ export class SideNavComponent implements AfterViewInit {
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized) {
+                this.portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'start'
+                });
                 this._initialized = true;
                 this.rootNode = new TreeNode(this, null, null);
 

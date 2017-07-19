@@ -116,7 +116,10 @@ export class SiteSummaryComponent implements OnDestroy {
         this._viewInfoStream
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
-
+                this._portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'stop'
+                });
                 this._busyState.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
@@ -164,6 +167,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._busyState.clearBusyState();
                 let traceKey = this._viewInfo.data.siteTraceKey;
                 this._aiService.stopTrace("/site/overview-tab-ready", traceKey);
+
                 this.hideAvailability = this._isSlot || site.properties.sku === "Dynamic";
 
                 return Observable.zip<DataModel>(
@@ -231,6 +235,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return;
                 }
 
+                this._portalService.sendTimerEvent({
+                    timerId: 'ClickToOverviewInputsSet',
+                    timerAction: 'stop'
+                });
+                this._portalService.sendTimerEvent({
+                    timerId: 'ClickToOverviewConstructor',
+                    timerAction: 'stop'
+                });
                 this.scmType = res.config.properties.scmType;
 
                 if (this.hasWriteAccess) {
