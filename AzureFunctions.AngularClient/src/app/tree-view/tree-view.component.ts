@@ -39,8 +39,6 @@ export class TreeViewComponent {
         if (window.location.port) {
             windowLocation += `:${window.location.port}`
         }
-        window.open(`https://${windowLocation}/?tabbed=true&rid=${this.node.resourceId}`, '_blank');
-        // window.open(`https://localhost:44300/?tabbed=true&rid=${this.node.resourceId}`, '_blank');
-        
+        window.open(`https://${windowLocation}/signin?tabbed=true&rid=${this.node.resourceId}`, '_blank');
     }
 }
