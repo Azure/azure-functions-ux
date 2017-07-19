@@ -247,22 +247,25 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var editorPadding = 25;
 
         var functionContainerWidth;
-        var functionContainaerHeight;
+        var functionContainerHeight;
         if (this.functionContainer) {
             functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
-            functionContainaerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
+            functionContainerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
         }
-        var rigthContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
-        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainaerHeight / 3)) : 50;
 
-        var editorContainerWidth = functionContainerWidth - rigthContainerWidth - 65;
-        var editorContainerHeight = functionContainaerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+        //functionContainerHeight -= 50;
+        
+        var rightContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
+        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainerHeight / 3)) : 50;
 
-        if (this.expandLogs) {
+        var editorContainerWidth = functionContainerWidth - rightContainerWidth - 65;
+        var editorContainerHeight = functionContainerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+
+        if (this.expandLogs) { 
             editorContainerHeight = 0;
-            //editorContainerWidth = 0;
+            //editorContainerWidth = 0; 
 
-            bottomContainerHeight = functionContainaerHeight - functionNameHeight;
+            bottomContainerHeight = functionContainerHeight - functionNameHeight;
 
             this.editorContainer.nativeElement.style.visibility = "hidden";
             this.bottomContainer.nativeElement.style.marginTop = "0px";
@@ -285,8 +288,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.rightContainer) {
-            this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
-            this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
+            this.rightContainer.nativeElement.style.width = rightContainerWidth + "px";
+            this.rightContainer.nativeElement.style.height = functionContainerHeight + "px";
         }
 
         if (this.bottomContainer) {
@@ -295,13 +298,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.testDataEditor) {
-            var widthDataEditor = rigthContainerWidth - 24;
+            var widthDataEditor = rightContainerWidth - 24;
 
             setTimeout(() => {
                 if (this.testDataEditor) {
                     this.testDataEditor.setLayout(
                         this.rightTab ? widthDataEditor : 0,
-                        this.isHttpFunction ? 230 : functionContainaerHeight / 2
+                        this.isHttpFunction ? 230 : functionContainerHeight / 2
                         //functionContainaerHeight / 2
                     )
                 }

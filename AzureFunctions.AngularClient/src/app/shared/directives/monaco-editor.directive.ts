@@ -1,10 +1,10 @@
 ﻿import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import {HostEventService} from '../services/host-event.service'
-import {HostEvent} from '../models/host-event'
+import { HostEventService } from '../services/host-event.service'
+import { HostEvent } from '../models/host-event'
 import { Subscription } from 'rxjs/Subscription';
-import {Diagnostic} from "../models/diagnostic"
+import { Diagnostic } from "../models/diagnostic"
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
@@ -18,7 +18,7 @@ declare var require;
 @Directive({
     selector: '[monacoEditor]',
 })
-export class MonacoEditorDirective implements OnInit{
+export class MonacoEditorDirective implements OnInit {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
     @Output() public onRun: EventEmitter<void>;
@@ -29,12 +29,12 @@ export class MonacoEditorDirective implements OnInit{
     private _editor: any;
     private _silent: boolean = false;
     private _fileName: string;
-    private _functionAppStream : Subject<FunctionApp>;
-    private _functionApp : FunctionApp;
-    private _hostEventSubscription : Subscription;
-    
+    private _functionAppStream: Subject<FunctionApp>;
+    private _functionApp: FunctionApp;
+    private _hostEventSubscription: Subscription;
+
     constructor(public elementRef: ElementRef,
-        private _hostEventService : HostEventService,
+        private _hostEventService: HostEventService,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
     ) {
@@ -50,12 +50,12 @@ export class MonacoEditorDirective implements OnInit{
                 this._functionApp = functionApp;
                 this.init();
             });
-    } 
- 
-    ngOnInit(){
     }
 
-    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp){
+    ngOnInit() {
+    }
+
+    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
@@ -65,7 +65,7 @@ export class MonacoEditorDirective implements OnInit{
         }
 
         if (this._editor && this._editor.getValue() === str) {
-            return;  
+            return;
         }
         this._content = str;
         if (this._editor) {
@@ -83,7 +83,7 @@ export class MonacoEditorDirective implements OnInit{
                     readOnly: this._disabled
                 });
             }
-        }   
+        }
     }
 
     @Input('fileName') set fileName(filename: string) {
@@ -134,8 +134,8 @@ export class MonacoEditorDirective implements OnInit{
     }
 
     public setPosition(lineNumber: number, column: number) {
-        let position : monaco.IPosition = { lineNumber, column };
-        this._editor.revealPositionInCenterIfOutsideViewport( position); 
+        let position: monaco.IPosition = { lineNumber, column };
+        this._editor.revealPositionInCenterIfOutsideViewport(position);
         this._editor.setPosition(position);
         this._editor.focus();
     }
@@ -150,14 +150,14 @@ export class MonacoEditorDirective implements OnInit{
         }
     }
 
-    public setDiagnostics(diagnostics: Diagnostic[]){
+    public setDiagnostics(diagnostics: Diagnostic[]) {
         if (!this._editor) {
             return;
         }
-        
+
         try {
             monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco',
-                diagnostics.filter(d =>d.source === this._fileName));
+                diagnostics.filter(d => d.source === this._fileName));
         } catch (error) {
         }
     }
@@ -165,7 +165,7 @@ export class MonacoEditorDirective implements OnInit{
     private init() {
         this._globalStateService.setBusyState();
 
-        let onGotAmdLoader = () => { 
+        let onGotAmdLoader = () => {
             (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });
             (<any>window).require(['vs/editor/editor.main'], () => {
                 let that = this;

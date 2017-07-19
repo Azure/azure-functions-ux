@@ -192,3 +192,23 @@
 .bottom-empty {
     flex-grow: 1;    
 }
+
+.bottom-tab-logs {
+    height: 100%;
+}
+
+.bottom-tab-errors {
+    width: 100%;
+    padding-right: 30px;
+}
+
+.bottom-tab-open {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.chevron-down {
+    align-self: flex-end;
+    padding-right: 10px;
+}

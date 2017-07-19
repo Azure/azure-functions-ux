@@ -126,24 +126,20 @@
                             <span style="flex-grow: 1;"></span>
                             <span style="padding-right: 10px;" class="tab-label" (click)="clickBottomTab(bottomTab || 'logs')"><i class="fa fa-chevron-up"></i></span>
                         </div>
-
-                        <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
-                           <div *ngIf="bottomTab">
-                              <div class="bottom-container-bar">
+                        <div *ngIf="bottomTab" class="bottom-tab-open">
                                 <span [class.tab-label-selected]="bottomTab==='logs'" [class.tab-label]="bottomTab!=='logs'" (click)="clickBottomTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
                                 <span [class.tab-label-selected]="bottomTab==='errors'" [class.tab-label]="bottomTab!=='errors'" (click)="clickBottomTab('errors')">Errors and warnings</span>
                                 <span style="flex-grow: 1;"></span>
-                                <span style="padding-right: 10px;" class="tab-label" (click)="clickBottomTab(bottomTab)"><i class="fa fa-chevron-down"></i></span>
-                              </div>
-                           </div>
-
-                           <div *ngIf="bottomTab==='logs' && functionInfo" style="height:100%">
+                                <span class="chevron-down" class="tab-label" (click)="clickBottomTab(bottomTab)"><i class="fa fa-chevron-down"></i></span>
+                        </div>
+                        <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
+                           <div *ngIf="bottomTab==='logs' && functionInfo" class="bottom-tab-logs">
                                <log-streaming [functionInfo]="functionInfo"
                                            (closeClicked)="clickBottomTab('logs')"
                                            (expandClicked)="expandLogsClicked($event)">
                                 </log-streaming>
                            </div>
-                           <div *ngIf="bottomTab==='errors' && functionInfo" style="width:100%;padding-right:30px">
+                           <div *ngIf="bottomTab==='errors' && functionInfo" class="bottom-tab-errors">
                                 <errors-warnings [functionInfo]="functionInfo"
                                             [monacoEditor]="codeEditor"
                                             [fileExplorer]="fileExplorer"
