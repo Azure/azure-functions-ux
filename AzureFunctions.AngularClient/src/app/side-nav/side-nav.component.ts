@@ -77,7 +77,7 @@ export class SideNavComponent implements AfterViewInit {
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-
+    private _currentResourceId = null;
     set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
             this._tryFunctionAppStream.next(functionApp);
@@ -105,15 +105,19 @@ export class SideNavComponent implements AfterViewInit {
 
         userService.getStartupInfo().subscribe(info => {
 
+            if (this._currentResourceId !== info.resourceId) {
+                this._currentResourceId = info.resourceId;
+                this.portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'start'
+                });
+            }
             // This is a workaround for the fact that Ibiza sends us an updated info whenever
             // child blades close.  If we get a new info object, then we'll rebuild the tree.
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized) {
-                this.portalService.sendTimerEvent({
-                    timerId: 'TreeViewLoad',
-                    timerAction: 'start'
-                });
+
                 this._initialized = true;
                 this.rootNode = new TreeNode(this, null, null);
 
