@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
 import { Message } from './../../shared/models/portal';
 import { DisableableBladeFeature, DisableableFeature, DisableInfo, TabFeature, FeatureItem, BladeFeature, OpenBrowserWindowFeature } from './../../feature-group/feature-item';
@@ -43,12 +43,12 @@ export class SiteManageComponent implements OnDestroy {
     public searchTerm = '';
     public TabIds = SiteTabIds;
 
-    public viewInfo: TreeViewInfo;
+    public viewInfo: TreeViewInfo<SiteData>;
 
     // Used to open features within the same tab instead of in a new tab
     public selectedFeatureId: string | null = null;
 
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     private _descriptor: SiteDescriptor;
 
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
@@ -59,7 +59,7 @@ export class SiteManageComponent implements OnDestroy {
 
     private _selectedFeatureSubscription: RxSubscription;
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
 
@@ -83,8 +83,7 @@ export class SiteManageComponent implements OnDestroy {
             .switchMap(r => {
                 this._globalStateService.clearBusyState();
 
-                const traceKey = this.viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace('/site/features-tab-ready', traceKey);
+                this._aiService.stopTrace('/timings/site/tab/features/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
 
                 const site: ArmObj<Site> = r.json();
                 this._portalService.closeBlades();
@@ -115,6 +114,8 @@ export class SiteManageComponent implements OnDestroy {
             })
             .retry()
             .subscribe(r => {
+
+                this._aiService.stopTrace('/timings/site/tab/features/full-ready', this.viewInfo.data.siteTabFullReadyTraceKey);
                 let hasSiteWritePermissions = r.hasSiteWritePermissions && !r.hasReadOnlyLock;
                 let siteWriteDisabledMessage = '';
 

@@ -16,7 +16,7 @@ import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-ed
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { TblItem } from './../../controls/tbl/tbl.component';
 import { CacheService } from './../../shared/services/cache.service';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -26,7 +26,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   styleUrls: ['./site-config.component.scss']
 })
 export class SiteConfigComponent implements OnInit {
-  public viewInfoStream: Subject<TreeViewInfo>;
+  public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
 
   public mainForm: FormGroup;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
@@ -51,7 +51,7 @@ export class SiteConfigComponent implements OnInit {
   ) {
     this._busyState = tabsComponent.busyState;
 
-    this.viewInfoStream = new Subject<TreeViewInfo>();
+    this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
       .switchMap(viewInfo => {
@@ -150,7 +150,7 @@ export class SiteConfigComponent implements OnInit {
     return connectionStringDropDownTypes;
   }
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     this.viewInfoStream.next(viewInfo);
   }
 

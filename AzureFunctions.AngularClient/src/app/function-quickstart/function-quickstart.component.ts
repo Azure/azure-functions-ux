@@ -41,7 +41,7 @@ export class FunctionQuickstartComponent {
 
     public functionApp: FunctionApp;
     private functionsNode: FunctionsNode;
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     constructor(private _functionsService: FunctionsService,
         private _broadcastService: BroadcastService,
@@ -73,7 +73,7 @@ export class FunctionQuickstartComponent {
             })
     }
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
 
     }

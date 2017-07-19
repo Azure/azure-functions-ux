@@ -26,7 +26,7 @@ import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
     @Output() changeEditor = new EventEmitter<string>();
-    @Input() public viewInfo: TreeViewInfo;
+    @Input() public viewInfo: TreeViewInfo<any>;
 
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;

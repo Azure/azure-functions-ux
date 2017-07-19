@@ -22,7 +22,7 @@ interface ProxyItem {
   inputs: ['viewInfoInput']
 })
 export class ProxiesListComponent implements OnInit {
-  public viewInfoStream: Subject<TreeViewInfo>;
+  public viewInfoStream: Subject<TreeViewInfo<any>>;
   public proxies: ProxyItem[] = [];
   public isLoading: boolean;
 
@@ -31,7 +31,7 @@ export class ProxiesListComponent implements OnInit {
   private _proxiesNode: ProxiesNode;
 
   constructor() {
-    this.viewInfoStream = new Subject<TreeViewInfo>();
+    this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
@@ -60,7 +60,7 @@ export class ProxiesListComponent implements OnInit {
     this._viewInfoSubscription.unsubscribe();
   }
 
-  set viewInfoInput(viewInfo: TreeViewInfo) {
+  set viewInfoInput(viewInfo: TreeViewInfo<any>) {
     this.viewInfoStream.next(viewInfo);
   }
 

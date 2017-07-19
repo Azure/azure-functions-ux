@@ -27,7 +27,7 @@ interface SlotItem {
     inputs: ['viewInfoInput']
 })
 export class SlotsListComponent implements OnInit {
-    public viewInfoStream: Subject<TreeViewInfo>;
+    public viewInfoStream: Subject<TreeViewInfo<any>>;
     public slots: SlotItem[] = [];
     public isLoading: boolean;
 
@@ -38,7 +38,7 @@ export class SlotsListComponent implements OnInit {
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService
     ) {
-        this.viewInfoStream = new Subject<TreeViewInfo>();
+        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
         this._viewInfoSubscription = this.viewInfoStream.distinctUntilChanged()
             .switchMap(viewInfo => {
@@ -71,7 +71,7 @@ export class SlotsListComponent implements OnInit {
     ngOnInit() {
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this.viewInfoStream.next(viewInfo);
     }
 
