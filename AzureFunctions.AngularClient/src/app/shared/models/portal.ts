@@ -90,7 +90,7 @@ export interface OpenBladeInfo {
 
 export interface TimerEvent {
     timerId: string;
-    timerAction: string;
+    timerAction: 'start' | 'stop';
 }
 
 export interface UpdateBladeInfo {
