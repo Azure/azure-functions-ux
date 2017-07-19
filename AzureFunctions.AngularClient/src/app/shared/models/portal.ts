@@ -51,6 +51,7 @@ export class Verbs {
     public static closeBlades = "close-blades";
     public static logAction = "log-action";
     public static logMessage = "log-message";
+    public static logTimerEvent = "log-timer-event";
     public static setDirtyState = "set-dirtystate";
     public static setupOAuth = "setup-oauth";
     public static pinPart = "pin-part";
@@ -85,6 +86,11 @@ export interface OpenBladeInfo {
     detailBlade: string,
     detailBladeInputs: any,
     extension?: string
+}
+
+export interface TimerEvent {
+    timerId: string;
+    timerAction: 'start' | 'stop';
 }
 
 export interface UpdateBladeInfo {

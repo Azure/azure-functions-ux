@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
-import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo } from '../models/portal';
+import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event'
@@ -178,6 +178,10 @@ export class PortalService {
         // include the id in the key so that douplicate messages from different windows can not remove another
         this._storageService.setItem(verb, tabMessage);
         this._storageService.removeItem(verb);
+    }
+
+    sendTimerEvent(evt: TimerEvent) {
+        this.postMessage(Verbs.logTimerEvent, JSON.stringify(evt));
     }
 
     openBlade(bladeInfo: OpenBladeInfo, source: string) {
