@@ -181,7 +181,7 @@ export class PortalService {
     }
 
     sendTimerEvent(evt: TimerEvent) {
-        this.postMessage(Verbs.logTimerEvent, evt);
+        this.postMessage(Verbs.logTimerEvent, JSON.stringify(evt));
     }
 
     openBlade(bladeInfo: OpenBladeInfo, source: string) {
@@ -352,7 +352,7 @@ export class PortalService {
         }
     }
 
-    private postMessage(verb: string, data: any) {
+    private postMessage(verb: string, data: string) {
         if (PortalService.inIFrame()) {
             window.parent.postMessage(<Data>{
                 signature: this.portalSignature,
