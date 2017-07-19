@@ -1,14 +1,17 @@
 <div *ngIf="level > 0"
-     class="tree-node"
+     #item
      [style.padding-left]="paddingLeft"
+     class="tree-node"
      [class]="node.nodeClass"
      [class.clickable]="!node.disabled"
      [class.selected]="node.sideNav && node.sideNav.resourceId === node.resourceId"
      [class.try-root-node]="level === 0 && showTryView"
-     [class.focused]="node.isFocused"
+     (click)="node.select()"
+     role="treeitem"
+     [attr.aria-expanded]="node.showExpandIcon && node.isExpanded ? true : node.showExpandIcon ? false : null"
      (mouseenter)="node.showMenu = true"
      (mouseleave)="node.showMenu = false"
-     (click)="node.select()">
+     (keydown)="onKeyPress($event)">
 
   <!-- Expand node icon -->
   <i *ngIf="node.showExpandIcon"
@@ -32,23 +35,29 @@
     <span *ngIf="node.showMenu || node.inSelectedTree">
 
       <i *ngIf="node.disabled"
-        class="fa fa-info-circle"
+        class="fa fa-info-circle tree-node-menu-item"
         title="You either do not have access to this app or there are orphaned slots associated with it"></i>
 
       <i *ngIf="!!node.newDashboardType"
           (click)="node.openCreateNew($event)"
+          (keydown)="node.openCreateNew($event)"
           class="fa fa-plus"
-          title="New"></i>
+          [title]="'createNew' | translate"
+          [tabindex]="node.isFocused ? 0 : -1"></i>
 
       <i *ngIf="node.supportsRefresh"
         (click)="node.refresh($event)"
+        (keydown)="node.refresh($event)"
         class="fa fa-refresh tree-node-refresh-icon"
-        title="Refresh"></i>
+        [title]="'sideBar_refresh' | translate"
+        [tabindex]="node.isFocused ? 0 : -1"></i>
 
       <i *ngIf="node.supportsScope && !showTryView"
-        class="fa fa-angle-double-right tree-node-scope-icon"
-        (click)="node.scopeToNode()"
-        title="Scope to this app"></i>
+         class="fa fa-angle-double-right tree-node-scope-icon"
+         (click)="node.scopeToNode($event)"
+         (keydown)="node.scopeToNode($event)"
+         [title]="'scopeToItem' | translate"
+         [tabindex]="node.isFocused ? 0 : -1"></i>
 
       <i *ngIf="node.supportsTab"
         class="fa fa-external-link"
@@ -60,8 +69,8 @@
 
 <hr *ngIf="level === 1 && !showTryView" class="tree-node-separator" />
 
-<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1">
+<div *ngIf="node?.isExpanded" [class.top-level-children]="level === 1" role="group">
   <tree-view *ngFor="let child of node.children"
               [node]="child"
-              [levelInput]="level + 1"></tree-view>
+              [level]="level + 1"></tree-view>
 </div>

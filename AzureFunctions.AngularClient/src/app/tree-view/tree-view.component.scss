@@ -27,10 +27,6 @@
         background-color: $tree-node-selection-color;
     }
 
-    &.focused{
-        outline: $border-focus;
-    }
-
     .fa.fa-caret-right, .fa.fa-caret-down{
         font-size: 18px;
         vertical-align: middle;

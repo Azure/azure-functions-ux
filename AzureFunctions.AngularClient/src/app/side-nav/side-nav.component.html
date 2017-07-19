@@ -6,7 +6,8 @@
                     (onClear)="clearSearch()"
                     [value]="searchTerm"
                     [placeholder]="'search' | translate"
-                    [warning]="true">
+                    [warning]="true"
+                    [ariaLabel]="'searchFunctionApps' | translate">
         </search-box>
 
         <div id="sidenav-subs">
@@ -18,14 +19,11 @@
 
     </div>
 
-    <!--<div *ngIf="selectedSubscriptions.length > 0">-->
-    <div tabindex="0"
-         #treeViewContainer
+    <div #treeViewContainer
          id="tree-view-container"
-         (focus)="onFocus($event)"
-         (blur)="onBlur($event)"
-         (keydown)="onKeyPress($event)">
-        <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
+         role="tree"
+         [attr.aria-label]="'functionApps' | translate">
+        <tree-view *ngIf="rootNode" [node]="rootNode" [level]="0"></tree-view>
     </div>
 
 </div>

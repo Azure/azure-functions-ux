@@ -142,3 +142,8 @@ export class KeyCodes {
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
 }
+
+export class DomEvents{
+    public static readonly keydown = 'keydown';
+    public static readonly click = 'click';
+}

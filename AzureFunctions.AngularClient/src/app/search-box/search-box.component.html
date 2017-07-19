@@ -5,7 +5,8 @@
            [(ngModel)]="value"
            placeholder="{{placeholder}}"
            (keyup)="onKeyUp($event)"
-           #searchTextBox/>
+           #searchTextBox
+           [attr.aria-label]="ariaLabel"/>
     <span class="right">
         <i *ngIf="value" class="fa fa-times" (click)="onClearClick($event)"></i>
     </span>

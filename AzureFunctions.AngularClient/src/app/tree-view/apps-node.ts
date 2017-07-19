@@ -103,6 +103,11 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                     // not any other listeners.
                     this.childrenStream.next(<AppNode[]>result.children);
                     this.children = filteredChildren;
+
+                    // Scoping to an app will cause the currently focused item in the tree to be
+                    // recreated.  In that case, we'll just refocus on the root node.  It's probably
+                    // not ideal but simple for us to do.
+                    this.treeView.setFocus(this);
                 }
 
                 this.isLoading = false;
