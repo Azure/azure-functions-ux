@@ -67,9 +67,6 @@ export class SideNavComponent implements AfterViewInit {
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    private _focusedNode: TreeNode;    // For keyboard navigation
-    private _iterator: TreeNodeIterator;
-
     private _savedSubsKey = "/subscriptions/selectedIds";
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
@@ -191,56 +188,6 @@ export class SideNavComponent implements AfterViewInit {
         }
     }
 
-    onFocus(event: FocusEvent) {
-        if (!this._focusedNode) {
-            this._focusedNode = this.rootNode.children[0];
-            this._iterator = new TreeNodeIterator(this._focusedNode);
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    onBlur(event: FocusEvent) {
-        if (this._focusedNode) {
-
-            // Keep the focused node around in case user navigates back to it
-            this._focusedNode.isFocused = false;
-        }
-    }
-
-    onKeyPress(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.arrowDown) {
-            this._moveFocusedItemDown();
-        }
-        else if (event.keyCode === KeyCodes.arrowUp) {
-            this._moveFocusedItemUp();
-        }
-        else if (event.keyCode === KeyCodes.enter) {
-            this._focusedNode.select();
-        }
-        else if (event.keyCode === KeyCodes.arrowRight) {
-            if (this._focusedNode.showExpandIcon && !this._focusedNode.isExpanded) {
-                this._focusedNode.toggle(event);
-            }
-            else {
-                this._moveFocusedItemDown();
-            }
-        }
-        else if (event.keyCode === KeyCodes.arrowLeft) {
-            if (this._focusedNode.showExpandIcon && this._focusedNode.isExpanded) {
-                this._focusedNode.toggle(event);
-            }
-            else {
-                this._moveFocusedItemUp();
-            }
-        }
-
-        if (event.keyCode !== KeyCodes.tab) {
-            // Prevents the entire page from scrolling on up/down key press
-            event.preventDefault();
-        }
-    }
-
     private _getViewContainer(): HTMLDivElement {
         let treeViewContainer = this.treeViewContainer && <HTMLDivElement>this.treeViewContainer.nativeElement;
 
@@ -251,52 +198,20 @@ export class SideNavComponent implements AfterViewInit {
         return <HTMLDivElement>treeViewContainer.querySelector('.top-level-children');
     }
 
-    private _moveFocusedItemDown() {
-
-        let nextNode = this._iterator.next();
-        if (nextNode) {
-            this._focusedNode.isFocused = false;
-            this._focusedNode = nextNode;
-            this._scrollIntoView();
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    private _moveFocusedItemUp() {
-        let prevNode = this._iterator.previous();
-        if (prevNode) {
-            this._focusedNode.isFocused = false;
-            this._focusedNode = prevNode;
-            this._scrollIntoView();
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    private _scrollIntoView() {
+    public scrollIntoView() {
         setTimeout(() => {
             const containerElement = this._getViewContainer();
             if (!containerElement) {
                 return;
             }
 
-            const node = <HTMLDivElement>containerElement.querySelector('div.tree-node.focused');
+            const node = <HTMLDivElement>containerElement.querySelector(':focus');
             if (!node) {
                 return;
             }
 
             Dom.scrollIntoView(node, containerElement);
         }, 0);
-    }
-
-    private _changeFocus(node: TreeNode) {
-        if (this._focusedNode) {
-            this._focusedNode.isFocused = false;
-            node.isFocused = true;
-            this._iterator = new TreeNodeIterator(node);
-            this._focusedNode = node;
-        }
     }
 
     updateView(newSelectedNode: TreeNode, newDashboardType: DashboardType, force?: boolean): Observable<boolean> {
@@ -321,7 +236,7 @@ export class SideNavComponent implements AfterViewInit {
         this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;
 
-        let viewInfo = <TreeViewInfo>{
+        const viewInfo = <TreeViewInfo>{
             resourceId: newSelectedNode.resourceId,
             dashboardType: newDashboardType,
             node: newSelectedNode,
@@ -333,7 +248,6 @@ export class SideNavComponent implements AfterViewInit {
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
 
-        this._changeFocus(newSelectedNode);
         return newSelectedNode.handleSelection();
     }
 

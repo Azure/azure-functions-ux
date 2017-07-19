@@ -1,3 +1,4 @@
+import { DomEvents, KeyCodes } from './../shared/models/constants';
 import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -58,6 +59,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public isFocused = false;
     public showMenu = false;
     public supportsTab = false;
+    public treeView: TreeViewComponent;
 
     constructor(
         public sideNav: SideNavComponent,
@@ -96,7 +98,13 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     // Virtual
-    public refresh(event?: any) {
+    public refresh(event?: UIEvent) {
+        if(event && event.type === DomEvents.keydown){
+            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+                return;
+            }
+        }
+
         this.isLoading = true;
         this.handleRefresh()
             .do(null, e => {
@@ -111,6 +119,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
                 this.isLoading = false;
             });
+
+        this.treeView.setFocus(this);
 
         if (event) {
             event.stopPropagation();
@@ -170,7 +180,13 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             });
     }
 
-    public openCreateNew(event?: any) {
+    public openCreateNew(event?: UIEvent) {
+        if(event && event.type === DomEvents.keydown){
+            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+                return;
+            }
+        }
+
         this.sideNav.updateView(this, this.newDashboardType)
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, "/errors/tree-node/open-create/update-view");
@@ -221,7 +237,13 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         return path;
     }
 
-    public scopeToNode() {
+    public scopeToNode(event?: UIEvent) {
+        if(event && event.type === DomEvents.keydown){
+            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+                return;
+            }
+        }
+
         this.sideNav.searchExact(this.title);
     }
 
