@@ -106,7 +106,7 @@ export class SideNavComponent implements AfterViewInit {
 
             var sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
             var initialSiteName = !! this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
-            if (sitenameIncoming !== initialSiteName && this.userService.inIFrame) {
+            if (sitenameIncoming !== initialSiteName) {
                 this.portalService.sendTimerEvent({
                     timerId: 'TreeViewLoad',
                     timerAction: 'start'
