@@ -29,7 +29,7 @@ export class FunctionEditComponent {
 
     @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
-    public viewInfo: TreeViewInfo;
+    public viewInfo: TreeViewInfo<any>;
     public inIFrame: boolean;
     public editorType: string = "standard";
     public disabled: boolean;
@@ -40,7 +40,7 @@ export class FunctionEditComponent {
     public ManageTab: string;
     public tabId: string = "";
 
-    private _viewInfoStream: Subject<TreeViewInfo>;
+    private _viewInfoStream: Subject<TreeViewInfo<any>>;
 
     private appNode: AppNode;
     private functionApp: FunctionApp;
@@ -57,7 +57,7 @@ export class FunctionEditComponent {
         this.MonitorTab = _translateService.instant("tabNames_monitor");
         this.ManageTab = _translateService.instant("tabNames_manage");
 
-        this._viewInfoStream = new Subject<TreeViewInfo>();
+        this._viewInfoStream = new Subject<TreeViewInfo<any>>();
         this._viewInfoStream
             .subscribe(viewInfo => {
                 this.viewInfo = viewInfo;
@@ -74,7 +74,7 @@ export class FunctionEditComponent {
             });
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfo);
     }
 

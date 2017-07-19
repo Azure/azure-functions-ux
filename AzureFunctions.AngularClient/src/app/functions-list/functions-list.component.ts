@@ -28,7 +28,7 @@ import { ErrorType, ErrorEvent } from "app/shared/models/error-event";
     styleUrls: ['./functions-list.component.scss']
 })
 export class FunctionsListComponent implements OnInit, OnDestroy {
-    public viewInfoStream: Subject<TreeViewInfo>;
+    public viewInfoStream: Subject<TreeViewInfo<any>>;
     public functions: FunctionNode[] = [];
     public isLoading: boolean;
     public functionApp: FunctionApp;
@@ -43,7 +43,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService
     ) {
-        this.viewInfoStream = new Subject<TreeViewInfo>();
+        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
         this._viewInfoSubscription = this.viewInfoStream
             .distinctUntilChanged()
@@ -67,7 +67,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         this._viewInfoSubscription.unsubscribe();
     }
 
-    @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
+    @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this.viewInfoStream.next(viewInfo);
     }
 

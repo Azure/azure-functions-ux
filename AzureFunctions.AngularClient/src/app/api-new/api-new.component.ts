@@ -43,7 +43,7 @@ export class ApiNewComponent implements OnInit {
     public functionsInfo: FunctionInfo[];
     public appNode: AppNode;
     private _proxiesNode: ProxiesNode;
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -102,7 +102,7 @@ export class ApiNewComponent implements OnInit {
             })
     }
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
     }
 

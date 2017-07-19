@@ -30,10 +30,10 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 export class CreateAppComponent implements OnInit {
   public Resources = PortalResources;
   public group: FormGroup;
-  public viewInfoStream: Subject<TreeViewInfo>;
+  public viewInfoStream: Subject<TreeViewInfo<any>>;
   public FwdLinks = Links;
 
-  private _viewInfo: TreeViewInfo;
+  private _viewInfo: TreeViewInfo<any>;
   private _subscriptionId: string;
 
   constructor(
@@ -68,7 +68,7 @@ export class CreateAppComponent implements OnInit {
         });
       });
 
-    this.viewInfoStream = new Subject<TreeViewInfo>();
+    this.viewInfoStream = new Subject<TreeViewInfo<any>>();
     this.viewInfoStream
       .subscribe(viewInfo => {
         this._viewInfo = viewInfo;
@@ -76,7 +76,7 @@ export class CreateAppComponent implements OnInit {
 
   }
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
     this.viewInfoStream.next(viewInfo);
   }
 

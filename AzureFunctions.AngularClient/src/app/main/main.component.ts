@@ -30,7 +30,7 @@ import { FunctionInfo } from "app/shared/models/function-info";
 })
 export class MainComponent implements AfterViewInit {
     public resourceId: string;
-    public viewInfo: TreeViewInfo;
+    public viewInfo: TreeViewInfo<any>;
     public dashboardType: string;
     public inIFrame: boolean;
     public inTab: boolean;
@@ -126,7 +126,7 @@ export class MainComponent implements AfterViewInit {
             })
     }
 
-    updateViewInfo(viewInfo: TreeViewInfo) {
+    updateViewInfo(viewInfo: TreeViewInfo<any>) {
         if (!viewInfo) {
             this.viewInfo = viewInfo;
             return;

@@ -64,7 +64,7 @@ export class FunctionNewComponent {
     ];
     private _action: Action;
 
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     public appNode: AppNode;
 
     constructor(
@@ -104,7 +104,7 @@ export class FunctionNewComponent {
         })
     }
 
-    set viewInfoInput(viewInfoInput : TreeViewInfo){
+    set viewInfoInput(viewInfoInput : TreeViewInfo<any>){
         this._viewInfoStream.next(viewInfoInput);
     }
 
