@@ -40,7 +40,6 @@ import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SlotsService } from './../shared/services/slots.service';
-
 @Component({
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
@@ -77,7 +76,7 @@ export class SideNavComponent implements AfterViewInit {
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-    private _currentResourceId = null;
+
     set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
             this._tryFunctionAppStream.next(functionApp);
@@ -105,13 +104,15 @@ export class SideNavComponent implements AfterViewInit {
 
         userService.getStartupInfo().subscribe(info => {
 
-            if (this._currentResourceId !== info.resourceId) {
-                this._currentResourceId = info.resourceId;
+            var sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
+            var initialSiteName = !! this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
+            if (sitenameIncoming !== initialSiteName && this.userService.inIFrame) {
                 this.portalService.sendTimerEvent({
                     timerId: 'TreeViewLoad',
                     timerAction: 'start'
                 });
             }
+
             // This is a workaround for the fact that Ibiza sends us an updated info whenever
             // child blades close.  If we get a new info object, then we'll rebuild the tree.
             // The true fix would be to make sure that we never set the resourceId of the hosting
