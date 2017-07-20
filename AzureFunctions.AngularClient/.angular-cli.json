@@ -10,8 +10,8 @@
       "assets": [
         "assets",
         "images",
-        "sass/main.scss",
-        "../node_modules/swagger-editor"
+        "../node_modules/swagger-editor",
+        "sass/main.scss"  // Keep this at the bottom to ensure nothing overrides our own global styles
       ],
       "index": "index.html",
       "main": "main.ts",
