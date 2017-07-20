@@ -10,6 +10,14 @@
     &.dirty{
         border: 1px solid $alt1-color;
     }
+
+    &.disabled{
+        background: $background-color-disabled;
+
+        .drop-down-selected-value {
+            color: #f2f2f2;
+        }
+    }
 }
 
 .drop-down-select {
