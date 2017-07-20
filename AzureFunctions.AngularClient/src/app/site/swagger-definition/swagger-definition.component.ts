@@ -32,7 +32,7 @@ import { ErrorIds } from '../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
 import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AppNode } from './../../tree-view/app-node';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Site } from './../../shared/models/arm/site';
@@ -61,9 +61,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private swaggerDocument: any;
 
 
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     private _viewInfoSub: RxSubscription;
-    private _viewInfo: TreeViewInfo;
+    private _viewInfo: TreeViewInfo<SiteData>;
     private _appNode: AppNode;
     private _busyState: BusyStateComponent;
 
@@ -117,8 +117,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             })
             .subscribe(swaggerEnabled => {
                 this._busyState.clearBusyState();
-                let traceKey = this._viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace("/site/function-definition-tab-ready", traceKey);
+
+                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+                this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
 
         this.swaggerStatusOptions = [
@@ -147,7 +148,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             });
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
 

@@ -50,8 +50,8 @@ export class SlotNewComponent implements OnInit {
     public isLoading: boolean = true;
 
     private _slotsNode: SlotsNode;
-    private _viewInfoStream = new Subject<TreeViewInfo>();
-    private _viewInfo: TreeViewInfo;
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+    private _viewInfo: TreeViewInfo<any>;
     private _siteId: string;
     private _appSettings: any;
     private _slotsList: ArmObj<Site>[];
@@ -124,7 +124,7 @@ export class SlotNewComponent implements OnInit {
             })
     }
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
     }
 

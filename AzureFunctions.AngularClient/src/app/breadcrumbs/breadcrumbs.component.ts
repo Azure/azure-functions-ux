@@ -13,7 +13,7 @@ export class BreadcrumbsComponent {
 
     constructor() { }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         let pathNames = viewInfo.node.getTreePathNames();
         let path = "";
 

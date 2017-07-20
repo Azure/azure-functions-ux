@@ -38,7 +38,7 @@ export class ApiDetailsComponent implements OnInit {
     private selectedNode: ProxyNode;
     private proxiesNode: ProxiesNode;
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo) {
+    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._globalStateService.setBusyState();
         this.selectedNode = <ProxyNode>viewInfoInput.node;
         this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);

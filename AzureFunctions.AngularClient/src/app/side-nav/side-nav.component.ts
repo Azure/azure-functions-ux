@@ -47,7 +47,7 @@ import { SlotsService } from './../shared/services/slots.service';
     inputs: ['tryFunctionAppInput']
 })
 export class SideNavComponent implements AfterViewInit {
-    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
+    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo<any>>;
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
 
@@ -97,7 +97,7 @@ export class SideNavComponent implements AfterViewInit {
         public authZService: AuthzService,
         public slotsService: SlotsService) {
 
-        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
+        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo<any>>();
 
         userService.getStartupInfo().subscribe(info => {
 
@@ -245,7 +245,7 @@ export class SideNavComponent implements AfterViewInit {
         this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;
 
-        const viewInfo = <TreeViewInfo>{
+        const viewInfo = <TreeViewInfo<any>>{
             resourceId: newSelectedNode.resourceId,
             dashboardType: newDashboardType,
             node: newSelectedNode,

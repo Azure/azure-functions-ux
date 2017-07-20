@@ -34,7 +34,7 @@ export class FunctionManageComponent {
     public isStandalone: boolean;
     public isHttpFunction: boolean = false;
 
-    private _viewInfoStream: Subject<TreeViewInfo>;
+    private _viewInfoStream: Subject<TreeViewInfo<any>>;
     private _functionNode: FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
 
@@ -46,7 +46,7 @@ export class FunctionManageComponent {
 
         this.isStandalone = configService.isStandalone();
 
-        this._viewInfoStream = new Subject<TreeViewInfo>();
+        this._viewInfoStream = new Subject<TreeViewInfo<any>>();
         this._viewInfoStream
             .retry()
             .subscribe(viewInfo => {
@@ -84,7 +84,7 @@ export class FunctionManageComponent {
             });
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfo);
     }
 

@@ -15,7 +15,7 @@ import { TreeViewInfo } from './../tree-view/models/tree-view-info';
   styleUrls: ['./apps-list.component.scss'],
 })
 export class AppsListComponent implements OnInit, OnDestroy {
-  public viewInfoStream: Subject<TreeViewInfo>;
+  public viewInfoStream: Subject<TreeViewInfo<any>>;
   public apps: AppNode[] = [];
   public appsNode: AppsNode;
   public Resources = PortalResources;
@@ -25,7 +25,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   private _viewInfoSubscription: RxSubscription;
 
   constructor() {
-    this.viewInfoStream = new Subject<TreeViewInfo>();
+    this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
@@ -47,7 +47,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this._viewInfoSubscription.unsubscribe();
   }
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
     this.viewInfoStream.next(viewInfo);
   }
 
