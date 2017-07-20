@@ -15,7 +15,6 @@ export interface TblItem {
   <table
     #tbl
     [class]='tblClass'
-    tabindex='0'
     (focus)='onFocus($event)'
     (click)='onClick($event)'
     (keydown)="onKeyPress($event)"
@@ -51,18 +50,20 @@ export class TblComponent implements OnInit, OnChanges {
     if (items) {
       this.items = items.currentValue;
       this._origItems = items.currentValue;
+
+      (<HTMLTableElement>this.table.nativeElement).tabIndex = 0;
     }
   }
 
-  // Gets called if a user either "tabs" over to a table, or clicks somewhere
-  // within the table.
+  // A table should only get focus on the first time someone has tabbed over
+  // to the table, or if the table has updated by receiving a new "items" property.
+  // After that, each individual cell will get its own focus, but the parent
+  // tbl component will continue to get the keypress and mouse click events thrown.
   onFocus(event: FocusEvent) {
 
-    // If the table hasn't received focus yet
-    if (this._focusedRowIndex === -1 && this._focusedCellIndex === -1) {
-      this._focusedRowIndex = 0;
-      this._focusedCellIndex = 0;
-    }
+    (<HTMLTableElement>this.table.nativeElement).tabIndex = -1;
+    this._focusedRowIndex = 0;
+    this._focusedCellIndex = 0;
 
     const rows = this._getRows();
     const cell = this._getCurrentCellOrReset(rows);
