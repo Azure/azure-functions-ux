@@ -249,9 +249,4 @@ export class PortalService {
     public static inIFrame(): boolean {
         return window.parent !== window && window.location.pathname !== '/context.html';
     }
-
-    public static MSGraphFeature(): boolean {
-        let shellUrl = decodeURI(window.location.href);
-        return Url.getParameterByName(shellUrl, "feature") === "MSGraph";
-    }
 }

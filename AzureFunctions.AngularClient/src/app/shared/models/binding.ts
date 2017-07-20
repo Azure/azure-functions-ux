@@ -130,7 +130,7 @@ export class SettingType {
     public static int = "int";
     public static picker = "picker";
     public static checkBoxList = "checkBoxList";
-    public static token = "token";
+    public static appSetting = "appSetting";
 }
 
 export interface UIFunctionConfig {

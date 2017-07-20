@@ -7,16 +7,6 @@ export enum ODataTypeMapping {
     Event = <any>"#Microsoft.Graph.Event"
 }
 
-export enum MSGraphInputTypes {
-    excel = <any>"excel",
-    token = <any>"token",
-    outlook = <any>"outlook",
-    onedrive = <any>"onedrive",
-    GraphWebhook = <any>"GraphWebhook",
-    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
-    GraphWebhookCreator = <any>"GraphWebhookCreator"
-}
-
 export class Moniker {
     public Resource: string;
     public IdToken: string;

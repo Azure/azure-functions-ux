@@ -9,7 +9,7 @@ import 'rxjs/add/observable/zip';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
-import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, TokenInput } from '../shared/models/binding-input';
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, AppSettingInput } from '../shared/models/binding-input';
 import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
 import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
 import { BindingManager } from '../shared/models/binding-manager';
@@ -23,7 +23,7 @@ import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { Constants } from "app/shared/models/constants";
+import { Constants } from '../shared/models/constants';
 import { MobileAppsClient } from "../shared/models/mobile-apps-client";
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { Url } from '../shared/Utilities/url';
@@ -289,7 +289,7 @@ export class BindingComponent {
                             checkBoxInput.clear();
                             checkBoxInput.enum = v.shownCheckboxOptions.values; 
                             checkBoxInput.enum.forEach(e => {
-                                if (oldVals.includes(e.value)) {
+                                if (e.value in oldVals) {
                                     checkBoxInput.value[e.value] = true;
                                 }
                             });
@@ -495,19 +495,19 @@ export class BindingComponent {
                             chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                             this.model.inputs.push(chInput);
                             break;
-                        case SettingType.token:
-                            let tokenInput = new TokenInput();
-                            tokenInput.resource = setting.resource;
-                            tokenInput.items = this._getResourceAppSettings(setting.resource);
-                            tokenInput.id = setting.name;
-                            tokenInput.isHidden = setting.isHidden || isHidden;;
-                            tokenInput.label = this.replaceVariables(setting.label, bindings.variables);
-                            tokenInput.required = setting.required;
-                            tokenInput.value = settingValue;
-                            tokenInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            tokenInput.validators = setting.validators;
-                            tokenInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || tokenInput.label;
-                            this.model.inputs.push(tokenInput);
+                        case SettingType.appSetting:
+                            let appSettingInput = new AppSettingInput();
+                            appSettingInput.resource = setting.resource;
+                            appSettingInput.items = this._getResourceAppSettings(setting.resource);
+                            appSettingInput.id = setting.name;
+                            appSettingInput.isHidden = setting.isHidden || isHidden;;
+                            appSettingInput.label = this.replaceVariables(setting.label, bindings.variables);
+                            appSettingInput.required = setting.required;
+                            appSettingInput.value = settingValue;
+                            appSettingInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                            appSettingInput.validators = setting.validators;
+                            appSettingInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || appSettingInput.label;
+                            this.model.inputs.push(appSettingInput);
                             break;
                     }
                     order++;
@@ -608,7 +608,7 @@ export class BindingComponent {
 
             // Handle prepending and appending % in case of principal ID for MS Graph tokens
             // Users can either input an app setting or an expression to be evaluated
-            if (input instanceof TokenInput && input.resource == ResourceType.MSGraph) {
+            if (input instanceof AppSettingInput && input.resource == ResourceType.MSGraph) {
 
                 var val;
                 if (typeof input.value == "undefined" || input.value.startsWith("{") || input.value.startsWith("%") || input.value == "") {

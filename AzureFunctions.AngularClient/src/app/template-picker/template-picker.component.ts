@@ -13,7 +13,6 @@ import {BroadcastEvent} from '../shared/models/broadcast-event'
 import {DropDownElement} from '../shared/models/drop-down-element';
 import {PortalResources} from '../shared/models/portal-resources';
 import { Order } from '../shared/models/constants';
-import { MSGraphInputTypes } from '../shared/models/microsoft-graph';
 import { PortalService } from '../shared/services/portal.service';
 
 interface CategoryOrder {
@@ -46,7 +45,6 @@ export class TemplatePickerComponent {
     private _orderedCategoties: CategoryOrder[] = [];
     private _functionAppStream = new Subject<FunctionApp>();
     private _functionApp : FunctionApp;
-    private _MSGraphFeature: boolean = PortalService.MSGraphFeature();
 
     set template(value: string) {
         if (value) {
@@ -151,10 +149,6 @@ export class TemplatePickerComponent {
                             }
 
                             if (!this.getFilterMatach(template.metadata.filters)) {
-                                return;
-                            }
-
-                            if (template.metadata.category.includes("MSGraph") && !this._MSGraphFeature) {
                                 return;
                             }
 
@@ -298,16 +292,14 @@ export class TemplatePickerComponent {
     private getBindingTemplates(direction: DirectionType): Template[] {
         var result: Template[] = [];
         var filtered = this.bindings.filter((b) => {
-            if (!this._MSGraphFeature && b.type in MSGraphInputTypes) {
-                return false;
-            }
             return b.direction === direction;
         });
 
         filtered.forEach((binding) => {
 
             if (this.getFilterMatach(binding.filters)) {
-
+                // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
+                // binding has attribute "filters": ["MSGraph"]
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),

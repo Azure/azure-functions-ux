@@ -1,7 +1,7 @@
 ﻿import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild} from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PopoverContent } from "ng2-popover";
-import { BindingInputBase, TokenInput, TextboxInput } from '../shared/models/binding-input';
+import { BindingInputBase, TextboxInput } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { PickerInput } from '../shared/models/binding-input';
