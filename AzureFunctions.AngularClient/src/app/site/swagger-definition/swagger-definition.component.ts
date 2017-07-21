@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -44,6 +44,7 @@ import { Site } from './../../shared/models/arm/site';
     inputs: ['viewInfoInput']
 })
 export class SwaggerDefinitionComponent implements OnDestroy {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public isFullscreen: boolean;
     public keyVisible: boolean;
     public documentationVisible: boolean;
@@ -106,19 +107,35 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 }
 
                 if (this.swaggerEnabled) {
-                    return this.restoreSwaggerArtifacts();
+                    return this.restoreSwaggerSecrets();
                 } else {
                     this.swaggerEnabled = false;
-                    return Observable.of(this.swaggerEnabled);
+                    return Observable.of("");
+                }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of("");
+            })
+            .mergeMap(key => {
+                // global busy state
+                this._busyState.clearBusyState();
+                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+
+                // busy state for Editor Section
+                this.setBusyState();
+
+                if (!key) {
+                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    this.assignDocumentToEditor(placeHolderText);
+                    return Observable.of(false);
+                } else {
+                    return this.loadLatestSwaggerDocumentInEditor(key);
                 }
             }).do(null, e => {
                 this.swaggerEnabled = false;
                 return Observable.of(this.swaggerEnabled);
-            })
-            .subscribe(swaggerEnabled => {
-                this._busyState.clearBusyState();
-
-                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+            }).subscribe(swaggerEnabled => {
+                this.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
 
@@ -142,10 +159,22 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     this.swaggerEnabled = swaggerEnabled;
                     this.setSwaggerEndpointState(swaggerEnabled)
                         .subscribe((result) => {
-                            this._busyState.clearBusyState();
+                            this.clearBusyState();
                         })
                 }
             });
+    }
+
+    setBusyState() {
+        if (this.busyState) {
+            this.busyState.setBusyState();
+        }
+    }
+
+    clearBusyState() {
+        if (this.busyState) {
+            this.busyState.clearBusyState();
+        }
     }
 
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -188,9 +217,29 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     return Observable.of(true);
                 } else {
                     this._aiService.trackEvent(`/actions/swagger_definition/enable_swagger_endpoint`);
-                    return this.restoreSwaggerArtifacts();
+                    return this.restoreSwaggerSecrets();
                 }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of("");
             })
+            .mergeMap(key => {
+                // global busy state
+                this._busyState.clearBusyState();
+                
+                // busy state for Editor Section
+                this.setBusyState();
+                if (!key) {
+                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    this.assignDocumentToEditor(placeHolderText);
+                    return Observable.of(false);
+                } else {
+                    return this.loadLatestSwaggerDocumentInEditor(key);
+                }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of(this.swaggerEnabled);
+            });
     }
 
     public onSwaggerEditorReady(swaggerEditor: SwaggerEditor): void {
@@ -364,7 +413,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .map(key => { return key.value; });
     }
 
-    private restoreSwaggerArtifacts() {
+    private restoreSwaggerSecrets() {
         return this.getSwaggerSecret()
             .mergeMap(key => {
                 if (!key) {
@@ -376,14 +425,16 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.swaggerEnabled = false;
                 return Observable.of("");
             }).mergeMap(key => {
-                if (!key) {
-                    // will be passed to swagger doc
-                    return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
+                if (key) {
+                    this.swaggerKey = key;
                 }
-                this.swaggerKey = key;
-                this.swaggerURL = this.getUpdatedSwaggerURL(key);
-                return this.functionApp.getSwaggerDocument(key);
-            })
+                return Observable.of(key);
+            });
+    }
+
+    private loadLatestSwaggerDocumentInEditor(key) {
+        this.swaggerURL = this.getUpdatedSwaggerURL(key);
+        return this.functionApp.getSwaggerDocument(key)
             .retry(1)
             .catch(error => {
                 // get document fails
@@ -400,3 +451,5 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             });
     }
 }
+
+

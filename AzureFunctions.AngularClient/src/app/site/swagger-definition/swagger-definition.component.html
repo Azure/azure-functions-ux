@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper">    
     <div>
         <div class="section-left full-height" [class.collapse]="isFullscreen">
             <div>
@@ -98,6 +98,7 @@
                 </div>
             </div>
             <div class="editor">
+                <busy-state></busy-state>
                 <swagger-frame (onSwaggerEditorReady)="onSwaggerEditorReady($event)"></swagger-frame>
             </div>
         </div>
