@@ -10,8 +10,8 @@
       "assets": [
         "assets",
         "images",
-        "sass/main.scss",
-        "../node_modules/swagger-editor"
+        "../node_modules/swagger-editor",
+        "sass/main.scss"
       ],
       "index": "index.html",
       "main": "main.ts",
