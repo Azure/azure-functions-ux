@@ -89,6 +89,7 @@ ul {
 }
 
 .wrapper {
+    min-width: 1030px;
     display: flex;
     flex-direction: column;
 }
@@ -171,7 +172,8 @@ ul {
     margin-right: 15px;
 }
 
-.topbar {
+.topbar {    
+    min-width: 742px;
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
