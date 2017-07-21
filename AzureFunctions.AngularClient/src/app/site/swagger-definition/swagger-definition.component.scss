@@ -15,21 +15,6 @@ ul {
     padding-left: 0px;
 }
 
-.icon {
-    background-repeat: no-repeat;
-    background-position: 4px center;
-    background-size: 14px;
-    padding-left: 22px;
-}
-
-.expand-icon {
-    background-image: url(/images/icon-expand.svg);
-}
-
-.collapse-icon {
-    background-image: url(/images/icon-collapse.svg);
-}
-
 .column {
     flex-direction: column;
 }
