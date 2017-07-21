@@ -1,7 +1,8 @@
 import { ConfigService } from './../shared/services/config.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
@@ -27,7 +28,7 @@ import { BindingManager } from '../shared/models/binding-manager';
     styleUrls: ['./function-manage.component.css'],
     inputs: ['viewInfoInput']
 })
-export class FunctionManageComponent {
+export class FunctionManageComponent implements OnDestroy {
     public functionStatusOptions: SelectOption<boolean>[];
     public functionInfo: FunctionInfo;
     public functionApp: FunctionApp;
@@ -37,6 +38,7 @@ export class FunctionManageComponent {
     private _viewInfoStream: Subject<TreeViewInfo<any>>;
     private _functionNode: FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
+    private _functionStateValueSubscription: RxSubscription;
 
     constructor(private _broadcastService: BroadcastService,
         private _portalService: PortalService,
@@ -54,6 +56,7 @@ export class FunctionManageComponent {
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+                this._setupFunctionStateValueSubscription();
             });
 
         this.functionStatusOptions = [
@@ -66,22 +69,27 @@ export class FunctionManageComponent {
             }];
 
         this.functionStateValueChange = new Subject<boolean>();
-        this.functionStateValueChange
-            .switchMap(state => {
-                const originalState = this.functionInfo.config.disabled;
-                this._globalStateService.setBusyState();
-                this.functionInfo.config.disabled = state;
-                return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
-            })
-            .do(null, originalState => {
-                this.functionInfo.config.disabled = originalState;
-                this._globalStateService.clearBusyState();
-            })
-            .retry()
-            .subscribe((fi: FunctionInfo) => {
-                this._globalStateService.clearBusyState();
-                this.functionInfo.config.disabled = fi.config.disabled;
-            });
+    }
+
+    private _setupFunctionStateValueSubscription() {
+        if (!this._functionStateValueSubscription) {
+            this._functionStateValueSubscription = this.functionStateValueChange
+                .switchMap(state => {
+                    const originalState = this.functionInfo.config.disabled;
+                    this._globalStateService.setBusyState();
+                    this.functionInfo.config.disabled = state;
+                    return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
+                })
+                .do(null, originalState => {
+                    this.functionInfo.config.disabled = originalState;
+                    this._globalStateService.clearBusyState();
+                })
+                .retry()
+                .subscribe((fi: FunctionInfo) => {
+                    this._globalStateService.clearBusyState();
+                    this.functionInfo.config.disabled = fi.config.disabled;
+                });
+        }
     }
 
     set viewInfoInput(viewInfo: TreeViewInfo<any>) {
@@ -102,5 +110,9 @@ export class FunctionManageComponent {
                     this._globalStateService.clearBusyState();
                 });
         }
+    }
+
+    ngOnDestroy() {
+        if (this._functionStateValueSubscription) { this._functionStateValueSubscription.unsubscribe(); this._functionStateValueSubscription = null; }
     }
 }

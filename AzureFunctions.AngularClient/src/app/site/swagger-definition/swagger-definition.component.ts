@@ -55,6 +55,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
 
     public swaggerStatusOptions: SelectOption<boolean>[];
     public valueChange: Subject<boolean>;
+    private valueSubscription: RxSubscription;
     public swaggerKey: string;
     public swaggerURL: string;
 
@@ -137,6 +138,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }).subscribe(swaggerEnabled => {
                 this.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
+
+                this._setupValueSubscription();
             });
 
         this.swaggerStatusOptions = [
@@ -150,7 +153,11 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }];
 
         this.valueChange = new Subject<boolean>();
-        this.valueChange
+    }
+
+    private _setupValueSubscription() {
+        if (!this.valueSubscription) {
+            this.valueSubscription = this.valueChange
             .subscribe((swaggerEnabled: boolean) => {
                 this._busyState.setBusyState();
                 if (this.swaggerEnabled == swaggerEnabled) {
@@ -163,6 +170,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                         })
                 }
             });
+        }
     }
 
     setBusyState() {
@@ -185,6 +193,11 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         if (this._viewInfoSub) {
             this._viewInfoSub.unsubscribe();
             this._viewInfoSub = null;
+        }
+
+        if (this.valueSubscription) {
+            this.valueSubscription.unsubscribe();
+            this.valueSubscription = null;
         }
 
         this._busyState.clearBusyState();

@@ -61,7 +61,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public latestRoutingExtensionVersion: string;
   public apiProxiesEnabled: boolean;
   private proxySettingValueStream: Subject<boolean>;
+  private proxySettingValueSubscription: RxSubscription;
   private functionEditModeValueStream: Subject<boolean>;
+  private functionEditModeValueSubscription: RxSubscription;
   public showTryView: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
@@ -77,6 +79,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
   private slotsValueChange: Subject<boolean>;
+  private slotsValueSubscription: RxSubscription;
   private _numSlots: number = 0;
   private _busyState: BusyStateComponent;
 
@@ -183,6 +186,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
         } else {
           this.slotsEnabled = r.slotsList.length > 0 || this.slotsAppSetting === Constants.slotsSecretStorageSettingsValue;
         }
+
+        this._setupProxySettingValueSubscription();
+        this._setupFunctionEditModeValueSubscription();
+        this._setupSlotsValueSubscription();
       });
 
     this.functionStatusOptions = [
@@ -213,82 +220,98 @@ export class FunctionRuntimeComponent implements OnDestroy {
       }];
 
     this.proxySettingValueStream = new Subject<boolean>();
-    this.proxySettingValueStream
-      .subscribe((value: boolean) => {
-        this._busyState.setBusyState();
-        let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
-
-        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .mergeMap(r => {
-            return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
-          })
-          .subscribe(r => {
-            this.functionApp.fireSyncTrigger();
-            this.apiProxiesEnabled = value;
-            this.needUpdateRoutingExtensionVersion = false;
-            this.routingExtensionVersion = Constants.routingExtensionVersion;
-            this._busyState.clearBusyState();
-            this._cacheService.clearArmIdCachePrefix(this.site.id);
-          });
-      });
 
     this.functionEditModeValueStream = new Subject<boolean>();
-    this.functionEditModeValueStream
-      .switchMap(state => {
-        let originalState = this.functionAppEditMode;
-        this._busyState.setBusyState();
-        this.functionAppEditMode = state;
-        let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
-        return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .mergeMap(r => {
-            let response: ArmObj<any> = r.json();
-            response.properties[Constants.functionAppEditModeSettingName] = appSetting;
-            return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
-          })
-          .catch(e => { throw originalState; });
-      })
-      .do(null, originalState => {
-        this.functionAppEditMode = originalState;
-        this._busyState.clearBusyState();
-        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-          message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
-          errorType: ErrorType.ApiError,
-          errorId: ErrorIds.unableToUpdateFunctionAppEditMode,
-          resourceId: this.functionApp.site.id
-        });
-      })
-      .retry()
-      // This is needed to update the editMode value for other subscribers
-      // getFunctionAppEditMode returns a subject and updates it on demand.
-      .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
-      .subscribe(fi => {
-
-        this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
-        this._viewInfo.data.siteTabFullReadyTraceKey);
-
-        this._busyState.clearBusyState();
-      });
 
     this.slotsValueChange = new Subject<boolean>();
-    this.slotsValueChange.subscribe((value: boolean) => {
-      this._busyState.setBusyState();
-      let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
-      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .mergeMap(r => {
-          return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
+  }
+
+  private _setupProxySettingValueSubscription() {
+    if (!this.proxySettingValueSubscription) {
+      this.proxySettingValueSubscription = this.proxySettingValueStream
+        .subscribe((value: boolean) => {
+          this._busyState.setBusyState();
+          let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+
+          this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+            .mergeMap(r => {
+              return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
+            })
+            .subscribe(r => {
+              this.functionApp.fireSyncTrigger();
+              this.apiProxiesEnabled = value;
+              this.needUpdateRoutingExtensionVersion = false;
+              this.routingExtensionVersion = Constants.routingExtensionVersion;
+              this._busyState.clearBusyState();
+              this._cacheService.clearArmIdCachePrefix(this.site.id);
+            });
+        });
+    }
+  }
+
+  private _setupFunctionEditModeValueSubscription() {
+    if (!this.functionEditModeValueSubscription) {
+      this.functionEditModeValueSubscription = this.functionEditModeValueStream
+        .switchMap(state => {
+          let originalState = this.functionAppEditMode;
+          this._busyState.setBusyState();
+          this.functionAppEditMode = state;
+          let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
+          return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+            .mergeMap(r => {
+              let response: ArmObj<any> = r.json();
+              response.properties[Constants.functionAppEditModeSettingName] = appSetting;
+              return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
+            })
+            .catch(e => { throw originalState; });
         })
-        .do(null, e => {
+        .do(null, originalState => {
+          this.functionAppEditMode = originalState;
           this._busyState.clearBusyState();
-          this._aiService.trackException(e, 'function-runtime')
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
+            errorType: ErrorType.ApiError,
+            errorId: ErrorIds.unableToUpdateFunctionAppEditMode,
+            resourceId: this.functionApp.site.id
+          });
         })
         .retry()
-        .subscribe(r => {
-          this.functionApp.fireSyncTrigger();
-          this.slotsEnabled = value;
+        // This is needed to update the editMode value for other subscribers
+        // getFunctionAppEditMode returns a subject and updates it on demand.
+        .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
+        .subscribe(fi => {
+
+          this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
+            this._viewInfo.data.siteTabFullReadyTraceKey);
+
           this._busyState.clearBusyState();
-          this._cacheService.clearArmIdCachePrefix(this.site.id);
         });
-    });
+    }
+  }
+
+  private _setupSlotsValueSubscription() {
+    if (!this.slotsValueSubscription) {
+      this.slotsValueSubscription = this.slotsValueChange
+        .subscribe((value: boolean) => {
+          this._busyState.setBusyState();
+          let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+          this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+            .mergeMap(r => {
+              return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
+            })
+            .do(null, e => {
+              this._busyState.clearBusyState();
+              this._aiService.trackException(e, 'function-runtime')
+            })
+            .retry()
+            .subscribe(r => {
+              this.functionApp.fireSyncTrigger();
+              this.slotsEnabled = value;
+              this._busyState.clearBusyState();
+              this._cacheService.clearArmIdCachePrefix(this.site.id);
+            });
+        });
+    }
   }
 
   @Input('viewInfoInput') set viewInfoInput(viewInfo: TreeViewInfo<any>) {
@@ -307,6 +330,18 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (this._viewInfoSub) {
       this._viewInfoSub.unsubscribe();
       this._viewInfoSub = null;
+    }
+    if (this.proxySettingValueSubscription) {
+      this.proxySettingValueSubscription.unsubscribe();
+      this.proxySettingValueSubscription = null;
+    }
+    if (this.functionEditModeValueSubscription) {
+      this.functionEditModeValueSubscription.unsubscribe();
+      this.functionEditModeValueSubscription = null;
+    }
+    if (this.slotsValueSubscription) {
+      this.slotsValueSubscription.unsubscribe();
+      this.slotsValueSubscription = null;
     }
   }
 
