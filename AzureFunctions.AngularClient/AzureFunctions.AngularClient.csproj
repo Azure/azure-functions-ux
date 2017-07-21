@@ -178,6 +178,7 @@
     <Content Include="src\app\site\site-config\site-config.component.html" />
     <Content Include="src\app\site\site-config\app-settings\app-settings.component.html" />
     <Content Include="src\app\site\site-config\connection-strings\connection-strings.component.html" />
+    <Content Include="src\app\site\site-config\general-settings\general-settings.component.html" />
     <Content Include="src\app\site\site-config-standalone\site-config.component-standalone.html" />
     <Content Include="src\app\site\site-dashboard\site-dashboard.component.html" />
     <Content Include="src\app\site\site-enabled-features\site-enabled-features.component.html" />
@@ -477,6 +478,7 @@
     <TypeScriptCompile Include="src\app\shared\models\arm\permission.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site-config.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\stacks.ts" />
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
@@ -591,6 +593,11 @@
     <TypeScriptCompile Include="src\app\site\site-config\app-settings\app-settings.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\general-settings.spec.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\general-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\java-webcontainer-properties.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\java-settings-controls.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\general-settings-controls.ts" />
     <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.spec.ts" />
