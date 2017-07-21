@@ -1219,6 +1219,15 @@
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Extensions add functionality to your entire app.</value>
   </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Debugging</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
@@ -1248,6 +1257,87 @@
   </data>
   <data name="configUpdateFailureInvalidInput" xml:space="preserve">
     <value>{{configGroupName}} Save Error: Invlid input provided.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework version</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using the .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP version</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python version</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Python</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java version</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java minor version</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Web container</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>The web container version used to run your web app if using Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>The platform architecture your web app runs</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web sockets</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Always On</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Managed Pipeline Version</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR Affinity</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Remote debugging</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Remote Visual Studio version</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Newest</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32-bit</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64-bit</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Integrated</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>

@@ -10,6 +10,7 @@ import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
+import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 import { PortalService } from './../../shared/services/portal.service';
@@ -43,6 +44,7 @@ export class SiteConfigComponent implements OnDestroy {
     this.viewInfoStream.next(viewInfo);
   }
 
+  @ViewChild(GeneralSettingsComponent) generalSettings: GeneralSettingsComponent;
   @ViewChild(AppSettingsComponent) appSettings: AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
 
@@ -92,6 +94,7 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   save() {
+    this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
 
@@ -100,19 +103,21 @@ export class SiteConfigComponent implements OnDestroy {
     this._portalService.startNotification(
       this._translateService.instant(PortalResources.configUpdating),
       this._translateService.instant(PortalResources.configUpdating))
+      .first()
       .switchMap(s => {
         notificationId = s.id;
         return Observable.zip(
+          this.generalSettings.save(),
           this.appSettings.save(),
           this.connectionStrings.save(),
-          (a, c) => ({ appSettingsResult: a, connectionStringsResult: c })
+          (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
         )
       })
       .subscribe(r => {
         this._busyStateScopeManager.clearBusy();
         this.mainForm = this._fb.group({});
 
-        const saveResults: SaveResult[] = [r.appSettingsResult, r.connectionStringsResult];
+        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
         let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
         let saveSuccess: boolean = saveFailures.length == 0;
         let saveNotification = saveSuccess ?

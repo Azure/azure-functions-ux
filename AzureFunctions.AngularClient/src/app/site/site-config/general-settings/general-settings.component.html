@@ -1,0 +1,212 @@
+<h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
+
+<div class="settings-group-wrapper">
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
+      <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down
+        [control]="!!group ? group.controls['netFrameWorkVersion'] : null"
+        [options]="!!group ? group.controls['netFrameWorkVersion'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'phpVersionLabel' | translate }}
+      <pop-over [message]="('phpVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down
+        [control]="!!group ? group.controls['phpVersion'] : null"
+        [options]="!!group ? group.controls['phpVersion'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'pythonVersionLabel' | translate }}
+      <pop-over [message]="('pythonVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down
+        [control]="!!group ? group.controls['pythonVersion'] : null"
+        [options]="!!group ? group.controls['pythonVersion'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'javaVersionLabel' | translate }}
+      <pop-over [message]="('javaVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down #javaVersionDropDown
+        [control]="!!group ? group.controls['javaVersion'] : null"
+        [options]="!!group ? group.controls['javaVersion'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
+      <pop-over [message]="('javaMinorVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down
+        [control]="!!group ? group.controls['javaMinorVersion'] : null"
+        [options]="!!group ? group.controls['javaMinorVersion'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}
+      <pop-over [message]="('javaWebContainerLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <drop-down
+        [control]="!!group ? group.controls['javaWebContainer'] : null"
+        [options]="!!group ? group.controls['javaWebContainer'].options : []"
+        [highlightDirty]="true">
+      </drop-down>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
+      <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['use32BitWorkerProcess'] : null"
+        [options]="use32BitWorkerProcessOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
+      <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['webSocketsEnabled'] : null"
+        [options]="webSocketsEnabledOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'alwaysOnLabel' | translate }}
+      <pop-over [message]="('alwaysOnLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+      </pop-over>
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['alwaysOn'] : null"
+        [options]="alwaysOnOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'managedPipelineModeLabel' | translate }}
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['managedPipelineMode'] : null"
+        [options]="managedPipelineModeOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper last">
+    <div class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['clientAffinityEnabled'] : null"
+        [options]="clientAffinityEnabledOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div *ngIf="!hasWritePermissions || !group" class="shield">
+    <div *ngIf="hasWritePermissions" class="shield-message">
+      {{loadingStateMessage}}
+    </div>
+    <div *ngIf="!hasWritePermissions" class="shield-message">
+      {{permissionsMessage}}
+    </div>
+  </div>
+
+</div>
+
+<h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
+
+<div class="settings-group-wrapper">
+
+  <div class="setting-wrapper">
+    <div class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}
+    </div>
+    <div class="setting-control-container">
+      <radio-selector #remoteDebuggingRadioButton
+        [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
+        [options]="remoteDebuggingEnabledOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div class="setting-wrapper last">
+    <div class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}
+    </div>
+    <div class="setting-control-container">
+      <radio-selector
+        [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
+        [options]="remoteDebuggingVersionOptions"
+        [highlightDirty]="true">
+      </radio-selector>
+    </div>
+  </div>
+
+  <div *ngIf="!hasWritePermissions || !group" class="shield">
+    <div *ngIf="hasWritePermissions" class="shield-message">
+      {{loadingStateMessage}}
+    </div>
+    <div *ngIf="!hasWritePermissions" class="shield-message">
+      {{permissionsMessage}}
+    </div>
+  </div>
+
+</div>

@@ -1781,6 +1781,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General app settings
+        /// </summary>
+        internal static string feature_generalSettingsName {
+            get {
+                return ResourceManager.GetString("feature_generalSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AutoSwap settings
+        /// </summary>
+        internal static string feature_autoSwapSettingsName {
+            get {
+                return ResourceManager.GetString("feature_autoSwapSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debugging settings
+        /// </summary>
+        internal static string feature_debuggingSettingsName {
+            get {
+                return ResourceManager.GetString("feature_debuggingSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more..
         /// </summary>
         internal static string feature_applicationSettingsInfo {
@@ -1860,13 +1887,256 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configUpdateFailure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {{configGroupName}} Save Error: Invlid input provided.
         /// </summary>
         internal static string configUpdateFailureInvalidInput {
             get {
                 return ResourceManager.GetString("configUpdateFailureInvalidInput", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to .NET Framework version
+        /// </summary>
+        internal static string netFrameWorkVersionLabel {
+            get {
+                return ResourceManager.GetString("netFrameWorkVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using the .NET Framework
+        /// </summary>
+        internal static string netFrameWorkVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("netFrameWorkVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to PHP version
+        /// </summary>
+        internal static string phpVersionLabel {
+            get {
+                return ResourceManager.GetString("phpVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using PHP
+        /// </summary>
+        internal static string phpVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("phpVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Python version
+        /// </summary>
+        internal static string pythonVersionLabel {
+            get {
+                return ResourceManager.GetString("pythonVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using Python
+        /// </summary>
+        internal static string pythonVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("pythonVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java version
+        /// </summary>
+        internal static string javaVersionLabel {
+            get {
+                return ResourceManager.GetString("javaVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using Java
+        /// </summary>
+        internal static string javaVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("javaVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java minor version
+        /// </summary>
+        internal static string javaMinorVersionLabel {
+            get {
+                return ResourceManager.GetString("javaMinorVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.
+        /// </summary>
+        internal static string javaMinorVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("javaMinorVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web container
+        /// </summary>
+        internal static string javaWebContainerLabel {
+            get {
+                return ResourceManager.GetString("javaWebContainerLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The web container version used to run your web app if using Java
+        /// </summary>
+        internal static string javaWebContainerLabelHelp {
+            get {
+                return ResourceManager.GetString("javaWebContainerLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Platform
+        /// </summary>
+        internal static string use32BitWorkerProcessLabel {
+            get {
+                return ResourceManager.GetString("use32BitWorkerProcessLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The platform architecture your web app runs
+        /// </summary>
+        internal static string use32BitWorkerProcessLabelHelp {
+            get {
+                return ResourceManager.GetString("use32BitWorkerProcessLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web sockets
+        /// </summary>
+        internal static string webSocketsEnabledLabel {
+            get {
+                return ResourceManager.GetString("webSocketsEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities.
+        /// </summary>
+        internal static string webSocketsEnabledLabelHelp {
+            get {
+                return ResourceManager.GetString("webSocketsEnabledLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Always On
+        /// </summary>
+        internal static string alwaysOnLabel {
+            get {
+                return ResourceManager.GetString("alwaysOnLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.
+        /// </summary>
+        internal static string alwaysOnLabelHelp {
+            get {
+                return ResourceManager.GetString("alwaysOnLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Managed Pipeline Version
+        /// </summary>
+        internal static string managedPipelineModeLabel {
+            get {
+                return ResourceManager.GetString("managedPipelineModeLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remote debugging
+        /// </summary>
+        internal static string clientAffinityEnabledLabel {
+            get {
+                return ResourceManager.GetString("clientAffinityEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remote Visual Studio version
+        /// </summary>
+        internal static string remoteDebuggingEnabledLabel {
+            get {
+                return ResourceManager.GetString("remoteDebuggingEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web container
+        /// </summary>
+        internal static string remoteDebuggingVersionLabel {
+            get {
+                return ResourceManager.GetString("remoteDebuggingVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Newest
+        /// </summary>
+        internal static string newest {
+            get {
+                return ResourceManager.GetString("newest", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 32-bit
+        /// </summary>
+        internal static string architecture32 {
+            get {
+                return ResourceManager.GetString("architecture32", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 64-bit
+        /// </summary>
+        internal static string architecture64 {
+            get {
+                return ResourceManager.GetString("architecture64", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Classic
+        /// </summary>
+        internal static string pipelineModeClassic {
+            get {
+                return ResourceManager.GetString("pipelineModeClassic", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Integrated
+        /// </summary>
+        internal static string pipelineModeIntegrated {
+            get {
+                return ResourceManager.GetString("pipelineModeIntegrated", resourceCulture);
             }
         }
 
