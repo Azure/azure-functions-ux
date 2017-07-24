@@ -8,7 +8,7 @@ import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@
       <ng-content class="sortable"></ng-content>
       <i class="fa chevron"
           [class.fa-chevron-up]="table.sortedColName === name && table.sortAscending"
-          [class.fa-chevron-down]="(table.sortedColName === name && !table.sortAscending) || !table.sortedColName"></i>
+          [class.fa-chevron-down]="table.sortedColName !== name || (table.sortedColName === name && !table.sortAscending)"></i>
     </div>`
 })
 export class TblThComponent implements OnInit {
