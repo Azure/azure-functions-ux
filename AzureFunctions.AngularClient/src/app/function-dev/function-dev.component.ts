@@ -7,24 +7,24 @@ import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zi
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
-import {HostEventService} from '../shared/services/host-event.service'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { HostEventService } from '../shared/services/host-event.service'
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
-import {LogStreamingComponent} from '../log-streaming/log-streaming.component';
-import {ErrorsWarningsComponent} from '../errors-warnings/errors-warnings.component';
-import {FunctionConfig} from '../shared/models/function-config';
-import {FunctionSecrets} from '../shared/models/function-secrets';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {FunctionApp} from '../shared/function-app'
-import {PortalService} from '../shared/services/portal.service';
-import {BindingType} from '../shared/models/binding';
-import {RunFunctionResult} from '../shared/models/run-function-result';
-import {FileExplorerComponent} from '../file-explorer/file-explorer.component';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
+import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
+import { ErrorsWarningsComponent } from '../errors-warnings/errors-warnings.component';
+import { FunctionConfig } from '../shared/models/function-config';
+import { FunctionSecrets } from '../shared/models/function-secrets';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { FunctionApp } from '../shared/function-app'
+import { PortalService } from '../shared/services/portal.service';
+import { BindingType } from '../shared/models/binding';
+import { RunFunctionResult } from '../shared/models/run-function-result';
+import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
@@ -108,13 +108,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private _isClientCertEnabled = false;
 
     constructor(private _hostEventService: HostEventService,
-                private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService,
-                private _aiService: AiService,
-                private _el: ElementRef,
-                configService : ConfigService) {
+        private _broadcastService: BroadcastService,
+        private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
+        private _aiService: AiService,
+        private _el: ElementRef,
+        configService: ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
@@ -220,15 +220,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
 
             });
-            
-            this.hostEventSubscription = this._hostEventService.Events.retry().subscribe((r : any) => { 
-                if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0))
-                {
-                    if(this.bottomTab !== "errors"){
-                        this.clickBottomTab("errors");
-                    } 
+
+        this.hostEventSubscription = this._hostEventService.Events.retry().subscribe((r: any) => {
+            if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
+                if (this.bottomTab !== "errors") {
+                    this.clickBottomTab("errors");
                 }
-            });
+            }
+        });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
@@ -254,14 +253,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         //functionContainerHeight -= 50;
-        
+
         var rightContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
         var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainerHeight / 3)) : 50;
 
         var editorContainerWidth = functionContainerWidth - rightContainerWidth - 65;
         var editorContainerHeight = functionContainerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
 
-        if (this.expandLogs) { 
+        if (this.expandLogs) {
             editorContainerHeight = 0;
             //editorContainerWidth = 0; 
 
@@ -323,13 +322,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.bottomTab = tab;
         }
 
-         // double resize to fix pre heigth
+        // double resize to fix pre heigth
         this.onResize();
         setTimeout(() => {
             this.onResize();
         }, 0);
     }
-    
+
     clickRightTab(tab: string) {
         this.rightTab = (this.rightTab === tab) ? "" : tab;
         // double resize to fix pre heigth

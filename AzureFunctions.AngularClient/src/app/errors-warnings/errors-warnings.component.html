@@ -3,22 +3,22 @@
     <table id="diagnostics-table" (window:resize)="onResize($event)">
         <thead>
             <tr>
-                <th [ngStyle] = "{'width' : '50px'}" ></th>
-                <th [ngStyle] = "{'width.px' : codeColumnWidth}" >Code</th>
-                <th [ngStyle] = "{'width.px' : msgColumnWidth}" >Description</th>
-                <th [ngStyle] = "{'width.px' : sourceColumnWidth}" >File</th>
-                <th [ngStyle] = "{'width.px' : startLineNumberColumnWidth}" >Line</th>
-                <th [ngStyle] = "{'width.px' : startColumnColumnWidth}" >Column</th>
+                <th [ngStyle] = " { 'width' : '50px'} " ></th>
+                <th [ngStyle] = "{ 'width.px' : codeColumnWidth} " >Code</th>
+                <th [ngStyle] = "{ 'width.px' : msgColumnWidth} " >Description</th>
+                <th [ngStyle] = "{ 'width.px' : sourceColumnWidth} " >File</th>
+                <th [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} " >Line</th>
+                <th [ngStyle] = "{ 'width.px' : startColumnColumnWidth} " >Column</th>
             </tr>
         </thead>
-        <tbody>
-             <tr *ngFor="let feature of diagnostics" (dblclick)="itemClick(feature)">
-                 <td [ngClass]="getSeverityClass(feature.severity)"></td>
-                 <td [ngStyle] = "{'width.px' : codeColumnWidth}" >{{feature.code}}</td>
-                 <td [ngStyle] = "{'width.px' : msgColumnWidth}">{{feature.message}}</td>
-                 <td [ngStyle] = "{'width.px' : sourceColumnWidth}">{{feature.source}}</td>
-                 <td [ngStyle] = "{'width.px' : startLineNumberColumnWidth}">{{feature.startLineNumber}}</td>
-                 <td [ngStyle] = "{'width.px' : startColumnColumnWidth}">{{feature.startColumn}}</td>
+        <tbody [ngStyle] = "{ 'height.px' : tableBodyHeight} " >
+             <tr *ngFor="let feature of diagnostics " (dblclick)="itemClick(feature) ">
+                 <td [ngClass]="getSeverityClass(feature.severity) "></td>
+                 <td [ngStyle] = "{ 'width.px' : codeColumnWidth} " >{{feature.code}}</td>
+                 <td [ngStyle] = "{ 'width.px' : msgColumnWidth} ">{{feature.message}}</td>
+                 <td [ngStyle] = "{ 'width.px' : sourceColumnWidth} ">{{feature.source}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} ">{{feature.startLineNumber}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startColumnColumnWidth} ">{{feature.startColumn}}</td>
              </tr>
         </tbody>
     </table>
