@@ -1,3 +1,5 @@
+import { DropDownElement } from './../shared/models/drop-down-element';
+import { DropDownComponent } from './../drop-down/drop-down.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -22,6 +24,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   public isLoading = true;
 
+  public locationOptions: DropDownElement<string>[] = [];
+
   private _viewInfoSubscription: RxSubscription;
 
   constructor() {
@@ -36,8 +40,14 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
+        this.apps.forEach(app =>
+          this.locationOptions.push ({
+            displayLabel: app.location,
+            value: app.location
+          })
+        );
         this.isLoading = false;
-      });
+    });
   }
 
   ngOnInit() {
