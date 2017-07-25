@@ -14,7 +14,8 @@
  <div id="locations">
   <multi-drop-down
       [inputOptions]="locationOptions"
-      [displayText]="">
+      [displayText]="locationsDisplayText"
+      (selectedValues)="onLocationsSelect($event)">
   </multi-drop-down>
 </div> 
 

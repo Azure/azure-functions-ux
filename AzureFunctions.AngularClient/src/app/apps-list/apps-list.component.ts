@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { DropDownComponent } from './../drop-down/drop-down.component';
 import { PortalResources } from './../shared/models/portal-resources';
@@ -25,10 +26,12 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public isLoading = true;
 
   public locationOptions: DropDownElement<string>[] = [];
+  public locationsDisplayText = "";
+  public selectedLocations: string[] = [];
 
   private _viewInfoSubscription: RxSubscription;
 
-  constructor() {
+  constructor(public translateService: TranslateService) {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     this._viewInfoSubscription = this.viewInfoStream
@@ -65,7 +68,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     item.sideNav.searchExact(item.title);
   }
 
-  contains(array: any[], element: any){
+  contains(array: any[], element: any) {
     for (let elem of array) {
       if (elem === element){
         return true;
@@ -74,7 +77,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  uniqueLocations(apps: AppNode[]){
+  uniqueLocations(apps: AppNode[]) {
     let locations = []
     for(let app of apps) {
       if (!this.contains(locations, app.location)) {
@@ -83,5 +86,23 @@ export class AppsListComponent implements OnInit, OnDestroy {
     }
     return locations.sort();
   }
+
+  onLocationsSelect(locations: string[]) {
+    this.selectedLocations = locations;
+    if (this.selectedLocations.length === this.locationOptions.length) {
+        this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
+    } else if (this.selectedLocations.length > 1) {
+        this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
+    } else {
+        this._updateLocDisplayText(`${locations[0]}`);
+    }
+  }
+
+  private _updateLocDisplayText(displayText: string) {
+    this.locationsDisplayText = "";
+    setTimeout(() => {
+        this.locationsDisplayText = displayText;
+    }, 10);
+    }
 
 }

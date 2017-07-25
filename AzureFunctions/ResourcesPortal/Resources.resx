@@ -1922,4 +1922,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
     <value>Successfully saved function '{0}'</value>
   </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>All locations</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} locations</value>
+  </data>
 </root>
