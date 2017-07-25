@@ -40,10 +40,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.apps.forEach(app =>
+        this.uniqueLocations(this.apps).forEach(location =>
           this.locationOptions.push ({
-            displayLabel: app.location,
-            value: app.location
+            displayLabel: location,
+            value: location
           })
         );
         this.isLoading = false;
@@ -64,4 +64,24 @@ export class AppsListComponent implements OnInit, OnDestroy {
   clickRow(item: AppNode) {
     item.sideNav.searchExact(item.title);
   }
+
+  contains(array: any[], element: any){
+    for (let elem of array) {
+      if (elem === element){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  uniqueLocations(apps: AppNode[]){
+    let locations = []
+    for(let app of apps) {
+      if (!this.contains(locations, app.location)) {
+        locations.push(app.location);
+      }
+    }
+    return locations.sort();
+  }
+
 }
