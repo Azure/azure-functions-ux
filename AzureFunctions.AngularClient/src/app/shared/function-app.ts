@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+﻿import { Subject } from 'rxjs/Subject';
 import { SlotsService } from 'app/shared/services/slots.service';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
@@ -61,6 +61,8 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
+import { EventHubComponent } from '../pickers/event-hub/event-hub.component';
+
 import * as jsonschema from 'jsonschema';
 
 declare var mixpanel: any;
@@ -1862,5 +1864,17 @@ export class FunctionApp {
                         }
                     });
             });
+    }
+
+    // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
+    createApplicationSetting(appSettingName: string, appSettingValue: string): Observable<any> {
+        if (appSettingName && appSettingValue) {
+            return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
+                r => {
+                  var appSettings: ArmObj<any> = r.json();
+                  appSettings.properties[appSettingName] = appSettingValue;
+                  return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+                });
+        }
     }
 }

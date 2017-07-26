@@ -597,6 +597,7 @@ export class PortalResources
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
     public static downloadFunctionAppContent_siteContent: string = "downloadFunctionAppContent_siteContent";
     public static downloadFunctionAppContent_vsProject: string = "downloadFunctionAppContent_vsProject";
+    public static bindingInput_retrieve: string = "bindingInput_retrieve";
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
     public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";

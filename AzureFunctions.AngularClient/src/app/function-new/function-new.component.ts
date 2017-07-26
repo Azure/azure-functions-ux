@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
+﻿import {Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -7,7 +7,7 @@ import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 
 import {BindingComponent} from '../binding/binding.component';
 import {TemplatePickerType} from '../shared/models/template-picker';
-import {UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType} from '../shared/models/binding';
+import {UIFunctionConfig, UIFunctionBinding, DirectionType} from '../shared/models/binding';
 import {BindingList} from '../shared/models/binding-list';
 import {Action} from '../shared/models/binding';
 import {FunctionInfo} from '../shared/models/function-info';
@@ -25,13 +25,18 @@ import {FunctionsNode} from '../tree-view/functions-node';
 import {FunctionApp} from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
+import { Constants } from "app/shared/models/constants";
+import { CacheService } from './../shared/services/cache.service';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ArmService } from './../shared/services/arm.service';
+import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 
 @Component({
-  selector: 'function-new',
-  templateUrl: './function-new.component.html',
-  styleUrls: ['./function-new.component.scss'],
-  outputs: ['functionAdded'],
-  inputs: ['viewInfoInput']
+    selector: 'function-new',
+    templateUrl: './function-new.component.html',
+    styleUrls: ['./function-new.component.scss'],
+    outputs: ['functionAdded'],
+    inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
 
@@ -54,6 +59,7 @@ export class FunctionNewComponent {
     selectedTemplateId: string;
     templateWarning: string;
     addLinkToAuth: boolean = false;
+    action: Action;
     public disabled: boolean;
     private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
@@ -62,7 +68,6 @@ export class FunctionNewComponent {
         "readme.md",
         "metadata.json"
     ];
-    private _action: Action;
 
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     public appNode: AppNode;
@@ -73,35 +78,37 @@ export class FunctionNewComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _cacheService: CacheService,
+        private _armService: ArmService) {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState("function_disabled");
 
         this._viewInfoStream
-        .switchMap(viewInfo =>{
-            this._globalStateService.setBusyState();
-            this.functionsNode = <FunctionsNode>viewInfo.node;
-            this.appNode = <AppNode> viewInfo.node.parent;
-            this.functionApp = this.functionsNode.functionApp;
-            if (this.functionsNode.action) {
-                this._action = Object.create(this.functionsNode.action);
-                delete this.functionsNode.action;
-            }
-            return this.functionApp.getFunctions()
-        })
-        .do(null, e =>{
-            this._aiService.trackException(e, '/errors/function-new');
-            console.error(e);
-        })
-        .retry()
-        .subscribe(fcs =>{
-            this._globalStateService.clearBusyState();
-            this.functionsInfo = fcs;
+            .switchMap(viewInfo => {
+                this._globalStateService.setBusyState();
+                this.functionsNode = <FunctionsNode>viewInfo.node;
+                this.appNode = <AppNode>viewInfo.node.parent;
+                this.functionApp = this.functionsNode.functionApp;
+                if (this.functionsNode.action) {
+                    this.action = Object.create(this.functionsNode.action);
+                    delete this.functionsNode.action;
+                }
+                return this.functionApp.getFunctions()
+            })
+            .do(null, e => {
+                this._aiService.trackException(e, '/errors/function-new');
+                console.error(e);
+            })
+            .retry()
+            .subscribe(fcs => {
+                this._globalStateService.clearBusyState();
+                this.functionsInfo = fcs;
 
-            if (this._action && this.functionsInfo && !this.selectedTemplate) {
-                this.selectedTemplateId = this._action.templateId;
-            }
-        })
+                if (this.action && this.functionsInfo && !this.selectedTemplate) {
+                    this.selectedTemplateId = this.action.templateId;
+                }
+            })
     }
 
     set viewInfoInput(viewInfoInput : TreeViewInfo<any>){
@@ -149,19 +156,19 @@ export class FunctionNewComponent {
                     this.validate();
 
                     var that = this;
-                    if (this._action) {
+                    if (this.action) {
 
                         var binding = this.model.config.bindings.find((b) => {
-                            return b.type.toString() === this._action.binding;
+                            return b.type.toString() === this.action.binding;
                         });
 
                         if (binding) {
-                            this._action.settings.forEach((s, index) => {
+                            this.action.settings.forEach((s, index) => {
                                 var setting = binding.settings.find(bs => {
                                     return bs.name === s;
                                 });
                                 if (setting) {
-                                    setting.value = this._action.settingValues[index];
+                                    setting.value = this.action.settingValues[index];
                                 }
                             });
                         }
@@ -231,7 +238,7 @@ export class FunctionNewComponent {
         );
     }
 
-    private validate() {
+    validate() {
         //^[a-z][a-z0-9_\-]{0,127}$(?<!^host$) C# expression
         // Lookbehind is not supported in JS
         this.areInputsValid = true;
@@ -278,7 +285,12 @@ export class FunctionNewComponent {
                 // If someone refreshed the app, it would created a new set of child nodes under the app node.
                 this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
-                this._globalStateService.clearBusyState();
+
+                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
+                    let helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+                    helper.function = this;
+                    helper.createO365WebhookSupportFunction(this._globalStateService);
+                }
             },
             e => {
                 this._globalStateService.clearBusyState();

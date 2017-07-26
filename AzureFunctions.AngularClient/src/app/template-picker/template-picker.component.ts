@@ -1,18 +1,19 @@
-import { Component, Output, Input, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
+﻿import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { TemplatePickerType, Template } from '../shared/models/template-picker';
-import { DirectionType, Binding } from '../shared/models/binding';
-import { BindingManager } from '../shared/models/binding-manager';
-import { FunctionApp } from '../shared/function-app';
-import { LanguageType, TemplateFilterItem, FunctionTemplate } from '../shared/models/template';
-import { GlobalStateService } from '../shared/services/global-state.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { DropDownElement } from '../shared/models/drop-down-element';
-import { PortalResources } from '../shared/models/portal-resources';
+import {DirectionType, Binding} from '../shared/models/binding';
+import {BindingManager} from '../shared/models/binding-manager';
+import {FunctionApp} from '../shared/function-app';
+import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/models/template';
+import {GlobalStateService} from '../shared/services/global-state.service';
+import {BroadcastEvent} from '../shared/models/broadcast-event'
+import {DropDownElement} from '../shared/models/drop-down-element';
+import {PortalResources} from '../shared/models/portal-resources';
 import { Order } from '../shared/models/constants';
+import { PortalService } from '../shared/services/portal.service';
 
 interface CategoryOrder {
     name: string;
@@ -43,7 +44,7 @@ export class TemplatePickerComponent {
     private _initialized = false;
     private _orderedCategoties: CategoryOrder[] = [];
     private _functionAppStream = new Subject<FunctionApp>();
-    private _functionApp: FunctionApp;
+    private _functionApp : FunctionApp;
 
     set template(value: string) {
         if (value) {
@@ -297,7 +298,8 @@ export class TemplatePickerComponent {
         filtered.forEach((binding) => {
 
             if (this.getFilterMatach(binding.filters)) {
-
+                // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
+                // binding has attribute "filters": ["MSGraph"]
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
