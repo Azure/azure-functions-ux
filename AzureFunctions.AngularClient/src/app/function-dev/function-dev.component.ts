@@ -524,7 +524,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     contentChanged(content: string) {
 
-
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
             this._broadcastService.setDirtyState('function');

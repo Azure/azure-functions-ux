@@ -13,5 +13,6 @@ export enum BroadcastEvent {
     ResetKeySelection,
     RefreshPortal,
     ClearError,
-    FileSelectionRequest 
+    FileSelectionRequest,
+    ErrorsWarningsBusyState
 }

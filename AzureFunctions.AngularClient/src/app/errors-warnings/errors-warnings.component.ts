@@ -43,7 +43,6 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     @Input() functionInfo: FunctionInfo;
     @Input() monacoEditor: MonacoEditorDirective;
     @Input() fileExplorer: FileExplorerComponent;
-    @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
     @Output() diagnosticDblClicked = new EventEmitter<any>();
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
@@ -82,7 +81,6 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit(): void {
         this.monacoEditor.onSave.subscribe(() => {
-            this.diagnostics = []
             this.monacoEditor.setDiagnostics(this.diagnostics);
             this.setBusyState();
         });
@@ -94,6 +92,8 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         this._broadcastService.subscribe(BroadcastEvent.FileSelectionRequest, () => {
             this.monacoEditor.setDiagnostics(this.diagnostics);
         })
+
+        this.onResize(null);
 
         setTimeout(() => {
             this.onResize(null);
@@ -112,18 +112,17 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    close() {
-        this.closeClicked.emit(null);
-    }
-
     onResize(ev: any) {
-        let table = document.getElementById("diagnostics-table");
-        let severityColumnWidth = 50;
-        let sumOtherColumns = severityColumnWidth + this.codeColumnWidth + this.sourceColumnWidth
+        const table = document.getElementById("diagnostics-table");
+
+        // parentHeight is the height of div.dev-flex-column.dev-full
+        const parentHeight = table.parentElement.parentElement.parentElement.parentElement.clientHeight;
+        this.tableBodyHeight = parentHeight - 95;
+
+        const severityColumnWidth = 50;
+        const sumOtherColumns = severityColumnWidth + this.codeColumnWidth + this.sourceColumnWidth
             + this.startLineNumberColumnWidth + this.startColumnColumnWidth;
         this.msgColumnWidth = table.clientWidth - sumOtherColumns;
-
-        this.tableBodyHeight = table.parentElement.parentElement.parentElement.parentElement.clientHeight - 93;
     }
 
     setBusyState() {
