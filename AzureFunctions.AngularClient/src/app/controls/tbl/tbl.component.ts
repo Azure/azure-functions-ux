@@ -121,6 +121,7 @@ export class TblComponent implements OnInit, OnChanges {
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex + 1, this._focusedCellIndex);
       this._scrollIntoView(rows[this._focusedRowIndex]);
+      event.preventDefault(); // Don't allow to bubble outside of table
 
     } else if (event.keyCode === KeyCodes.arrowUp) {
 
@@ -128,6 +129,7 @@ export class TblComponent implements OnInit, OnChanges {
       this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
       this._setFocusOnCell(rows, this._focusedRowIndex - 1, this._focusedCellIndex);
       this._scrollIntoView(rows[this._focusedRowIndex]);
+      event.preventDefault(); // Don't allow to bubble outside of table
 
     } else if (event.keyCode === KeyCodes.enter) {
 
@@ -152,11 +154,6 @@ export class TblComponent implements OnInit, OnChanges {
         this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
         Dom.setFocus(curCell);
       }
-    }
-
-    // Only allow "tab" key events to bubble outside of table
-    if (event.keyCode !== KeyCodes.tab) {
-      event.preventDefault();
     }
   }
 
