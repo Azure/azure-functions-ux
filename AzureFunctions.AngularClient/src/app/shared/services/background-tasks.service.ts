@@ -35,13 +35,15 @@ export class BackgroundTasksService {
         private _aiService: AiService,
         private _applicationRef: ApplicationRef,
         private _translateService: TranslateService) {
-        if (!this._userService.inIFrame) {
-            this.runNonIFrameTasks();
-        }
-        if (this.isIE()) {
-            console.log('Detected IE, running zone.js workaround');
-            setInterval(() => this._applicationRef.tick(), 1000);
-        }
+            // background tasks should not be run for a tabbed function
+            // it recieves token updates from the parent window
+            if (!this._userService.inIFrame && !this._userService.inTab) {
+                this.runNonIFrameTasks();
+            }
+            if (this.isIE()) {
+                console.log('Detected IE, running zone.js workaround');
+                setInterval(() => this._applicationRef.tick(), 1000);
+            }
     }
 
     runNonIFrameTasks() {

@@ -18,14 +18,13 @@
 
     &:hover{
         background-color: $tree-node-hover-color;
+        .fa.fa-external-link{
+            display: inline-block;
+        }
     }
 
     &.selected{
         background-color: $tree-node-selection-color;
-    }
-
-    &.focused{
-        outline: $border-focus;
     }
 
     .fa.fa-caret-right, .fa.fa-caret-down{

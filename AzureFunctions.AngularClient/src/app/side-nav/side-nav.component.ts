@@ -40,7 +40,6 @@ import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SlotsService } from './../shared/services/slots.service';
-
 @Component({
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
@@ -48,7 +47,7 @@ import { SlotsService } from './../shared/services/slots.service';
     inputs: ['tryFunctionAppInput']
 })
 export class SideNavComponent implements AfterViewInit {
-    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo>;
+    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo<any>>;
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
 
@@ -66,9 +65,6 @@ export class SideNavComponent implements AfterViewInit {
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
-
-    private _focusedNode: TreeNode;    // For keyboard navigation
-    private _iterator: TreeNodeIterator;
 
     private _savedSubsKey = "/subscriptions/selectedIds";
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
@@ -101,15 +97,25 @@ export class SideNavComponent implements AfterViewInit {
         public authZService: AuthzService,
         public slotsService: SlotsService) {
 
-        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo>();
+        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo<any>>();
 
         userService.getStartupInfo().subscribe(info => {
+
+            var sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
+            var initialSiteName = !! this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
+            if (sitenameIncoming !== initialSiteName) {
+                this.portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'start'
+                });
+            }
 
             // This is a workaround for the fact that Ibiza sends us an updated info whenever
             // child blades close.  If we get a new info object, then we'll rebuild the tree.
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized) {
+
                 this._initialized = true;
                 this.rootNode = new TreeNode(this, null, null);
 
@@ -191,56 +197,6 @@ export class SideNavComponent implements AfterViewInit {
         }
     }
 
-    onFocus(event: FocusEvent) {
-        if (!this._focusedNode) {
-            this._focusedNode = this.rootNode.children[0];
-            this._iterator = new TreeNodeIterator(this._focusedNode);
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    onBlur(event: FocusEvent) {
-        if (this._focusedNode) {
-
-            // Keep the focused node around in case user navigates back to it
-            this._focusedNode.isFocused = false;
-        }
-    }
-
-    onKeyPress(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.arrowDown) {
-            this._moveFocusedItemDown();
-        }
-        else if (event.keyCode === KeyCodes.arrowUp) {
-            this._moveFocusedItemUp();
-        }
-        else if (event.keyCode === KeyCodes.enter) {
-            this._focusedNode.select();
-        }
-        else if (event.keyCode === KeyCodes.arrowRight) {
-            if (this._focusedNode.showExpandIcon && !this._focusedNode.isExpanded) {
-                this._focusedNode.toggle(event);
-            }
-            else {
-                this._moveFocusedItemDown();
-            }
-        }
-        else if (event.keyCode === KeyCodes.arrowLeft) {
-            if (this._focusedNode.showExpandIcon && this._focusedNode.isExpanded) {
-                this._focusedNode.toggle(event);
-            }
-            else {
-                this._moveFocusedItemUp();
-            }
-        }
-
-        if (event.keyCode !== KeyCodes.tab) {
-            // Prevents the entire page from scrolling on up/down key press
-            event.preventDefault();
-        }
-    }
-
     private _getViewContainer(): HTMLDivElement {
         let treeViewContainer = this.treeViewContainer && <HTMLDivElement>this.treeViewContainer.nativeElement;
 
@@ -251,52 +207,20 @@ export class SideNavComponent implements AfterViewInit {
         return <HTMLDivElement>treeViewContainer.querySelector('.top-level-children');
     }
 
-    private _moveFocusedItemDown() {
-
-        let nextNode = this._iterator.next();
-        if (nextNode) {
-            this._focusedNode.isFocused = false;
-            this._focusedNode = nextNode;
-            this._scrollIntoView();
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    private _moveFocusedItemUp() {
-        let prevNode = this._iterator.previous();
-        if (prevNode) {
-            this._focusedNode.isFocused = false;
-            this._focusedNode = prevNode;
-            this._scrollIntoView();
-        }
-
-        this._focusedNode.isFocused = true;
-    }
-
-    private _scrollIntoView() {
+    public scrollIntoView() {
         setTimeout(() => {
             const containerElement = this._getViewContainer();
             if (!containerElement) {
                 return;
             }
 
-            const node = <HTMLDivElement>containerElement.querySelector('div.tree-node.focused');
+            const node = <HTMLDivElement>containerElement.querySelector(':focus');
             if (!node) {
                 return;
             }
 
             Dom.scrollIntoView(node, containerElement);
         }, 0);
-    }
-
-    private _changeFocus(node: TreeNode) {
-        if (this._focusedNode) {
-            this._focusedNode.isFocused = false;
-            node.isFocused = true;
-            this._iterator = new TreeNodeIterator(node);
-            this._focusedNode = node;
-        }
     }
 
     updateView(newSelectedNode: TreeNode, newDashboardType: DashboardType, force?: boolean): Observable<boolean> {
@@ -321,7 +245,7 @@ export class SideNavComponent implements AfterViewInit {
         this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;
 
-        let viewInfo = <TreeViewInfo>{
+        const viewInfo = <TreeViewInfo<any>>{
             resourceId: newSelectedNode.resourceId,
             dashboardType: newDashboardType,
             node: newSelectedNode,
@@ -333,7 +257,6 @@ export class SideNavComponent implements AfterViewInit {
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
 
-        this._changeFocus(newSelectedNode);
         return newSelectedNode.handleSelection();
     }
 

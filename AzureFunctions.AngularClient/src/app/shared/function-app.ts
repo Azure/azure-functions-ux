@@ -273,7 +273,9 @@ export class FunctionApp {
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
-                    return <FunctionInfo[]>r.json();
+                    const fcs = <FunctionInfo[]>r.json();
+                    fcs.forEach(fc => fc.functionApp = this);
+                    return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.

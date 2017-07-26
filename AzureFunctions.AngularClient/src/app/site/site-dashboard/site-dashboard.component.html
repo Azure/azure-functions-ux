@@ -1,47 +1,52 @@
 <div id="site-dashboard-container">
 
-<img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()"/>
+    <img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()" />
 
-<tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'closeDynamicTab($event)'>
+    <tabs (tabSelected)='onTabSelected($event)' (tabClosed)='closeDynamicTab($event)'>
 
-    <tab [title]="Resources.tab_overview | translate" [id]="TabIds.overview">
-        <site-summary *ngIf="selectedTabId === TabIds.overview" [viewInfoInput]="viewInfo"></site-summary>
-    </tab>
+        <tab [title]="Resources.tab_overview | translate" [id]="TabIds.overview">
+            <site-summary *ngIf="selectedTabId === TabIds.overview" [viewInfoInput]="viewInfo"></site-summary>
+        </tab>
 
-    <tab *ngIf="!isStandalone && !tabsFeature"
-         [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
-         [id]="TabIds.functionRuntime"
-         [closeable]="tabsFeature === 'tabs'"
-         [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
+        <tab *ngIf="!isStandalone && !tabsFeature"
+             [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
+             [id]="TabIds.functionRuntime"
+             [closeable]="tabsFeature === 'tabs'"
+             [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
 
-        <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-    </tab>
+            <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
+        </tab>
 
-    <tab *ngIf="!isStandalone" [title]="Resources.tab_features | translate" [id]="TabIds.features">
-        <site-manage *ngIf="selectedTabId === TabIds.features" [viewInfoInput]="viewInfo"></site-manage>
-    </tab>
+        <tab *ngIf="!isStandalone"
+             [title]="Resources.tab_features | translate"
+             [id]="TabIds.features">
 
-    <tab *ngIf="!isStandalone && dynamicTabId === TabIds.functionRuntime"
-         [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
-         [id]="TabIds.functionRuntime"
-         [closeable]="tabsFeature === 'tabs'"
-         [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
+            <site-manage *ngIf="selectedTabId === TabIds.features" [viewInfoInput]="viewInfo"></site-manage>
+        </tab>
 
-        <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-    </tab>
+        <tab *ngIf="!isStandalone && dynamicTabIds[0] === TabIds.functionRuntime"
+             [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
+             [id]="TabIds.functionRuntime"
+             [closeable]="tabsFeature === 'tabs'"
+             [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
 
-    <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabId === TabIds.apiDefinition)"
-         [title]="Resources.tab_api_definition | translate"
-         [id]="TabIds.apiDefinition"
-         [closeable]="tabsFeature === 'tabs'"
-         [iconUrl]="tabsFeature ? 'images/api-definition.svg' : null">
+            <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
+        </tab>
 
-        <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
-    </tab>
+        <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabIds[1] === TabIds.apiDefinition)"
+             [title]="Resources.tab_api_definition | translate"
+             [id]="TabIds.apiDefinition"
+             [closeable]="tabsFeature === 'tabs'"
+             [iconUrl]="tabsFeature ? 'images/api-definition.svg' : null">
 
-    <tab *ngIf="isStandalone" [title]="Resources.tab_configuration | translate" [id]="TabIds.config">
-        <site-config *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config>
-    </tab>
-    
-</tabs>
+            <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
+        </tab>
+
+        <tab *ngIf="isStandalone"
+             [title]="Resources.tab_configuration | translate"
+             [id]="TabIds.config">
+            <site-config *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config>
+        </tab>
+
+    </tabs>
 </div>

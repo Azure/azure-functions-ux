@@ -24,6 +24,7 @@ export class MultiDropDownComponent<T> implements OnInit {
   public selectedValues = new ReplaySubject<T[]>(1);
   private _selectAllOption: MultiDropDownElement<T>;
   private _focusedIndex = -1;
+  private _initialized = false;
 
   constructor(private _eref: ElementRef, private _ts: TranslateService) {
     this._selectAllOption = {
@@ -228,12 +229,35 @@ export class MultiDropDownComponent<T> implements OnInit {
     }
 
     this.displayText = displayText;
-    this.selectedValues.next(selectedValues);
+    this._compareAndUpdateIfDifferent(selectedValues);
   }
 
   private _updateAllSelected(allSelected: boolean) {
     this.options.forEach(option => {
       option.isSelected = allSelected;
-    })
+    });
+  }
+
+  private _compareAndUpdateIfDifferent(newValues: T[]) {
+    if (!this._initialized) {
+      this.selectedValues.next(newValues);
+      this._initialized = true;
+    } else {
+      this.selectedValues
+        .first()
+        .subscribe(currentValues => {
+          if (currentValues.length === newValues.length) {
+
+            for (let i = 0; i < currentValues.length; i++) {
+              if (currentValues[i] !== newValues[i]) {
+                this.selectedValues.next(newValues);
+                break;
+              }
+            }
+          } else {
+            this.selectedValues.next(newValues);
+          }
+        });
+    }
   }
 }

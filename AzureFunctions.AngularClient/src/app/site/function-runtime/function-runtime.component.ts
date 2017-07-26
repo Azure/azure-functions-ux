@@ -21,7 +21,7 @@ import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { ArmService } from '../../shared/services/arm.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
@@ -64,8 +64,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   private functionEditModeValueStream: Subject<boolean>;
   public showTryView: boolean;
 
-  private _viewInfoStream = new Subject<TreeViewInfo>();
-  private _viewInfo: TreeViewInfo;
+  private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
+  private _viewInfo: TreeViewInfo<SiteData>;
   private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
 
@@ -174,8 +174,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           this.functionAppEditMode = true;
         }
         this._busyState.clearBusyState();
-        let traceKey = this._viewInfo.data.siteTraceKey;
-        this._aiService.stopTrace('/site/function-runtime-tab-ready', traceKey);
+        this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
         //settings for enabling slots, display if there are no slots && appSetting property for slot is set
         this.slotsAppSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
@@ -263,6 +262,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
       // getFunctionAppEditMode returns a subject and updates it on demand.
       .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
       .subscribe(fi => {
+
+        this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
+        this._viewInfo.data.siteTabFullReadyTraceKey);
+
         this._busyState.clearBusyState();
       });
 
@@ -288,7 +291,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     });
   }
 
-  @Input('viewInfoInput') set viewInfoInput(viewInfo: TreeViewInfo) {
+  @Input('viewInfoInput') set viewInfoInput(viewInfo: TreeViewInfo<any>) {
     this._viewInfoStream.next(viewInfo);
   }
 

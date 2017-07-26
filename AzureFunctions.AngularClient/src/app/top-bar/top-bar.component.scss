@@ -7,10 +7,20 @@
     margin-left: 15px;
 }
 
+.tabbed-logo {
+    margin-left: 0px;
+    margin-right: 15px;
+    padding-right: 10px;
+}
+
 .logo-standalone{
     @extend .logo;
     font-size: 18px;
     margin-left: 265px;
+}
+
+.function-information {
+    margin-left: 15px;
 }
 
 // .top-bar-container {

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper">    
     <div>
         <div class="section-left full-height" [class.collapse]="isFullscreen">
             <div>
@@ -87,15 +87,18 @@
                     </pop-over>
                 </div>
                 <div class="header right">
-                    <span class="link icon expand-icon" *ngIf="!isFullscreen" (click)="isFullscreen = true">
+                    <span class="link" *ngIf="!isFullscreen" (click)="isFullscreen = true">
+                        <i class="fa fa-expand"></i>
                         {{'swaggerDefinition_expand' | translate}}
                     </span>
-                    <span class="link icon collapse-icon" *ngIf="isFullscreen" (click)="isFullscreen = false">
+                    <span class="link" *ngIf="isFullscreen" (click)="isFullscreen = false">
+                        <i class="fa fa-compress"></i>
                         {{'swaggerDefinition_collapse' | translate}}
                     </span>
                 </div>
             </div>
             <div class="editor">
+                <busy-state></busy-state>
                 <swagger-frame (onSwaggerEditorReady)="onSwaggerEditorReady($event)"></swagger-frame>
             </div>
         </div>

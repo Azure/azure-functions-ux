@@ -358,8 +358,14 @@
   <data name="search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Scope to this item</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>Search features</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>Search Function apps</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Subscription ID</value>
@@ -1821,6 +1827,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="new_" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>Create new</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>Delete function</value>

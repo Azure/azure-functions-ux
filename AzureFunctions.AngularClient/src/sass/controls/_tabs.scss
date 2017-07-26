@@ -34,10 +34,12 @@ Styles only available in tabs component
             padding: 8px 15px 12px 15px;
             border-top-left-radius: 6px;
             border-top-right-radius: 6px;
+            margin-left: 10px;
+        }
 
-            // Not a great solution for spacing with left tabs but
-            // since we only have 1 tab for now, it should be fine.
-            margin-left: 20px;
+        // Simulate a "first-of-class" selector
+        &.closeable ~ .closeable{
+            margin-left: 0px;
         }
 
         .bottom{

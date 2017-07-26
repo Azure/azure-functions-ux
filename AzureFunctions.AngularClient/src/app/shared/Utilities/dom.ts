@@ -1,5 +1,9 @@
 
 export class Dom {
+    public static setFocusable(element: HTMLElement){
+        element.tabIndex = 0;
+    }
+
     public static setFocus(element: HTMLElement) {
         element.tabIndex = 0;
         element.focus();
@@ -53,19 +57,19 @@ export class Dom {
             };
         }
 
-        if (elemCoordinates.top + elem.clientHeight > viewBottom) {
+        if (elemCoordinates.top + elem.clientHeight + 2 > viewBottom) {
             // If view is scrolled way out of view, then scroll so that selected is top
             if (viewBottom + elem.clientHeight < elem.offsetTop) {
                 container.scrollTop = elem.offsetTop;
             } else {
                 container.scrollTop += elem.clientHeight + 1;  // +1 for margin
             }
-        } else if (elemCoordinates.top < container.scrollTop) {
+        } else if (elemCoordinates.top - 1 <= container.scrollTop) {
             // If view needs to scroll up
             if (container.scrollTop - elem.clientHeight > elem.offsetTop) {
                 container.scrollTop = elemCoordinates.top;
             } else {
-                container.scrollTop -= elem.clientHeight - 1;   // -1 for margin
+                container.scrollTop -= elem.clientHeight;
             }
         }
 

@@ -22,9 +22,9 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 })
 export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
 
-  private _viewInfoStream = new Subject<TreeViewInfo>();
+  private _viewInfoStream = new Subject<TreeViewInfo<any>>();
   public dashboardType: string;
-  public viewInfo: TreeViewInfo;
+  public viewInfo: TreeViewInfo<any>;
   private _subscription: RxSubscription;
 
   constructor(
@@ -76,7 +76,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
       });
   }
 
-  set viewInfoInput(viewInfo: TreeViewInfo) {
+  set viewInfoInput(viewInfo: TreeViewInfo<any>) {
     this._viewInfoStream.next(viewInfo);
   }
 

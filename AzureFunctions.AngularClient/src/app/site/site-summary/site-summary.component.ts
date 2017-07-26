@@ -29,7 +29,7 @@ import { AiService } from './../../shared/services/ai.service';
 import { AppsNode } from './../../tree-view/apps-node';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode, SlotNode } from './../../tree-view/app-node';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { ArmService } from './../../shared/services/arm.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 
@@ -82,8 +82,8 @@ export class SiteSummaryComponent implements OnDestroy {
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
 
-    private _viewInfoStream: Subject<TreeViewInfo>;
-    private _viewInfo: TreeViewInfo;
+    private _viewInfoStream: Subject<TreeViewInfo<SiteData>>;
+    private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
@@ -112,18 +112,21 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._subs = info.subscriptions;
             });
 
-        this._viewInfoStream = new Subject<TreeViewInfo>();
+        this._viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this._viewInfoStream
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
-
+                this._portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'stop'
+                });
                 this._busyState.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .mergeMap(r => {
-                let site: ArmObj<Site> = r.json();
+                const site: ArmObj<Site> = r.json();
                 this.site = site;
-                let descriptor = new SiteDescriptor(site.id);
+                const descriptor = new SiteDescriptor(site.id);
 
                 this.subscriptionId = descriptor.subscription;
 
@@ -150,20 +153,21 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.scmType = null;
                 this.publishProfileLink = null;
 
-                let serverFarm = site.properties.serverFarmId.split('/')[8];
+                const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace("Dynamic", "Consumption")})`;
                 this._isSlot = SlotsService.isSlot(site.id);
 
-                let configId = `${site.id}/config/web`;
+                const configId = `${site.id}/config/web`;
 
                 let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
                 if (this._isSlot) {
                     let resourceId = site.id.substring(0, site.id.indexOf("/slots"));
                     availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
                 }
+
                 this._busyState.clearBusyState();
-                let traceKey = this._viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace("/site/overview-tab-ready", traceKey);
+                this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+
                 this.hideAvailability = this._isSlot || site.properties.sku === "Dynamic";
 
                 return Observable.zip<DataModel>(
@@ -231,7 +235,16 @@ export class SiteSummaryComponent implements OnDestroy {
                     return;
                 }
 
+                this._portalService.sendTimerEvent({
+                    timerId: 'ClickToOverviewInputsSet',
+                    timerAction: 'stop'
+                });
+                this._portalService.sendTimerEvent({
+                    timerId: 'ClickToOverviewConstructor',
+                    timerAction: 'stop'
+                });
                 this.scmType = res.config.properties.scmType;
+                this._aiService.stopTrace('/timings/site/tab/overview/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
 
                 if (this.hasWriteAccess) {
                     this.publishingUserName = res.publishCreds.properties.publishingUserName;
@@ -246,7 +259,7 @@ export class SiteSummaryComponent implements OnDestroy {
         return this._globalStateService.showTryView;
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         if (!viewInfo) {
             return;
         }

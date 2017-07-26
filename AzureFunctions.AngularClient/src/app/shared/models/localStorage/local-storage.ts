@@ -1,5 +1,6 @@
 import { StorageItem } from './local-storage';
 import { EnabledFeature } from './enabled-features';
+import { Guid } from "app/shared/Utilities/Guid";
 
 export interface StorageItem {
     id: string;
@@ -14,5 +15,11 @@ export interface QuickstartSettings extends StorageItem {
 }
 
 export interface TabSettings extends StorageItem {
-    dynamicTabId: string;
-} 
+    dynamicTabIds: (string | null)[];
+}
+export interface TabMessage<T> extends StorageItem {
+    source_id: string;
+    dest_id: string | null;
+    verb: string;
+    data: T;
+}

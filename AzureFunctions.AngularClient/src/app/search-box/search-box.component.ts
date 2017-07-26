@@ -8,8 +8,9 @@ import { Subject } from 'rxjs/Subject';
 })
 export class SearchBoxComponent {
     @Input() placeholder: string;
-    @Input() value: string = "";
-    @Input() warning: boolean = false;
+    @Input() value = '';
+    @Input() warning = false;
+    @Input() ariaLabel: string | null;
     @Output() onInputChange = new Subject<string>();
     @Output() onClear = new Subject<void>();
 

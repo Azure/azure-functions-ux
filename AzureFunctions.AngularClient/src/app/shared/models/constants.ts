@@ -50,6 +50,15 @@ export class Constants {
     public static WebhookFunctionName = "MSGraphWebhook";
 }
 
+export class TabCommunicationVerbs {
+    public static getStartInfo = "get-startup-info";
+    public static sentStartInfo = "startup-info";
+    public static updatedFile = "updated-file-notice"
+    public static newToken = "new-token";
+    public static parentClosed = "parent-window-closed";
+}
+
+
 export type EnableTabFeature = 'tabs' | 'inplace' | null;
 
 export class SiteTabIds {
@@ -141,4 +150,9 @@ export class KeyCodes {
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
+}
+
+export class DomEvents{
+    public static readonly keydown = 'keydown';
+    public static readonly click = 'click';
 }

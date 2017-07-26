@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -32,7 +32,7 @@ import { ErrorIds } from '../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
 import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
-import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AppNode } from './../../tree-view/app-node';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Site } from './../../shared/models/arm/site';
@@ -44,6 +44,7 @@ import { Site } from './../../shared/models/arm/site';
     inputs: ['viewInfoInput']
 })
 export class SwaggerDefinitionComponent implements OnDestroy {
+    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public isFullscreen: boolean;
     public keyVisible: boolean;
     public documentationVisible: boolean;
@@ -61,9 +62,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private swaggerDocument: any;
 
 
-    private _viewInfoStream = new Subject<TreeViewInfo>();
+    private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     private _viewInfoSub: RxSubscription;
-    private _viewInfo: TreeViewInfo;
+    private _viewInfo: TreeViewInfo<SiteData>;
     private _appNode: AppNode;
     private _busyState: BusyStateComponent;
 
@@ -106,19 +107,36 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 }
 
                 if (this.swaggerEnabled) {
-                    return this.restoreSwaggerArtifacts();
+                    return this.restoreSwaggerSecrets();
                 } else {
                     this.swaggerEnabled = false;
-                    return Observable.of(this.swaggerEnabled);
+                    return Observable.of("");
+                }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of("");
+            })
+            .mergeMap(key => {
+                // global busy state
+                this._busyState.clearBusyState();
+                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+
+                // busy state for Editor Section
+                this.setBusyState();
+
+                if (!key) {
+                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    this.assignDocumentToEditor(placeHolderText);
+                    return Observable.of(false);
+                } else {
+                    return this.loadLatestSwaggerDocumentInEditor(key);
                 }
             }).do(null, e => {
                 this.swaggerEnabled = false;
                 return Observable.of(this.swaggerEnabled);
-            })
-            .subscribe(swaggerEnabled => {
-                this._busyState.clearBusyState();
-                let traceKey = this._viewInfo.data.siteTraceKey;
-                this._aiService.stopTrace("/site/function-definition-tab-ready", traceKey);
+            }).subscribe(swaggerEnabled => {
+                this.clearBusyState();
+                this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
 
         this.swaggerStatusOptions = [
@@ -141,13 +159,25 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     this.swaggerEnabled = swaggerEnabled;
                     this.setSwaggerEndpointState(swaggerEnabled)
                         .subscribe((result) => {
-                            this._busyState.clearBusyState();
+                            this.clearBusyState();
                         })
                 }
             });
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo) {
+    setBusyState() {
+        if (this.busyState) {
+            this.busyState.setBusyState();
+        }
+    }
+
+    clearBusyState() {
+        if (this.busyState) {
+            this.busyState.clearBusyState();
+        }
+    }
+
+    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
 
@@ -187,9 +217,29 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     return Observable.of(true);
                 } else {
                     this._aiService.trackEvent(`/actions/swagger_definition/enable_swagger_endpoint`);
-                    return this.restoreSwaggerArtifacts();
+                    return this.restoreSwaggerSecrets();
                 }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of("");
             })
+            .mergeMap(key => {
+                // global busy state
+                this._busyState.clearBusyState();
+                
+                // busy state for Editor Section
+                this.setBusyState();
+                if (!key) {
+                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    this.assignDocumentToEditor(placeHolderText);
+                    return Observable.of(false);
+                } else {
+                    return this.loadLatestSwaggerDocumentInEditor(key);
+                }
+            }).do(null, e => {
+                this.swaggerEnabled = false;
+                return Observable.of(this.swaggerEnabled);
+            });
     }
 
     public onSwaggerEditorReady(swaggerEditor: SwaggerEditor): void {
@@ -363,7 +413,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .map(key => { return key.value; });
     }
 
-    private restoreSwaggerArtifacts() {
+    private restoreSwaggerSecrets() {
         return this.getSwaggerSecret()
             .mergeMap(key => {
                 if (!key) {
@@ -375,14 +425,16 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.swaggerEnabled = false;
                 return Observable.of("");
             }).mergeMap(key => {
-                if (!key) {
-                    // will be passed to swagger doc
-                    return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
+                if (key) {
+                    this.swaggerKey = key;
                 }
-                this.swaggerKey = key;
-                this.swaggerURL = this.getUpdatedSwaggerURL(key);
-                return this.functionApp.getSwaggerDocument(key);
-            })
+                return Observable.of(key);
+            });
+    }
+
+    private loadLatestSwaggerDocumentInEditor(key) {
+        this.swaggerURL = this.getUpdatedSwaggerURL(key);
+        return this.functionApp.getSwaggerDocument(key)
             .retry(1)
             .catch(error => {
                 // get document fails
@@ -399,3 +451,5 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             });
     }
 }
+
+

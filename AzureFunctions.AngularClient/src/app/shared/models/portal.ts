@@ -51,6 +51,7 @@ export class Verbs {
     public static closeBlades = "close-blades";
     public static logAction = "log-action";
     public static logMessage = "log-message";
+    public static logTimerEvent = "log-timer-event";
     public static setDirtyState = "set-dirtystate";
     public static setupOAuth = "setup-oauth";
     public static pinPart = "pin-part";
@@ -60,6 +61,7 @@ export class Verbs {
     public static sendStartupInfo = "send-startup-info";
     public static sendAppSettingName = "send-appSettingName";
     public static sendResourceId = "send-resourceId";
+    public static sendInputs = "send-inputs";
     public static sendToken = "send-token";
     public static sendOAuthInfo = "send-oauth-info";
     public static sendNotificationStarted = "send-notification-started";
@@ -84,6 +86,11 @@ export interface OpenBladeInfo {
     detailBlade: string,
     detailBladeInputs: any,
     extension?: string
+}
+
+export interface TimerEvent {
+    timerId: string;
+    timerAction: 'start' | 'stop';
 }
 
 export interface UpdateBladeInfo {

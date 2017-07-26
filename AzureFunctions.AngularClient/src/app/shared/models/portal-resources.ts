@@ -82,7 +82,9 @@ export class PortalResources
     public static sideBar_newFunction: string = "sideBar_newFunction";
     public static sideBar_refresh: string = "sideBar_refresh";
     public static search: string = "search";
+    public static scopeToItem: string = "scopeToItem";
     public static searchFeatures: string = "searchFeatures";
+    public static searchFunctionApps: string = "searchFunctionApps";
     public static subscription: string = "subscription";
     public static subscriptionName: string = "subscriptionName";
     public static resourceGroup: string = "resourceGroup";
@@ -569,6 +571,7 @@ export class PortalResources
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
     public static functionsList_searchFunctions: string = "functionsList_searchFunctions";
     public static new_: string = "new_";
+    public static createNew: string = "createNew";
     public static functionManage_deleteFunction: string = "functionManage_deleteFunction";
     public static functionService_clientCertEnabled: string = "functionService_clientCertEnabled";
     public static readOnlySlots: string = "readOnlySlots";
