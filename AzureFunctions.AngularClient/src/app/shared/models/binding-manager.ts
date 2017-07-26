@@ -233,6 +233,13 @@ export class BindingManager {
         return !!inputBinding;
     }
 
+    public static isEventGridFunction(functionInfo: FunctionInfo) {
+        var inputBinding = (functionInfo.config && functionInfo.config.bindings
+            ? functionInfo.config.bindings.find(e => e.type.toLowerCase() === 'eventgridtrigger')
+            : null);
+        return !!inputBinding;
+    }
+
     private s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)

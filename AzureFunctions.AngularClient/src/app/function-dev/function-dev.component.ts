@@ -70,6 +70,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public authLevel: string;
     public secrets: FunctionSecrets;
     public isHttpFunction: boolean;
+    public isEventGridFunction: boolean;
 
     public runResult: RunFunctionResult;
     public running: Subscription;
@@ -199,6 +200,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.updateKeys();
 
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+                this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();
@@ -678,6 +680,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     onChangeKey(key: string) {
         this.setFunctionInvokeUrl(key);
         this.setFunctionKey(this.functionInfo);
+    }
+
+    onEventGridSubscribe() {
+        debugger;
     }
 
     private getTestData(): string {

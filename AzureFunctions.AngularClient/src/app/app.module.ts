@@ -112,6 +112,8 @@ import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
+import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
+
 
 export function ArmServiceFactory(
   http: Http,
@@ -217,7 +219,8 @@ export class AppModule {
       ServiceBusComponent,
       SearchBoxComponent,
       AppSettingComponent,
-      DownloadFunctionAppContentComponent
+      DownloadFunctionAppContentComponent,
+      BindingEventGridComponent
     ],
     imports: [
       FormsModule,

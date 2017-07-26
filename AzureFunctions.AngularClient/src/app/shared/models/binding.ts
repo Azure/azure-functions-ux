@@ -23,6 +23,7 @@
     sendGrid = <any>"sendGrid",
     twilioSms = <any>"twilioSms",
     aadtoken = <any>"aadToken",
+    eventGridTrigger = <any>"eventGridTrigger",
     excel = <any>"excel",
     token = <any>"token",
     outlook = <any>"outlook",
@@ -130,6 +131,7 @@ export class SettingType {
     public static int = "int";
     public static picker = "picker";
     public static checkBoxList = "checkBoxList";
+    public static eventGrid = "eventGrid";
     public static appSetting = "appSetting";
 }
 

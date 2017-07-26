@@ -51,6 +51,12 @@ export class TextboxIntInput extends BindingInputBase<number>{
     }
 }
 
+export class EventGridInput extends BindingInputBase<string>{
+    constructor() {
+        super();
+        this.type = SettingType.eventGrid;
+    }
+}
 
 export class LabelInput extends BindingInputBase<string>{
     constructor() {
