@@ -136,18 +136,4 @@ export class CheckBoxListInput extends BindingInputBase<any>{
         super();
         this.type = SettingType.checkBoxList;
     }
-
-}
-
-export class AppSettingInput extends BindingInputBase<string>{
-    resource: ResourceType;
-    inProcess: boolean = false;
-    items: string[];
-
-    constructor() {
-        super();
-        this.type = SettingType.appSetting;
-        this.noErrorClass = '';
-        this.errorClass = 'has-error';
-    }
 }

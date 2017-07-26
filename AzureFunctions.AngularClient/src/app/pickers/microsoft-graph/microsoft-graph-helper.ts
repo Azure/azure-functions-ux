@@ -12,7 +12,7 @@ import { MobileAppsClient } from "../../shared/models/mobile-apps-client";
 import { BindingManager } from '../../shared/models/binding-manager';
 import { BindingType, Action } from '../../shared/models/binding';
 import { BindingList } from '../../shared/models/binding-list';
-import { CheckBoxListInput } from '../../shared/models/binding-input';
+import { CheckBoxListInput, PickerInput } from '../../shared/models/binding-input';
 import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../../shared/models/microsoft-graph';
 
 export class MicrosoftGraphHelper {
@@ -159,6 +159,15 @@ export class MicrosoftGraphHelper {
         });
     }
 
+    openLogin(input: PickerInput): Promise<any> {
+        var options = {
+            parameters: {
+                prompt: 'login'
+            }
+        };
+
+        return this._dataRetriever.retrieveOID(options, input);
+    }
 
     private getBYOBStorageLocation() {
         // if app setting set, retrieve location after D:\home (vfs prepends path with D:\home)

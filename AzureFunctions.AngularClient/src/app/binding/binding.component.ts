@@ -9,7 +9,7 @@ import 'rxjs/add/observable/zip';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
-import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, AppSettingInput } from '../shared/models/binding-input';
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
 import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
 import { BindingManager } from '../shared/models/binding-manager';
@@ -495,20 +495,6 @@ export class BindingComponent {
                             chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
                             this.model.inputs.push(chInput);
                             break;
-                        case SettingType.appSetting:
-                            let appSettingInput = new AppSettingInput();
-                            appSettingInput.resource = setting.resource;
-                            appSettingInput.items = this._getResourceAppSettings(setting.resource);
-                            appSettingInput.id = setting.name;
-                            appSettingInput.isHidden = setting.isHidden || isHidden;;
-                            appSettingInput.label = this.replaceVariables(setting.label, bindings.variables);
-                            appSettingInput.required = setting.required;
-                            appSettingInput.value = settingValue;
-                            appSettingInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            appSettingInput.validators = setting.validators;
-                            appSettingInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || appSettingInput.label;
-                            this.model.inputs.push(appSettingInput);
-                            break;
                     }
                     order++;
 
@@ -606,45 +592,24 @@ export class BindingComponent {
             });
             var isNotRequiredEmptyInput = (!input.required && !input.value && input.value !== false);
 
-            // Handle prepending and appending % in case of principal ID for MS Graph tokens
-            // Users can either input an app setting or an expression to be evaluated
-            if (input instanceof AppSettingInput && input.resource == ResourceType.MSGraph) {
-
-                var val;
-                if (typeof input.value == "undefined" || input.value.startsWith("{") || input.value.startsWith("%") || input.value == "") {
-                    val = input.value;
-                } else {
-                    val = "%".concat(input.value.concat("%"));
+            if (setting) {
+                if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
+                    selectedStorage = input.value;
                 }
-                if (setting) {
-                    setting.value = val;
+                setting.value = input.value;
+
+                if (setting.noSave || isNotRequiredEmptyInput) {
+                    setting.noSave = true;
                 } else {
+                    delete setting.noSave;
+                }
+            } else {
+                if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput) || input.explicitSave) {
                     setting = {
                         name: input.id,
-                        value: val
-                    }
+                        value: input.value
+                    };
                     this.bindingValue.settings.push(setting);
-                }           
-            } else {
-                if (setting) {
-                    if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
-                        selectedStorage = input.value;
-                    }
-                    setting.value = input.value;
-
-                    if (setting.noSave || isNotRequiredEmptyInput) {
-                        setting.noSave = true;
-                    } else {
-                        delete setting.noSave;
-                    }
-                } else {
-                    if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput) || input.explicitSave) {
-                        setting = {
-                            name: input.id,
-                            value: input.value
-                        };
-                        this.bindingValue.settings.push(setting);
-                    }
                 }
             }
 

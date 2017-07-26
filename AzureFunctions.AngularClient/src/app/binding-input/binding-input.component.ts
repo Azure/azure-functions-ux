@@ -15,9 +15,9 @@ import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ArmService } from './../shared/services/arm.service';
-import { Constants } from "app/shared/models/constants";
-import { MobileAppsClient } from "../shared/models/mobile-apps-client";
+import { Constants } from '../shared/models/constants';
 import { AiService } from '../shared/services/ai.service';
+import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
     selector: 'binding-input',
@@ -120,7 +120,7 @@ export class BindingInputComponent {
         var picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName != "EventHub" && this.pickerName != "ServiceBus" && this.pickerName != "AppSetting") {
+        if (this.pickerName !== "EventHub" && this.pickerName !== "ServiceBus" && this.pickerName !== "AppSetting") {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -141,6 +141,23 @@ export class BindingInputComponent {
                         this.finishResourcePickup(appSettingName, picker);
                     });
             }
+        }
+
+        if (this.pickerName === "AppSetting" && input.id === "PrincipalId") {
+            let helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp)
+            helper.openLogin(picker).then(values => {
+                this._globalStateService.setBusyState();
+                this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
+                    r => {                   
+                        this._globalStateService.clearBusyState();
+                        this.finishResourcePickup(values.appSettingName, input); // set selected drop-down item to app setting just created
+                    },
+                    error => {
+                        this._globalStateService.clearBusyState();
+                        this._aiService.trackException(error, 'Binding Input component - createApplicationSetting()');
+                    }
+                );
+            });
         }
     }
 
