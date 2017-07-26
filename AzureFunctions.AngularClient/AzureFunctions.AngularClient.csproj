@@ -87,8 +87,10 @@
     <Content Include="src\app\apps-list\apps-list.component.html" />
     <Content Include="src\app\binding-designer\binding-designer.component.css" />
     <Content Include="src\app\binding-designer\binding-designer.component.html" />
+    <Content Include="src\app\binding-event-grid\binding-event-grid.component.html" />
     <Content Include="src\app\binding-input\binding-input.component.css" />
     <Content Include="src\app\binding-input\binding-input.component.html" />
+    <Content Include="src\app\binding-event-grid\binding-event-grid.component.scss" />
     <None Include="src\app\binding\binding.component.scss" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
@@ -364,6 +366,8 @@
     <TypeScriptCompile Include="src\app\apps-list\apps-list.component.ts" />
     <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.spec.ts" />
     <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.ts" />
+    <TypeScriptCompile Include="src\app\binding-event-grid\binding-event-grid.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-event-grid\binding-event-grid.component.ts" />
     <TypeScriptCompile Include="src\app\binding-input\binding-input.component.spec.ts" />
     <TypeScriptCompile Include="src\app\binding-input\binding-input.component.ts" />
     <TypeScriptCompile Include="src\app\binding\binding.component.spec.ts" />

@@ -643,6 +643,12 @@ export class PortalResources {
     public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
     public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
     public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
+    public static eventGrid_create: string = "eventGrid_create";
+    public static eventGrid_createMessage: string = "eventGrid_createMessage";
+    public static eventGrid_help: string = "eventGrid_help";
+    public static eventGrid_label: string = "eventGrid_label";
+    public static eventGrid_manageSubscriptions: string = "eventGrid_manageSubscriptions";
+    public static functionDev_addEventGrid: string = "functionDev_addEventGrid";
     public static allLocations: string = "allLocations";
     public static locationCount: string = "locationCount";
     public static locationColon: string = "locationColon";

@@ -2044,6 +2044,24 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
     <value>Successfully saved function '{0}'</value>
   </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>Your need to add Event Grid subscription after function creation.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Manage Event Grid subscriptions</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Add Event Grid subscription</value>
+  </data>
   <data name="allLocations" xml:space="preserve">
     <value>All locations</value>
   </data>

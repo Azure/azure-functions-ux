@@ -9,6 +9,12 @@ import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
+import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
+import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
+import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
+import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
 import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
@@ -21,6 +27,11 @@ import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
+import { Constants } from '../shared/models/constants';
+import { MobileAppsClient } from "../shared/models/mobile-apps-client";
+import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
+import { Url } from '../shared/Utilities/url';
+import { FunctionInfo } from '../shared/models/function-info';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 declare var marked: any;
@@ -76,6 +87,7 @@ export class BindingComponent {
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
     private _appSettings: { [key: string]: string };
+    private _functionInfo: FunctionInfo;
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _broadcastService: BroadcastService,
@@ -90,7 +102,7 @@ export class BindingComponent {
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
                 return Observable.zip(
-                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
+                    this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
             });
@@ -154,8 +166,13 @@ export class BindingComponent {
         this._subscription.unsubscribe();
     }
 
-    set functionAppInput(functionApp: FunctionApp) {
-        this._functionAppStream.next(functionApp);
+    set functionAppInput(functionInput: any) {
+        if (functionInput.functionApp) {
+            this._functionAppStream.next(functionInput.functionApp)
+            this._functionInfo = functionInput;
+        } else {
+            this._functionAppStream.next(functionInput);
+        }
     }
 
     set clickSave(value: boolean) {
@@ -491,6 +508,15 @@ export class BindingComponent {
 
                 });
 
+                if (bindingSchema.type === BindingType.eventGridTrigger && !this.newFunction) {
+
+                    let input = new EventGridInput();
+                    input.label = this._translateService.instant(PortalResources.eventGrid_label);
+                    input.help = this._translateService.instant(PortalResources.eventGrid_help);
+                    input.value = `${this.functionApp.getMainSiteUrl()}/api/${this._functionInfo.name}`;
+                    this.model.inputs.push(input);
+                }
+
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
                         const isHidden = this.isHidden(rule.name);
@@ -592,7 +618,7 @@ export class BindingComponent {
                     delete setting.noSave;
                 }
             } else {
-                if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput) || input.explicitSave) {
+                if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput && input.id) || input.explicitSave) {
                     setting = {
                         name: input.id,
                         value: input.value
