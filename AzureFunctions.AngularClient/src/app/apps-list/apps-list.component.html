@@ -2,16 +2,7 @@
 <img src="images/functions.svg" />
 <span class="text-level1-heading">{{ 'functionApps' | translate }}</span><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
-
- <!-- <div id="locations">
-  <multi-drop-down
-      [inputOptions]="subscriptionOptions"
-      [displayText]="subscriptionsDisplayText"
-      (selectedValues)="onSubscriptionsSelect($event)">
-  </multi-drop-down>
-</div>  -->
-
- <div id="locations">
+<div id="locations">
   <multi-drop-down
       [inputOptions]="locationOptions"
       [displayText]="locationsDisplayText"
@@ -19,8 +10,7 @@
   </multi-drop-down>
 </div> 
 
-
-<tbl [items]="apps" #table="tbl" id="apps-list" [name]='Resources.functionApps | translate'>
+<tbl [items]="currApps" #table="tbl" id="apps-list" [name]='Resources.functionApps | translate'>
   <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>

@@ -20,6 +20,7 @@ import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 export class AppsListComponent implements OnInit, OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public apps: AppNode[] = [];
+  public currApps: AppNode[] = [];
   public appsNode: AppsNode;
   public Resources = PortalResources;
 
@@ -43,7 +44,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.uniqueLocations(this.apps).forEach(location =>
+        this.currApps = this.apps;
+        this.uniqueLocations(this.currApps).forEach(location =>
           this.locationOptions.push ({
             displayLabel: location,
             value: location
@@ -89,6 +91,14 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
+    this.currApps = [];
+    for (let app of this.apps) {
+      if (this.contains(this.selectedLocations, app.location)) {
+        this.currApps.push(app);
+      }
+
+    };
+
     if (this.selectedLocations.length === this.locationOptions.length) {
         this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
     } else if (this.selectedLocations.length > 1) {
