@@ -2,15 +2,16 @@
 <img src="images/functions.svg" />
 <span class="text-level1-heading">{{ 'functionApps' | translate }}</span><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
-<div>
+<div class="bars">
   <label>{{ 'locationColon' | translate }}</label>
+  
   <multi-drop-down id="locations"
       [inputOptions]="locationOptions"
       [displayText]="locationsDisplayText"
       (selectedValues)="onLocationsSelect($event)">
   </multi-drop-down>
 
-   <drop-down
+   <drop-down id="grouping"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down> 
