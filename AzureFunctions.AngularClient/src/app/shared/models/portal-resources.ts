@@ -604,5 +604,6 @@ export class PortalResources
     public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
     public static allLocations: string = "allLocations";
     public static locationCount: string = "locationCount";
+    public static locationColon: string = "locationColon";
 }
 

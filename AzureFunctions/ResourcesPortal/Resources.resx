@@ -1928,4 +1928,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="locationCount" xml:space="preserve">
     <value>{0} locations</value>
   </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Location:</value>
+  </data>
 </root>

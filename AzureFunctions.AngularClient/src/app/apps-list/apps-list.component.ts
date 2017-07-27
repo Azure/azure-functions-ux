@@ -1,8 +1,11 @@
+import { element } from 'protractor';
+import { TblComponent } from './../controls/tbl/tbl.component';
+import { TblThComponent } from './../controls/tbl/tbl-th/tbl-th.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { DropDownComponent } from './../drop-down/drop-down.component';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -29,6 +32,17 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public locationOptions: DropDownElement<string>[] = [];
   public locationsDisplayText = "";
   public selectedLocations: string[] = [];
+
+  @ViewChild("subHeader") subHeader: TblThComponent;
+  @ViewChild("resHeader") resHeader: TblThComponent;
+  @ViewChild("locHeader") locHeader: TblThComponent;
+
+  public groupOptions: DropDownElement<string>[] = [{displayLabel: "No grouping", value: "none"}, 
+                                                    {displayLabel: "Group by resource group", value: "resource"},
+                                                    {displayLabel: "Group by subscription", value: "subscription"},
+                                                    {displayLabel: "Group by location", value: "location"}];
+  public groupDisplayText = "";
+  public currGroup = "";
 
   private _viewInfoSubscription: RxSubscription;
 
@@ -113,6 +127,28 @@ export class AppsListComponent implements OnInit, OnDestroy {
     setTimeout(() => {
         this.locationsDisplayText = displayText;
     }, 10);
-    }
+  }
+
+  onGroupSelect(group: string) {
+      this._setGroup(group);
+  }
+
+  private _setGroup(group: string) {
+      this.currGroup = group;
+
+      switch(this.currGroup) {
+        case "none":
+          break;
+        case "resource":
+          this.resHeader.sort();
+          break;
+        case "subscription":
+          this.subHeader.sort();
+          break;
+        case "location":
+          this.locHeader.sort();
+          break;
+      }
+  }
 
 }
