@@ -376,6 +376,7 @@ export class PortalResources
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
     public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
+    public static configViewReadOnlySettings: string = "configViewReadOnlySettings";
     public static configLoadFailure: string = "configLoadFailure";
     public static loading: string = "loading";
     public static configUpdating: string = "configUpdating";

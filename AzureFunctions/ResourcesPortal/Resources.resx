@@ -1238,7 +1238,10 @@
     <value>You must have write permissions on the current app in order to edit these settings.</value>
   </data>
   <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
-    <value>This app has a read-only lock that prevents you from retrieving secure data.</value>
+    <value>This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>View settings in read-only mode.</value>
   </data>
   <data name="configLoadFailure" xml:space="preserve">
     <value>Failed to load settings.</value>

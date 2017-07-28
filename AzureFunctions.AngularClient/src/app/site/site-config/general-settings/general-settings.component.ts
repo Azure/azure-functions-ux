@@ -58,6 +58,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _resourceIdSubscription: RxSubscription;
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
+  public showPermissionsMessage: boolean;
+  public showReadOnlySettingsMessage: string;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
@@ -187,6 +189,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
     this.permissionsMessage = "";
+    this.showPermissionsMessage = false;
+    this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
     this.loadingStateMessage = this._translateService.instant(PortalResources.loading);
   }
 
@@ -280,7 +284,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-    if (!!webConfigArm || !siteConfigArm) {
+    this.showPermissionsMessage = false;
+
+    if (!!webConfigArm && !!siteConfigArm) {
 
       this._clearChildSubscriptions();
 
@@ -294,6 +300,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
 
         this.group = group;
+
       }
 
       if (this.mainForm.contains("generalSettings")) {
@@ -320,6 +327,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     this._saveError = null;
 
+    this.showPermissionsMessage = true;
   }
 
   private _setControlsEnabledState(names: string[], enabled: boolean) {

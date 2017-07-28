@@ -1835,11 +1835,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This resource has a read-only lock that prevents us from getting the data. Please remove the lock and try again.
+        ///   Looks up a localized string similar to This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.
         /// </summary>
         internal static string configDisabledReadOnlyLockOnApp {
             get {
                 return ResourceManager.GetString("configDisabledReadOnlyLockOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View settings in read-only mode.
+        /// </summary>
+        internal static string configViewReadOnlySettings {
+            get {
+                return ResourceManager.GetString("configViewReadOnlySettings", resourceCulture);
             }
         }
         
