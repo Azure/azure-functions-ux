@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="phpSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'phpVersionLabel' | translate }}
       <pop-over [message]="('phpVersionLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="pythonSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'pythonVersionLabel' | translate }}
       <pop-over [message]="('pythonVersionLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="javaSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'javaVersionLabel' | translate }}
       <pop-over [message]="('javaVersionLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="javaSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
       <pop-over [message]="('javaMinorVersionLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="javaSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}
       <pop-over [message]="('javaWebContainerLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -92,7 +92,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="platform64BitSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
       <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -107,7 +107,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="webSocketsSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
       <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -122,7 +122,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="alwaysOnSupported" class="setting-wrapper">
     <div class="setting-label">{{ 'alwaysOnLabel' | translate }}
       <pop-over [message]="('alwaysOnLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -137,7 +137,7 @@
     </div>
   </div>
 
-  <div class="setting-wrapper">
+  <div *ngIf="clientAffinitySupported" class="setting-wrapper last">
     <div class="setting-label">{{ 'managedPipelineModeLabel' | translate }}
     </div>
     <div class="setting-control-container">

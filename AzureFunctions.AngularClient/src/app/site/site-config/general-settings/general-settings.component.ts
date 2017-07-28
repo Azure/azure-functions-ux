@@ -92,6 +92,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _selectedJavaVersion: string;
   private _javaVersionSubscription: RxSubscription;
 
+  public phpSupported: boolean = false;
+  public pythonSupported: boolean = false;
+  public javaSupported: boolean = false;
+  public platform64BitSupported: boolean = false;
+  public webSocketsSupported: boolean = false;
+  public alwaysOnSupported: boolean = false;
+  public classicPipelineModeSupported: boolean = false;
+  public clientAffinitySupported: boolean = false;
+
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
@@ -124,6 +133,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._webConfigArm = null;
         this.group = null;
         this._clearChildSubscriptions();
+        this._resetSupportedControls();
         this._resetPermissionsAndLoadingState();
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
@@ -152,9 +162,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._siteConfigArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
         this._availableStacksArm = this._availableStacksArm || r.availableStacksResponse.json();
-        if (!this._versionOptionsMap) {
-          this._parseAvailableStacks(this._availableStacksArm);
-        }
+        if (!this._versionOptionsMap) { this._parseAvailableStacks(this._availableStacksArm); }
+        this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
         this._busyStateScopeManager.clearBusy();
       });
@@ -198,12 +207,12 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _setupChildSubscriptions() {
     this._clearChildSubscriptions();
     if (!!this.group) {
-      if (!this._javaVersionSubscription) {
+      if (!this._javaVersionSubscription && !!this._javaVersionDropDown) {
         this._javaVersionSubscription = this._javaVersionDropDown.value.subscribe(javaVersion => {
           this._updateJavaOptions(javaVersion);
         });
       }
-      if (!this._remoteDebuggingSubscription) {
+      if (!this._remoteDebuggingSubscription && !!this._remoteDebuggingRadioButton) {
         this._remoteDebuggingSubscription = this._remoteDebuggingRadioButton.value.subscribe(enabled => {
           this._setControlsEnabledState(["remoteDebuggingVersion"], enabled);
         })
@@ -216,36 +225,75 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this._remoteDebuggingSubscription) { this._remoteDebuggingSubscription.unsubscribe(); this._remoteDebuggingSubscription = null; }
   }
 
-  private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-    if (!!webConfigArm || !siteConfigArm) {
+  private _resetSupportedControls() {
+    this.phpSupported = false;
+    this.pythonSupported = false;
+    this.javaSupported = false;
+    this.platform64BitSupported = false;
+    this.webSocketsSupported = false;
+    this.alwaysOnSupported = false;
+    this.classicPipelineModeSupported = false;
+    this.clientAffinitySupported = false;
+  }
+
+  private _processSkuAndKind(siteConfigArm: ArmObj<Site>)
+  {
+    if (!!siteConfigArm) {
+      let phpSupported = true;
+      let pythonSupported = true;
+      let javaSupported = true;
+      let platform64BitSupported = true;
+      let webSocketsSupported = true;
+      let alwaysOnSupported = true;
+      let classicPipelineModeSupported = true;
+      let clientAffinitySupported = true;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
 
+      if (this._kind === "functionapp") {
+        phpSupported = false;
+        pythonSupported = false;
+        javaSupported = false;
+        classicPipelineModeSupported = false;
+
+        if (this._sku === "Dynamic") {
+          webSocketsSupported = false;
+          alwaysOnSupported = false;
+          clientAffinitySupported = false;
+        }
+      }
+      if (this._sku === "Free" || this._sku === "Shared") {
+        platform64BitSupported = false;
+        alwaysOnSupported = false;
+      }
+
+      this.phpSupported = phpSupported;
+      this.pythonSupported = pythonSupported;
+      this.javaSupported = javaSupported;
+      this.platform64BitSupported = platform64BitSupported;
+      this.webSocketsSupported = webSocketsSupported;
+      this.alwaysOnSupported = alwaysOnSupported;
+      this.classicPipelineModeSupported = classicPipelineModeSupported;
+      this.clientAffinitySupported = clientAffinitySupported;
+    }
+  }
+
+  private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
+    if (!!webConfigArm || !siteConfigArm) {
+
       this._clearChildSubscriptions();
 
       if (!this._saveError || !this.group) {
-        let netFrameWorkVersion = this._setupNetFramworkVersion(webConfigArm.properties.netFrameworkVersion);
-        let phpVersion = this._setupPhpVersion(webConfigArm.properties.phpVersion);
-        let pythonVersion = this._setupPythonVersion(webConfigArm.properties.pythonVersion);
-        let java: JavaSettingsControls = this._setupJava(webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
-        let generalSettings: GeneralSettingsControls = this._setupGeneralSettings(webConfigArm, siteConfigArm);
+        let group = this._fb.group({});
 
-        this.group = this._fb.group({
-          netFrameWorkVersion: netFrameWorkVersion,
-          phpVersion: phpVersion,
-          pythonVersion: pythonVersion,
-          javaVersion: java.majorVersion,
-          javaMinorVersion: java.minorVersion,
-          javaWebContainer: java.webContainer,
-          clientAffinityEnabled: generalSettings.clientAffinityEnabled,
-          use32BitWorkerProcess: generalSettings.use32BitWorkerProcess,
-          webSocketsEnabled: generalSettings.webSocketsEnabled,
-          alwaysOn: generalSettings.alwaysOn,
-          managedPipelineMode: generalSettings.managedPipelineMode,
-          remoteDebuggingEnabled: generalSettings.remoteDebuggingEnabled,
-          remoteDebuggingVersion: generalSettings.remoteDebuggingVersion
-        });
+        this._setupNetFramworkVersion(group, webConfigArm.properties.netFrameworkVersion);
+        this._setupPhpVersion(group, webConfigArm.properties.phpVersion);
+        this._setupPythonVersion(group, webConfigArm.properties.pythonVersion);
+        this._setupJava(group, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
+        this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
+
+        this.group = group;
       }
 
       if (this.mainForm.contains("generalSettings")) {
@@ -258,8 +306,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       setTimeout(() => { this._setupChildSubscriptions(); }, 0);
 
       setTimeout(() => { this._setEnabledStackControls(); }, 0);
-
-      setTimeout(() => { this._setEnabledGeneralSettingControls(); }, 0);
 
     }
     else {
@@ -292,49 +338,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setEnabledStackControls() {
-    let phpSupported = true;
-    let pythonSupported = true;
-    let javaSupported = true;
-
-    if (this._kind === "functionapp") {
-      phpSupported = false;
-      pythonSupported = false;
-      javaSupported = false;
-    }
-
     this._setControlsEnabledState(["netFrameWorkVersion"], !this._selectedJavaVersion);
-    this._setControlsEnabledState(["phpVersion"], phpSupported && !this._selectedJavaVersion);
-    this._setControlsEnabledState(["pythonVersion"], pythonSupported && !this._selectedJavaVersion);
-    this._setControlsEnabledState(["javaVersion"], javaSupported);
-    this._setControlsEnabledState(["javaMinorVersion", "javaWebContainer"], javaSupported && !!this._selectedJavaVersion);
-  }
-
-  private _setEnabledGeneralSettingControls() {
-    let use32BitWorkerProcessSupported = true;
-    let webSocketsSupported = true;
-    let alwaysOnSupported = true;
-    let managedPipelineModeSupported = true;
-    let clientAffinitySupported = true;
-
-    if (this._kind === "functionapp") {
-      managedPipelineModeSupported = false;
-      if (this._sku === "Dynamic") {
-        webSocketsSupported = false;
-        alwaysOnSupported = false;
-        clientAffinitySupported = false;
-      }
+    if (this.phpSupported) {
+      this._setControlsEnabledState(["phpVersion"], !this._selectedJavaVersion);
     }
-    if (this._sku === "Free" || this._sku === "Shared") {
-      use32BitWorkerProcessSupported = false;
-      alwaysOnSupported = false;
+    if (this.pythonSupported) {
+      this._setControlsEnabledState(["pythonVersion"], !this._selectedJavaVersion);
     }
-
-    this._setControlsEnabledState(["use32BitWorkerProcess"], use32BitWorkerProcessSupported);
-    this._setControlsEnabledState(["webSocketsEnabled"], webSocketsSupported);
-    this._setControlsEnabledState(["alwaysOn"], alwaysOnSupported);
-    this._setControlsEnabledState(["managedPipelineMode"], managedPipelineModeSupported);
-    this._setControlsEnabledState(["clientAffinityEnabled"], clientAffinitySupported);
-
+    if (this.javaSupported) {
+      this._setControlsEnabledState(["javaVersion"], true);
+      this._setControlsEnabledState(["javaMinorVersion", "javaWebContainer"], !!this._selectedJavaVersion);
+    }
   }
 
   private _generateRadioOptions() {
@@ -372,29 +386,18 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
        { displayLabel: "2017", value: "VS2017" }];
   }
 
-  private _setupGeneralSettings(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>): GeneralSettingsControls {
-    let clientAffinityEnabledControl = this._fb.control(siteConfigArm.properties.clientAffinityEnabled);
-    let use32BitWorkerProcessControl = this._fb.control(webConfigArm.properties.use32BitWorkerProcess);
-    let webSocketsEnabledControl = this._fb.control(webConfigArm.properties.webSocketsEnabled);
-    let alwaysOnControl = this._fb.control(webConfigArm.properties.alwaysOn);
-    let managedPipelineModeControl = this._fb.control(webConfigArm.properties.managedPipelineMode);
-    let remoteDebuggingEnabledControl = this._fb.control(webConfigArm.properties.remoteDebuggingEnabled);
-    let remoteDebuggingVersionControl = this._fb.control(webConfigArm.properties.remoteDebuggingVersion);
-
+  private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
+    if (this.platform64BitSupported) { group.addControl("use32BitWorkerProcess", this._fb.control(webConfigArm.properties.use32BitWorkerProcess)); }
+    if (this.webSocketsSupported) { group.addControl("webSocketsEnabled", this._fb.control(webConfigArm.properties.webSocketsEnabled)); }
+    if (this.alwaysOnSupported) { group.addControl("alwaysOn", this._fb.control(webConfigArm.properties.alwaysOn)); }    
+    if (this.classicPipelineModeSupported) { group.addControl("managedPipelineMode", this._fb.control(webConfigArm.properties.managedPipelineMode)); }
+    if (this.clientAffinitySupported) { group.addControl("clientAffinityEnabled", this._fb.control(siteConfigArm.properties.clientAffinityEnabled)); }
+    group.addControl("remoteDebuggingEnabled", this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
+    group.addControl("remoteDebuggingVersion", this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
     setTimeout(() => { this._setControlsEnabledState(["remoteDebuggingVersion"], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
-
-    return {
-      clientAffinityEnabled: clientAffinityEnabledControl,
-      use32BitWorkerProcess: use32BitWorkerProcessControl,
-      webSocketsEnabled: webSocketsEnabledControl,
-      alwaysOn: alwaysOnControl,
-      managedPipelineMode: managedPipelineModeControl,
-      remoteDebuggingEnabled: remoteDebuggingEnabledControl,
-      remoteDebuggingVersion: remoteDebuggingVersionControl
-    };
   }
 
-  private _setupNetFramworkVersion(netFrameworkVersion: string): FormControl {
+  private _setupNetFramworkVersion(group: FormGroup, netFrameworkVersion: string) {
     let defaultValue = "";
 
     let netFrameworkVersionOptions: DropDownElement<string>[] = [];
@@ -414,141 +417,151 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     let netFrameWorkVersionControl = this._fb.control(defaultValue);
     (<any>netFrameWorkVersionControl).options = netFrameworkVersionOptions;
 
-    return netFrameWorkVersionControl;
+    group.addControl("netFrameWorkVersion", netFrameWorkVersionControl);
   }
 
-  private _setupPhpVersion(phpVersion: string): FormControl {
-    let defaultValue = "";
+  private _setupPhpVersion(group: FormGroup, phpVersion: string) {
+    if (this.phpSupported) {
 
-    let phpVersionOptions: DropDownElement<string>[] = [];
-    let phpVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PhpStack];
+      let defaultValue = "";
 
-    phpVersionOptionsClean.forEach(element => {
-      let match = element.value === phpVersion || (!element.value && !phpVersion);
-      defaultValue = match ? element.value : defaultValue;
+      let phpVersionOptions: DropDownElement<string>[] = [];
+      let phpVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PhpStack];
 
-      phpVersionOptions.push({
-        displayLabel: element.displayLabel,
-        value: element.value,
-        default: match
-      });
-    })
+      phpVersionOptionsClean.forEach(element => {
+        let match = element.value === phpVersion || (!element.value && !phpVersion);
+        defaultValue = match ? element.value : defaultValue;
 
-    let phpVersionControl = this._fb.control(defaultValue);
-    (<any>phpVersionControl).options = phpVersionOptions;
-
-    return phpVersionControl;
-  }
-
-  private _setupPythonVersion(pythonVersion: string): FormControl {
-    let defaultValue = "";
-
-    let pythonVersionOptions: DropDownElement<string>[] = [];
-    let pythonVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PythonStack];
-
-    pythonVersionOptionsClean.forEach(element => {
-      let match = element.value === pythonVersion || (!element.value && !pythonVersion);
-      defaultValue = match ? element.value : defaultValue;
-
-      pythonVersionOptions.push({
-        displayLabel: element.displayLabel,
-        value: element.value,
-        default: match
-      });
-    })
-
-    let pythonVersionControl = this._fb.control(defaultValue);
-    (<any>pythonVersionControl).options = pythonVersionOptions;
-
-    return pythonVersionControl;
-  }
-
-  private _setupJava(javaVersion: string, javaContainer: string, javaContainerVersion: string): JavaSettingsControls {
-    let defaultJavaMinorVersion = "";
-    let javaMinorVersionOptions: DropDownElement<string>[] = [];
-
-    let defaultJavaVersion = "";
-    let javaVersionOptions: DropDownElement<string>[] = [];
-    let javaVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaStack];
-
-    let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
-    let javaWebContainerOptions: DropDownElement<string>[] = [];
-    let javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
-
-    if (javaVersion) {
-      if (this._javaMinorVersionOptionsMap[javaVersion]) {
-        defaultJavaVersion = javaVersion;
-      }
-      else if (this._javaMinorToMajorVersionsMap[javaVersion]) {
-        defaultJavaVersion = this._javaMinorToMajorVersionsMap[javaVersion];
-        defaultJavaMinorVersion = javaVersion;
-      }
-      else {
-        //TODO: How to handle an invalid javaVersion string
-        //javaVersion = "";
-      }
-    }
-
-    //MajorVersion
-    this._selectedJavaVersion = defaultJavaVersion;
-    javaVersionOptionsClean.forEach(element => {
-      javaVersionOptions.push({
-        displayLabel: element.displayLabel,
-        value: element.value,
-        default: element.value === defaultJavaVersion || (!element.value && !defaultJavaVersion)
-      });
-    })
-    let javaVersionControl = this._fb.control(defaultJavaVersion);
-    (<any>javaVersionControl).options = javaVersionOptions;
-
-    //MinorVersion
-    if (defaultJavaVersion) {
-      this._javaMinorVersionOptionsMap[defaultJavaVersion].forEach(element => {
-        javaMinorVersionOptions.push({
-          displayLabel: element.displayLabel,
-          value: element.value,
-          default: element.value === defaultJavaMinorVersion || (!element.value && !defaultJavaMinorVersion)
-        });
-      })
-    }
-    else {
-      javaMinorVersionOptions = [];
-    }
-
-    let javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
-    (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
-
-    //WebContainer
-    if (defaultJavaVersion) {
-      javaWebContainerOptionsClean.forEach(element => {
-        let match = false;
-        let parsedValue: JavaWebContainerProperties = JSON.parse(element.value);
-        if (parsedValue.container.toUpperCase() === javaContainer &&
-          (parsedValue.containerMinorVersion === javaContainerVersion ||
-            (parsedValue.containerMajorVersion === javaContainerVersion && !parsedValue.containerMinorVersion))) {
-          defaultJavaWebContainer = element.value;
-          match = true;
-        }
-        javaWebContainerOptions.push({
+        phpVersionOptions.push({
           displayLabel: element.displayLabel,
           value: element.value,
           default: match
         });
       })
+
+      let phpVersionControl = this._fb.control(defaultValue);
+      (<any>phpVersionControl).options = phpVersionOptions;
+
+      group.addControl("phpVersion", phpVersionControl);
+
     }
-    else {
-      javaWebContainerOptions = [];
+  }
+
+  private _setupPythonVersion(group: FormGroup, pythonVersion: string) {
+    if (this.pythonSupported) {
+
+      let defaultValue = "";
+
+      let pythonVersionOptions: DropDownElement<string>[] = [];
+      let pythonVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PythonStack];
+
+      pythonVersionOptionsClean.forEach(element => {
+        let match = element.value === pythonVersion || (!element.value && !pythonVersion);
+        defaultValue = match ? element.value : defaultValue;
+
+        pythonVersionOptions.push({
+          displayLabel: element.displayLabel,
+          value: element.value,
+          default: match
+        });
+      })
+
+      let pythonVersionControl = this._fb.control(defaultValue);
+      (<any>pythonVersionControl).options = pythonVersionOptions;
+
+      group.addControl("pythonVersion", pythonVersionControl);
+
     }
+  }
 
-    let javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
-    (<any>javaWebContainerControl).options = javaWebContainerOptions;
+  private _setupJava(group: FormGroup, javaVersion: string, javaContainer: string, javaContainerVersion: string) {
+    if (this.javaSupported) {
 
-    return {
-      majorVersion: javaVersionControl,
-      minorVersion: javaMinorVersionControl,
-      webContainer: javaWebContainerControl
-    };
+      let defaultJavaMinorVersion = "";
+      let javaMinorVersionOptions: DropDownElement<string>[] = [];
 
+      let defaultJavaVersion = "";
+      let javaVersionOptions: DropDownElement<string>[] = [];
+      let javaVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaStack];
+
+      let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
+      let javaWebContainerOptions: DropDownElement<string>[] = [];
+      let javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
+
+      if (javaVersion) {
+        if (this._javaMinorVersionOptionsMap[javaVersion]) {
+          defaultJavaVersion = javaVersion;
+        }
+        else if (this._javaMinorToMajorVersionsMap[javaVersion]) {
+          defaultJavaVersion = this._javaMinorToMajorVersionsMap[javaVersion];
+          defaultJavaMinorVersion = javaVersion;
+        }
+        else {
+          //TODO: How to handle an invalid javaVersion string
+          //javaVersion = "";
+        }
+      }
+
+      //MajorVersion
+      this._selectedJavaVersion = defaultJavaVersion;
+      javaVersionOptionsClean.forEach(element => {
+        javaVersionOptions.push({
+          displayLabel: element.displayLabel,
+          value: element.value,
+          default: element.value === defaultJavaVersion || (!element.value && !defaultJavaVersion)
+        });
+      })
+      let javaVersionControl = this._fb.control(defaultJavaVersion);
+      (<any>javaVersionControl).options = javaVersionOptions;
+
+      //MinorVersion
+      if (defaultJavaVersion) {
+        this._javaMinorVersionOptionsMap[defaultJavaVersion].forEach(element => {
+          javaMinorVersionOptions.push({
+            displayLabel: element.displayLabel,
+            value: element.value,
+            default: element.value === defaultJavaMinorVersion || (!element.value && !defaultJavaMinorVersion)
+          });
+        })
+      }
+      else {
+        javaMinorVersionOptions = [];
+      }
+
+      let javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
+      (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
+
+      //WebContainer
+      if (defaultJavaVersion) {
+        javaWebContainerOptionsClean.forEach(element => {
+          let match = false;
+          let parsedValue: JavaWebContainerProperties = JSON.parse(element.value);
+          if (parsedValue.container.toUpperCase() === javaContainer &&
+            (parsedValue.containerMinorVersion === javaContainerVersion ||
+              (parsedValue.containerMajorVersion === javaContainerVersion && !parsedValue.containerMinorVersion))) {
+            defaultJavaWebContainer = element.value;
+            match = true;
+          }
+          javaWebContainerOptions.push({
+            displayLabel: element.displayLabel,
+            value: element.value,
+            default: match
+          });
+        })
+      }
+      else {
+        javaWebContainerOptions = [];
+      }
+
+      let javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
+      (<any>javaWebContainerControl).options = javaWebContainerOptions;
+
+
+      group.addControl("javaVersion", javaVersionControl);
+      group.addControl("javaMinorVersion", javaMinorVersionControl);
+      group.addControl("javaWebContainer", javaWebContainerControl);
+
+    }
   }
 
   private _updateJavaOptions(javaVersion: string) {
@@ -801,52 +814,32 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this.mainForm.valid) {
       //level: site
       let siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
-      let clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
-      siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+      if (this.clientAffinitySupported) {
+        let clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
+        siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+      }
 
       //level: site/config/web
       let webConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._webConfigArm));
 
       // -- non-stack settings --
-      let use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value);
-      let webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value);
-      let alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value);
-      let managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
-      let remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
-      let remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
-
-      webConfigArm.properties.use32BitWorkerProcess = use32BitWorkerProcess;
-      webConfigArm.properties.webSocketsEnabled = webSocketsEnabled;
-      webConfigArm.properties.alwaysOn = alwaysOn;
-      webConfigArm.properties.managedPipelineMode = managedPipelineMode;
-      webConfigArm.properties.remoteDebuggingEnabled = remoteDebuggingEnabled;
-      webConfigArm.properties.remoteDebuggingVersion = remoteDebuggingVersion;
+      if (this.platform64BitSupported) { webConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value); }
+      if (this.webSocketsSupported) { webConfigArm.properties.webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value); }
+      if (this.alwaysOnSupported) { webConfigArm.properties.alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value); }
+      if (this.classicPipelineModeSupported) { webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value); }
+      webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
+      webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
 
       // -- stacks settings --
-      let netFrameWorkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value);
-      let phpVersion = <string>(generalSettingsControls['phpVersion'].value);
-      let pythonVersion = <string>(generalSettingsControls['pythonVersion'].value);
-
-      let javaVersion = <string>(generalSettingsControls['javaVersion'].value);
-      let javaMinorVersion = <string>(generalSettingsControls['javaMinorVersion'].value);
-      javaVersion = javaMinorVersion || javaVersion;
-
-      let javaWebContainer = <string>(generalSettingsControls['javaWebContainer'].value);
-      let javaWebContainerParsed: JavaWebContainerProperties = JSON.parse(javaWebContainer);
-      let javaContainer = javaWebContainerParsed.container;
-      let javaContainerVersion = javaWebContainerParsed.containerMinorVersion || javaWebContainerParsed.containerMajorVersion;
-
-      if (!javaVersion) {
-        javaContainer = "";
-        javaContainerVersion = "";
+      webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value);
+      if (this.phpSupported) { webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value); }
+      if (this.pythonSupported) { webConfigArm.properties.pythonVersion = <string>(generalSettingsControls['pythonVersion'].value); }
+      if (this.javaSupported) {
+        webConfigArm.properties.javaVersion = <string>(generalSettingsControls['javaMinorVersion'].value) || <string>(generalSettingsControls['javaVersion'].value) || "";
+        let javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(<string>(generalSettingsControls['javaWebContainer'].value));
+        webConfigArm.properties.javaContainer = !webConfigArm.properties.javaVersion ? "" : (javaWebContainerProperties.container || "");
+        webConfigArm.properties.javaContainerVersion = !webConfigArm.properties.javaVersion ? "" : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || "");
       }
-
-      webConfigArm.properties.netFrameworkVersion = netFrameWorkVersion;
-      webConfigArm.properties.phpVersion = phpVersion;
-      webConfigArm.properties.pythonVersion = pythonVersion;
-      webConfigArm.properties.javaVersion = javaVersion || "";
-      webConfigArm.properties.javaContainer = javaContainer || "";
-      webConfigArm.properties.javaContainerVersion = javaContainerVersion || "";
 
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
