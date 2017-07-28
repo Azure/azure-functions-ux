@@ -376,6 +376,8 @@ export class TblComponent implements OnInit, OnChanges {
       });
 
       this.items = finalItems;
+      this.sortAscending = true;
+      this.sortedColName = 'title';
 
     }
   }
