@@ -54,7 +54,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
                                                     {displayLabel: 'Group by subscription', value: 'subscription'},
                                                     {displayLabel: 'Group by location', value: 'location'}];
   public groupDisplayText = '';
-  public currGroup = '';
+  public currGroup = 'none';
 
   private _viewInfoSubscription: RxSubscription;
 
@@ -115,7 +115,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   uniqueLocations(apps: AppNode[]) {
-    let locations = []
+    let locations = [];
     for (let app of apps) {
       if (!this.contains(locations, app.location)) {
         locations.push(app.location);
@@ -127,6 +127,11 @@ export class AppsListComponent implements OnInit, OnDestroy {
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
     let newItems = [];
+    this.tableItems.forEach(item => {
+      if (item.type === 'group'){
+        newItems.push(item);
+      }
+    });
     for (let app of this.apps) {
       if (this.contains(this.selectedLocations, app.location)) {
         newItems.push({
@@ -142,7 +147,9 @@ export class AppsListComponent implements OnInit, OnDestroy {
     };
 
     this.tableItems = newItems;
-    this.nameHeader.sort();
+    setTimeout(() => {
+        this.appTable.groupItems(this.currGroup);
+    }, 0);
 
     if (this.selectedLocations.length === this.locationOptions.length) {
         this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
