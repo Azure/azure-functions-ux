@@ -1851,6 +1851,13 @@ export class FunctionApp {
             });
     }
 
+    getEventGridKey(): Observable<string> {
+        return this.getSystemKey().map(keys => {
+            const eventGridKey = keys.keys.find(k => k.name === Constants.eventGridName);
+            return eventGridKey ? eventGridKey.value : '';
+        });
+    }
+
     // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
     createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> | null {
         if (appSettingName && appSettingValue) {
