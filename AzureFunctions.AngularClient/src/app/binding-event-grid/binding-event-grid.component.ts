@@ -1,27 +1,44 @@
 import { Component, Input } from '@angular/core';
-import { EventGridInput} from '../shared/models/binding-input';
+import { EventGridInput } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 
 @Component({
-  selector: 'binding-event-grid',
-  templateUrl: './binding-event-grid.component.html',
-  styleUrls: ['./binding-event-grid.component.scss','./../binding-input/binding-input.component.css']
+    selector: 'binding-event-grid',
+    templateUrl: './binding-event-grid.component.html',
+    styleUrls: ['./binding-event-grid.component.scss', './../binding-input/binding-input.component.css']
 })
 export class BindingEventGridComponent {
 
-  value: string;
+    @Input() input: EventGridInput;
 
-  constructor(private _portalService: PortalService) { }
+    constructor(private _portalService: PortalService) { }
 
-  @Input() set input(input: EventGridInput) {
-      this.value = input.value;
-  }
 
-  openSubscribeBlade() {
-      debugger;
-  }
+    openSubscribeBlade() {
+        //https://dogfoodeventgridtrigger.azurewebsites.net/admin/extensions/EventGridExtensionConfig?functionName=EventGridTrigger-JavaScript&code=W3YQYIvhKLmqDH1TMA05KCg2Rz2n8Dnki9JaPRk9CJMdauJeY4QPcQ==
 
-  openManageBlade() {
-      debugger;
-  }
+
+        this._portalService.openBlade({
+            detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
+            extension: 'Microsoft_Azure_EventGrid',
+            detailBladeInputs: {
+                inputs: {
+                    subscriberEndpointUrl: this.input.subscribeUrl,
+                    label: this.input.bladeLabel
+                }
+            }
+        }, 'event-grid-binding');
+    }
+
+    openManageBlade() {
+        this._portalService.openBlade({
+            detailBlade: 'ListEventSubscriptionsFromSubscriberBlade',
+            extension: 'Microsoft_Azure_EventGrid',
+            detailBladeInputs: {
+                inputs: {
+                    label: this.input.bladeLabel
+                }
+            }
+        }, 'event-grid-binding');
+    }
 }
