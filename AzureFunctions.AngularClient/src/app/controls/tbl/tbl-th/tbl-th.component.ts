@@ -50,23 +50,63 @@ export class TblThComponent implements OnInit {
       table.sortAscending = true;
     }
 
-    table.items = table.items.sort((a: TableItem, b: TableItem) => {
-      let aCol: any;
-      let bCol: any;
+    if (table.groupedBy === 'none') {
+      table.items = table.items.sort((a: TableItem, b: TableItem) => {
+        let aCol: any;
+        let bCol: any;
 
-      aCol = Object.byString(a, this.name);
-      bCol = Object.byString(b, this.name);
+        aCol = Object.byString(a, this.name);
+        bCol = Object.byString(b, this.name);
 
-      aCol = typeof aCol === "string" ? aCol : aCol.toString();
-      bCol = typeof bCol === "string" ? bCol : bCol.toString();
+        aCol = typeof aCol === "string" ? aCol : aCol.toString();
+        bCol = typeof bCol === "string" ? bCol : bCol.toString();
 
-      if (table.sortAscending) {
-        return aCol.localeCompare(bCol);
-      }
-      else {
-        return bCol.localeCompare(aCol);
-      }
-    });
+        if (table.sortAscending) {
+          return aCol.localeCompare(bCol);
+        }
+        else {
+          return bCol.localeCompare(aCol);
+        }
+      });
+    }
+    else {
+      let finalItems = [];
+      let tempItems = [];
+      let groupItems = [];
+      let appItems = [];
+
+      table.items.forEach(item => {
+        if (item.type === 'group') {
+          groupItems.push(item);
+        }
+        else {
+          appItems.push(item);
+        }
+      });
+
+      groupItems.forEach(group => {
+        finalItems.push(group);
+        appItems.forEach(app => {
+          if (app[table.groupedBy] === group.title) {
+            tempItems.push(app);
+          }
+        });
+
+        tempItems.sort((a: TableItem, b: TableItem) => {
+          if (table.sortAscending) {
+            return a[this.name].localeCompare(b[this.name]);
+          }
+          else {
+            return b[this.name].localeCompare(a[this.name]);
+          }
+        });
+
+        finalItems = finalItems.concat(tempItems);
+        tempItems = [];
+      });
+
+      table.items = finalItems;
+    }
   }
 
   setFocused(isSet: boolean) {
