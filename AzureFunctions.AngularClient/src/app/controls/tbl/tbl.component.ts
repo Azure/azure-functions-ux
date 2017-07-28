@@ -4,6 +4,7 @@ import { TblThComponent } from './tbl-th/tbl-th.component';
 import { FormGroup } from '@angular/forms';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList, Inject } from '@angular/core';
 import { Component, OnInit, forwardRef } from '@angular/core';
+import { TableItem } from "app/apps-list/apps-list.component";
 
 export interface TblItem {
   data: any
@@ -27,13 +28,14 @@ export interface TblItem {
 export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
-  @Input() items: TblItem[];
+  @Input() items: TableItem[];
   @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
 
   @ViewChild('tbl') table: ElementRef;
 
   public sortedColName: string;
   public sortAscending: boolean;
+  public groupedBy = 'none';
 
   private _origItems: any[];
   private _focusedRowIndex = -1;
@@ -315,4 +317,67 @@ export class TblComponent implements OnInit, OnChanges {
   get origItems() {
     return this._origItems;
   }
+
+  contains(array: any[], element: any) {
+    for (let elem of array) {
+      if (elem === element) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  groupItems(name: string) {
+    this.groupedBy = name;
+
+    let uniqueGroups = [];
+    let newItems = [].concat(this.items).sort((a: TableItem, b: TableItem) => {
+      return b.title.localeCompare(a.title);
+    })
+
+    for (let index = newItems.length - 1; index > -1; index--) {
+      if (newItems[index].type === 'group') {
+        newItems.splice(index, 1);
+      }
+    }
+
+    this.items = newItems;
+
+    if (name !== 'none') {
+
+      this.items.forEach(item => {
+        if (!this.contains(uniqueGroups, item[name])) {
+          uniqueGroups.push(item[name]);
+          newItems.push({
+            title: item[name],
+            type: 'group',
+            subscription: '',
+            location: '',
+            resourceGroup: ''
+          });
+        }
+      });
+
+      // this.items = newItems;
+
+      let finalItems = [];
+
+      // Sort newItems
+      newItems.reverse();
+      uniqueGroups.sort().forEach(group => {
+        newItems.forEach(item => {
+          if (item.type === 'group' && item.title === group) {
+            finalItems.push(item);
+          }
+          else if (item.type === 'app' && item[name] === group) {
+            finalItems.push(item);
+          }
+        });
+      });
+
+      this.items = finalItems;
+
+    }
+  }
+
 }

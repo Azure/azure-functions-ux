@@ -1,3 +1,4 @@
+import { ResourceGroup } from './../shared/models/resource-group';
 import { element } from 'protractor';
 import { TblComponent } from './../controls/tbl/tbl.component';
 import { TblThComponent } from './../controls/tbl/tbl-th/tbl-th.component';
@@ -15,6 +16,15 @@ import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
+export interface TableItem {
+  title: string;
+  subscription: string;
+  resourceGroup: string;
+  location: string;
+  type: 'app' | 'group';
+  appNode?: AppNode;
+}
+
 @Component({
   selector: 'apps-list',
   templateUrl: './apps-list.component.html',
@@ -23,7 +33,7 @@ import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 export class AppsListComponent implements OnInit, OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public apps: AppNode[] = [];
-  public currApps: AppNode[] = [];
+  public tableItems: TableItem[] = [];
   public appsNode: AppsNode;
   public Resources = PortalResources;
 
@@ -33,16 +43,18 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public locationsDisplayText = "";
   public selectedLocations: string[] = [];
 
+  @ViewChild("table") appTable: TblComponent;
+  @ViewChild("nameHeader") nameHeader: TblThComponent;
   @ViewChild("subHeader") subHeader: TblThComponent;
   @ViewChild("resHeader") resHeader: TblThComponent;
   @ViewChild("locHeader") locHeader: TblThComponent;
 
   public groupOptions: DropDownElement<string>[] = [{displayLabel: "No grouping", value: "none"}, 
-                                                    {displayLabel: "Group by resource group", value: "resource"},
-                                                    {displayLabel: "Group by subscription", value: "subscription"},
-                                                    {displayLabel: "Group by location", value: "location"}];
-  public groupDisplayText = "";
-  public currGroup = "";
+                                                    {displayLabel: "Group by resource group", value: 'resourceGroup'},
+                                                    {displayLabel: 'Group by subscription', value: 'subscription'},
+                                                    {displayLabel: 'Group by location', value: 'location'}];
+  public groupDisplayText = '';
+  public currGroup = '';
 
   private _viewInfoSubscription: RxSubscription;
 
@@ -58,8 +70,17 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.currApps = this.apps;
-        this.uniqueLocations(this.currApps).forEach(location =>
+        this.apps.forEach(app =>
+          this.tableItems.push ({
+            title: app.title,
+            subscription: app.subscription,
+            type: 'app',
+            resourceGroup: app.resourceGroup,
+            location: app.location,
+            appNode: app
+          })
+        );
+        this.uniqueLocations(this.apps).forEach(location =>
           this.locationOptions.push ({
             displayLabel: location,
             value: location
@@ -80,8 +101,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item: AppNode) {
-    item.sideNav.searchExact(item.title);
+  clickRow(item: TableItem) {
+    item.appNode.sideNav.searchExact(item.title);
   }
 
   contains(array: any[], element: any) {
@@ -95,7 +116,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   uniqueLocations(apps: AppNode[]) {
     let locations = []
-    for(let app of apps) {
+    for (let app of apps) {
       if (!this.contains(locations, app.location)) {
         locations.push(app.location);
       }
@@ -105,13 +126,23 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
-    this.currApps = [];
+    let newItems = [];
     for (let app of this.apps) {
       if (this.contains(this.selectedLocations, app.location)) {
-        this.currApps.push(app);
+        newItems.push({
+            title: app.title,
+            subscription: app.subscription,
+            type: 'app',
+            resourceGroup: app.resourceGroup,
+            location: app.location,
+            appNode: app
+        });
       }
 
     };
+
+    this.tableItems = newItems;
+    this.nameHeader.sort();
 
     if (this.selectedLocations.length === this.locationOptions.length) {
         this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
@@ -123,7 +154,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   private _updateLocDisplayText(displayText: string) {
-    this.locationsDisplayText = "";
+    this.locationsDisplayText = '';
     setTimeout(() => {
         this.locationsDisplayText = displayText;
     }, 10);
@@ -134,21 +165,11 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   private _setGroup(group: string) {
-      this.currGroup = group;
+    this.currGroup = group;
 
-      switch(this.currGroup) {
-        case "none":
-          break;
-        case "resource":
-          this.resHeader.sort();
-          break;
-        case "subscription":
-          this.subHeader.sort();
-          break;
-        case "location":
-          this.locHeader.sort();
-          break;
-      }
+    setTimeout(() => {
+        this.appTable.groupItems(group);
+    }, 0);
   }
 
 }

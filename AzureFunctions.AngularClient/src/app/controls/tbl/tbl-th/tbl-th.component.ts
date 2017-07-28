@@ -1,5 +1,6 @@
 import { TblComponent, TblItem } from './../tbl.component';
-import { Component, OnInit, Directive, HostListener, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Directive, HostListener, Input, ElementRef, OnChanges } from '@angular/core';
+import { TableItem } from "app/apps-list/apps-list.component";
 
 @Component({
   selector: 'tbl-th',
@@ -49,7 +50,7 @@ export class TblThComponent implements OnInit {
       table.sortAscending = true;
     }
 
-    table.items = table.items.sort((a: TblItem, b: TblItem) => {
+    table.items = table.items.sort((a: TableItem, b: TableItem) => {
       let aCol: any;
       let bCol: any;
 
