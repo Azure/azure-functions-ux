@@ -1931,4 +1931,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="locationColon" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Group by location</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>No grouping</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Group by resource group</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Group by subscription</value>
+  </data>
 </root>

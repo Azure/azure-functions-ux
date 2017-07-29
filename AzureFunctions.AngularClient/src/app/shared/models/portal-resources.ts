@@ -605,5 +605,9 @@ export class PortalResources
     public static allLocations: string = "allLocations";
     public static locationCount: string = "locationCount";
     public static locationColon: string = "locationColon";
+    public static grouping_location: string = "grouping_location";
+    public static grouping_none: string = "grouping_none";
+    public static grouping_resourceGroup: string = "grouping_resourceGroup";
+    public static grouping_subscription: string = "grouping_subscription";
 }
 

@@ -49,10 +49,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
   @ViewChild("resHeader") resHeader: TblThComponent;
   @ViewChild("locHeader") locHeader: TblThComponent;
 
-  public groupOptions: DropDownElement<string>[] = [{displayLabel: "No grouping", value: "none"}, 
-                                                    {displayLabel: "Group by resource group", value: 'resourceGroup'},
-                                                    {displayLabel: 'Group by subscription', value: 'subscription'},
-                                                    {displayLabel: 'Group by location', value: 'location'}];
+  public groupOptions: DropDownElement<string>[] = [{displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none'}, 
+                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup'},
+                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription'},
+                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location'}];
   public groupDisplayText = '';
   public currGroup = 'none';
 
