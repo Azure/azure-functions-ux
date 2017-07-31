@@ -67,14 +67,14 @@ export class AppsListComponent implements OnInit, OnDestroy {
             subscription: app.subscription,
             type: 'row',
             resourceGroup: app.resourceGroup,
-            location: app.location,
+            location: this.translateService.instant(app.location),
             appNode: app
           })
         );
         this.uniqueLocations(this.apps).forEach(location =>
           this.locationOptions.push ({
-            displayLabel: location,
-            value: location
+            displayLabel:  this.translateService.instant(location),
+            value:  this.translateService.instant(location)
           })
         );
         this.isLoading = false;
@@ -108,8 +108,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
   uniqueLocations(apps: AppNode[]) {
     const locations = [];
     for (const app of apps) {
-      if (!this.contains(locations, app.location)) {
-        locations.push(app.location);
+      if (!this.contains(locations,  this.translateService.instant(app.location))) {
+        locations.push( this.translateService.instant(app.location));
       }
     }
     return locations.sort();
@@ -124,13 +124,13 @@ export class AppsListComponent implements OnInit, OnDestroy {
       }
     });
     for (const app of this.apps) {
-      if (this.contains(this.selectedLocations, app.location)) {
+      if (this.contains(this.selectedLocations,  this.translateService.instant(app.location))) {
         newItems.push({
             title: app.title,
             subscription: app.subscription,
             type: 'row',
             resourceGroup: app.resourceGroup,
-            location: app.location,
+            location:  this.translateService.instant(app.location),
             appNode: app
         });
       }

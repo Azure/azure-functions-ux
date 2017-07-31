@@ -1943,4 +1943,82 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="grouping_subscription" xml:space="preserve">
     <value>Group by subscription</value>
   </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>South Central US</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>North Europe</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>West Europe</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Southeast Asia</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Korea Central</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Korea South</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>West US</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>East US</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Japan West</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Japan East</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>East Asia</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>East US 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>North Central US</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Central US</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Brazil South</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Australia East</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Sputheast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>West India</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Central India</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>South India</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Canada Central</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Canada East</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>West Central US</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>UK West</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>UK South</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>West US 2</value>
+  </data>
 </root>

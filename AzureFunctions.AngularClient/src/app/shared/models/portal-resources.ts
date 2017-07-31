@@ -609,5 +609,31 @@ export class PortalResources
     public static grouping_none: string = "grouping_none";
     public static grouping_resourceGroup: string = "grouping_resourceGroup";
     public static grouping_subscription: string = "grouping_subscription";
+    public static southcentralus: string = "southcentralus";
+    public static northeurope: string = "northeurope";
+    public static westeurope: string = "westeurope";
+    public static southeastasia: string = "southeastasia";
+    public static koreacentral: string = "koreacentral";
+    public static koreasouth: string = "koreasouth";
+    public static westus: string = "westus";
+    public static eastus: string = "eastus";
+    public static japanwest: string = "japanwest";
+    public static japaneast: string = "japaneast";
+    public static eastasia: string = "eastasia";
+    public static eastus2: string = "eastus2";
+    public static northcentralus: string = "northcentralus";
+    public static centralus: string = "centralus";
+    public static brazilsouth: string = "brazilsouth";
+    public static australiaeast: string = "australiaeast";
+    public static australiasoutheast: string = "australiasoutheast";
+    public static westindia: string = "westindia";
+    public static centralindia: string = "centralindia";
+    public static southindia: string = "southindia";
+    public static canadacentral: string = "canadacentral";
+    public static canadaeast: string = "canadaeast";
+    public static westcentralus: string = "westcentralus";
+    public static ukwest: string = "ukwest";
+    public static uksouth: string = "uksouth";
+    public static westus2: string = "westus2";
 }
 
