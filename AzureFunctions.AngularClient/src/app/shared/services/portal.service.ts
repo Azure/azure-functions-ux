@@ -25,9 +25,10 @@ export class PortalService {
     public tabId: string | null;
     public iFrameId: string | null;
 
-    public sessionId = "";
+    public sessionId = '';
 
-    private portalSignature: string = "FxAppBlade";
+    private portalSignature: string = 'FxAppBlade';
+    private portalSignatureFrameBlade: string = 'FxFrameBlade';
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
     private setupOAuthObservable: Subject<SetupOAuthResponse>;
@@ -307,7 +308,7 @@ export class PortalService {
 
     private iframeReceivedMsg(event: Event): void {
 
-        if (!event || !event.data || event.data.signature !== this.portalSignature) {
+        if (!event || !event.data || (event.data.signature !== this.portalSignature && event.data.signature !== this.portalSignatureFrameBlade)) {
             return;
         }
 
@@ -356,6 +357,12 @@ export class PortalService {
         if (PortalService.inIFrame()) {
             window.parent.postMessage(<Data>{
                 signature: this.portalSignature,
+                kind: verb,
+                data: data
+            }, this.shellSrc);
+
+            window.parent.postMessage(<Data>{
+                signature: this.portalSignatureFrameBlade,
                 kind: verb,
                 data: data
             }, this.shellSrc);
