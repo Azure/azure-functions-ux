@@ -163,7 +163,7 @@
         </radio-selector>
       </div>
     </div>
-  
+
     <div *ngIf="!hasWritePermissions || !group" class="shield">
       <div *ngIf="!group" class="shield-message">
         {{loadingStateMessage}}
@@ -200,7 +200,7 @@
         </radio-selector>
       </div>
     </div>
-  
+
     <div *ngIf="!hasWritePermissions || !group" class="shield">
       <div *ngIf="!group" class="shield-message">
         {{loadingStateMessage}}
@@ -208,7 +208,7 @@
     </div>
 
   </div>
-  
+
   <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield transparent">
     <div class="shield-message">
       <p>{{permissionsMessage}}</p>
