@@ -31,9 +31,9 @@ export class RadioSelectorComponent<T> implements OnChanges {
         }
     }
 
-    private _setControlValue(value: T, markDirtyIfChanged: boolean) {
+    private _setControlValue(value: T) {
         if (this.control) {
-            if (markDirtyIfChanged && this.control.value !== value) {
+            if (this.control.value !== value) {
                 this.control.markAsDirty();
             }
             this.control.setValue(value);
@@ -70,7 +70,7 @@ export class RadioSelectorComponent<T> implements OnChanges {
 
     select(option: SelectOption<T>) {
         if (this.control ? !this.control.disabled : !this.disabled) {
-            this._setControlValue(option.value, true);
+            this._setControlValue(option.value);
             this.selectedValue = option.value;
             this.value.next(option.value);
         }
