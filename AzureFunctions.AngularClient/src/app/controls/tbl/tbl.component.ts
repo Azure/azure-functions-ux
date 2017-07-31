@@ -1,13 +1,18 @@
+import { AppNode } from './../../tree-view/app-node';
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { FormGroup } from '@angular/forms';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList, Inject } from '@angular/core';
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { TableItem } from "app/apps-list/apps-list.component";
 
-export interface TblItem {
-  data: any
+export interface TableItem {
+  title: string;
+  subscription: string;
+  resourceGroup: string;
+  location: string;
+  type: 'row' | 'group';
+  appNode?: AppNode;
 }
 
 @Component({
@@ -319,7 +324,7 @@ export class TblComponent implements OnInit, OnChanges {
   }
 
   contains(array: any[], element: any) {
-    for (let elem of array) {
+    for (const elem of array) {
       if (elem === element) {
         return true;
       }
@@ -330,10 +335,10 @@ export class TblComponent implements OnInit, OnChanges {
   groupItems(name: string) {
     this.groupedBy = name;
 
-    let uniqueGroups = [];
-    let newItems = [].concat(this.items).sort((a: TableItem, b: TableItem) => {
+    const uniqueGroups = [];
+    const newItems = [].concat(this.items).sort((a: TableItem, b: TableItem) => {
       return b.title.localeCompare(a.title);
-    })
+    });
 
     for (let index = newItems.length - 1; index > -1; index--) {
       if (newItems[index].type === 'group') {
@@ -358,9 +363,7 @@ export class TblComponent implements OnInit, OnChanges {
         }
       });
 
-      // this.items = newItems;
-
-      let finalItems = [];
+      const finalItems = [];
 
       // Sort newItems
       newItems.reverse();
@@ -369,7 +372,7 @@ export class TblComponent implements OnInit, OnChanges {
           if (item.type === 'group' && item.title === group) {
             finalItems.push(item);
           }
-          else if (item.type === 'app' && item[name] === group) {
+          else if (item.type === 'row' && item[name] === group) {
             finalItems.push(item);
           }
         });

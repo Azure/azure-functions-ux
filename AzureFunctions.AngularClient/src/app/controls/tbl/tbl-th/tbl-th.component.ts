@@ -1,6 +1,5 @@
-import { TblComponent, TblItem } from './../tbl.component';
+import { TblComponent, TableItem } from './../tbl.component';
 import { Component, OnInit, Directive, HostListener, Input, ElementRef, OnChanges } from '@angular/core';
-import { TableItem } from "app/apps-list/apps-list.component";
 
 @Component({
   selector: 'tbl-th',
@@ -72,8 +71,8 @@ export class TblThComponent implements OnInit {
     else {
       let finalItems = [];
       let tempItems = [];
-      let groupItems = [];
-      let appItems = [];
+      const groupItems = [];
+      const appItems = [];
 
       table.items.forEach(item => {
         if (item.type === 'group') {

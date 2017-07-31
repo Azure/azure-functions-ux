@@ -1,6 +1,6 @@
 import { ResourceGroup } from './../shared/models/resource-group';
 import { element } from 'protractor';
-import { TblComponent } from './../controls/tbl/tbl.component';
+import { TblComponent, TableItem } from './../controls/tbl/tbl.component';
 import { TblThComponent } from './../controls/tbl/tbl-th/tbl-th.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
@@ -15,15 +15,6 @@ import 'rxjs/add/operator/switchMap';
 import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-
-export interface TableItem {
-  title: string;
-  subscription: string;
-  resourceGroup: string;
-  location: string;
-  type: 'app' | 'group';
-  appNode?: AppNode;
-}
 
 @Component({
   selector: 'apps-list',
@@ -40,16 +31,16 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public isLoading = true;
 
   public locationOptions: DropDownElement<string>[] = [];
-  public locationsDisplayText = "";
+  public locationsDisplayText = '';
   public selectedLocations: string[] = [];
 
-  @ViewChild("table") appTable: TblComponent;
-  @ViewChild("nameHeader") nameHeader: TblThComponent;
-  @ViewChild("subHeader") subHeader: TblThComponent;
-  @ViewChild("resHeader") resHeader: TblThComponent;
-  @ViewChild("locHeader") locHeader: TblThComponent;
+  @ViewChild('table') appTable: TblComponent;
+  @ViewChild('nameHeader') nameHeader: TblThComponent;
+  @ViewChild('subHeader') subHeader: TblThComponent;
+  @ViewChild('resHeader') resHeader: TblThComponent;
+  @ViewChild('locHeader') locHeader: TblThComponent;
 
-  public groupOptions: DropDownElement<string>[] = [{displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none'}, 
+  public groupOptions: DropDownElement<string>[] = [{displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none'},
                                                     {displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup'},
                                                     {displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription'},
                                                     {displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location'}];
@@ -74,7 +65,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
           this.tableItems.push ({
             title: app.title,
             subscription: app.subscription,
-            type: 'app',
+            type: 'row',
             resourceGroup: app.resourceGroup,
             location: app.location,
             appNode: app
@@ -106,8 +97,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   contains(array: any[], element: any) {
-    for (let elem of array) {
-      if (elem === element){
+    for (const elem of array) {
+      if (elem === element) {
         return true;
       }
     }
@@ -115,8 +106,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   uniqueLocations(apps: AppNode[]) {
-    let locations = [];
-    for (let app of apps) {
+    const locations = [];
+    for (const app of apps) {
       if (!this.contains(locations, app.location)) {
         locations.push(app.location);
       }
@@ -126,18 +117,18 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
-    let newItems = [];
+    const newItems = [];
     this.tableItems.forEach(item => {
-      if (item.type === 'group'){
+      if (item.type === 'group') {
         newItems.push(item);
       }
     });
-    for (let app of this.apps) {
+    for (const app of this.apps) {
       if (this.contains(this.selectedLocations, app.location)) {
         newItems.push({
             title: app.title,
             subscription: app.subscription,
-            type: 'app',
+            type: 'row',
             resourceGroup: app.resourceGroup,
             location: app.location,
             appNode: app

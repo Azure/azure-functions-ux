@@ -14,7 +14,6 @@ import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
-import { TblItem } from './../../controls/tbl/tbl.component';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
