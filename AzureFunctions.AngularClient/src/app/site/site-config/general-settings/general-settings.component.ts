@@ -55,8 +55,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _sku: string;
   private _kind: string;
 
-  private _availableStacksArm: ArmArrayResult<AvailableStack>;
-
   public clientAffinityEnabledOptions: SelectOption<boolean>[];
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
   public webSocketsEnabledOptions: SelectOption<boolean>[];
@@ -131,7 +129,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           Observable.of(this.hasWritePermissions),
           this._cacheService.getArm(`${this.resourceId}`, true),
           this._cacheService.getArm(`${this.resourceId}/config/web`, true),
-          !this._availableStacksArm ? this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks`, true) : Observable.of(null),
+          this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks`),
           (h, c, w, s) => ({ hasWritePermissions: h, siteConfigResponse: c, webConfigResponse: w, availableStacksResponse: s })
         )
       })
@@ -145,8 +143,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .subscribe(r => {
         this._siteConfigArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
-        this._availableStacksArm = this._availableStacksArm || r.availableStacksResponse.json();
-        if (!this._versionOptionsMap) { this._parseAvailableStacks(this._availableStacksArm); }
+        let availableStacksArm = r.availableStacksResponse.json();
+        if (!this._versionOptionsMap) { this._parseAvailableStacks(availableStacksArm); }
         this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
         this._busyStateScopeManager.clearBusy();
@@ -642,10 +640,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _parseAvailableStacks(availableStacksArm: ArmArrayResult<AvailableStack>) {
-    this._availableStacksArm = availableStacksArm;
     this._versionOptionsMap = {};
 
-    this._availableStacksArm.value.forEach(availableStackArm => {
+    availableStacksArm.value.forEach(availableStackArm => {
       switch (availableStackArm.name) {
         case AvailableStackNames.NetStack:
           this._parseNetStackOptions(availableStackArm.properties);
