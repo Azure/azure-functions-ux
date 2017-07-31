@@ -25,10 +25,10 @@ export class PortalService {
     public tabId: string | null;
     public iFrameId: string | null;
 
-    public sessionId = "";
+    public sessionId = '';
 
-    private portalSignature: string = "FxAppBlade";
-    private portalSignatureFrameBlade: string = "FxFrameBlade";
+    private portalSignature: string = 'FxAppBlade';
+    private portalSignatureFrameBlade: string = 'FxFrameBlade';
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
     private setupOAuthObservable: Subject<SetupOAuthResponse>;
