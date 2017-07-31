@@ -351,7 +351,7 @@ export class TblComponent implements OnInit, OnChanges {
     if (name !== 'none') {
 
       this.items.forEach(item => {
-        if (!this.contains(uniqueGroups, item[name])) {
+        if (!uniqueGroups.find(i => i === item[name])) {
           uniqueGroups.push(item[name]);
           newItems.push({
             title: item[name],
@@ -371,8 +371,7 @@ export class TblComponent implements OnInit, OnChanges {
         newItems.forEach(item => {
           if (item.type === 'group' && item.title === group) {
             finalItems.push(item);
-          }
-          else if (item.type === 'row' && item[name] === group) {
+          } else if (item.type === 'row' && item[name] === group) {
             finalItems.push(item);
           }
         });

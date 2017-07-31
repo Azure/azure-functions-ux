@@ -43,8 +43,7 @@ export class TblThComponent implements OnInit {
 
     if (table.sortedColName && table.sortedColName === this.name) {
       table.sortAscending = !table.sortAscending;
-    }
-    else {
+    } else {
       table.sortedColName = this.name;
       table.sortAscending = true;
     }
@@ -62,13 +61,11 @@ export class TblThComponent implements OnInit {
 
         if (table.sortAscending) {
           return aCol.localeCompare(bCol);
-        }
-        else {
+        } else {
           return bCol.localeCompare(aCol);
         }
       });
-    }
-    else {
+    } else {
       let finalItems = [];
       let tempItems = [];
       const groupItems = [];
@@ -77,8 +74,7 @@ export class TblThComponent implements OnInit {
       table.items.forEach(item => {
         if (item.type === 'group') {
           groupItems.push(item);
-        }
-        else {
+        } else {
           appItems.push(item);
         }
       });
@@ -94,8 +90,7 @@ export class TblThComponent implements OnInit {
         tempItems.sort((a: TableItem, b: TableItem) => {
           if (table.sortAscending) {
             return a[this.name].localeCompare(b[this.name]);
-          }
-          else {
+          } else {
             return b[this.name].localeCompare(a[this.name]);
           }
         });
@@ -114,8 +109,7 @@ export class TblThComponent implements OnInit {
       const th = <HTMLTableHeaderCellElement>element.parentElement;
       if (isSet) {
         th.classList.add('focused');
-      }
-      else {
+      } else {
         th.classList.remove('focused');
       }
     }

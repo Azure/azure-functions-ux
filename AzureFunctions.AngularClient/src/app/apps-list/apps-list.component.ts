@@ -1,5 +1,3 @@
-import { ResourceGroup } from './../shared/models/resource-group';
-import { element } from 'protractor';
 import { TblComponent, TableItem } from './../controls/tbl/tbl.component';
 import { TblThComponent } from './../controls/tbl/tbl-th/tbl-th.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,10 +33,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public selectedLocations: string[] = [];
 
   @ViewChild('table') appTable: TblComponent;
-  @ViewChild('nameHeader') nameHeader: TblThComponent;
-  @ViewChild('subHeader') subHeader: TblThComponent;
-  @ViewChild('resHeader') resHeader: TblThComponent;
-  @ViewChild('locHeader') locHeader: TblThComponent;
 
   public groupOptions: DropDownElement<string>[] = [{displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none'},
                                                     {displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup'},
@@ -96,20 +90,11 @@ export class AppsListComponent implements OnInit, OnDestroy {
     item.appNode.sideNav.searchExact(item.title);
   }
 
-  contains(array: any[], element: any) {
-    for (const elem of array) {
-      if (elem === element) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   uniqueLocations(apps: AppNode[]) {
     const locations = [];
     for (const app of apps) {
-      if (!this.contains(locations,  this.translateService.instant(app.location))) {
-        locations.push( this.translateService.instant(app.location));
+      if (!locations.find(l => l === this.translateService.instant(app.location))) {
+        locations.push(this.translateService.instant(app.location));
       }
     }
     return locations.sort();
@@ -124,7 +109,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
       }
     });
     for (const app of this.apps) {
-      if (this.contains(this.selectedLocations,  this.translateService.instant(app.location))) {
+      if (this.selectedLocations.find(l => l === this.translateService.instant(app.location))) {
         newItems.push({
             title: app.title,
             subscription: app.subscription,
@@ -142,20 +127,22 @@ export class AppsListComponent implements OnInit, OnDestroy {
         this.appTable.groupItems(this.currGroup);
     }, 0);
 
-    if (this.selectedLocations.length === this.locationOptions.length) {
+    if (this.selectedLocations.length === this.locationOptions.length) { // if all locations are selected display all locations
         this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
-    } else if (this.selectedLocations.length > 1) {
+    } else if (this.selectedLocations.length > 1) { // else if more than 1 locations are selected display the number of locations
         this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
-    } else {
-        this._updateLocDisplayText(`${locations[0]}`);
+    } else { // else 1 location is selected and its name is displayed
+        this._updateLocDisplayText(`${this.selectedLocations[0]}`);
     }
   }
 
   private _updateLocDisplayText(displayText: string) {
     this.locationsDisplayText = '';
+
+    // timeout is needed to re-render the page for display update
     setTimeout(() => {
         this.locationsDisplayText = displayText;
-    }, 10);
+    }, 0);
   }
 
   onGroupSelect(group: string) {
@@ -165,6 +152,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   private _setGroup(group: string) {
     this.currGroup = group;
 
+    // timeout is needed to re-render the page for grouping update
     setTimeout(() => {
         this.appTable.groupItems(group);
     }, 0);
