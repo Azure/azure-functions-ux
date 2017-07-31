@@ -26,10 +26,15 @@
   </tr>
 
   <tr *ngFor="let item of table.items">
-    <td *ngIf="item.type === 'row'"><a (click)="clickRow(item)">{{item.title}}</a></td>
-    <td *ngIf="item.type === 'row'">{{item.subscription}}</td>
-    <td *ngIf="item.type === 'row'">{{item.resourceGroup}}</td>
-    <td *ngIf="item.type === 'row'">{{item.location}}</td>    
+    <td *ngIf="item.type === 'row' && table.groupedBy === 'none'"><a (click)="clickRow(item)">{{item.title}}</a></td>
+    <td *ngIf="item.type === 'row' && table.groupedBy === 'none'">{{item.subscription}}</td>
+    <td *ngIf="item.type === 'row' && table.groupedBy === 'none'">{{item.resourceGroup}}</td>
+    <td *ngIf="item.type === 'row' && table.groupedBy === 'none'">{{item.location}}</td>
+    
+    <td class='tabbed' *ngIf="item.type === 'row' && table.groupedBy !== 'none'"><a (click)="clickRow(item)">{{item.title}}</a></td>
+    <td class='tabbed' *ngIf="item.type === 'row' && table.groupedBy !== 'none'">{{item.subscription}}</td>
+    <td class='tabbed' *ngIf="item.type === 'row' && table.groupedBy !== 'none'">{{item.resourceGroup}}</td>
+    <td class='tabbed' *ngIf="item.type === 'row' && table.groupedBy !== 'none'">{{item.location}}</td>    
 
     <td *ngIf="item.type === 'group'">{{item.title}}</td>
     <td *ngIf="item.type === 'group'"></td>
