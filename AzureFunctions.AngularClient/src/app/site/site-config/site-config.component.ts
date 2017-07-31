@@ -19,7 +19,7 @@ import { AiService } from './../../shared/services/ai.service';
 
 export interface SaveResult {
   success: boolean;
-  error?: string;
+  errors?: string[];
 }
 
 @Component({
@@ -117,9 +117,18 @@ export class SiteConfigComponent implements OnDestroy {
         this._busyStateScopeManager.clearBusy();
         this.mainForm = this._fb.group({});
 
-        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
-        let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
-        let saveSuccess: boolean = saveFailures.length == 0;
+        let saveFailures: string[] = [];
+        let saveSuccess: boolean = true;
+
+        [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult].forEach(result => {
+          if (!result.success) {
+            saveSuccess = false;
+            if (!!result.errors) {
+              saveFailures = saveFailures.concat(result.errors);
+            }
+          }
+        })
+        
         let saveNotification = saveSuccess ?
           this._translateService.instant(PortalResources.configUpdateSuccess) :
           this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);

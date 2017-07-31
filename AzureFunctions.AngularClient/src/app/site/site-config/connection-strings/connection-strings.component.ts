@@ -226,14 +226,14 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           this._connectionStringsArm = connectionStringsResponse.json();
           return {
             success: true,
-            error: null
+            errors: null
           };
         })
         .catch(error => {
           this._saveError = error._body;
           return Observable.of({
             success: false,
-            error: error._body
+            errors: [error._body]
           });
         });
     }
@@ -242,7 +242,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
       return Observable.of({
         success: false,
-        error: failureMessage
+        errors: [failureMessage]
       });
     }
   }

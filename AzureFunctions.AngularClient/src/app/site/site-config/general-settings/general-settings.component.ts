@@ -64,7 +64,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
 
-  private _saveError: string;
+  private _saveErrorSiteConfig: string;
+  private _saveErrorWebConfig: string;
 
   private _webConfigArm: ArmObj<SiteConfig>;
   private _siteConfigArm: ArmObj<Site>;
@@ -130,7 +131,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .distinctUntilChanged()
       .switchMap(() => {
         this._busyStateScopeManager.setBusy();
-        this._saveError = null;
+        this._saveErrorSiteConfig = null;
+        this._saveErrorWebConfig = null;
         this._siteConfigArm = null;
         this._webConfigArm = null;
         this.group = null;
@@ -290,16 +292,25 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       this._clearChildSubscriptions();
 
-      if (!this._saveError || !this.group) {
-        let group = this._fb.group({});
+      if (!this.group || !this._saveErrorSiteConfig || !this._saveErrorWebConfig) {
 
-        this._setupNetFramworkVersion(group, webConfigArm.properties.netFrameworkVersion);
-        this._setupPhpVersion(group, webConfigArm.properties.phpVersion);
-        this._setupPythonVersion(group, webConfigArm.properties.pythonVersion);
-        this._setupJava(group, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
-        this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
+        let needsRebuild = false;
+        if (!this.group || (!this._saveErrorSiteConfig && !this._saveErrorWebConfig)) {
+          this.group = this._fb.group({});
+          needsRebuild = true;
+        }
 
-        this.group = group;
+        if (needsRebuild || !this._saveErrorSiteConfig) {
+          this._setupSiteConfigSettings(this.group, siteConfigArm);
+        }
+
+        if (needsRebuild || !this._saveErrorWebConfig) {
+          this._setupWebConfigSettings(this.group, webConfigArm);
+          this._setupNetFramworkVersion(this.group, webConfigArm.properties.netFrameworkVersion);
+          this._setupPhpVersion(this.group, webConfigArm.properties.phpVersion);
+          this._setupPythonVersion(this.group, webConfigArm.properties.pythonVersion);
+          this._setupJava(this.group, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
+        }
 
       }
 
@@ -325,7 +336,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     }
 
-    this._saveError = null;
+    this._saveErrorSiteConfig = null;
+    this._saveErrorWebConfig = null;
 
     this.showPermissionsMessage = true;
   }
@@ -394,12 +406,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
        { displayLabel: "2017", value: "VS2017" }];
   }
 
-  private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
+  private _setupSiteConfigSettings(group: FormGroup, siteConfigArm: ArmObj<Site>) {
+    if (this.clientAffinitySupported) { group.addControl("clientAffinityEnabled", this._fb.control(siteConfigArm.properties.clientAffinityEnabled)); }
+  }
+
+  private _setupWebConfigSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>) {
     if (this.platform64BitSupported) { group.addControl("use32BitWorkerProcess", this._fb.control(webConfigArm.properties.use32BitWorkerProcess)); }
     if (this.webSocketsSupported) { group.addControl("webSocketsEnabled", this._fb.control(webConfigArm.properties.webSocketsEnabled)); }
     if (this.alwaysOnSupported) { group.addControl("alwaysOn", this._fb.control(webConfigArm.properties.alwaysOn)); }    
     if (this.classicPipelineModeSupported) { group.addControl("managedPipelineMode", this._fb.control(webConfigArm.properties.managedPipelineMode)); }
-    if (this.clientAffinitySupported) { group.addControl("clientAffinityEnabled", this._fb.control(siteConfigArm.properties.clientAffinityEnabled)); }
     group.addControl("remoteDebuggingEnabled", this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
     group.addControl("remoteDebuggingVersion", this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
     setTimeout(() => { this._setControlsEnabledState(["remoteDebuggingVersion"], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
@@ -849,33 +864,63 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         webConfigArm.properties.javaContainerVersion = !webConfigArm.properties.javaVersion ? "" : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || "");
       }
 
-      return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-        this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm),
-        (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
-      )
-        .map(r => {
-          this._siteConfigArm = r.siteConfigResponse.json();
-          this._webConfigArm = r.webConfigResponse.json();
+      
+      let siteConfReq =
+        this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm)
+        .map(siteConfigResponse => {
+          this._siteConfigArm = siteConfigResponse.json();
           return {
             success: true,
-            error: null
+            errors: null
           };
         })
         .catch(error => {
-          this._saveError = error._body;
+          this._saveErrorSiteConfig = error._body;
           return Observable.of({
             success: false,
-            error: error._body
+            errors: [error._body]
           });
         });
+
+      let webConfReq =
+        this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm)
+        .map(webConfigResponse => {
+          this._webConfigArm = webConfigResponse.json();
+          return {
+            success: true,
+            errors: null
+          };
+        })
+        .catch(error => {
+          this._saveErrorWebConfig = error._body;
+          return Observable.of({
+            success: false,
+            errors: [error._body]
+          });
+        });
+
+      return Observable.zip(
+        siteConfReq,
+        webConfReq,
+        (c, w) => ({ siteConfigSaveResult: c, webConfigSaveResult: w })
+      )
+      .map(r => {
+        let errors = [];
+        if (!r.siteConfigSaveResult.success && !! r.siteConfigSaveResult.errors) { errors = errors.concat(r.siteConfigSaveResult.errors); }
+        if (!r.webConfigSaveResult.success && !! r.webConfigSaveResult.errors) { errors = errors.concat(r.webConfigSaveResult.errors); }
+        return {
+          success: r.siteConfigSaveResult.success && r.webConfigSaveResult.success,
+          errors: errors
+        };
+      });
+
     }
     else {
       let configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
       let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
       return Observable.of({
         success: false,
-        error: failureMessage
+        errors: [failureMessage]
       });
     }
   }
