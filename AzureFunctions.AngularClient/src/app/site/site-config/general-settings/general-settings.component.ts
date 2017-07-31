@@ -163,7 +163,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._resourceIdSubscription) { this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null; }
+    if (this._resourceIdSubscription) {
+      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+    }
     this._clearChildSubscriptions();
     this._busyStateScopeManager.dispose();
   }
@@ -207,8 +209,12 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _clearChildSubscriptions() {
-    if (this._javaVersionSubscription) { this._javaVersionSubscription.unsubscribe(); this._javaVersionSubscription = null; }
-    if (this._remoteDebuggingSubscription) { this._remoteDebuggingSubscription.unsubscribe(); this._remoteDebuggingSubscription = null; }
+    if (this._javaVersionSubscription) {
+      this._javaVersionSubscription.unsubscribe(); this._javaVersionSubscription = null;
+    }
+    if (this._remoteDebuggingSubscription) {
+      this._remoteDebuggingSubscription.unsubscribe(); this._remoteDebuggingSubscription = null;
+    }
   }
 
   private _resetSupportedControls() {
@@ -377,11 +383,20 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-    if (this.platform64BitSupported) { group.addControl("use32BitWorkerProcess", this._fb.control(webConfigArm.properties.use32BitWorkerProcess)); }
-    if (this.webSocketsSupported) { group.addControl("webSocketsEnabled", this._fb.control(webConfigArm.properties.webSocketsEnabled)); }
-    if (this.alwaysOnSupported) { group.addControl("alwaysOn", this._fb.control(webConfigArm.properties.alwaysOn)); }    
-    if (this.classicPipelineModeSupported) { group.addControl("managedPipelineMode", this._fb.control(webConfigArm.properties.managedPipelineMode)); }
-    if (this.clientAffinitySupported) { group.addControl("clientAffinityEnabled", this._fb.control(siteConfigArm.properties.clientAffinityEnabled)); }
+    if (this.platform64BitSupported) {
+      group.addControl("use32BitWorkerProcess", this._fb.control(webConfigArm.properties.use32BitWorkerProcess));
+    }
+    if (this.webSocketsSupported) {
+      group.addControl("webSocketsEnabled", this._fb.control(webConfigArm.properties.webSocketsEnabled));
+    }
+    if (this.alwaysOnSupported) {
+      group.addControl("alwaysOn", this._fb.control(webConfigArm.properties.alwaysOn)); }    
+    if (this.classicPipelineModeSupported) {
+      group.addControl("managedPipelineMode", this._fb.control(webConfigArm.properties.managedPipelineMode));
+    }
+    if (this.clientAffinitySupported) {
+      group.addControl("clientAffinityEnabled", this._fb.control(siteConfigArm.properties.clientAffinityEnabled));
+    }
     group.addControl("remoteDebuggingEnabled", this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
     group.addControl("remoteDebuggingVersion", this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
     setTimeout(() => { this._setControlsEnabledState(["remoteDebuggingVersion"], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
@@ -813,17 +828,29 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let webConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._webConfigArm));
 
       // -- non-stack settings --
-      if (this.platform64BitSupported) { webConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value); }
-      if (this.webSocketsSupported) { webConfigArm.properties.webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value); }
-      if (this.alwaysOnSupported) { webConfigArm.properties.alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value); }
-      if (this.classicPipelineModeSupported) { webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value); }
+      if (this.platform64BitSupported) {
+        webConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value);
+      }
+      if (this.webSocketsSupported) {
+        webConfigArm.properties.webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value);
+      }
+      if (this.alwaysOnSupported) {
+        webConfigArm.properties.alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value);
+      }
+      if (this.classicPipelineModeSupported) {
+        webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
+      }
       webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
       webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
 
       // -- stacks settings --
       webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value);
-      if (this.phpSupported) { webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value); }
-      if (this.pythonSupported) { webConfigArm.properties.pythonVersion = <string>(generalSettingsControls['pythonVersion'].value); }
+      if (this.phpSupported) {
+        webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value);
+      }
+      if (this.pythonSupported) {
+        webConfigArm.properties.pythonVersion = <string>(generalSettingsControls['pythonVersion'].value);
+      }
       if (this.javaSupported) {
         webConfigArm.properties.javaVersion = <string>(generalSettingsControls['javaMinorVersion'].value) || <string>(generalSettingsControls['javaVersion'].value) || "";
         let javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(<string>(generalSettingsControls['javaWebContainer'].value));

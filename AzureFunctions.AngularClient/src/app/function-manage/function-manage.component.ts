@@ -113,6 +113,8 @@ export class FunctionManageComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this._functionStateValueSubscription) { this._functionStateValueSubscription.unsubscribe(); this._functionStateValueSubscription = null; }
+        if (this._functionStateValueSubscription) {
+            this._functionStateValueSubscription.unsubscribe(); this._functionStateValueSubscription = null;
+        }
     }
 }

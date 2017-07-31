@@ -115,7 +115,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._resourceIdSubscription) { this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null; }
+    if (this._resourceIdSubscription) {
+      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+    }
     this._busyStateScopeManager.dispose();
   }
 
