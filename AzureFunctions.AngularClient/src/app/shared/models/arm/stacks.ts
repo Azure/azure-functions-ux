@@ -19,13 +19,13 @@ export interface AvailableStack extends Framework {
 }
 
 export class AvailableStackNames {
-    public static NetStack: string = "aspnet";
-    public static DotNetCore: string = "dotnetcore";
-    public static NodeStack: string = "node";
-    public static PhpStack: string = "php";
-    public static CustomContainer: string = "custom";
-    public static PythonStack: string = "python";
-    public static JavaStack: string = "java";
-    public static RubyStack: string = "ruby";
-    public static JavaContainer: string = "javaContainers";
+    public static readonly NetStack: string = "aspnet";
+    public static readonly DotNetCore: string = "dotnetcore";
+    public static readonly NodeStack: string = "node";
+    public static readonly PhpStack: string = "php";
+    public static readonly CustomContainer: string = "custom";
+    public static readonly PythonStack: string = "python";
+    public static readonly JavaStack: string = "java";
+    public static readonly RubyStack: string = "ruby";
+    public static readonly JavaContainer: string = "javaContainers";
 }
