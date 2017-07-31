@@ -23,27 +23,9 @@ import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 
-export class JavaWebContainerProperties {
-  container: string;
-  containerMajorVersion: string;
-  containerMinorVersion: string;
-}
-
-export class JavaSettingsControls {
-  majorVersion: FormControl;
-  minorVersion: FormControl;
-  webContainer: FormControl;
-}
-
-export class GeneralSettingsControls {
-  clientAffinityEnabled: FormControl;
-  use32BitWorkerProcess: FormControl;
-  webSocketsEnabled: FormControl;
-  alwaysOn: FormControl;
-  managedPipelineMode: FormControl;
-  remoteDebuggingEnabled: FormControl;
-  remoteDebuggingVersion: FormControl;
-}
+import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
+import { JavaSettingsControls } from './models/java-settings-controls';
+import { GeneralSettingsControls } from './models/general-settings-controls';
 
 @Component({
   selector: 'general-settings',
