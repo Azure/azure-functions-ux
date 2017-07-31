@@ -57,10 +57,11 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down #javaVersionDropDown
+        <drop-down
           [control]="!!group ? group.controls['javaVersion'] : null"
           [options]="!!group ? group.controls['javaVersion'].options : []"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          (value)="updateJavaOptions($event)">
         </drop-down>
       </div>
     </div>
@@ -181,10 +182,11 @@
       <div class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}
       </div>
       <div class="setting-control-container">
-        <radio-selector #remoteDebuggingRadioButton
+        <radio-selector
           [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
           [options]="remoteDebuggingEnabledOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          (value)="updateRemoteDebuggingVersionOptions($event)">
         </radio-selector>
       </div>
     </div>

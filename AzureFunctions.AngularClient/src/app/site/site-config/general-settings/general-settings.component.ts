@@ -62,8 +62,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public managedPipelineModeOptions: SelectOption<number>[];
   public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
   public remoteDebuggingVersionOptions: SelectOption<string>[];
-  private _remoteDebuggingSubscription: RxSubscription;
-
 
   private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: "-", containerMajorVersion: "", containerMinorVersion: "" };
 
@@ -72,7 +70,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _javaMinorToMajorVersionsMap: { [key: string]: string };
 
   private _selectedJavaVersion: string;
-  private _javaVersionSubscription: RxSubscription;
 
   public phpSupported: boolean = false;
   public pythonSupported: boolean = false;
@@ -87,8 +84,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   @Input() resourceId: string;
 
-  @ViewChild("javaVersionDropDown") _javaVersionDropDown: DropDownComponent<string>;
-  @ViewChild("remoteDebuggingRadioButton") _remoteDebuggingRadioButton: RadioSelectorComponent<boolean>;
+  private _ignoreChildEvents: boolean = true;
 
   constructor(
     private _cacheService: CacheService,
@@ -114,7 +110,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._siteConfigArm = null;
         this._webConfigArm = null;
         this.group = null;
-        this._clearChildSubscriptions();
+        this._ignoreChildEvents = true;
         this._resetSupportedControls();
         this._resetPermissionsAndLoadingState();
         return Observable.zip(
@@ -164,7 +160,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this._resourceIdSubscription) {
       this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
     }
-    this._clearChildSubscriptions();
     this._busyStateScopeManager.dispose();
   }
 
@@ -188,31 +183,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
-  }
-
-  private _setupChildSubscriptions() {
-    this._clearChildSubscriptions();
-    if (!!this.group) {
-      if (!this._javaVersionSubscription && !!this._javaVersionDropDown) {
-        this._javaVersionSubscription = this._javaVersionDropDown.value.subscribe(javaVersion => {
-          this._updateJavaOptions(javaVersion);
-        });
-      }
-      if (!this._remoteDebuggingSubscription && !!this._remoteDebuggingRadioButton) {
-        this._remoteDebuggingSubscription = this._remoteDebuggingRadioButton.value.subscribe(enabled => {
-          this._setControlsEnabledState(["remoteDebuggingVersion"], enabled);
-        })
-      }
-    }
-  }
-
-  private _clearChildSubscriptions() {
-    if (this._javaVersionSubscription) {
-      this._javaVersionSubscription.unsubscribe(); this._javaVersionSubscription = null;
-    }
-    if (this._remoteDebuggingSubscription) {
-      this._remoteDebuggingSubscription.unsubscribe(); this._remoteDebuggingSubscription = null;
-    }
   }
 
   private _resetSupportedControls() {
@@ -274,7 +244,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     if (!!webConfigArm && !!siteConfigArm) {
 
-      this._clearChildSubscriptions();
+      this._ignoreChildEvents = true;
 
       if (!this._saveError || !this.group) {
         let group = this._fb.group({});
@@ -296,7 +266,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this.mainForm.addControl("generalSettings", this.group);
       }
 
-      setTimeout(() => { this._setupChildSubscriptions(); }, 0);
+      setTimeout(() => { this._ignoreChildEvents = false; }, 0);
 
       setTimeout(() => { this._setEnabledStackControls(); }, 0);
 
@@ -398,6 +368,12 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     group.addControl("remoteDebuggingEnabled", this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
     group.addControl("remoteDebuggingVersion", this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
     setTimeout(() => { this._setControlsEnabledState(["remoteDebuggingVersion"], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+  }
+
+  public updateRemoteDebuggingVersionOptions(enabled: boolean) {
+    if(!this._ignoreChildEvents) {
+      this._setControlsEnabledState(["remoteDebuggingVersion"], enabled);
+    }
   }
 
   private _setupNetFramworkVersion(group: FormGroup, netFrameworkVersion: string) {
@@ -567,76 +543,79 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private _updateJavaOptions(javaVersion: string) {
+  public updateJavaOptions(javaVersion: string) {
     let previousJavaVersionSelection = this._selectedJavaVersion;
-    let javaMinorVersionOptions: DropDownElement<string>[];
-    let defaultJavaMinorVersion: string;
-    let javaMinorVersionNeedsUpdate: boolean = false;
-
-    let javaWebContainerOptions: DropDownElement<string>[];
-    let defaultJavaWebContainer: string;
-    let javaWebContainerNeedsUpdate: boolean = false;
-
     this._selectedJavaVersion = javaVersion;
 
-    if (!javaVersion) {
-      if (previousJavaVersionSelection) {
-        javaMinorVersionOptions = [];
+    if(!this._ignoreChildEvents) {
+      let javaMinorVersionOptions: DropDownElement<string>[];
+      let defaultJavaMinorVersion: string;
+      let javaMinorVersionNeedsUpdate: boolean = false;
+
+      let javaWebContainerOptions: DropDownElement<string>[];
+      let defaultJavaWebContainer: string;
+      let javaWebContainerNeedsUpdate: boolean = false;
+
+
+      if (!javaVersion) {
+        if (previousJavaVersionSelection) {
+          javaMinorVersionOptions = [];
+          defaultJavaMinorVersion = "";
+          javaMinorVersionNeedsUpdate = true;
+
+          javaWebContainerOptions = [];
+          defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
+          javaWebContainerNeedsUpdate = true;
+        }
+      }
+      else {
+        let javaMinorVersionOptionsClean = this._javaMinorVersionOptionsMap[javaVersion] || [];
+        javaMinorVersionOptions = JSON.parse(JSON.stringify(javaMinorVersionOptionsClean));
+        javaMinorVersionOptions.forEach(element => {
+          element.default = !element.value;
+        })
         defaultJavaMinorVersion = "";
         javaMinorVersionNeedsUpdate = true;
 
-        javaWebContainerOptions = [];
-        defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
-        javaWebContainerNeedsUpdate = true;
+        if (!previousJavaVersionSelection) {
+          let javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
+          javaWebContainerOptions = JSON.parse(JSON.stringify(javaWebContainerOptionsClean));
+          javaWebContainerOptions[0].default = true;
+          defaultJavaWebContainer = javaWebContainerOptions[0].value;
+          javaWebContainerNeedsUpdate = true;
+        }
       }
+
+      //MinorVersion
+      if (javaMinorVersionNeedsUpdate) {
+        let javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
+        (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
+
+        if (!!this.group.controls["javaMinorVersion"]) {
+          this.group.setControl("javaMinorVersion", javaMinorVersionControl);
+        }
+        else {
+          this.group.addControl("javaMinorVersion", javaMinorVersionControl);
+        }
+        this.group.controls["javaMinorVersion"].markAsDirty();
+      }
+
+      //WebContainer
+      if (javaWebContainerNeedsUpdate) {
+        let javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
+        (<any>javaWebContainerControl).options = javaWebContainerOptions;
+
+        if (!!this.group.controls["javaWebContainer"]) {
+          this.group.setControl("javaWebContainer", javaWebContainerControl);
+        }
+        else {
+          this.group.addControl("javaWebContainer", javaWebContainerControl);
+        }
+        this.group.controls["javaWebContainer"].markAsDirty();
+      }
+
+      setTimeout(() => { this._setEnabledStackControls(); }, 0);
     }
-    else {
-      let javaMinorVersionOptionsClean = this._javaMinorVersionOptionsMap[javaVersion] || [];
-      javaMinorVersionOptions = JSON.parse(JSON.stringify(javaMinorVersionOptionsClean));
-      javaMinorVersionOptions.forEach(element => {
-        element.default = !element.value;
-      })
-      defaultJavaMinorVersion = "";
-      javaMinorVersionNeedsUpdate = true;
-
-      if (!previousJavaVersionSelection) {
-        let javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
-        javaWebContainerOptions = JSON.parse(JSON.stringify(javaWebContainerOptionsClean));
-        javaWebContainerOptions[0].default = true;
-        defaultJavaWebContainer = javaWebContainerOptions[0].value;
-        javaWebContainerNeedsUpdate = true;
-      }
-    }
-
-    //MinorVersion
-    if (javaMinorVersionNeedsUpdate) {
-      let javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
-      (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
-
-      if (!!this.group.controls["javaMinorVersion"]) {
-        this.group.setControl("javaMinorVersion", javaMinorVersionControl);
-      }
-      else {
-        this.group.addControl("javaMinorVersion", javaMinorVersionControl);
-      }
-      this.group.controls["javaMinorVersion"].markAsDirty();
-    }
-
-    //WebContainer
-    if (javaWebContainerNeedsUpdate) {
-      let javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
-      (<any>javaWebContainerControl).options = javaWebContainerOptions;
-
-      if (!!this.group.controls["javaWebContainer"]) {
-        this.group.setControl("javaWebContainer", javaWebContainerControl);
-      }
-      else {
-        this.group.addControl("javaWebContainer", javaWebContainerControl);
-      }
-      this.group.controls["javaWebContainer"].markAsDirty();
-    }
-
-    setTimeout(() => { this._setEnabledStackControls(); }, 0);
   }
 
   private _parseAvailableStacks(availableStacksArm: ArmArrayResult<AvailableStack>) {
