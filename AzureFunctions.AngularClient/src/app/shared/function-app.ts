@@ -268,14 +268,19 @@ export class FunctionApp {
     }
 
     getFunctions() {
+        let fcs: FunctionInfo[];
+
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .catch(e => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .map((r: Response) => {
+            .flatMap((r: Response) => {
                 try {
-                    const fcs = <FunctionInfo[]>r.json();
+                    fcs = r.json() as FunctionInfo[];
                     fcs.forEach(fc => fc.functionApp = this);
-                    return fcs;
+                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
+                        return vsCreatedFunc 
+                            ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
+                            : Observable.of(null);
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -290,8 +295,12 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    return <FunctionInfo[]>[];
+                    fcs  = <FunctionInfo[]>[];
+                    return Observable.of(null);
                 }
+            })
+            .map(() => {
+                return fcs;
             })
             .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
@@ -1867,11 +1876,14 @@ export class FunctionApp {
     }
 
     // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
-    createApplicationSetting(appSettingName: string, appSettingValue: string): Observable<any> {
+    createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> {
         if (appSettingName && appSettingValue) {
             return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
                 r => {
-                  var appSettings: ArmObj<any> = r.json();
+                  const appSettings: ArmObj<any> = r.json();
+                  if (!replaceIfExists && appSettings.properties[appSettingName]) {
+                      return Observable.of(r);
+                  }
                   appSettings.properties[appSettingName] = appSettingValue;
                   return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 });
