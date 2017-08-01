@@ -66,6 +66,9 @@ export class TblThComponent implements OnInit {
         }
       });
     } else {
+
+      // TODO: check if this.groupColName === null and throw exception
+
       let finalItems = [];
       let tempItems = [];
       const groupItems = table.items.filter(item => item.type === 'group');
@@ -74,7 +77,7 @@ export class TblThComponent implements OnInit {
       groupItems.forEach(group => {
         finalItems.push(group);
         rowItems.forEach(app => {
-          if (app[table.groupedBy] === group.title) {
+          if (app[table.groupedBy] === group[this.table.groupColName]) {
             tempItems.push(app);
           }
         });

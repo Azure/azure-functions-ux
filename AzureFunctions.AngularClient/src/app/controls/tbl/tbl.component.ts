@@ -7,12 +7,7 @@ import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, V
 import { Component, OnInit, forwardRef } from '@angular/core';
 
 export interface TableItem {
-  title: string;
-  subscription: string;
-  resourceGroup: string;
-  location: string;
   type: 'row' | 'group';
-  appNode?: AppNode;
 }
 
 @Component({
@@ -34,6 +29,7 @@ export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
+  @Input() groupColName: string | null;
   @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
 
   @ViewChild('tbl') table: ElementRef;
@@ -323,65 +319,61 @@ export class TblComponent implements OnInit, OnChanges {
     return this._origItems;
   }
 
-  contains(array: any[], element: any) {
-    for (const elem of array) {
-      if (elem === element) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   groupItems(name: string) {
+
+    // TODO: check if this.groupColName === null and throw exception
+
     this.groupedBy = name;
 
-    const uniqueGroups = [];
-    const newItems = [].concat(this.items).sort((a: TableItem, b: TableItem) => {
-      return b.title.localeCompare(a.title);
-    });
+    if (name === 'none') {
+      this.items = this.items.filter(item => item.type !== 'group');
+    } else {
+      // sort the row items by groupColName
+      const newItems = this.items.filter(item => item.type !== 'group')
+      .sort((a: TableItem, b: TableItem) => {
 
-    for (let index = newItems.length - 1; index > -1; index--) {
-      if (newItems[index].type === 'group') {
-        newItems.splice(index, 1);
-      }
-    }
+        let aCol: any;
+        let bCol: any;
 
-    this.items = newItems;
+        aCol = Object.byString(a, this.groupColName);
+        bCol = Object.byString(b, this.groupColName);
 
-    if (name !== 'none') {
+        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
-      this.items.forEach(item => {
-        if (!uniqueGroups.find(i => i === item[name])) {
-          uniqueGroups.push(item[name]);
-          newItems.push({
-            title: item[name],
-            type: 'group',
-            subscription: '',
-            location: '',
-            resourceGroup: ''
-          });
-        }
+        return bCol.localeCompare(aCol);
       });
 
-      const finalItems = [];
+      // determine uniqueGroup value
+      const uniqueGroups = newItems.map(item => item[name])
+                                     .filter((v, i, a ) => a.indexOf(v) === i)
+                                     .sort().reverse();
 
-      // Sort newItems
+      // push group items onto newItems
+      uniqueGroups.forEach(groupName => {
+        const newGroup = <TableItem>{type: 'group'};
+        newGroup[this.groupColName] = groupName;
+        newItems.push(newGroup);
+      });
+
+      // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
+      this.items = [];
       newItems.reverse();
       uniqueGroups.sort().forEach(group => {
         newItems.forEach(item => {
-          if (item.type === 'group' && item.title === group) {
-            finalItems.push(item);
+          if (item.type === 'group' && item[this.groupColName] === group) {
+            this.items.push(item);
           } else if (item.type === 'row' && item[name] === group) {
-            finalItems.push(item);
+            this.items.push(item);
           }
         });
       });
 
-      this.items = finalItems;
       this.sortAscending = true;
-      this.sortedColName = 'title';
+      this.sortedColName = this.groupColName;
 
     }
+
   }
 
 }

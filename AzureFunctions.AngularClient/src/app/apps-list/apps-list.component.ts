@@ -14,6 +14,14 @@ import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
+ interface AppTableItem extends TableItem {
+  title: string;
+  subscription: string;
+  resourceGroup: string;
+  location: string;
+  appNode?: AppNode;
+}
+
 @Component({
   selector: 'apps-list',
   templateUrl: './apps-list.component.html',
@@ -55,7 +63,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.tableItems = this.apps.map(app => (<TableItem>{title: app.title,
+        this.tableItems = this.apps.map(app => (<AppTableItem>{title: app.title,
                                               subscription: app.subscription,
                                               type: 'row',
                                               resourceGroup: app.resourceGroup,
@@ -80,7 +88,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.viewInfoStream.next(viewInfo);
   }
 
-  clickRow(item: TableItem) {
+  clickRow(item: AppTableItem) {
     item.appNode.sideNav.searchExact(item.title);
   }
 
@@ -98,7 +106,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
-                              .map(app => (<TableItem> {title: app.title,
+                              .map(app => (<AppTableItem> {title: app.title,
                                                         subscription: app.subscription,
                                                         type: 'row',
                                                         resourceGroup: app.resourceGroup,
