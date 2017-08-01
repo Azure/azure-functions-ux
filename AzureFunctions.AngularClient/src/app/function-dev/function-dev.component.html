@@ -122,7 +122,7 @@
 
                         <div *ngIf="!bottomTab" class="bottom-bar-closed">
                             <span class="tab-label-disabled" (click)="clickBottomTab('logs')">{{ 'logStreaming_logs' | translate }}</span>
-                            <span class="tab-label-disabled" (click)="clickBottomTab('errors')">Errors and warnings</span>
+                            <span class="tab-label-disabled" (click)="clickBottomTab('errors')">{{'diagnostics_errorsAndWarnings' | translate }}</span> 
                             <span style="flex-grow: 1;"></span>
                             <span style="padding-right: 10px;" class="tab-label" (click)="clickBottomTab(bottomTab || 'logs')"><i class="fa fa-chevron-up"></i></span>
                         </div>

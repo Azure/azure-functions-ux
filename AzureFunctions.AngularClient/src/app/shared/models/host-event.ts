@@ -1,4 +1,4 @@
-export class HostEvent {
-    constructor(public id: string, public name : string){
-    };
+export interface HostEvent {
+    id : string;
+    name : string;
 }

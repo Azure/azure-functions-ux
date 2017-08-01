@@ -4,11 +4,11 @@
         <thead>
             <tr>
                 <th [ngStyle] = " { 'width' : '50px'} " ></th>
-                <th [ngStyle] = "{ 'width.px' : codeColumnWidth} " >Code</th>
-                <th [ngStyle] = "{ 'width.px' : msgColumnWidth} " >Description</th>
-                <th [ngStyle] = "{ 'width.px' : sourceColumnWidth} " >File</th>
-                <th [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} " >Line</th>
-                <th [ngStyle] = "{ 'width.px' : startColumnColumnWidth} " >Column</th>
+                <th [ngStyle] = "{ 'width.px' : codeColumnWidth} " > {{'diagnostics_code' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : msgColumnWidth} " > {{'diagnostics_description' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : sourceColumnWidth} " > {{'diagnostics_file' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} " > {{'diagnostics_line' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : startColumnColumnWidth} " > {{'diagnostics_column' | translate}} </th>
             </tr>
         </thead>
         <tbody [ngStyle] = "{ 'height.px' : tableBodyHeight} " >

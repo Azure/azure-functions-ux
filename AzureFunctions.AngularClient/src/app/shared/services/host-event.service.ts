@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Subject } from 'rxjs/Subject';
 import {HostEvent} from '../models/host-event'
 import { FunctionApp } from './../../shared/function-app';
 import { ConfigService } from '../services/config.service';
@@ -15,7 +15,7 @@ declare var monaco;
 @Injectable()
 export class HostEventService {
 
-    private eventStream: ReplaySubject<HostEvent>;
+    private eventStream: Subject<HostEvent>;
     private tokenSubscription : Subscription;
     private token: string;
     private req : XMLHttpRequest;
@@ -28,7 +28,7 @@ export class HostEventService {
       private _http: Http,
       private _userService: UserService,
       private _configService : ConfigService) {
-        this.eventStream = new ReplaySubject<HostEvent>();
+        this.eventStream = new Subject<HostEvent>();
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
 
         this.readHostEvents();
@@ -36,6 +36,14 @@ export class HostEventService {
 
     get Events() {
         return this.eventStream;
+    }
+
+    ngOnDestroy() {
+        if (this.req) {
+            this.timeouts.forEach(window.clearTimeout);
+            this.timeouts = [];
+            this.req.abort();
+        }
     }
 
      private readHostEvents(createEmpty: boolean = true, log?: string) {

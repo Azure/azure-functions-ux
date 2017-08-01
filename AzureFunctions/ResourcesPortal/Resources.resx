@@ -1924,4 +1924,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
     <value>Successfully saved function '{0}'</value>
   </data>
+  <data name="diagnostics_errorsAndWarnings" xml:space="preserve">
+    <value>Errors and warnings</value>
+  </data>
+  <data name="diagnostics_code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="diagnostics_column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="diagnostics_description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="diagnostics_file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="diagnostics_line" xml:space="preserve">
+    <value>Line</value>
+  </data>
 </root>

@@ -603,5 +603,11 @@ export class PortalResources
     public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
     public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
     public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
+    public static diagnostics_errorsAndWarnings: string = "diagnostics_errorsAndWarnings";
+    public static diagnostics_code: string = "diagnostics_code";
+    public static diagnostics_column: string = "diagnostics_column";
+    public static diagnostics_description: string = "diagnostics_description";
+    public static diagnostics_file: string = "diagnostics_file";
+    public static diagnostics_line: string = "diagnostics_line";
 }
 
