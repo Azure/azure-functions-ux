@@ -30,14 +30,7 @@
     GraphWebhook = <any>"GraphWebhook",
     GraphWebhookTrigger = <any>"GraphWebhookTrigger",
     GraphWebhookCreator = <any>"GraphWebhookCreator",
-    eventGridTrigger = <any>"eventGridTrigger",
-    excel = <any>"excel",
-    token = <any>"token",
-    outlook = <any>"outlook",
-    onedrive = <any>"onedrive",
-    GraphWebhook = <any>"GraphWebhook",
-    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
-    GraphWebhookCreator = <any>"GraphWebhookCreator"
+    eventGridTrigger = <any>"eventGridTrigger"
 }
 
 export interface BindingConfig {
@@ -140,7 +133,6 @@ export class SettingType {
     public static checkBoxList = "checkBoxList";
     public static appSetting = "appSetting";
     public static eventGrid = "eventGrid";
-    public static appSetting = "appSetting";
 }
 
 export interface UIFunctionConfig {

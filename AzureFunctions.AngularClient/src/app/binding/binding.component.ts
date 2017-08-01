@@ -28,10 +28,6 @@ import { MobileAppsClient } from "../shared/models/mobile-apps-client";
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { Url } from '../shared/Utilities/url';
 import { FunctionInfo } from '../shared/models/function-info';
-import { Constants } from '../shared/models/constants';
-import { MobileAppsClient } from "../shared/models/mobile-apps-client";
-import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
-import { Url } from '../shared/Utilities/url';
 
 declare var jQuery: any;
 declare var marked: any;
