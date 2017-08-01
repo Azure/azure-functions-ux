@@ -209,16 +209,26 @@ export class SiteEnabledFeaturesComponent {
                 }
 
             case Feature.AppSettings:
-                return <EnabledFeatureItem>{
-                    title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                    feature: feature,
-                    bladeInfo: {
-                        detailBlade: "WebsiteConfigSiteSettings",
-                        detailBladeInputs: {
-                            resourceUri: this._descriptor.resourceId,
-                        }
-                    },
-                    iconUrl: "images/application-settings.svg"
+                if(Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") {
+                    return <EnabledFeatureItem>{
+                        title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                        feature: feature,
+                        iconUrl: "images/application-settings.svg",
+                        featureId: SiteTabIds.applicationSettings
+                    }
+                }
+                else {
+                    return <EnabledFeatureItem>{
+                        title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                        feature: feature,
+                        bladeInfo: {
+                            detailBlade: "WebsiteConfigSiteSettings",
+                                detailBladeInputs: {
+                                resourceUri: this._descriptor.resourceId,
+                            }
+                        },
+                        iconUrl: "images/application-settings.svg"
+                    }
                 }
 
             case Feature.AppInsight:
