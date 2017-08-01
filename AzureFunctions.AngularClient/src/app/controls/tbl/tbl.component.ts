@@ -321,7 +321,9 @@ export class TblComponent implements OnInit, OnChanges {
 
   groupItems(name: string) {
 
-    // TODO: check if this.groupColName === null and throw exception
+    if (!this.groupColName) {
+      throw('Cannot sort within groups');
+    }
 
     this.groupedBy = name;
 

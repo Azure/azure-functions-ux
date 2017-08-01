@@ -67,7 +67,9 @@ export class TblThComponent implements OnInit {
       });
     } else {
 
-      // TODO: check if this.groupColName === null and throw exception
+      if (!table.groupColName) {
+        throw('Cannot sort within groups');
+      }
 
       let finalItems = [];
       let tempItems = [];
